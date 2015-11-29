@@ -51,6 +51,7 @@ export const ActionTypes = keymirror({
   ACTIVITY_SHOW: null,
   ACTIVITY_HIDE: null,
 
+  // Contact actions
   CONTACT_ADD: null,
   CONTACT_REMOVE: null,
   CONTACT_LIST_SHOW: null,
@@ -58,12 +59,9 @@ export const ActionTypes = keymirror({
   CONTACT_LIST_CHANGED: null,
   CONTACT_ADD_MODAL_SHOW: null,
   CONTACT_ADD_MODAL_HIDE: null,
-  //CONTACT_FIND: null,
-  //CONTACT_FIND_SUCCESS: null,
-  //CONTACT_FIND_ERROR: null,
-  CONTACT_ADD_MODAL_FIND_USER_OK: null,
-  CONTACT_ADD_MODAL_FIND_USER_UNREGISTERED: null,
-  CONTACT_ADD_MODAL_FIND_USER_IN_CONTACT: null,
+  CONTACT_FIND: null,
+  CONTACT_FIND_SUCCESS: null,
+  CONTACT_FIND_ERROR: null,
 
   // Group actions
   GROUP_CREATE_MODAL_OPEN: null,
@@ -118,8 +116,7 @@ export const ActionTypes = keymirror({
   APP_UPDATE_MODAL_HIDE: null,
   APP_UPDATE_CONFIRM: null,
 
-  FAVICON_SET_DEFAULT: null,
-  FAVICON_SET_NOTIFICATION: null,
+  FAVICON_SET: null,
 
   INVITE_USER_MODAL_SHOW: null,
   INVITE_USER_MODAL_HIDE: null,
@@ -160,6 +157,7 @@ export const ActionTypes = keymirror({
 
   QUICK_SEARCH_SHOW: null,
   QUICK_SEARCH_HIDE: null,
+  QUICK_SEARCH_CHANGED: null,
   QUICK_SEARCH: null,
 
   ATTACHMENT_MODAL_SHOW: null,
@@ -192,6 +190,9 @@ export const MessageContentTypes = {
   TEXT: 'text',
   PHOTO: 'photo',
   DOCUMENT: 'document',
+  VOICE: 'voice',
+  CONTACT: 'contact',
+  LOCATION: 'location',
   UNSUPPORTED: 'unsupported'
 };
 
@@ -222,11 +223,6 @@ export const Path = {
   toEmoji: 'assets/images/emoji'
 };
 
-export const AddContactMessages = {
-  PHONE_NOT_REGISTERED: 1,
-  ALREADY_HAVE: 2
-};
-
 export const bugsnagApiKey = 'cd24ee53326e06669a36c637b29660c3';
 
 export const mixpanelAPIKey = '9591b090b987c2b701db5a8ef3e5055c';
@@ -247,7 +243,6 @@ export default {
   AsyncActionStates,
   Support,
   Path,
-  AddContactMessages,
   bugsnagApiKey,
   mixpanelAPIKey,
   endpoints

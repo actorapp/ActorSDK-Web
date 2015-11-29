@@ -23,12 +23,12 @@ import DialogStore from '../../stores/DialogStore';
 import GroupStore from '../../stores/GroupStore';
 import UserStore from '../../stores/UserStore';
 
-import AvatarItem from '../../components/common/AvatarItem.react';
-import InviteUser from '../../components/modals/InviteUser.react';
-import InviteByLink from '../../components/modals/invite-user/InviteByLink.react';
-import GroupProfileMembers from '../../components/activity/GroupProfileMembers.react';
-import Fold from '../../components/common/Fold.React';
-import EditGroup from '../../components/modals/EditGroup.react';
+import AvatarItem from '../common/AvatarItem.react';
+import InviteUser from '../modals/InviteUser.react';
+import InviteByLink from '../modals/invite-user/InviteByLink.react';
+import GroupProfileMembers from '../activity/GroupProfileMembers.react';
+import Fold from '../common/Fold.React';
+import EditGroup from '../modals/EditGroup.react';
 
 const getStateFromStores = (groupId) => {
   const thisPeer = PeerStore.getGroupPeer(groupId);
@@ -217,7 +217,7 @@ class GroupProfile extends React.Component {
             <p>{this.getIntlMessage('integrationTokenHint')}</p>
             <a href="https://actor.readme.io/docs/simple-integration" target="_blank">{this.getIntlMessage('integrationTokenHelp')}</a>
           </div>
-          <textarea className="token" onClick={this.selectToken} readOnly row="3" value={integrationToken}/>
+          <textarea className="textarea" onClick={this.selectToken} readOnly row="3" value={integrationToken}/>
         </Fold>
       </li>
     ) : null;

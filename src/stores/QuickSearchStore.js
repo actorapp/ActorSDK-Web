@@ -2,17 +2,18 @@
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
  */
 
-import { forEach, findWhere } from 'lodash';
+import { forEach } from 'lodash';
 
 import { Store } from 'flux/utils';
 import Dispatcher from '../dispatcher/ActorAppDispatcher';
-import { ActionTypes } from '../constants/ActorAppConstants';
+import { ActionTypes, PeerTypes } from '../constants/ActorAppConstants';
 
-import DialogStore from '../stores/DialogStore';
-import ContactStore from '../stores/ContactStore';
+import DialogStore from './DialogStore';
+import ContactStore from './ContactStore';
 
 let _isOpen = false,
-    _result = [];
+    _list = [],
+    _results = [];
 
 class QuickSearchStore extends Store {
   constructor(Dispatcher) {
@@ -24,35 +25,23 @@ class QuickSearchStore extends Store {
   }
 
   getResults() {
-    return _result;
+    return _results;
   }
 
   handleSearchQuery(query) {
-    const dialogs = DialogStore.getAll();
-    const contacts = ContactStore.getContacts();
+    let results = [];
 
-    let result = [];
-
-    forEach(dialogs, (dialog) => {
-      if (dialog.peer.title.toLocaleLowerCase().includes(query.toLocaleLowerCase())) {
-        result.push({type: 'DIALOG', dialog});
-      }
-    });
-
-    forEach(contacts, (contact) => {
-      if (
-        contact.name.toLocaleLowerCase().includes(query.toLocaleLowerCase()) &&
-        !findWhere(dialogs, {peer: { peer: {id: contact.uid}}})
-      ) {
-        result.push({type: 'CONTACT', contact});
-      }
-    });
-
-    if (result.length === 0) {
-      result.push({type: 'SUGGESTION', query});
+    if (query === '') {
+      results = _list;
+    } else {
+      forEach(_list, (result) => {
+        if (result.peerInfo.title.toLowerCase().includes(query.toLowerCase())) {
+          results.push(result);
+        }
+      })
     }
 
-    _result = result;
+    _results = results;
     this.__emitChange();
   }
 
@@ -66,7 +55,12 @@ class QuickSearchStore extends Store {
 
       case ActionTypes.QUICK_SEARCH_HIDE:
         _isOpen = false;
-        _result = [];
+        _results = [];
+        this.__emitChange();
+        break;
+
+      case ActionTypes.QUICK_SEARCH_CHANGED:
+        _list = action.list;
         this.__emitChange();
         break;
 

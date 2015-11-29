@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
 import { EventEmitter } from 'events';
 import assign from 'object-assign';
 
@@ -5,7 +9,7 @@ import ActorClient from '../utils/ActorClient';
 
 import ActorAppDispatcher from '../dispatcher/ActorAppDispatcher';
 import { ActionTypes } from '../constants/ActorAppConstants';
-import DialogStore from '../stores/DialogStore';
+import DialogStore from './DialogStore';
 
 const DRAFT_LOAD_EVENT = 'draft_load';
 

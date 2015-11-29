@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
  */
 
-import _ from 'lodash';
+import { forEach, map, debounce } from 'lodash';
 
 import React, { Component } from 'react';
 import ActorClient from '../../utils/ActorClient';
@@ -21,11 +21,11 @@ import Welcome from './messages/Welcome.react';
 let _delayed = [];
 
 let flushDelayed = () => {
-  _.forEach(_delayed, (p) => MessageActionCreators.setMessageShown(p.peer, p.message));
+  forEach(_delayed, (p) => MessageActionCreators.setMessageShown(p.peer, p.message));
   _delayed = [];
 };
 
-let flushDelayedDebounced = _.debounce(flushDelayed, 30, 100);
+let flushDelayedDebounced = debounce(flushDelayed, 30, 100);
 
 let lastMessageDate = null,
     lastMessageSenderId = null;
@@ -34,7 +34,7 @@ const isOnlyOneDay = (messages) => {
   let _isOnlyOneDay = true;
   if (messages.length > 0) {
     let lastMessageDate = new Date(messages[0].fullDate);
-    _.forEach(messages, (message) => {
+    forEach(messages, (message) => {
       let currentMessageDate = new Date(message.fullDate);
 
       if (lastMessageDate.getDate() !== currentMessageDate.getDate()) {
@@ -118,7 +118,7 @@ class MessagesSection extends Component {
 
   render() {
     const { messages, peer } = this.props;
-    const messagesList = _.map(messages, this.getMessagesListItem);
+    const messagesList = map(messages, this.getMessagesListItem);
 
     let isMember = true;
     if (peer.type === PeerTypes.GROUP) {

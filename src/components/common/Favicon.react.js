@@ -1,33 +1,41 @@
-import React from 'react';
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
 
+import React, { Component } from 'react';
+import { Container } from 'flux/utils';
 import FaviconStore from '../../stores/FaviconStore';
+import FaviconActionCreators from '../../actions/FaviconActionCreators';
 
-export default class Fav extends React.Component {
+class Favicon extends Component {
   constructor(props) {
     super(props);
-
-    FaviconStore.addChangeListener(this.update)
   }
 
-  componentWillUnmount() {
-    FaviconStore.removeChangeListener(this.update);
+  static getStores = () => [FaviconStore];
+
+  static calculateState() {
+    return {
+      iconPath: FaviconStore.getFaviconPath()
+    };
   }
 
-  update() {
-    setTimeout(() => {
-      // Clone created element and create href attribute
-      let updatedFavicon = document.getElementById('favicon').cloneNode(true);
+  componentWillUpdate(nextProps, nextState) {
+    // Clone created element and create href attribute
+    const currentFaviconNode = document.getElementById('favicon');
+    let updatedFaviconNode = currentFaviconNode.cloneNode(true);
 
-      // Set new href attribute
-      updatedFavicon.setAttribute('href', FaviconStore.getFaviconPath());
+    // Set new href attribute
+    updatedFaviconNode.setAttribute('href', nextState.iconPath);
 
-      // Remove old and add new favicon
-      document.getElementById('favicon').remove();
-      document.head.appendChild(updatedFavicon);
-    }, 0);
+    // Remove old and add new favicon
+    currentFaviconNode.remove();
+    document.head.appendChild(updatedFaviconNode);
   }
 
   render() {
     return null;
   }
 }
+
+export default Container.create(Favicon);

@@ -2,7 +2,6 @@
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
  */
 
-import _ from 'lodash';
 import { EventEmitter } from 'events';
 import ActorClient from '../utils/ActorClient';
 

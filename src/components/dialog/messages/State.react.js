@@ -2,17 +2,17 @@
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
  */
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { MessageContentTypes } from '../../../constants/ActorAppConstants';
 
 class State extends Component {
-  static propTypes = {
-    message: React.PropTypes.object.isRequired
-  };
-
   constructor(props) {
     super(props);
   }
+
+  static propTypes = {
+    message: PropTypes.object.isRequired
+  };
 
   render() {
     const { message } = this.props;

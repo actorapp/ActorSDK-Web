@@ -20,6 +20,10 @@ import CropAvatarStore from '../../stores/CropAvatarStore'
 const minCropSize = 100;
 
 class CropAvatarModal extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static propTypes = {
     onCropFinish: React.PropTypes.func.isRequired
   };
@@ -41,10 +45,6 @@ class CropAvatarModal extends Component {
       naturalHeight: 0,
       maxImageHeight: (document.body.clientHeight * .9) - 64 // 64 is modal header height.
     };
-  }
-
-  constructor(props) {
-    super(props);
   }
 
   componentDidMount() {

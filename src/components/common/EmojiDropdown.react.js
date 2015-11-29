@@ -14,7 +14,7 @@ import { Element, Link } from 'react-scroll';
 let emojiTabs = [];
 let emojis = [];
 
-class EmojiDropdown extends Component {
+export default class EmojiDropdown extends Component {
   static propTypes = {
     isOpen: React.PropTypes.bool.isRequired,
     onClose: React.PropTypes.func.isRequired,
@@ -139,5 +139,3 @@ class EmojiDropdown extends Component {
     );
   }
 }
-
-export default EmojiDropdown;

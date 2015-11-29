@@ -24,6 +24,10 @@ import ActorTheme from '../../../constants/ActorTheme';
 const ThemeManager = new Styles.ThemeManager();
 
 class CreateGroupForm extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static childContextTypes = {
     muiTheme: PropTypes.object
   };
@@ -45,10 +49,6 @@ class CreateGroupForm extends Component {
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     };
-  }
-
-  constructor(props) {
-    super(props);
   }
 
   componentWillMount() {
@@ -173,6 +173,6 @@ class CreateGroupForm extends Component {
   }
 }
 
-ReactMixin.onClass(CreateGroupForm,IntlMixin);
+ReactMixin.onClass(CreateGroupForm, IntlMixin);
 
 export default Container.create(CreateGroupForm, {pure: false});

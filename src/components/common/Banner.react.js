@@ -1,7 +1,11 @@
-import React from 'react';
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
+import React, { Component } from 'react';
 import BannerActionCreators from '../../actions/BannerActionCreators';
 
-class Banner extends React.Component {
+class Banner extends Component {
   constructor(props) {
     super(props);
 

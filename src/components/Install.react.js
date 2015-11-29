@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 export default class Install extends Component {
-  constructor(props) {
+  constructor(props){
     super(props);
   }
 

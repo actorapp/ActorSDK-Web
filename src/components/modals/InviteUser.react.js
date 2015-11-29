@@ -4,7 +4,7 @@
 
 import { find, assign, forEach } from 'lodash';
 
-import React, { Component } from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 import ReactMixin from 'react-mixin';
 import { IntlMixin } from 'react-intl';
@@ -31,7 +31,7 @@ const getStateFromStores = () => {
 const hasMember = (group, userId) =>
   undefined !== find(group.members, (c) => c.peerInfo.peer.id === userId);
 
-class InviteUser extends Component {
+class InviteUser extends React.Component {
   constructor(props) {
     super(props);
 

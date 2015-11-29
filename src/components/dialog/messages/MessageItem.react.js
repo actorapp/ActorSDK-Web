@@ -18,10 +18,13 @@ import MessageActionCreators from '../../../actions/MessageActionCreators';
 import ActivityActionCreators from '../../../actions/ActivityActionCreators';
 import { MessageContentTypes } from '../../../constants/ActorAppConstants';
 
-import AvatarItem from '../../../components/common/AvatarItem.react';
+import AvatarItem from '../../common/AvatarItem.react';
 import Text from './Text.react';
 import Image from './Image.react';
 import Document from './Document.react';
+import Voice from './Voice.react';
+import Contact from './Contact.react';
+import Geolocation from './Geolocation.react';
 import State from './State.react';
 import Reactions from './Reactions.react';
 
@@ -145,8 +148,25 @@ class MessageItem extends Component {
                     className="message__content message__content--document"/>
         );
         break;
+      case MessageContentTypes.VOICE:
+        messageContent = (
+          <Voice content={message.content}
+                    className="message__content message__content--voice"/>
+        );
+        break;
+      case MessageContentTypes.CONTACT:
+        messageContent = (
+          <Contact content={message.content}
+                    className="message__content message__content--contact"/>
+        );
+        break;
+      case MessageContentTypes.LOCATION:
+        messageContent = (
+          <Geolocation content={message.content}
+                       className="message__content message__content--location"/>
+        );
+        break;
       default:
-        return null;
     }
 
     return (
@@ -186,7 +206,7 @@ class MessageItem extends Component {
   }
 }
 
-ReactMixin.onClass(MessageItem,IntlMixin);
-ReactMixin.onClass(MessageItem,PureRenderMixin);
+ReactMixin.onClass(MessageItem, IntlMixin);
+ReactMixin.onClass(MessageItem, PureRenderMixin);
 
 export default MessageItem;

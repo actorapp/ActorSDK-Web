@@ -94,6 +94,22 @@ export default {
     window.messenger.unbindConnectState(callback);
   },
 
+  bindGlobalCounter(callback) {
+    window.messenger.bindGlobalCounter(callback);
+  },
+
+  unbindGlobalCounter(callback) {
+    window.messenger.unbindGlobalCounter(callback);
+  },
+
+  bindTempGlobalCounter(callback) {
+    window.messenger.bindTempGlobalCounter(callback);
+  },
+
+  unbindTempGlobalCounter(callback) {
+    window.messenger.unbindTempGlobalCounter(callback);
+  },
+
   getUser(uid) {
     return window.messenger.getUser(uid);
   },
@@ -230,14 +246,6 @@ export default {
     window.messenger.editMyNick(string)
   },
 
-  bindGlobalCounter(callback) {
-    return window.messenger.bindGlobalCounter(callback);
-  },
-
-  bindTempGlobalCounter(callback) {
-    return window.messenger.bindTempGlobalCounter(callback);
-  },
-
   deleteChat(peer) {
     return window.messenger.deleteChat(peer);
   },
@@ -362,5 +370,15 @@ export default {
 
   removeLike(peer, rid) {
     return window.messenger.removeLike(peer, rid);
+  },
+
+  // Search
+
+  bindSearch(callback) {
+    window.messenger.bindSearch(callback);
+  },
+
+  unbindSearch(callback) {
+    window.messenger.bindSearch(callback);
   }
 }

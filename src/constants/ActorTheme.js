@@ -14,12 +14,6 @@ const ActorTheme = {
       primary3Color: '#5191db',
       accent1Color: Colors.white,
       textColor: '#4d4d4d'
-      //accent2Color: Colors.pinkA400,
-      //accent3Color: Colors.pinkA100,
-      //textColor: Colors.darkBlack,
-      //canvasColor: Colors.white,
-      //borderColor: Colors.grey300,
-      //disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3)
     };
   },
 

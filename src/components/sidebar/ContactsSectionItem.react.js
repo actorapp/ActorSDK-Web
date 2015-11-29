@@ -4,7 +4,7 @@ import addons from 'react/addons';
 
 import DialogActionCreators from '../../actions/DialogActionCreators';
 
-import AvatarItem from '../../components/common/AvatarItem.react';
+import AvatarItem from '../common/AvatarItem.react';
 
 const {addons: { PureRenderMixin }} = addons;
 

@@ -26,11 +26,11 @@ import PreferencesStore from '../../stores/PreferencesStore';
 import ComposeStore from '../../stores/ComposeStore';
 import AttachmentStore from '../../stores/AttachmentStore';
 
-import AvatarItem from '../../components/common/AvatarItem.react';
-import MentionDropdown from '../../components/common/MentionDropdown.react';
-import EmojiDropdown from '../../components/common/EmojiDropdown.react';
-import DropZone from '../../components/common/DropZone.react';
-import SendAttachment from '../../components/modals/SendAttachment';
+import AvatarItem from '../common/AvatarItem.react';
+import MentionDropdown from '../common/MentionDropdown.react';
+import EmojiDropdown from '../common/EmojiDropdown.react';
+import DropZone from '../common/DropZone.react';
+import SendAttachment from '../modals/SendAttachment';
 
 let getStateFromStores = () => {
   return {
@@ -261,7 +261,7 @@ class ComposeSection extends React.Component {
   }
 }
 
-ReactMixin.onClass(ComposeSection, PureRenderMixin);
 ReactMixin.onClass(ComposeSection, IntlMixin);
+ReactMixin.onClass(ComposeSection, PureRenderMixin);
 
 export default ComposeSection;

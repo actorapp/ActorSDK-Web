@@ -2,19 +2,19 @@
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
  */
 
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 
-import HeaderSection from '../components/sidebar/HeaderSection.react';
-import RecentSection from '../components/sidebar/RecentSection.react';
+import HeaderSection from './sidebar/HeaderSection.react';
+import RecentSection from './sidebar/RecentSection.react';
 
-class SidebarSection extends React.Component {
-  static propTypes = {
-    selectedPeer: React.PropTypes.object.isRequested
-  };
-
-  constructor(props) {
+class SidebarSection extends Component {
+  constructor(props){
     super(props);
   }
+
+  static propTypes = {
+    selectedPeer: PropTypes.object.isRequired
+  };
 
   render() {
     const { selectedPeer } = this.props;

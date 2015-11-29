@@ -17,6 +17,10 @@ import GroupListStore from '../../../stores/GroupListStore';
 import Group from './Group.react';
 
 class GroupList extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static getStores = () => [GroupListStore];
 
   static calculateState() {
@@ -24,10 +28,6 @@ class GroupList extends Component {
       groups: GroupListStore.getList(),
       searchQuery: GroupListStore.getSearchQuery()
     };
-  }
-
-  constructor(props) {
-    super(props);
   }
 
   componentDidMount() {
@@ -94,6 +94,6 @@ class GroupList extends Component {
   }
 }
 
-ReactMixin.onClass(GroupList,IntlMixin);
+ReactMixin.onClass(GroupList, IntlMixin);
 
 export default Container.create(GroupList, {pure: false});

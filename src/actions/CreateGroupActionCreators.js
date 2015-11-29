@@ -6,7 +6,7 @@ import { dispatch, dispatchAsync } from '../dispatcher/ActorAppDispatcher';
 import ActorClient from '../utils/ActorClient';
 
 import { ActionTypes } from '../constants/ActorAppConstants';
-import DialogActionCreators from '../actions/DialogActionCreators';
+import DialogActionCreators from './DialogActionCreators';
 
 const CreateGroupActionCreators = {
   open() {
@@ -36,13 +36,11 @@ const CreateGroupActionCreators = {
       failure: ActionTypes.GROUP_CREATE_ERROR
     }, { title, avatar, memberIds });
 
-    const openCreatedGroup = (peer) => {
-      this.close();
-      DialogActionCreators.selectDialogPeer(peer);
-    };
+    const openCreatedGroup = (peer) => DialogActionCreators.selectDialogPeer(peer);
 
     createGroup()
-      .then(openCreatedGroup);
+      .then(openCreatedGroup)
+      .then(this.close)
   }
 };
 

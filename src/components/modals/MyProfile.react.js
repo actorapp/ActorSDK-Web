@@ -17,7 +17,7 @@ import CropAvatarActionCreators from '../../actions/CropAvatarActionCreators';
 import MyProfileStore from '../../stores/MyProfileStore';
 import CropAvatarStore from '../../stores/CropAvatarStore';
 
-import AvatarItem from '../../components/common/AvatarItem.react';
+import AvatarItem from '../common/AvatarItem.react';
 import CropAvatarModal from './CropAvatar.react';
 
 import { Styles, TextField } from 'material-ui';
@@ -26,6 +26,10 @@ import ActorTheme from '../../constants/ActorTheme';
 const ThemeManager = new Styles.ThemeManager();
 
 class MyProfile extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static childContextTypes = {
     muiTheme: React.PropTypes.object
   };
@@ -49,10 +53,6 @@ class MyProfile extends Component {
     };
   }
 
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     ThemeManager.setTheme(ActorTheme);
     ThemeManager.setComponentThemes({
@@ -64,15 +64,25 @@ class MyProfile extends Component {
         disabledTextColor: 'rgba(0,0,0,.4)'
       }
     });
+    this.setListeners();
+  }
+
+  componentWillUnmount() {
+    this.removeListeners();
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if ((nextState.isOpen && !this.state.isOpen) || (this.state.isOpen && !nextState.isCropModalOpen)) {
-      document.addEventListener('keydown', this.onKeyDown, false);
-    } else if ((!nextState.isOpen && this.state.isOpen) || (this.state.isOpen && nextState.isCropModalOpen)) {
-      document.removeEventListener('keydown', this.onKeyDown, false);
+    if (nextState.isOpen) {
+      if (nextState.isCropModalOpen) {
+        this.removeListeners();
+      } else {
+        this.setListeners();
+      }
     }
   }
+
+  setListeners = () => document.addEventListener('keydown', this.onKeyDown, false);
+  removeListeners = () => document.removeEventListener('keydown', this.onKeyDown, false);
 
   onClose = () => MyProfileActions.hide();
 
@@ -155,14 +165,30 @@ class MyProfile extends Component {
                            type="text"
                            value={nick}/>
               </div>
-              <div className="phone">
-                <TextField className="login__form__input"
-                           disabled
-                           floatingLabelText={this.getIntlMessage('modal.profile.phone')}
-                           fullWidth
-                           type="tel"
-                           value={(profile.phones[0] || {}).number}/>
-              </div>
+              {
+                profile.phones[0]
+                  ? <div className="phone">
+                      <TextField className="login__form__input"
+                                 disabled
+                                 floatingLabelText={this.getIntlMessage('modal.profile.phone')}
+                                 fullWidth
+                                 type="tel"
+                                 value={(profile.phones[0] || {}).number}/>
+                    </div>
+                  : null
+              }
+              {
+                profile.emails[0]
+                  ? <div className="phone">
+                      <TextField className="login__form__input"
+                                 disabled
+                                 floatingLabelText={this.getIntlMessage('modal.profile.email')}
+                                 fullWidth
+                                 type="email"
+                                 value={(profile.emails[0] || {}).email}/>
+                    </div>
+                  : null
+              }
               <div className="about">
                 <label htmlFor="about">{this.getIntlMessage('modal.profile.about')}</label>
                 <textarea className="textarea"

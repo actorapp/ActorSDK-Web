@@ -1,0 +1,84 @@
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.register = register;
+exports.waitFor = waitFor;
+exports.dispatch = dispatch;
+exports.dispatchAsync = dispatchAsync;
+
+var _flux = require('flux');
+
+var flux = new _flux.Dispatcher();
+
+function register(callback) {
+  return flux.register(callback);
+}
+
+function waitFor(ids) {
+  return flux.waitFor(ids);
+}
+
+// Some Flux examples have methods like `handleViewAction`
+// or `handleServerAction` here. They are only useful if you
+// want to have extra pre-processing or logging for such actions,
+// but I found no need for them.
+
+/**
+ * Dispatches a single action.
+ */
+function dispatch(type) {
+  var action = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+  if (!type) {
+    throw new Error('You forgot to specify type.');
+  }
+
+  // In production, thanks to DefinePlugin in webpack.config.production.js,
+  // this comparison will turn `false`, and UglifyJS will cut logging out
+  // as part of dead code elimination.
+  if (process.env.NODE_ENV !== 'production') {
+    // Logging all actions is useful for figuring out mistakes in code.
+    // All data that flows into our application comes in form of actions.
+    // Actions are just plain JavaScript objects describing “what happened”.
+    // Think of them as newspapers.
+    if (action.error) {
+      console.error(type, action);
+    } else {
+      console.info(type, action);
+    }
+  }
+
+  flux.dispatch(_extends({ type: type }, action));
+
+  // Return response or error for chaining async actions
+  return new Promise(function (resolve, reject) {
+    if (action.error) {
+      reject(action.error);
+    } else {
+      resolve(action.response ? action.response : action);
+    }
+  });
+}
+
+/**
+ * Dispatches three actions for an async operation represented by promise.
+ */
+function dispatchAsync(promise, types) {
+  var action = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+  var request = types.request;
+  var success = types.success;
+  var failure = types.failure;
+
+  dispatch(request, action);
+  return promise.then(function (response) {
+    return dispatch(success, _extends({}, action, { response: response }));
+  }, function (error) {
+    return dispatch(failure, _extends({}, action, { error: error }));
+  }).catch(console.error.bind(console));
+}
+
+exports.default = flux;

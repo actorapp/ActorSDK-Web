@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
 import React from 'react';
 import classnames from 'classnames';
 import ReactMixin from 'react-mixin';
@@ -5,7 +9,7 @@ import addons from 'react/addons';
 
 import { KeyCodes } from '../../constants/ActorAppConstants';
 
-import AvatarItem from '../../components/common/AvatarItem.react';
+import AvatarItem from './AvatarItem.react';
 
 const {addons: { PureRenderMixin }} = addons;
 
@@ -186,6 +190,6 @@ class MentionDropdown extends React.Component {
   }
 }
 
-ReactMixin.onClass(MentionDropdown,PureRenderMixin);
+ReactMixin.onClass(MentionDropdown, PureRenderMixin);
 
 export default MentionDropdown;

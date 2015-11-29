@@ -6,6 +6,8 @@ import React, { Component } from 'react';
 import { Container } from 'flux/utils';
 import ReactMixin from 'react-mixin';
 import { IntlMixin } from 'react-intl';
+import Modal from 'react-modal';
+import { KeyCodes } from '../../../constants/ActorAppConstants';
 
 import CreateGroupActionCreators from '../../../actions/CreateGroupActionCreators';
 
@@ -13,20 +15,17 @@ import CreateGroupStore from '../../../stores/CreateGroupStore';
 
 import CreateGroupForm from './Form.react';
 
-import Modal from 'react-modal';
-
-import { KeyCodes } from '../../../constants/ActorAppConstants';
 
 class CreateGroup extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static getStores = () => [CreateGroupStore];
   static calculateState() {
     return {
       isOpen: CreateGroupStore.isModalOpen()
     };
-  }
-
-  constructor(props) {
-    super(props);
   }
 
   componentWillMount() {
@@ -68,6 +67,6 @@ class CreateGroup extends Component {
   }
 }
 
-ReactMixin.onClass(CreateGroup,IntlMixin);
+ReactMixin.onClass(CreateGroup, IntlMixin);
 
 export default Container.create(CreateGroup);

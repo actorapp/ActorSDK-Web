@@ -19,8 +19,8 @@ import DialogActionCreators from '../../actions/DialogActionCreators';
 import PeerStore from '../../stores/PeerStore';
 import DialogStore from '../../stores/DialogStore';
 
-import AvatarItem from '../../components/common/AvatarItem.react';
-import Fold from '../../components/common/Fold.React';
+import AvatarItem from '../common/AvatarItem.react';
+import Fold from '../common/Fold.React';
 
 const getStateFromStores = (userId) => {
   const thisPeer = PeerStore.getUserPeer(userId);

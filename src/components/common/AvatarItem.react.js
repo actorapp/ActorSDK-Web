@@ -6,7 +6,7 @@ import React from 'react';
 import classnames from 'classnames';
 import { emojiRegexp } from '../../utils/EmojiUtils';
 
-class AvatarItem extends React.Component {
+export default class AvatarItem extends React.Component {
   static propTypes = {
     className: React.PropTypes.string,
     image: React.PropTypes.string,
@@ -52,5 +52,3 @@ class AvatarItem extends React.Component {
     onClick && onClick(event);
   }
 }
-
-export default AvatarItem;

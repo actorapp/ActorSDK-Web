@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
 import React from 'react';
 import ReactMixin from 'react-mixin';
 import addons from 'react/addons';
@@ -15,8 +19,7 @@ class ActivityHeader extends React.Component {
   }
 
   render() {
-    const title = this.props.title;
-    const close = this.props.close;
+    const { title, close } = this.props;
 
     let headerTitle;
     if (typeof title !== 'undefined') {

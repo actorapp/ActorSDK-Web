@@ -11,8 +11,8 @@ import InviteUserStore from '../../../stores/InviteUserStore';
 
 import { AsyncActionStates } from '../../../constants/ActorAppConstants';
 
-import AvatarItem from '../../../components/common/AvatarItem.react';
-import Stateful from '../../../components/common/Stateful';
+import AvatarItem from '../../common/AvatarItem.react';
+import Stateful from '../../common/Stateful';
 
 import { escapeWithEmoji } from '../../../utils/EmojiUtils';
 

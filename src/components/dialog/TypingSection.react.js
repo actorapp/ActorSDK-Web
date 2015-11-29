@@ -1,21 +1,24 @@
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
 import React, { Component } from 'react';
 import ReactMixin from 'react-mixin';
 import addons from 'react/addons';
+const {addons: { PureRenderMixin }} = addons;
+
 import classNames from 'classnames';
 
 import DialogStore from '../../stores/DialogStore';
 
-const {addons: { PureRenderMixin }} = addons;
-
-class TypingSection extends Component {
-
+class Typing extends Component {
   constructor(props) {
     super(props);
 
-    this.state =  {
+    this.state = {
       typing: null,
       show: false
-    };
+    }
   }
 
   componentDidMount() {
@@ -36,7 +39,8 @@ class TypingSection extends Component {
   };
 
   render() {
-    const { show, typing } = this.state;
+    const typing = this.state.typing;
+    const show = this.state.show;
     const typingClassName = classNames('typing', {
       'typing--hidden': show === false
     });
@@ -50,6 +54,6 @@ class TypingSection extends Component {
   }
 }
 
-ReactMixin.onClass(TypingSection, PureRenderMixin);
+ReactMixin.onClass(Typing, PureRenderMixin);
 
-export default TypingSection;
+export default Typing;

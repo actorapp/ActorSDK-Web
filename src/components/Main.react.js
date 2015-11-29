@@ -16,10 +16,10 @@ import DialogActionCreators from '../actions/DialogActionCreators';
 import VisibilityActionCreators from '../actions/VisibilityActionCreators';
 import QuickSearchActionCreators from '../actions/QuickSearchActionCreators';
 
-import SidebarSection from '../components/SidebarSection.react';
-import DialogSection from '../components/DialogSection.react';
-import Favicon from '../components/common/Favicon.react';
-import ModalsWrapper from '../components/modals/ModalsWrapper.react';
+import SidebarSection from './SidebarSection.react';
+import DialogSection from './DialogSection.react';
+import Favicon from './common/Favicon.react';
+import ModalsWrapper from './modals/ModalsWrapper.react';
 
 class Main extends Component {
   static contextTypes = {

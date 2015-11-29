@@ -13,13 +13,13 @@ import UserStore from '../../../stores/UserStore';
 import GroupStore from '../../../stores/GroupStore';
 
 class Welcome extends Component {
-  static propTypes = {
-    peer: PropTypes.object.isRequired
-  };
-
   constructor(props) {
     super(props);
   }
+
+  static propTypes = {
+    peer: PropTypes.object.isRequired
+  };
 
   render() {
     const { peer } = this.props;
@@ -65,6 +65,6 @@ class Welcome extends Component {
   }
 }
 
-ReactMixin.onClass(Welcome,IntlMixin);
+ReactMixin.onClass(Welcome, IntlMixin);
 
 export default Welcome;

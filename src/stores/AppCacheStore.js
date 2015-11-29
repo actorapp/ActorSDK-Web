@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
 import { EventEmitter } from 'events';
 import ActorAppDispatcher from '../dispatcher/ActorAppDispatcher';
 import { ActionTypes } from '../constants/ActorAppConstants';
@@ -7,10 +11,6 @@ const CHANGE_EVENT = 'change';
 let _isModalOpen = false;
 
 class AppCacheStore extends EventEmitter {
-  constructor() {
-    super();
-  }
-
   isModalOpen() {
     return _isModalOpen;
   }

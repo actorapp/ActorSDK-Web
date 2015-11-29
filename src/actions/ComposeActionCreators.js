@@ -4,7 +4,7 @@
 
 import { dispatch } from '../dispatcher/ActorAppDispatcher';
 import { ActionTypes } from '../constants/ActorAppConstants';
-import DraftActionCreators from '../actions/DraftActionCreators';
+import DraftActionCreators from './DraftActionCreators';
 import ActorClient from '../utils/ActorClient';
 
 export default {

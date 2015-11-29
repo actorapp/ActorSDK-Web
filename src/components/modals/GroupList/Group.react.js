@@ -10,19 +10,19 @@ import GroupListActionCreators from '../../../actions/GroupListActionCreators'
 
 import GroupListStore from '../../../stores/GroupListStore';
 
-import AvatarItem from '../../../components/common/AvatarItem.react';
+import AvatarItem from '../../common/AvatarItem.react';
 
 import { escapeWithEmoji } from '../../../utils/EmojiUtils';
 
 class Group extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static propTypes = {
     group: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired
   };
-
-  constructor(props) {
-    super(props);
-  }
 
   handleClick = () => {
     const { group, onClick } = this.props;
@@ -32,7 +32,6 @@ class Group extends Component {
   render() {
     const { group } = this.props;
 
-    console.debug(group);
     return (
       <li className="group__list__item row" onClick={this.handleClick}>
         <div>
@@ -75,6 +74,6 @@ class Group extends Component {
   }
 }
 
-ReactMixin.onClass(Group,IntlMixin);
+ReactMixin.onClass(Group, IntlMixin);
 
 export default Group;

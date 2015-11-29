@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import { PeerTypes } from '../constants/ActorAppConstants';
 
-import ActorClient from '../utils/ActorClient';
+import ActorClient from './ActorClient';
 
 export default {
   peerToString: (peer) => {

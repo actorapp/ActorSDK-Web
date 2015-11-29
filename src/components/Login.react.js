@@ -21,19 +21,8 @@ import ActorTheme from '../constants/ActorTheme';
 
 const ThemeManager = new Styles.ThemeManager();
 
-let getStateFromStores = function () {
-  return ({
-    step: LoginStore.getStep(),
-    errors: LoginStore.getErrors(),
-    smsRequested: LoginStore.isSmsRequested(),
-    codeSended: LoginStore.isCodeSended(),
-    signupStarted: LoginStore.isSignupStarted(),
-    codeSent: false
-  });
-};
-
 class Login extends Component {
-  constructor(props) {
+  constructor(props){
     super(props);
   }
 
@@ -77,14 +66,6 @@ class Login extends Component {
 
     ThemeManager.setTheme(ActorTheme);
   }
-
-  //componentWillUnmount() {
-  //  if (LoginStore.isLoggedIn()) {
-  //    setTimeout(() => {
-  //      this.context.router.replaceWith('/')
-  //    }, 0);
-  //  }
-  //}
 
   componentDidMount() {
     this.handleFocus();
@@ -161,7 +142,8 @@ class Login extends Component {
 
     const spinner = (
       <div className="spinner">
-        <div/><div/><div/><div/><div/><div/><div/><div/><div/><div/><div/><div/>
+        <div/><div/><div/><div/><div/><div/>
+        <div/><div/><div/><div/><div/><div/>
       </div>
     );
 
@@ -267,6 +249,7 @@ class Login extends Component {
     );
   }
 }
-ReactMixin.onClass(Login ,IntlMixin);
+
+ReactMixin.onClass(Login, IntlMixin);
 
 export default Container.create(Login, {pure: false});

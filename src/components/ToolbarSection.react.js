@@ -1,4 +1,8 @@
-import React from 'react';
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
+import React, { Component } from 'react';
 import ReactMixin from 'react-mixin';
 import { IntlMixin } from 'react-intl';
 import classnames from 'classnames';
@@ -16,14 +20,14 @@ const getStateFromStores = () => {
   };
 };
 
-class ToolbarSection extends React.Component {
-  state = {
-    dialogInfo: null,
-    isActivityOpen: false
-  };
-
+class ToolbarSection extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      dialogInfo: null,
+      isActivityOpen: false
+    };
 
     DialogStore.addSelectedChangeListener(this.onChange);
     ActivityStore.addChangeListener(this.onChange);

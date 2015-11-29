@@ -5,7 +5,7 @@
 import ActorAppDispatcher from '../dispatcher/ActorAppDispatcher';
 import { ActionTypes, PeerTypes } from '../constants/ActorAppConstants';
 
-import DialogActionCreators from '../actions/DialogActionCreators';
+import DialogActionCreators from '../actions/DialogActionCreators'; // TODO: Do not use actions in stores
 import GroupProfileActionCreators from '../actions/GroupProfileActionCreators';
 
 import { EventEmitter } from 'events';

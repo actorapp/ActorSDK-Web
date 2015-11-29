@@ -8,7 +8,7 @@ import React from 'react';
 import ReactMixin from 'react-mixin';
 import addons from 'react/addons';
 
-import GroupMember from '../../components/activity/GroupMember.react';
+import GroupMember from '../activity/GroupMember.react';
 
 const {addons: { PureRenderMixin }} = addons;
 

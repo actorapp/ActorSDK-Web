@@ -1,4 +1,7 @@
-/* eslint-disable */
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
 import React from 'react';
 import classnames from 'classnames';
 
@@ -9,12 +12,12 @@ class Fold extends React.Component {
     title: React.PropTypes.string.isRequired
   };
 
-  state = {
-    isOpen: false
-  };
-
   constructor(props) {
     super(props);
+
+    this.state = {
+      isOpen: false
+    }
   }
 
   render() {

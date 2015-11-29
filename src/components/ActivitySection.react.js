@@ -1,11 +1,15 @@
-import React from 'react';
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
+import React, { Component } from 'react';
 import classNames from 'classnames';
 import { ActivityTypes } from '../constants/ActorAppConstants';
 
 import ActivityStore from '../stores/ActivityStore';
 
-import UserProfile from '../components/activity/UserProfile.react';
-import GroupProfile from '../components/activity/GroupProfile.react';
+import UserProfile from './activity/UserProfile.react';
+import GroupProfile from './activity/GroupProfile.react';
 
 const getStateFromStores = () => {
   return {
@@ -14,7 +18,7 @@ const getStateFromStores = () => {
   };
 };
 
-class ActivitySection extends React.Component {
+class ActivitySection extends Component {
   constructor(props) {
     super(props);
 
@@ -56,9 +60,7 @@ class ActivitySection extends React.Component {
     }
   }
 
-  onChange = () => {
-    this.setState(getStateFromStores());
-  };
+  onChange = () => this.setState(getStateFromStores());
 }
 
 export default ActivitySection;

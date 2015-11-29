@@ -19,6 +19,10 @@ import PreferencesStore from '../../stores/PreferencesStore';
 import Session from './preferences/Session.react'
 
 class PreferencesModal extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static getStores = () => [PreferencesStore];
 
   static calculateState() {
@@ -33,10 +37,6 @@ class PreferencesModal extends Component {
       activeTab: PreferencesStore.getCurrentTab()
     }
   };
-
-  constructor(props) {
-    super(props);
-  }
 
   componentWillMount() {
     document.addEventListener('keydown', this.onKeyDown, false);
@@ -260,6 +260,7 @@ class PreferencesModal extends Component {
     );
   }
 }
-ReactMixin.onClass(PreferencesModal,IntlMixin);
+
+ReactMixin.onClass(PreferencesModal, IntlMixin);
 
 export default Container.create(PreferencesModal);

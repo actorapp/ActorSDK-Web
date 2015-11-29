@@ -7,7 +7,7 @@ import { forEach } from 'lodash';
 import { dispatch } from '../dispatcher/ActorAppDispatcher';
 import { ActionTypes } from '../constants/ActorAppConstants';
 
-import MessageActionCreators from '../actions/MessageActionCreators';
+import MessageActionCreators from './MessageActionCreators';
 
 import DialogStore from '../stores/DialogStore';
 import AttachmentStore from '../stores/AttachmentStore';

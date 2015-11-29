@@ -1,6 +1,5 @@
 import React from 'react';
 import Modal from 'react-modal';
-//import pureRender from 'pure-render-decorator';
 import { Styles, FlatButton } from 'material-ui';
 
 import AppCacheStore from '../../stores/AppCacheStore';

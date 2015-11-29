@@ -8,7 +8,7 @@ import classnames from 'classnames';
 
 let targetCollection = [];
 
-class DropZone extends Component {
+export default class DropZone extends Component {
   static propTypes = {
     children: React.PropTypes.node,
 
@@ -93,5 +93,3 @@ class DropZone extends Component {
     }
   }
 }
-
-export default DropZone;

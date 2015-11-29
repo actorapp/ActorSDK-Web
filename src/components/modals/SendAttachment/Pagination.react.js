@@ -4,7 +4,7 @@
 
 import React, { Component, PropTypes } from 'react';
 
-class Pagination extends Component {
+export default class Pagination extends Component {
   static propTypes = {
     current: PropTypes.number.isRequired,
     total: PropTypes.number.isRequire,
@@ -75,5 +75,3 @@ class Pagination extends Component {
     )
   }
 }
-
-export default Pagination;

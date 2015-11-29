@@ -23,27 +23,27 @@ import CreateGroupStore from '../../stores/CreateGroupStore';
 import AddContactStore from '../../stores/AddContactStore';
 import PreferencesStore from '../../stores/PreferencesStore';
 
-import AvatarItem from '../../components/common/AvatarItem.react';
-import CreateGroupModal from '../../components/modals/CreateGroup';
-import MyProfileModal from '../../components/modals/MyProfile.react';
-import AddContactModal from '../../components/modals/AddContact.react';
-import PreferencesModal from '../../components/modals/Preferences.react';
+import AvatarItem from '../common/AvatarItem.react';
+import CreateGroupModal from '../modals/CreateGroup';
+import MyProfileModal from '../modals/MyProfile.react';
+import AddContactModal from '../modals/AddContact.react';
+import PreferencesModal from '../modals/Preferences.react';
 
 class HeaderSection extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static getStores = () => [MyProfileStore, CreateGroupStore, AddContactStore, PreferencesStore];
 
   static calculateState() {
     return {
       profile: MyProfileStore.getProfile(),
       isMyProfileOpen: MyProfileStore.isModalOpen(),
-      isAddContactsOpen: AddContactStore.isModalOpen(),
+      isAddContactsOpen: AddContactStore.isOpen(),
       isCreateGroupOpen: CreateGroupStore.isModalOpen(),
       isPreferencesOpen: PreferencesStore.isOpen()
     }
-  }
-
-  constructor(props) {
-    super(props);
   }
 
   componentWillMount() {
@@ -78,8 +78,7 @@ class HeaderSection extends Component {
       confirmLabel: this.getIntlMessage('button.ok')
     }).then(
       () => LoginActionCreators.setLoggedOut(),
-      () => {
-      }
+      () => {}
     );
   };
 
@@ -101,7 +100,7 @@ class HeaderSection extends Component {
             <AvatarItem image={profile.avatar}
                         placeholder={profile.placeholder}
                         size="tiny"
-                        title={profile.name}/>
+                        title={profile.name} />
             <span className="sidebar__header__user__name col-xs"
                   dangerouslySetInnerHTML={{__html: escapeWithEmoji(profile.name)}}/>
             <div className={menuClass}>
@@ -158,7 +157,6 @@ class HeaderSection extends Component {
     }
   }
 }
-
 ReactMixin.onClass(HeaderSection, IntlMixin);
 
 export default Container.create(HeaderSection);

@@ -15,13 +15,13 @@ import AttachmentsActionCreators from '../../../actions/AttachmentsActionCreator
 import AttachmentStore from '../../../stores/AttachmentStore';
 
 class Attachment extends Component {
-  static propTypes = {
-    attachment: PropTypes.object.isRequired
-  };
-
   constructor(props) {
     super(props);
   }
+
+  static propTypes = {
+    attachment: PropTypes.object.isRequired
+  };
 
   changeAttachment = () => {
     const { sendAsPicture } = this.props.attachment;
@@ -86,6 +86,6 @@ class Attachment extends Component {
   }
 }
 
-ReactMixin.onClass(Attachment,IntlMixin);
+ReactMixin.onClass(Attachment, IntlMixin);
 
 export default Attachment;

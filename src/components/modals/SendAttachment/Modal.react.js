@@ -22,6 +22,10 @@ import Attachment from './Attachment.react';
 import Pagination from './Pagination.react';
 
 class SendAttachment extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static getStores = () => [AttachmentStore];
 
   static calculateState() {
@@ -32,12 +36,11 @@ class SendAttachment extends Component {
     }
   }
 
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     document.addEventListener('keydown', this.handleKeyDown, false);
+  }
+  componentDidMount() {
+    React.findDOMNode(this.refs.send).focus()
   }
 
   componentWillUnmount() {
@@ -47,9 +50,18 @@ class SendAttachment extends Component {
   handleClose = () => AttachmentsActionCreators.hide();
 
   handleKeyDown = (event) => {
-    if (event.keyCode === KeyCodes.ESC) {
-      event.preventDefault();
-      this.handleClose();
+    event.preventDefault();
+    switch (event.keyCode) {
+      case KeyCodes.ESC:
+        this.handleClose();
+        break;
+      case KeyCodes.ENTER:
+        if (event.shiftKey) {
+          this.handleSendAll();
+        } else {
+          this.handleSend();
+        }
+        break;
     }
   };
 
@@ -99,7 +111,7 @@ class SendAttachment extends Component {
           <div className="col-xs text-right">
             <button className="button"
                     onClick={this.handleCancel}>{this.getIntlMessage('button.cancel')}</button>
-            <button className="button button--rised"
+            <button className="button button--rised" ref="send"
                     onClick={this.handleSend}>{this.getIntlMessage('button.send')}</button>
           </div>
         </footer>

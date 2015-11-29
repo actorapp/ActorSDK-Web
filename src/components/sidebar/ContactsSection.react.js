@@ -1,28 +1,27 @@
-import _ from 'lodash';
 
-import React from 'react';
+import React, { Component } from 'react';
 import { Styles, RaisedButton } from 'material-ui';
-import ActorTheme from 'constants/ActorTheme';
+import ActorTheme from '../../constants/ActorTheme';
 
-import ContactStore from 'stores/ContactStore';
-import ContactActionCreators from 'actions/ContactActionCreators';
+import ContactStore from '../../stores/ContactStore';
+import AddContactStore from '../../stores/AddContactStore';
 
-import AddContactStore from 'stores/AddContactStore';
-import AddContactActionCreators from 'actions/AddContactActionCreators';
+import ContactActionCreators from '../../actions/ContactActionCreators';
+import AddContactActionCreators from '../../actions/AddContactActionCreators';
 
 import ContactsSectionItem from './ContactsSectionItem.react';
-import AddContactModal from '../../components/modals/AddContact.react.js';
+import AddContactModal from '../modals/AddContact.react.js';
 
 const ThemeManager = new Styles.ThemeManager();
 
 const getStateFromStores = () => {
   return {
-    isAddContactModalOpen: AddContactStore.isModalOpen(),
+    isAddContactModalOpen: AddContactStore.isOpen(),
     contacts: ContactStore.getContacts()
   };
 };
 
-class ContactsSection extends React.Component {
+class ContactsSection extends Component {
   static childContextTypes = {
     muiTheme: React.PropTypes.object
   };

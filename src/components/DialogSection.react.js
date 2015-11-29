@@ -2,20 +2,18 @@
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
  */
 
-import _ from 'lodash';
-
 import React from 'react';
 
 import { PeerTypes } from '../constants/ActorAppConstants';
 
 import PeerUtils from '../utils/PeerUtils';
 
-import MessagesSection from '../components/dialog/MessagesSection.react';
-import TypingSection from '../components/dialog/TypingSection.react';
-import ComposeSection from '../components/dialog/ComposeSection.react';
-import ToolbarSection from '../components/ToolbarSection.react';
-import ActivitySection from '../components/ActivitySection.react';
-import ConnectionState from '../components/common/ConnectionState.react';
+import MessagesSection from './dialog/MessagesSection.react';
+import TypingSection from './dialog/TypingSection.react';
+import ComposeSection from './dialog/ComposeSection.react';
+import ToolbarSection from './ToolbarSection.react';
+import ActivitySection from './ActivitySection.react';
+import ConnectionState from './common/ConnectionState.react';
 
 import ActivityStore from '../stores/ActivityStore';
 import DialogStore from '../stores/DialogStore';

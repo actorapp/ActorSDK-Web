@@ -7,7 +7,7 @@ import { ActionTypes } from '../constants/ActorAppConstants';
 import ActorClient from '../utils/ActorClient';
 import RouterContainer from '../utils/RouterContainer';
 
-import DialogActionCreators from '../actions/DialogActionCreators';
+import DialogActionCreators from './DialogActionCreators';
 
 const urlBase = 'https://quit.email';
 

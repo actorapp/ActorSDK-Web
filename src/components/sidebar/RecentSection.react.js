@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
  */
 
-import _ from 'lodash';
+import { map } from 'lodash';
 
 import React, { Component } from 'react';
 import ReactMixin from 'react-mixin';
@@ -16,7 +16,7 @@ import QuickSearchStore from '../../stores/QuickSearchStore';
 
 import RecentSectionItem from './RecentSectionItem.react';
 import ContactsSectionItem from './ContactsSectionItem.react';
-import QuickSearch from '../../components/modals/QuickSearch.react';
+import QuickSearch from '../modals/QuickSearch.react';
 
 const LoadDialogsScrollBottom = 100;
 
@@ -41,9 +41,7 @@ class RecentSection extends Component {
     DialogStore.removeChangeListener(this.onChange);
   }
 
-  onChange = () => {
-    this.setState(getStateFromStore());
-  };
+  onChange = () => this.setState(getStateFromStore());
 
   onScroll = event => {
     const { scrollHeight, scrollTop, clientHeight } = event.target;
@@ -58,7 +56,7 @@ class RecentSection extends Component {
   render() {
     const { dialogs, isQuickSearchOpen } = this.state;
 
-    const dialogList = _.map(dialogs, (dialog, index) => {
+    const dialogList = map(dialogs, (dialog, index) => {
       return (
         <RecentSectionItem dialog={dialog} key={index}/>
       );
@@ -88,6 +86,6 @@ class RecentSection extends Component {
   }
 }
 
-ReactMixin.onClass(RecentSection,IntlMixin);
+ReactMixin.onClass(RecentSection, IntlMixin);
 
 export default RecentSection;

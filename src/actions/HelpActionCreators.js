@@ -1,7 +1,11 @@
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
 import ActorClient from '../utils/ActorClient';
-import ContactActionCreators from '../actions/ContactActionCreators';
 import { Support } from '../constants/ActorAppConstants';
-import DialogActionCreators from '../actions/DialogActionCreators';
+import ContactActionCreators from './ContactActionCreators';
+import DialogActionCreators from './DialogActionCreators';
 
 export default {
   open: () => {

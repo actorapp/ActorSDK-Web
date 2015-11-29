@@ -1,8 +1,12 @@
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
 import ActorAppDispatcher from '../dispatcher/ActorAppDispatcher';
 import { ActionTypes, ActivityTypes, PeerTypes } from '../constants/ActorAppConstants';
 import ActorClient from '../utils/ActorClient';
 
-import DialogStore from '../stores/DialogStore';
+import DialogStore from './DialogStore';
 
 import { EventEmitter } from 'events';
 import assign from 'object-assign';
@@ -34,7 +38,7 @@ var ActivityStore = assign({}, EventEmitter.prototype, {
   }
 });
 
-
+// TODO: move bindings ot action creators
 let _cleanup = () => {};
 
 var _setActivityFromPeer = function () {

@@ -11,16 +11,16 @@ import Processing from './Processing.react';
 import Success from './Success.react';
 import Failure from './Failure.react';
 
-class Root extends Component {
+export default class Root extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static propTypes = {
     className: PropTypes.string,
     currentState: PropTypes.number.isRequired,
     children: PropTypes.array
   };
-
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     const { currentState, className, children } = this.props;
@@ -41,5 +41,3 @@ class Root extends Component {
     )
   }
 }
-
-export default Root;

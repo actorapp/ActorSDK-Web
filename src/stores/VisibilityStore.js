@@ -15,7 +15,7 @@ class VisibilityStore extends Store {
 
   isAppVisible() {
     return isVisible;
-  };
+  }
 
   __onDispatch = (action) => {
     switch (action.type) {

@@ -21,7 +21,6 @@ const getStateFromStores = () => {
   });
 };
 
-
 class Contacts extends Component {
   constructor(props) {
     super(props);
@@ -98,5 +97,6 @@ class Contacts extends Component {
   }
 }
 
-ReactMixin.onClass(Contacts,IntlMixin);
+ReactMixin.onClass(Contacts, IntlMixin);
+
 export default Contacts;

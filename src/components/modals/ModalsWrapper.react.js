@@ -86,5 +86,6 @@ class ModalsWrapper extends Component {
   }
 }
 
-ReactMixin.onClass(ModalsWrapper,IntlMixin);
+ReactMixin.onClass(ModalsWrapper, IntlMixin);
+
 export default ModalsWrapper;

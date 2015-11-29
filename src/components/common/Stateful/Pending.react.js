@@ -4,18 +4,16 @@
 
 import React, { Component, PropTypes } from 'react';
 
-class Pending extends Component {
-  static propTypes = {
-    children: PropTypes.node
-  };
-
+export default class Pending extends Component {
   constructor(props) {
     super(props);
   }
+
+  static propTypes = {
+    children: PropTypes.node
+  };
 
   render() {
     return this.props.children;
   }
 }
-
-export default Pending;

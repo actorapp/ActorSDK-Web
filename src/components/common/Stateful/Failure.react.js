@@ -4,18 +4,16 @@
 
 import React, { Component, PropTypes } from 'react';
 
-class Failure extends Component {
-  static propTypes = {
-    children: PropTypes.node
-  };
-
+export default class Failure extends Component {
   constructor(props) {
     super(props);
   }
+
+  static propTypes = {
+    children: PropTypes.node
+  };
 
   render() {
     return this.props.children;
   }
 }
-
-export default Failure;

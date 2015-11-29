@@ -8,8 +8,8 @@ import Modal from 'react-modal';
 import ReactMixin from 'react-mixin';
 import { IntlMixin } from 'react-intl';
 import { Styles, TextField } from 'material-ui';
-
 import ActorTheme from '../../constants/ActorTheme';
+
 import { KeyCodes } from '../../constants/ActorAppConstants';
 
 import EditGroupStore from '../../stores/EditGroupStore';
@@ -18,12 +18,16 @@ import CropAvatarStore from '../../stores/CropAvatarStore';
 import EditGroupActionCreators from '../../actions/EditGroupActionCreators';
 import CropAvatarActionCreators from '../../actions/CropAvatarActionCreators';
 
-import AvatarItem from '../../components/common/AvatarItem.react';
+import AvatarItem from '../common/AvatarItem.react';
 import CropAvatarModal from './CropAvatar.react.js';
 
 const ThemeManager = new Styles.ThemeManager();
 
 class EditGroup extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static childContextTypes = {
     muiTheme: React.PropTypes.object
   };
@@ -46,10 +50,6 @@ class EditGroup extends Component {
     }
   }
 
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     ThemeManager.setTheme(ActorTheme);
     ThemeManager.setComponentThemes({
@@ -61,15 +61,25 @@ class EditGroup extends Component {
         disabledTextColor: 'rgba(0,0,0,.4)'
       }
     });
+    this.setListeners();
+  }
+
+  componentWillUnmount() {
+    this.removeListeners();
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (nextState.isOpen && !this.state.isOpen) {
-      document.addEventListener('keydown', this.onKeyDown, false);
-    } else if (!nextState.isOpen && this.state.isOpen) {
-      document.removeEventListener('keydown', this.onKeyDown, false);
+    if (nextState.isOpen) {
+      if (nextState.isCropModalOpen) {
+        this.removeListeners();
+      } else {
+        this.setListeners();
+      }
     }
   }
+
+  setListeners = () => document.addEventListener('keydown', this.onKeyDown, false);
+  removeListeners = () => document.removeEventListener('keydown', this.onKeyDown, false);
 
   onClose = () => EditGroupActionCreators.hide();
   onTitleChange = event => this.setState({title: event.target.value});

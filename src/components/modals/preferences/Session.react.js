@@ -11,9 +11,13 @@ import PreferencesActionCreators from '../../../actions/PreferencesActionCreator
 
 import PreferencesStore from '../../../stores/PreferencesStore';
 
-import Stateful from '../../../components/common/Stateful';
+import Stateful from '../../common/Stateful';
 
 class SessionItem extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   static getStores = () => [PreferencesStore];
   static calculateState = (prevState, props) => {
     return {
@@ -27,10 +31,6 @@ class SessionItem extends Component {
     id: React.PropTypes.number.isRequired,
     authTime: React.PropTypes.object.isRequired
   };
-
-  constructor(props) {
-    super(props);
-  }
 
   onTerminate = () => PreferencesActionCreators.terminateSession(this.props.id);
 
@@ -74,6 +74,6 @@ class SessionItem extends Component {
   }
 }
 
-ReactMixin.onClass(SessionItem,IntlMixin);
+ReactMixin.onClass(SessionItem, IntlMixin);
 
 export default Container.create(SessionItem, {pure: false, withProps: true});

@@ -2,7 +2,7 @@
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import classNames from 'classnames';
 
 import PeerUtils from '../../utils/PeerUtils';
@@ -12,16 +12,16 @@ import DialogActionCreators from '../../actions/DialogActionCreators';
 
 import DialogStore from '../../stores/DialogStore';
 
-import AvatarItem from '../../components/common/AvatarItem.react';
+import AvatarItem from '../common/AvatarItem.react';
 
-class RecentSectionItem extends React.Component {
+class RecentSectionItem extends Component {
+  constructor(props){
+    super(props);
+  }
+
   static propTypes = {
     dialog: React.PropTypes.object.isRequired
   };
-
-  constructor(props) {
-    super(props);
-  }
 
   onClick = () => DialogActionCreators.selectDialogPeer(this.props.dialog.peer.peer);
 

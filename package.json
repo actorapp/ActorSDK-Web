@@ -1,6 +1,6 @@
 {
   "name": "actor-sdk",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Actor SDK for building messaging web apps on top of Actor platform",
   "license": {
     "type": "Apache-2.0",

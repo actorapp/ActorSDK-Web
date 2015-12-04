@@ -135,3 +135,4 @@ function confirm(message) {
 
   return component.promise;
 }
+//# sourceMappingURL=confirm.js.map

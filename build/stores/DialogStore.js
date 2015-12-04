@@ -234,3 +234,4 @@ DialogStore.dispatchToken = _ActorAppDispatcher2.default.register(function (acti
 });
 
 exports.default = DialogStore;
+//# sourceMappingURL=DialogStore.js.map

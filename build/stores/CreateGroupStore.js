@@ -125,3 +125,4 @@ var CreateGroupStore = (function (_Store) {
 })(_utils.Store);
 
 exports.default = new CreateGroupStore(_ActorAppDispatcher2.default);
+//# sourceMappingURL=CreateGroupStore.js.map

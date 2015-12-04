@@ -60,3 +60,4 @@ exports.default = {
     return _lodash2.default.isPlainObject(peer1) && !_lodash2.default.isPlainObject(peer2) || !_lodash2.default.isPlainObject(peer1) && _lodash2.default.isPlainObject(peer2) || peer1.type === peer2.type && peer1.id === peer2.id;
   }
 };
+//# sourceMappingURL=PeerUtils.js.map

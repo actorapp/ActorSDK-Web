@@ -25,3 +25,4 @@ var hasMember = exports.hasMember = function hasMember(gid, uid) {
 
   return isMember;
 };
+//# sourceMappingURL=GroupUtils.js.map

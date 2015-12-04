@@ -58,3 +58,4 @@ SidebarSection.propTypes = {
   selectedPeer: _react.PropTypes.object.isRequired
 };
 exports.default = SidebarSection;
+//# sourceMappingURL=SidebarSection.react.js.map

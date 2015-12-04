@@ -59,3 +59,4 @@ exports.default = {
     _ActorClient2.default.removeGroupAvatar(gid);
   }
 };
+//# sourceMappingURL=EditGroupActionCreators.js.map

@@ -511,3 +511,4 @@ GroupProfile.propTypes = {
 _reactMixin2.default.onClass(GroupProfile, _reactIntl.IntlMixin);
 
 exports.default = GroupProfile;
+//# sourceMappingURL=GroupProfile.react.js.map

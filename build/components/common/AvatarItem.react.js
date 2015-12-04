@@ -94,3 +94,4 @@ AvatarItem.propTypes = {
   onClick: _react2.default.PropTypes.func
 };
 exports.default = AvatarItem;
+//# sourceMappingURL=AvatarItem.react.js.map

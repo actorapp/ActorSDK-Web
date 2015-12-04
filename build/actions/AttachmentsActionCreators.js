@@ -72,3 +72,4 @@ exports.default = {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.ATTACHMENT_SEND_ALL, { attachments: attachments });
   }
 };
+//# sourceMappingURL=AttachmentsActionCreators.js.map

@@ -67,3 +67,4 @@ var languageData = {
 var intlData = exports.intlData = languageData[language] || languageData[language.split('-')[0]] || languageData['en'];
 
 exports.default = { intlData: intlData };
+//# sourceMappingURL=index.js.map

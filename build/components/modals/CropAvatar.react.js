@@ -415,3 +415,4 @@ CropAvatarModal.getStores = function () {
 _reactMixin2.default.onClass(CropAvatarModal, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(CropAvatarModal);
+//# sourceMappingURL=CropAvatar.react.js.map

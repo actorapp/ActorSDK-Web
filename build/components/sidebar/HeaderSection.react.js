@@ -314,3 +314,4 @@ HeaderSection.getStores = function () {
 _reactMixin2.default.onClass(HeaderSection, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(HeaderSection);
+//# sourceMappingURL=HeaderSection.react.js.map

@@ -234,3 +234,4 @@ exports.default = {
     'preferencesSessionsTerminateAll': 'Terminar todas las sesiones'
   }
 };
+//# sourceMappingURL=es-ES.js.map

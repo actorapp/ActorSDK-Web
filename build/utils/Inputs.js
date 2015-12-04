@@ -57,3 +57,4 @@ var inputs = {
 };
 
 exports.default = inputs;
+//# sourceMappingURL=Inputs.js.map

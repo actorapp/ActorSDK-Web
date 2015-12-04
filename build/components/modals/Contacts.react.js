@@ -207,3 +207,4 @@ var ContactsModal = (function (_React$Component) {
 _reactMixin2.default.onClass(ContactsModal, _reactIntl.IntlMixin);
 
 exports.default = ContactsModal;
+//# sourceMappingURL=Contacts.react.js.map

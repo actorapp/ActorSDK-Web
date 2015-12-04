@@ -156,3 +156,4 @@ var RecentSection = (function (_Component) {
 _reactMixin2.default.onClass(RecentSection, _reactIntl.IntlMixin);
 
 exports.default = RecentSection;
+//# sourceMappingURL=RecentSection.react.js.map

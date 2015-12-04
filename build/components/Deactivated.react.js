@@ -57,3 +57,4 @@ var Deactivated = (function (_Component) {
 })(_react.Component);
 
 exports.default = Deactivated;
+//# sourceMappingURL=Deactivated.react.js.map

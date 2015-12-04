@@ -154,3 +154,4 @@ var ModalsWrapper = (function (_Component) {
 _reactMixin2.default.onClass(ModalsWrapper, _reactIntl.IntlMixin);
 
 exports.default = ModalsWrapper;
+//# sourceMappingURL=ModalsWrapper.react.js.map

@@ -108,3 +108,4 @@ var QuickSearchStore = (function (_Store) {
 })(_utils.Store);
 
 exports.default = new QuickSearchStore(_ActorAppDispatcher2.default);
+//# sourceMappingURL=QuickSearchStore.js.map

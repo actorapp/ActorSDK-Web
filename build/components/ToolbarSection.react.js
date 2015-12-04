@@ -161,3 +161,4 @@ var ToolbarSection = (function (_Component) {
 _reactMixin2.default.onClass(ToolbarSection, _reactIntl.IntlMixin);
 
 exports.default = ToolbarSection;
+//# sourceMappingURL=ToolbarSection.react.js.map

@@ -96,3 +96,4 @@ State.propTypes = {
   message: _react.PropTypes.object.isRequired
 };
 exports.default = State;
+//# sourceMappingURL=State.react.js.map

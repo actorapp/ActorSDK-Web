@@ -345,3 +345,4 @@ QuickSearch.getStores = function () {
 _reactMixin2.default.onClass(QuickSearch, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(QuickSearch, { pure: false });
+//# sourceMappingURL=QuickSearch.react.js.map

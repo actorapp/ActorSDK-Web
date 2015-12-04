@@ -82,3 +82,4 @@ MessageStore.dispatchToken = _ActorAppDispatcher2.default.register(function (act
 });
 
 exports.default = MessageStore;
+//# sourceMappingURL=MessageStore.js.map

@@ -235,3 +235,4 @@ exports.default = {
     'preferencesSessionsTerminateAll': 'Завершить все сеансы'
   }
 };
+//# sourceMappingURL=ru-RU.js.map

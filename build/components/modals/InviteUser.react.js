@@ -247,3 +247,4 @@ var InviteUser = (function (_React$Component) {
 _reactMixin2.default.onClass(InviteUser, _reactIntl.IntlMixin);
 
 exports.default = InviteUser;
+//# sourceMappingURL=InviteUser.react.js.map

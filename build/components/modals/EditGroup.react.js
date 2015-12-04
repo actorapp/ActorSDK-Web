@@ -317,3 +317,4 @@ EditGroup.getStores = function () {
 _reactMixin2.default.onClass(EditGroup, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(EditGroup, { pure: false });
+//# sourceMappingURL=EditGroup.react.js.map

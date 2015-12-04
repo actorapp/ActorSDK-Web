@@ -234,3 +234,4 @@ exports.default = {
     'preferencesSessionsTerminateAll': '断开所有会话'
   }
 };
+//# sourceMappingURL=zh-CN.js.map

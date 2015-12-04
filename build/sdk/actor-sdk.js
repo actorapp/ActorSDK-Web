@@ -88,8 +88,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-//import AppCache from 'utils/AppCache';
-
 var DefaultRoute = _reactRouter2.default.DefaultRoute;
 var Route = _reactRouter2.default.Route;
 var RouteHandler = _reactRouter2.default.RouteHandler;
@@ -163,12 +161,12 @@ var ActorSDK = (function () {
         window.messenger = _actorJs2.default.create(this.endpoints);
       }
 
-      var AuthSection = this.delegate.authSection || _LoginReact2.default;
+      var loginComponent = this.delegate.loginComponent || _LoginReact2.default;
 
       var routes = _react2.default.createElement(
         Route,
         { handler: App, name: 'app', path: '/' },
-        _react2.default.createElement(Route, { handler: AuthSection, name: 'login', path: '/auth' }),
+        _react2.default.createElement(Route, { handler: loginComponent, name: 'login', path: '/auth' }),
         _react2.default.createElement(Route, { handler: _MainReact2.default, name: 'main', path: '/im/:id' }),
         _react2.default.createElement(Route, { handler: _JoinGroupReact2.default, name: 'join', path: '/join/:token' }),
         _react2.default.createElement(Route, { handler: _DeactivatedReact2.default, name: 'deactivated', path: '/deactivated' }),
@@ -193,7 +191,11 @@ var ActorSDK = (function () {
   }, {
     key: 'startApp',
     value: function startApp() {
-      if (window.isJsAppLoaded) this._starter();else window.jsAppLoaded = this._starter.bind(this);
+      if (window.isJsAppLoaded) {
+        this._starter();
+      } else {
+        window.jsAppLoaded = this._starter.bind(this);
+      }
     }
   }]);
 
@@ -201,3 +203,4 @@ var ActorSDK = (function () {
 })();
 
 exports.default = ActorSDK;
+//# sourceMappingURL=actor-sdk.js.map

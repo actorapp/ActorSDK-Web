@@ -208,3 +208,4 @@ SendAttachment.getStores = function () {
 _reactMixin2.default.onClass(SendAttachment, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(SendAttachment, { pure: false });
+//# sourceMappingURL=Modal.react.js.map

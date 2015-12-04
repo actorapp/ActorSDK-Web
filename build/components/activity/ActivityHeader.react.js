@@ -79,3 +79,4 @@ ActivityHeader.propTypes = {
 _reactMixin2.default.onClass(ActivityHeader, PureRenderMixin);
 
 exports.default = ActivityHeader;
+//# sourceMappingURL=ActivityHeader.react.js.map

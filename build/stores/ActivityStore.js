@@ -127,3 +127,4 @@ ActivityStore.dispatchToken = _ActorAppDispatcher2.default.register(function (ac
 });
 
 exports.default = ActivityStore;
+//# sourceMappingURL=ActivityStore.js.map

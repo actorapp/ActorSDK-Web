@@ -86,3 +86,4 @@ ContactStore.dispatchToken = (0, _ActorAppDispatcher.register)(function (action)
 });
 
 exports.default = ContactStore;
+//# sourceMappingURL=ContactStore.js.map

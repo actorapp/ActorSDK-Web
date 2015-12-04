@@ -65,3 +65,4 @@ Geolocation.propTypes = {
   className: _react.PropTypes.string
 };
 exports.default = Geolocation;
+//# sourceMappingURL=Geolocation.react.js.map

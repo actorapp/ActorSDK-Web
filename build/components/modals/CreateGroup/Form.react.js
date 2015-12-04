@@ -249,3 +249,4 @@ CreateGroupForm.childContextTypes = {
 _reactMixin2.default.onClass(CreateGroupForm, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(CreateGroupForm, { pure: false });
+//# sourceMappingURL=Form.react.js.map

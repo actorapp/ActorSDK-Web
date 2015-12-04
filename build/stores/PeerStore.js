@@ -22,3 +22,4 @@ var PeerStore = {
     */
 
 exports.default = PeerStore;
+//# sourceMappingURL=PeerStore.js.map

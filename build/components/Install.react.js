@@ -86,3 +86,4 @@ var Install = (function (_Component) {
 })(_react.Component);
 
 exports.default = Install;
+//# sourceMappingURL=Install.react.js.map

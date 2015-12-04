@@ -181,3 +181,4 @@ ComposeStoreInstance.dispatchToken = (0, _ActorAppDispatcher.register)(function 
 });
 
 exports.default = ComposeStoreInstance;
+//# sourceMappingURL=ComposeStore.js.map

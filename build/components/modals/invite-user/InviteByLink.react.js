@@ -191,3 +191,4 @@ _reactMixin2.default.onClass(InviteByLink, _reactIntl.IntlMixin);
 _reactMixin2.default.onClass(InviteByLink, PureRenderMixin);
 
 exports.default = InviteByLink;
+//# sourceMappingURL=InviteByLink.react.js.map

@@ -49,3 +49,4 @@ var AppCache = (function () {
 var AppCacheInstance = new AppCache();
 
 exports.default = AppCacheInstance;
+//# sourceMappingURL=AppCache.js.map

@@ -156,3 +156,4 @@ GroupList.getStores = function () {
 _reactMixin2.default.onClass(GroupList, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(GroupList, { pure: false });
+//# sourceMappingURL=GroupList.react.js.map

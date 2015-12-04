@@ -22,3 +22,4 @@ var UserStore = {
     */
 
 exports.default = UserStore;
+//# sourceMappingURL=UserStore.js.map

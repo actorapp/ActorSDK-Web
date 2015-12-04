@@ -19,3 +19,4 @@ function initBugsnag(apikey) {
    */
 
 exports.default = _bugsnagJs2.default;
+//# sourceMappingURL=Bugsnag.js.map

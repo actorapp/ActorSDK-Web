@@ -43,3 +43,4 @@ Failure.propTypes = {
   children: _react.PropTypes.node
 };
 exports.default = Failure;
+//# sourceMappingURL=Failure.react.js.map

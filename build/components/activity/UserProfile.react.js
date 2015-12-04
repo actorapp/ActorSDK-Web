@@ -409,3 +409,4 @@ UserProfile.propTypes = {
 _reactMixin2.default.onClass(UserProfile, _reactIntl.IntlMixin);
 
 exports.default = UserProfile;
+//# sourceMappingURL=UserProfile.react.js.map

@@ -67,3 +67,4 @@ var FaviconStore = (function (_Store) {
 })(_utils.Store);
 
 exports.default = new FaviconStore(_ActorAppDispatcher2.default);
+//# sourceMappingURL=FaviconStore.js.map

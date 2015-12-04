@@ -164,3 +164,4 @@ var _initialiseProps = function _initialiseProps() {
 _reactMixin2.default.onClass(SessionItem, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(SessionItem, { pure: false, withProps: true });
+//# sourceMappingURL=Session.react.js.map

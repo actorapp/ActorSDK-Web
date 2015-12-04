@@ -93,3 +93,4 @@ var Banner = (function (_Component) {
 })(_react.Component);
 
 exports.default = Banner;
+//# sourceMappingURL=Banner.react.js.map

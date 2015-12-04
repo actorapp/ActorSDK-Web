@@ -153,3 +153,4 @@ Main.propTypes = {
   params: _react2.default.PropTypes.object
 };
 exports.default = (0, _requireAuth2.default)(Main);
+//# sourceMappingURL=Main.react.js.map

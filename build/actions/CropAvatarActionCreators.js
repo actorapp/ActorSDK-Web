@@ -20,3 +20,4 @@ exports.default = {
     return (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CROP_AVATAR_MODAL_HIDE);
   }
 };
+//# sourceMappingURL=CropAvatarActionCreators.js.map

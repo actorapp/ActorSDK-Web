@@ -82,3 +82,4 @@ function dispatchAsync(promise, types) {
 }
 
 exports.default = flux;
+//# sourceMappingURL=ActorAppDispatcher.js.map

@@ -86,3 +86,4 @@ ContactsSectionItem.propTypes = {
 _reactMixin2.default.onClass(ContactsSectionItem, PureRenderMixin);
 
 exports.default = ContactsSectionItem;
+//# sourceMappingURL=ContactsSectionItem.react.js.map

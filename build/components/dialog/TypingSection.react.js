@@ -106,3 +106,4 @@ var Typing = (function (_Component) {
 _reactMixin2.default.onClass(Typing, PureRenderMixin);
 
 exports.default = Typing;
+//# sourceMappingURL=TypingSection.react.js.map

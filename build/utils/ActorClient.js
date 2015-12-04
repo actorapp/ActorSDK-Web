@@ -16,6 +16,11 @@ exports.default = {
       window.messenger.requestSms(phone, resolve, reject);
     });
   },
+  requestCodeEmail: function requestCodeEmail(email) {
+    return new Promise(function (resolve, reject) {
+      window.messenger.requestCodeEmail(email, resolve, reject);
+    });
+  },
   sendCode: function sendCode(code) {
     return new Promise(function (resolve, reject) {
       window.messenger.sendCode(code, resolve, reject);
@@ -310,3 +315,4 @@ exports.default = {
     window.messenger.bindSearch(callback);
   }
 };
+//# sourceMappingURL=ActorClient.js.map

@@ -19,3 +19,4 @@ var FaviconActionCreators = {
 };
 
 exports.default = FaviconActionCreators;
+//# sourceMappingURL=FaviconActionCreators.js.map

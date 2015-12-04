@@ -122,3 +122,4 @@ var MyProfileStore = (function (_Store) {
 })(_utils.Store);
 
 exports.default = new MyProfileStore(_ActorAppDispatcher2.default);
+//# sourceMappingURL=MyProfileStore.js.map

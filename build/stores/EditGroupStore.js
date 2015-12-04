@@ -97,3 +97,4 @@ var EditGroupStore = (function (_Store) {
 })(_utils.Store);
 
 exports.default = new EditGroupStore(_ActorAppDispatcher2.default);
+//# sourceMappingURL=EditGroupStore.js.map

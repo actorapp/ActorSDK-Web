@@ -124,3 +124,4 @@ Document.propTypes = {
 _reactMixin2.default.onClass(Document, _reactIntl.IntlMixin);
 
 exports.default = Document;
+//# sourceMappingURL=Document.react.js.map

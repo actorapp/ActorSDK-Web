@@ -361,3 +361,4 @@ MyProfile.getStores = function () {
 _reactMixin2.default.onClass(MyProfile, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(MyProfile, { pure: false });
+//# sourceMappingURL=MyProfile.react.js.map

@@ -173,3 +173,4 @@ Voice.propTypes = {
 _reactMixin2.default.onClass(Voice, _reactIntl.IntlMixin);
 
 exports.default = Voice;
+//# sourceMappingURL=Voice.react.js.map

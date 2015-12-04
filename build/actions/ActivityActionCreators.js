@@ -20,3 +20,4 @@ exports.default = {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.ACTIVITY_HIDE);
   }
 };
+//# sourceMappingURL=ActivityActionCreators.js.map

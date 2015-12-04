@@ -134,3 +134,4 @@ exports.default = {
   preloadEmojiSheet: preloadEmojiSheet,
   escapeWithEmoji: escapeWithEmoji
 };
+//# sourceMappingURL=EmojiUtils.js.map

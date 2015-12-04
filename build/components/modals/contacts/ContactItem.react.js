@@ -91,3 +91,4 @@ ContactItem.propTypes = {
 _reactMixin2.default.onClass(ContactItem, PureRenderMixin);
 
 exports.default = ContactItem;
+//# sourceMappingURL=ContactItem.react.js.map

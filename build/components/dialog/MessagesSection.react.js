@@ -201,3 +201,4 @@ MessagesSection.propTypes = {
   peer: _react2.default.PropTypes.object.isRequired
 };
 exports.default = MessagesSection;
+//# sourceMappingURL=MessagesSection.react.js.map

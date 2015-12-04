@@ -48,3 +48,4 @@ exports.default = {
     joinViaLink().then(selectJoined).catch(goHome);
   }
 };
+//# sourceMappingURL=JoinGroupActions.js.map

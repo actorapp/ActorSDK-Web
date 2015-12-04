@@ -212,3 +212,4 @@ AddContact.getStores = function () {
 _reactMixin2.default.onClass(AddContact, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(AddContact);
+//# sourceMappingURL=AddContact.react.js.map

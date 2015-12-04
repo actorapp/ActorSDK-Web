@@ -79,3 +79,4 @@ GroupProfileMembers.propTypes = {
 _reactMixin2.default.onClass(GroupProfileMembers, PureRenderMixin);
 
 exports.default = GroupProfileMembers;
+//# sourceMappingURL=GroupProfileMembers.react.js.map

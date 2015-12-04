@@ -115,3 +115,4 @@ Welcome.propTypes = {
 _reactMixin2.default.onClass(Welcome, _reactIntl.IntlMixin);
 
 exports.default = Welcome;
+//# sourceMappingURL=Welcome.react.js.map

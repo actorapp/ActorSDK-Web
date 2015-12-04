@@ -315,3 +315,4 @@ var _initialiseProps = function _initialiseProps() {
 _reactMixin2.default.onClass(MentionDropdown, PureRenderMixin);
 
 exports.default = MentionDropdown;
+//# sourceMappingURL=MentionDropdown.react.js.map

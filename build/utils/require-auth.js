@@ -49,3 +49,4 @@ exports.default = function (Component) {
     return Authenticated;
   })(_react2.default.Component);
 };
+//# sourceMappingURL=require-auth.js.map

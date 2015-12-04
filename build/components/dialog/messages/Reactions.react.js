@@ -134,3 +134,4 @@ MessageReactions.propTypes = {
   message: _react.PropTypes.object.isRequired
 };
 exports.default = MessageReactions;
+//# sourceMappingURL=Reactions.react.js.map

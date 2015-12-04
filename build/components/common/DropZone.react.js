@@ -137,3 +137,4 @@ DropZone.propTypes = {
   onDropCallback: _react2.default.PropTypes.func
 };
 exports.default = DropZone;
+//# sourceMappingURL=DropZone.react.js.map

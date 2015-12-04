@@ -78,3 +78,4 @@ DraftStore.dispatchToken = _ActorAppDispatcher2.default.register(function (actio
 });
 
 exports.default = DraftStore;
+//# sourceMappingURL=DraftStore.js.map

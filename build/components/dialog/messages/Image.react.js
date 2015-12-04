@@ -131,3 +131,4 @@ Image.propTypes = {
   loadedClassName: _react2.default.PropTypes.string
 };
 exports.default = Image;
+//# sourceMappingURL=Image.react.js.map

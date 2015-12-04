@@ -97,3 +97,4 @@ KickUserStoreInstance.dispatchToken = (0, _ActorAppDispatcher.register)(function
 });
 
 exports.default = KickUserStoreInstance;
+//# sourceMappingURL=KickUserStore.js.map

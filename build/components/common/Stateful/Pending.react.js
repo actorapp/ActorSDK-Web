@@ -43,3 +43,4 @@ Pending.propTypes = {
   children: _react.PropTypes.node
 };
 exports.default = Pending;
+//# sourceMappingURL=Pending.react.js.map

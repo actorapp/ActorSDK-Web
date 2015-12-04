@@ -201,3 +201,4 @@ EmojiDropdown.propTypes = {
   onSelect: _react2.default.PropTypes.func.isRequired
 };
 exports.default = EmojiDropdown;
+//# sourceMappingURL=EmojiDropdown.react.js.map

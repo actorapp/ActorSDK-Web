@@ -14,3 +14,4 @@ var isMobile = function isMobile() {
 };
 
 exports.default = isMobile;
+//# sourceMappingURL=isMobile.js.map

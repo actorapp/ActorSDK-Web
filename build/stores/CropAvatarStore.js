@@ -71,3 +71,4 @@ var CropAvatarStore = (function (_Store) {
 })(_utils.Store);
 
 exports.default = new CropAvatarStore(_ActorAppDispatcher2.default);
+//# sourceMappingURL=CropAvatarStore.js.map

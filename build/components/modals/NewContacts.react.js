@@ -160,3 +160,4 @@ var Contacts = (function (_Component) {
 _reactMixin2.default.onClass(Contacts, _reactIntl.IntlMixin);
 
 exports.default = Contacts;
+//# sourceMappingURL=NewContacts.react.js.map

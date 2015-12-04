@@ -150,3 +150,4 @@ var PreferencesStore = (function (_Store) {
 })(_utils.Store);
 
 exports.default = new PreferencesStore(_ActorAppDispatcher2.default);
+//# sourceMappingURL=PreferencesStore.js.map

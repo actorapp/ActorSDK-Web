@@ -209,3 +209,4 @@ GroupMember.propTypes = {
 _reactMixin2.default.onClass(GroupMember, _reactIntl.IntlMixin);
 
 exports.default = GroupMember;
+//# sourceMappingURL=GroupMember.react.js.map

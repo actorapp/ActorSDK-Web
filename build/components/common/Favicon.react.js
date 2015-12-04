@@ -75,3 +75,4 @@ Favicon.getStores = function () {
 };
 
 exports.default = _utils.Container.create(Favicon);
+//# sourceMappingURL=Favicon.react.js.map

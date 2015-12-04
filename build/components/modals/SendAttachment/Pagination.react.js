@@ -131,3 +131,4 @@ Pagination.propTypes = {
   onChange: _react.PropTypes.func.isRequired
 };
 exports.default = Pagination;
+//# sourceMappingURL=Pagination.react.js.map

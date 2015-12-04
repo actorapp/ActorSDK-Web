@@ -11,9 +11,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 
 var ActorSDKDelegate = function ActorSDKDelegate() {
+  var components = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
   _classCallCheck(this, ActorSDKDelegate);
 
-  this.authSection = null;
+  this.loginComponent = components.loginComponent || null;
+  this.sidebarComponent = components.sidebarComponent || null;
 };
 
 exports.default = ActorSDKDelegate;
+//# sourceMappingURL=actor-sdk-delegate.js.map

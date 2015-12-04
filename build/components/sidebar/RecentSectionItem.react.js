@@ -96,3 +96,4 @@ RecentSectionItem.propTypes = {
   dialog: _react2.default.PropTypes.object.isRequired
 };
 exports.default = RecentSectionItem;
+//# sourceMappingURL=RecentSectionItem.react.js.map

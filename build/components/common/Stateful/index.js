@@ -35,3 +35,4 @@ exports.default = {
 }; /*
     * Copyright (C) 2015 Actor LLC. <https://actor.im>
     */
+//# sourceMappingURL=index.js.map

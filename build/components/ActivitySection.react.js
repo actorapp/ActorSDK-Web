@@ -106,3 +106,4 @@ var ActivitySection = (function (_Component) {
 })(_react.Component);
 
 exports.default = ActivitySection;
+//# sourceMappingURL=ActivitySection.react.js.map

@@ -35,3 +35,4 @@ var dataURItoBlob = function dataURItoBlob(dataURI) {
 
 exports.lightbox = lightbox;
 exports.dataURItoBlob = dataURItoBlob;
+//# sourceMappingURL=ImageUtils.js.map

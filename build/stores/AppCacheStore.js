@@ -80,3 +80,4 @@ AppCacheStoreInstance.dispatchToken = _ActorAppDispatcher2.default.register(func
 });
 
 exports.default = AppCacheStoreInstance;
+//# sourceMappingURL=AppCacheStore.js.map

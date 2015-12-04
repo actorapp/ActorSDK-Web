@@ -79,3 +79,4 @@ Text.propTypes = {
   className: _react2.default.PropTypes.string
 };
 exports.default = Text;
+//# sourceMappingURL=Text.react.js.map

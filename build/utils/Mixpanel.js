@@ -18,3 +18,4 @@ function initMixpanel(apiKey) {
    */
 
 exports.default = _mixpanel2.default;
+//# sourceMappingURL=Mixpanel.js.map

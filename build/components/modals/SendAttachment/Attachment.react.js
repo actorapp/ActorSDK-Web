@@ -173,3 +173,4 @@ Attachment.propTypes = {
 _reactMixin2.default.onClass(Attachment, _reactIntl.IntlMixin);
 
 exports.default = Attachment;
+//# sourceMappingURL=Attachment.react.js.map

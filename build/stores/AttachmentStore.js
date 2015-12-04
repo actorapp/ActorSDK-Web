@@ -130,3 +130,4 @@ var AttachmentStore = (function (_Store) {
 })(_utils.Store);
 
 exports.default = new AttachmentStore(_ActorAppDispatcher2.default);
+//# sourceMappingURL=AttachmentStore.js.map

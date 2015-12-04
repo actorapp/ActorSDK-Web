@@ -337,3 +337,4 @@ _reactMixin2.default.onClass(MessageItem, _reactIntl.IntlMixin);
 _reactMixin2.default.onClass(MessageItem, PureRenderMixin);
 
 exports.default = MessageItem;
+//# sourceMappingURL=MessageItem.react.js.map

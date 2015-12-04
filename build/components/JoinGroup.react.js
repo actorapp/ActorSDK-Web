@@ -54,3 +54,4 @@ JoinGroup.propTypes = {
   params: _react.PropTypes.object
 };
 exports.default = (0, _requireAuth2.default)(JoinGroup);
+//# sourceMappingURL=JoinGroup.react.js.map

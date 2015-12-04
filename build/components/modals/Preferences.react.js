@@ -497,3 +497,4 @@ PreferencesModal.getStores = function () {
 _reactMixin2.default.onClass(PreferencesModal, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(PreferencesModal);
+//# sourceMappingURL=Preferences.react.js.map

@@ -13,3 +13,4 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = _Modal2.default; /*
                                     * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                     */
+//# sourceMappingURL=index.js.map

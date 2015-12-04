@@ -126,3 +126,4 @@ CreateGroup.getStores = function () {
 _reactMixin2.default.onClass(CreateGroup, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(CreateGroup);
+//# sourceMappingURL=CreateGroup.react.js.map

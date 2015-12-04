@@ -393,3 +393,4 @@ _reactMixin2.default.onClass(ComposeSection, _reactIntl.IntlMixin);
 _reactMixin2.default.onClass(ComposeSection, PureRenderMixin);
 
 exports.default = ComposeSection;
+//# sourceMappingURL=ComposeSection.react.js.map

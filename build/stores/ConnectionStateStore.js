@@ -89,3 +89,4 @@ ConnectionStateStoreInstance.dispatchToken = _ActorAppDispatcher2.default.regist
 });
 
 exports.default = ConnectionStateStoreInstance;
+//# sourceMappingURL=ConnectionStateStore.js.map

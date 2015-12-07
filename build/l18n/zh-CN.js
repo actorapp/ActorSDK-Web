@@ -81,9 +81,6 @@ exports.default = {
       }
     },
 
-    // Toolbar
-    'search': '搜索',
-
     // Compose
     'compose': {
       'attach': 'Attachment',

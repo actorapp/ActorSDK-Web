@@ -18,6 +18,10 @@ var _RecentSection = require('./sidebar/RecentSection.react');
 
 var _RecentSection2 = _interopRequireDefault(_RecentSection);
 
+var _QuickSearchButton = require('./sidebar/QuickSearchButton.react');
+
+var _QuickSearchButton2 = _interopRequireDefault(_QuickSearchButton);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41,12 +45,16 @@ var SidebarSection = (function (_Component) {
     key: 'render',
     value: function render() {
       var selectedPeer = this.props.selectedPeer;
+      var delegate = this.context.delegate;
+
+      var RecentSection = delegate.components.recent || _RecentSection2.default;
 
       return _react2.default.createElement(
         'aside',
         { className: 'sidebar' },
         _react2.default.createElement(_HeaderSection2.default, null),
-        _react2.default.createElement(_RecentSection2.default, { selectedPeer: selectedPeer })
+        _react2.default.createElement(RecentSection, { selectedPeer: selectedPeer }),
+        _react2.default.createElement(_QuickSearchButton2.default, null)
       );
     }
   }]);
@@ -54,6 +62,9 @@ var SidebarSection = (function (_Component) {
   return SidebarSection;
 })(_react.Component);
 
+SidebarSection.contextTypes = {
+  delegate: _react.PropTypes.object
+};
 SidebarSection.propTypes = {
   selectedPeer: _react.PropTypes.object.isRequired
 };

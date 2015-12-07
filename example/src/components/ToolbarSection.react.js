@@ -4,12 +4,14 @@
 
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import { escapeWithEmoji } from '../utils/EmojiUtils';
+import { escapeWithEmoji } from 'actor-sdk/build/utils/EmojiUtils';
 
-import ActivityActionCreators from '../actions/ActivityActionCreators';
+import ActivityActionCreators from 'actor-sdk/build/actions/ActivityActionCreators';
 
-import DialogStore from '../stores/DialogStore';
-import ActivityStore from '../stores/ActivityStore';
+import DialogStore from 'actor-sdk/build/stores/DialogStore';
+import ActivityStore from 'actor-sdk/build/stores/ActivityStore';
+
+import AvatarItem from 'actor-sdk/build/components/common/AvatarItem.react';
 
 const getStateFromStores = () => {
   return {
@@ -37,10 +39,10 @@ class ToolbarSection extends Component {
   }
 
   onClick = () => {
-    if (!this.state.isActivityOpen) {
-      ActivityActionCreators.show();
-    } else {
+    if (this.state.isActivityOpen) {
       ActivityActionCreators.hide();
+    } else {
+      ActivityActionCreators.show();
     }
   };
 
@@ -56,8 +58,13 @@ class ToolbarSection extends Component {
     if (dialogInfo !== null) {
       return (
         <header className="toolbar row">
+          <AvatarItem image={dialogInfo.avatar}
+                      placeholder={dialogInfo.placeholder}
+                      title={dialogInfo.name}/>
+
           <div className="toolbar__peer col-xs">
-            <span className="toolbar__peer__title" dangerouslySetInnerHTML={{__html: escapeWithEmoji(dialogInfo.name)}}/>
+            <span className="toolbar__peer__title"
+                  dangerouslySetInnerHTML={{__html: escapeWithEmoji(dialogInfo.name)}}/>
             <span className="toolbar__peer__presence">{dialogInfo.presence}</span>
           </div>
 
@@ -65,9 +72,6 @@ class ToolbarSection extends Component {
             <div className="toolbar__controls__buttons pull-right">
               <button className={infoButtonClassName} onClick={this.onClick}>
                 <i className="material-icons">info</i>
-              </button>
-              <button className="button button--icon hide">
-                <i className="material-icons">more_vert</i>
               </button>
             </div>
           </div>

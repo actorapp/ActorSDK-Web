@@ -81,9 +81,6 @@ exports.default = {
       }
     },
 
-    // Toolbar
-    'search': 'Search',
-
     // Compose
     'compose': {
       'attach': 'Attachment',

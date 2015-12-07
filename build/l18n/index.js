@@ -3,7 +3,12 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.intlData = undefined;
+exports.extendL18n = extendL18n;
+exports.getIntlData = getIntlData;
+
+var _DelegateContainer = require('../utils/DelegateContainer');
+
+var _DelegateContainer2 = _interopRequireDefault(_DelegateContainer);
 
 var _ruRU = require('./ru-RU');
 
@@ -27,9 +32,11 @@ var _zhCN2 = _interopRequireDefault(_zhCN);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var language = navigator.language.toLocaleLowerCase() || navigator.browserLanguage.toLocaleLowerCase(); /*
-                                                                                                         * Copyright (C) 2015 Actor LLC. <https://actor.im>
-                                                                                                         */
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
+var language = navigator.language.toLocaleLowerCase() || navigator.browserLanguage.toLocaleLowerCase();
 
 if (language === 'zh-cn') {
   language = 'zh';
@@ -64,7 +71,18 @@ var languageData = {
   'zh': _zhCN2.default
 };
 
-var intlData = exports.intlData = languageData[language] || languageData[language.split('-')[0]] || languageData['en'];
+// Extend language data from delegate
+function extendL18n() {
+  var delegate = _DelegateContainer2.default.get();
 
-exports.default = { intlData: intlData };
+  _enUS2.default.messages = delegate.l18n.english ? Object.assign(_enUS2.default.messages, delegate.l18n.english.messages) : _enUS2.default.messages;
+  _ruRU2.default.messages = delegate.l18n.russian ? Object.assign(_ruRU2.default.messages, delegate.l18n.russian.messages) : _ruRU2.default.messages;
+  _esES2.default.messages = delegate.l18n.spanish ? Object.assign(_esES2.default.messages, delegate.l18n.spanish.messages) : _esES2.default.messages;
+  _ptBR2.default.messages = delegate.l18n.portuguese ? Object.assign(_ptBR2.default.messages, delegate.l18n.portuguese.messages) : _ptBR2.default.messages;
+  _zhCN2.default.messages = delegate.l18n.chinese ? Object.assign(_zhCN2.default.messages, delegate.l18n.chinese.messages) : _zhCN2.default.messages;
+}
+
+function getIntlData() {
+  return languageData[language] || languageData[language.split('-')[0]] || languageData['en'];
+}
 //# sourceMappingURL=index.js.map

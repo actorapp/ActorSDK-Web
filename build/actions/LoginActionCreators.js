@@ -16,6 +16,10 @@ var _RouterContainer = require('../utils/RouterContainer');
 
 var _RouterContainer2 = _interopRequireDefault(_RouterContainer);
 
+var _DelegateContainer = require('../utils/DelegateContainer');
+
+var _DelegateContainer2 = _interopRequireDefault(_DelegateContainer);
+
 var _MyProfileActionCreators = require('./MyProfileActionCreators');
 
 var _MyProfileActionCreators2 = _interopRequireDefault(_MyProfileActionCreators);
@@ -37,6 +41,10 @@ var _FaviconActionCreators = require('./FaviconActionCreators');
 var _FaviconActionCreators2 = _interopRequireDefault(_FaviconActionCreators);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
 
 var LoginActionCreators = {
   changeLogin: function changeLogin(login) {
@@ -102,47 +110,52 @@ var LoginActionCreators = {
     signUpPromise().then(setLoggedIn);
   },
 
-  setLoggedIn: function setLoggedIn(opts) {
-    opts = opts || {};
+  setLoggedIn: function setLoggedIn() {
+    var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
-    if (opts.redirect) {
-      var router = _RouterContainer2.default.get();
-      var nextPath = router.getCurrentQuery().nextPath;
+    var delegate = _DelegateContainer2.default.get();
 
-      if (nextPath) {
-        router.replaceWith(nextPath);
-      } else {
-        router.replaceWith('/');
+    if (delegate.actions.setLoggedIn) {
+      delegate.actions.setLoggedIn(opts);
+    } else {
+      if (opts.redirect) {
+        var router = _RouterContainer2.default.get();
+        var nextPath = router.getCurrentQuery().nextPath;
+
+        if (nextPath) {
+          router.replaceWith(nextPath);
+        } else {
+          router.replaceWith('/');
+        }
       }
+
+      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_IN);
+      _ActorClient2.default.bindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged);
+      _ActorClient2.default.bindDialogs(_DialogActionCreators2.default.setDialogs);
+      _ActorClient2.default.bindContacts(_ContactActionCreators2.default.setContacts);
+      _ActorClient2.default.bindSearch(_QuickSearchActionCreators2.default.setQuickSearchList);
+      _ActorClient2.default.bindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon);
     }
-
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_IN);
-
-    _ActorClient2.default.bindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged);
-
-    _ActorClient2.default.bindDialogs(_DialogActionCreators2.default.setDialogs);
-
-    _ActorClient2.default.bindContacts(_ContactActionCreators2.default.setContacts);
-    _ActorClient2.default.bindSearch(_QuickSearchActionCreators2.default.setQuickSearchList);
-    _ActorClient2.default.bindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon);
   },
   setLoggedOut: function setLoggedOut() {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_OUT);
-    _ActorClient2.default.unbindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged);
+    var delegate = _DelegateContainer2.default.get();
 
-    _ActorClient2.default.unbindDialogs(_DialogActionCreators2.default.setDialogs);
-
-    _ActorClient2.default.unbindContacts(_ContactActionCreators2.default.setContacts);
-    _ActorClient2.default.unbindSearch(_QuickSearchActionCreators2.default.setQuickSearchList);
-    _ActorClient2.default.unbindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon);
+    if (delegate.actions.setLoggedOut) {
+      delegate.actions.setLoggedOut();
+    } else {
+      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_OUT);
+      _ActorClient2.default.unbindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged);
+      _ActorClient2.default.unbindDialogs(_DialogActionCreators2.default.setDialogs);
+      _ActorClient2.default.unbindContacts(_ContactActionCreators2.default.setContacts);
+      _ActorClient2.default.unbindSearch(_QuickSearchActionCreators2.default.setQuickSearchList);
+      _ActorClient2.default.unbindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon);
+    }
   },
 
   restartAuth: function restartAuth() {
     return (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_RESTART);
   }
-}; /*
-    * Copyright (C) 2015 Actor LLC. <https://actor.im>
-    */
+};
 
 exports.default = LoginActionCreators;
 //# sourceMappingURL=LoginActionCreators.js.map

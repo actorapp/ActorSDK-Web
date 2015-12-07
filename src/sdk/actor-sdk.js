@@ -3,13 +3,13 @@
  */
 
 import 'babel-polyfill';
-import { intlData } from '../l18n';
 import RouterContainer from '../utils/RouterContainer';
+import DelegateContainer from '../utils/DelegateContainer';
 import SDKDelegate from './actor-sdk-delegate';
 import { endpoints, bugsnagApiKey, mixpanelAPIKey } from '../constants/ActorAppConstants'
 import Pace from 'pace';
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import Router from 'react-router';
 import ReactMixin from 'react-mixin';
 import Actor from 'actor-js';
@@ -29,6 +29,7 @@ import Install from '../components/Install.react.js';
 
 import { initBugsnag } from '../utils/Bugsnag';
 import { initMixpanel } from '../utils/Mixpanel';
+import { extendL18n, getIntlData } from '../l18n';
 
 const { DefaultRoute, Route, RouteHandler } = Router;
 
@@ -44,6 +45,24 @@ window.jsAppLoaded = () => {
 };
 
 class App extends Component {
+  static childContextTypes =  {
+    delegate: PropTypes.object
+  };
+
+  static propTypes =  {
+    delegate: PropTypes.object
+  };
+
+  getChildContext() {
+    return {
+      delegate: this.props.delegate
+    };
+  }
+
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return <RouteHandler/>;
   }
@@ -56,12 +75,18 @@ class ActorSDK {
     options = options || {};
 
     this.endpoints = (options.endpoints && options.endpoints.length > 0) ? options.endpoints : endpoints;
-    this.delegate = options.delegate ? options.delegate : new SDKDelegate();
     this.bugsnagApiKey = options.bugsnagApiKey ? options.bugsnagApiKey : bugsnagApiKey;
     this.mixpanelAPIKey = options.mixpanelAPIKey ? options.mixpanelAPIKey : mixpanelAPIKey;
 
+    this.delegate = options.delegate ? options.delegate : new SDKDelegate();
+    DelegateContainer.set(this.delegate);
+
     initBugsnag(this.bugsnagApiKey);
     initMixpanel(this.mixpanelAPIKey);
+
+    if (this.delegate.l18n) {
+      extendL18n();
+    }
   }
 
   _starter() {
@@ -85,7 +110,8 @@ class ActorSDK {
       window.messenger = Actor.create(this.endpoints);
     }
 
-    const loginComponent = this.delegate.loginComponent || Login;
+    const loginComponent = this.delegate.components.login || Login;
+    const intlData = getIntlData();
 
     const routes = (
       <Route handler={App} name="app" path="/">
@@ -104,11 +130,11 @@ class ActorSDK {
 
     RouterContainer.set(router);
 
-    router.run((Root) => React.render(<Root {...intlData}/>, appRootElemet));
+    router.run((Root) => React.render(<Root {...intlData} delegate={this.delegate}/>, appRootElemet));
 
     if (window.location.hash !== '#/deactivated') {
       if (LoginStore.isLoggedIn()) {
-        LoginActionCreators.setLoggedIn(router, {redirect: false});
+        LoginActionCreators.setLoggedIn({redirect: false});
       }
     }
   };

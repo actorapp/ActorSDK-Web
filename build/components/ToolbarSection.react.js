@@ -10,12 +10,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
-
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -117,16 +111,6 @@ var ToolbarSection = (function (_Component) {
             { className: 'toolbar__controls' },
             _react2.default.createElement(
               'div',
-              { className: 'toolbar__controls__search pull-left hide' },
-              _react2.default.createElement(
-                'i',
-                { className: 'material-icons' },
-                'search'
-              ),
-              _react2.default.createElement('input', { className: 'input input--search', placeholder: this.getIntlMessage('search'), type: 'search' })
-            ),
-            _react2.default.createElement(
-              'div',
               { className: 'toolbar__controls__buttons pull-right' },
               _react2.default.createElement(
                 'button',
@@ -157,8 +141,6 @@ var ToolbarSection = (function (_Component) {
 
   return ToolbarSection;
 })(_react.Component);
-
-_reactMixin2.default.onClass(ToolbarSection, _reactIntl.IntlMixin);
 
 exports.default = ToolbarSection;
 //# sourceMappingURL=ToolbarSection.react.js.map

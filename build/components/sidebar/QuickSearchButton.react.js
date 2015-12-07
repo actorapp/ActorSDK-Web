@@ -6,23 +6,29 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _lodash = require('lodash');
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _DialogActionCreators = require('../../actions/DialogActionCreators');
+var _utils = require('flux/utils');
 
-var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
+var _reactMixin = require('react-mixin');
 
-var _DialogStore = require('../../stores/DialogStore');
+var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
-var _DialogStore2 = _interopRequireDefault(_DialogStore);
+var _reactIntl = require('react-intl');
 
-var _RecentSectionItem = require('./RecentSectionItem.react');
+var _QuickSearchActionCreators = require('../../actions/QuickSearchActionCreators');
 
-var _RecentSectionItem2 = _interopRequireDefault(_RecentSectionItem);
+var _QuickSearchActionCreators2 = _interopRequireDefault(_QuickSearchActionCreators);
+
+var _QuickSearchStore = require('../../stores/QuickSearchStore');
+
+var _QuickSearchStore2 = _interopRequireDefault(_QuickSearchStore);
+
+var _QuickSearch = require('../modals/QuickSearch.react');
+
+var _QuickSearch2 = _interopRequireDefault(_QuickSearch);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -34,75 +40,63 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var LoadDialogsScrollBottom = 100;
+var QuickSearchButton = (function (_Component) {
+  _inherits(QuickSearchButton, _Component);
 
-var getStateFromStore = function getStateFromStore() {
-  return {
-    dialogs: _DialogStore2.default.getAll()
-  };
-};
+  function QuickSearchButton(props) {
+    _classCallCheck(this, QuickSearchButton);
 
-var RecentSection = (function (_Component) {
-  _inherits(RecentSection, _Component);
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(QuickSearchButton).call(this, props));
 
-  function RecentSection(props) {
-    _classCallCheck(this, RecentSection);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RecentSection).call(this, props));
-
-    _this.onChange = function () {
-      return _this.setState(getStateFromStore());
+    _this.openQuickSearch = function () {
+      return _QuickSearchActionCreators2.default.show();
     };
 
-    _this.onScroll = function (event) {
-      var _event$target = event.target;
-      var scrollHeight = _event$target.scrollHeight;
-      var scrollTop = _event$target.scrollTop;
-      var clientHeight = _event$target.clientHeight;
-
-      if (scrollHeight - scrollTop - clientHeight <= LoadDialogsScrollBottom) {
-        _DialogActionCreators2.default.onDialogsEnd();
-      }
-    };
-
-    _this.state = getStateFromStore();
-
-    _DialogStore2.default.addChangeListener(_this.onChange);
     return _this;
   }
 
-  _createClass(RecentSection, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _DialogStore2.default.removeChangeListener(this.onChange);
-    }
-  }, {
+  _createClass(QuickSearchButton, [{
     key: 'render',
     value: function render() {
-      var dialogs = this.state.dialogs;
-
-      var dialogList = (0, _lodash.map)(dialogs, function (dialog, index) {
-        return _react2.default.createElement(_RecentSectionItem2.default, { dialog: dialog, key: index });
-      });
+      var isQuickSearchOpen = this.state.isQuickSearchOpen;
 
       return _react2.default.createElement(
-        'section',
-        { className: 'sidebar__recent' },
+        'footer',
+        { className: 'sidebar__quick-search' },
         _react2.default.createElement(
-          'div',
-          { className: 'sidebar__recent__scroll-container', onScroll: this.onScroll },
+          'a',
+          { onClick: this.openQuickSearch },
           _react2.default.createElement(
-            'ul',
-            { className: 'sidebar__list' },
-            dialogList
-          )
-        )
+            'div',
+            { className: 'icon-holder' },
+            _react2.default.createElement(
+              'i',
+              { className: 'material-icons' },
+              'search'
+            )
+          ),
+          this.getIntlMessage('button.quickSearch')
+        ),
+        isQuickSearchOpen ? _react2.default.createElement(_QuickSearch2.default, null) : null
       );
+    }
+  }], [{
+    key: 'calculateState',
+    value: function calculateState() {
+      return {
+        isQuickSearchOpen: _QuickSearchStore2.default.isOpen()
+      };
     }
   }]);
 
-  return RecentSection;
+  return QuickSearchButton;
 })(_react.Component);
 
-exports.default = RecentSection;
-//# sourceMappingURL=RecentSection.react.js.map
+QuickSearchButton.getStores = function () {
+  return [_QuickSearchStore2.default];
+};
+
+_reactMixin2.default.onClass(QuickSearchButton, _reactIntl.IntlMixin);
+
+exports.default = _utils.Container.create(QuickSearchButton, { pure: false });
+//# sourceMappingURL=QuickSearchButton.react.js.map

@@ -10,6 +10,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _lodash = require('lodash');
+
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
 var _PeerUtils = require('../utils/PeerUtils');
@@ -98,8 +100,8 @@ var getStateFromStores = function getStateFromStores() {
   };
 };
 
-var DialogSection = (function (_React$Component) {
-  _inherits(DialogSection, _React$Component);
+var DialogSection = (function (_Component) {
+  _inherits(DialogSection, _Component);
 
   function DialogSection(props) {
     _classCallCheck(this, DialogSection);
@@ -121,6 +123,7 @@ var DialogSection = (function (_React$Component) {
       lastScrolledFromBottom = 0;
       renderMessagesCount = initialRenderMessagesCount;
 
+      // TODO: Move this to actions
       if (lastPeer != null) {
         _DialogActionCreators2.default.onConversationClosed(lastPeer);
       }
@@ -129,10 +132,10 @@ var DialogSection = (function (_React$Component) {
       _DialogActionCreators2.default.onConversationOpen(lastPeer);
     };
 
-    _this.onMessagesChange = _.debounce(function () {
+    _this.onMessagesChange = (0, _lodash.debounce)(function () {
       _this.setState(getStateFromStores());
     }, 10, { maxWait: 50, leading: true });
-    _this.loadMessagesByScroll = _.debounce(function () {
+    _this.loadMessagesByScroll = (0, _lodash.debounce)(function () {
       if (_this.state.peer) {
         var node = _react2.default.findDOMNode(_this.refs.MessagesSection);
         var scrollTop = node.scrollTop;
@@ -156,7 +159,7 @@ var DialogSection = (function (_React$Component) {
 
     _this.state = getStateFromStores();
 
-    _ActivityStore2.default.addChangeListener(_this.fixScrollTimeout.bind(_this));
+    _ActivityStore2.default.addChangeListener(_this.fixScrollTimeout);
     _DialogStore2.default.addSelectListener(_this.onSelectedDialogChange);
     _MessageStore2.default.addChangeListener(_this.onMessagesChange);
     return _this;
@@ -190,8 +193,19 @@ var DialogSection = (function (_React$Component) {
     key: 'render',
     value: function render() {
       var peer = this.state.peer;
+      var delegate = this.context.delegate;
 
-      var mainContent = undefined;
+      var ToolbarSection = delegate.components.toolbar || _ToolbarSection2.default;
+
+      var mainContent = undefined,
+          activity = [];
+
+      if (delegate.components.activity) {
+        (0, _lodash.forEach)(delegate.components.activity, function (Activity) {
+          return activity.push(_react2.default.createElement(Activity, null));
+        });
+      }
+      activity.push(_react2.default.createElement(_ActivitySection2.default, null));
 
       if (peer) {
         var isMember = true,
@@ -260,19 +274,22 @@ var DialogSection = (function (_React$Component) {
       return _react2.default.createElement(
         'section',
         { className: 'main' },
-        _react2.default.createElement(_ToolbarSection2.default, null),
+        _react2.default.createElement(ToolbarSection, null),
         _react2.default.createElement(
           'div',
           { className: 'flexrow' },
           mainContent,
-          _react2.default.createElement(_ActivitySection2.default, null)
+          activity
         )
       );
     }
   }]);
 
   return DialogSection;
-})(_react2.default.Component);
+})(_react.Component);
 
+DialogSection.contextTypes = {
+  delegate: _react.PropTypes.object
+};
 exports.default = DialogSection;
 //# sourceMappingURL=DialogSection.react.js.map

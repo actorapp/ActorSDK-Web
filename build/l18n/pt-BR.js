@@ -81,9 +81,6 @@ exports.default = {
       }
     },
 
-    // Toolbar
-    'search': 'Busca',
-
     // Compose
     'compose': {
       'attach': 'Attachment',

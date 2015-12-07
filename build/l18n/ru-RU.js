@@ -82,9 +82,6 @@ exports.default = {
 
     },
 
-    // Toolbar
-    'search': 'Поиск',
-
     // Compose
     'compose': {
       'attach': 'Прикрепить',

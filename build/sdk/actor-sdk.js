@@ -1,5 +1,7 @@
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 Object.defineProperty(exports, "__esModule", {
@@ -8,11 +10,13 @@ Object.defineProperty(exports, "__esModule", {
 
 require('babel-polyfill');
 
-var _l18n = require('../l18n');
-
 var _RouterContainer = require('../utils/RouterContainer');
 
 var _RouterContainer2 = _interopRequireDefault(_RouterContainer);
+
+var _DelegateContainer = require('../utils/DelegateContainer');
+
+var _DelegateContainer2 = _interopRequireDefault(_DelegateContainer);
 
 var _actorSdkDelegate = require('./actor-sdk-delegate');
 
@@ -78,6 +82,8 @@ var _Bugsnag = require('../utils/Bugsnag');
 
 var _Mixpanel = require('../utils/Mixpanel');
 
+var _l18n = require('../l18n');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -106,10 +112,19 @@ window.jsAppLoaded = function () {
 var App = (function (_Component) {
   _inherits(App, _Component);
 
-  function App() {
+  _createClass(App, [{
+    key: 'getChildContext',
+    value: function getChildContext() {
+      return {
+        delegate: this.props.delegate
+      };
+    }
+  }]);
+
+  function App(props) {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(App).apply(this, arguments));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
   }
 
   _createClass(App, [{
@@ -122,6 +137,13 @@ var App = (function (_Component) {
   return App;
 })(_react.Component);
 
+App.childContextTypes = {
+  delegate: _react.PropTypes.object
+};
+App.propTypes = {
+  delegate: _react.PropTypes.object
+};
+
 _reactMixin2.default.onClass(App, _reactIntl.IntlMixin);
 
 var ActorSDK = (function () {
@@ -131,17 +153,25 @@ var ActorSDK = (function () {
     options = options || {};
 
     this.endpoints = options.endpoints && options.endpoints.length > 0 ? options.endpoints : _ActorAppConstants.endpoints;
-    this.delegate = options.delegate ? options.delegate : new _actorSdkDelegate2.default();
     this.bugsnagApiKey = options.bugsnagApiKey ? options.bugsnagApiKey : _ActorAppConstants.bugsnagApiKey;
     this.mixpanelAPIKey = options.mixpanelAPIKey ? options.mixpanelAPIKey : _ActorAppConstants.mixpanelAPIKey;
 
+    this.delegate = options.delegate ? options.delegate : new _actorSdkDelegate2.default();
+    _DelegateContainer2.default.set(this.delegate);
+
     (0, _Bugsnag.initBugsnag)(this.bugsnagApiKey);
     (0, _Mixpanel.initMixpanel)(this.mixpanelAPIKey);
+
+    if (this.delegate.l18n) {
+      (0, _l18n.extendL18n)();
+    }
   }
 
   _createClass(ActorSDK, [{
     key: '_starter',
     value: function _starter() {
+      var _this2 = this;
+
       var ActorInitEvent = 'concurrentActorInit';
 
       if (_crosstab2.default.supported) {
@@ -161,7 +191,8 @@ var ActorSDK = (function () {
         window.messenger = _actorJs2.default.create(this.endpoints);
       }
 
-      var loginComponent = this.delegate.loginComponent || _LoginReact2.default;
+      var loginComponent = this.delegate.components.login || _LoginReact2.default;
+      var intlData = (0, _l18n.getIntlData)();
 
       var routes = _react2.default.createElement(
         Route,
@@ -179,12 +210,12 @@ var ActorSDK = (function () {
       _RouterContainer2.default.set(router);
 
       router.run(function (Root) {
-        return _react2.default.render(_react2.default.createElement(Root, _l18n.intlData), appRootElemet);
+        return _react2.default.render(_react2.default.createElement(Root, _extends({}, intlData, { delegate: _this2.delegate })), appRootElemet);
       });
 
       if (window.location.hash !== '#/deactivated') {
         if (_LoginStore2.default.isLoggedIn()) {
-          _LoginActionCreators2.default.setLoggedIn(router, { redirect: false });
+          _LoginActionCreators2.default.setLoggedIn({ redirect: false });
         }
       }
     }

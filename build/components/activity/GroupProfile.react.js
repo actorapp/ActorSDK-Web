@@ -111,8 +111,8 @@ var getStateFromStores = function getStateFromStores(groupId) {
 
 var _prevGroupId = undefined;
 
-var GroupProfile = (function (_React$Component) {
-  _inherits(GroupProfile, _React$Component);
+var GroupProfile = (function (_Component) {
+  _inherits(GroupProfile, _Component);
 
   function GroupProfile(props) {
     _classCallCheck(this, GroupProfile);
@@ -502,10 +502,10 @@ var GroupProfile = (function (_React$Component) {
   }]);
 
   return GroupProfile;
-})(_react2.default.Component);
+})(_react.Component);
 
 GroupProfile.propTypes = {
-  group: _react2.default.PropTypes.object.isRequired
+  group: _react.PropTypes.object.isRequired
 };
 
 _reactMixin2.default.onClass(GroupProfile, _reactIntl.IntlMixin);

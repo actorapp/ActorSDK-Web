@@ -165,7 +165,6 @@ var EditGroup = (function (_Component) {
           disabledTextColor: 'rgba(0,0,0,.4)'
         }
       });
-      this.setListeners();
     }
   }, {
     key: 'componentWillUnmount',
@@ -176,11 +175,9 @@ var EditGroup = (function (_Component) {
     key: 'componentWillUpdate',
     value: function componentWillUpdate(nextProps, nextState) {
       if (nextState.isOpen) {
-        if (nextState.isCropModalOpen) {
-          this.removeListeners();
-        } else {
-          this.setListeners();
-        }
+        nextState.isCropModalOpen ? this.removeListeners() : this.setListeners();
+      } else {
+        nextState.isCropModalOpen ? this.setListeners() : this.removeListeners();
       }
     }
   }, {

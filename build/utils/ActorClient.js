@@ -312,7 +312,19 @@ exports.default = {
     window.messenger.bindSearch(callback);
   },
   unbindSearch: function unbindSearch(callback) {
-    window.messenger.bindSearch(callback);
+    window.messenger.unbindSearch(callback);
+  },
+  findAllText: function findAllText(peer, query) {
+    return window.messenger.findAllText(peer, query);
+  },
+  findAllDocs: function findAllDocs(peer) {
+    return window.messenger.findAllDocs(peer);
+  },
+  findAllLinks: function findAllLinks(peer) {
+    return window.messenger.findAllLinks(peer);
+  },
+  findAllPhotos: function findAllPhotos(peer) {
+    return window.messenger.findAllPhotos(peer);
   }
 };
 //# sourceMappingURL=ActorClient.js.map

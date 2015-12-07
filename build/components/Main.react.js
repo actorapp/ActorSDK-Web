@@ -147,10 +147,10 @@ var Main = (function (_Component) {
 })(_react.Component);
 
 Main.contextTypes = {
-  router: _react2.default.PropTypes.func
+  router: _react.PropTypes.func
 };
 Main.propTypes = {
-  params: _react2.default.PropTypes.object
+  params: _react.PropTypes.object
 };
 exports.default = (0, _requireAuth2.default)(Main);
 //# sourceMappingURL=Main.react.js.map

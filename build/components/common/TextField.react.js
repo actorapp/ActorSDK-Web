@@ -100,7 +100,7 @@ var TextField = (function (_Component) {
         { className: inputClassName },
         floatingLabel ? _react2.default.createElement(
           'label',
-          { htmlFor: inputId },
+          { htmlFor: inputId, onMouseDown: this.focus },
           floatingLabel
         ) : null,
         _react2.default.createElement('input', inputProps)

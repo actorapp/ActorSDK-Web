@@ -343,7 +343,7 @@ var Login = (function (_Component) {
             _react2.default.createElement(
               'a',
               { href: 'https://corp.actor.im' },
-              'Enterprise user?'
+              this.getIntlMessage('login.enterpriseUser')
             )
           )
         )

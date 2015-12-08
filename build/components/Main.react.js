@@ -129,15 +129,19 @@ var Main = (function (_Component) {
     key: 'render',
     value: function render() {
       var params = this.props.params;
+      var delegate = this.context.delegate;
 
       var peer = _PeerUtils2.default.stringToPeer(params.id);
+
+      var SidebarSection = typeof delegate.components.sidebar == 'function' ? delegate.components.sidebar : _SidebarSection2.default;
+      var DialogSection = typeof delegate.components.dialog == 'function' ? delegate.components.dialog : _DialogSection2.default;
 
       return _react2.default.createElement(
         'div',
         { className: 'app' },
         _react2.default.createElement(_Favicon2.default, null),
-        _react2.default.createElement(_SidebarSection2.default, { selectedPeer: peer }),
-        _react2.default.createElement(_DialogSection2.default, { peer: peer }),
+        _react2.default.createElement(SidebarSection, { selectedPeer: peer }),
+        _react2.default.createElement(DialogSection, { peer: peer }),
         _react2.default.createElement(_ModalsWrapper2.default, null)
       );
     }
@@ -147,7 +151,8 @@ var Main = (function (_Component) {
 })(_react.Component);
 
 Main.contextTypes = {
-  router: _react.PropTypes.func
+  router: _react.PropTypes.func,
+  delegate: _react.PropTypes.object
 };
 Main.propTypes = {
   params: _react.PropTypes.object

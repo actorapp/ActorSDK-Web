@@ -28,9 +28,12 @@ function ActorSDKDelegate() {
 
   this.components = {
     login: components.login || null,
-    recent: components.recent || null,
-    toolbar: components.toolbar || null,
-    activity: components.activity || null
+    install: components.install || null,
+    deactivated: components.deactivated || null,
+    joinGroup: components.joinGroup || null,
+
+    sidebar: components.sidebar || null,
+    dialog: components.dialog || null
   };
 
   this.actions = {

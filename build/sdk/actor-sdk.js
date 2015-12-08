@@ -60,25 +60,25 @@ var _LoginStore = require('../stores/LoginStore');
 
 var _LoginStore2 = _interopRequireDefault(_LoginStore);
 
-var _DeactivatedReact = require('../components/Deactivated.react.js');
+var _Deactivated = require('../components/Deactivated.react');
 
-var _DeactivatedReact2 = _interopRequireDefault(_DeactivatedReact);
+var _Deactivated2 = _interopRequireDefault(_Deactivated);
 
-var _LoginReact = require('../components/Login.react.js');
+var _Login = require('../components/Login.react');
 
-var _LoginReact2 = _interopRequireDefault(_LoginReact);
+var _Login2 = _interopRequireDefault(_Login);
 
-var _MainReact = require('../components/Main.react.js');
+var _Main = require('../components/Main.react');
 
-var _MainReact2 = _interopRequireDefault(_MainReact);
+var _Main2 = _interopRequireDefault(_Main);
 
-var _JoinGroupReact = require('../components/JoinGroup.react.js');
+var _JoinGroup = require('../components/JoinGroup.react');
 
-var _JoinGroupReact2 = _interopRequireDefault(_JoinGroupReact);
+var _JoinGroup2 = _interopRequireDefault(_JoinGroup);
 
-var _InstallReact = require('../components/Install.react.js');
+var _Install = require('../components/Install.react');
 
-var _InstallReact2 = _interopRequireDefault(_InstallReact);
+var _Install2 = _interopRequireDefault(_Install);
 
 var _Bugsnag = require('../utils/Bugsnag');
 
@@ -194,23 +194,28 @@ var ActorSDK = (function () {
       var appRootElemet = document.getElementById('actor-web-app');
 
       if (window.location.hash !== '#/deactivated') {
-        if (_crosstab2.default.supported) _crosstab2.default.broadcast(ActorInitEvent, {});
+        if (_crosstab2.default.supported) {
+          _crosstab2.default.broadcast(ActorInitEvent, {});
+        }
 
         window.messenger = _actorJs2.default.create(this.endpoints);
       }
 
-      var loginComponent = this.delegate.components.login || _LoginReact2.default;
+      var Login = this.delegate.components.login || _Login2.default;
+      var Deactivated = this.delegate.components.deactivated || _Deactivated2.default;
+      var Install = this.delegate.components.install || _Install2.default;
+      var JoinGroup = this.delegate.components.joinGroup || _JoinGroup2.default;
       var intlData = (0, _l18n.getIntlData)();
 
       var routes = _react2.default.createElement(
         Route,
         { handler: App, name: 'app', path: '/' },
-        _react2.default.createElement(Route, { handler: loginComponent, name: 'login', path: '/auth' }),
-        _react2.default.createElement(Route, { handler: _MainReact2.default, name: 'main', path: '/im/:id' }),
-        _react2.default.createElement(Route, { handler: _JoinGroupReact2.default, name: 'join', path: '/join/:token' }),
-        _react2.default.createElement(Route, { handler: _DeactivatedReact2.default, name: 'deactivated', path: '/deactivated' }),
-        _react2.default.createElement(Route, { handler: _InstallReact2.default, name: 'install', path: '/install' }),
-        _react2.default.createElement(DefaultRoute, { handler: _MainReact2.default })
+        _react2.default.createElement(Route, { handler: Login, name: 'login', path: '/auth' }),
+        _react2.default.createElement(Route, { handler: _Main2.default, name: 'main', path: '/im/:id' }),
+        _react2.default.createElement(Route, { handler: JoinGroup, name: 'join', path: '/join/:token' }),
+        _react2.default.createElement(Route, { handler: Deactivated, name: 'deactivated', path: '/deactivated' }),
+        _react2.default.createElement(Route, { handler: Install, name: 'install', path: '/install' }),
+        _react2.default.createElement(DefaultRoute, { handler: _Main2.default })
       );
 
       var router = _reactRouter2.default.create(routes, _reactRouter2.default.HashLocation);

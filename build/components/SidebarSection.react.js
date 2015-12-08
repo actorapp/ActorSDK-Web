@@ -47,14 +47,16 @@ var SidebarSection = (function (_Component) {
       var selectedPeer = this.props.selectedPeer;
       var delegate = this.context.delegate;
 
-      var RecentSection = delegate.components.recent || _RecentSection2.default;
+      var HeaderSection = delegate.components.sidebar.header || _HeaderSection2.default;
+      var RecentSection = delegate.components.sidebar.recent || _RecentSection2.default;
+      var FooterSection = delegate.components.sidebar.footer || _QuickSearchButton2.default;
 
       return _react2.default.createElement(
         'aside',
         { className: 'sidebar' },
-        _react2.default.createElement(_HeaderSection2.default, null),
+        _react2.default.createElement(HeaderSection, null),
         _react2.default.createElement(RecentSection, { selectedPeer: selectedPeer }),
-        _react2.default.createElement(_QuickSearchButton2.default, null)
+        _react2.default.createElement(FooterSection, null)
       );
     }
   }]);

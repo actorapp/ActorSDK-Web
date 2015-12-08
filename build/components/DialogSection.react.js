@@ -195,17 +195,20 @@ var DialogSection = (function (_Component) {
       var peer = this.state.peer;
       var delegate = this.context.delegate;
 
-      var ToolbarSection = delegate.components.toolbar || _ToolbarSection2.default;
-
       var mainContent = undefined,
           activity = [];
 
-      if (delegate.components.activity) {
-        (0, _lodash.forEach)(delegate.components.activity, function (Activity) {
+      var ToolbarSection = delegate.components.dialog.toolbar || _ToolbarSection2.default;
+      var TypingSection = delegate.components.dialog.typing || _TypingSection2.default;
+      var ComposeSection = delegate.components.dialog.compose || _ComposeSection2.default;
+
+      if (delegate.components.dialog.activity) {
+        (0, _lodash.forEach)(delegate.components.dialog.activity, function (Activity) {
           return activity.push(_react2.default.createElement(Activity, null));
         });
+      } else {
+        activity.push(_react2.default.createElement(_ActivitySection2.default, null));
       }
-      activity.push(_react2.default.createElement(_ActivitySection2.default, null));
 
       if (peer) {
         var isMember = true,
@@ -220,8 +223,8 @@ var DialogSection = (function (_Component) {
           memberArea = _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement(_TypingSection2.default, null),
-            _react2.default.createElement(_ComposeSection2.default, { peer: peer })
+            _react2.default.createElement(TypingSection, null),
+            _react2.default.createElement(ComposeSection, { peer: peer })
           );
         } else {
           memberArea = _react2.default.createElement(

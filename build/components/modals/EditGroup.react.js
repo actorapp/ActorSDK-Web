@@ -50,9 +50,9 @@ var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
-var _CropAvatarReact = require('./CropAvatar.react.js');
+var _CropAvatar = require('./CropAvatar.react');
 
-var _CropAvatarReact2 = _interopRequireDefault(_CropAvatarReact);
+var _CropAvatar2 = _interopRequireDefault(_CropAvatar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -190,7 +190,7 @@ var EditGroup = (function (_Component) {
       var title = _state.title;
       var about = _state.about;
 
-      var cropAvatar = isCropModalOpen ? _react2.default.createElement(_CropAvatarReact2.default, { onCropFinish: this.changeGroupAvatar }) : null;
+      var cropAvatar = isCropModalOpen ? _react2.default.createElement(_CropAvatar2.default, { onCropFinish: this.changeGroupAvatar }) : null;
 
       if (isOpen) {
         return _react2.default.createElement(

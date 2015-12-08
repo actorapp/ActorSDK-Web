@@ -36,9 +36,9 @@ var _ContactsSectionItem = require('./ContactsSectionItem.react');
 
 var _ContactsSectionItem2 = _interopRequireDefault(_ContactsSectionItem);
 
-var _AddContactReact = require('../modals/AddContact.react.js');
+var _AddContact = require('../modals/AddContact.react');
 
-var _AddContactReact2 = _interopRequireDefault(_AddContactReact);
+var _AddContact2 = _interopRequireDefault(_AddContact);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -110,7 +110,7 @@ var ContactsSection = (function (_Component) {
 
       var addContactModal = undefined;
       if (this.state.isAddContactModalOpen) {
-        addContactModal = _react2.default.createElement(_AddContactReact2.default, null);
+        addContactModal = _react2.default.createElement(_AddContact2.default, null);
       }
 
       return _react2.default.createElement(

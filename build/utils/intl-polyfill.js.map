@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/utils/intl-polyfill.js"],"names":[],"mappings":";;;AACA,IAAI,CAAC,MAAM,CAAC,IAAI,EAAE;AAChB,SAAO,CAAC,MAAM,CAAC,CAAC;AAChB,SAAO,CAAC,2BAA2B,CAAC,CAAC;CACtC","file":"intl-polyfill.js","sourcesContent":["// Intl polyfill\nif (!global.Intl) {\n  require('intl');\n  require('intl/locale-data/jsonp/en');\n}\n"]}

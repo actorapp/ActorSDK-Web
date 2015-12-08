@@ -10,7 +10,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
  */
 
-var ActorSDKDelegate = function ActorSDKDelegate() {
+/** Class representing a delegate for overriding default app behaviour. */
+
+var ActorSDKDelegate =
+/**
+ * @constructor
+ * @param {object} components - Object contains custom react components.
+ * @param {object} actions - Object contains custom actions.
+ * @param {object} l18n - Object contains custom translations.
+ */
+function ActorSDKDelegate() {
   var components = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
   var actions = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
   var l18n = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];

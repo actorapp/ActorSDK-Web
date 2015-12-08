@@ -10,6 +10,8 @@ Object.defineProperty(exports, "__esModule", {
 
 require('babel-polyfill');
 
+require('../utils/intl-polyfill');
+
 var _RouterContainer = require('../utils/RouterContainer');
 
 var _RouterContainer2 = _interopRequireDefault(_RouterContainer);
@@ -147,10 +149,16 @@ App.propTypes = {
 _reactMixin2.default.onClass(App, _reactIntl.IntlMixin);
 
 var ActorSDK = (function () {
-  function ActorSDK(options) {
-    _classCallCheck(this, ActorSDK);
+  /**
+   * @constructor
+   * @param {object} options - Object contains custom components, actions and localisation strings.
+   *
+   */
 
-    options = options || {};
+  function ActorSDK() {
+    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+    _classCallCheck(this, ActorSDK);
 
     this.endpoints = options.endpoints && options.endpoints.length > 0 ? options.endpoints : _ActorAppConstants.endpoints;
     this.bugsnagApiKey = options.bugsnagApiKey ? options.bugsnagApiKey : _ActorAppConstants.bugsnagApiKey;
@@ -221,6 +229,10 @@ var ActorSDK = (function () {
     }
   }, {
     key: 'startApp',
+
+    /**
+     * Start application
+     */
     value: function startApp() {
       if (window.isJsAppLoaded) {
         this._starter();

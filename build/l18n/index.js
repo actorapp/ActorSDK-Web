@@ -6,6 +6,10 @@ Object.defineProperty(exports, "__esModule", {
 exports.extendL18n = extendL18n;
 exports.getIntlData = getIntlData;
 
+var _assignDeep = require('assign-deep');
+
+var _assignDeep2 = _interopRequireDefault(_assignDeep);
+
 var _DelegateContainer = require('../utils/DelegateContainer');
 
 var _DelegateContainer2 = _interopRequireDefault(_DelegateContainer);
@@ -32,38 +36,24 @@ var _zhCN2 = _interopRequireDefault(_zhCN);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
-
-var language = navigator.language.toLocaleLowerCase() || navigator.browserLanguage.toLocaleLowerCase();
+var language = navigator.language.toLocaleLowerCase() || navigator.browserLanguage.toLocaleLowerCase(); /*
+                                                                                                         * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                         */
 
 if (language === 'zh-cn') {
   language = 'zh';
 }
 
-// Intl polyfill
-if (!global.Intl) {
-  var addLocaleData = function addLocaleData() {
-    var localeData = JSON.parse(this.response);
-    IntlPolyfill.__addLocaleData(localeData);
-  };
-
-  require('intl');
-
-  var request = new XMLHttpRequest();
-  var url = window.location.href;
-  var arr = url.split('/');
-  var query = language.split('-')[0] + '-' + language.split('-')[1].toUpperCase();
-  var localeDataPath = arr[0] + '//' + arr[2] + '/assets/locale-data/' + query + '.json';
-
-  request.addEventListener('load', addLocaleData);
-  request.open('GET', localeDataPath);
-  request.send();
-}
+// Fallback to default language
+var defaultLanguage = _enUS2.default;
+_ruRU2.default.messages = (0, _assignDeep2.default)({}, defaultLanguage.messages, _ruRU2.default.messages);
+_esES2.default.messages = (0, _assignDeep2.default)({}, defaultLanguage.messages, _esES2.default.messages);
+_ptBR2.default.messages = (0, _assignDeep2.default)({}, defaultLanguage.messages, _ptBR2.default.messages);
+_zhCN2.default.messages = (0, _assignDeep2.default)({}, defaultLanguage.messages, _zhCN2.default.messages);
 
 // Set language data
 var languageData = {
+  'default': defaultLanguage,
   'ru': _ruRU2.default,
   'en': _enUS2.default,
   'es': _esES2.default,
@@ -75,14 +65,14 @@ var languageData = {
 function extendL18n() {
   var delegate = _DelegateContainer2.default.get();
 
-  _enUS2.default.messages = delegate.l18n.english ? Object.assign(_enUS2.default.messages, delegate.l18n.english.messages) : _enUS2.default.messages;
-  _ruRU2.default.messages = delegate.l18n.russian ? Object.assign(_ruRU2.default.messages, delegate.l18n.russian.messages) : _ruRU2.default.messages;
-  _esES2.default.messages = delegate.l18n.spanish ? Object.assign(_esES2.default.messages, delegate.l18n.spanish.messages) : _esES2.default.messages;
-  _ptBR2.default.messages = delegate.l18n.portuguese ? Object.assign(_ptBR2.default.messages, delegate.l18n.portuguese.messages) : _ptBR2.default.messages;
-  _zhCN2.default.messages = delegate.l18n.chinese ? Object.assign(_zhCN2.default.messages, delegate.l18n.chinese.messages) : _zhCN2.default.messages;
+  _enUS2.default.messages = delegate.l18n.english ? (0, _assignDeep2.default)({}, _enUS2.default.messages, delegate.l18n.default.messages, delegate.l18n.english.messages) : _enUS2.default.messages;
+  _ruRU2.default.messages = delegate.l18n.russian ? (0, _assignDeep2.default)({}, _ruRU2.default.messages, delegate.l18n.default.messages, delegate.l18n.russian.messages) : _ruRU2.default.messages;
+  _esES2.default.messages = delegate.l18n.spanish ? (0, _assignDeep2.default)({}, _esES2.default.messages, delegate.l18n.default.messages, delegate.l18n.spanish.messages) : _esES2.default.messages;
+  _ptBR2.default.messages = delegate.l18n.portuguese ? (0, _assignDeep2.default)({}, _ptBR2.default.messages, delegate.l18n.default.messages, delegate.l18n.portuguese.messages) : _ptBR2.default.messages;
+  _zhCN2.default.messages = delegate.l18n.chinese ? (0, _assignDeep2.default)({}, _zhCN2.default.messages, delegate.l18n.default.messages, delegate.l18n.chinese.messages) : _zhCN2.default.messages;
 }
 
 function getIntlData() {
-  return languageData[language] || languageData[language.split('-')[0]] || languageData['en'];
+  return languageData[language] || languageData[language.split('-')[0]] || languageData['default'];
 }
 //# sourceMappingURL=index.js.map

@@ -47,9 +47,18 @@ var SidebarSection = (function (_Component) {
       var selectedPeer = this.props.selectedPeer;
       var delegate = this.context.delegate;
 
-      var HeaderSection = delegate.components.sidebar.header || _HeaderSection2.default;
-      var RecentSection = delegate.components.sidebar.recent || _RecentSection2.default;
-      var FooterSection = delegate.components.sidebar.footer || _QuickSearchButton2.default;
+      var HeaderSection = undefined,
+          RecentSection = undefined,
+          FooterSection = undefined;
+      if (delegate.components.sidebar !== null && typeof delegate.components.sidebar !== 'function') {
+        HeaderSection = delegate.components.sidebar.header || _HeaderSection2.default;
+        RecentSection = delegate.components.sidebar.recent || _RecentSection2.default;
+        FooterSection = delegate.components.sidebar.footer || _QuickSearchButton2.default;
+      } else {
+        HeaderSection = _HeaderSection2.default;
+        RecentSection = _RecentSection2.default;
+        FooterSection = _QuickSearchButton2.default;
+      }
 
       return _react2.default.createElement(
         'aside',

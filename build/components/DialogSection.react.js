@@ -196,17 +196,24 @@ var DialogSection = (function (_Component) {
       var delegate = this.context.delegate;
 
       var mainContent = undefined,
-          activity = [];
+          activity = [],
+          ToolbarSection = undefined,
+          TypingSection = undefined,
+          ComposeSection = undefined;
 
-      var ToolbarSection = delegate.components.dialog.toolbar || _ToolbarSection2.default;
-      var TypingSection = delegate.components.dialog.typing || _TypingSection2.default;
-      var ComposeSection = delegate.components.dialog.compose || _ComposeSection2.default;
-
-      if (delegate.components.dialog.activity) {
-        (0, _lodash.forEach)(delegate.components.dialog.activity, function (Activity) {
-          return activity.push(_react2.default.createElement(Activity, null));
-        });
+      if (delegate.components.dialog !== null && typeof delegate.components.dialog !== 'function') {
+        ToolbarSection = delegate.components.dialog.toolbar || _ToolbarSection2.default;
+        TypingSection = delegate.components.dialog.typing || _TypingSection2.default;
+        ComposeSection = delegate.components.dialog.compose || _ComposeSection2.default;
+        if (delegate.components.dialog.activity) {
+          (0, _lodash.forEach)(delegate.components.dialog.activity, function (Activity) {
+            return activity.push(_react2.default.createElement(Activity, null));
+          });
+        }
       } else {
+        ToolbarSection = _ToolbarSection2.default;
+        TypingSection = _TypingSection2.default;
+        ComposeSection = _ComposeSection2.default;
         activity.push(_react2.default.createElement(_ActivitySection2.default, null));
       }
 

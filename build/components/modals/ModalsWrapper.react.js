@@ -30,17 +30,17 @@ var _GroupListActionCreators = require('../../actions/GroupListActionCreators');
 
 var _GroupListActionCreators2 = _interopRequireDefault(_GroupListActionCreators);
 
-var _ContactStore = require('../../stores/ContactStore');
+var _PeopleStore = require('../../stores/PeopleStore');
 
-var _ContactStore2 = _interopRequireDefault(_ContactStore);
+var _PeopleStore2 = _interopRequireDefault(_PeopleStore);
 
 var _GroupListStore = require('../../stores/GroupListStore');
 
 var _GroupListStore2 = _interopRequireDefault(_GroupListStore);
 
-var _NewContacts = require('./NewContacts.react');
+var _PeopleList = require('./PeopleList');
 
-var _NewContacts2 = _interopRequireDefault(_NewContacts);
+var _PeopleList2 = _interopRequireDefault(_PeopleList);
 
 var _GroupList = require('./GroupList');
 
@@ -58,8 +58,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var getStates = function getStates() {
   return {
-    isContactsOpen: _ContactStore2.default.isContactsOpen(),
-    isGroupsOpen: _GroupListStore2.default.isGroupsOpen()
+    isPeoplesOpen: _PeopleStore2.default.isOpen(),
+    isGroupsOpen: _GroupListStore2.default.isOpen()
   };
 };
 
@@ -76,18 +76,35 @@ var ModalsWrapper = (function (_Component) {
     };
 
     _this.handleKeyDown = function (event) {
-      if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
-        event.preventDefault();
-        _this.handleClose();
+      switch (event.keyCode) {
+        case _ActorAppConstants.KeyCodes.ESC:
+          event.preventDefault();
+          _this.handleClose();
+          break;
+        case _ActorAppConstants.KeyCodes.G:
+          if (event.ctrlKey) {
+            event.preventDefault();
+            _this.handleClose();
+            _GroupListActionCreators2.default.open();
+          }
+          break;
+        case _ActorAppConstants.KeyCodes.P:
+          if (event.ctrlKey) {
+            event.preventDefault();
+            _this.handleClose();
+            _ContactActionCreators2.default.open();
+          }
+          break;
+        default:
       }
     };
 
     _this.handleClose = function () {
       var _this$state = _this.state;
-      var isContactsOpen = _this$state.isContactsOpen;
+      var isPeoplesOpen = _this$state.isPeoplesOpen;
       var isGroupsOpen = _this$state.isGroupsOpen;
 
-      if (isContactsOpen) {
+      if (isPeoplesOpen) {
         _ContactActionCreators2.default.close();
       }
       if (isGroupsOpen) {
@@ -104,25 +121,23 @@ var ModalsWrapper = (function (_Component) {
     value: function componentWillMount() {
       document.addEventListener('keydown', this.handleKeyDown, false);
 
-      _ContactStore2.default.addChangeListener(this.handleChange);
+      _PeopleStore2.default.addListener(this.handleChange);
       _GroupListStore2.default.addListener(this.handleChange);
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       document.removeEventListener('keydown', this.handleKeyDown, false);
-
-      _ContactStore2.default.removeChangeListener(this.handleChange);
     }
   }, {
     key: 'render',
     value: function render() {
       var _state = this.state;
-      var isContactsOpen = _state.isContactsOpen;
+      var isPeoplesOpen = _state.isPeoplesOpen;
       var isGroupsOpen = _state.isGroupsOpen;
 
       var wrapperClassName = (0, _classnames2.default)('modal-wrapper', {
-        'modal-wrapper--opened': isContactsOpen || isGroupsOpen
+        'modal-wrapper--opened': isPeoplesOpen || isGroupsOpen
       });
 
       return _react2.default.createElement(
@@ -142,7 +157,7 @@ var ModalsWrapper = (function (_Component) {
             this.getIntlMessage('button.close')
           )
         ),
-        isContactsOpen ? _react2.default.createElement(_NewContacts2.default, null) : null,
+        isPeoplesOpen ? _react2.default.createElement(_PeopleList2.default, null) : null,
         isGroupsOpen ? _react2.default.createElement(_GroupList2.default, null) : null
       );
     }

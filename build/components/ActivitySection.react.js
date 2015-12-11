@@ -10,6 +10,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _utils = require('flux/utils');
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -19,6 +21,10 @@ var _ActorAppConstants = require('../constants/ActorAppConstants');
 var _ActivityStore = require('../stores/ActivityStore');
 
 var _ActivityStore2 = _interopRequireDefault(_ActivityStore);
+
+var _DialogStore = require('../stores/DialogStore');
+
+var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
 var _UserProfile = require('./activity/UserProfile.react');
 
@@ -38,55 +44,35 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var getStateFromStores = function getStateFromStores() {
-  return {
-    activity: _ActivityStore2.default.getActivity(),
-    isOpen: _ActivityStore2.default.isOpen()
-  };
-};
-
 var ActivitySection = (function (_Component) {
   _inherits(ActivitySection, _Component);
 
   function ActivitySection(props) {
     _classCallCheck(this, ActivitySection);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ActivitySection).call(this, props));
-
-    _this.onChange = function () {
-      return _this.setState(getStateFromStores());
-    };
-
-    _this.state = getStateFromStores();
-
-    _ActivityStore2.default.addChangeListener(_this.onChange);
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(ActivitySection).call(this, props));
   }
 
   _createClass(ActivitySection, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _ActivityStore2.default.removeChangeListener(this.onChange);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _state = this.state;
-      var activity = _state.activity;
+      var peer = _state.peer;
+      var info = _state.info;
       var isOpen = _state.isOpen;
 
-      if (activity !== null) {
+      if (peer !== null) {
         var activityClassName = (0, _classnames2.default)('activity', {
           'activity--shown': isOpen
         });
         var activityBody = undefined;
 
-        switch (activity.type) {
-          case _ActorAppConstants.ActivityTypes.USER_PROFILE:
-            activityBody = _react2.default.createElement(_UserProfile2.default, { user: activity.user });
+        switch (peer.type) {
+          case _ActorAppConstants.PeerTypes.USER:
+            activityBody = _react2.default.createElement(_UserProfile2.default, { user: info });
             break;
-          case _ActorAppConstants.ActivityTypes.GROUP_PROFILE:
-            activityBody = _react2.default.createElement(_GroupProfile2.default, { group: activity.group });
+          case _ActorAppConstants.PeerTypes.GROUP:
+            activityBody = _react2.default.createElement(_GroupProfile2.default, { group: info });
             break;
           default:
         }
@@ -100,10 +86,23 @@ var ActivitySection = (function (_Component) {
         return null;
       }
     }
+  }], [{
+    key: 'calculateState',
+    value: function calculateState() {
+      return {
+        peer: _DialogStore2.default.getCurrentPeer(),
+        info: _DialogStore2.default.getInfo(),
+        isOpen: _ActivityStore2.default.isOpen()
+      };
+    }
   }]);
 
   return ActivitySection;
 })(_react.Component);
 
-exports.default = ActivitySection;
+ActivitySection.getStores = function () {
+  return [_DialogStore2.default, _ActivityStore2.default];
+};
+
+exports.default = _utils.Container.create(ActivitySection, { pure: false });
 //# sourceMappingURL=ActivitySection.react.js.map

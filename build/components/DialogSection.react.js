@@ -73,30 +73,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 // On which scrollTop value start loading older messages
-var LoadMessagesScrollTop = 100;
-
+var loadMessagesScrollTop = 100;
 var initialRenderMessagesCount = 20;
 var renderMessagesStep = 20;
 
 var renderMessagesCount = initialRenderMessagesCount;
-
-var lastPeer = null;
 var lastScrolledFromBottom = 0;
 
 var getStateFromStores = function getStateFromStores() {
   var messages = _MessageStore2.default.getAll();
-  var messagesToRender = undefined;
-
-  if (messages.length > renderMessagesCount) {
-    messagesToRender = messages.slice(messages.length - renderMessagesCount);
-  } else {
-    messagesToRender = messages;
-  }
+  var messagesToRender = messages.length > renderMessagesCount ? messages.slice(messages.length - renderMessagesCount) : messages;
 
   return {
-    peer: _DialogStore2.default.getSelectedDialogPeer(),
+    peer: _DialogStore2.default.getCurrentPeer(),
     messages: messages,
-    messagesToRender: messagesToRender
+    messagesToRender: messagesToRender,
+    isMember: _DialogStore2.default.isMember()
   };
 };
 
@@ -119,36 +111,34 @@ var DialogSection = (function (_Component) {
       }
     };
 
-    _this.onSelectedDialogChange = function () {
+    _this.onChange = function () {
       lastScrolledFromBottom = 0;
       renderMessagesCount = initialRenderMessagesCount;
-
-      // TODO: Move this to actions
-      if (lastPeer != null) {
-        _DialogActionCreators2.default.onConversationClosed(lastPeer);
-      }
-
-      lastPeer = _DialogStore2.default.getSelectedDialogPeer();
-      _DialogActionCreators2.default.onConversationOpen(lastPeer);
+      _this.setState(getStateFromStores());
     };
 
     _this.onMessagesChange = (0, _lodash.debounce)(function () {
       _this.setState(getStateFromStores());
     }, 10, { maxWait: 50, leading: true });
     _this.loadMessagesByScroll = (0, _lodash.debounce)(function () {
-      if (_this.state.peer) {
+      var _this$state = _this.state;
+      var peer = _this$state.peer;
+      var messages = _this$state.messages;
+      var messagesToRender = _this$state.messagesToRender;
+
+      if (peer) {
         var node = _react2.default.findDOMNode(_this.refs.MessagesSection);
         var scrollTop = node.scrollTop;
         lastScrolledFromBottom = node.scrollHeight - scrollTop - node.offsetHeight; // was node.scrollHeight - scrollTop
 
-        if (node.scrollTop < LoadMessagesScrollTop) {
-          _DialogActionCreators2.default.onChatEnd(_this.state.peer);
+        if (node.scrollTop < loadMessagesScrollTop) {
+          _DialogActionCreators2.default.onChatEnd(peer);
 
-          if (_this.state.messages.length > _this.state.messagesToRender.length) {
+          if (messages.length > messagesToRender.length) {
             renderMessagesCount += renderMessagesStep;
 
-            if (renderMessagesCount > _this.state.messages.length) {
-              renderMessagesCount = _this.state.messages.length;
+            if (renderMessagesCount > messages.length) {
+              renderMessagesCount = messages.length;
             }
 
             _this.setState(getStateFromStores());
@@ -159,26 +149,18 @@ var DialogSection = (function (_Component) {
 
     _this.state = getStateFromStores();
 
-    _ActivityStore2.default.addChangeListener(_this.fixScrollTimeout);
-    _DialogStore2.default.addSelectListener(_this.onSelectedDialogChange);
-    _MessageStore2.default.addChangeListener(_this.onMessagesChange);
+    _ActivityStore2.default.addListener(_this.fixScrollTimeout);
+    _MessageStore2.default.addListener(_this.onMessagesChange);
+    _DialogStore2.default.addListener(_this.onChange);
     return _this;
   }
 
   _createClass(DialogSection, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _ActivityStore2.default.removeChangeListener(this.fixScrollTimeout.bind(this));
-      _DialogStore2.default.removeSelectListener(this.onSelectedDialogChange);
-      _MessageStore2.default.removeChangeListener(this.onMessagesChange);
-    }
-  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var peer = _DialogStore2.default.getSelectedDialogPeer();
+      var peer = _DialogStore2.default.getCurrentPeer();
 
       if (peer) {
-        _DialogActionCreators2.default.onConversationOpen(peer);
         this.fixScroll();
         this.loadMessagesByScroll();
       }
@@ -192,11 +174,12 @@ var DialogSection = (function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var peer = this.state.peer;
+      var _state = this.state;
+      var peer = _state.peer;
+      var isMember = _state.isMember;
       var delegate = this.context.delegate;
 
-      var mainContent = undefined,
-          activity = [],
+      var activity = [],
           ToolbarSection = undefined,
           TypingSection = undefined,
           ComposeSection = undefined;
@@ -209,6 +192,8 @@ var DialogSection = (function (_Component) {
           (0, _lodash.forEach)(delegate.components.dialog.activity, function (Activity) {
             return activity.push(_react2.default.createElement(Activity, null));
           });
+        } else {
+          activity.push(_react2.default.createElement(_ActivitySection2.default, null));
         }
       } else {
         ToolbarSection = _ToolbarSection2.default;
@@ -217,69 +202,53 @@ var DialogSection = (function (_Component) {
         activity.push(_react2.default.createElement(_ActivitySection2.default, null));
       }
 
-      if (peer) {
-        var isMember = true,
-            memberArea = undefined;
-
-        if (peer.type === _ActorAppConstants.PeerTypes.GROUP) {
-          var group = _GroupStore2.default.getGroup(peer.id);
-          isMember = _DialogStore2.default.isGroupMember(group);
-        }
-
-        if (isMember) {
-          memberArea = _react2.default.createElement(
-            'div',
+      var mainScreen = _react2.default.createElement(
+        'section',
+        { className: 'dialog' },
+        _react2.default.createElement(_ConnectionState2.default, null),
+        _react2.default.createElement(
+          'div',
+          { className: 'messages' },
+          _react2.default.createElement(_MessagesSection2.default, { messages: this.state.messagesToRender,
+            peer: peer,
+            ref: 'MessagesSection',
+            onScroll: this.loadMessagesByScroll })
+        ),
+        isMember ? _react2.default.createElement(
+          'footer',
+          { className: 'dialog__footer' },
+          _react2.default.createElement(TypingSection, null),
+          _react2.default.createElement(ComposeSection, { peer: peer })
+        ) : _react2.default.createElement(
+          'footer',
+          { className: 'dialog__footer dialog__footer--disabled row center-xs middle-xs ' },
+          _react2.default.createElement(
+            'h3',
             null,
-            _react2.default.createElement(TypingSection, null),
-            _react2.default.createElement(ComposeSection, { peer: peer })
-          );
-        } else {
-          memberArea = _react2.default.createElement(
-            'section',
-            { className: 'compose compose--disabled row center-xs middle-xs' },
-            _react2.default.createElement(
-              'h3',
-              null,
-              'You are not a member'
-            )
-          );
-        }
-
-        mainContent = _react2.default.createElement(
-          'section',
-          { className: 'dialog', onScroll: this.loadMessagesByScroll },
-          _react2.default.createElement(_ConnectionState2.default, null),
-          _react2.default.createElement(
-            'div',
-            { className: 'messages' },
-            _react2.default.createElement(_MessagesSection2.default, { messages: this.state.messagesToRender,
-              peer: peer,
-              ref: 'MessagesSection' })
-          ),
-          memberArea
-        );
-      } else {
-        mainContent = _react2.default.createElement(
-          'section',
-          { className: 'dialog dialog--empty row center-xs middle-xs' },
-          _react2.default.createElement(_ConnectionState2.default, null),
-          _react2.default.createElement(
-            'div',
-            { className: 'advice' },
-            _react2.default.createElement(
-              'div',
-              { className: 'actor-logo' },
-              _react2.default.createElement('svg', { className: 'icon icon--gray',
-                dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#star"/>' } })
-            ),
-            _react2.default.createElement(
-              'h2',
-              null,
-              'Try to be better than yesterday!'
-            )
+            'You are not a member'
           )
-        );
-      }
+        )
+      );
+      var emptyScreen = _react2.default.createElement(
+        'section',
+        { className: 'dialog dialog--empty row center-xs middle-xs' },
+        _react2.default.createElement(_ConnectionState2.default, null),
+        _react2.default.createElement(
+          'div',
+          { className: 'advice' },
+          _react2.default.createElement(
+            'div',
+            { className: 'actor-logo' },
+            _react2.default.createElement('svg', { className: 'icon icon--gray',
+              dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#star"/>' } })
+          ),
+          _react2.default.createElement(
+            'h2',
+            null,
+            'Try to be better than yesterday!'
+          )
+        )
+      );
 
       return _react2.default.createElement(
         'section',
@@ -288,7 +257,7 @@ var DialogSection = (function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'flexrow' },
-          mainContent,
+          peer ? mainScreen : emptyScreen,
           activity
         )
       );

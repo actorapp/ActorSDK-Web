@@ -121,7 +121,8 @@ exports.default = {
       'contacts': {
         'title': 'People',
         'search': 'Search contacts',
-        'notFound': 'Sorry, no users found.'
+        'notFound': 'Sorry, no users found.',
+        'loading': 'Loading'
       },
       'groups': {
         'title': 'Groups',
@@ -192,7 +193,7 @@ exports.default = {
     'sharedMedia': 'Shared Media',
     'notifications': 'Notifications',
     'integrationTokenCopied': 'Integration link copied.',
-    'members': '{numMembers, plural,' + '=0 {no Members}' + '=1 {# Member}' + 'other {# Members}' + '}',
+    'members': '{numMembers, plural,' + '=0 {No members}' + '=1 {# Member}' + 'other {# Members}' + '}',
     'kick': 'Kick',
     'integrationToken': 'Integration Token',
     'integrationTokenHint': 'If you have programming chops, or know someone who does, this integration token allow the most flexibility and communication with your own systems.',

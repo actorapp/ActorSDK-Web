@@ -148,6 +148,8 @@ App.propTypes = {
 
 _reactMixin2.default.onClass(App, _reactIntl.IntlMixin);
 
+/** Class represents ActorSKD itself */
+
 var ActorSDK = (function () {
   /**
    * @constructor

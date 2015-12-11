@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _events = require('events');
+var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
@@ -28,65 +28,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var CHANGE_EVENT = 'change';
-
 var _state = '';
 
-var ConnectionStateStore = (function (_EventEmitter) {
-  _inherits(ConnectionStateStore, _EventEmitter);
+var ConnectionStateStore = (function (_Store) {
+  _inherits(ConnectionStateStore, _Store);
 
-  function ConnectionStateStore() {
+  function ConnectionStateStore(dispatcher) {
     _classCallCheck(this, ConnectionStateStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ConnectionStateStore).call(this));
-
-    _this.onStateChange = function (state) {
-      _state = state;
-      _this.emitChange();
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(ConnectionStateStore).call(this, dispatcher));
   }
 
   _createClass(ConnectionStateStore, [{
-    key: 'emitChange',
-    value: function emitChange() {
-      this.emit(CHANGE_EVENT);
-    }
-  }, {
-    key: 'addChangeListener',
-    value: function addChangeListener(callback) {
-      this.on(CHANGE_EVENT, callback);
-    }
-  }, {
-    key: 'removeChangeListener',
-    value: function removeChangeListener(callback) {
-      this.removeListener(CHANGE_EVENT, callback);
-    }
-  }, {
     key: 'getState',
     value: function getState() {
       return _state;
     }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.CONNECTION_STATE_CHANGED:
+          _state = action.state;
+          this.__emitChange();
+          break;
+        default:
+      }
+    }
   }]);
 
   return ConnectionStateStore;
-})(_events.EventEmitter);
+})(_utils.Store);
 
-var ConnectionStateStoreInstance = new ConnectionStateStore();
-
-ConnectionStateStoreInstance.dispatchToken = _ActorAppDispatcher2.default.register(function (action) {
-  switch (action.type) {
-    case _ActorAppConstants.ActionTypes.APP_VISIBLE:
-      _ActorClient2.default.bindConnectState(ConnectionStateStoreInstance.onStateChange);
-      break;
-    case _ActorAppConstants.ActionTypes.APP_HIDDEN:
-      _ActorClient2.default.unbindConnectState(ConnectionStateStoreInstance.onStateChange);
-      break;
-    default:
-      return;
-  }
-});
-
-exports.default = ConnectionStateStoreInstance;
+exports.default = new ConnectionStateStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=ConnectionStateStore.js.map

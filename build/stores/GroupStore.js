@@ -33,10 +33,10 @@ var _integrationToken = null;
 var GroupStore = (function (_Store) {
   _inherits(GroupStore, _Store);
 
-  function GroupStore(Dispatcher) {
+  function GroupStore(dispatcher) {
     _classCallCheck(this, GroupStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GroupStore).call(this, Dispatcher));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GroupStore).call(this, dispatcher));
 
     _this.__onDispatch = function (action) {
       switch (action.type) {
@@ -78,8 +78,8 @@ var GroupStore = (function (_Store) {
       return _ActorClient2.default.getGroup(gid);
     }
   }, {
-    key: 'getIntegrationToken',
-    value: function getIntegrationToken() {
+    key: 'getToken',
+    value: function getToken() {
       return _integrationToken;
     }
   }]);

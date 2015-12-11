@@ -8,8 +8,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var _lodash = require('lodash');
 
-var _lodash2 = _interopRequireDefault(_lodash);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -78,8 +76,8 @@ var getStateFromStores = function getStateFromStores(userId) {
   };
 };
 
-var UserProfile = (function (_React$Component) {
-  _inherits(UserProfile, _React$Component);
+var UserProfile = (function (_Component) {
+  _inherits(UserProfile, _Component);
 
   function UserProfile(props) {
     _classCallCheck(this, UserProfile);
@@ -87,7 +85,7 @@ var UserProfile = (function (_React$Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserProfile).call(this, props));
 
     _this.addToContacts = function () {
-      _ContactActionCreators2.default.addContact(_this.props.user.id);
+      return _ContactActionCreators2.default.addContact(_this.props.user.id);
     };
 
     _this.removeFromContacts = function () {
@@ -155,25 +153,15 @@ var UserProfile = (function (_React$Component) {
       return _ImageUtils.lightbox.open(_this.props.user.bigAvatar);
     };
 
-    _this.state = _lodash2.default.assign({
+    _this.state = (0, _lodash.assign)({
       isActionsDropdownOpen: false
     }, getStateFromStores(props.user.id));
 
-    _DialogStore2.default.addNotificationsListener(_this.onChange);
+    _DialogStore2.default.addListener(_this.onChange);
     return _this;
   }
 
   _createClass(UserProfile, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _DialogStore2.default.removeNotificationsListener(this.onChange);
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(newProps) {
-      this.setState(getStateFromStores(newProps.user.id));
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -400,10 +388,10 @@ var UserProfile = (function (_React$Component) {
   }]);
 
   return UserProfile;
-})(_react2.default.Component);
+})(_react.Component);
 
 UserProfile.propTypes = {
-  user: _react2.default.PropTypes.object.isRequired
+  user: _react.PropTypes.object.isRequired
 };
 
 _reactMixin2.default.onClass(UserProfile, _reactIntl.IntlMixin);

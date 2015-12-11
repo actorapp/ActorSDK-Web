@@ -1,13 +1,13 @@
 {
   "name": "actor-sdk",
-  "version": "1.0.45",
+  "version": "1.0.46",
   "description": "Actor SDK for building messaging web apps on top of Actor platform",
   "homepage": "https://actor.im/",
   "license": "Apache-2.0",
   "main": "index.js",
   "contributors": [
-    "Oleg Shilov <me@olegshilov.com>",
-    "prettynatty <fear@loathing.in>"
+    "Oleg Shilov <oleg@actor.im>",
+    "Andrew Smith <smith@actor.im>"
   ],
   "engines": {
     "node": ">=4.2.2"

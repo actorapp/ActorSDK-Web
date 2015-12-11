@@ -16,9 +16,9 @@ var _ActorTheme = require('../../constants/ActorTheme');
 
 var _ActorTheme2 = _interopRequireDefault(_ActorTheme);
 
-var _ContactStore = require('../../stores/ContactStore');
+var _PeopleStore = require('../../stores/PeopleStore');
 
-var _ContactStore2 = _interopRequireDefault(_ContactStore);
+var _PeopleStore2 = _interopRequireDefault(_PeopleStore);
 
 var _AddContactStore = require('../../stores/AddContactStore');
 
@@ -53,7 +53,7 @@ var ThemeManager = new _materialUi.Styles.ThemeManager();
 var getStateFromStores = function getStateFromStores() {
   return {
     isAddContactModalOpen: _AddContactStore2.default.isOpen(),
-    contacts: _ContactStore2.default.getContacts()
+    contacts: _PeopleStore2.default.getList()
   };
 };
 
@@ -71,7 +71,7 @@ var ContactsSection = (function (_Component) {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       _ContactActionCreators2.default.close();
-      _ContactStore2.default.removeChangeListener(this.onChange);
+      _PeopleStore2.default.removeChangeListener(this.onChange);
       _AddContactStore2.default.removeChangeListener(this.onChange);
     }
   }]);
@@ -92,7 +92,7 @@ var ContactsSection = (function (_Component) {
     _this.state = getStateFromStores();
 
     _ContactActionCreators2.default.open();
-    _ContactStore2.default.addChangeListener(_this.onChange);
+    _PeopleStore2.default.addChangeListener(_this.onChange);
     _AddContactStore2.default.addChangeListener(_this.onChange);
 
     ThemeManager.setTheme(_ActorTheme2.default);

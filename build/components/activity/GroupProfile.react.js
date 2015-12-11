@@ -100,16 +100,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var getStateFromStores = function getStateFromStores(groupId) {
-  var thisPeer = _PeerStore2.default.getGroupPeer(groupId);
+var getStateFromStores = function getStateFromStores(gid) {
+  var thisPeer = _GroupStore2.default.getGroup(gid);
   return {
     thisPeer: thisPeer,
     isNotificationsEnabled: _DialogStore2.default.isNotificationsEnabled(thisPeer),
-    integrationToken: _GroupStore2.default.getIntegrationToken()
+    integrationToken: _GroupStore2.default.getToken()
   };
 };
-
-var _prevGroupId = undefined;
 
 var GroupProfile = (function (_Component) {
   _inherits(GroupProfile, _Component);
@@ -190,45 +188,19 @@ var GroupProfile = (function (_Component) {
       return _ImageUtils.lightbox.open(_this.props.group.bigAvatar);
     };
 
-    var myId = _UserStore2.default.getMyId();
-
     _this.state = (0, _lodash.assign)({
       isMoreDropdownOpen: false
     }, getStateFromStores(props.group.id));
 
-    if (props.group.members.length > 0 && myId === props.group.adminId) {
-      _GroupProfileActionCreators2.default.getIntegrationToken(props.group.id);
-    }
-
-    _DialogStore2.default.addNotificationsListener(_this.onChange);
+    _DialogStore2.default.addListener(_this.onChange);
     _GroupStore2.default.addListener(_this.onChange);
     return _this;
   }
 
   _createClass(GroupProfile, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _DialogStore2.default.removeNotificationsListener(this.onChange);
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(newProps) {
-      var _this2 = this;
-
-      var myId = _UserStore2.default.getMyId();
-      // FIXME!!!
-      setTimeout(function () {
-        _this2.setState(getStateFromStores(newProps.group.id));
-        if (newProps.group.id !== _prevGroupId && newProps.group.members.length > 0 && myId === newProps.group.adminId) {
-          _GroupProfileActionCreators2.default.getIntegrationToken(newProps.group.id);
-          _prevGroupId = newProps.group.id;
-        }
-      }, 0);
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       var group = this.props.group;
       var _state = this.state;
@@ -238,7 +210,7 @@ var GroupProfile = (function (_Component) {
 
       var myId = _UserStore2.default.getMyId();
       var admin = _UserStore2.default.getUser(group.adminId);
-      var isMember = _DialogStore2.default.isGroupMember(group);
+      var isMember = _DialogStore2.default.isMember();
 
       var adminControls = undefined;
       if (group.adminId === myId) {
@@ -260,7 +232,7 @@ var GroupProfile = (function (_Component) {
         ), _react2.default.createElement(
           'li',
           { className: 'dropdown__menu__item', onClick: function onClick() {
-              return _this3.onEditGroupClick(group.id);
+              return _this2.onEditGroupClick(group.id);
             } },
           _react2.default.createElement(
             'i',
@@ -344,7 +316,7 @@ var GroupProfile = (function (_Component) {
                     'button',
                     { className: 'button button--flat button--wide',
                       onClick: function onClick() {
-                        return _this3.onAddMemberClick(group);
+                        return _this2.onAddMemberClick(group);
                       } },
                     _react2.default.createElement(
                       'i',
@@ -380,7 +352,7 @@ var GroupProfile = (function (_Component) {
                         'li',
                         { className: 'dropdown__menu__item',
                           onClick: function onClick() {
-                            return _this3.onLeaveGroupClick(group.id);
+                            return _this2.onLeaveGroupClick(group.id);
                           } },
                         this.getIntlMessage('leaveGroup')
                       ),
@@ -388,7 +360,7 @@ var GroupProfile = (function (_Component) {
                         'li',
                         { className: 'dropdown__menu__item',
                           onClick: function onClick() {
-                            return _this3.onClearGroupClick(group.id);
+                            return _this2.onClearGroupClick(group.id);
                           } },
                         this.getIntlMessage('clearGroup')
                       ),
@@ -396,7 +368,7 @@ var GroupProfile = (function (_Component) {
                         'li',
                         { className: 'dropdown__menu__item',
                           onClick: function onClick() {
-                            return _this3.onDeleteGroupClick(group.id);
+                            return _this2.onDeleteGroupClick(group.id);
                           } },
                         this.getIntlMessage('deleteGroup')
                       )

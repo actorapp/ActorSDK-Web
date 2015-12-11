@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _lodash = require('lodash');
+
 var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
@@ -29,62 +31,101 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var _isOpen = false,
-    _groupList = [],
-    _query = '';
+    _list = [],
+    _results = [];
+
+/**
+ * Class representing a store for searchable group list.
+ */
 
 var GroupStore = (function (_Store) {
   _inherits(GroupStore, _Store);
 
-  function GroupStore(Dispatcher) {
+  function GroupStore(dispatcher) {
     _classCallCheck(this, GroupStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GroupStore).call(this, Dispatcher));
-
-    _this.__onDispatch = function (action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.GROUP_LIST_HIDE:
-          _isOpen = false;
-          _query = '';
-          _this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.GROUP_LIST_LOAD:
-          _isOpen = true;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.GROUP_LIST_LOAD_SUCCESS:
-          _groupList = action.response;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.GROUP_LIST_LOAD_ERROR:
-          console.erro(action.error);
-          _this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.GROUP_LIST_SEARCH:
-          _query = action.query;
-          _this.__emitChange();
-          break;
-      }
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(GroupStore).call(this, dispatcher));
   }
 
+  /**
+   * @returns {boolean}
+   */
+
   _createClass(GroupStore, [{
-    key: 'isGroupsOpen',
-    value: function isGroupsOpen() {
+    key: 'isOpen',
+    value: function isOpen() {
       return _isOpen;
     }
+
+    /**
+     * @returns {Array}
+     */
+
   }, {
     key: 'getList',
     value: function getList() {
-      return _groupList;
+      return _list;
+    }
+
+    /**
+     * @returns {Array}
+     */
+
+  }, {
+    key: 'getResults',
+    value: function getResults() {
+      return _results;
     }
   }, {
-    key: 'getSearchQuery',
-    value: function getSearchQuery() {
-      return _query;
+    key: 'handleSearchQuery',
+    value: function handleSearchQuery(query) {
+      var results = [];
+
+      if (query === '') {
+        results = _list;
+      } else {
+        (0, _lodash.forEach)(_list, function (result) {
+          var title = result.peerInfo.title.toLowerCase();
+          if (title.includes(query.toLowerCase())) {
+            results.push(result);
+          }
+        });
+      }
+
+      _results = results;
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.GROUP_LIST_SHOW:
+          _isOpen = true;
+          this.handleSearchQuery('');
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.GROUP_LIST_HIDE:
+          _isOpen = false;
+          _results = [];
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.GROUP_LIST_LOAD_SUCCESS:
+          _list = action.response;
+          this.handleSearchQuery('');
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.GROUP_LIST_LOAD_ERROR:
+          console.error(action.error);
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.GROUP_LIST_SEARCH:
+          this.handleSearchQuery(action.query);
+          this.__emitChange();
+          break;
+
+        default:
+      }
     }
   }]);
 

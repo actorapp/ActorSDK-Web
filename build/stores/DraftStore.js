@@ -59,7 +59,7 @@ DraftStore.dispatchToken = _ActorAppDispatcher2.default.register(function (actio
     case _ActorAppConstants.ActionTypes.DRAFT_SAVE:
       _draft = action.draft;
       if (action.saveNow) {
-        var peer = _DialogStore2.default.getSelectedDialogPeer();
+        var peer = _DialogStore2.default.getCurrentPeer();
         _ActorClient2.default.saveDraft(peer, _draft);
       }
       break;

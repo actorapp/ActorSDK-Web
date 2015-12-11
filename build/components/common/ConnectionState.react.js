@@ -10,6 +10,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _utils = require('flux/utils');
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -28,36 +30,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var getStateFromStore = function getStateFromStore() {
-  return {
-    connectionState: _ConnectionStateStore2.default.getState()
-  };
-};
-
 var ConnectionState = (function (_React$Component) {
   _inherits(ConnectionState, _React$Component);
 
   function ConnectionState(props) {
     _classCallCheck(this, ConnectionState);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ConnectionState).call(this, props));
-
-    _this.onStateChange = function () {
-      _this.setState(getStateFromStore);
-    };
-
-    _this.state = getStateFromStore();
-
-    _ConnectionStateStore2.default.addChangeListener(_this.onStateChange);
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(ConnectionState).call(this, props));
   }
 
   _createClass(ConnectionState, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _ConnectionStateStore2.default.removeChangeListener(this.onStateChange);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var connectionState = this.state.connectionState;
@@ -84,10 +66,21 @@ var ConnectionState = (function (_React$Component) {
           return null;
       }
     }
+  }], [{
+    key: 'calculateState',
+    value: function calculateState() {
+      return {
+        connectionState: _ConnectionStateStore2.default.getState()
+      };
+    }
   }]);
 
   return ConnectionState;
 })(_react2.default.Component);
 
-exports.default = ConnectionState;
+ConnectionState.getStores = function () {
+  return [_ConnectionStateStore2.default];
+};
+
+exports.default = _utils.Container.create(ConnectionState, { pure: false });
 //# sourceMappingURL=ConnectionState.react.js.map

@@ -16,14 +16,6 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _DialogStore = require('./DialogStore');
-
-var _DialogStore2 = _interopRequireDefault(_DialogStore);
-
-var _ContactStore = require('./ContactStore');
-
-var _ContactStore2 = _interopRequireDefault(_ContactStore);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -41,10 +33,10 @@ var _isOpen = false,
 var QuickSearchStore = (function (_Store) {
   _inherits(QuickSearchStore, _Store);
 
-  function QuickSearchStore(Dispatcher) {
+  function QuickSearchStore(dispatcher) {
     _classCallCheck(this, QuickSearchStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(QuickSearchStore).call(this, Dispatcher));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(QuickSearchStore).call(this, dispatcher));
 
     _this.__onDispatch = function (action) {
       switch (action.type) {

@@ -142,6 +142,12 @@ var MessagesSection = (function (_Component) {
       }
     };
 
+    _this.handleScroll = function () {
+      var onScroll = _this.props.onScroll;
+
+      onScroll && onScroll();
+    };
+
     _this.state = {
       isOnlyOneDay: isOnlyOneDay(props.messages)
     };
@@ -166,12 +172,7 @@ var MessagesSection = (function (_Component) {
       var peer = _props.peer;
 
       var messagesList = (0, _lodash.map)(messages, this.getMessagesListItem);
-
-      var isMember = true;
-      if (peer.type === _ActorAppConstants.PeerTypes.GROUP) {
-        var group = _GroupStore2.default.getGroup(peer.id);
-        isMember = _DialogStore2.default.isGroupMember(group);
-      }
+      var isMember = _DialogStore2.default.isMember();
 
       var messagesLoading = _react2.default.createElement(
         'li',
@@ -185,7 +186,7 @@ var MessagesSection = (function (_Component) {
 
       return _react2.default.createElement(
         'ul',
-        { className: 'messages__list' },
+        { className: 'messages__list', onScroll: this.handleScroll },
         isMember && messagesList.length < 30 ? _react2.default.createElement(_Welcome2.default, { peer: peer }) : null,
         messagesList.length >= 30 ? messagesLoading : null,
         messagesList
@@ -197,8 +198,9 @@ var MessagesSection = (function (_Component) {
 })(_react.Component);
 
 MessagesSection.propTypes = {
-  messages: _react2.default.PropTypes.array.isRequired,
-  peer: _react2.default.PropTypes.object.isRequired
+  messages: _react.PropTypes.array.isRequired,
+  peer: _react.PropTypes.object.isRequired,
+  onScroll: _react.PropTypes.func.isRequired
 };
 exports.default = MessagesSection;
 //# sourceMappingURL=MessagesSection.react.js.map

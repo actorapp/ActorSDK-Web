@@ -1,8 +1,12 @@
 'use strict';
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
@@ -10,228 +14,111 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _DialogActionCreators = require('../actions/DialogActionCreators');
-
-var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
-
-var _GroupProfileActionCreators = require('../actions/GroupProfileActionCreators');
-
-var _GroupProfileActionCreators2 = _interopRequireDefault(_GroupProfileActionCreators);
-
-var _events = require('events');
-
-var _objectAssign = require('object-assign');
-
-var _objectAssign2 = _interopRequireDefault(_objectAssign);
-
 var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// TODO: Do not use actions in stores
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var CHANGE_EVENT = 'change',
-    SELECT_EVENT = 'select',
-    SELECTED_CHANGE_EVENT = 'selected_change',
-    TYPING_EVENT = 'typing',
-    NOTIFICATION_CHANGE_EVENT = 'notification_change'; /*
-                                                        * Copyright (C) 2015 Actor LLC. <https://actor.im>
-                                                        */
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 var _dialogs = [],
-    _selectedDialogPeer = null,
-    _selectedDialogInfo = null,
-    _selectedDialogTyping = null,
     _currentPeer = null,
-    _lastPeer = null;
+    _lastPeer = null,
+    _info = null,
+    _typing = null;
 
-var DialogStore = (0, _objectAssign2.default)({}, _events.EventEmitter.prototype, {
-  emitChange: function emitChange() {
-    this.emit(CHANGE_EVENT);
-  },
+var DialogStore = (function (_Store) {
+  _inherits(DialogStore, _Store);
 
-  addChangeListener: function addChangeListener(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
+  function DialogStore() {
+    _classCallCheck(this, DialogStore);
 
-  removeChangeListener: function removeChangeListener(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
-  },
-
-  emitSelect: function emitSelect() {
-    this.emit(SELECT_EVENT);
-  },
-
-  addSelectListener: function addSelectListener(callback) {
-    this.on(SELECT_EVENT, callback);
-  },
-
-  removeSelectListener: function removeSelectListener(callback) {
-    this.removeListener(SELECT_EVENT, callback);
-  },
-
-  emitSelectedChange: function emitSelectedChange() {
-    this.emit(SELECTED_CHANGE_EVENT);
-  },
-
-  addSelectedChangeListener: function addSelectedChangeListener(callback) {
-    this.on(SELECTED_CHANGE_EVENT, callback);
-  },
-
-  removeSelectedChangeListener: function removeSelectedChangeListener(callback) {
-    this.removeListener(SELECTED_CHANGE_EVENT, callback);
-  },
-
-  emitTyping: function emitTyping() {
-    this.emit(TYPING_EVENT);
-  },
-
-  addTypingListener: function addTypingListener(callback) {
-    this.on(TYPING_EVENT, callback);
-  },
-
-  removeTypingListener: function removeTypingListener(callback) {
-    this.removeListener(TYPING_EVENT, callback);
-  },
-
-  getSelectedDialogInfo: function getSelectedDialogInfo() {
-    return _selectedDialogInfo;
-  },
-
-  getSelectedDialogPeer: function getSelectedDialogPeer() {
-    return _selectedDialogPeer;
-  },
-
-  getSelectedDialogTyping: function getSelectedDialogTyping() {
-    return _selectedDialogTyping;
-  },
-
-  getAll: function getAll() {
-    return _dialogs;
-  },
-
-  // Notifications settings
-  isNotificationsEnabled: function isNotificationsEnabled(peer) {
-    return _ActorClient2.default.isNotificationsEnabled(peer);
-  },
-
-  emitNotificationChange: function emitNotificationChange() {
-    this.emit(NOTIFICATION_CHANGE_EVENT);
-  },
-  addNotificationsListener: function addNotificationsListener(callback) {
-    this.on(NOTIFICATION_CHANGE_EVENT, callback);
-  },
-  removeNotificationsListener: function removeNotificationsListener(callback) {
-    this.removeListener(NOTIFICATION_CHANGE_EVENT, callback);
-  },
-  getLastPeer: function getLastPeer() {
-    return _lastPeer;
-  },
-  isGroupMember: function isGroupMember(group) {
-    return group.members.length > 0;
-  },
-  getCurrentPeer: function getCurrentPeer() {
-    return _currentPeer;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(DialogStore).apply(this, arguments));
   }
-});
 
-var onCurrentDialogInfoChange = function onCurrentDialogInfoChange(info) {
-  _selectedDialogInfo = info;
-  _DialogActionCreators2.default.createSelectedDialogInfoChanged(info);
-};
-
-var bindDialogInfo = function bindDialogInfo(peer) {
-  switch (peer.type) {
-    case _ActorAppConstants.PeerTypes.USER:
-      _ActorClient2.default.bindUser(peer.id, onCurrentDialogInfoChange);
-      break;
-    case _ActorAppConstants.PeerTypes.GROUP:
-      _ActorClient2.default.bindGroup(peer.id, onCurrentDialogInfoChange);
-      break;
-    default:
-  }
-};
-
-var unbindCurrentDialogInfo = function unbindCurrentDialogInfo() {
-  if (_currentPeer != null) {
-    switch (_currentPeer.type) {
-      case _ActorAppConstants.PeerTypes.USER:
-        _ActorClient2.default.unbindUser(_currentPeer.id, onCurrentDialogInfoChange);
-        break;
-      case _ActorAppConstants.PeerTypes.GROUP:
-        _ActorClient2.default.unbindGroup(_currentPeer.id, onCurrentDialogInfoChange);
-        break;
-      default:
-
+  _createClass(DialogStore, [{
+    key: 'getAllDialogs',
+    value: function getAllDialogs() {
+      return _dialogs;
     }
-  }
-};
-
-var onCurrentDialogTypingChange = function onCurrentDialogTypingChange(typing) {
-  _selectedDialogTyping = typing.typing;
-  DialogStore.emitTyping();
-};
-
-var bindDialogTyping = function bindDialogTyping(peer) {
-  _ActorClient2.default.bindTyping(peer, onCurrentDialogTypingChange);
-};
-
-var unbindCurrentDialogTyping = function unbindCurrentDialogTyping() {
-  if (_currentPeer != null) {
-    _ActorClient2.default.unbindTyping(_currentPeer, onCurrentDialogTypingChange);
-  }
-};
-
-DialogStore.dispatchToken = _ActorAppDispatcher2.default.register(function (action) {
-  switch (action.type) {
-    case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-      unbindCurrentDialogInfo();
-      unbindCurrentDialogTyping();
-
-      _lastPeer = _currentPeer;
-      _selectedDialogPeer = action.peer;
-      _currentPeer = action.peer;
-
-      // crutch check for membership
-      // TODO: need method for membership check
-      if (action.peer.type === _ActorAppConstants.PeerTypes.GROUP) {
-        (function () {
-          var group = _ActorClient2.default.getGroup(action.peer.id);
-          setTimeout(function () {
-            if (DialogStore.isGroupMember(group)) {
-              bindDialogTyping(action.peer);
-            }
-            bindDialogInfo(action.peer);
-          }, 0);
-        })();
+  }, {
+    key: 'getCurrentPeer',
+    value: function getCurrentPeer() {
+      return _currentPeer;
+    }
+  }, {
+    key: 'getLastPeer',
+    value: function getLastPeer() {
+      return _lastPeer;
+    }
+  }, {
+    key: 'getInfo',
+    value: function getInfo() {
+      return _info;
+    }
+  }, {
+    key: 'getTyping',
+    value: function getTyping() {
+      return _typing;
+    }
+  }, {
+    key: 'isNotificationsEnabled',
+    value: function isNotificationsEnabled(peer) {
+      return _ActorClient2.default.isNotificationsEnabled(peer);
+    }
+  }, {
+    key: 'isMember',
+    value: function isMember() {
+      if (_currentPeer !== null && _currentPeer.type === _ActorAppConstants.PeerTypes.GROUP) {
+        var group = _ActorClient2.default.getGroup(_currentPeer.id);
+        return group.members.length !== 0;
       } else {
-        setTimeout(function () {
-          bindDialogTyping(action.peer);
-          bindDialogInfo(action.peer);
-        }, 0);
+        return true;
       }
-      // end crutch check for membership
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
+          _lastPeer = _currentPeer;
+          _currentPeer = action.peer;
+          if (_currentPeer.type === _ActorAppConstants.PeerTypes.GROUP) {
+            _info = _ActorClient2.default.getGroup(_currentPeer.id);
+          } else if (_currentPeer.type === _ActorAppConstants.PeerTypes.USER) {
+            _info = _ActorClient2.default.getUser(_currentPeer.id);
+          }
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.DIALOG_INFO_CHANGED:
+          _info = action.info;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.DIALOG_TYPING_CHANGED:
+          _typing = action.typing;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.DIALOGS_CHANGED:
+          _dialogs = action.dialogs;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.NOTIFICATION_CHANGE:
+          this.__emitChange();
+          break;
+        default:
+      }
+    }
+  }]);
 
-      DialogStore.emitSelect();
-      break;
-    case _ActorAppConstants.ActionTypes.SELECTED_DIALOG_INFO_CHANGED:
-      _selectedDialogInfo = action.info;
-      DialogStore.emitSelectedChange();
-      break;
-    case _ActorAppConstants.ActionTypes.DIALOGS_CHANGED:
-      _dialogs = action.dialogs;
-      DialogStore.emitChange();
-      break;
-    case _ActorAppConstants.ActionTypes.NOTIFICATION_CHANGE:
-      _ActorClient2.default.changeNotificationsEnabled(action.peer, action.isEnabled);
-      DialogStore.emitNotificationChange();
-      break;
-    default:
+  return DialogStore;
+})(_utils.Store);
 
-  }
-});
-
-exports.default = DialogStore;
+exports.default = new DialogStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=DialogStore.js.map

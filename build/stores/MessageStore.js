@@ -1,8 +1,12 @@
 'use strict';
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
@@ -10,76 +14,54 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _ActorAppConstants2 = _interopRequireDefault(_ActorAppConstants);
-
-var _DialogStore = require('./DialogStore');
-
-var _DialogStore2 = _interopRequireDefault(_DialogStore);
-
-var _events = require('events');
-
-var _objectAssign = require('object-assign');
-
-var _objectAssign2 = _interopRequireDefault(_objectAssign);
-
-var _ActorClient = require('../utils/ActorClient');
-
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var ActionTypes = _ActorAppConstants2.default.ActionTypes;
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-var CHANGE_EVENT = 'change';
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 var _messages = [];
-var _boundPeer = null;
 
-var MessageStore = (0, _objectAssign2.default)({}, _events.EventEmitter.prototype, {
-  emitChange: function emitChange() {
-    this.emit(CHANGE_EVENT);
-  },
+/**
+ * Class representing a store for messages.
+ */
 
-  addChangeListener: function addChangeListener(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
+var MessageStore = (function (_Store) {
+  _inherits(MessageStore, _Store);
 
-  removeChangeListener: function removeChangeListener(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
-  },
+  function MessageStore(dispatcher) {
+    _classCallCheck(this, MessageStore);
 
-  getAll: function getAll() {
-    return _messages;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(MessageStore).call(this, dispatcher));
   }
-});
 
-var _bindMessages = function _bindMessages(messages) {
-  _messages = messages;
-  MessageStore.emitChange();
-};
+  /**
+   * @returns {Array} All messages stored for currently bound conversation
+   */
 
-MessageStore.dispatchToken = _ActorAppDispatcher2.default.register(function (action) {
-  switch (action.type) {
-    case ActionTypes.SELECT_DIALOG_PEER:
-      if (_boundPeer != null) {
-        _ActorClient2.default.unbindChat(_boundPeer, _bindMessages);
+  _createClass(MessageStore, [{
+    key: 'getAll',
+    value: function getAll() {
+      return _messages;
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.MESSAGES_CHANGED:
+          _messages = action.messages;
+          this.__emitChange();
+          break;
       }
+    }
+  }]);
 
-      _ActorAppDispatcher2.default.waitFor([_DialogStore2.default.dispatchToken]);
+  return MessageStore;
+})(_utils.Store);
 
-      _boundPeer = action.peer;
-
-      _ActorClient2.default.bindChat(action.peer, _bindMessages);
-
-      break;
-    default:
-
-  }
-});
-
-exports.default = MessageStore;
+exports.default = new MessageStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=MessageStore.js.map

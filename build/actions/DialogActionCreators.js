@@ -20,28 +20,79 @@ var _RouterContainer = require('../utils/RouterContainer');
 
 var _RouterContainer2 = _interopRequireDefault(_RouterContainer);
 
+var _MessageActionCreators = require('./MessageActionCreators');
+
+var _MessageActionCreators2 = _interopRequireDefault(_MessageActionCreators);
+
+var _GroupProfileActionCreators = require('./GroupProfileActionCreators');
+
+var _GroupProfileActionCreators2 = _interopRequireDefault(_GroupProfileActionCreators);
+
+var _DialogStore = require('../stores/DialogStore');
+
+var _DialogStore2 = _interopRequireDefault(_DialogStore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
 
 var DialogActionCreators = {
   setDialogs: function setDialogs(dialogs) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DIALOGS_CHANGED, { dialogs: dialogs });
   },
   selectDialogPeer: function selectDialogPeer(peer) {
-    _RouterContainer2.default.get().transitionTo('main', { id: _PeerUtils2.default.peerToString(peer) });
+    var router = _RouterContainer2.default.get();
+    var currentPeer = _DialogStore2.default.getCurrentPeer();
+
+    // Unbind from previous peer
+    if (currentPeer !== null) {
+      this.onConversationClosed(currentPeer);
+      _ActorClient2.default.unbindChat(currentPeer, _MessageActionCreators2.default.setMessages);
+      _ActorClient2.default.unbindTyping(currentPeer, this.setTyping);
+
+      switch (currentPeer.type) {
+        case _ActorAppConstants.PeerTypes.USER:
+          _ActorClient2.default.unbindUser(currentPeer.id, this.setDialogInfo);
+          break;
+        case _ActorAppConstants.PeerTypes.GROUP:
+          _ActorClient2.default.unbindGroup(currentPeer.id, this.setDialogInfo);
+          break;
+        default:
+      }
+    }
+
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER, { peer: peer });
+
+    this.onConversationOpen(peer);
+    _ActorClient2.default.bindChat(peer, _MessageActionCreators2.default.setMessages);
+    _ActorClient2.default.bindTyping(peer, this.setTyping);
+    switch (peer.type) {
+      case _ActorAppConstants.PeerTypes.USER:
+        _ActorClient2.default.bindUser(peer.id, this.setDialogInfo);
+        break;
+      case _ActorAppConstants.PeerTypes.GROUP:
+        _ActorClient2.default.bindGroup(peer.id, this.setDialogInfo);
+        _GroupProfileActionCreators2.default.getIntegrationToken(peer.id);
+        break;
+      default:
+    }
+
+    router.transitionTo('main', { id: _PeerUtils2.default.peerToString(peer) });
   },
-  selectDialogPeerUser: function selectDialogPeerUser(userId) {
-    if (userId === _ActorClient2.default.getUid()) {
+  selectDialogPeerUser: function selectDialogPeerUser(uid) {
+    if (uid === _ActorClient2.default.getUid()) {
       console.warn('You can\'t chat with yourself');
     } else {
-      this.selectDialogPeer({
-        type: _ActorAppConstants.PeerTypes.USER,
-        id: userId
-      });
+      this.selectDialogPeer(_ActorClient2.default.getUserPeer(uid));
     }
   },
-  createSelectedDialogInfoChanged: function createSelectedDialogInfoChanged(info) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.SELECTED_DIALOG_INFO_CHANGED, { info: info });
+  setDialogInfo: function setDialogInfo(info) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DIALOG_INFO_CHANGED, { info: info });
+  },
+  setTyping: function setTyping(typing) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DIALOG_TYPING_CHANGED, { typing: typing.typing });
   },
   onConversationOpen: function onConversationOpen(peer) {
     _ActorClient2.default.onConversationOpen(peer);
@@ -63,6 +114,7 @@ var DialogActionCreators = {
     }, { gid: gid });
   },
   changeNotificationsEnabled: function changeNotificationsEnabled(peer, isEnabled) {
+    _ActorClient2.default.changeNotificationsEnabled(peer, isEnabled);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.NOTIFICATION_CHANGE, { peer: peer, isEnabled: isEnabled });
   },
   deleteChat: function deleteChat(peer) {
@@ -106,9 +158,7 @@ var DialogActionCreators = {
       failure: _ActorAppConstants.ActionTypes.GROUP_HIDE_ERROR
     }, { peer: peer });
   }
-}; /*
-    * Copyright (C) 2015 Actor LLC. <https://actor.im>
-    */
+};
 
 exports.default = DialogActionCreators;
 //# sourceMappingURL=DialogActionCreators.js.map

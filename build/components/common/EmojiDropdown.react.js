@@ -196,9 +196,9 @@ var EmojiDropdown = (function (_Component) {
 })(_react.Component);
 
 EmojiDropdown.propTypes = {
-  isOpen: _react2.default.PropTypes.bool.isRequired,
-  onClose: _react2.default.PropTypes.func.isRequired,
-  onSelect: _react2.default.PropTypes.func.isRequired
+  isOpen: _react.PropTypes.bool.isRequired,
+  onClose: _react.PropTypes.func.isRequired,
+  onSelect: _react.PropTypes.func.isRequired
 };
 exports.default = EmojiDropdown;
 //# sourceMappingURL=EmojiDropdown.react.js.map

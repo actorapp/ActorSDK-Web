@@ -40,33 +40,47 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var PureRenderMixin = _addons2.default.addons.PureRenderMixin;
 
-var ContactItem = (function (_React$Component) {
-  _inherits(ContactItem, _React$Component);
+var PeopleItem = (function (_Component) {
+  _inherits(PeopleItem, _Component);
 
-  function ContactItem(props) {
-    _classCallCheck(this, ContactItem);
+  function PeopleItem(props) {
+    _classCallCheck(this, PeopleItem);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ContactItem).call(this, props));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PeopleItem).call(this, props));
 
     _this.handleClick = function () {
       var _this$props = _this.props;
       var contact = _this$props.contact;
-      var onSelect = _this$props.onSelect;
+      var onClick = _this$props.onClick;
 
-      onSelect(contact);
+      onClick(contact);
+    };
+
+    _this.handleMouseOver = function () {
+      var onMouseOver = _this.props.onMouseOver;
+
+      onMouseOver();
     };
 
     return _this;
   }
 
-  _createClass(ContactItem, [{
+  _createClass(PeopleItem, [{
     key: 'render',
     value: function render() {
-      var contact = this.props.contact;
+      var _props = this.props;
+      var contact = _props.contact;
+      var isSelected = _props.isSelected;
+
+      var resultClassName = (0, _classnames2.default)('contacts__list__item row', {
+        'contacts__list__item--active': isSelected
+      });
 
       return _react2.default.createElement(
         'li',
-        { className: 'contacts__list__item row', onClick: this.handleClick },
+        { className: resultClassName,
+          onClick: this.handleClick,
+          onMouseOver: this.handleMouseOver },
         _react2.default.createElement(_AvatarItem2.default, { image: contact.avatar,
           placeholder: contact.placeholder,
           size: 'medium',
@@ -80,15 +94,17 @@ var ContactItem = (function (_React$Component) {
     }
   }]);
 
-  return ContactItem;
-})(_react2.default.Component);
+  return PeopleItem;
+})(_react.Component);
 
-ContactItem.propTypes = {
-  contact: _react2.default.PropTypes.object,
-  onSelect: _react2.default.PropTypes.func
+PeopleItem.propTypes = {
+  contact: _react.PropTypes.object.isRequired,
+  isSelected: _react.PropTypes.bool.isRequired,
+  onClick: _react.PropTypes.func.isRequired,
+  onMouseOver: _react.PropTypes.func.isRequired
 };
 
-_reactMixin2.default.onClass(ContactItem, PureRenderMixin);
+_reactMixin2.default.onClass(PeopleItem, PureRenderMixin);
 
-exports.default = ContactItem;
-//# sourceMappingURL=ContactItem.react.js.map
+exports.default = PeopleItem;
+//# sourceMappingURL=PeopleItem.react.js.map

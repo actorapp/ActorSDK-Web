@@ -31,6 +31,9 @@ exports.default = {
   removeContact: function removeContact(uid) {
     _ActorClient2.default.removeContact(uid);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CONTACT_REMOVE, { uid: uid });
+  },
+  search: function search(query) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CONTACT_LIST_SEARCH, { query: query });
   }
 }; /*
     * Copyright (C) 2015 Actor LLC. <https://actor.im>

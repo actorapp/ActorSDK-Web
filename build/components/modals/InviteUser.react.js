@@ -36,9 +36,9 @@ var _InviteUserByLinkActions = require('../../actions/InviteUserByLinkActions');
 
 var _InviteUserByLinkActions2 = _interopRequireDefault(_InviteUserByLinkActions);
 
-var _ContactStore = require('../../stores/ContactStore');
+var _PeopleStore = require('../../stores/PeopleStore');
 
-var _ContactStore2 = _interopRequireDefault(_ContactStore);
+var _PeopleStore2 = _interopRequireDefault(_PeopleStore);
 
 var _InviteUserStore = require('../../stores/InviteUserStore');
 
@@ -61,7 +61,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var getStateFromStores = function getStateFromStores() {
   return {
     isOpen: _InviteUserStore2.default.isModalOpen(),
-    contacts: _ContactStore2.default.getContacts(),
+    contacts: _PeopleStore2.default.getList(),
     group: _InviteUserStore2.default.getGroup()
   };
 };
@@ -115,7 +115,7 @@ var InviteUser = (function (_React$Component) {
     }, getStateFromStores());
 
     _InviteUserStore2.default.addChangeListener(_this.onChange);
-    _ContactStore2.default.addChangeListener(_this.onChange);
+    _PeopleStore2.default.addListener(_this.onChange);
     return _this;
   }
 
@@ -123,7 +123,6 @@ var InviteUser = (function (_React$Component) {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       _InviteUserStore2.default.removeChangeListener(this.onChange);
-      _ContactStore2.default.removeChangeListener(this.onChange);
     }
   }, {
     key: 'componentWillUpdate',

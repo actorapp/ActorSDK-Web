@@ -14,6 +14,10 @@ var _reactMixin = require('react-mixin');
 
 var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _reactIntl = require('react-intl');
 
 var _GroupListActionCreators = require('../../../actions/GroupListActionCreators');
@@ -56,17 +60,31 @@ var Group = (function (_Component) {
       onClick(group.peerInfo.peer);
     };
 
+    _this.handleMouseOver = function () {
+      var onMouseOver = _this.props.onMouseOver;
+
+      onMouseOver();
+    };
+
     return _this;
   }
 
   _createClass(Group, [{
     key: 'render',
     value: function render() {
-      var group = this.props.group;
+      var _props = this.props;
+      var group = _props.group;
+      var isSelected = _props.isSelected;
+
+      var resultClassName = (0, _classnames2.default)('group__list__item row', {
+        'group__list__item--active': isSelected
+      });
 
       return _react2.default.createElement(
         'li',
-        { className: 'group__list__item row', onClick: this.handleClick },
+        { className: resultClassName,
+          onClick: this.handleClick,
+          onMouseOver: this.handleMouseOver },
         _react2.default.createElement(
           'div',
           null,
@@ -115,7 +133,9 @@ var Group = (function (_Component) {
 
 Group.propTypes = {
   group: _react.PropTypes.object.isRequired,
-  onClick: _react.PropTypes.func.isRequired
+  isSelected: _react.PropTypes.bool.isRequired,
+  onClick: _react.PropTypes.func.isRequired,
+  onMouseOver: _react.PropTypes.func.isRequired
 };
 
 _reactMixin2.default.onClass(Group, _reactIntl.IntlMixin);

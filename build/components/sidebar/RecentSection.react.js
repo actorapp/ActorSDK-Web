@@ -38,7 +38,7 @@ var LoadDialogsScrollBottom = 100;
 
 var getStateFromStore = function getStateFromStore() {
   return {
-    dialogs: _DialogStore2.default.getAll()
+    dialogs: _DialogStore2.default.getAllDialogs()
   };
 };
 
@@ -67,16 +67,11 @@ var RecentSection = (function (_Component) {
 
     _this.state = getStateFromStore();
 
-    _DialogStore2.default.addChangeListener(_this.onChange);
+    _DialogStore2.default.addListener(_this.onChange);
     return _this;
   }
 
   _createClass(RecentSection, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _DialogStore2.default.removeChangeListener(this.onChange);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var dialogs = this.state.dialogs;

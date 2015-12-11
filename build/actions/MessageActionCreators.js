@@ -68,6 +68,10 @@ exports.default = {
 
   removeLike: function removeLike(peer, rid) {
     _ActorClient2.default.removeLike(peer, rid);
+  },
+
+  setMessages: function setMessages(messages) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_CHANGED, { messages: messages });
   }
 };
 //# sourceMappingURL=MessageActionCreators.js.map

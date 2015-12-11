@@ -40,7 +40,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var getStateFromStores = function getStateFromStores() {
   return {
-    dialogInfo: _DialogStore2.default.getSelectedDialogInfo(),
+    dialogInfo: _DialogStore2.default.getInfo(),
     isActivityOpen: _ActivityStore2.default.isOpen()
   };
 };
@@ -70,18 +70,12 @@ var ToolbarSection = (function (_Component) {
       isActivityOpen: false
     };
 
-    _DialogStore2.default.addSelectedChangeListener(_this.onChange);
-    _ActivityStore2.default.addChangeListener(_this.onChange);
+    _DialogStore2.default.addListener(_this.onChange);
+    _ActivityStore2.default.addListener(_this.onChange);
     return _this;
   }
 
   _createClass(ToolbarSection, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _DialogStore2.default.removeSelectedChangeListener(this.onChange);
-      _ActivityStore2.default.removeChangeListener(this.onChange);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _state = this.state;

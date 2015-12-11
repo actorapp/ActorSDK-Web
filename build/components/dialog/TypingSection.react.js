@@ -10,13 +10,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _addons = require('react/addons');
-
-var _addons2 = _interopRequireDefault(_addons);
+var _utils = require('flux/utils');
 
 var _classnames = require('classnames');
 
@@ -36,49 +30,38 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var PureRenderMixin = _addons2.default.addons.PureRenderMixin;
-
 var Typing = (function (_Component) {
   _inherits(Typing, _Component);
+
+  _createClass(Typing, null, [{
+    key: 'calculateState',
+    value: function calculateState() {
+      var typing = _DialogStore2.default.getTyping();
+      var newState = typing === null ? { show: false } : { typing: typing, show: true };
+      return newState;
+    }
+  }]);
 
   function Typing(props) {
     _classCallCheck(this, Typing);
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Typing).call(this, props));
 
-    _this.onTypingChange = function () {
-      var typing = _DialogStore2.default.getSelectedDialogTyping();
-      if (typing === null) {
-        _this.setState({ show: false });
-      } else {
-        _this.setState({ typing: typing, show: true });
-      }
-    };
-
     _this.state = {
-      typing: null,
-      show: false
+      typing: null
     };
     return _this;
   }
 
   _createClass(Typing, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      _DialogStore2.default.addTypingListener(this.onTypingChange);
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _DialogStore2.default.removeTypingListener(this.onTypingChange);
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var typing = this.state.typing;
-      var show = this.state.show;
+      var _state = this.state;
+      var show = _state.show;
+      var typing = _state.typing;
+
       var typingClassName = (0, _classnames2.default)('typing', {
-        'typing--hidden': show === false
+        'typing--hidden': !show
       });
 
       return _react2.default.createElement(
@@ -103,7 +86,9 @@ var Typing = (function (_Component) {
   return Typing;
 })(_react.Component);
 
-_reactMixin2.default.onClass(Typing, PureRenderMixin);
+Typing.getStores = function () {
+  return [_DialogStore2.default];
+};
 
-exports.default = Typing;
+exports.default = _utils.Container.create(Typing);
 //# sourceMappingURL=TypingSection.react.js.map

@@ -106,8 +106,8 @@ var getStateFromStores = function getStateFromStores() {
   };
 };
 
-var ComposeSection = (function (_React$Component) {
-  _inherits(ComposeSection, _React$Component);
+var ComposeSection = (function (_Component) {
+  _inherits(ComposeSection, _Component);
 
   function ComposeSection(props) {
     _classCallCheck(this, ComposeSection);
@@ -383,10 +383,10 @@ var ComposeSection = (function (_React$Component) {
   }]);
 
   return ComposeSection;
-})(_react2.default.Component);
+})(_react.Component);
 
 ComposeSection.propTypes = {
-  peer: _react2.default.PropTypes.object.isRequired
+  peer: _react.PropTypes.object.isRequired
 };
 
 _reactMixin2.default.onClass(ComposeSection, _reactIntl.IntlMixin);

@@ -24,8 +24,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Fold = (function (_React$Component) {
-  _inherits(Fold, _React$Component);
+var Fold = (function (_Component) {
+  _inherits(Fold, _Component);
 
   function Fold(props) {
     _classCallCheck(this, Fold);
@@ -93,12 +93,14 @@ var Fold = (function (_React$Component) {
   }]);
 
   return Fold;
-})(_react2.default.Component);
+})(_react.Component);
 
-Fold.PropTypes = {
-  icon: _react2.default.PropTypes.string,
-  iconClassName: _react2.default.PropTypes.string,
-  title: _react2.default.PropTypes.string.isRequired
+Fold.propTypes = {
+  children: _react.PropTypes.element,
+  icon: _react.PropTypes.string,
+  iconClassName: _react.PropTypes.string,
+  iconElement: _react.PropTypes.element,
+  title: _react.PropTypes.string.isRequired
 };
 exports.default = Fold;
 //# sourceMappingURL=Fold.React.js.map

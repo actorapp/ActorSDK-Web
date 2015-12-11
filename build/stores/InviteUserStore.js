@@ -97,7 +97,7 @@ var InviteUserStoreInstance = new InviteUserStore();
 
 InviteUserStoreInstance.dispatchToken = (0, _ActorAppDispatcher.register)(function (action) {
   switch (action.type) {
-    case _ActorAppConstants.ActionTypes.SELECTED_DIALOG_INFO_CHANGED:
+    case _ActorAppConstants.ActionTypes.DIALOG_INFO_CHANGED:
       _group = action.info;
       InviteUserStoreInstance.emitChange();
       break;

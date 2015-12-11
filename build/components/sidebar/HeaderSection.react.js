@@ -146,8 +146,12 @@ var HeaderSection = (function (_Component) {
       return _PreferencesActionCreators2.default.show();
     };
 
-    _this.openTwitter = function () {
-      return window.open('https://twitter.com/actorapp');
+    _this.openTwitter = function (event) {
+      if (_ActorClient2.default.isElectron()) {
+        _ActorClient2.default.handleLinkClick(event);
+      } else {
+        window.open('https://twitter.com/actorapp');
+      }
     };
 
     _this.setLogout = function () {

@@ -325,6 +325,12 @@ exports.default = {
   },
   findAllPhotos: function findAllPhotos(peer) {
     return window.messenger.findAllPhotos(peer);
+  },
+  handleLinkClick: function handleLinkClick(event) {
+    messenger.handleLinkClick(event);
+  },
+  isElectron: function isElectron() {
+    return window.messenger.isElectron();
   }
 };
 //# sourceMappingURL=ActorClient.js.map

@@ -1,8 +1,12 @@
 'use strict';
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
@@ -10,121 +14,51 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _ActorClient = require('../utils/ActorClient');
-
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
-var _DialogStore = require('./DialogStore');
-
-var _DialogStore2 = _interopRequireDefault(_DialogStore);
-
-var _events = require('events');
-
-var _objectAssign = require('object-assign');
-
-var _objectAssign2 = _interopRequireDefault(_objectAssign);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var CHANGE_EVENT = 'change';
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-var _isOpen = false,
-    _activity = null;
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var ActivityStore = (0, _objectAssign2.default)({}, _events.EventEmitter.prototype, {
-  getActivity: function getActivity() {
-    return _activity;
-  },
-  isOpen: function isOpen() {
-    return _isOpen;
-  },
-  emitChange: function emitChange() {
-    this.emit(CHANGE_EVENT);
-  },
-  addChangeListener: function addChangeListener(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
-  removeChangeListener: function removeChangeListener(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
+var _isOpen = false;
+
+var ActivityStore = (function (_Store) {
+  _inherits(ActivityStore, _Store);
+
+  function ActivityStore(dispatcher) {
+    _classCallCheck(this, ActivityStore);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(ActivityStore).call(this, dispatcher));
   }
-});
 
-// TODO: move bindings ot action creators
-var _cleanup = function _cleanup() {};
-
-var _setActivityFromPeer = function _setActivityFromPeer() {
-  _cleanup();
-
-  var peer = _DialogStore2.default.getSelectedDialogPeer();
-  switch (peer.type) {
-    case _ActorAppConstants.PeerTypes.USER:
-      {
-        (function () {
-          var change = function change(user) {
-            _activity = {
-              type: _ActorAppConstants.ActivityTypes.USER_PROFILE,
-              user: user
-            };
-
-            ActivityStore.emitChange();
-          };
-
-          _cleanup = function () {
-            _ActorClient2.default.unbindUser(peer.id, change);
-          };
-
-          _ActorClient2.default.bindUser(peer.id, change);
-        })();
+  _createClass(ActivityStore, [{
+    key: 'isOpen',
+    value: function isOpen() {
+      return _isOpen;
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.ACTIVITY_HIDE:
+          _isOpen = false;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.ACTIVITY_SHOW:
+          _isOpen = true;
+          this.__emitChange();
+          break;
+        default:
       }
-      break;
-    case _ActorAppConstants.PeerTypes.GROUP:
-      {
-        (function () {
-          var change = function change(group) {
-            _activity = {
-              type: _ActorAppConstants.ActivityTypes.GROUP_PROFILE,
-              group: group
-            };
+    }
+  }]);
 
-            ActivityStore.emitChange();
-          };
+  return ActivityStore;
+})(_utils.Store);
 
-          _cleanup = function () {
-            _ActorClient2.default.unbindGroup(peer.id, change);
-          };
-
-          _ActorClient2.default.bindGroup(peer.id, change);
-        })();
-      }
-      break;
-    default:
-      return;
-  }
-};
-
-ActivityStore.dispatchToken = _ActorAppDispatcher2.default.register(function (action) {
-  switch (action.type) {
-    case _ActorAppConstants.ActionTypes.ACTIVITY_HIDE:
-      _isOpen = false;
-      ActivityStore.emitChange();
-      break;
-    case _ActorAppConstants.ActionTypes.ACTIVITY_SHOW:
-      _isOpen = true;
-      ActivityStore.emitChange();
-      break;
-    case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-      _ActorAppDispatcher2.default.waitFor([_DialogStore2.default.dispatchToken]);
-      _setActivityFromPeer();
-      ActivityStore.emitChange();
-      break;
-    default:
-      return;
-  }
-});
-
-exports.default = ActivityStore;
+exports.default = new ActivityStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=ActivityStore.js.map

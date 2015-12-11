@@ -47,7 +47,7 @@ exports.default = {
   },
 
   sendAttachment: function sendAttachment() {
-    var currentPeer = _DialogStore2.default.getSelectedDialogPeer();
+    var currentPeer = _DialogStore2.default.getCurrentPeer();
     var attachment = _AttachmentStore2.default.getAttachment();
 
     if (attachment.isImage && attachment.sendAsPicture) {
@@ -60,7 +60,7 @@ exports.default = {
   },
 
   sendAll: function sendAll(attachments) {
-    var currentPeer = _DialogStore2.default.getSelectedDialogPeer();
+    var currentPeer = _DialogStore2.default.getCurrentPeer();
 
     (0, _lodash.forEach)(attachments, function (attachment) {
       if (attachment.isImage && attachment.sendAsPicture) {

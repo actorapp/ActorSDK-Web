@@ -62,7 +62,7 @@ var RecentSectionItem = (function (_Component) {
     value: function render() {
       var dialog = this.props.dialog;
 
-      var selectedPeer = _DialogStore2.default.getSelectedDialogPeer();
+      var selectedPeer = _DialogStore2.default.getCurrentPeer();
 
       var isActive = selectedPeer && _PeerUtils2.default.equals(dialog.peer.peer, selectedPeer);
 
@@ -93,7 +93,7 @@ var RecentSectionItem = (function (_Component) {
 })(_react.Component);
 
 RecentSectionItem.propTypes = {
-  dialog: _react2.default.PropTypes.object.isRequired
+  dialog: _react.PropTypes.object.isRequired
 };
 exports.default = RecentSectionItem;
 //# sourceMappingURL=RecentSectionItem.react.js.map

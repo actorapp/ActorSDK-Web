@@ -85,7 +85,10 @@ var Main = (function (_Component) {
     };
 
     _this.onKeyDown = function (event) {
+      // TODO: Make this hotkey work on windows
       if (event.keyCode === _ActorAppConstants.KeyCodes.K && event.metaKey) {
+        event.stopPropagation();
+        event.preventDefault();
         _QuickSearchActionCreators2.default.show();
       }
     };
@@ -93,8 +96,6 @@ var Main = (function (_Component) {
     var params = props.params;
 
     var peer = _PeerUtils2.default.stringToPeer(params.id);
-
-    (0, _EmojiUtils.preloadEmojiSheet)();
 
     document.addEventListener('visibilitychange', _this.onVisibilityChange);
     document.addEventListener('keydown', _this.onKeyDown, false);

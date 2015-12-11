@@ -20,6 +20,8 @@ var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 var _reactIntl = require('react-intl');
 
+var _ActorAppConstants = require('../../../constants/ActorAppConstants');
+
 var _GroupListActionCreators = require('../../../actions/GroupListActionCreators');
 
 var _GroupListActionCreators2 = _interopRequireDefault(_GroupListActionCreators);
@@ -54,17 +56,110 @@ var GroupList = (function (_Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GroupList).call(this, props));
 
+    _this.setFocus = function () {
+      return _react2.default.findDOMNode(_this.refs.search).focus();
+    };
+
     _this.handleClose = function () {
       return _GroupListActionCreators2.default.close();
     };
 
     _this.handleSearchChange = function (event) {
-      return _GroupListActionCreators2.default.search(event.target.value);
+      var query = event.target.value;
+      _this.setState({ query: query });
+      _this.searchGroups(query);
     };
+
+    _this.searchGroups = (0, _lodash.debounce)(function (query) {
+      return _GroupListActionCreators2.default.search(query);
+    }, 300, { trailing: true });
 
     _this.handleGroupSelect = function (peer) {
       _DialogActionCreators2.default.selectDialogPeer(peer);
       _this.handleClose();
+    };
+
+    _this.handleKeyDown = function (event) {
+      var _this$state = _this.state;
+      var results = _this$state.results;
+      var selectedIndex = _this$state.selectedIndex;
+
+      var index = selectedIndex;
+
+      var selectNext = function selectNext() {
+        if (index < results.length - 1) {
+          index += 1;
+        } else if (index === results.length - 1) {
+          index = 0;
+        }
+
+        _this.setState({ selectedIndex: index });
+
+        var scrollContainerNode = _react2.default.findDOMNode(_this.refs.results);
+        var selectedNode = _react2.default.findDOMNode(_this.refs.selected);
+        var scrollContainerNodeRect = scrollContainerNode.getBoundingClientRect();
+        var selectedNodeRect = selectedNode.getBoundingClientRect();
+
+        if (scrollContainerNodeRect.top + scrollContainerNodeRect.height < selectedNodeRect.top + selectedNodeRect.height) {
+          _this.handleScroll(scrollContainerNode.scrollTop + (selectedNodeRect.top + selectedNodeRect.height) - (scrollContainerNodeRect.top + scrollContainerNodeRect.height));
+        } else if (scrollContainerNodeRect.top > selectedNodeRect.top) {
+          _this.handleScroll(0);
+        }
+      };
+      var selectPrev = function selectPrev() {
+        if (index > 0) {
+          index -= 1;
+        } else if (index === 0) {
+          index = results.length - 1;
+        }
+
+        _this.setState({ selectedIndex: index });
+
+        var scrollContainerNode = _react2.default.findDOMNode(_this.refs.results);
+        var selectedNode = _react2.default.findDOMNode(_this.refs.selected);
+        var scrollContainerNodeRect = scrollContainerNode.getBoundingClientRect();
+        var selectedNodeRect = selectedNode.getBoundingClientRect();
+
+        if (scrollContainerNodeRect.top > selectedNodeRect.top) {
+          _this.handleScroll(scrollContainerNode.scrollTop + selectedNodeRect.top - scrollContainerNodeRect.top);
+        } else if (selectedNodeRect.top > scrollContainerNodeRect.top + scrollContainerNodeRect.height) {
+          _this.handleScroll(scrollContainerNode.scrollHeight);
+        }
+      };
+
+      switch (event.keyCode) {
+        case _ActorAppConstants.KeyCodes.ENTER:
+          event.stopPropagation();
+          event.preventDefault();
+          _this.handleGroupSelect(results[selectedIndex].peerInfo.peer);
+          break;
+
+        case _ActorAppConstants.KeyCodes.ARROW_UP:
+          event.stopPropagation();
+          event.preventDefault();
+          selectPrev();
+          break;
+        case _ActorAppConstants.KeyCodes.ARROW_DOWN:
+          event.stopPropagation();
+          event.preventDefault();
+          selectNext();
+          break;
+        case _ActorAppConstants.KeyCodes.TAB:
+          event.stopPropagation();
+          event.preventDefault();
+          if (event.shiftKey) {
+            selectPrev();
+          } else {
+            selectNext();
+          }
+          break;
+        default:
+      }
+    };
+
+    _this.handleScroll = function (top) {
+      var resultsNode = _react2.default.findDOMNode(_this.refs.results);
+      resultsNode.scrollTop = top;
     };
 
     return _this;
@@ -73,7 +168,13 @@ var GroupList = (function (_Component) {
   _createClass(GroupList, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      _react2.default.findDOMNode(this.refs.search).focus();
+      this.setFocus();
+      document.addEventListener('keydown', this.handleKeyDown, false);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      document.removeEventListener('keydown', this.handleKeyDown, false);
     }
   }, {
     key: 'render',
@@ -81,27 +182,20 @@ var GroupList = (function (_Component) {
       var _this2 = this;
 
       var _state = this.state;
-      var groups = _state.groups;
-      var searchQuery = _state.searchQuery;
+      var query = _state.query;
+      var results = _state.results;
+      var selectedIndex = _state.selectedIndex;
+      var list = _state.list;
 
-      var groupList = [];
-
-      (0, _lodash.forEach)(groups, function (group, i) {
-        var title = group.peerInfo.title.toLowerCase();
-        if (title.includes(searchQuery.toLowerCase())) {
-          groupList.push(_react2.default.createElement(_Group2.default, { group: group, key: i, onClick: _this2.handleGroupSelect }));
-        }
-      }, this);
-
-      if (groupList.length === 0) {
-        groupList.push(_react2.default.createElement(
-          'li',
-          { className: 'group__list__item group__list__item--empty text-center' },
-          _react2.default.createElement(_reactIntl.FormattedHTMLMessage, {
-            message: this.getIntlMessage('modal.groups.notFound'),
-            query: searchQuery })
-        ));
-      }
+      var groupList = (0, _lodash.map)(results, function (result, index) {
+        return _react2.default.createElement(_Group2.default, { group: result, key: index,
+          isSelected: selectedIndex === index,
+          ref: selectedIndex === index ? 'selected' : null,
+          onClick: _this2.handleGroupSelect,
+          onMouseOver: function onMouseOver() {
+            return _this2.setState({ selectedIndex: index });
+          } });
+      });
 
       return _react2.default.createElement(
         'div',
@@ -123,15 +217,20 @@ var GroupList = (function (_Component) {
             placeholder: this.getIntlMessage('modal.groups.search'),
             type: 'search',
             ref: 'search',
-            value: searchQuery })
+            value: query })
         ),
         _react2.default.createElement(
           'ul',
-          { className: 'newmodal__result group__list' },
-          groups.length === 0 ? _react2.default.createElement(
+          { className: 'newmodal__result group__list', ref: 'results' },
+          list.length === 0 ? _react2.default.createElement(
             'div',
             null,
             this.getIntlMessage('modal.groups.loading')
+          ) : results.length === 0 ? _react2.default.createElement(
+            'li',
+            { className: 'group__list__item group__list__item--empty text-center' },
+            _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { message: this.getIntlMessage('modal.groups.notFound'),
+              query: query })
           ) : groupList
         )
       );
@@ -140,8 +239,9 @@ var GroupList = (function (_Component) {
     key: 'calculateState',
     value: function calculateState() {
       return {
-        groups: _GroupListStore2.default.getList(),
-        searchQuery: _GroupListStore2.default.getSearchQuery()
+        list: _GroupListStore2.default.getList(),
+        results: _GroupListStore2.default.getResults(),
+        selectedIndex: 0
       };
     }
   }]);

@@ -53,10 +53,10 @@ var step = _ActorAppConstants.AuthSteps.LOGIN_WAIT,
 var LoginStore = (function (_Store) {
   _inherits(LoginStore, _Store);
 
-  function LoginStore(Dispatcher) {
+  function LoginStore(dispatcher) {
     _classCallCheck(this, LoginStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LoginStore).call(this, Dispatcher));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LoginStore).call(this, dispatcher));
 
     _this.getStep = function () {
       return step;
@@ -140,10 +140,10 @@ var LoginStore = (function (_Store) {
         case _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_FAILURE:
           switch (action.error) {
             case 'PHONE_NUMBER_INVALID':
-              errors.login = _l18n.intlData.messages.login.errors.numberInvalid;
+              errors.login = _this.intl.messages.login.errors.numberInvalid;
               break;
             case 'CODE_WAIT':
-              errors.login = _l18n.intlData.messages.login.errors.codeWait;
+              errors.login = _this.intl.messages.login.errors.codeWait;
               break;
             default:
               errors.login = action.error;
@@ -169,10 +169,10 @@ var LoginStore = (function (_Store) {
           switch (action.error) {
             case 'PHONE_CODE_INVALID':
             case 'EMAIL_CODE_INVALID':
-              errors.code = _l18n.intlData.messages.login.errors.codeInvalid;
+              errors.code = _this.intl.messages.login.errors.codeInvalid;
               break;
             case 'PHONE_CODE_EXPIRED':
-              errors.code = _l18n.intlData.messages.login.errors.codeExpired;
+              errors.code = _this.intl.messages.login.errors.codeExpired;
               break;
             default:
               errors.code = action.error;
@@ -204,7 +204,7 @@ var LoginStore = (function (_Store) {
         case _ActorAppConstants.ActionTypes.AUTH_SIGNUP_FAILURE:
           switch (action.error) {
             case 'NAME_INVALID':
-              errors.signup = _l18n.intlData.messages.login.errors.nameInvalid;
+              errors.signup = _this.intl.messages.login.errors.nameInvalid;
               break;
             default:
               errors.signup = action.error;
@@ -251,6 +251,7 @@ var LoginStore = (function (_Store) {
       }
     };
 
+    _this.intl = (0, _l18n.getIntlData)();
     return _this;
   }
 

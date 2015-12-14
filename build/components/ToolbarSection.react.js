@@ -10,6 +10,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _utils = require('flux/utils');
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -20,9 +22,9 @@ var _ActivityActionCreators = require('../actions/ActivityActionCreators');
 
 var _ActivityActionCreators2 = _interopRequireDefault(_ActivityActionCreators);
 
-var _DialogStore = require('../stores/DialogStore');
+var _DialogInfoStore = require('../stores/DialogInfoStore');
 
-var _DialogStore2 = _interopRequireDefault(_DialogStore);
+var _DialogInfoStore2 = _interopRequireDefault(_DialogInfoStore);
 
 var _ActivityStore = require('../stores/ActivityStore');
 
@@ -37,13 +39,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-var getStateFromStores = function getStateFromStores() {
-  return {
-    dialogInfo: _DialogStore2.default.getInfo(),
-    isActivityOpen: _ActivityStore2.default.isOpen()
-  };
-};
 
 var ToolbarSection = (function (_Component) {
   _inherits(ToolbarSection, _Component);
@@ -61,17 +56,6 @@ var ToolbarSection = (function (_Component) {
       }
     };
 
-    _this.onChange = function () {
-      return _this.setState(getStateFromStores());
-    };
-
-    _this.state = {
-      dialogInfo: null,
-      isActivityOpen: false
-    };
-
-    _DialogStore2.default.addListener(_this.onChange);
-    _ActivityStore2.default.addListener(_this.onChange);
     return _this;
   }
 
@@ -131,10 +115,22 @@ var ToolbarSection = (function (_Component) {
         return _react2.default.createElement('header', { className: 'toolbar' });
       }
     }
+  }], [{
+    key: 'calculateState',
+    value: function calculateState() {
+      return {
+        dialogInfo: _DialogInfoStore2.default.getInfo(),
+        isActivityOpen: _ActivityStore2.default.isOpen()
+      };
+    }
   }]);
 
   return ToolbarSection;
 })(_react.Component);
 
-exports.default = ToolbarSection;
+ToolbarSection.getStores = function () {
+  return [_DialogInfoStore2.default, _ActivityStore2.default];
+};
+
+exports.default = _utils.Container.create(ToolbarSection, { pure: false });
 //# sourceMappingURL=ToolbarSection.react.js.map

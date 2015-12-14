@@ -16,9 +16,9 @@ var _DialogActionCreators = require('../../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
-var _DialogStore = require('../../stores/DialogStore');
+var _AllDialogsStore = require('../../stores/AllDialogsStore');
 
-var _DialogStore2 = _interopRequireDefault(_DialogStore);
+var _AllDialogsStore2 = _interopRequireDefault(_AllDialogsStore);
 
 var _RecentSectionItem = require('./RecentSectionItem.react');
 
@@ -38,7 +38,7 @@ var LoadDialogsScrollBottom = 100;
 
 var getStateFromStore = function getStateFromStore() {
   return {
-    dialogs: _DialogStore2.default.getAllDialogs()
+    dialogs: _AllDialogsStore2.default.getAllDialogs()
   };
 };
 
@@ -67,7 +67,7 @@ var RecentSection = (function (_Component) {
 
     _this.state = getStateFromStore();
 
-    _DialogStore2.default.addListener(_this.onChange);
+    _AllDialogsStore2.default.addListener(_this.onChange);
     return _this;
   }
 

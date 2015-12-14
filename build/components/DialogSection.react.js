@@ -158,7 +158,7 @@ var DialogSection = (function (_Component) {
   _createClass(DialogSection, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var peer = _DialogStore2.default.getCurrentPeer();
+      var peer = this.state.peer;
 
       if (peer) {
         this.fixScroll();
@@ -177,6 +177,7 @@ var DialogSection = (function (_Component) {
       var _state = this.state;
       var peer = _state.peer;
       var isMember = _state.isMember;
+      var messagesToRender = _state.messagesToRender;
       var delegate = this.context.delegate;
 
       var activity = [],
@@ -188,6 +189,7 @@ var DialogSection = (function (_Component) {
         ToolbarSection = delegate.components.dialog.toolbar || _ToolbarSection2.default;
         TypingSection = delegate.components.dialog.typing || _TypingSection2.default;
         ComposeSection = delegate.components.dialog.compose || _ComposeSection2.default;
+
         if (delegate.components.dialog.activity) {
           (0, _lodash.forEach)(delegate.components.dialog.activity, function (Activity) {
             return activity.push(_react2.default.createElement(Activity, null));
@@ -209,7 +211,7 @@ var DialogSection = (function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'messages' },
-          _react2.default.createElement(_MessagesSection2.default, { messages: this.state.messagesToRender,
+          _react2.default.createElement(_MessagesSection2.default, { messages: messagesToRender,
             peer: peer,
             ref: 'MessagesSection',
             onScroll: this.loadMessagesByScroll })

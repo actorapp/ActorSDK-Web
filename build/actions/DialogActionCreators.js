@@ -28,6 +28,14 @@ var _GroupProfileActionCreators = require('./GroupProfileActionCreators');
 
 var _GroupProfileActionCreators2 = _interopRequireDefault(_GroupProfileActionCreators);
 
+var _TypingActionCreators = require('./TypingActionCreators');
+
+var _TypingActionCreators2 = _interopRequireDefault(_TypingActionCreators);
+
+var _DialogInfoActionCreators = require('./DialogInfoActionCreators');
+
+var _DialogInfoActionCreators2 = _interopRequireDefault(_DialogInfoActionCreators);
+
 var _DialogStore = require('../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
@@ -50,14 +58,14 @@ var DialogActionCreators = {
     if (currentPeer !== null) {
       this.onConversationClosed(currentPeer);
       _ActorClient2.default.unbindChat(currentPeer, _MessageActionCreators2.default.setMessages);
-      _ActorClient2.default.unbindTyping(currentPeer, this.setTyping);
+      _ActorClient2.default.unbindTyping(currentPeer, _TypingActionCreators2.default.setTyping);
 
       switch (currentPeer.type) {
         case _ActorAppConstants.PeerTypes.USER:
-          _ActorClient2.default.unbindUser(currentPeer.id, this.setDialogInfo);
+          _ActorClient2.default.unbindUser(currentPeer.id, _DialogInfoActionCreators2.default.setDialogInfo);
           break;
         case _ActorAppConstants.PeerTypes.GROUP:
-          _ActorClient2.default.unbindGroup(currentPeer.id, this.setDialogInfo);
+          _ActorClient2.default.unbindGroup(currentPeer.id, _DialogInfoActionCreators2.default.setDialogInfo);
           break;
         default:
       }
@@ -67,13 +75,13 @@ var DialogActionCreators = {
 
     this.onConversationOpen(peer);
     _ActorClient2.default.bindChat(peer, _MessageActionCreators2.default.setMessages);
-    _ActorClient2.default.bindTyping(peer, this.setTyping);
+    _ActorClient2.default.bindTyping(peer, _TypingActionCreators2.default.setTyping);
     switch (peer.type) {
       case _ActorAppConstants.PeerTypes.USER:
-        _ActorClient2.default.bindUser(peer.id, this.setDialogInfo);
+        _ActorClient2.default.bindUser(peer.id, _DialogInfoActionCreators2.default.setDialogInfo);
         break;
       case _ActorAppConstants.PeerTypes.GROUP:
-        _ActorClient2.default.bindGroup(peer.id, this.setDialogInfo);
+        _ActorClient2.default.bindGroup(peer.id, _DialogInfoActionCreators2.default.setDialogInfo);
         _GroupProfileActionCreators2.default.getIntegrationToken(peer.id);
         break;
       default:
@@ -87,12 +95,6 @@ var DialogActionCreators = {
     } else {
       this.selectDialogPeer(_ActorClient2.default.getUserPeer(uid));
     }
-  },
-  setDialogInfo: function setDialogInfo(info) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DIALOG_INFO_CHANGED, { info: info });
-  },
-  setTyping: function setTyping(typing) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DIALOG_TYPING_CHANGED, { typing: typing.typing });
   },
   onConversationOpen: function onConversationOpen(peer) {
     _ActorClient2.default.onConversationOpen(peer);
@@ -112,10 +114,6 @@ var DialogActionCreators = {
       success: _ActorAppConstants.ActionTypes.GROUP_LEAVE_SUCCESS,
       failure: _ActorAppConstants.ActionTypes.GROUP_LEAVE_ERROR
     }, { gid: gid });
-  },
-  changeNotificationsEnabled: function changeNotificationsEnabled(peer, isEnabled) {
-    _ActorClient2.default.changeNotificationsEnabled(peer, isEnabled);
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.NOTIFICATION_CHANGE, { peer: peer, isEnabled: isEnabled });
   },
   deleteChat: function deleteChat(peer) {
     var gid = peer.id;

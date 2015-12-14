@@ -28,8 +28,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var _currentPeer = null,
-    _lastPeer = null;
+var _dialogs = [];
 
 var DialogStore = (function (_Store) {
   _inherits(DialogStore, _Store);
@@ -41,32 +40,16 @@ var DialogStore = (function (_Store) {
   }
 
   _createClass(DialogStore, [{
-    key: 'getCurrentPeer',
-    value: function getCurrentPeer() {
-      return _currentPeer;
-    }
-  }, {
-    key: 'getLastPeer',
-    value: function getLastPeer() {
-      return _lastPeer;
-    }
-  }, {
-    key: 'isMember',
-    value: function isMember() {
-      if (_currentPeer !== null && _currentPeer.type === _ActorAppConstants.PeerTypes.GROUP) {
-        var group = _ActorClient2.default.getGroup(_currentPeer.id);
-        return group.members.length !== 0;
-      } else {
-        return true;
-      }
+    key: 'getAllDialogs',
+    value: function getAllDialogs() {
+      return _dialogs;
     }
   }, {
     key: '__onDispatch',
     value: function __onDispatch(action) {
       switch (action.type) {
-        case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-          _lastPeer = _currentPeer;
-          _currentPeer = action.peer;
+        case _ActorAppConstants.ActionTypes.DIALOGS_CHANGED:
+          _dialogs = action.dialogs;
           this.__emitChange();
           break;
         default:
@@ -78,4 +61,4 @@ var DialogStore = (function (_Store) {
 })(_utils.Store);
 
 exports.default = new DialogStore(_ActorAppDispatcher2.default);
-//# sourceMappingURL=DialogStore.js.map
+//# sourceMappingURL=AllDialogsStore.js.map

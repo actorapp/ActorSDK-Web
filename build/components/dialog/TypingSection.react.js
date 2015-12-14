@@ -16,9 +16,9 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _DialogStore = require('../../stores/DialogStore');
+var _TypingStore = require('../../stores/TypingStore');
 
-var _DialogStore2 = _interopRequireDefault(_DialogStore);
+var _TypingStore2 = _interopRequireDefault(_TypingStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -36,7 +36,7 @@ var Typing = (function (_Component) {
   _createClass(Typing, null, [{
     key: 'calculateState',
     value: function calculateState() {
-      var typing = _DialogStore2.default.getTyping();
+      var typing = _TypingStore2.default.getTyping();
       var newState = typing === null ? { show: false } : { typing: typing, show: true };
       return newState;
     }
@@ -87,7 +87,7 @@ var Typing = (function (_Component) {
 })(_react.Component);
 
 Typing.getStores = function () {
-  return [_DialogStore2.default];
+  return [_TypingStore2.default];
 };
 
 exports.default = _utils.Container.create(Typing);

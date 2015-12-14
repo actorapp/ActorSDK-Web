@@ -50,6 +50,10 @@ var _EditGroupActionCreators = require('../../actions/EditGroupActionCreators');
 
 var _EditGroupActionCreators2 = _interopRequireDefault(_EditGroupActionCreators);
 
+var _NotificationsActionCreators = require('../../actions/NotificationsActionCreators');
+
+var _NotificationsActionCreators2 = _interopRequireDefault(_NotificationsActionCreators);
+
 var _PeerStore = require('../../stores/PeerStore');
 
 var _PeerStore2 = _interopRequireDefault(_PeerStore);
@@ -57,6 +61,10 @@ var _PeerStore2 = _interopRequireDefault(_PeerStore);
 var _DialogStore = require('../../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
+
+var _NotificationsStore = require('../../stores/NotificationsStore');
+
+var _NotificationsStore2 = _interopRequireDefault(_NotificationsStore);
 
 var _GroupStore = require('../../stores/GroupStore');
 
@@ -104,7 +112,7 @@ var getStateFromStores = function getStateFromStores(gid) {
   var thisPeer = _GroupStore2.default.getGroup(gid);
   return {
     thisPeer: thisPeer,
-    isNotificationsEnabled: _DialogStore2.default.isNotificationsEnabled(thisPeer),
+    isNotificationsEnabled: _NotificationsStore2.default.isNotificationsEnabled(thisPeer),
     integrationToken: _GroupStore2.default.getToken()
   };
 };
@@ -133,7 +141,7 @@ var GroupProfile = (function (_Component) {
     _this.onNotificationChange = function (event) {
       var thisPeer = _this.state.thisPeer;
 
-      _DialogActionCreators2.default.changeNotificationsEnabled(thisPeer, event.target.checked);
+      _NotificationsActionCreators2.default.changeNotificationsEnabled(thisPeer, event.target.checked);
     };
 
     _this.onChange = function () {
@@ -192,7 +200,7 @@ var GroupProfile = (function (_Component) {
       isMoreDropdownOpen: false
     }, getStateFromStores(props.group.id));
 
-    _DialogStore2.default.addListener(_this.onChange);
+    _NotificationsStore2.default.addListener(_this.onChange);
     _GroupStore2.default.addListener(_this.onChange);
     return _this;
   }

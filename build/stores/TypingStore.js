@@ -14,10 +14,6 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _ActorClient = require('../utils/ActorClient');
-
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28,45 +24,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var _currentPeer = null,
-    _lastPeer = null;
+var _typing = null;
 
-var DialogStore = (function (_Store) {
-  _inherits(DialogStore, _Store);
+/**
+ * Class representing a store for typing info.
+ */
 
-  function DialogStore() {
-    _classCallCheck(this, DialogStore);
+var TypingStore = (function (_Store) {
+  _inherits(TypingStore, _Store);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(DialogStore).apply(this, arguments));
+  function TypingStore() {
+    _classCallCheck(this, TypingStore);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(TypingStore).apply(this, arguments));
   }
 
-  _createClass(DialogStore, [{
-    key: 'getCurrentPeer',
-    value: function getCurrentPeer() {
-      return _currentPeer;
-    }
-  }, {
-    key: 'getLastPeer',
-    value: function getLastPeer() {
-      return _lastPeer;
-    }
-  }, {
-    key: 'isMember',
-    value: function isMember() {
-      if (_currentPeer !== null && _currentPeer.type === _ActorAppConstants.PeerTypes.GROUP) {
-        var group = _ActorClient2.default.getGroup(_currentPeer.id);
-        return group.members.length !== 0;
-      } else {
-        return true;
-      }
+  _createClass(TypingStore, [{
+    key: 'getTyping',
+
+    /**
+     * @returns {String}
+     */
+    value: function getTyping() {
+      return _typing;
     }
   }, {
     key: '__onDispatch',
     value: function __onDispatch(action) {
       switch (action.type) {
-        case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-          _lastPeer = _currentPeer;
-          _currentPeer = action.peer;
+        case _ActorAppConstants.ActionTypes.TYPING_CHANGED:
+          _typing = action.typing;
           this.__emitChange();
           break;
         default:
@@ -74,8 +61,8 @@ var DialogStore = (function (_Store) {
     }
   }]);
 
-  return DialogStore;
+  return TypingStore;
 })(_utils.Store);
 
-exports.default = new DialogStore(_ActorAppDispatcher2.default);
-//# sourceMappingURL=DialogStore.js.map
+exports.default = new TypingStore(_ActorAppDispatcher2.default);
+//# sourceMappingURL=TypingStore.js.map

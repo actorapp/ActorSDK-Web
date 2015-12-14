@@ -43,7 +43,7 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
 
   DIALOGS_CHANGED: null,
   DIALOG_INFO_CHANGED: null,
-  DIALOG_TYPING_CHANGED: null,
+  TYPING_CHANGED: null,
   MY_PROFILE_CHANGED: null,
   SELECT_DIALOG_PEER: null,
   MESSAGES_CHANGED: null,

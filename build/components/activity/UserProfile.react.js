@@ -42,6 +42,10 @@ var _DialogActionCreators = require('../../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
+var _NotificationsActionCreators = require('../../actions/NotificationsActionCreators');
+
+var _NotificationsActionCreators2 = _interopRequireDefault(_NotificationsActionCreators);
+
 var _PeerStore = require('../../stores/PeerStore');
 
 var _PeerStore2 = _interopRequireDefault(_PeerStore);
@@ -49,6 +53,10 @@ var _PeerStore2 = _interopRequireDefault(_PeerStore);
 var _DialogStore = require('../../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
+
+var _NotificationsStore = require('../../stores/NotificationsStore');
+
+var _NotificationsStore2 = _interopRequireDefault(_NotificationsStore);
 
 var _AvatarItem = require('../common/AvatarItem.react');
 
@@ -72,7 +80,7 @@ var getStateFromStores = function getStateFromStores(userId) {
   var thisPeer = _PeerStore2.default.getUserPeer(userId);
   return {
     thisPeer: thisPeer,
-    isNotificationsEnabled: _DialogStore2.default.isNotificationsEnabled(thisPeer)
+    isNotificationsEnabled: _NotificationsStore2.default.isNotificationsEnabled(thisPeer)
   };
 };
 
@@ -104,7 +112,7 @@ var UserProfile = (function (_Component) {
     _this.onNotificationChange = function (event) {
       var thisPeer = _this.state.thisPeer;
 
-      _DialogActionCreators2.default.changeNotificationsEnabled(thisPeer, event.target.checked);
+      _NotificationsActionCreators2.default.changeNotificationsEnabled(thisPeer, event.target.checked);
     };
 
     _this.onChange = function () {

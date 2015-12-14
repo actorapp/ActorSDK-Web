@@ -28,45 +28,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var _currentPeer = null,
-    _lastPeer = null;
+var _info = null;
 
-var DialogStore = (function (_Store) {
-  _inherits(DialogStore, _Store);
+var DialogInfoStore = (function (_Store) {
+  _inherits(DialogInfoStore, _Store);
 
-  function DialogStore() {
-    _classCallCheck(this, DialogStore);
+  function DialogInfoStore() {
+    _classCallCheck(this, DialogInfoStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(DialogStore).apply(this, arguments));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(DialogInfoStore).apply(this, arguments));
   }
 
-  _createClass(DialogStore, [{
-    key: 'getCurrentPeer',
-    value: function getCurrentPeer() {
-      return _currentPeer;
-    }
-  }, {
-    key: 'getLastPeer',
-    value: function getLastPeer() {
-      return _lastPeer;
-    }
-  }, {
-    key: 'isMember',
-    value: function isMember() {
-      if (_currentPeer !== null && _currentPeer.type === _ActorAppConstants.PeerTypes.GROUP) {
-        var group = _ActorClient2.default.getGroup(_currentPeer.id);
-        return group.members.length !== 0;
-      } else {
-        return true;
-      }
+  _createClass(DialogInfoStore, [{
+    key: 'getInfo',
+    value: function getInfo() {
+      return _info;
     }
   }, {
     key: '__onDispatch',
     value: function __onDispatch(action) {
       switch (action.type) {
         case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-          _lastPeer = _currentPeer;
-          _currentPeer = action.peer;
+          if (action.peer.type === _ActorAppConstants.PeerTypes.GROUP) {
+            _info = _ActorClient2.default.getGroup(action.peer.id);
+          } else if (action.peer.type === _ActorAppConstants.PeerTypes.USER) {
+            _info = _ActorClient2.default.getUser(action.peer.id);
+          }
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.DIALOG_INFO_CHANGED:
+          _info = action.info;
           this.__emitChange();
           break;
         default:
@@ -74,8 +65,8 @@ var DialogStore = (function (_Store) {
     }
   }]);
 
-  return DialogStore;
+  return DialogInfoStore;
 })(_utils.Store);
 
-exports.default = new DialogStore(_ActorAppDispatcher2.default);
-//# sourceMappingURL=DialogStore.js.map
+exports.default = new DialogInfoStore(_ActorAppDispatcher2.default);
+//# sourceMappingURL=DialogInfoStore.js.map

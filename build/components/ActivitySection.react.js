@@ -26,6 +26,10 @@ var _DialogStore = require('../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
+var _DialogInfoStore = require('../stores/DialogInfoStore');
+
+var _DialogInfoStore2 = _interopRequireDefault(_DialogInfoStore);
+
 var _UserProfile = require('./activity/UserProfile.react');
 
 var _UserProfile2 = _interopRequireDefault(_UserProfile);
@@ -91,7 +95,7 @@ var ActivitySection = (function (_Component) {
     value: function calculateState() {
       return {
         peer: _DialogStore2.default.getCurrentPeer(),
-        info: _DialogStore2.default.getInfo(),
+        info: _DialogInfoStore2.default.getInfo(),
         isOpen: _ActivityStore2.default.isOpen()
       };
     }
@@ -101,7 +105,7 @@ var ActivitySection = (function (_Component) {
 })(_react.Component);
 
 ActivitySection.getStores = function () {
-  return [_DialogStore2.default, _ActivityStore2.default];
+  return [_DialogStore2.default, _DialogInfoStore2.default, _ActivityStore2.default];
 };
 
 exports.default = _utils.Container.create(ActivitySection, { pure: false });

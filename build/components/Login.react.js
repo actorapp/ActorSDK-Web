@@ -339,11 +339,6 @@ var Login = (function (_Component) {
                   isSignupStarted ? spinner : null
                 )
               )
-            ),
-            _react2.default.createElement(
-              'a',
-              { href: 'https://corp.actor.im' },
-              this.getIntlMessage('login.enterpriseUser')
             )
           )
         )

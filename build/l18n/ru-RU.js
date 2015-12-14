@@ -14,7 +14,6 @@ exports.default = {
       'email': 'Email адрес',
       'authCode': 'Код авторизации',
       'yourName': 'Ваше имя',
-      'enterpriseUser': 'Корпоративный пользователь?',
       'errors': {
         'numberInvalid': 'Неправильный номер',
         'nameInvalid': ' Неправильное имя',

@@ -48,6 +48,10 @@ var _AttachmentsActionCreators = require('../../actions/AttachmentsActionCreator
 
 var _AttachmentsActionCreators2 = _interopRequireDefault(_AttachmentsActionCreators);
 
+var _EmojiActionCreators = require('../../actions/EmojiActionCreators');
+
+var _EmojiActionCreators2 = _interopRequireDefault(_EmojiActionCreators);
+
 var _GroupStore = require('../../stores/GroupStore');
 
 var _GroupStore2 = _interopRequireDefault(_GroupStore);
@@ -203,17 +207,9 @@ var ComposeSection = (function (_Component) {
       return selection.start;
     };
 
-    _this.onEmojiDropdownSelect = function (emoji) {
-      _ComposeActionCreators2.default.insertEmoji(_this.state.text, _this.getCaretPosition(), emoji);
+    _this.handleEmojiSelect = function (emoji) {
+      _EmojiActionCreators2.default.insertEmoji(_this.state.text, _this.getCaretPosition(), emoji);
       _react2.default.findDOMNode(_this.refs.area).focus();
-    };
-
-    _this.onEmojiDropdownClose = function () {
-      return _this.setState({ isEmojiDropdownShow: false });
-    };
-
-    _this.onEmojiShowClick = function () {
-      return _this.setState({ isEmojiDropdownShow: true });
     };
 
     _this.setFocus = function () {
@@ -251,7 +247,6 @@ var ComposeSection = (function (_Component) {
     };
 
     _this.state = (0, _lodash.assign)({
-      isEmojiDropdownShow: false,
       isMardownHintShow: false
     }, getStateFromStores());
 
@@ -284,13 +279,9 @@ var ComposeSection = (function (_Component) {
       var text = _state.text;
       var profile = _state.profile;
       var mentions = _state.mentions;
-      var isEmojiDropdownShow = _state.isEmojiDropdownShow;
       var isMardownHintShow = _state.isMardownHintShow;
       var isSendAttachmentOpen = _state.isSendAttachmentOpen;
 
-      var emojiOpenerClassName = (0, _classnames2.default)('emoji-opener material-icons', {
-        'emoji-opener--active': isEmojiDropdownShow
-      });
       var markdownHintClassName = (0, _classnames2.default)('compose__markdown-hint', {
         'compose__markdown-hint--active': isMardownHintShow
       });
@@ -301,15 +292,7 @@ var ComposeSection = (function (_Component) {
         _react2.default.createElement(_MentionDropdown2.default, { mentions: mentions,
           onSelect: this.onMentionSelect,
           onClose: this.onMentionClose }),
-        _react2.default.createElement(_EmojiDropdown2.default, { isOpen: isEmojiDropdownShow,
-          onSelect: this.onEmojiDropdownSelect,
-          onClose: this.onEmojiDropdownClose }),
-        _react2.default.createElement(
-          'i',
-          { className: emojiOpenerClassName,
-            onClick: this.onEmojiShowClick },
-          'insert_emoticon'
-        ),
+        _react2.default.createElement(_EmojiDropdown2.default, { onSelect: this.handleEmojiSelect }),
         _react2.default.createElement(
           'div',
           { className: markdownHintClassName },

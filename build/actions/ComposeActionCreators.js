@@ -27,30 +27,19 @@ exports.default = {
     _DraftActionCreators2.default.saveDraft('', true);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.COMPOSE_CLEAN);
   },
-
   insertMention: function insertMention(peer, text, caretPosition, mention) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.COMPOSE_MENTION_INSERT, {
-      peer: peer, text: text, caretPosition: caretPosition, mention: mention
-    });
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.COMPOSE_MENTION_INSERT, { peer: peer, text: text, caretPosition: caretPosition, mention: mention });
   },
-
   closeMention: function closeMention() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.COMPOSE_MENTION_CLOSE);
   },
-
   onTyping: function onTyping(peer, text, caretPosition) {
-    if (text !== '') _ActorClient2.default.onTyping(peer);
+    if (text !== '') {
+      _ActorClient2.default.onTyping(peer);
+    }
 
     _DraftActionCreators2.default.saveDraft(text);
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.COMPOSE_TYPING, {
-      peer: peer, text: text, caretPosition: caretPosition
-    });
-  },
-
-  insertEmoji: function insertEmoji(text, caretPosition, emoji) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.COMPOSE_EMOJI_INSERT, {
-      text: text, caretPosition: caretPosition, emoji: emoji
-    });
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.COMPOSE_TYPING, { peer: peer, text: text, caretPosition: caretPosition });
   }
 };
 //# sourceMappingURL=ComposeActionCreators.js.map

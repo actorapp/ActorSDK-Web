@@ -173,7 +173,7 @@ ComposeStoreInstance.dispatchToken = (0, _ActorAppDispatcher.register)(function 
     case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
       onSelectDialogPeer();
       break;
-    case _ActorAppConstants.ActionTypes.COMPOSE_EMOJI_INSERT:
+    case _ActorAppConstants.ActionTypes.EMOJI_INSERT:
       onEmojiInsert(action);
       break;
     default:

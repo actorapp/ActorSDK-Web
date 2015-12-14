@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = require('react');
+var _utils = require('flux/utils');
 
-var _react2 = _interopRequireDefault(_react);
+var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
-var _ActorClient = require('../../../utils/ActorClient');
+var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
+var _ActorAppConstants = require('../constants/ActorAppConstants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24,58 +24,41 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var MAP_SIZE = '300x100';
+var _isOpen = false;
 
-var Geolocation = (function (_Component) {
-  _inherits(Geolocation, _Component);
+var EmojiStore = (function (_Store) {
+  _inherits(EmojiStore, _Store);
 
-  function Geolocation(props) {
-    _classCallCheck(this, Geolocation);
+  function EmojiStore(dispatcher) {
+    _classCallCheck(this, EmojiStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Geolocation).call(this, props));
-
-    _this.handleClick = function (event) {
-      var content = _this.props.content;
-
-      var linkToMap = 'https://maps.google.com/maps?q=loc:' + content.latitude + ',' + content.longitude;
-
-      if (_ActorClient2.default.isElectron()) {
-        _ActorClient2.default.handleLinkClick(event);
-      } else {
-        window.open(linkToMap);
-      }
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(EmojiStore).call(this, dispatcher));
   }
 
-  _createClass(Geolocation, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var content = _props.content;
-      var className = _props.className;
-
-      var imageSrc = 'https://maps.googleapis.com/maps/api/staticmap?center=' + content.latitude + ',' + content.longitude + '&zoom=15&size=' + MAP_SIZE + '&scale=2&maptype=roadmap&markers=color:red%7C' + content.latitude + ',' + content.longitude;
-
-      return _react2.default.createElement(
-        'div',
-        { className: className },
-        _react2.default.createElement(
-          'div',
-          { className: 'location', onClick: this.handleClick },
-          _react2.default.createElement('img', { src: imageSrc, alt: 'Location' })
-        )
-      );
+  _createClass(EmojiStore, [{
+    key: 'isOpen',
+    value: function isOpen() {
+      return _isOpen;
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.EMOJI_SHOW:
+          _isOpen = true;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.EMOJI_CLOSE:
+          _isOpen = false;
+          this.__emitChange();
+          break;
+        default:
+      }
     }
   }]);
 
-  return Geolocation;
-})(_react.Component);
+  return EmojiStore;
+})(_utils.Store);
 
-Geolocation.propTypes = {
-  content: _react.PropTypes.object.isRequired,
-  className: _react.PropTypes.string
-};
-exports.default = Geolocation;
-//# sourceMappingURL=Geolocation.react.js.map
+exports.default = new EmojiStore(_ActorAppDispatcher2.default);
+//# sourceMappingURL=EmojiStore.js.map

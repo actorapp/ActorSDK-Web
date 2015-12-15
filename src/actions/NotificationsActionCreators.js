@@ -4,6 +4,7 @@
 
 import { dispatch } from '../dispatcher/ActorAppDispatcher';
 import { ActionTypes } from '../constants/ActorAppConstants';
+import ActorClient from '../utils/ActorClient';
 
 const DialogInfoActionCreators = {
   changeNotificationsEnabled(peer, isEnabled) {

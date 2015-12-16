@@ -53,6 +53,7 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   COMPOSE_TYPING: null,
   COMPOSE_MENTION_INSERT: null,
   COMPOSE_MENTION_CLOSE: null,
+  COMPOSE_PASTE: null,
 
   EMOJI_INSERT: null,
   EMOJI_SHOW: null,

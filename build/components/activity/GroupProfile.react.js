@@ -220,37 +220,6 @@ var GroupProfile = (function (_Component) {
       var admin = _UserStore2.default.getUser(group.adminId);
       var isMember = _DialogStore2.default.isMember();
 
-      var adminControls = undefined;
-      if (group.adminId === myId) {
-        adminControls = [_react2.default.createElement(
-          'li',
-          { className: 'dropdown__menu__item hide' },
-          _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'photo_camera'
-          ),
-          this.getIntlMessage('setGroupPhoto')
-        ), _react2.default.createElement(
-          'li',
-          { className: 'dropdown__menu__item hide' },
-          _react2.default.createElement('svg', { className: 'icon icon--dropdown',
-            dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#integration"/>' } }),
-          this.getIntlMessage('addIntegration')
-        ), _react2.default.createElement(
-          'li',
-          { className: 'dropdown__menu__item', onClick: function onClick() {
-              return _this2.onEditGroupClick(group.id);
-            } },
-          _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'mode_edit'
-          ),
-          this.getIntlMessage('editGroup')
-        )];
-      }
-
       var members = _react2.default.createElement(_reactIntl.FormattedMessage, { message: this.getIntlMessage('members'), numMembers: group.members.length });
 
       var dropdownClassNames = (0, _classnames2.default)('dropdown', {
@@ -355,7 +324,18 @@ var GroupProfile = (function (_Component) {
                     _react2.default.createElement(
                       'ul',
                       { className: 'dropdown__menu dropdown__menu--right' },
-                      adminControls,
+                      _react2.default.createElement(
+                        'li',
+                        { className: 'dropdown__menu__item', onClick: function onClick() {
+                            return _this2.onEditGroupClick(group.id);
+                          } },
+                        _react2.default.createElement(
+                          'i',
+                          { className: 'material-icons' },
+                          'mode_edit'
+                        ),
+                        this.getIntlMessage('editGroup')
+                      ),
                       _react2.default.createElement(
                         'li',
                         { className: 'dropdown__menu__item',

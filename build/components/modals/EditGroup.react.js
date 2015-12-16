@@ -22,12 +22,6 @@ var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 var _reactIntl = require('react-intl');
 
-var _materialUi = require('material-ui');
-
-var _ActorTheme = require('../../constants/ActorTheme');
-
-var _ActorTheme2 = _interopRequireDefault(_ActorTheme);
-
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _EditGroupStore = require('../../stores/EditGroupStore');
@@ -45,6 +39,10 @@ var _EditGroupActionCreators2 = _interopRequireDefault(_EditGroupActionCreators)
 var _CropAvatarActionCreators = require('../../actions/CropAvatarActionCreators');
 
 var _CropAvatarActionCreators2 = _interopRequireDefault(_CropAvatarActionCreators);
+
+var _TextField = require('../common/TextField.react');
+
+var _TextField2 = _interopRequireDefault(_TextField);
 
 var _AvatarItem = require('../common/AvatarItem.react');
 
@@ -64,7 +62,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var ThemeManager = new _materialUi.Styles.ThemeManager();
+//import { Styles, TextField } from 'material-ui';
+//import ActorTheme from '../../constants/ActorTheme';
+
+//const ThemeManager = new Styles.ThemeManager();
 
 var EditGroup = (function (_Component) {
   _inherits(EditGroup, _Component);
@@ -106,9 +107,12 @@ var EditGroup = (function (_Component) {
       var group = _this$state.group;
       var title = _this$state.title;
       var about = _this$state.about;
+      var isAdmin = _this$state.isAdmin;
 
       _EditGroupActionCreators2.default.editGroupTitle(group.id, title);
-      _EditGroupActionCreators2.default.editGroupAbout(group.id, about);
+      if (isAdmin) {
+        _EditGroupActionCreators2.default.editGroupAbout(group.id, about);
+      }
       _this.onClose();
     };
 
@@ -145,29 +149,32 @@ var EditGroup = (function (_Component) {
     return _this;
   }
 
+  //static childContextTypes = {
+  //  muiTheme: React.PropTypes.object
+  //};
+  //
+  //getChildContext() {
+  //  return {
+  //    muiTheme: ThemeManager.getCurrentTheme()
+  //  };
+  //}
+
   _createClass(EditGroup, [{
-    key: 'getChildContext',
-    value: function getChildContext() {
-      return {
-        muiTheme: ThemeManager.getCurrentTheme()
-      };
-    }
-  }, {
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      ThemeManager.setTheme(_ActorTheme2.default);
-      ThemeManager.setComponentThemes({
-        textField: {
-          textColor: 'rgba(0,0,0,.87)',
-          focusColor: '#68a3e7',
-          backgroundColor: 'transparent',
-          borderColor: '#68a3e7',
-          disabledTextColor: 'rgba(0,0,0,.4)'
-        }
-      });
-    }
-  }, {
     key: 'componentWillUnmount',
+
+    //componentWillMount() {
+    //  ThemeManager.setTheme(ActorTheme);
+    //  ThemeManager.setComponentThemes({
+    //    textField: {
+    //      textColor: 'rgba(0,0,0,.87)',
+    //      focusColor: '#68a3e7',
+    //      backgroundColor: 'transparent',
+    //      borderColor: '#68a3e7',
+    //      disabledTextColor: 'rgba(0,0,0,.4)'
+    //    }
+    //  });
+    //}
+
     value: function componentWillUnmount() {
       this.removeListeners();
     }
@@ -189,6 +196,7 @@ var EditGroup = (function (_Component) {
       var isCropModalOpen = _state.isCropModalOpen;
       var title = _state.title;
       var about = _state.about;
+      var isAdmin = _state.isAdmin;
 
       var cropAvatar = isCropModalOpen ? _react2.default.createElement(_CropAvatar2.default, { onCropFinish: this.changeGroupAvatar }) : null;
 
@@ -228,13 +236,12 @@ var EditGroup = (function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'col-xs' },
-              _react2.default.createElement(_materialUi.TextField, { className: 'login__form__input',
-                floatingLabelText: this.getIntlMessage('modal.group.name'),
-                fullWidth: true,
+              _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
+                floatingLabel: this.getIntlMessage('modal.group.name'),
                 onChange: this.onTitleChange,
-                type: 'text',
+                ref: 'name',
                 value: title }),
-              _react2.default.createElement(
+              isAdmin ? _react2.default.createElement(
                 'div',
                 { className: 'about' },
                 _react2.default.createElement(
@@ -243,7 +250,7 @@ var EditGroup = (function (_Component) {
                   this.getIntlMessage('modal.group.about')
                 ),
                 _react2.default.createElement('textarea', { className: 'textarea', value: about, onChange: this.onAboutChange, id: 'about' })
-              )
+              ) : null
             ),
             _react2.default.createElement(
               'div',
@@ -293,6 +300,7 @@ var EditGroup = (function (_Component) {
       return {
         isOpen: _EditGroupStore2.default.isOpen(),
         group: _EditGroupStore2.default.getGroup(),
+        isAdmin: _EditGroupStore2.default.isAdmin(),
         title: _EditGroupStore2.default.getTitle(),
         about: _EditGroupStore2.default.getAbout(),
         isCropModalOpen: _CropAvatarStore2.default.isOpen()
@@ -302,10 +310,6 @@ var EditGroup = (function (_Component) {
 
   return EditGroup;
 })(_react.Component);
-
-EditGroup.childContextTypes = {
-  muiTheme: _react2.default.PropTypes.object
-};
 
 EditGroup.getStores = function () {
   return [_EditGroupStore2.default, _CropAvatarStore2.default];

@@ -165,6 +165,7 @@ var UserProfile = (function (_Component) {
       isActionsDropdownOpen: false
     }, getStateFromStores(props.user.id));
 
+    _NotificationsStore2.default.addListener(_this.onChange);
     _DialogStore2.default.addListener(_this.onChange);
     return _this;
   }

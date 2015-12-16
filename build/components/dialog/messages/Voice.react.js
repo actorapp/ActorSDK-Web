@@ -72,7 +72,12 @@ var Voice = (function (_Component) {
       _this.audio.currentTime = _this.audio.duration * rewindPosition;
     };
 
+    _this.handleLoading = function () {
+      _this.setState({ isLoaded: true });
+    };
+
     _this.state = {
+      isLoaded: false,
       isPlaying: false,
       currentTime: 0,
       duration: props.content.duration / 1000
@@ -82,6 +87,7 @@ var Voice = (function (_Component) {
     _this.audio.volume = 1;
     _this.audio.addEventListener('timeupdate', _this.handleTimeUpdate);
     _this.audio.addEventListener('ended', _this.handlePlayEnding);
+    _this.audio.addEventListener('canplaythrough', _this.handleLoading);
     return _this;
   }
 
@@ -99,6 +105,7 @@ var Voice = (function (_Component) {
       var isPlaying = _state.isPlaying;
       var currentTime = _state.currentTime;
       var duration = _state.duration;
+      var isLoaded = _state.isLoaded;
 
       var voiceClassName = (0, _classnames2.default)(className, 'row');
 
@@ -115,7 +122,11 @@ var Voice = (function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'voice__controls' },
-            isPlaying ? _react2.default.createElement(
+            !isLoaded ? _react2.default.createElement(
+              'i',
+              { className: 'material-icons', style: { opacity: 0.3 } },
+              'play_circle_filled'
+            ) : isPlaying ? _react2.default.createElement(
               'i',
               { className: 'material-icons', onClick: this.handlePauseClick },
               'pause_circle_filled'
@@ -150,11 +161,11 @@ var Voice = (function (_Component) {
                 )
               )
             ),
-            _react2.default.createElement(
+            isLoaded ? _react2.default.createElement(
               'div',
               { className: 'voice__rewind', onClick: this.handleRewind, ref: 'rewind' },
               _react2.default.createElement('div', { className: 'played', style: { width: progress + '%' } })
-            )
+            ) : _react2.default.createElement('div', { className: 'voice__rewind voice__rewind--loading' })
           )
         ),
         _react2.default.createElement('div', { className: 'col-xs' })

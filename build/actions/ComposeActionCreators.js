@@ -33,6 +33,11 @@ exports.default = {
   closeMention: function closeMention() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.COMPOSE_MENTION_CLOSE);
   },
+  pasteText: function pasteText(text) {
+    if (text !== '') {
+      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.COMPOSE_PASTE, { text: text });
+    }
+  },
   onTyping: function onTyping(peer, text, caretPosition) {
     if (text !== '') {
       _ActorClient2.default.onTyping(peer);

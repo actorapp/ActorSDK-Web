@@ -32,6 +32,8 @@ var _PeerUtils = require('../../../utils/PeerUtils');
 
 var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
 
+var _ActorAppConstants = require('../../../constants/ActorAppConstants');
+
 var _reactVisibilitySensor = require('react-visibility-sensor');
 
 var _reactVisibilitySensor2 = _interopRequireDefault(_reactVisibilitySensor);
@@ -48,7 +50,13 @@ var _ActivityActionCreators = require('../../../actions/ActivityActionCreators')
 
 var _ActivityActionCreators2 = _interopRequireDefault(_ActivityActionCreators);
 
-var _ActorAppConstants = require('../../../constants/ActorAppConstants');
+var _ComposeActionCreators = require('../../../actions/ComposeActionCreators');
+
+var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
+
+var _UserStore = require('../../../stores/UserStore');
+
+var _UserStore2 = _interopRequireDefault(_UserStore);
 
 var _AvatarItem = require('../../common/AvatarItem.react');
 
@@ -132,6 +140,20 @@ var MessageItem = (function (_Component) {
       _MessageActionCreators2.default.deleteMessage(peer, message.rid);
     };
 
+    _this.handleReply = function () {
+      var message = _this.props.message;
+
+      var info = _UserStore2.default.getUser(message.sender.peer.id);
+      var replyText = info.nick ? '@' + info.nick + ': ' : info.name + ': ';
+      _ComposeActionCreators2.default.pasteText(replyText);
+    };
+
+    _this.handleQuote = function () {
+      var message = _this.props.message;
+
+      _ComposeActionCreators2.default.pasteText('> ' + message.content.text + ' \n');
+    };
+
     _this.showActions = function () {
       _this.setState({ isActionsShown: true });
       document.addEventListener('click', _this.hideActions, false);
@@ -143,6 +165,7 @@ var MessageItem = (function (_Component) {
     };
 
     _this.state = {
+      isThisMyMessage: _UserStore2.default.getMyId() === props.message.sender.peer.id,
       isActionsShown: false
     };
     return _this;
@@ -156,6 +179,9 @@ var MessageItem = (function (_Component) {
       var isSameSender = _props.isSameSender;
       var onVisibilityChange = _props.onVisibilityChange;
       var peer = _props.peer;
+      var _state = this.state;
+      var isThisMyMessage = _state.isThisMyMessage;
+      var isActionsShown = _state.isActionsShown;
 
       var header = null,
           messageContent = null,
@@ -168,7 +194,7 @@ var MessageItem = (function (_Component) {
       });
 
       var actionsDropdownClassName = (0, _classnames2.default)('message__actions__menu dropdown dropdown--small', {
-        'dropdown--opened': this.state.isActionsShown
+        'dropdown--opened': isActionsShown
       });
 
       if (isSameSender) {
@@ -282,9 +308,9 @@ var MessageItem = (function (_Component) {
                 ' ',
                 this.getIntlMessage('message.pin')
               ),
-              _react2.default.createElement(
+              !isThisMyMessage ? _react2.default.createElement(
                 'li',
-                { className: 'dropdown__menu__item hide' },
+                { className: 'dropdown__menu__item', onClick: this.handleReply },
                 _react2.default.createElement(
                   'i',
                   { className: 'icon material-icons' },
@@ -292,7 +318,18 @@ var MessageItem = (function (_Component) {
                 ),
                 ' ',
                 this.getIntlMessage('message.reply')
-              ),
+              ) : null,
+              message.content.content === _ActorAppConstants.MessageContentTypes.TEXT ? _react2.default.createElement(
+                'li',
+                { className: 'dropdown__menu__item', onClick: this.handleQuote },
+                _react2.default.createElement(
+                  'i',
+                  { className: 'icon material-icons' },
+                  'format_quote'
+                ),
+                ' ',
+                this.getIntlMessage('message.quote')
+              ) : null,
               _react2.default.createElement(
                 'li',
                 { className: 'dropdown__menu__item hide' },

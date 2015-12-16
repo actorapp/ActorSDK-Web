@@ -28,8 +28,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var cache = {};
 
-var Image = (function (_React$Component) {
-  _inherits(Image, _React$Component);
+/**
+ * Class representing photo message component
+ * @todo: move info about cache to store;
+ */
+
+var Image = (function (_Component) {
+  _inherits(Image, _Component);
 
   function Image(props) {
     _classCallCheck(this, Image);
@@ -74,11 +79,22 @@ var Image = (function (_React$Component) {
       var loadedClassName = _props.loadedClassName;
       var isImageLoaded = this.state.isImageLoaded;
 
-      var k = content.w / 300;
-      var styles = {
-        width: Math.round(content.w / k),
-        height: Math.round(content.h / k)
-      };
+      var MAX_WIDTH = 300;
+      var MAX_HEIGHT = 400;
+      var width = content.w;
+      var height = content.h;
+
+      if (width > height) {
+        if (width > MAX_WIDTH) {
+          height *= MAX_WIDTH / width;
+          width = MAX_WIDTH;
+        }
+      } else {
+        if (height > MAX_HEIGHT) {
+          width *= MAX_HEIGHT / height;
+          height = MAX_HEIGHT;
+        }
+      }
 
       var original = null,
           preview = null,
@@ -113,7 +129,7 @@ var Image = (function (_React$Component) {
 
       return _react2.default.createElement(
         'div',
-        { className: imageClassName, style: styles },
+        { className: imageClassName, style: { width: width, height: height } },
         preview,
         original,
         preloader,
@@ -123,12 +139,12 @@ var Image = (function (_React$Component) {
   }]);
 
   return Image;
-})(_react2.default.Component);
+})(_react.Component);
 
 Image.propTypes = {
-  content: _react2.default.PropTypes.object.isRequired,
-  className: _react2.default.PropTypes.string,
-  loadedClassName: _react2.default.PropTypes.string
+  content: _react.PropTypes.object.isRequired,
+  className: _react.PropTypes.string,
+  loadedClassName: _react.PropTypes.string
 };
 exports.default = Image;
 //# sourceMappingURL=Image.react.js.map

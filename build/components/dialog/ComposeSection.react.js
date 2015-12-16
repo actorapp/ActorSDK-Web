@@ -119,7 +119,8 @@ var ComposeSection = (function (_Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ComposeSection).call(this, props));
 
     _this.onChange = function () {
-      return _this.setState(getStateFromStores());
+      _this.setState(getStateFromStores());
+      _this.setFocus();
     };
 
     _this.onMessageChange = function (event) {

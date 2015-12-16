@@ -156,6 +156,11 @@ var onEmojiInsert = function onEmojiInsert(action) {
   ComposeStoreInstance.emitChange();
 };
 
+var onComposePaste = function onComposePaste(newText) {
+  text = newText;
+  ComposeStoreInstance.emitChange();
+};
+
 ComposeStoreInstance.dispatchToken = (0, _ActorAppDispatcher.register)(function (action) {
   switch (action.type) {
     case _ActorAppConstants.ActionTypes.COMPOSE_TYPING:
@@ -175,6 +180,9 @@ ComposeStoreInstance.dispatchToken = (0, _ActorAppDispatcher.register)(function 
       break;
     case _ActorAppConstants.ActionTypes.EMOJI_INSERT:
       onEmojiInsert(action);
+      break;
+    case _ActorAppConstants.ActionTypes.COMPOSE_PASTE:
+      onComposePaste(action.text);
       break;
     default:
   }

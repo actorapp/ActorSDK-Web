@@ -85,6 +85,12 @@ var EditGroupStore = (function (_Store) {
       return _title;
     }
   }, {
+    key: 'isAdmin',
+    value: function isAdmin() {
+      var myID = _ActorClient2.default.getUid();
+      return _group.adminId === myID;
+    }
+  }, {
     key: 'setGroup',
     value: function setGroup(group) {
       _group = group;

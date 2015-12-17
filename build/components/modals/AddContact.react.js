@@ -182,11 +182,13 @@ var AddContact = (function (_Component) {
               'li',
               { className: 'add-contact__results__item add-contact__results__item--searching' },
               this.getIntlMessage('modal.addContact.empty')
-            ) : isSearching ? _react2.default.createElement(
-              'li',
-              { className: 'add-contact__results__item add-contact__results__item--searching' },
-              _react2.default.createElement(_reactIntl.FormattedMessage, { message: this.getIntlMessage('modal.addContact.searching'), query: query })
             ) : resultContacts
+            //: isSearching
+            //  ? <li className="add-contact__results__item add-contact__results__item--searching">
+            //      <FormattedMessage message={this.getIntlMessage('modal.addContact.searching')} query={query}/>
+            //    </li>
+            //  : resultContacts
+
           )
         )
       );

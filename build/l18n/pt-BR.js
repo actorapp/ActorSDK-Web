@@ -47,7 +47,7 @@ exports.default = {
       'ok': 'Ok',
       'cancel': 'Cancelar',
       'done': 'Feito',
-      'requestCode': 'Requesitar código',
+      'requestCode': 'Requisitar código',
       'checkCode': 'Checar código',
       'signUp': 'Cadastrar',
       'add': 'Adicionar',

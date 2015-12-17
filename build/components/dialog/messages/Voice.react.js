@@ -30,6 +30,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
+/**
+ * Class that represents a component for display voice message content
+ */
+
 var Voice = (function (_Component) {
   _inherits(Voice, _Component);
 

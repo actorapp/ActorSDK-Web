@@ -1,5 +1,7 @@
 'use strict';
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 Object.defineProperty(exports, "__esModule", {
@@ -62,13 +64,25 @@ var _AvatarItem = require('../../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
+var _State = require('./State.react');
+
+var _State2 = _interopRequireDefault(_State);
+
+var _Reactions = require('./Reactions.react');
+
+var _Reactions2 = _interopRequireDefault(_Reactions);
+
+var _Service = require('./Service.react');
+
+var _Service2 = _interopRequireDefault(_Service);
+
 var _Text = require('./Text.react');
 
 var _Text2 = _interopRequireDefault(_Text);
 
-var _Image = require('./Image.react');
+var _PhotoReact = require('./Photo.react.js');
 
-var _Image2 = _interopRequireDefault(_Image);
+var _PhotoReact2 = _interopRequireDefault(_PhotoReact);
 
 var _Document = require('./Document.react');
 
@@ -82,17 +96,13 @@ var _Contact = require('./Contact.react');
 
 var _Contact2 = _interopRequireDefault(_Contact);
 
-var _Geolocation = require('./Geolocation.react');
+var _LocationReact = require('./Location.react.js');
 
-var _Geolocation2 = _interopRequireDefault(_Geolocation);
+var _LocationReact2 = _interopRequireDefault(_LocationReact);
 
-var _State = require('./State.react');
+var _ModernReact = require('./Modern.react.js');
 
-var _State2 = _interopRequireDefault(_State);
-
-var _Reactions = require('./Reactions.react');
-
-var _Reactions2 = _interopRequireDefault(_Reactions);
+var _ModernReact2 = _interopRequireDefault(_ModernReact);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -103,6 +113,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
+
+// Default message content components
 
 var PureRenderMixin = _addons2.default.addons.PureRenderMixin;
 
@@ -179,9 +191,39 @@ var MessageItem = (function (_Component) {
       var isSameSender = _props.isSameSender;
       var onVisibilityChange = _props.onVisibilityChange;
       var peer = _props.peer;
+      var isThisLastMessage = _props.isThisLastMessage;
       var _state = this.state;
       var isThisMyMessage = _state.isThisMyMessage;
       var isActionsShown = _state.isActionsShown;
+      var delegate = this.context.delegate;
+
+      var Service = undefined,
+          Text = undefined,
+          Modern = undefined,
+          Photo = undefined,
+          Document = undefined,
+          Voice = undefined,
+          Contact = undefined,
+          Location = undefined;
+      if (delegate.components.dialog !== null && delegate.components.dialog.messages) {
+        Service = delegate.components.dialog.messages.service || _Service2.default;
+        Text = delegate.components.dialog.messages.text || _Text2.default;
+        Modern = delegate.components.dialog.messages.modern || _ModernReact2.default;
+        Photo = delegate.components.dialog.messages.photo || _PhotoReact2.default;
+        Document = delegate.components.dialog.messages.document || _Document2.default;
+        Voice = delegate.components.dialog.messages.voice || _Voice2.default;
+        Contact = delegate.components.dialog.messages.contact || _Contact2.default;
+        Location = delegate.components.dialog.messages.location || _LocationReact2.default;
+      } else {
+        Service = _Service2.default;
+        Text = _Text2.default;
+        Modern = _ModernReact2.default;
+        Photo = _PhotoReact2.default;
+        Document = _Document2.default;
+        Voice = _Voice2.default;
+        Contact = _Contact2.default;
+        Location = _LocationReact2.default;
+      }
 
       var header = null,
           messageContent = null,
@@ -194,7 +236,8 @@ var MessageItem = (function (_Component) {
       });
 
       var actionsDropdownClassName = (0, _classnames2.default)('message__actions__menu dropdown dropdown--small', {
-        'dropdown--opened': isActionsShown
+        'dropdown--opened': isActionsShown,
+        'dropdown--bottom': isThisLastMessage
       });
 
       if (isSameSender) {
@@ -239,33 +282,29 @@ var MessageItem = (function (_Component) {
 
       switch (message.content.content) {
         case _ActorAppConstants.MessageContentTypes.SERVICE:
-          messageContent = _react2.default.createElement('div', { className: 'message__content message__content--service',
-            dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(message.content.text) } });
+          messageContent = _react2.default.createElement(Service, _extends({}, message.content, { className: 'message__content message__content--service' }));
           break;
         case _ActorAppConstants.MessageContentTypes.TEXT:
-          messageContent = _react2.default.createElement(_Text2.default, { content: message.content,
-            className: 'message__content message__content--text' });
+          messageContent = _react2.default.createElement(Text, _extends({}, message.content, { className: 'message__content message__content--text' }));
           break;
         case _ActorAppConstants.MessageContentTypes.PHOTO:
-          messageContent = _react2.default.createElement(_Image2.default, { content: message.content,
-            className: 'message__content message__content--photo',
+          messageContent = _react2.default.createElement(Photo, { content: message.content, className: 'message__content message__content--photo',
             loadedClassName: 'message__content--photo--loaded' });
           break;
         case _ActorAppConstants.MessageContentTypes.DOCUMENT:
-          messageContent = _react2.default.createElement(_Document2.default, { content: message.content,
-            className: 'message__content message__content--document' });
+          messageContent = _react2.default.createElement(Document, { content: message.content, className: 'message__content message__content--document' });
           break;
         case _ActorAppConstants.MessageContentTypes.VOICE:
-          messageContent = _react2.default.createElement(_Voice2.default, { content: message.content,
-            className: 'message__content message__content--voice' });
+          messageContent = _react2.default.createElement(Voice, { content: message.content, className: 'message__content message__content--voice' });
           break;
         case _ActorAppConstants.MessageContentTypes.CONTACT:
-          messageContent = _react2.default.createElement(_Contact2.default, { content: message.content,
-            className: 'message__content message__content--contact' });
+          messageContent = _react2.default.createElement(Contact, { content: message.content, className: 'message__content message__content--contact' });
           break;
         case _ActorAppConstants.MessageContentTypes.LOCATION:
-          messageContent = _react2.default.createElement(_Geolocation2.default, { content: message.content,
-            className: 'message__content message__content--location' });
+          messageContent = _react2.default.createElement(Location, { content: message.content, className: 'message__content message__content--location' });
+          break;
+        case _ActorAppConstants.MessageContentTypes.TEXT_MODERN:
+          messageContent = _react2.default.createElement(Modern, _extends({}, message.content, { className: 'message__content message__content--modern' }));
           break;
         default:
       }
@@ -367,7 +406,11 @@ MessageItem.propTypes = {
   message: _react.PropTypes.object.isRequired,
   isNewDay: _react.PropTypes.bool,
   isSameSender: _react.PropTypes.bool,
+  isThisLastMessage: _react.PropTypes.bool,
   onVisibilityChange: _react.PropTypes.func
+};
+MessageItem.contextTypes = {
+  delegate: _react.PropTypes.object
 };
 
 _reactMixin2.default.onClass(MessageItem, _reactIntl.IntlMixin);

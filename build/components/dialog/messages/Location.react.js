@@ -26,15 +26,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var MAP_SIZE = '300x100';
 
-var Geolocation = (function (_Component) {
-  _inherits(Geolocation, _Component);
+/**
+ * Class that represent a component for display location messages content
+ */
 
-  function Geolocation(props) {
-    _classCallCheck(this, Geolocation);
+var Location = (function (_Component) {
+  _inherits(Location, _Component);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Geolocation).call(this, props));
+  function Location(props) {
+    _classCallCheck(this, Location);
 
-    _this.handleClick = function (event) {
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Location).call(this, props));
+
+    _this.handleMapClick = function (event) {
       var content = _this.props.content;
 
       var linkToMap = 'https://maps.google.com/maps?q=loc:' + content.latitude + ',' + content.longitude;
@@ -49,7 +53,7 @@ var Geolocation = (function (_Component) {
     return _this;
   }
 
-  _createClass(Geolocation, [{
+  _createClass(Location, [{
     key: 'render',
     value: function render() {
       var _props = this.props;
@@ -63,19 +67,19 @@ var Geolocation = (function (_Component) {
         { className: className },
         _react2.default.createElement(
           'div',
-          { className: 'location', onClick: this.handleClick },
+          { className: 'location', onClick: this.handleMapClick },
           _react2.default.createElement('img', { src: imageSrc, alt: 'Location' })
         )
       );
     }
   }]);
 
-  return Geolocation;
+  return Location;
 })(_react.Component);
 
-Geolocation.propTypes = {
+Location.propTypes = {
   content: _react.PropTypes.object.isRequired,
   className: _react.PropTypes.string
 };
-exports.default = Geolocation;
-//# sourceMappingURL=Geolocation.react.js.map
+exports.default = Location;
+//# sourceMappingURL=Location.react.js.map

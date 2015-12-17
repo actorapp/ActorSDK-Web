@@ -29,17 +29,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var cache = {};
 
 /**
- * Class representing photo message component
- * @todo: move info about cache to store;
+ * Class that represents a component for display photo message content
+ * @todo move info about cache to store;
  */
 
-var Image = (function (_Component) {
-  _inherits(Image, _Component);
+var Photo = (function (_Component) {
+  _inherits(Photo, _Component);
 
-  function Image(props) {
-    _classCallCheck(this, Image);
+  function Photo(props) {
+    _classCallCheck(this, Photo);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Image).call(this, props));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Photo).call(this, props));
 
     _this.state = {
       isImageLoaded: _this.isCached()
@@ -47,7 +47,7 @@ var Image = (function (_Component) {
     return _this;
   }
 
-  _createClass(Image, [{
+  _createClass(Photo, [{
     key: 'openLightBox',
     value: function openLightBox() {
       _ImageUtils.lightbox.open(this.props.content.fileUrl, 'message');
@@ -138,13 +138,13 @@ var Image = (function (_Component) {
     }
   }]);
 
-  return Image;
+  return Photo;
 })(_react.Component);
 
-Image.propTypes = {
+Photo.propTypes = {
   content: _react.PropTypes.object.isRequired,
   className: _react.PropTypes.string,
   loadedClassName: _react.PropTypes.string
 };
-exports.default = Image;
-//# sourceMappingURL=Image.react.js.map
+exports.default = Photo;
+//# sourceMappingURL=Photo.react.js.map

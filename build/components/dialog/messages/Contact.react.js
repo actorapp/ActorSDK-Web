@@ -26,6 +26,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
+/**
+ * Class that represents a component for display contact message content
+ */
+
 var Contact = (function (_Component) {
   _inherits(Contact, _Component);
 
@@ -61,6 +65,7 @@ var Contact = (function (_Component) {
           );
         });
       }
+      // TODO: `pones` must be renamed to `phones` in library
       if (content.pones.length > 0) {
         phones = (0, _lodash.map)(content.pones, function (phone) {
           return _react2.default.createElement(

@@ -94,10 +94,12 @@ var MessagesSection = (function (_Component) {
 
     _this.getMessagesListItem = function (message, index) {
       var isOnlyOneDay = _this.state.isOnlyOneDay;
+      var messages = _this.props.messages;
 
       var date = message.fullDate;
 
       var isFirstMessage = index === 0;
+      var isThisLastMessage = index > messages.length - 1 - 3;
       var isNewDay = date.getDate() !== lastMessageDate.getDate();
 
       var dateDivider = null;
@@ -116,6 +118,7 @@ var MessagesSection = (function (_Component) {
         message: message,
         isNewDay: isNewDay,
         isSameSender: isSameSender,
+        isThisLastMessage: isThisLastMessage,
         onVisibilityChange: _this.onMessageVisibilityChange,
         peer: _this.props.peer });
 

@@ -40,10 +40,6 @@ var MessageReactions = (function (_Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MessageReactions).call(this, props));
 
-    _this.state = {
-      canAnimateHeart: true
-    };
-
     _this.handleAddLike = function () {
       _MessageActionCreators2.default.addLike(_this.props.peer, _this.props.message.rid);
       _this.setState({ isThisMyReaction: true });
@@ -54,6 +50,9 @@ var MessageReactions = (function (_Component) {
       _this.setState({ isThisMyReaction: true });
     };
 
+    _this.state = {
+      canAnimateHeart: true
+    };
     return _this;
   }
 

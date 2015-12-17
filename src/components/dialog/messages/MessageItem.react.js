@@ -22,14 +22,18 @@ import ComposeActionCreators from '../../../actions/ComposeActionCreators';
 import UserStore from '../../../stores/UserStore';
 
 import AvatarItem from '../../common/AvatarItem.react';
-import Text from './Text.react';
-import Image from './Image.react';
-import Document from './Document.react';
-import Voice from './Voice.react';
-import Contact from './Contact.react';
-import Geolocation from './Geolocation.react';
 import State from './State.react';
 import Reactions from './Reactions.react';
+
+// Default message content components
+import DefaultService from './Service.react';
+import DefaultText from './Text.react';
+import DefaultPhoto from './Photo.react.js';
+import DefaultDocument from './Document.react';
+import DefaultVoice from './Voice.react';
+import DefaultContact from './Contact.react';
+import DefaultLocation from './Location.react.js';
+import DefaultModern from './Modern.react.js';
 
 const {addons: { PureRenderMixin }} = addons;
 
@@ -39,7 +43,12 @@ class MessageItem extends Component {
     message: PropTypes.object.isRequired,
     isNewDay: PropTypes.bool,
     isSameSender: PropTypes.bool,
+    isThisLastMessage: PropTypes.bool,
     onVisibilityChange: PropTypes.func
+  };
+
+  static contextTypes = {
+    delegate: PropTypes.object
   };
 
   constructor(props) {
@@ -94,8 +103,30 @@ class MessageItem extends Component {
   };
 
   render() {
-    const { message, isSameSender, onVisibilityChange, peer } = this.props;
+    const { message, isSameSender, onVisibilityChange, peer, isThisLastMessage } = this.props;
     const { isThisMyMessage, isActionsShown } = this.state;
+    const { delegate } = this.context;
+
+    let Service, Text, Modern, Photo, Document, Voice, Contact, Location;
+    if (delegate.components.dialog !== null && delegate.components.dialog.messages) {
+      Service = delegate.components.dialog.messages.service || DefaultService;
+      Text = delegate.components.dialog.messages.text || DefaultText;
+      Modern = delegate.components.dialog.messages.modern || DefaultModern;
+      Photo = delegate.components.dialog.messages.photo || DefaultPhoto;
+      Document = delegate.components.dialog.messages.document || DefaultDocument;
+      Voice = delegate.components.dialog.messages.voice || DefaultVoice;
+      Contact = delegate.components.dialog.messages.contact || DefaultContact;
+      Location = delegate.components.dialog.messages.location || DefaultLocation;
+    } else {
+      Service = DefaultService;
+      Text = DefaultText;
+      Modern = DefaultModern;
+      Photo = DefaultPhoto;
+      Document = DefaultDocument;
+      Voice = DefaultVoice;
+      Contact = DefaultContact;
+      Location = DefaultLocation;
+    }
 
     let header = null,
         messageContent = null,
@@ -108,7 +139,8 @@ class MessageItem extends Component {
     });
 
     const actionsDropdownClassName = classnames('message__actions__menu dropdown dropdown--small', {
-      'dropdown--opened': isActionsShown
+      'dropdown--opened': isActionsShown,
+      'dropdown--bottom': isThisLastMessage
     });
 
     if (isSameSender) {
@@ -141,47 +173,29 @@ class MessageItem extends Component {
 
     switch (message.content.content) {
       case MessageContentTypes.SERVICE:
-        messageContent = (
-          <div className="message__content message__content--service"
-               dangerouslySetInnerHTML={{__html: escapeWithEmoji(message.content.text)}}/>
-        );
+        messageContent = <Service {...message.content} className="message__content message__content--service"/>;
         break;
       case MessageContentTypes.TEXT:
-        messageContent = (
-          <Text content={message.content}
-                className="message__content message__content--text"/>
-        );
+        messageContent = <Text {...message.content} className="message__content message__content--text"/>;
         break;
       case MessageContentTypes.PHOTO:
-        messageContent = (
-          <Image content={message.content}
-                 className="message__content message__content--photo"
-                 loadedClassName="message__content--photo--loaded"/>
-        );
+        messageContent = <Photo content={message.content} className="message__content message__content--photo"
+                                loadedClassName="message__content--photo--loaded"/>;
         break;
       case MessageContentTypes.DOCUMENT:
-        messageContent = (
-          <Document content={message.content}
-                    className="message__content message__content--document"/>
-        );
+        messageContent = <Document content={message.content} className="message__content message__content--document"/>;
         break;
       case MessageContentTypes.VOICE:
-        messageContent = (
-          <Voice content={message.content}
-                    className="message__content message__content--voice"/>
-        );
+        messageContent = <Voice content={message.content} className="message__content message__content--voice"/>;
         break;
       case MessageContentTypes.CONTACT:
-        messageContent = (
-          <Contact content={message.content}
-                    className="message__content message__content--contact"/>
-        );
+        messageContent = <Contact content={message.content} className="message__content message__content--contact"/>;
         break;
       case MessageContentTypes.LOCATION:
-        messageContent = (
-          <Geolocation content={message.content}
-                       className="message__content message__content--location"/>
-        );
+        messageContent = <Location content={message.content} className="message__content message__content--location"/>;
+        break;
+      case MessageContentTypes.TEXT_MODERN:
+        messageContent = <Modern {...message.content} className="message__content message__content--modern"/>;
         break;
       default:
     }

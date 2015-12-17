@@ -10,17 +10,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _memoizee = require('memoizee');
+var _classnames = require('classnames');
 
-var _memoizee2 = _interopRequireDefault(_memoizee);
-
-var _ActorClient = require('../../../utils/ActorClient');
-
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
-var _ActorAppConstants = require('../../../constants/ActorAppConstants');
-
-var _EmojiUtils = require('../../../utils/EmojiUtils');
+var _classnames2 = _interopRequireDefault(_classnames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,60 +24,65 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var processText = function processText(text) {
-  var markedText = _ActorClient2.default.renderMarkdown(text);
-  var emojifiedText = markedText;
-
-  _EmojiUtils.emoji.include_title = true;
-  _EmojiUtils.emoji.include_text = true;
-  _EmojiUtils.emoji.change_replace_mode('css');
-  emojifiedText = _EmojiUtils.emoji.replace_colons(emojifiedText);
-  emojifiedText = _EmojiUtils.emoji.replace_unified(emojifiedText);
-  return emojifiedText;
-};
-
-var memoizedProcessText = (0, _memoizee2.default)(processText, {
-  length: 1000,
-  maxAge: 60 * 60 * 1000,
-  max: 10000
-});
-
 /**
- * Class that represents a component for display text message content
+ * Class that represents component for display modern text messages content
+ * @param {object} paragraphStyle Contains message styles
  * @param {string} text Message text
  * @param {string} className Component class name
  */
 
-var Text = (function (_Component) {
-  _inherits(Text, _Component);
+var TextModern = (function (_Component) {
+  _inherits(TextModern, _Component);
 
-  function Text(props) {
-    _classCallCheck(this, Text);
+  function TextModern(props) {
+    _classCallCheck(this, TextModern);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Text).call(this, props));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(TextModern).call(this, props));
   }
 
-  _createClass(Text, [{
+  _createClass(TextModern, [{
     key: 'render',
     value: function render() {
       var _props = this.props;
+      var paragraphStyle = _props.paragraphStyle;
+      var attaches = _props.attaches;
       var text = _props.text;
       var className = _props.className;
+
+      var modernClassName = (0, _classnames2.default)('modern', {
+        'modern--paragraph': paragraphStyle.showParagraph
+      });
+
+      var modernStyles = {
+        borderColor: paragraphStyle.color ? paragraphStyle.color.name : 'transparent',
+        backgroundColor: paragraphStyle.bgColor ? paragraphStyle.bgColor.name : 'transparent',
+        color: paragraphStyle.color ? paragraphStyle.color.name : 'inherit'
+      };
 
       return _react2.default.createElement(
         'div',
         { className: className },
-        _react2.default.createElement('div', { className: 'text', dangerouslySetInnerHTML: { __html: memoizedProcessText(text) } })
+        _react2.default.createElement(
+          'div',
+          { className: modernClassName, style: modernStyles },
+          paragraphStyle.showParagraph ? _react2.default.createElement(
+            'p',
+            null,
+            text
+          ) : { text: text }
+        )
       );
     }
   }]);
 
-  return Text;
+  return TextModern;
 })(_react.Component);
 
-Text.propTypes = {
+TextModern.propTypes = {
+  attaches: _react.PropTypes.object.isRequired,
+  paragraphStyle: _react.PropTypes.object.isRequired,
   text: _react.PropTypes.string.isRequired,
   className: _react.PropTypes.string
 };
-exports.default = Text;
-//# sourceMappingURL=Text.react.js.map
+exports.default = TextModern;
+//# sourceMappingURL=Modern.react.js.map

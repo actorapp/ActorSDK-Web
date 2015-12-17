@@ -10,7 +10,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
  */
 
-/** Class representing a delegate for overriding default app behaviour. */
+/**
+ * Class representing a delegate for overriding default app behaviour.
+ */
 
 var ActorSDKDelegate =
 /**

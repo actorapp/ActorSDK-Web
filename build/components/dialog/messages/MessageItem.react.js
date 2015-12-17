@@ -232,7 +232,8 @@ var MessageItem = (function (_Component) {
       var messageSender = (0, _EmojiUtils.escapeWithEmoji)(message.sender.title);
 
       var messageClassName = (0, _classnames2.default)('message row', {
-        'message--same-sender': isSameSender
+        'message--same-sender': isSameSender,
+        'message--active': isActionsShown
       });
 
       var actionsDropdownClassName = (0, _classnames2.default)('message__actions__menu dropdown dropdown--small', {

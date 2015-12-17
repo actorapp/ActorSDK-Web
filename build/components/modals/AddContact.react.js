@@ -183,6 +183,8 @@ var AddContact = (function (_Component) {
               { className: 'add-contact__results__item add-contact__results__item--searching' },
               this.getIntlMessage('modal.addContact.empty')
             ) : resultContacts
+
+            // Search is too fast for showing searching status.
             //: isSearching
             //  ? <li className="add-contact__results__item add-contact__results__item--searching">
             //      <FormattedMessage message={this.getIntlMessage('modal.addContact.searching')} query={query}/>

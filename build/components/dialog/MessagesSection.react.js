@@ -34,6 +34,10 @@ var _DialogStore = require('../../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
+var _MessageStore = require('../../stores/MessageStore');
+
+var _MessageStore2 = _interopRequireDefault(_MessageStore);
+
 var _MessageItem = require('./messages/MessageItem.react');
 
 var _MessageItem2 = _interopRequireDefault(_MessageItem);
@@ -93,7 +97,9 @@ var MessagesSection = (function (_Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MessagesSection).call(this, props));
 
     _this.getMessagesListItem = function (message, index) {
-      var isOnlyOneDay = _this.state.isOnlyOneDay;
+      var _this$state = _this.state;
+      var isOnlyOneDay = _this$state.isOnlyOneDay;
+      var selectedMessages = _this$state.selectedMessages;
       var messages = _this.props.messages;
 
       var date = message.fullDate;
@@ -114,11 +120,15 @@ var MessagesSection = (function (_Component) {
       }
       var isSameSender = message.sender.peer.id === lastMessageSenderId && !isFirstMessage && !isNewDay;
 
+      var isSelected = selectedMessages.has(message.rid);
+
       var messageItem = _react2.default.createElement(_MessageItem2.default, { key: message.sortKey,
         message: message,
         isNewDay: isNewDay,
         isSameSender: isSameSender,
         isThisLastMessage: isThisLastMessage,
+        onSelect: _this.handleMessageSelect,
+        isSelected: isSelected,
         onVisibilityChange: _this.onMessageVisibilityChange,
         peer: _this.props.peer });
 
@@ -131,6 +141,20 @@ var MessagesSection = (function (_Component) {
     _this.onAppVisibilityChange = function () {
       if (_VisibilityStore2.default.isAppVisible()) {
         flushDelayed();
+      }
+    };
+
+    _this.onMessagesChange = function () {
+      return _this.setState({ selectedMessages: _MessageStore2.default.getSelected() });
+    };
+
+    _this.handleMessageSelect = function (rid) {
+      var selectedMessages = _this.state.selectedMessages;
+
+      if (selectedMessages.has(rid)) {
+        _MessageActionCreators2.default.setSelected(selectedMessages.remove(rid));
+      } else {
+        _MessageActionCreators2.default.setSelected(selectedMessages.add(rid));
       }
     };
 
@@ -152,12 +176,14 @@ var MessagesSection = (function (_Component) {
     };
 
     _this.state = {
-      isOnlyOneDay: isOnlyOneDay(props.messages)
+      isOnlyOneDay: isOnlyOneDay(props.messages),
+      selectedMessages: _MessageStore2.default.getSelected()
     };
 
     lastMessageDate = new Date();
 
     _VisibilityStore2.default.addListener(_this.onAppVisibilityChange);
+    _MessageStore2.default.addListener(_this.onMessagesChange);
     return _this;
   }
 

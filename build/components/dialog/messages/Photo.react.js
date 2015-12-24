@@ -41,6 +41,25 @@ var Photo = (function (_Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Photo).call(this, props));
 
+    _this.openLightBox = function () {
+      _ImageUtils.lightbox.open(_this.props.content.fileUrl, 'message');
+    };
+
+    _this.onLoad = function () {
+      _this.setCached();
+      if (!_this.state.isImageLoaded) {
+        _this.setState({ isImageLoaded: true });
+      }
+    };
+
+    _this.isCached = function () {
+      return cache[_this.props.content.fileUrl] === true;
+    };
+
+    _this.setCached = function () {
+      cache[_this.props.content.fileUrl] = true;
+    };
+
     _this.state = {
       isImageLoaded: _this.isCached()
     };
@@ -48,29 +67,6 @@ var Photo = (function (_Component) {
   }
 
   _createClass(Photo, [{
-    key: 'openLightBox',
-    value: function openLightBox() {
-      _ImageUtils.lightbox.open(this.props.content.fileUrl, 'message');
-    }
-  }, {
-    key: 'onLoad',
-    value: function onLoad() {
-      this.setCached();
-      if (!this.state.isImageLoaded) {
-        this.setState({ isImageLoaded: true });
-      }
-    }
-  }, {
-    key: 'isCached',
-    value: function isCached() {
-      return cache[this.props.content.fileUrl] === true;
-    }
-  }, {
-    key: 'setCached',
-    value: function setCached() {
-      cache[this.props.content.fileUrl] = true;
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
@@ -103,8 +99,8 @@ var Photo = (function (_Component) {
       if (content.fileUrl) {
         original = _react2.default.createElement('img', { className: 'photo photo--original',
           height: content.h,
-          onClick: this.openLightBox.bind(this),
-          onLoad: this.onLoad.bind(this),
+          onClick: this.openLightBox,
+          onLoad: this.onLoad,
           src: content.fileUrl,
           width: content.w });
       }

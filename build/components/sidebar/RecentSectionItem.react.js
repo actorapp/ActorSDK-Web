@@ -70,11 +70,6 @@ var RecentSectionItem = (function (_Component) {
         'sidebar__list__item--active': isActive,
         'sidebar__list__item--unread': dialog.counter > 0
       });
-      var counter = dialog.counter > 0 ? _react2.default.createElement(
-        'span',
-        { className: 'counter' },
-        dialog.counter
-      ) : null;
 
       return _react2.default.createElement(
         'li',
@@ -84,7 +79,11 @@ var RecentSectionItem = (function (_Component) {
           size: 'tiny',
           title: dialog.peer.title }),
         _react2.default.createElement('div', { className: 'title col-xs', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(dialog.peer.title) } }),
-        counter
+        dialog.counter > 0 ? _react2.default.createElement(
+          'span',
+          { className: 'counter' },
+          dialog.counter
+        ) : null
       );
     }
   }]);

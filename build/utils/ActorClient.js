@@ -331,6 +331,12 @@ exports.default = {
   },
   isElectron: function isElectron() {
     return window.messenger.isElectron();
+  },
+  favoriteChat: function favoriteChat(peer) {
+    return window.messenger.favoriteChat(peer);
+  },
+  unfavoriteChat: function unfavoriteChat(peer) {
+    return window.messenger.unfavoriteChat(peer);
   }
 };
 //# sourceMappingURL=ActorClient.js.map

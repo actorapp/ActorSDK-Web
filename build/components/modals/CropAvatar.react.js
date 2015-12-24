@@ -262,14 +262,20 @@ var CropAvatarModal = (function (_Component) {
     };
 
     _this.storeScaledSizes = function (event) {
+      var cropSize = _this.state.cropSize;
+
       var originalImage = _react2.default.findDOMNode(_this.refs.originalImage);
-      _this.setState({
-        scaledWidth: originalImage.width,
-        scaledHeight: originalImage.height,
-        naturalWidth: originalImage.naturalWidth,
-        naturalHeight: originalImage.naturalHeight,
-        scaleRatio: originalImage.width / originalImage.naturalWidth
-      });
+      var scaledWidth = originalImage.width;
+      var scaledHeight = originalImage.height;
+      var naturalWidth = originalImage.naturalWidth;
+      var naturalHeight = originalImage.naturalHeight;
+      var scaleRatio = scaledWidth / naturalWidth;
+      var cropPosition = {
+        x: (naturalWidth / 2 - cropSize / 2) * scaleRatio,
+        y: (naturalHeight / 2 - cropSize / 2) * scaleRatio
+      };
+
+      _this.setState({ cropPosition: cropPosition, scaledWidth: scaledWidth, scaledHeight: scaledHeight, naturalWidth: naturalWidth, naturalHeight: naturalHeight, scaleRatio: scaleRatio });
     };
 
     return _this;

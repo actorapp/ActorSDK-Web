@@ -104,6 +104,10 @@ var _ModernReact = require('./Modern.react.js');
 
 var _ModernReact2 = _interopRequireDefault(_ModernReact);
 
+var _StickerReact = require('./Sticker.react.js');
+
+var _StickerReact2 = _interopRequireDefault(_StickerReact);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -176,6 +180,14 @@ var MessageItem = (function (_Component) {
       document.removeEventListener('click', _this.hideActions, false);
     };
 
+    _this.toggleMessageSelection = function () {
+      var _this$props3 = _this.props;
+      var message = _this$props3.message;
+      var onSelect = _this$props3.onSelect;
+
+      onSelect && onSelect(message.rid);
+    };
+
     _this.state = {
       isThisMyMessage: _UserStore2.default.getMyId() === props.message.sender.peer.id,
       isActionsShown: false
@@ -192,10 +204,13 @@ var MessageItem = (function (_Component) {
       var onVisibilityChange = _props.onVisibilityChange;
       var peer = _props.peer;
       var isThisLastMessage = _props.isThisLastMessage;
+      var isSelected = _props.isSelected;
       var _state = this.state;
       var isThisMyMessage = _state.isThisMyMessage;
       var isActionsShown = _state.isActionsShown;
-      var delegate = this.context.delegate;
+      var _context = this.context;
+      var delegate = _context.delegate;
+      var isExperemental = _context.isExperemental;
 
       var Service = undefined,
           Text = undefined,
@@ -204,7 +219,8 @@ var MessageItem = (function (_Component) {
           Document = undefined,
           Voice = undefined,
           Contact = undefined,
-          Location = undefined;
+          Location = undefined,
+          Sticker = undefined;
       if (delegate.components.dialog !== null && delegate.components.dialog.messages) {
         Service = delegate.components.dialog.messages.service || _Service2.default;
         Text = delegate.components.dialog.messages.text || _Text2.default;
@@ -214,6 +230,7 @@ var MessageItem = (function (_Component) {
         Voice = delegate.components.dialog.messages.voice || _Voice2.default;
         Contact = delegate.components.dialog.messages.contact || _Contact2.default;
         Location = delegate.components.dialog.messages.location || _LocationReact2.default;
+        Sticker = delegate.components.dialog.messages.sticker || _StickerReact2.default;
       } else {
         Service = _Service2.default;
         Text = _Text2.default;
@@ -223,6 +240,7 @@ var MessageItem = (function (_Component) {
         Voice = _Voice2.default;
         Contact = _Contact2.default;
         Location = _LocationReact2.default;
+        Sticker = _StickerReact2.default;
       }
 
       var header = null,
@@ -233,7 +251,8 @@ var MessageItem = (function (_Component) {
 
       var messageClassName = (0, _classnames2.default)('message row', {
         'message--same-sender': isSameSender,
-        'message--active': isActionsShown
+        'message--active': isActionsShown,
+        'message--selected': isSelected
       });
 
       var actionsDropdownClassName = (0, _classnames2.default)('message__actions__menu dropdown dropdown--small', {
@@ -306,6 +325,9 @@ var MessageItem = (function (_Component) {
           break;
         case _ActorAppConstants.MessageContentTypes.TEXT_MODERN:
           messageContent = _react2.default.createElement(Modern, _extends({}, message.content, { className: 'message__content message__content--modern' }));
+          break;
+        case _ActorAppConstants.MessageContentTypes.STICKER:
+          messageContent = _react2.default.createElement(Sticker, _extends({}, message.content, { className: 'message__content message__content--sticker' }));
           break;
         default:
       }
@@ -393,7 +415,16 @@ var MessageItem = (function (_Component) {
                 this.getIntlMessage('message.delete')
               )
             )
-          )
+          ),
+          isExperemental ? _react2.default.createElement(
+            'div',
+            { className: 'message__actions__selector', onClick: this.toggleMessageSelection },
+            _react2.default.createElement(
+              'i',
+              { className: 'icon material-icons' },
+              'check'
+            )
+          ) : null
         )
       );
     }
@@ -407,11 +438,14 @@ MessageItem.propTypes = {
   message: _react.PropTypes.object.isRequired,
   isNewDay: _react.PropTypes.bool,
   isSameSender: _react.PropTypes.bool,
+  isSelected: _react.PropTypes.bool,
   isThisLastMessage: _react.PropTypes.bool,
-  onVisibilityChange: _react.PropTypes.func
+  onVisibilityChange: _react.PropTypes.func,
+  onSelect: _react.PropTypes.func
 };
 MessageItem.contextTypes = {
-  delegate: _react.PropTypes.object
+  delegate: _react.PropTypes.object,
+  isExperemental: _react.PropTypes.bool
 };
 
 _reactMixin2.default.onClass(MessageItem, _reactIntl.IntlMixin);

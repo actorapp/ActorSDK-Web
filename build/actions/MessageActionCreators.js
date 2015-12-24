@@ -72,6 +72,9 @@ exports.default = {
 
   setMessages: function setMessages(messages) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_CHANGED, { messages: messages });
+  },
+  setSelected: function setSelected(selectedMesages) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_SET_SELECTED, { selectedMesages: selectedMesages });
   }
 };
 //# sourceMappingURL=MessageActionCreators.js.map

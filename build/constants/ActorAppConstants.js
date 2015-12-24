@@ -63,6 +63,7 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   MESSAGE_SEND_FILE: null,
   MESSAGE_SEND_PHOTO: null,
   MESSAGE_DELETE: null,
+  MESSAGES_SET_SELECTED: null,
 
   ACTIVITY_SHOW: null,
   ACTIVITY_HIDE: null,
@@ -211,7 +212,8 @@ var MessageContentTypes = exports.MessageContentTypes = {
   VOICE: 'voice',
   CONTACT: 'contact',
   LOCATION: 'location',
-  UNSUPPORTED: 'unsupported'
+  UNSUPPORTED: 'unsupported',
+  STICKER: 'sticker'
 };
 
 var KeyCodes = exports.KeyCodes = {

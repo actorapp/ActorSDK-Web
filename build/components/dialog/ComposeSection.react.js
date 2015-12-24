@@ -289,7 +289,7 @@ var ComposeSection = (function (_Component) {
 
       return _react2.default.createElement(
         'section',
-        { className: 'compose', onPaste: this.onPaste },
+        { className: 'compose' },
         _react2.default.createElement(_MentionDropdown2.default, { mentions: mentions,
           onSelect: this.onMentionSelect,
           onClose: this.onMentionClose }),
@@ -328,6 +328,7 @@ var ComposeSection = (function (_Component) {
         _react2.default.createElement('textarea', { className: 'compose__message',
           onChange: this.onMessageChange,
           onKeyDown: this.onKeyDown,
+          onPaste: this.onPaste,
           value: text,
           ref: 'area' }),
         _react2.default.createElement(

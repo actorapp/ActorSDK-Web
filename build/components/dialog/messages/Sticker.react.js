@@ -6,17 +6,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _immutable = require('immutable');
+var _react = require('react');
 
-var _immutable2 = _interopRequireDefault(_immutable);
+var _react2 = _interopRequireDefault(_react);
 
-var _utils = require('flux/utils');
+var _classnames = require('classnames');
 
-var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
-
-var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
-
-var _ActorAppConstants = require('../constants/ActorAppConstants');
+var _classnames2 = _interopRequireDefault(_classnames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,67 +24,89 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var _messages = [];
-var _selectedMessages = new _immutable2.default.Set();
-
 /**
- * Class representing a store for messages.
+ * Class that represents a component for display sticker message content
  */
 
-var MessageStore = (function (_Store) {
-  _inherits(MessageStore, _Store);
+var Sticker = (function (_Component) {
+  _inherits(Sticker, _Component);
 
-  function MessageStore(dispatcher) {
-    _classCallCheck(this, MessageStore);
+  function Sticker(props) {
+    _classCallCheck(this, Sticker);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(MessageStore).call(this, dispatcher));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Sticker).call(this, props));
+
+    _this.state = {
+      isLoaded: false
+    };
+    return _this;
   }
 
-  /**
-   * @returns {Array} All messages stored for currently bound conversation
-   */
+  _createClass(Sticker, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
 
-  _createClass(MessageStore, [{
-    key: 'getAll',
-    value: function getAll() {
-      return _messages;
-    }
+      var _props = this.props;
+      var className = _props.className;
+      var w = _props.w;
+      var h = _props.h;
+      var fileUrl = _props.fileUrl;
+      var isLoaded = this.state.isLoaded;
 
-    /**
-     * @returns {Array} Selected messages
-     */
+      var preloader = _react2.default.createElement(
+        'div',
+        { className: 'preloader' },
+        _react2.default.createElement('div', null),
+        _react2.default.createElement('div', null),
+        _react2.default.createElement('div', null),
+        _react2.default.createElement('div', null),
+        _react2.default.createElement('div', null)
+      );
+      var stickerClassName = (0, _classnames2.default)('sticker', {
+        'sticker--loaded': isLoaded
+      });
 
-  }, {
-    key: 'getSelected',
-    value: function getSelected() {
-      return _selectedMessages;
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-          _selectedMessages = new _immutable2.default.Set();
-          this.__emitChange();
-          break;
+      var MAX_WIDTH = 200;
+      var MAX_HEIGHT = 200;
+      var width = w;
+      var height = h;
 
-        case _ActorAppConstants.ActionTypes.MESSAGES_CHANGED:
-          _messages = action.messages;
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.MESSAGES_SET_SELECTED:
-          _selectedMessages = action.selectedMesages;
-          this.__emitChange();
-          break;
-
-        default:
+      if (width > height) {
+        if (width > MAX_WIDTH) {
+          height *= MAX_WIDTH / width;
+          width = MAX_WIDTH;
+        }
+      } else {
+        if (height > MAX_HEIGHT) {
+          width *= MAX_HEIGHT / height;
+          height = MAX_HEIGHT;
+        }
       }
+
+      return _react2.default.createElement(
+        'div',
+        { className: className },
+        _react2.default.createElement(
+          'div',
+          { className: stickerClassName, style: { width: width, height: height } },
+          preloader,
+          _react2.default.createElement('img', { src: fileUrl, width: width, height: height, onLoad: function onLoad() {
+              return _this2.setState({ isLoaded: true });
+            } })
+        )
+      );
     }
   }]);
 
-  return MessageStore;
-})(_utils.Store);
+  return Sticker;
+})(_react.Component);
 
-exports.default = new MessageStore(_ActorAppDispatcher2.default);
-//# sourceMappingURL=MessageStore.js.map
+Sticker.propTypes = {
+  className: _react.PropTypes.string,
+  fileUrl: _react.PropTypes.string.isRequired,
+  h: _react.PropTypes.number.isRequired,
+  w: _react.PropTypes.number.isRequired
+};
+exports.default = Sticker;
+//# sourceMappingURL=Sticker.react.js.map

@@ -43,17 +43,26 @@ var Contact = (function (_Component) {
     key: 'render',
     value: function render() {
       var _props = this.props;
-      var content = _props.content;
+      var name = _props.name;
+      var photo64 = _props.photo64;
+      var emails = _props.emails;
+      var pones = _props.pones;
       var className = _props.className;
 
       var contactClassName = (0, _classnames2.default)(className, 'row');
+      var isContactEmpty = emails.length === 0 && pones.length === 0;
+      console.debug(isContactEmpty);
 
-      var contactAvatar = 'data:image/jpeg;base64,' + content.photo64;
+      var contactAvatar = photo64 ? _react2.default.createElement(
+        'div',
+        { className: 'contact__avatar' },
+        _react2.default.createElement('img', { src: 'data:image/jpeg;base64,' + photo64, alt: name })
+      ) : null;
 
-      var emails = undefined,
-          phones = undefined;
-      if (content.emails.length > 0) {
-        emails = (0, _lodash.map)(content.emails, function (email) {
+      var emaislList = [],
+          phonesList = [];
+      if (emails.length > 0) {
+        emaislList = (0, _lodash.map)(emails, function (email) {
           return _react2.default.createElement(
             'li',
             { className: 'contact__emails__item' },
@@ -66,8 +75,8 @@ var Contact = (function (_Component) {
         });
       }
       // TODO: `pones` must be renamed to `phones` in library
-      if (content.pones.length > 0) {
-        phones = (0, _lodash.map)(content.pones, function (phone) {
+      if (pones.length > 0) {
+        phonesList = (0, _lodash.map)(pones, function (phone) {
           return _react2.default.createElement(
             'li',
             { className: 'contact__phones__item' },
@@ -83,32 +92,36 @@ var Contact = (function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: contactClassName },
-        _react2.default.createElement(
+        isContactEmpty ? _react2.default.createElement(
+          'div',
+          { className: 'contact contact--empty row' },
+          _react2.default.createElement(
+            'i',
+            { className: 'material-icons' },
+            'error'
+          ),
+          'Empty contact'
+        ) : _react2.default.createElement(
           'div',
           { className: 'contact row' },
-          _react2.default.createElement(
-            'div',
-            { className: 'contact__avatar' },
-            _react2.default.createElement('img', { src: contactAvatar,
-              alt: content.name })
-          ),
+          contactAvatar,
           _react2.default.createElement(
             'div',
             { className: 'contact__body col-xs' },
             _react2.default.createElement(
               'div',
               { className: 'contact__name' },
-              content.name
+              name
             ),
-            content.emails.length > 0 ? _react2.default.createElement(
+            emaislList.length > 0 ? _react2.default.createElement(
               'ul',
               { className: 'contact__emails' },
-              emails
+              emaislList
             ) : null,
-            content.pones.length > 0 ? _react2.default.createElement(
+            phonesList.length > 0 ? _react2.default.createElement(
               'ul',
               { className: 'contact__phones' },
-              phones
+              phonesList
             ) : null
           )
         ),
@@ -121,7 +134,10 @@ var Contact = (function (_Component) {
 })(_react.Component);
 
 Contact.propTypes = {
-  content: _react.PropTypes.object.isRequired,
+  name: _react.PropTypes.string.isRequired,
+  photo64: _react.PropTypes.string.isRequired,
+  emails: _react.PropTypes.array.isRequired,
+  pones: _react.PropTypes.array.isRequired,
   className: _react.PropTypes.string
 };
 exports.default = Contact;

@@ -318,7 +318,7 @@ var MessageItem = (function (_Component) {
           messageContent = _react2.default.createElement(Voice, { content: message.content, className: 'message__content message__content--voice' });
           break;
         case _ActorAppConstants.MessageContentTypes.CONTACT:
-          messageContent = _react2.default.createElement(Contact, { content: message.content, className: 'message__content message__content--contact' });
+          messageContent = _react2.default.createElement(Contact, _extends({}, message.content, { className: 'message__content message__content--contact' }));
           break;
         case _ActorAppConstants.MessageContentTypes.LOCATION:
           messageContent = _react2.default.createElement(Location, { content: message.content, className: 'message__content message__content--location' });

@@ -36,12 +36,6 @@ exports.default = {
       'signOut': '登出'
     },
 
-    // Sidebar
-    'sidebar': {
-      'groups': 'Groups',
-      'private': 'Private'
-    },
-
     // Buttons
     'button': {
       'ok': 'Ok',

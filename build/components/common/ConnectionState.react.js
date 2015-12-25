@@ -12,6 +12,12 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
+var _reactMixin = require('react-mixin');
+
+var _reactMixin2 = _interopRequireDefault(_reactMixin);
+
+var _reactIntl = require('react-intl');
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -30,8 +36,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var ConnectionState = (function (_React$Component) {
-  _inherits(ConnectionState, _React$Component);
+var ConnectionState = (function (_Component) {
+  _inherits(ConnectionState, _Component);
 
   function ConnectionState(props) {
     _classCallCheck(this, ConnectionState);
@@ -49,22 +55,11 @@ var ConnectionState = (function (_React$Component) {
         'connection-state--connection': connectionState === 'connecting'
       });
 
-      switch (connectionState) {
-        case 'online':
-          return _react2.default.createElement(
-            'div',
-            { className: className },
-            'You\'re back online!'
-          );
-        case 'connecting':
-          return _react2.default.createElement(
-            'div',
-            { className: className },
-            'Houston, we have a problem! Connection to Actor server is lost. Trying to reconnect now...'
-          );
-        default:
-          return null;
-      }
+      return _react2.default.createElement(
+        'div',
+        { className: className },
+        this.getIntlMessage('connectionState.' + connectionState)
+      );
     }
   }], [{
     key: 'calculateState',
@@ -76,11 +71,13 @@ var ConnectionState = (function (_React$Component) {
   }]);
 
   return ConnectionState;
-})(_react2.default.Component);
+})(_react.Component);
 
 ConnectionState.getStores = function () {
   return [_ConnectionStateStore2.default];
 };
+
+_reactMixin2.default.onClass(ConnectionState, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(ConnectionState, { pure: false });
 //# sourceMappingURL=ConnectionState.react.js.map

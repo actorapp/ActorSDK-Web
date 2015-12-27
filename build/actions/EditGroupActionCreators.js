@@ -50,6 +50,7 @@ exports.default = {
   },
 
   editGroupAbout: function editGroupAbout(gid, about) {
+    about = about === '' ? null : about;
     if (about !== _EditGroupStore2.default.getAbout()) {
       (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.editGroupAbout(gid, about), {
         request: _ActorAppConstants.ActionTypes.GROUP_EDIT_ABOUT,

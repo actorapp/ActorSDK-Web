@@ -230,8 +230,8 @@ exports.default = {
   editGroupTitle: function editGroupTitle(gid, title) {
     return window.messenger.editGroupTitle(gid, title);
   },
-  editGroupAbout: function editGroupAbout(gid, title) {
-    return window.messenger.editGroupAbout(gid, title);
+  editGroupAbout: function editGroupAbout(gid, about) {
+    return window.messenger.editGroupAbout(gid, about);
   },
   renderMarkdown: function renderMarkdown(markdownText) {
     return window.messenger.renderMarkdown(markdownText);

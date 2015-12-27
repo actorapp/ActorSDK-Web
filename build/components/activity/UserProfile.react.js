@@ -58,6 +58,10 @@ var _NotificationsStore = require('../../stores/NotificationsStore');
 
 var _NotificationsStore2 = _interopRequireDefault(_NotificationsStore);
 
+var _OnlineStore = require('../../stores/OnlineStore');
+
+var _OnlineStore2 = _interopRequireDefault(_OnlineStore);
+
 var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -80,7 +84,8 @@ var getStateFromStores = function getStateFromStores(userId) {
   var thisPeer = _PeerStore2.default.getUserPeer(userId);
   return {
     thisPeer: thisPeer,
-    isNotificationsEnabled: _NotificationsStore2.default.isNotificationsEnabled(thisPeer)
+    isNotificationsEnabled: _NotificationsStore2.default.isNotificationsEnabled(thisPeer),
+    message: _OnlineStore2.default.getMessage()
   };
 };
 
@@ -167,6 +172,7 @@ var UserProfile = (function (_Component) {
 
     _NotificationsStore2.default.addListener(_this.onChange);
     _DialogStore2.default.addListener(_this.onChange);
+    _OnlineStore2.default.addListener(_this.onChange);
     return _this;
   }
 
@@ -179,6 +185,7 @@ var UserProfile = (function (_Component) {
       var _state = this.state;
       var isNotificationsEnabled = _state.isNotificationsEnabled;
       var isActionsDropdownOpen = _state.isActionsDropdownOpen;
+      var message = _state.message;
 
       var dropdownClassNames = (0, _classnames2.default)('dropdown pull-left', {
         'dropdown--opened': isActionsDropdownOpen
@@ -266,8 +273,8 @@ var UserProfile = (function (_Component) {
               _react2.default.createElement('h3', { className: 'user_profile__meta__title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(user.name) } }),
               _react2.default.createElement(
                 'div',
-                { className: 'user_profile__meta__presence' },
-                user.presence
+                { className: 'user_profile__meta__message' },
+                message
               )
             ),
             user.about ? _react2.default.createElement('div', { className: 'user_profile__meta__about',

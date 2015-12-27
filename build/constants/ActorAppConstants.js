@@ -184,7 +184,10 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   ATTACHMENT_CHANGE: null,
   ATTACHMENT_DELETE: null,
   ATTACHMENT_SEND: null,
-  ATTACHMENT_SEND_ALL: null
+  ATTACHMENT_SEND_ALL: null,
+
+  GROUP_ONLINE_CHANGE: null,
+  USER_ONLINE_CHANGE: null
 });
 
 var PeerTypes = exports.PeerTypes = {

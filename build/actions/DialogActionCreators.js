@@ -36,15 +36,15 @@ var _DialogInfoActionCreators = require('./DialogInfoActionCreators');
 
 var _DialogInfoActionCreators2 = _interopRequireDefault(_DialogInfoActionCreators);
 
+var _OnlineActionCreators = require('./OnlineActionCreators');
+
+var _OnlineActionCreators2 = _interopRequireDefault(_OnlineActionCreators);
+
 var _DialogStore = require('../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
 
 var DialogActionCreators = {
   setDialogs: function setDialogs(dialogs) {
@@ -63,9 +63,11 @@ var DialogActionCreators = {
       switch (currentPeer.type) {
         case _ActorAppConstants.PeerTypes.USER:
           _ActorClient2.default.unbindUser(currentPeer.id, _DialogInfoActionCreators2.default.setDialogInfo);
+          _ActorClient2.default.unbindUserOnline(currentPeer.id, _OnlineActionCreators2.default.setUserOnline);
           break;
         case _ActorAppConstants.PeerTypes.GROUP:
           _ActorClient2.default.unbindGroup(currentPeer.id, _DialogInfoActionCreators2.default.setDialogInfo);
+          _ActorClient2.default.unbindGroupOnline(currentPeer.id, _OnlineActionCreators2.default.setGroupOnline);
           break;
         default:
       }
@@ -79,9 +81,11 @@ var DialogActionCreators = {
     switch (peer.type) {
       case _ActorAppConstants.PeerTypes.USER:
         _ActorClient2.default.bindUser(peer.id, _DialogInfoActionCreators2.default.setDialogInfo);
+        _ActorClient2.default.bindUserOnline(peer.id, _OnlineActionCreators2.default.setUserOnline);
         break;
       case _ActorAppConstants.PeerTypes.GROUP:
         _ActorClient2.default.bindGroup(peer.id, _DialogInfoActionCreators2.default.setDialogInfo);
+        _ActorClient2.default.bindGroupOnline(peer.id, _OnlineActionCreators2.default.setGroupOnline);
         _GroupProfileActionCreators2.default.getIntegrationToken(peer.id);
         break;
       default:
@@ -156,7 +160,9 @@ var DialogActionCreators = {
       failure: _ActorAppConstants.ActionTypes.GROUP_HIDE_ERROR
     }, { peer: peer });
   }
-};
+}; /*
+    * Copyright (C) 2015 Actor LLC. <https://actor.im>
+    */
 
 exports.default = DialogActionCreators;
 //# sourceMappingURL=DialogActionCreators.js.map

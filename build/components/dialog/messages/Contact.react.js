@@ -51,7 +51,6 @@ var Contact = (function (_Component) {
 
       var contactClassName = (0, _classnames2.default)(className, 'row');
       var isContactEmpty = emails.length === 0 && pones.length === 0;
-      console.debug(isContactEmpty);
 
       var contactAvatar = photo64 ? _react2.default.createElement(
         'div',

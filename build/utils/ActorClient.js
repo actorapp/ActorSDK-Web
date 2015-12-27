@@ -97,6 +97,18 @@ exports.default = {
   unbindTempGlobalCounter: function unbindTempGlobalCounter(callback) {
     window.messenger.unbindTempGlobalCounter(callback);
   },
+  bindUserOnline: function bindUserOnline(uid, callback) {
+    window.messenger.bindUserOnline(uid, callback);
+  },
+  unbindUserOnline: function unbindUserOnline(uid, callback) {
+    window.messenger.unbindUserOnline(uid, callback);
+  },
+  bindGroupOnline: function bindGroupOnline(gid, callback) {
+    window.messenger.bindGroupOnline(gid, callback);
+  },
+  unbindGroupOnline: function unbindGroupOnline(gid, callback) {
+    window.messenger.unbindGroupOnline(gid, callback);
+  },
   getUser: function getUser(uid) {
     return window.messenger.getUser(uid);
   },

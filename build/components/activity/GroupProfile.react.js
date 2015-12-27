@@ -74,6 +74,10 @@ var _UserStore = require('../../stores/UserStore');
 
 var _UserStore2 = _interopRequireDefault(_UserStore);
 
+var _OnlineStore = require('../../stores/OnlineStore');
+
+var _OnlineStore2 = _interopRequireDefault(_OnlineStore);
+
 var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -113,7 +117,8 @@ var getStateFromStores = function getStateFromStores(gid) {
   return {
     thisPeer: thisPeer,
     isNotificationsEnabled: _NotificationsStore2.default.isNotificationsEnabled(thisPeer),
-    integrationToken: _GroupStore2.default.getToken()
+    integrationToken: _GroupStore2.default.getToken(),
+    message: _OnlineStore2.default.getMessage()
   };
 };
 
@@ -202,6 +207,7 @@ var GroupProfile = (function (_Component) {
 
     _NotificationsStore2.default.addListener(_this.onChange);
     _GroupStore2.default.addListener(_this.onChange);
+    _OnlineStore2.default.addListener(_this.onChange);
     return _this;
   }
 
@@ -215,12 +221,11 @@ var GroupProfile = (function (_Component) {
       var isNotificationsEnabled = _state.isNotificationsEnabled;
       var integrationToken = _state.integrationToken;
       var isMoreDropdownOpen = _state.isMoreDropdownOpen;
+      var message = _state.message;
 
       var myId = _UserStore2.default.getMyId();
       var admin = _UserStore2.default.getUser(group.adminId);
       var isMember = _DialogStore2.default.isMember();
-
-      var members = _react2.default.createElement(_reactIntl.FormattedMessage, { message: this.getIntlMessage('members'), numMembers: group.members.length });
 
       var dropdownClassNames = (0, _classnames2.default)('dropdown', {
         'dropdown--opened': isMoreDropdownOpen
@@ -433,7 +438,7 @@ var GroupProfile = (function (_Component) {
               _react2.default.createElement(
                 _Fold2.default,
                 { iconElement: iconElement,
-                  title: members },
+                  title: message },
                 _react2.default.createElement(_GroupProfileMembers2.default, { groupId: group.id, members: group.members })
               )
             ),

@@ -26,6 +26,10 @@ var _DialogInfoStore = require('../stores/DialogInfoStore');
 
 var _DialogInfoStore2 = _interopRequireDefault(_DialogInfoStore);
 
+var _OnlineStore = require('../stores/OnlineStore');
+
+var _OnlineStore2 = _interopRequireDefault(_OnlineStore);
+
 var _ActivityStore = require('../stores/ActivityStore');
 
 var _ActivityStore2 = _interopRequireDefault(_ActivityStore);
@@ -65,6 +69,7 @@ var ToolbarSection = (function (_Component) {
       var _state = this.state;
       var dialogInfo = _state.dialogInfo;
       var isActivityOpen = _state.isActivityOpen;
+      var message = _state.message;
 
       var infoButtonClassName = (0, _classnames2.default)('button button--icon', {
         'active': isActivityOpen
@@ -80,8 +85,8 @@ var ToolbarSection = (function (_Component) {
             _react2.default.createElement('span', { className: 'toolbar__peer__title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(dialogInfo.name) } }),
             _react2.default.createElement(
               'span',
-              { className: 'toolbar__peer__presence' },
-              dialogInfo.presence
+              { className: 'toolbar__peer__message' },
+              message
             )
           ),
           _react2.default.createElement(
@@ -120,7 +125,8 @@ var ToolbarSection = (function (_Component) {
     value: function calculateState() {
       return {
         dialogInfo: _DialogInfoStore2.default.getInfo(),
-        isActivityOpen: _ActivityStore2.default.isOpen()
+        isActivityOpen: _ActivityStore2.default.isOpen(),
+        message: _OnlineStore2.default.getMessage()
       };
     }
   }]);
@@ -129,7 +135,7 @@ var ToolbarSection = (function (_Component) {
 })(_react.Component);
 
 ToolbarSection.getStores = function () {
-  return [_DialogInfoStore2.default, _ActivityStore2.default];
+  return [_DialogInfoStore2.default, _ActivityStore2.default, _OnlineStore2.default];
 };
 
 exports.default = _utils.Container.create(ToolbarSection, { pure: false });

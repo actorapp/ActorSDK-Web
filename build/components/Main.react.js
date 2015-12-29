@@ -58,6 +58,10 @@ var _ModalsWrapper = require('./modals/ModalsWrapper.react');
 
 var _ModalsWrapper2 = _interopRequireDefault(_ModalsWrapper);
 
+var _DropdownWrapper = require('./common/DropdownWrapper.react');
+
+var _DropdownWrapper2 = _interopRequireDefault(_DropdownWrapper);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -143,7 +147,8 @@ var Main = (function (_Component) {
         _react2.default.createElement(_Favicon2.default, null),
         _react2.default.createElement(SidebarSection, { selectedPeer: peer }),
         _react2.default.createElement(DialogSection, { peer: peer }),
-        _react2.default.createElement(_ModalsWrapper2.default, null)
+        _react2.default.createElement(_ModalsWrapper2.default, null),
+        _react2.default.createElement(_DropdownWrapper2.default, null)
       );
     }
   }]);

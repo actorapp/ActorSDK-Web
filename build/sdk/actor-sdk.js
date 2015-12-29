@@ -118,7 +118,8 @@ var App = (function (_Component) {
     key: 'getChildContext',
     value: function getChildContext() {
       return {
-        delegate: this.props.delegate
+        delegate: this.props.delegate,
+        isExperimental: this.props.isExperimental
       };
     }
   }]);
@@ -141,11 +142,11 @@ var App = (function (_Component) {
 
 App.childContextTypes = {
   delegate: _react.PropTypes.object,
-  isExperemental: _react.PropTypes.bool
+  isExperimental: _react.PropTypes.bool
 };
 App.propTypes = {
   delegate: _react.PropTypes.object,
-  isExperemental: _react.PropTypes.bool
+  isExperimental: _react.PropTypes.bool
 };
 
 _reactMixin2.default.onClass(App, _reactIntl.IntlMixin);
@@ -166,7 +167,7 @@ var ActorSDK = (function () {
     this.endpoints = options.endpoints && options.endpoints.length > 0 ? options.endpoints : _ActorAppConstants.endpoints;
     this.bugsnagApiKey = options.bugsnagApiKey ? options.bugsnagApiKey : _ActorAppConstants.bugsnagApiKey;
     this.mixpanelAPIKey = options.mixpanelAPIKey ? options.mixpanelAPIKey : _ActorAppConstants.mixpanelAPIKey;
-    this.isExperemental = options.isExperemental ? options.isExperemental : false;
+    this.isExperimental = options.isExperimental ? options.isExperimental : false;
 
     this.delegate = options.delegate ? options.delegate : new _actorSdkDelegate2.default();
     _DelegateContainer2.default.set(this.delegate);
@@ -227,7 +228,7 @@ var ActorSDK = (function () {
       _RouterContainer2.default.set(router);
 
       router.run(function (Root) {
-        return _react2.default.render(_react2.default.createElement(Root, _extends({}, intlData, { delegate: _this2.delegate, isExperemental: _this2.isExperemental })), appRootElemet);
+        return _react2.default.render(_react2.default.createElement(Root, _extends({}, intlData, { delegate: _this2.delegate, isExperimental: _this2.isExperimental })), appRootElemet);
       });
 
       if (window.location.hash !== '#/deactivated') {

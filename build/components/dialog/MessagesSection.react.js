@@ -67,27 +67,6 @@ var flushDelayed = function flushDelayed() {
 
 var flushDelayedDebounced = (0, _lodash.debounce)(flushDelayed, 30, 100);
 
-var lastMessageDate = null,
-    lastMessageSenderId = null;
-
-var isOnlyOneDay = function isOnlyOneDay(messages) {
-  var _isOnlyOneDay = true;
-  if (messages.length > 0) {
-    (function () {
-      var lastMessageDate = new Date(messages[0].fullDate);
-      (0, _lodash.forEach)(messages, function (message) {
-        var currentMessageDate = new Date(message.fullDate);
-
-        if (lastMessageDate.getDate() !== currentMessageDate.getDate()) {
-          _isOnlyOneDay = false;
-        }
-        lastMessageDate = message.fullDate;
-      });
-    })();
-  }
-  return _isOnlyOneDay;
-};
-
 var MessagesSection = (function (_Component) {
   _inherits(MessagesSection, _Component);
 
@@ -97,43 +76,28 @@ var MessagesSection = (function (_Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MessagesSection).call(this, props));
 
     _this.getMessagesListItem = function (message, index) {
-      var _this$state = _this.state;
-      var isOnlyOneDay = _this$state.isOnlyOneDay;
-      var selectedMessages = _this$state.selectedMessages;
-      var messages = _this.props.messages;
-
-      var date = message.fullDate;
-
-      var isFirstMessage = index === 0;
-      var isThisLastMessage = index > messages.length - 1 - 3;
-      var isNewDay = date.getDate() !== lastMessageDate.getDate();
+      var selectedMessages = _this.state.selectedMessages;
+      var overlay = _this.props.overlay;
 
       var dateDivider = null;
-      if (isNewDay && !isOnlyOneDay) {
-        var dateDividerFormatOptions = { month: 'long', day: 'numeric' };
-        var dateDividerContent = new Intl.DateTimeFormat(undefined, dateDividerFormatOptions).format(date);
+      if (overlay[index].dateDivider) {
         dateDivider = _react2.default.createElement(
           'li',
           { className: 'date-divider' },
-          dateDividerContent
+          overlay[index].dateDivider
         );
       }
-      var isSameSender = message.sender.peer.id === lastMessageSenderId && !isFirstMessage && !isNewDay;
+      var isShortMessage = overlay[index].useShort;
 
       var isSelected = selectedMessages.has(message.rid);
 
       var messageItem = _react2.default.createElement(_MessageItem2.default, { key: message.sortKey,
         message: message,
-        isNewDay: isNewDay,
-        isSameSender: isSameSender,
-        isThisLastMessage: isThisLastMessage,
+        isShortMessage: isShortMessage,
         onSelect: _this.handleMessageSelect,
         isSelected: isSelected,
         onVisibilityChange: _this.onMessageVisibilityChange,
         peer: _this.props.peer });
-
-      lastMessageDate = date;
-      lastMessageSenderId = message.sender.peer.id;
 
       return [dateDivider, messageItem];
     };
@@ -176,11 +140,8 @@ var MessagesSection = (function (_Component) {
     };
 
     _this.state = {
-      isOnlyOneDay: isOnlyOneDay(props.messages),
       selectedMessages: _MessageStore2.default.getSelected()
     };
-
-    lastMessageDate = new Date();
 
     _VisibilityStore2.default.addListener(_this.onAppVisibilityChange);
     _MessageStore2.default.addListener(_this.onMessagesChange);
@@ -188,12 +149,6 @@ var MessagesSection = (function (_Component) {
   }
 
   _createClass(MessagesSection, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      this.setState({ isOnlyOneDay: isOnlyOneDay(nextProps.messages) });
-      lastMessageDate = new Date();
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
@@ -228,6 +183,7 @@ var MessagesSection = (function (_Component) {
 
 MessagesSection.propTypes = {
   messages: _react.PropTypes.array.isRequired,
+  overlay: _react.PropTypes.array.isRequired,
   peer: _react.PropTypes.object.isRequired,
   onScroll: _react.PropTypes.func.isRequired
 };

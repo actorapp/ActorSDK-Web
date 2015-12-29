@@ -82,12 +82,16 @@ var lastScrolledFromBottom = 0;
 
 var getStateFromStores = function getStateFromStores() {
   var messages = _MessageStore2.default.getAll();
+  var overlay = _MessageStore2.default.getOverlay();
   var messagesToRender = messages.length > renderMessagesCount ? messages.slice(messages.length - renderMessagesCount) : messages;
+  var overlayToRender = overlay.length > renderMessagesCount ? overlay.slice(overlay.length - renderMessagesCount) : overlay;
 
   return {
     peer: _DialogStore2.default.getCurrentPeer(),
     messages: messages,
+    overlay: overlay,
     messagesToRender: messagesToRender,
+    overlayToRender: overlayToRender,
     isMember: _DialogStore2.default.isMember()
   };
 };
@@ -178,6 +182,7 @@ var DialogSection = (function (_Component) {
       var peer = _state.peer;
       var isMember = _state.isMember;
       var messagesToRender = _state.messagesToRender;
+      var overlayToRender = _state.overlayToRender;
       var delegate = this.context.delegate;
 
       var activity = [],
@@ -212,6 +217,7 @@ var DialogSection = (function (_Component) {
           'div',
           { className: 'messages' },
           _react2.default.createElement(_MessagesSection2.default, { messages: messagesToRender,
+            overlay: overlayToRender,
             peer: peer,
             ref: 'MessagesSection',
             onScroll: this.loadMessagesByScroll })

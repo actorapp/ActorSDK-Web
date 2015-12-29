@@ -56,9 +56,17 @@ var _ComposeActionCreators = require('../../../actions/ComposeActionCreators');
 
 var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
 
+var _DropdownActionCreators = require('../../../actions/DropdownActionCreators');
+
+var _DropdownActionCreators2 = _interopRequireDefault(_DropdownActionCreators);
+
 var _UserStore = require('../../../stores/UserStore');
 
 var _UserStore2 = _interopRequireDefault(_UserStore);
+
+var _DropdownStore = require('../../../stores/DropdownStore');
+
+var _DropdownStore2 = _interopRequireDefault(_DropdownStore);
 
 var _AvatarItem = require('../../common/AvatarItem.react');
 
@@ -130,6 +138,12 @@ var MessageItem = (function (_Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MessageItem).call(this, props));
 
+    _this.onMessagesChange = function () {
+      var message = _this.props.message;
+
+      _this.setState({ isHighlighted: _DropdownStore2.default.isOpen(message.rid) });
+    };
+
     _this.onClick = function () {
       var _this$props = _this.props;
       var message = _this$props.message;
@@ -143,41 +157,17 @@ var MessageItem = (function (_Component) {
     };
 
     _this.onVisibilityChange = function (isVisible) {
-      var message = _this.props.message;
-
-      _this.props.onVisibilityChange(message, isVisible);
-    };
-
-    _this.handleDelete = function () {
       var _this$props2 = _this.props;
-      var peer = _this$props2.peer;
       var message = _this$props2.message;
+      var onVisibilityChange = _this$props2.onVisibilityChange;
 
-      _MessageActionCreators2.default.deleteMessage(peer, message.rid);
+      onVisibilityChange(message, isVisible);
     };
 
-    _this.handleReply = function () {
+    _this.showActions = function (event) {
       var message = _this.props.message;
 
-      var info = _UserStore2.default.getUser(message.sender.peer.id);
-      var replyText = info.nick ? '@' + info.nick + ': ' : info.name + ': ';
-      _ComposeActionCreators2.default.pasteText(replyText);
-    };
-
-    _this.handleQuote = function () {
-      var message = _this.props.message;
-
-      _ComposeActionCreators2.default.pasteText('> ' + message.content.text + ' \n');
-    };
-
-    _this.showActions = function () {
-      _this.setState({ isActionsShown: true });
-      document.addEventListener('click', _this.hideActions, false);
-    };
-
-    _this.hideActions = function () {
-      _this.setState({ isActionsShown: false });
-      document.removeEventListener('click', _this.hideActions, false);
+      _DropdownActionCreators2.default.openMessageActions(event.target.getBoundingClientRect(), message);
     };
 
     _this.toggleMessageSelection = function () {
@@ -189,9 +179,10 @@ var MessageItem = (function (_Component) {
     };
 
     _this.state = {
-      isThisMyMessage: _UserStore2.default.getMyId() === props.message.sender.peer.id,
-      isActionsShown: false
+      isHighlighted: _DropdownStore2.default.isOpen(props.message.rid)
     };
+
+    _DropdownStore2.default.addListener(_this.onMessagesChange);
     return _this;
   }
 
@@ -200,17 +191,14 @@ var MessageItem = (function (_Component) {
     value: function render() {
       var _props = this.props;
       var message = _props.message;
-      var isSameSender = _props.isSameSender;
+      var isShortMessage = _props.isShortMessage;
       var onVisibilityChange = _props.onVisibilityChange;
       var peer = _props.peer;
-      var isThisLastMessage = _props.isThisLastMessage;
       var isSelected = _props.isSelected;
-      var _state = this.state;
-      var isThisMyMessage = _state.isThisMyMessage;
-      var isActionsShown = _state.isActionsShown;
+      var isHighlighted = this.state.isHighlighted;
       var _context = this.context;
       var delegate = _context.delegate;
-      var isExperemental = _context.isExperemental;
+      var isExperimental = _context.isExperimental;
 
       var Service = undefined,
           Text = undefined,
@@ -250,17 +238,15 @@ var MessageItem = (function (_Component) {
       var messageSender = (0, _EmojiUtils.escapeWithEmoji)(message.sender.title);
 
       var messageClassName = (0, _classnames2.default)('message row', {
-        'message--same-sender': isSameSender,
-        'message--active': isActionsShown,
+        'message--same-sender': isShortMessage,
+        'message--active': isHighlighted,
         'message--selected': isSelected
       });
-
-      var actionsDropdownClassName = (0, _classnames2.default)('message__actions__menu dropdown dropdown--small', {
-        'dropdown--opened': isActionsShown,
-        'dropdown--bottom': isThisLastMessage
+      var messageActionsMenuClassName = (0, _classnames2.default)('message__actions__menu', {
+        'message__actions__menu--opened': isHighlighted
       });
 
-      if (isSameSender) {
+      if (isShortMessage) {
         leftBlock = _react2.default.createElement(
           'div',
           { className: 'message__info text-right' },
@@ -349,74 +335,11 @@ var MessageItem = (function (_Component) {
           _react2.default.createElement(_Reactions2.default, { peer: peer, message: message }),
           _react2.default.createElement(
             'div',
-            { className: actionsDropdownClassName },
-            _react2.default.createElement(
-              'span',
-              { className: 'dropdown__button', onClick: this.showActions },
-              _react2.default.createElement('svg', { className: 'icon icon--dropdown',
-                dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#cog"/>' } })
-            ),
-            _react2.default.createElement(
-              'ul',
-              { className: 'dropdown__menu dropdown__menu--right' },
-              _react2.default.createElement(
-                'li',
-                { className: 'dropdown__menu__item hide' },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'icon material-icons' },
-                  'star_rate'
-                ),
-                ' ',
-                this.getIntlMessage('message.pin')
-              ),
-              !isThisMyMessage ? _react2.default.createElement(
-                'li',
-                { className: 'dropdown__menu__item', onClick: this.handleReply },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'icon material-icons' },
-                  'reply'
-                ),
-                ' ',
-                this.getIntlMessage('message.reply')
-              ) : null,
-              message.content.content === _ActorAppConstants.MessageContentTypes.TEXT ? _react2.default.createElement(
-                'li',
-                { className: 'dropdown__menu__item', onClick: this.handleQuote },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'icon material-icons' },
-                  'format_quote'
-                ),
-                ' ',
-                this.getIntlMessage('message.quote')
-              ) : null,
-              _react2.default.createElement(
-                'li',
-                { className: 'dropdown__menu__item hide' },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'icon material-icons' },
-                  'forward'
-                ),
-                ' ',
-                this.getIntlMessage('message.forward')
-              ),
-              _react2.default.createElement(
-                'li',
-                { className: 'dropdown__menu__item', onClick: this.handleDelete },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'icon material-icons' },
-                  'delete'
-                ),
-                ' ',
-                this.getIntlMessage('message.delete')
-              )
-            )
+            { className: messageActionsMenuClassName, onClick: this.showActions },
+            _react2.default.createElement('svg', { className: 'icon icon--dropdown',
+              dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#cog"/>' } })
           ),
-          isExperemental ? _react2.default.createElement(
+          isExperimental ? _react2.default.createElement(
             'div',
             { className: 'message__actions__selector', onClick: this.toggleMessageSelection },
             _react2.default.createElement(
@@ -436,16 +359,14 @@ var MessageItem = (function (_Component) {
 MessageItem.propTypes = {
   peer: _react.PropTypes.object.isRequired,
   message: _react.PropTypes.object.isRequired,
-  isNewDay: _react.PropTypes.bool,
-  isSameSender: _react.PropTypes.bool,
+  isShortMessage: _react.PropTypes.bool,
   isSelected: _react.PropTypes.bool,
-  isThisLastMessage: _react.PropTypes.bool,
   onVisibilityChange: _react.PropTypes.func,
   onSelect: _react.PropTypes.func
 };
 MessageItem.contextTypes = {
   delegate: _react.PropTypes.object,
-  isExperemental: _react.PropTypes.bool
+  isExperimental: _react.PropTypes.bool
 };
 
 _reactMixin2.default.onClass(MessageItem, _reactIntl.IntlMixin);

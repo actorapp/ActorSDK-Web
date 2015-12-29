@@ -70,8 +70,8 @@ exports.default = {
     _ActorClient2.default.removeLike(peer, rid);
   },
 
-  setMessages: function setMessages(messages) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_CHANGED, { messages: messages });
+  setMessages: function setMessages(messages, overlay) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_CHANGED, { messages: messages, overlay: overlay });
   },
   setSelected: function setSelected(selectedMesages) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_SET_SELECTED, { selectedMesages: selectedMesages });

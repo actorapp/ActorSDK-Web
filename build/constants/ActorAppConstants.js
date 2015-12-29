@@ -187,7 +187,10 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   ATTACHMENT_SEND_ALL: null,
 
   GROUP_ONLINE_CHANGE: null,
-  USER_ONLINE_CHANGE: null
+  USER_ONLINE_CHANGE: null,
+
+  DROPDOWN_SHOW: null,
+  DROPDOWN_HIDE: null
 });
 
 var PeerTypes = exports.PeerTypes = {

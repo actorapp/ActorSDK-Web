@@ -6,17 +6,27 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _immutable = require('immutable');
+var _react = require('react');
 
-var _immutable2 = _interopRequireDefault(_immutable);
+var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
+var _classnames = require('classnames');
 
-var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
+var _classnames2 = _interopRequireDefault(_classnames);
 
-var _ActorAppConstants = require('../constants/ActorAppConstants');
+var _MessageActions = require('./dropdown/MessageActions.react');
+
+var _MessageActions2 = _interopRequireDefault(_MessageActions);
+
+var _DropdownStore = require('../../stores/DropdownStore');
+
+var _DropdownStore2 = _interopRequireDefault(_DropdownStore);
+
+var _DialogStore = require('../../stores/DialogStore');
+
+var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,79 +38,59 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var _messages = [];
-var _overlay = [];
-var _selectedMessages = new _immutable2.default.Set();
+var DropdownWrapper = (function (_Component) {
+  _inherits(DropdownWrapper, _Component);
 
-/**
- * Class representing a store for messages.
- */
+  _createClass(DropdownWrapper, null, [{
+    key: 'calculateState',
+    value: function calculateState() {
+      var message = _DropdownStore2.default.getMessage();
 
-var MessageStore = (function (_Store) {
-  _inherits(MessageStore, _Store);
-
-  function MessageStore(dispatcher) {
-    _classCallCheck(this, MessageStore);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(MessageStore).call(this, dispatcher));
-  }
-
-  /**
-   * @returns {Array} All messages stored for currently bound conversation
-   */
-
-  _createClass(MessageStore, [{
-    key: 'getAll',
-    value: function getAll() {
-      return _messages;
-    }
-
-    /**
-     * @returns {Array} Meesages overlay
-     */
-
-  }, {
-    key: 'getOverlay',
-    value: function getOverlay() {
-      return _overlay;
-    }
-
-    /**
-     * @returns {Array} Selected messages
-     */
-
-  }, {
-    key: 'getSelected',
-    value: function getSelected() {
-      return _selectedMessages;
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-          _selectedMessages = new _immutable2.default.Set();
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.MESSAGES_CHANGED:
-          _messages = action.messages;
-          _overlay = action.overlay;
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.MESSAGES_SET_SELECTED:
-          _selectedMessages = action.selectedMesages;
-          this.__emitChange();
-          break;
-
-        default:
-      }
+      return {
+        isOpen: _DropdownStore2.default.isOpen(message.rid),
+        peer: _DialogStore2.default.getCurrentPeer(),
+        targetRect: _DropdownStore2.default.getTargetRect(),
+        message: message
+      };
     }
   }]);
 
-  return MessageStore;
-})(_utils.Store);
+  function DropdownWrapper(props) {
+    _classCallCheck(this, DropdownWrapper);
 
-exports.default = new MessageStore(_ActorAppDispatcher2.default);
-//# sourceMappingURL=MessageStore.js.map
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(DropdownWrapper).call(this, props));
+  }
+
+  _createClass(DropdownWrapper, [{
+    key: 'render',
+    value: function render() {
+      var _state = this.state;
+      var isOpen = _state.isOpen;
+      var message = _state.message;
+      var targetRect = _state.targetRect;
+      var peer = _state.peer;
+
+      var dropdownWrapperClassName = (0, _classnames2.default)('dropdown-wrapper', {
+        'dropdown-wrapper--opened': isOpen
+      });
+
+      return _react2.default.createElement(
+        'div',
+        { className: dropdownWrapperClassName },
+        isOpen ? _react2.default.createElement(_MessageActions2.default, { message: message,
+          targetRect: targetRect,
+          peer: peer,
+          hideOnScroll: true }) : null
+      );
+    }
+  }]);
+
+  return DropdownWrapper;
+})(_react.Component);
+
+DropdownWrapper.getStores = function () {
+  return [_DropdownStore2.default, _DialogStore2.default];
+};
+
+exports.default = _utils.Container.create(DropdownWrapper, { pure: false });
+//# sourceMappingURL=DropdownWrapper.react.js.map

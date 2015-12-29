@@ -6,10 +6,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _immutable = require('immutable');
-
-var _immutable2 = _interopRequireDefault(_immutable);
-
 var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
@@ -17,6 +13,10 @@ var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
+
+var _ActorClient = require('../utils/ActorClient');
+
+var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,79 +28,59 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var _messages = [];
-var _overlay = [];
-var _selectedMessages = new _immutable2.default.Set();
+var _isOpen = false;
+var _message = {};
+var _targetRect = {};
 
-/**
- * Class representing a store for messages.
- */
+var DropdownStore = (function (_Store) {
+  _inherits(DropdownStore, _Store);
 
-var MessageStore = (function (_Store) {
-  _inherits(MessageStore, _Store);
+  function DropdownStore(dispatcher) {
+    _classCallCheck(this, DropdownStore);
 
-  function MessageStore(dispatcher) {
-    _classCallCheck(this, MessageStore);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(MessageStore).call(this, dispatcher));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(DropdownStore).call(this, dispatcher));
   }
 
-  /**
-   * @returns {Array} All messages stored for currently bound conversation
-   */
-
-  _createClass(MessageStore, [{
-    key: 'getAll',
-    value: function getAll() {
-      return _messages;
+  _createClass(DropdownStore, [{
+    key: 'isOpen',
+    value: function isOpen(rid) {
+      if (rid === _message.rid) {
+        return _isOpen;
+      } else {
+        return false;
+      }
     }
-
-    /**
-     * @returns {Array} Meesages overlay
-     */
-
   }, {
-    key: 'getOverlay',
-    value: function getOverlay() {
-      return _overlay;
+    key: 'getMessage',
+    value: function getMessage() {
+      return _message;
     }
-
-    /**
-     * @returns {Array} Selected messages
-     */
-
   }, {
-    key: 'getSelected',
-    value: function getSelected() {
-      return _selectedMessages;
+    key: 'getTargetRect',
+    value: function getTargetRect() {
+      return _targetRect;
     }
   }, {
     key: '__onDispatch',
     value: function __onDispatch(action) {
       switch (action.type) {
-        case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-          _selectedMessages = new _immutable2.default.Set();
+        case _ActorAppConstants.ActionTypes.DROPDOWN_SHOW:
+          _isOpen = true;
+          _message = action.message;
+          _targetRect = action.targetRect;
           this.__emitChange();
           break;
-
-        case _ActorAppConstants.ActionTypes.MESSAGES_CHANGED:
-          _messages = action.messages;
-          _overlay = action.overlay;
+        case _ActorAppConstants.ActionTypes.DROPDOWN_HIDE:
+          _isOpen = false;
           this.__emitChange();
           break;
-
-        case _ActorAppConstants.ActionTypes.MESSAGES_SET_SELECTED:
-          _selectedMessages = action.selectedMesages;
-          this.__emitChange();
-          break;
-
         default:
       }
     }
   }]);
 
-  return MessageStore;
+  return DropdownStore;
 })(_utils.Store);
 
-exports.default = new MessageStore(_ActorAppDispatcher2.default);
-//# sourceMappingURL=MessageStore.js.map
+exports.default = new DropdownStore(_ActorAppDispatcher2.default);
+//# sourceMappingURL=DropdownStore.js.map

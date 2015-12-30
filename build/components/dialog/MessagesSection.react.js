@@ -65,7 +65,7 @@ var flushDelayed = function flushDelayed() {
   _delayed = [];
 };
 
-var flushDelayedDebounced = (0, _lodash.debounce)(flushDelayed, 30, 100);
+var flushDelayedDebounced = (0, _lodash.debounce)(flushDelayed, 30, { maxWait: 100 });
 
 var MessagesSection = (function (_Component) {
   _inherits(MessagesSection, _Component);
@@ -79,15 +79,13 @@ var MessagesSection = (function (_Component) {
       var selectedMessages = _this.state.selectedMessages;
       var overlay = _this.props.overlay;
 
-      var dateDivider = null;
-      if (overlay[index].dateDivider) {
-        dateDivider = _react2.default.createElement(
-          'li',
-          { className: 'date-divider' },
-          overlay[index].dateDivider
-        );
-      }
-      var isShortMessage = overlay[index].useShort;
+      var dateDivider = overlay[index] && overlay[index].dateDivider ? _react2.default.createElement(
+        'li',
+        { className: 'date-divider' },
+        overlay[index].dateDivider
+      ) : null;
+
+      var isShortMessage = overlay[index] && overlay[index].useShort ? overlay[index].useShort : false;
 
       var isSelected = selectedMessages.has(message.rid);
 

@@ -112,6 +112,7 @@ var EmojiDropdown = (function (_Component) {
 
     _this.handleEmojiOpenerMouseEnter = function () {
       _this.handleEmojiMouseEnter();
+      localStorage.setItem('isEmojiOpenedBefore', true);
       _EmojiActionCreators2.default.open();
     };
 
@@ -200,11 +201,14 @@ var EmojiDropdown = (function (_Component) {
       var isOpen = _state.isOpen;
       var dropdownTitle = _state.dropdownTitle;
 
+      var isEmojiOpenedBefore = localStorage.getItem('isEmojiOpenedBefore') === 'true' || false;
+
       var emojiDropdownClassName = (0, _classnames2.default)('emoji-dropdown', {
         'emoji-dropdown--opened': isOpen
       });
       var emojiOpenerClassName = (0, _classnames2.default)('emoji-opener material-icons', {
-        'emoji-opener--active': isOpen
+        'emoji-opener--active': isOpen,
+        'emoji-opener--with-dot': !isEmojiOpenedBefore
       });
 
       return _react2.default.createElement(

@@ -12,6 +12,8 @@ require('babel-polyfill');
 
 require('../utils/intl-polyfill');
 
+require('../workers');
+
 var _RouterContainer = require('../utils/RouterContainer');
 
 var _RouterContainer2 = _interopRequireDefault(_RouterContainer);

@@ -39,29 +39,7 @@ var EditGroupStore = (function (_Store) {
   function EditGroupStore(Dispatcher) {
     _classCallCheck(this, EditGroupStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(EditGroupStore).call(this, Dispatcher));
-
-    _this.__onDispatch = function (action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.GROUP_EDIT_MODAL_SHOW:
-          _isOpen = true;
-          _this.setGroup(action.group);
-          _this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.GROUP_INFO_CHANGED:
-          _this.setGroup(action.group);
-          _this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.GROUP_EDIT_MODAL_HIDE:
-          _isOpen = false;
-          _this.__emitChange();
-          break;
-      }
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(EditGroupStore).call(this, Dispatcher));
   }
 
   _createClass(EditGroupStore, [{
@@ -96,6 +74,27 @@ var EditGroupStore = (function (_Store) {
       _group = group;
       _title = _group.name;
       _about = _group.about;
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.GROUP_EDIT_MODAL_SHOW:
+          _isOpen = true;
+          this.setGroup(action.group);
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.GROUP_INFO_CHANGED:
+          this.setGroup(action.group);
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.GROUP_EDIT_MODAL_HIDE:
+          _isOpen = false;
+          this.__emitChange();
+          break;
+      }
     }
   }]);
 

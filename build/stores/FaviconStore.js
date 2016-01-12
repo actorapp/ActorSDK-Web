@@ -34,12 +34,20 @@ var _iconPath = FaviconPath.DEFAULT;
 var FaviconStore = (function (_Store) {
   _inherits(FaviconStore, _Store);
 
-  function FaviconStore(Dispatcher) {
+  function FaviconStore(dispatcher) {
     _classCallCheck(this, FaviconStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FaviconStore).call(this, Dispatcher));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(FaviconStore).call(this, dispatcher));
+  }
 
-    _this.__onDispatch = function (action) {
+  _createClass(FaviconStore, [{
+    key: 'getFaviconPath',
+    value: function getFaviconPath() {
+      return _iconPath;
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
       switch (action.type) {
         case _ActorAppConstants.ActionTypes.FAVICON_SET:
           if (action.counter === 0) {
@@ -47,19 +55,10 @@ var FaviconStore = (function (_Store) {
           } else {
             _iconPath = FaviconPath.NOTIFICATION;
           }
-          _this.__emitChange();
+          this.__emitChange();
           break;
         default:
       }
-    };
-
-    return _this;
-  }
-
-  _createClass(FaviconStore, [{
-    key: 'getFaviconPath',
-    value: function getFaviconPath() {
-      return _iconPath;
     }
   }]);
 

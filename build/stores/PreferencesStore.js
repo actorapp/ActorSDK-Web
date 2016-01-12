@@ -39,49 +39,7 @@ var PreferencesStore = (function (_Store) {
   function PreferencesStore(Dispatcher) {
     _classCallCheck(this, PreferencesStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PreferencesStore).call(this, Dispatcher));
-
-    _this.__onDispatch = function (action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.PREFERENCES_MODAL_SHOW:
-          _isOpen = true;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.PREFERENCES_MODAL_HIDE:
-          _isOpen = false;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.PREFERENCES_SAVE:
-          _this.savePreferences(action.preferences);
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_LOAD_SUCCESS:
-          _sessions = action.response;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.PREFERENCES_CHANGE_TAB:
-          _currentTab = action.tab;
-          _this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE:
-          _terminateSessionState[action.id] = _ActorAppConstants.AsyncActionStates.PROCESSING;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE_SUCCESS:
-          delete _terminateSessionState[action.id];
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE_ERROR:
-          _terminateSessionState[action.id] = _ActorAppConstants.AsyncActionStates.FAILURE;
-          _this.__emitChange();
-          break;
-
-        default:
-      }
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(PreferencesStore).call(this, Dispatcher));
   }
 
   _createClass(PreferencesStore, [{
@@ -143,6 +101,47 @@ var PreferencesStore = (function (_Store) {
       _ActorClient2.default.changeGroupNotificationsEnabled(isGroupsNotificationsEnabled);
       _ActorClient2.default.changeIsOnlyMentionNotifications(isOnlyMentionNotifications);
       _ActorClient2.default.changeIsShowNotificationTextEnabled(isShowNotificationsTextEnabled);
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.PREFERENCES_MODAL_SHOW:
+          _isOpen = true;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.PREFERENCES_MODAL_HIDE:
+          _isOpen = false;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.PREFERENCES_SAVE:
+          this.savePreferences(action.preferences);
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_LOAD_SUCCESS:
+          _sessions = action.response;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.PREFERENCES_CHANGE_TAB:
+          _currentTab = action.tab;
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE:
+          _terminateSessionState[action.id] = _ActorAppConstants.AsyncActionStates.PROCESSING;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE_SUCCESS:
+          delete _terminateSessionState[action.id];
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE_ERROR:
+          _terminateSessionState[action.id] = _ActorAppConstants.AsyncActionStates.FAILURE;
+          this.__emitChange();
+          break;
+
+        default:
+      }
     }
   }]);
 

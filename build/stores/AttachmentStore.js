@@ -38,48 +38,7 @@ var AttachmentStore = (function (_Store) {
   function AttachmentStore(Dispatcher) {
     _classCallCheck(this, AttachmentStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AttachmentStore).call(this, Dispatcher));
-
-    _this.__onDispatch = function (action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_MODAL_SHOW:
-          _isOpen = true;
-          _attachments = (0, _lodash.map)(action.attachments, function (file) {
-            var isImage = file.type.includes('image');
-            return {
-              isImage: isImage,
-              sendAsPicture: SEND_AS_PICTURE,
-              file: file
-            };
-          });
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_MODAL_HIDE:
-          _this.resetStore();
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_SELECT:
-          _selectedIndex = action.index;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_CHANGE:
-          _attachments[_selectedIndex].sendAsPicture = action.sendAsPicture;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_DELETE:
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_SEND:
-          _this.deleteAttachment();
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_SEND_ALL:
-          _this.resetStore();
-          _this.__emitChange();
-          break;
-        default:
-      }
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(AttachmentStore).call(this, Dispatcher));
   }
 
   _createClass(AttachmentStore, [{
@@ -123,6 +82,46 @@ var AttachmentStore = (function (_Store) {
       _isOpen = false;
       _attachments = [];
       _selectedIndex = 0;
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.ATTACHMENT_MODAL_SHOW:
+          _isOpen = true;
+          _attachments = (0, _lodash.map)(action.attachments, function (file) {
+            var isImage = file.type.includes('image');
+            return {
+              isImage: isImage,
+              sendAsPicture: SEND_AS_PICTURE,
+              file: file
+            };
+          });
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.ATTACHMENT_MODAL_HIDE:
+          this.resetStore();
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.ATTACHMENT_SELECT:
+          _selectedIndex = action.index;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.ATTACHMENT_CHANGE:
+          _attachments[_selectedIndex].sendAsPicture = action.sendAsPicture;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.ATTACHMENT_DELETE:
+        case _ActorAppConstants.ActionTypes.ATTACHMENT_SEND:
+          this.deleteAttachment();
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.ATTACHMENT_SEND_ALL:
+          this.resetStore();
+          this.__emitChange();
+          break;
+        default:
+      }
     }
   }]);
 

@@ -36,21 +36,34 @@ var GroupStore = (function (_Store) {
   function GroupStore(dispatcher) {
     _classCallCheck(this, GroupStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GroupStore).call(this, dispatcher));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(GroupStore).call(this, dispatcher));
+  }
 
-    _this.__onDispatch = function (action) {
+  _createClass(GroupStore, [{
+    key: 'getGroup',
+    value: function getGroup(gid) {
+      return _ActorClient2.default.getGroup(gid);
+    }
+  }, {
+    key: 'getToken',
+    value: function getToken() {
+      return _integrationToken;
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
       switch (action.type) {
 
         case _ActorAppConstants.ActionTypes.GROUP_GET_TOKEN:
-          _this.__emitChange();
+          this.__emitChange();
           break;
         case _ActorAppConstants.ActionTypes.GROUP_GET_TOKEN_SUCCESS:
           _integrationToken = action.response;
-          _this.__emitChange();
+          this.__emitChange();
           break;
         case _ActorAppConstants.ActionTypes.GROUP_GET_TOKEN_ERROR:
           _integrationToken = null;
-          _this.__emitChange();
+          this.__emitChange();
           break;
 
         case _ActorAppConstants.ActionTypes.GROUP_CLEAR:
@@ -64,23 +77,9 @@ var GroupStore = (function (_Store) {
         case _ActorAppConstants.ActionTypes.GROUP_DELETE:
         case _ActorAppConstants.ActionTypes.GROUP_DELETE_SUCCESS:
         case _ActorAppConstants.ActionTypes.GROUP_DELETE_ERROR:
-          _this.__emitChange();
+          this.__emitChange();
           break;
       }
-    };
-
-    return _this;
-  }
-
-  _createClass(GroupStore, [{
-    key: 'getGroup',
-    value: function getGroup(gid) {
-      return _ActorClient2.default.getGroup(gid);
-    }
-  }, {
-    key: 'getToken',
-    value: function getToken() {
-      return _integrationToken;
     }
   }]);
 

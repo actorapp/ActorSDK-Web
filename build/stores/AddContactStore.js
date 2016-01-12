@@ -35,42 +35,7 @@ var AddContactStore = (function (_Store) {
   function AddContactStore(Dispatcher) {
     _classCallCheck(this, AddContactStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AddContactStore).call(this, Dispatcher));
-
-    _this.__onDispatch = function (action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.CONTACT_ADD_MODAL_SHOW:
-          _isOpen = true;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.CONTACT_ADD_MODAL_HIDE:
-          _this.resetStore();
-          _this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.CONTACT_FIND:
-          _query = action.query;
-          _isSearching = true;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.CONTACT_FIND_SUCCESS:
-          _isSearching = false;
-          if (action.query === '') {
-            _this.setResults([]);
-          } else {
-            _this.setResults(action.response);
-          }
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.CONTACT_FIND_ERROR:
-          _isSearching = false;
-          _this.__emitChange();
-          break;
-        default:
-      }
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(AddContactStore).call(this, Dispatcher));
   }
 
   _createClass(AddContactStore, [{
@@ -105,6 +70,40 @@ var AddContactStore = (function (_Store) {
       _query = '';
       _isSearching = false;
       _results = [];
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.CONTACT_ADD_MODAL_SHOW:
+          _isOpen = true;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.CONTACT_ADD_MODAL_HIDE:
+          this.resetStore();
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.CONTACT_FIND:
+          _query = action.query;
+          _isSearching = true;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.CONTACT_FIND_SUCCESS:
+          _isSearching = false;
+          if (action.query === '') {
+            this.setResults([]);
+          } else {
+            this.setResults(action.response);
+          }
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.CONTACT_FIND_ERROR:
+          _isSearching = false;
+          this.__emitChange();
+          break;
+        default:
+      }
     }
   }]);
 

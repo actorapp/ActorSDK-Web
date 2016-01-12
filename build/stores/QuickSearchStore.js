@@ -36,34 +36,7 @@ var QuickSearchStore = (function (_Store) {
   function QuickSearchStore(dispatcher) {
     _classCallCheck(this, QuickSearchStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(QuickSearchStore).call(this, dispatcher));
-
-    _this.__onDispatch = function (action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.QUICK_SEARCH_SHOW:
-          _isOpen = true;
-          _this.handleSearchQuery('');
-          _this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.QUICK_SEARCH_HIDE:
-          _isOpen = false;
-          _results = [];
-          _this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.QUICK_SEARCH_CHANGED:
-          _list = action.list;
-          _this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.QUICK_SEARCH:
-          _this.handleSearchQuery(action.query);
-          break;
-      }
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(QuickSearchStore).call(this, dispatcher));
   }
 
   _createClass(QuickSearchStore, [{
@@ -93,6 +66,32 @@ var QuickSearchStore = (function (_Store) {
 
       _results = results;
       this.__emitChange();
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.QUICK_SEARCH_SHOW:
+          _isOpen = true;
+          this.handleSearchQuery('');
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.QUICK_SEARCH_HIDE:
+          _isOpen = false;
+          _results = [];
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.QUICK_SEARCH_CHANGED:
+          _list = action.list;
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.QUICK_SEARCH:
+          this.handleSearchQuery(action.query);
+          break;
+      }
     }
   }]);
 

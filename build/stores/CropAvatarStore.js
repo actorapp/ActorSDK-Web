@@ -33,26 +33,7 @@ var CropAvatarStore = (function (_Store) {
   function CropAvatarStore(Dispatcher) {
     _classCallCheck(this, CropAvatarStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CropAvatarStore).call(this, Dispatcher));
-
-    _this.__onDispatch = function (action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.CROP_AVATAR_MODAL_SHOW:
-          _isOpen = true;
-          _pictureSource = action.source;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.CROP_AVATAR_MODAL_HIDE:
-          _isOpen = false;
-          _pictureSource = null;
-          _this.__emitChange();
-          break;
-        default:
-        // no op
-      }
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(CropAvatarStore).call(this, Dispatcher));
   }
 
   _createClass(CropAvatarStore, [{
@@ -64,6 +45,23 @@ var CropAvatarStore = (function (_Store) {
     key: 'getPictureSource',
     value: function getPictureSource() {
       return _pictureSource;
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.CROP_AVATAR_MODAL_SHOW:
+          _isOpen = true;
+          _pictureSource = action.source;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.CROP_AVATAR_MODAL_HIDE:
+          _isOpen = false;
+          _pictureSource = null;
+          this.__emitChange();
+          break;
+        default:
+      }
     }
   }]);
 

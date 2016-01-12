@@ -43,52 +43,7 @@ var CreateGroupStore = (function (_Store) {
   function CreateGroupStore(Dispatcher) {
     _classCallCheck(this, CreateGroupStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CreateGroupStore).call(this, Dispatcher));
-
-    _this.__onDispatch = function (action) {
-      switch (action.type) {
-
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_OPEN:
-          _modalOpen = true;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_CLOSE:
-          _this.resetStore();
-          _this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE_SET_NAME:
-          _currentStep = _ActorAppConstants.CreateGroupSteps.CONTACTS_SELECTION;
-          _groupName = action.name;
-          _this.__emitChange();
-          break;
-
-        //case ActionTypes.GROUP_CREATE_SET_AVATAR:
-        //  _avatar = action.avatar;
-        //  this.__emitChange();
-        //  break;
-
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE_SET_MEMBERS:
-          _selectedUserIds = action.selectedUserIds;
-          _this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE:
-          _currentStep = _ActorAppConstants.CreateGroupSteps.CREATION_STARTED;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE_SUCCESS:
-          _this.resetStore();
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE_ERROR:
-          console.error('Failed to create group', action.error);
-          _this.__emitChange();
-          break;
-      }
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(CreateGroupStore).call(this, Dispatcher));
   }
 
   _createClass(CreateGroupStore, [{
@@ -118,6 +73,50 @@ var CreateGroupStore = (function (_Store) {
       _currentStep = _ActorAppConstants.CreateGroupSteps.NAME_INPUT;
       _groupName = '';
       _selectedUserIds = new _immutable2.default.Set();
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+
+        case _ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_OPEN:
+          _modalOpen = true;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_CLOSE:
+          this.resetStore();
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.GROUP_CREATE_SET_NAME:
+          _currentStep = _ActorAppConstants.CreateGroupSteps.CONTACTS_SELECTION;
+          _groupName = action.name;
+          this.__emitChange();
+          break;
+
+        //case ActionTypes.GROUP_CREATE_SET_AVATAR:
+        //  _avatar = action.avatar;
+        //  this.__emitChange();
+        //  break;
+
+        case _ActorAppConstants.ActionTypes.GROUP_CREATE_SET_MEMBERS:
+          _selectedUserIds = action.selectedUserIds;
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.GROUP_CREATE:
+          _currentStep = _ActorAppConstants.CreateGroupSteps.CREATION_STARTED;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.GROUP_CREATE_SUCCESS:
+          this.resetStore();
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.GROUP_CREATE_ERROR:
+          console.error('Failed to create group', action.error);
+          this.__emitChange();
+          break;
+      }
     }
   }]);
 

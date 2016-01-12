@@ -80,6 +80,10 @@ var _EmojiDropdown = require('../common/EmojiDropdown.react');
 
 var _EmojiDropdown2 = _interopRequireDefault(_EmojiDropdown);
 
+var _VoiceRecorder = require('../common/VoiceRecorder.react');
+
+var _VoiceRecorder2 = _interopRequireDefault(_VoiceRecorder);
+
 var _DropZone = require('../common/DropZone.react');
 
 var _DropZone2 = _interopRequireDefault(_DropZone);
@@ -247,6 +251,10 @@ var ComposeSection = (function (_Component) {
       _this.resetAttachmentForm();
     };
 
+    _this.sendVoiceRecord = function (record) {
+      console.debug('sendVoiceRecord: ', record);
+    };
+
     _this.state = (0, _lodash.assign)({
       isMardownHintShow: false
     }, getStateFromStores());
@@ -282,6 +290,7 @@ var ComposeSection = (function (_Component) {
       var mentions = _state.mentions;
       var isMardownHintShow = _state.isMardownHintShow;
       var isSendAttachmentOpen = _state.isSendAttachmentOpen;
+      var isExperimental = this.context.isExperimental;
 
       var markdownHintClassName = (0, _classnames2.default)('compose__markdown-hint', {
         'compose__markdown-hint--active': isMardownHintShow
@@ -294,6 +303,7 @@ var ComposeSection = (function (_Component) {
           onSelect: this.onMentionSelect,
           onClose: this.onMentionClose }),
         _react2.default.createElement(_EmojiDropdown2.default, { onSelect: this.handleEmojiSelect }),
+        isExperimental ? _react2.default.createElement(_VoiceRecorder2.default, { onFinish: this.sendVoiceRecord }) : null,
         _react2.default.createElement(
           'div',
           { className: markdownHintClassName },
@@ -372,6 +382,9 @@ var ComposeSection = (function (_Component) {
 
 ComposeSection.propTypes = {
   peer: _react.PropTypes.object.isRequired
+};
+ComposeSection.contextTypes = {
+  isExperimental: _react.PropTypes.bool
 };
 
 _reactMixin2.default.onClass(ComposeSection, _reactIntl.IntlMixin);

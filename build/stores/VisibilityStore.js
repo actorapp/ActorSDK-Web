@@ -32,29 +32,28 @@ var VisibilityStore = (function (_Store) {
   function VisibilityStore(Dispatcher) {
     _classCallCheck(this, VisibilityStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VisibilityStore).call(this, Dispatcher));
-
-    _this.__onDispatch = function (action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.APP_VISIBLE:
-          isVisible = true;
-          _this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.APP_HIDDEN:
-          isVisible = false;
-          _this.__emitChange();
-          break;
-        default:
-      }
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(VisibilityStore).call(this, Dispatcher));
   }
 
   _createClass(VisibilityStore, [{
     key: 'isAppVisible',
     value: function isAppVisible() {
       return isVisible;
+    }
+  }, {
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.APP_VISIBLE:
+          isVisible = true;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.APP_HIDDEN:
+          isVisible = false;
+          this.__emitChange();
+          break;
+        default:
+      }
     }
   }]);
 

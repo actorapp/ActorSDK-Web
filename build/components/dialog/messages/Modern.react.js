@@ -66,7 +66,6 @@ var Field = (function (_Component) {
     _classCallCheck(this, Field);
 
     return _possibleConstructorReturn(this, Object.getPrototypeOf(Field).call(this, props));
-    //console.debug('Field', props);
   }
 
   _createClass(Field, [{
@@ -125,7 +124,6 @@ var Attach = (function (_Component2) {
     _classCallCheck(this, Attach);
 
     return _possibleConstructorReturn(this, Object.getPrototypeOf(Attach).call(this, props));
-    //console.debug('Attach', props);
   }
 
   _createClass(Attach, [{
@@ -145,7 +143,6 @@ var Attach = (function (_Component2) {
       var attachmentStyles = {
         borderColor: getColor(paragraphStyle.color) || 'transparent',
         backgroundColor: getColor(paragraphStyle.bgColor) || 'transparent'
-        //color: getColor(paragraphStyle.color) || 'inherit'
       };
 
       var visibleTitle = titleUrl ? _react2.default.createElement(
@@ -202,7 +199,6 @@ var TextModern = (function (_Component3) {
     _classCallCheck(this, TextModern);
 
     return _possibleConstructorReturn(this, Object.getPrototypeOf(TextModern).call(this, props));
-    //console.debug('Modern', props);
   }
 
   _createClass(TextModern, [{
@@ -221,7 +217,6 @@ var TextModern = (function (_Component3) {
       var modernStyles = {
         borderColor: getColor(paragraphStyle.color) || 'transparent',
         backgroundColor: getColor(paragraphStyle.bgColor) || 'transparent'
-        //color: getColor(paragraphStyle.color) || 'inherit'
       };
 
       var modernAttachments = (0, _lodash.map)(attaches, function (attachment, index) {

@@ -161,7 +161,9 @@ var MessageItem = (function (_Component) {
       var message = _this$props2.message;
       var onVisibilityChange = _this$props2.onVisibilityChange;
 
-      onVisibilityChange(message, isVisible);
+      if (message.sender.peer.id !== _UserStore2.default.getMyId()) {
+        onVisibilityChange(message, isVisible);
+      }
     };
 
     _this.showActions = function (event) {

@@ -73,8 +73,8 @@ exports.default = {
             'invite': 'пригласить еще людей'
           }
         }
-      }
-
+      },
+      'loading': 'Загрузка сообщений из истории'
     },
 
     // Connection state

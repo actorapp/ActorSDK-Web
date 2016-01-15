@@ -20,20 +20,6 @@ var _addons = require('react/addons');
 
 var _addons2 = _interopRequireDefault(_addons);
 
-var _ActorAppConstants = require('../../../constants/ActorAppConstants');
-
-var _InviteUserActions = require('../../../actions/InviteUserActions');
-
-var _InviteUserActions2 = _interopRequireDefault(_InviteUserActions);
-
-var _UserStore = require('../../../stores/UserStore');
-
-var _UserStore2 = _interopRequireDefault(_UserStore);
-
-var _GroupStore = require('../../../stores/GroupStore');
-
-var _GroupStore2 = _interopRequireDefault(_GroupStore);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -46,80 +32,35 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var PureRenderMixin = _addons2.default.addons.PureRenderMixin;
 
-var Welcome = (function (_Component) {
-  _inherits(Welcome, _Component);
+var Loading = (function (_Component) {
+  _inherits(Loading, _Component);
 
-  function Welcome(props) {
-    _classCallCheck(this, Welcome);
+  function Loading(props) {
+    _classCallCheck(this, Loading);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Welcome).call(this, props));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Loading).call(this, props));
   }
 
-  _createClass(Welcome, [{
+  _createClass(Loading, [{
     key: 'render',
     value: function render() {
-      var peer = this.props.peer;
-
-      var welcomeText = undefined;
-      switch (peer.type) {
-        case _ActorAppConstants.PeerTypes.USER:
-          var user = _UserStore2.default.getUser(peer.id);
-          welcomeText = _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { message: this.getIntlMessage('message.welcome.private'), name: user.name });
-          break;
-        case _ActorAppConstants.PeerTypes.GROUP:
-          var group = _GroupStore2.default.getGroup(peer.id);
-          var myID = _UserStore2.default.getMyId();
-          var admin = _UserStore2.default.getUser(group.adminId);
-          var creator = group.adminId === myID ? this.getIntlMessage('message.welcome.group.you') : admin.name;
-          welcomeText = [_react2.default.createElement(_reactIntl.FormattedHTMLMessage, { message: this.getIntlMessage('message.welcome.group.main'),
-            name: group.name,
-            creator: creator }), _react2.default.createElement(
-            'p',
-            null,
-            this.getIntlMessage('message.welcome.group.actions.start'),
-            _react2.default.createElement(
-              'a',
-              { onClick: function onClick() {
-                  return _InviteUserActions2.default.show(group);
-                } },
-              this.getIntlMessage('message.welcome.group.actions.invite')
-            ),
-            this.getIntlMessage('message.welcome.group.actions.end')
-          )];
-          break;
-      }
-
       return _react2.default.createElement(
         'li',
-        { className: 'message message--welcome row' },
+        { className: 'message message--loading' },
         _react2.default.createElement(
           'div',
-          { className: 'message__info' },
-          _react2.default.createElement(
-            'div',
-            { className: 'welcome-avatar' },
-            _react2.default.createElement('svg', { className: 'icon icon--gray',
-              dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#star"/>' } })
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'message__body col-xs' },
-          welcomeText
+          { className: 'message__body col-xs text-center' },
+          this.getIntlMessage('message.loading')
         )
       );
     }
   }]);
 
-  return Welcome;
+  return Loading;
 })(_react.Component);
 
-Welcome.propTypes = {
-  peer: _react.PropTypes.object.isRequired
-};
+_reactMixin2.default.onClass(Loading, _reactIntl.IntlMixin);
+_reactMixin2.default.onClass(Loading, PureRenderMixin);
 
-_reactMixin2.default.onClass(Welcome, _reactIntl.IntlMixin);
-_reactMixin2.default.onClass(Welcome, PureRenderMixin);
-
-exports.default = Welcome;
-//# sourceMappingURL=Welcome.react.js.map
+exports.default = Loading;
+//# sourceMappingURL=Loading.react.js.map

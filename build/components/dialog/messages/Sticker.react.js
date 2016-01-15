@@ -24,6 +24,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
+var cache = {};
+
 /**
  * Class that represents a component for display sticker message content
  */
@@ -36,8 +38,23 @@ var Sticker = (function (_Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Sticker).call(this, props));
 
+    _this.onLoad = function () {
+      _this.setCached();
+      if (!_this.state.isLoaded) {
+        _this.setState({ isLoaded: true });
+      }
+    };
+
+    _this.isCached = function () {
+      return cache[_this.props.fileUrl] === true;
+    };
+
+    _this.setCached = function () {
+      return cache[_this.props.fileUrl] = true;
+    };
+
     _this.state = {
-      isLoaded: false
+      isLoaded: _this.isCached()
     };
     return _this;
   }
@@ -45,8 +62,6 @@ var Sticker = (function (_Component) {
   _createClass(Sticker, [{
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       var _props = this.props;
       var className = _props.className;
       var w = _props.w;
@@ -91,9 +106,10 @@ var Sticker = (function (_Component) {
           'div',
           { className: stickerClassName, style: { width: width, height: height } },
           preloader,
-          _react2.default.createElement('img', { src: fileUrl, width: width, height: height, onLoad: function onLoad() {
-              return _this2.setState({ isLoaded: true });
-            } })
+          _react2.default.createElement('img', { src: fileUrl,
+            width: width,
+            height: height,
+            onLoad: this.onLoad })
         )
       );
     }

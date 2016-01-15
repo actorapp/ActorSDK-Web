@@ -277,7 +277,17 @@ var MessageItem = (function (_Component) {
           _react2.default.createElement(
             'h3',
             { className: 'message__sender' },
-            _react2.default.createElement('a', { onClick: this.onClick, dangerouslySetInnerHTML: { __html: messageSender } })
+            _react2.default.createElement(
+              'a',
+              { onClick: this.onClick },
+              message.sender.title ? _react2.default.createElement('span', { className: 'message__sender__name', dangerouslySetInnerHTML: { __html: messageSender } }) : null,
+              message.sender.userName ? _react2.default.createElement(
+                'span',
+                { className: 'message__sender__nick' },
+                '@',
+                message.sender.userName
+              ) : null
+            )
           ),
           _react2.default.createElement(
             'time',

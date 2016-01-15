@@ -82,10 +82,6 @@ var _Install = require('../components/Install.react');
 
 var _Install2 = _interopRequireDefault(_Install);
 
-var _Bugsnag = require('../utils/Bugsnag');
-
-var _Mixpanel = require('../utils/Mixpanel');
-
 var _l18n = require('../l18n');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -167,15 +163,10 @@ var ActorSDK = (function () {
     _classCallCheck(this, ActorSDK);
 
     this.endpoints = options.endpoints && options.endpoints.length > 0 ? options.endpoints : _ActorAppConstants.endpoints;
-    this.bugsnagApiKey = options.bugsnagApiKey ? options.bugsnagApiKey : _ActorAppConstants.bugsnagApiKey;
-    this.mixpanelAPIKey = options.mixpanelAPIKey ? options.mixpanelAPIKey : _ActorAppConstants.mixpanelAPIKey;
     this.isExperimental = options.isExperimental ? options.isExperimental : false;
 
     this.delegate = options.delegate ? options.delegate : new _actorSdkDelegate2.default();
     _DelegateContainer2.default.set(this.delegate);
-
-    (0, _Bugsnag.initBugsnag)(this.bugsnagApiKey);
-    (0, _Mixpanel.initMixpanel)(this.mixpanelAPIKey);
 
     if (this.delegate.l18n) {
       (0, _l18n.extendL18n)();

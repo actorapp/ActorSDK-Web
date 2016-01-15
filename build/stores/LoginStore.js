@@ -18,14 +18,6 @@ var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
-var _Bugsnag = require('../utils/Bugsnag');
-
-var _Bugsnag2 = _interopRequireDefault(_Bugsnag);
-
-var _Mixpanel = require('../utils/Mixpanel');
-
-var _Mixpanel2 = _interopRequireDefault(_Mixpanel);
-
 var _l18n = require('../l18n');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -136,13 +128,11 @@ var LoginStore = (function (_Store) {
 
         case _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST:
           isCodeRequested = true;
-          _Mixpanel2.default.track('Request code');
           this.__emitChange();
           break;
         case _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_SUCCESS:
           step = _ActorAppConstants.AuthSteps.CODE_WAIT;
           errors.login = null;
-          _Mixpanel2.default.track('Request code success');
           this.__emitChange();
           break;
         case _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_FAILURE:
@@ -157,20 +147,15 @@ var LoginStore = (function (_Store) {
               errors.login = action.error;
           }
           isCodeRequested = false;
-          _Mixpanel2.default.track('Request code failure', {
-            error: action.error
-          });
           this.__emitChange();
           break;
 
         case _ActorAppConstants.ActionTypes.AUTH_CODE_SEND:
           isCodeSended = true;
-          _Mixpanel2.default.track('Send code');
           this.__emitChange();
           break;
         case _ActorAppConstants.ActionTypes.AUTH_CODE_SEND_SUCCESS:
           errors.code = null;
-          _Mixpanel2.default.track('Send code success');
           this.__emitChange();
           break;
         case _ActorAppConstants.ActionTypes.AUTH_CODE_SEND_FAILURE:
@@ -186,9 +171,6 @@ var LoginStore = (function (_Store) {
               errors.code = action.error;
           }
           isCodeSended = false;
-          _Mixpanel2.default.track('Send code failure', {
-            error: action.error
-          });
           this.__emitChange();
           break;
 
@@ -199,14 +181,10 @@ var LoginStore = (function (_Store) {
 
         case _ActorAppConstants.ActionTypes.AUTH_SIGNUP:
           isSignupStarted = true;
-          _Mixpanel2.default.track('Sign up');
           this.__emitChange();
           break;
         case _ActorAppConstants.ActionTypes.AUTH_SIGNUP_SUCCESS:
           errors.signup = null;
-          _Mixpanel2.default.alias(_ActorClient2.default.getUid());
-          _Mixpanel2.default.people.set_once({ $created: new Date() });
-          _Mixpanel2.default.track('Sign up success');
           this.__emitChange();
           break;
         case _ActorAppConstants.ActionTypes.AUTH_SIGNUP_FAILURE:
@@ -218,40 +196,20 @@ var LoginStore = (function (_Store) {
               errors.signup = action.error;
           }
           isSignupStarted = false;
-          _Mixpanel2.default.track('Sign up failure', {
-            error: action.error
-          });
           this.__emitChange();
           break;
 
         case _ActorAppConstants.ActionTypes.AUTH_RESTART:
           this.resetStore();
-          _Mixpanel2.default.track('Restart authorization');
           this.__emitChange();
           break;
 
         case _ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_IN:
           myUid = _ActorClient2.default.getUid();
           var user = _ActorClient2.default.getUser(myUid);
-          _Mixpanel2.default.identify(myUid);
-          _Mixpanel2.default.people.set({
-            $phone: user.phones.length > 0 ? user.phones[0].phone : null,
-            $email: user.emails.length > 0 ? user.emails[0].email : null,
-            $name: user.name
-          });
-          _Mixpanel2.default.track('Sign in');
-          _Bugsnag2.default.metaData = {
-            account: {
-              id: myUid,
-              name: user.name,
-              email: user.emails.length > 0 ? user.emails[0].email : null
-            }
-          };
           this.__emitChange();
           break;
         case _ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_OUT:
-          _Mixpanel2.default.track('Sign out');
-          _Mixpanel2.default.cookie.clear();
           localStorage.clear();
           location.reload();
           break;

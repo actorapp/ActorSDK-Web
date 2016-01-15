@@ -46,6 +46,10 @@ var _Welcome = require('./messages/Welcome.react');
 
 var _Welcome2 = _interopRequireDefault(_Welcome);
 
+var _Loading = require('./messages/Loading.react');
+
+var _Loading2 = _interopRequireDefault(_Loading);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -156,21 +160,11 @@ var MessagesSection = (function (_Component) {
       var messagesList = (0, _lodash.map)(messages, this.getMessagesListItem);
       var isMember = _DialogStore2.default.isMember();
 
-      var messagesLoading = _react2.default.createElement(
-        'li',
-        { className: 'message message--loading' },
-        _react2.default.createElement(
-          'div',
-          { className: 'message__body col-xs text-center' },
-          'Loading messages from history'
-        )
-      );
-
       return _react2.default.createElement(
         'ul',
         { className: 'messages__list', onScroll: this.handleScroll },
         isMember && messagesList.length < 30 ? _react2.default.createElement(_Welcome2.default, { peer: peer }) : null,
-        messagesList.length >= 30 ? messagesLoading : null,
+        messagesList.length >= 30 ? _react2.default.createElement(_Loading2.default, null) : null,
         messagesList
       );
     }

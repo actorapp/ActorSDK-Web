@@ -90,7 +90,7 @@ var AttachmentStore = (function (_Store) {
         case _ActorAppConstants.ActionTypes.ATTACHMENT_MODAL_SHOW:
           _isOpen = true;
           _attachments = (0, _lodash.map)(action.attachments, function (file) {
-            var isImage = file.type.includes('image');
+            var isImage = file.type.includes('image') && file.type !== 'image/gif';
             return {
               isImage: isImage,
               sendAsPicture: SEND_AS_PICTURE,

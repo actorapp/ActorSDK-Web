@@ -50,6 +50,8 @@ var _Loading = require('./messages/Loading.react');
 
 var _Loading2 = _interopRequireDefault(_Loading);
 
+var _utils = require('flux/utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -101,7 +103,8 @@ var MessagesSection = (function (_Component) {
         onVisibilityChange: _this.onMessageVisibilityChange,
         peer: _this.props.peer });
 
-      return [dateDivider, messageItem];
+      // return [dateDivider, messageItem];
+      return messageItem;
     };
 
     _this.onAppVisibilityChange = function () {
@@ -144,13 +147,16 @@ var MessagesSection = (function (_Component) {
     _this.state = {
       selectedMessages: _MessageStore2.default.getSelected()
     };
-
-    _VisibilityStore2.default.addListener(_this.onAppVisibilityChange);
-    _MessageStore2.default.addListener(_this.onMessagesChange);
     return _this;
   }
 
   _createClass(MessagesSection, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps, nextState) {
+      // console.warn('messagesSection:shouldComponentUpdate')
+      return true;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props;

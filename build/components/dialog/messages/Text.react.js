@@ -45,7 +45,7 @@ var processText = function processText(text) {
 };
 
 var memoizedProcessText = (0, _memoizee2.default)(processText, {
-  length: 1000,
+  length: 1,
   maxAge: 60 * 60 * 1000,
   max: 10000
 });
@@ -75,7 +75,7 @@ var Text = (function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: className },
-        _react2.default.createElement('div', { className: 'text', dangerouslySetInnerHTML: { __html: memoizedProcessText(text) } })
+        _react2.default.createElement('div', { className: 'text', dangerouslySetInnerHTML: { __html: processText(text) } })
       );
     }
   }]);

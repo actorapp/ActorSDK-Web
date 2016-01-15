@@ -184,11 +184,23 @@ var MessageItem = (function (_Component) {
       isHighlighted: _DropdownStore2.default.isOpen(props.message.rid)
     };
 
-    _DropdownStore2.default.addListener(_this.onMessagesChange);
+    _this.dropdownToken = _DropdownStore2.default.addListener(_this.onMessagesChange);
     return _this;
   }
 
   _createClass(MessageItem, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      // console.warn('messageItem:onComponentUnmount')
+      this.dropdownToken.remove();
+    }
+  }, {
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps, nextState) {
+      // console.warn('messageItem:shouldComponentUpdate')
+      return false;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
@@ -382,7 +394,7 @@ MessageItem.contextTypes = {
 };
 
 _reactMixin2.default.onClass(MessageItem, _reactIntl.IntlMixin);
-_reactMixin2.default.onClass(MessageItem, PureRenderMixin);
+// ReactMixin.onClass(MessageItem, PureRenderMixin);
 
 exports.default = MessageItem;
 //# sourceMappingURL=MessageItem.react.js.map

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.endpoints = exports.mixpanelAPIKey = exports.bugsnagApiKey = exports.Path = exports.Support = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypes = exports.ActionTypes = exports.AuthSteps = undefined;
+exports.endpoints = exports.Path = exports.Support = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypes = exports.ActionTypes = exports.AuthSteps = undefined;
 
 var _keymirror = require('keymirror');
 
@@ -251,10 +251,6 @@ var Path = exports.Path = {
   toEmoji: 'assets/images/emoji'
 };
 
-var bugsnagApiKey = exports.bugsnagApiKey = 'cd24ee53326e06669a36c637b29660c3';
-
-var mixpanelAPIKey = exports.mixpanelAPIKey = '9591b090b987c2b701db5a8ef3e5055c';
-
 var endpoints = exports.endpoints = ['wss://front1-ws-mtproto-api-rev2.actor.im', 'wss://front2-ws-mtproto-api-rev2.actor.im'];
 
 exports.default = {
@@ -268,8 +264,6 @@ exports.default = {
   AsyncActionStates: AsyncActionStates,
   Support: Support,
   Path: Path,
-  bugsnagApiKey: bugsnagApiKey,
-  mixpanelAPIKey: mixpanelAPIKey,
   endpoints: endpoints
 };
 //# sourceMappingURL=ActorAppConstants.js.map

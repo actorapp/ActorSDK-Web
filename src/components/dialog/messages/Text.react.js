@@ -22,7 +22,7 @@ const processText = (text) => {
 };
 
 const memoizedProcessText = memoize(processText, {
-  length: 1000,
+  length: 1,
   maxAge: 60 * 60 * 1000,
   max: 10000
 });
@@ -47,7 +47,7 @@ class Text extends Component {
 
     return (
       <div className={className}>
-        <div className="text" dangerouslySetInnerHTML={{__html: memoizedProcessText(text)}}/>
+        <div className="text" dangerouslySetInnerHTML={{__html: processText(text)}}/>
       </div>
     );
   }

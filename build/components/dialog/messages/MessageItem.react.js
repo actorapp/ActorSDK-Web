@@ -197,6 +197,12 @@ var MessageItem = (function (_Component) {
   }, {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps, nextState) {
+      if (props.message != nextProps.message) {
+        return true;
+      }
+      if (props.isShortMessage != nextProps.isShortMessage) {
+        return true;
+      }
       // console.warn('messageItem:shouldComponentUpdate')
       return false;
     }

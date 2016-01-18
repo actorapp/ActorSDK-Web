@@ -66,7 +66,13 @@ var AvatarItem = (function (_React$Component) {
       var avatar = image ? _react2.default.createElement('img', { alt: title, className: 'avatar__image', src: image }) : null;
 
       var emojiFirstChar = /([\uE000-\uF8FF]|\uD83C|\uD83D)/g;
-      var placeholderChar = title[0].match(emojiFirstChar) ? '#' : title[0];
+
+      var placeholderChar = undefined;
+      if (title.length == 0) {
+        placeholderChar = '#';
+      } else {
+        placeholderChar = title[0].match(emojiFirstChar) ? '#' : title[0];
+      }
 
       return _react2.default.createElement(
         'div',

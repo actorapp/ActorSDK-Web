@@ -36,10 +36,6 @@ var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
 
 var _ActorAppConstants = require('../../../constants/ActorAppConstants');
 
-var _reactVisibilitySensor = require('react-visibility-sensor');
-
-var _reactVisibilitySensor2 = _interopRequireDefault(_reactVisibilitySensor);
-
 var _DialogActionCreators = require('../../../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
@@ -156,16 +152,6 @@ var MessageItem = (function (_Component) {
       }
     };
 
-    _this.onVisibilityChange = function (isVisible) {
-      var _this$props2 = _this.props;
-      var message = _this$props2.message;
-      var onVisibilityChange = _this$props2.onVisibilityChange;
-
-      if (message.sender.peer.id !== _UserStore2.default.getMyId()) {
-        onVisibilityChange(message, isVisible);
-      }
-    };
-
     _this.showActions = function (event) {
       var message = _this.props.message;
 
@@ -173,9 +159,9 @@ var MessageItem = (function (_Component) {
     };
 
     _this.toggleMessageSelection = function () {
-      var _this$props3 = _this.props;
-      var message = _this$props3.message;
-      var onSelect = _this$props3.onSelect;
+      var _this$props2 = _this.props;
+      var message = _this$props2.message;
+      var onSelect = _this$props2.onSelect;
 
       onSelect && onSelect(message.rid);
     };
@@ -212,7 +198,6 @@ var MessageItem = (function (_Component) {
       var _props = this.props;
       var message = _props.message;
       var isShortMessage = _props.isShortMessage;
-      var onVisibilityChange = _props.onVisibilityChange;
       var peer = _props.peer;
       var isSelected = _props.isSelected;
       var isHighlighted = this.state.isHighlighted;
@@ -356,8 +341,7 @@ var MessageItem = (function (_Component) {
           'div',
           { className: 'message__body col-xs' },
           header,
-          messageContent,
-          onVisibilityChange ? _react2.default.createElement(_reactVisibilitySensor2.default, { onChange: this.onVisibilityChange }) : null
+          messageContent
         ),
         _react2.default.createElement(
           'div',
@@ -391,7 +375,6 @@ MessageItem.propTypes = {
   message: _react.PropTypes.object.isRequired,
   isShortMessage: _react.PropTypes.bool,
   isSelected: _react.PropTypes.bool,
-  onVisibilityChange: _react.PropTypes.func,
   onSelect: _react.PropTypes.func
 };
 MessageItem.contextTypes = {

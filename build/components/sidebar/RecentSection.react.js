@@ -12,6 +12,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _Scrollbar = require('../common/Scrollbar.react');
+
+var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
+
 var _DialogActionCreators = require('../../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
@@ -84,8 +88,8 @@ var RecentSection = (function (_Component) {
         'section',
         { className: 'sidebar__recent' },
         _react2.default.createElement(
-          'div',
-          { className: 'sidebar__recent__scroll-container', onScroll: this.onScroll },
+          _Scrollbar2.default,
+          { onScroll: this.onScroll },
           _react2.default.createElement(
             'ul',
             { className: 'sidebar__list' },

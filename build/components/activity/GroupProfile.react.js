@@ -24,6 +24,12 @@ var _classnames2 = _interopRequireDefault(_classnames);
 
 var _ImageUtils = require('../../utils/ImageUtils');
 
+var _utils = require('flux/utils');
+
+var _Scrollbar = require('../common/Scrollbar.react');
+
+var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
+
 var _ActorClient = require('../../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
@@ -113,10 +119,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var getStateFromStores = function getStateFromStores(gid) {
-  var thisPeer = _GroupStore2.default.getGroup(gid);
+  var thisPeer = gid ? _GroupStore2.default.getGroup(gid) : null;
   return {
     thisPeer: thisPeer,
-    isNotificationsEnabled: _NotificationsStore2.default.isNotificationsEnabled(thisPeer),
+    // should not require to pass a peer
+    isNotificationsEnabled: thisPeer ? _NotificationsStore2.default.isNotificationsEnabled(thisPeer) : true,
     integrationToken: _GroupStore2.default.getToken(),
     message: _OnlineStore2.default.getMessage()
   };
@@ -124,6 +131,18 @@ var getStateFromStores = function getStateFromStores(gid) {
 
 var GroupProfile = (function (_Component) {
   _inherits(GroupProfile, _Component);
+
+  _createClass(GroupProfile, null, [{
+    key: 'getStores',
+    value: function getStores() {
+      return [_NotificationsStore2.default, _GroupStore2.default, _OnlineStore2.default];
+    }
+  }, {
+    key: 'calculateState',
+    value: function calculateState(prevState) {
+      return getStateFromStores(prevState && prevState.group ? prevState.group.id : null);
+    }
+  }]);
 
   function GroupProfile(props) {
     _classCallCheck(this, GroupProfile);
@@ -201,17 +220,21 @@ var GroupProfile = (function (_Component) {
       return _ImageUtils.lightbox.open(_this.props.group.bigAvatar);
     };
 
-    _this.state = (0, _lodash.assign)({
-      isMoreDropdownOpen: false
-    }, getStateFromStores(props.group.id));
-
-    _NotificationsStore2.default.addListener(_this.onChange);
-    _GroupStore2.default.addListener(_this.onChange);
-    _OnlineStore2.default.addListener(_this.onChange);
+    _this.state = {
+      isMoreDropdownOpen: false,
+      group: props.group // hack to be able to access groupId in getStateFromStores
+    };
     return _this;
   }
 
+  // hack for groupId in getStateFromStores
+
   _createClass(GroupProfile, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      this.setState({ group: nextProps.group });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -282,167 +305,171 @@ var GroupProfile = (function (_Component) {
           'div',
           { className: 'activity__body group_profile' },
           _react2.default.createElement(
-            'ul',
-            { className: 'profile__list' },
+            _Scrollbar2.default,
+            null,
             _react2.default.createElement(
-              'li',
-              { className: 'profile__list__item group_profile__meta' },
-              groupMeta,
+              'ul',
+              { className: 'profile__list' },
               _react2.default.createElement(
-                'footer',
-                { className: 'row' },
+                'li',
+                { className: 'profile__list__item group_profile__meta' },
+                groupMeta,
                 _react2.default.createElement(
-                  'div',
-                  { className: 'col-xs' },
-                  _react2.default.createElement(
-                    'button',
-                    { className: 'button button--flat button--wide',
-                      onClick: function onClick() {
-                        return _this2.onAddMemberClick(group);
-                      } },
-                    _react2.default.createElement(
-                      'i',
-                      { className: 'material-icons' },
-                      'person_add'
-                    ),
-                    this.getIntlMessage('addPeople')
-                  )
-                ),
-                _react2.default.createElement('div', { style: { width: 10 } }),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'col-xs' },
+                  'footer',
+                  { className: 'row' },
                   _react2.default.createElement(
                     'div',
-                    { className: dropdownClassNames },
+                    { className: 'col-xs' },
                     _react2.default.createElement(
                       'button',
-                      { className: 'dropdown__button button button--flat button--wide',
-                        onClick: this.toggleMoreDropdown },
+                      { className: 'button button--flat button--wide',
+                        onClick: function onClick() {
+                          return _this2.onAddMemberClick(group);
+                        } },
                       _react2.default.createElement(
                         'i',
                         { className: 'material-icons' },
-                        'more_horiz'
+                        'person_add'
                       ),
-                      this.getIntlMessage('more')
-                    ),
+                      this.getIntlMessage('addPeople')
+                    )
+                  ),
+                  _react2.default.createElement('div', { style: { width: 10 } }),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'col-xs' },
                     _react2.default.createElement(
-                      'ul',
-                      { className: 'dropdown__menu dropdown__menu--right' },
+                      'div',
+                      { className: dropdownClassNames },
                       _react2.default.createElement(
-                        'li',
-                        { className: 'dropdown__menu__item', onClick: function onClick() {
-                            return _this2.onEditGroupClick(group.id);
-                          } },
+                        'button',
+                        { className: 'dropdown__button button button--flat button--wide',
+                          onClick: this.toggleMoreDropdown },
                         _react2.default.createElement(
                           'i',
                           { className: 'material-icons' },
-                          'mode_edit'
+                          'more_horiz'
                         ),
-                        this.getIntlMessage('editGroup')
+                        this.getIntlMessage('more')
                       ),
                       _react2.default.createElement(
-                        'li',
-                        { className: 'dropdown__menu__item',
-                          onClick: function onClick() {
-                            return _this2.onLeaveGroupClick(group.id);
-                          } },
-                        this.getIntlMessage('leaveGroup')
-                      ),
-                      _react2.default.createElement(
-                        'li',
-                        { className: 'dropdown__menu__item',
-                          onClick: function onClick() {
-                            return _this2.onClearGroupClick(group.id);
-                          } },
-                        this.getIntlMessage('clearGroup')
-                      ),
-                      _react2.default.createElement(
-                        'li',
-                        { className: 'dropdown__menu__item',
-                          onClick: function onClick() {
-                            return _this2.onDeleteGroupClick(group.id);
-                          } },
-                        this.getIntlMessage('deleteGroup')
+                        'ul',
+                        { className: 'dropdown__menu dropdown__menu--right' },
+                        _react2.default.createElement(
+                          'li',
+                          { className: 'dropdown__menu__item', onClick: function onClick() {
+                              return _this2.onEditGroupClick(group.id);
+                            } },
+                          _react2.default.createElement(
+                            'i',
+                            { className: 'material-icons' },
+                            'mode_edit'
+                          ),
+                          this.getIntlMessage('editGroup')
+                        ),
+                        _react2.default.createElement(
+                          'li',
+                          { className: 'dropdown__menu__item',
+                            onClick: function onClick() {
+                              return _this2.onLeaveGroupClick(group.id);
+                            } },
+                          this.getIntlMessage('leaveGroup')
+                        ),
+                        _react2.default.createElement(
+                          'li',
+                          { className: 'dropdown__menu__item',
+                            onClick: function onClick() {
+                              return _this2.onClearGroupClick(group.id);
+                            } },
+                          this.getIntlMessage('clearGroup')
+                        ),
+                        _react2.default.createElement(
+                          'li',
+                          { className: 'dropdown__menu__item',
+                            onClick: function onClick() {
+                              return _this2.onDeleteGroupClick(group.id);
+                            } },
+                          this.getIntlMessage('deleteGroup')
+                        )
                       )
                     )
                   )
                 )
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              { className: 'profile__list__item group_profile__media no-p hide' },
+              ),
               _react2.default.createElement(
-                _Fold2.default,
-                { icon: 'attach_file', iconClassName: 'icon--gray', title: this.getIntlMessage('sharedMedia') },
+                'li',
+                { className: 'profile__list__item group_profile__media no-p hide' },
                 _react2.default.createElement(
-                  'ul',
-                  null,
+                  _Fold2.default,
+                  { icon: 'attach_file', iconClassName: 'icon--gray', title: this.getIntlMessage('sharedMedia') },
                   _react2.default.createElement(
-                    'li',
+                    'ul',
                     null,
                     _react2.default.createElement(
-                      'a',
+                      'li',
                       null,
-                      '230 Shared Photos and Videos'
-                    )
-                  ),
-                  _react2.default.createElement(
-                    'li',
-                    null,
+                      _react2.default.createElement(
+                        'a',
+                        null,
+                        '230 Shared Photos and Videos'
+                      )
+                    ),
                     _react2.default.createElement(
-                      'a',
+                      'li',
                       null,
-                      '49 Shared Links'
-                    )
-                  ),
-                  _react2.default.createElement(
-                    'li',
-                    null,
+                      _react2.default.createElement(
+                        'a',
+                        null,
+                        '49 Shared Links'
+                      )
+                    ),
                     _react2.default.createElement(
-                      'a',
+                      'li',
                       null,
-                      '49 Shared Files'
+                      _react2.default.createElement(
+                        'a',
+                        null,
+                        '49 Shared Files'
+                      )
                     )
                   )
                 )
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              { className: 'profile__list__item group_profile__notifications no-p' },
+              ),
               _react2.default.createElement(
-                'label',
-                { htmlFor: 'notifications' },
+                'li',
+                { className: 'profile__list__item group_profile__notifications no-p' },
                 _react2.default.createElement(
-                  'i',
-                  { className: 'material-icons icon icon--squash' },
-                  'notifications_none'
-                ),
-                this.getIntlMessage('notifications'),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'switch pull-right' },
-                  _react2.default.createElement('input', { checked: isNotificationsEnabled,
-                    id: 'notifications',
-                    onChange: this.onNotificationChange,
-                    type: 'checkbox' }),
-                  _react2.default.createElement('label', { htmlFor: 'notifications' })
+                  'label',
+                  { htmlFor: 'notifications' },
+                  _react2.default.createElement(
+                    'i',
+                    { className: 'material-icons icon icon--squash' },
+                    'notifications_none'
+                  ),
+                  this.getIntlMessage('notifications'),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'switch pull-right' },
+                    _react2.default.createElement('input', { checked: isNotificationsEnabled,
+                      id: 'notifications',
+                      onChange: this.onNotificationChange,
+                      type: 'checkbox' }),
+                    _react2.default.createElement('label', { htmlFor: 'notifications' })
+                  )
                 )
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              { className: 'profile__list__item group_profile__members no-p' },
+              ),
               _react2.default.createElement(
-                _Fold2.default,
-                { iconElement: iconElement,
-                  title: message },
-                _react2.default.createElement(_GroupProfileMembers2.default, { groupId: group.id, members: group.members })
-              )
-            ),
-            token
+                'li',
+                { className: 'profile__list__item group_profile__members no-p' },
+                _react2.default.createElement(
+                  _Fold2.default,
+                  { iconElement: iconElement,
+                    title: message },
+                  _react2.default.createElement(_GroupProfileMembers2.default, { groupId: group.id, members: group.members })
+                )
+              ),
+              token
+            )
           ),
           _react2.default.createElement(_InviteUser2.default, null),
           _react2.default.createElement(_InviteByLink2.default, null),
@@ -475,5 +502,5 @@ GroupProfile.propTypes = {
 
 _reactMixin2.default.onClass(GroupProfile, _reactIntl.IntlMixin);
 
-exports.default = GroupProfile;
+exports.default = _utils.Container.create(GroupProfile);
 //# sourceMappingURL=GroupProfile.react.js.map

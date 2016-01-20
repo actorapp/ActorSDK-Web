@@ -42,6 +42,11 @@ var Scrollbar = (function (_Component) {
       onScroll && onScroll(event);
     };
 
+    _this.scrollTo = function (to) {
+      var scrollNode = _react2.default.findDOMNode(_this.refs.scroll);
+      _this.scrollbar.scrollTo(scrollNode, to);
+    };
+
     _this.scrollbar = new _simpleScrollbar2.default();
     return _this;
   }

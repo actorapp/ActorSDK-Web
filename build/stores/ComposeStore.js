@@ -6,13 +6,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _events = require('events');
+var _utils = require('flux/utils');
+
+var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
+
+var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
-var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
@@ -29,8 +31,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-var CHANGE_EVENT = 'change';
 
 var getQuery = function getQuery(text, position) {
   var run = function run(runText, query) {
@@ -65,14 +65,71 @@ var getQuery = function getQuery(text, position) {
 
 var text = '';
 var mentions = null;
+var _isFocusDisabled = false;
 
-var ComposeStore = (function (_EventEmitter) {
-  _inherits(ComposeStore, _EventEmitter);
+var ComposeStore = (function (_Store) {
+  _inherits(ComposeStore, _Store);
 
-  function ComposeStore() {
+  function ComposeStore(dispatcher) {
     _classCallCheck(this, ComposeStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(ComposeStore).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ComposeStore).call(this, dispatcher));
+
+    _this.onTyping = function (action) {
+      text = action.text;
+      var query = getQuery(text, action.caretPosition);
+
+      if (action.peer.type === _ActorAppConstants.PeerTypes.GROUP && query !== null) {
+        mentions = _ActorClient2.default.findMentions(action.peer.id, query.text);
+      } else {
+        mentions = null;
+      }
+
+      _this.__emitChange();
+    };
+
+    _this.onMentionInsert = function (action) {
+      var query = getQuery(action.text, action.caretPosition);
+      var mentionEnding = query.atStart ? ': ' : ' ';
+
+      text = action.text.substring(0, action.caretPosition - query.text.length - 1) + action.mention.mentionText + mentionEnding + action.text.substring(action.caretPosition, action.text.length);
+
+      mentions = null;
+
+      _this.__emitChange();
+    };
+
+    _this.onMentionClose = function () {
+      mentions = null;
+      _this.__emitChange();
+    };
+
+    _this.onComposeClean = function () {
+      text = '';
+      mentions = null;
+      _this.__emitChange();
+    };
+
+    _this.onSelectDialogPeer = function () {
+      //waitFor([DraftStore.dispatchToken]);
+      text = _DraftStore2.default.getDraft();
+      _this.__emitChange();
+    };
+
+    _this.onEmojiInsert = function (action) {
+      var emojiText = action.emoji + ' ';
+
+      text = action.text.substring(0, action.caretPosition) + emojiText + action.text.substring(action.caretPosition, action.text.length);
+
+      _this.__emitChange();
+    };
+
+    _this.onComposePaste = function (newText) {
+      text = newText;
+      _this.__emitChange();
+    };
+
+    return _this;
   }
 
   _createClass(ComposeStore, [{
@@ -86,107 +143,42 @@ var ComposeStore = (function (_EventEmitter) {
       return text;
     }
   }, {
-    key: 'emitChange',
-    value: function emitChange() {
-      this.emit(CHANGE_EVENT);
+    key: 'isFocusDisabled',
+    value: function isFocusDisabled() {
+      return _isFocusDisabled;
     }
   }, {
-    key: 'addChangeListener',
-    value: function addChangeListener(callback) {
-      this.on(CHANGE_EVENT, callback);
-    }
-  }, {
-    key: 'removeChangeListener',
-    value: function removeChangeListener(callback) {
-      this.removeListener(CHANGE_EVENT, callback);
+    key: '__onDispatch',
+    value: function __onDispatch(action) {
+      switch (action.type) {
+        case _ActorAppConstants.ActionTypes.COMPOSE_TYPING:
+          this.onTyping(action);
+          break;
+        case _ActorAppConstants.ActionTypes.COMPOSE_MENTION_INSERT:
+          this.onMentionInsert(action);
+          break;
+        case _ActorAppConstants.ActionTypes.COMPOSE_MENTION_CLOSE:
+          this.onMentionClose();
+          break;
+        case _ActorAppConstants.ActionTypes.COMPOSE_CLEAN:
+          this.onComposeClean();
+          break;
+        case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
+          this.onSelectDialogPeer();
+          break;
+        case _ActorAppConstants.ActionTypes.EMOJI_INSERT:
+          this.onEmojiInsert(action);
+          break;
+        case _ActorAppConstants.ActionTypes.COMPOSE_PASTE:
+          this.onComposePaste(action.text);
+          break;
+        default:
+      }
     }
   }]);
 
   return ComposeStore;
-})(_events.EventEmitter);
+})(_utils.Store);
 
-var ComposeStoreInstance = new ComposeStore();
-
-var onTyping = function onTyping(action) {
-  text = action.text;
-  var query = getQuery(text, action.caretPosition);
-
-  if (action.peer.type === _ActorAppConstants.PeerTypes.GROUP && query !== null) {
-    mentions = _ActorClient2.default.findMentions(action.peer.id, query.text);
-  } else {
-    mentions = null;
-  }
-
-  ComposeStoreInstance.emitChange();
-};
-
-var onMentionInsert = function onMentionInsert(action) {
-  var query = getQuery(action.text, action.caretPosition);
-  var mentionEnding = query.atStart ? ': ' : ' ';
-
-  text = action.text.substring(0, action.caretPosition - query.text.length - 1) + action.mention.mentionText + mentionEnding + action.text.substring(action.caretPosition, action.text.length);
-
-  mentions = null;
-
-  ComposeStoreInstance.emitChange();
-};
-
-var onMentionClose = function onMentionClose() {
-  mentions = null;
-  ComposeStoreInstance.emitChange();
-};
-
-var onComposeClean = function onComposeClean() {
-  text = '';
-  mentions = null;
-  ComposeStoreInstance.emitChange();
-};
-
-var onSelectDialogPeer = function onSelectDialogPeer() {
-  (0, _ActorAppDispatcher.waitFor)([_DraftStore2.default.dispatchToken]);
-  text = _DraftStore2.default.getDraft();
-  ComposeStoreInstance.emitChange();
-};
-
-var onEmojiInsert = function onEmojiInsert(action) {
-  var emojiText = action.emoji + ' ';
-
-  text = action.text.substring(0, action.caretPosition) + emojiText + action.text.substring(action.caretPosition, action.text.length);
-
-  ComposeStoreInstance.emitChange();
-};
-
-var onComposePaste = function onComposePaste(newText) {
-  text = newText;
-  ComposeStoreInstance.emitChange();
-};
-
-ComposeStoreInstance.dispatchToken = (0, _ActorAppDispatcher.register)(function (action) {
-  switch (action.type) {
-    case _ActorAppConstants.ActionTypes.COMPOSE_TYPING:
-      onTyping(action);
-      break;
-    case _ActorAppConstants.ActionTypes.COMPOSE_MENTION_INSERT:
-      onMentionInsert(action);
-      break;
-    case _ActorAppConstants.ActionTypes.COMPOSE_MENTION_CLOSE:
-      onMentionClose();
-      break;
-    case _ActorAppConstants.ActionTypes.COMPOSE_CLEAN:
-      onComposeClean();
-      break;
-    case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-      onSelectDialogPeer();
-      break;
-    case _ActorAppConstants.ActionTypes.EMOJI_INSERT:
-      onEmojiInsert(action);
-      break;
-    case _ActorAppConstants.ActionTypes.COMPOSE_PASTE:
-      onComposePaste(action.text);
-      break;
-    default:
-  }
-});
-
-exports.default = ComposeStoreInstance;
+exports.default = new ComposeStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=ComposeStore.js.map

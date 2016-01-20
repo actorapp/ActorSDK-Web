@@ -226,7 +226,7 @@ var DialogSection = (function (_Component) {
           'footer',
           { className: 'dialog__footer' },
           _react2.default.createElement(TypingSection, null),
-          _react2.default.createElement(ComposeSection, { peer: peer })
+          _react2.default.createElement(ComposeSection, null)
         ) : _react2.default.createElement(
           'footer',
           { className: 'dialog__footer dialog__footer--disabled row center-xs middle-xs ' },

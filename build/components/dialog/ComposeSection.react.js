@@ -20,11 +20,9 @@ var _reactMixin = require('react-mixin');
 
 var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
-var _addons = require('react/addons');
-
-var _addons2 = _interopRequireDefault(_addons);
-
 var _reactIntl = require('react-intl');
+
+var _utils = require('flux/utils');
 
 var _ActorClient = require('../../utils/ActorClient');
 
@@ -68,6 +66,10 @@ var _AttachmentStore = require('../../stores/AttachmentStore');
 
 var _AttachmentStore2 = _interopRequireDefault(_AttachmentStore);
 
+var _DialogStore = require('../../stores/DialogStore');
+
+var _DialogStore2 = _interopRequireDefault(_DialogStore);
+
 var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -102,39 +104,44 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var PureRenderMixin = _addons2.default.addons.PureRenderMixin;
-
-var getStateFromStores = function getStateFromStores() {
-  return {
-    text: _ComposeStore2.default.getText(),
-    profile: _ActorClient2.default.getUser(_ActorClient2.default.getUid()),
-    sendByEnter: _PreferencesStore2.default.isSendByEnterEnabled(),
-    mentions: _ComposeStore2.default.getMentions(),
-    isSendAttachmentOpen: _AttachmentStore2.default.isOpen()
-  };
-};
-
 var ComposeSection = (function (_Component) {
   _inherits(ComposeSection, _Component);
+
+  _createClass(ComposeSection, null, [{
+    key: 'calculateState',
+    value: function calculateState(prevState) {
+      return {
+        peer: _DialogStore2.default.getCurrentPeer(),
+        text: _ComposeStore2.default.getText(),
+        profile: _ActorClient2.default.getUser(_ActorClient2.default.getUid()),
+        sendByEnter: _PreferencesStore2.default.isSendByEnterEnabled(),
+        mentions: _ComposeStore2.default.getMentions(),
+        isSendAttachmentOpen: _AttachmentStore2.default.isOpen(),
+        isMarkdownHintShow: prevState ? prevState.isMarkdownHintShow || false : false,
+        isFocusDisabled: _ComposeStore2.default.isFocusDisabled()
+      };
+    }
+  }]);
 
   function ComposeSection(props) {
     _classCallCheck(this, ComposeSection);
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ComposeSection).call(this, props));
 
-    _this.onChange = function () {
-      _this.setState(getStateFromStores());
-      _this.setFocus();
+    _this.handleKeyDown = function (event) {
+      if (!event.metaKey && !event.altKey && !event.ctrlKey && !event.shiftKey) {
+        _this.setFocus();
+      }
     };
 
     _this.onMessageChange = function (event) {
       var text = event.target.value;
-      var peer = _this.props.peer;
+      var peer = _this.state.peer;
 
       if (text.length >= 3) {
-        _this.setState({ isMardownHintShow: true });
+        _this.setState({ isMarkdownHintShow: true });
       } else {
-        _this.setState({ isMardownHintShow: false });
+        _this.setState({ isMarkdownHintShow: false });
       }
 
       _ComposeActionCreators2.default.onTyping(peer, text, _this.getCaretPosition());
@@ -148,7 +155,7 @@ var ComposeSection = (function (_Component) {
       var send = function send() {
         event.preventDefault();
         _this.sendTextMessage();
-        _this.setState({ isMardownHintShow: false });
+        _this.setState({ isMarkdownHintShow: false });
       };
 
       if (mentions === null) {
@@ -165,8 +172,9 @@ var ComposeSection = (function (_Component) {
     };
 
     _this.sendTextMessage = function () {
-      var text = _this.state.text;
-      var peer = _this.props.peer;
+      var _this$state2 = _this.state;
+      var peer = _this$state2.peer;
+      var text = _this$state2.text;
 
       if (text.trim().length !== 0) {
         _MessageActionCreators2.default.sendTextMessage(peer, text);
@@ -195,8 +203,9 @@ var ComposeSection = (function (_Component) {
     };
 
     _this.onMentionSelect = function (mention) {
-      var peer = _this.props.peer;
-      var text = _this.state.text;
+      var _this$state3 = _this.state;
+      var peer = _this$state3.peer;
+      var text = _this$state3.text;
 
       _ComposeActionCreators2.default.insertMention(peer, text, _this.getCaretPosition(), mention);
       _react2.default.findDOMNode(_this.refs.area).focus();
@@ -218,7 +227,11 @@ var ComposeSection = (function (_Component) {
     };
 
     _this.setFocus = function () {
-      return _react2.default.findDOMNode(_this.refs.area).focus();
+      var isFocusDisabled = _this.state.isFocusDisabled;
+
+      if (!isFocusDisabled) {
+        _react2.default.findDOMNode(_this.refs.area).focus();
+      }
     };
 
     _this.handleDrop = function (files) {
@@ -255,31 +268,26 @@ var ComposeSection = (function (_Component) {
       console.debug('sendVoiceRecord: ', record);
     };
 
-    _this.state = (0, _lodash.assign)({
-      isMardownHintShow: false
-    }, getStateFromStores());
-
-    _ComposeStore2.default.addChangeListener(_this.onChange);
-    _GroupStore2.default.addListener(_this.onChange);
-    _PreferencesStore2.default.addListener(_this.onChange);
-    _AttachmentStore2.default.addListener(_this.onChange);
-
     window.addEventListener('focus', _this.setFocus);
+    document.addEventListener('keydown', _this.handleKeyDown, false);
     return _this;
   }
 
   _createClass(ComposeSection, [{
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      _ComposeStore2.default.removeChangeListener(this.onChange);
-
       window.removeEventListener('focus', this.setFocus);
+      document.removeEventListener('keydown', this.handleKeyDown, false);
     }
   }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       this.setFocus();
-      this.setState({ isMardownHintShow: false });
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      this.setFocus();
     }
   }, {
     key: 'render',
@@ -380,15 +388,15 @@ var ComposeSection = (function (_Component) {
   return ComposeSection;
 })(_react.Component);
 
-ComposeSection.propTypes = {
-  peer: _react.PropTypes.object.isRequired
+ComposeSection.getStores = function () {
+  return [_DialogStore2.default, _GroupStore2.default, _PreferencesStore2.default, _AttachmentStore2.default, _ComposeStore2.default];
 };
+
 ComposeSection.contextTypes = {
   isExperimental: _react.PropTypes.bool
 };
 
 _reactMixin2.default.onClass(ComposeSection, _reactIntl.IntlMixin);
-_reactMixin2.default.onClass(ComposeSection, PureRenderMixin);
 
-exports.default = ComposeSection;
+exports.default = _utils.Container.create(ComposeSection);
 //# sourceMappingURL=ComposeSection.react.js.map

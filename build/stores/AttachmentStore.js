@@ -35,10 +35,10 @@ var SEND_AS_PICTURE = true;
 var AttachmentStore = (function (_Store) {
   _inherits(AttachmentStore, _Store);
 
-  function AttachmentStore(Dispatcher) {
+  function AttachmentStore(dispatcher) {
     _classCallCheck(this, AttachmentStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(AttachmentStore).call(this, Dispatcher));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(AttachmentStore).call(this, dispatcher));
   }
 
   _createClass(AttachmentStore, [{

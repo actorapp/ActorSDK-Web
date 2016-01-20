@@ -39,10 +39,16 @@ exports.default = {
     };
 
     var selectJoined = function selectJoined(peer) {
-      return _DialogActionCreators2.default.selectDialogPeer(peer);
+      if (peer) {
+        _DialogActionCreators2.default.selectDialogPeer(peer);
+      } else {
+        throw new Error();
+      }
     };
+
     var goHome = function goHome() {
-      return _RouterContainer2.default.get().replaceWith('/');
+      var router = _RouterContainer2.default.get();
+      router.replaceWith('/');
     };
 
     joinViaLink().then(selectJoined).catch(goHome);

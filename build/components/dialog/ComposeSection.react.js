@@ -118,7 +118,7 @@ var ComposeSection = (function (_Component) {
         mentions: _ComposeStore2.default.getMentions(),
         isSendAttachmentOpen: _AttachmentStore2.default.isOpen(),
         isMarkdownHintShow: prevState ? prevState.isMarkdownHintShow || false : false,
-        isFocusDisabled: _ComposeStore2.default.isFocusDisabled()
+        isAutoFocusEnabled: _ComposeStore2.default.isAutoFocusEnabled()
       };
     }
   }]);
@@ -129,8 +129,12 @@ var ComposeSection = (function (_Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ComposeSection).call(this, props));
 
     _this.handleKeyDown = function (event) {
-      if (!event.metaKey && !event.altKey && !event.ctrlKey && !event.shiftKey) {
-        _this.setFocus();
+      var isAutoFocusEnabled = _this.state.isAutoFocusEnabled;
+
+      if (isAutoFocusEnabled) {
+        if (!event.metaKey && !event.altKey && !event.ctrlKey && !event.shiftKey) {
+          _this.setFocus();
+        }
       }
     };
 
@@ -189,14 +193,18 @@ var ComposeSection = (function (_Component) {
 
     _this.onPaste = function (event) {
       var preventDefault = false;
+      var attachments = [];
 
       (0, _lodash.forEach)(event.clipboardData.items, function (item) {
         if (item.type.indexOf('image') !== -1) {
           preventDefault = true;
-          console.debug(item.getAsFile());
-          _MessageActionCreators2.default.sendClipboardPhotoMessage(_this.state.peer, item.getAsFile());
+          attachments.push(item.getAsFile());
         }
       }, _this);
+
+      if (attachments.length > 0) {
+        _AttachmentsActionCreators2.default.show(attachments);
+      }
 
       if (preventDefault) {
         event.preventDefault();
@@ -228,11 +236,11 @@ var ComposeSection = (function (_Component) {
     };
 
     _this.setFocus = function () {
-      var isFocusDisabled = _this.state.isFocusDisabled;
+      _react2.default.findDOMNode(_this.refs.area).focus();
+    };
 
-      if (!isFocusDisabled) {
-        _react2.default.findDOMNode(_this.refs.area).focus();
-      }
+    _this.setBlur = function () {
+      _react2.default.findDOMNode(_this.refs.area).blur();
     };
 
     _this.handleDrop = function (files) {
@@ -269,16 +277,15 @@ var ComposeSection = (function (_Component) {
       console.debug('sendVoiceRecord: ', record);
     };
 
-    window.addEventListener('focus', _this.setFocus);
-    document.addEventListener('keydown', _this.handleKeyDown, false);
+    _this.setListeners();
     return _this;
   }
 
   _createClass(ComposeSection, [{
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      window.removeEventListener('focus', this.setFocus);
-      document.removeEventListener('keydown', this.handleKeyDown, false);
+      this.setBlur();
+      this.clearListeners();
     }
   }, {
     key: 'componentDidMount',
@@ -287,8 +294,31 @@ var ComposeSection = (function (_Component) {
     }
   }, {
     key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      this.setFocus();
+    value: function componentDidUpdate(prevProps, prevState) {
+      var isAutoFocusEnabled = this.state.isAutoFocusEnabled;
+
+      if (isAutoFocusEnabled) {
+        if (prevState.isAutoFocusEnabled !== true) {
+          this.setListeners();
+        }
+        this.setFocus();
+      } else {
+        if (prevState.isAutoFocusEnabled !== false) {
+          this.clearListeners();
+        }
+      }
+    }
+  }, {
+    key: 'setListeners',
+    value: function setListeners() {
+      window.addEventListener('focus', this.setFocus);
+      document.addEventListener('keydown', this.handleKeyDown, false);
+    }
+  }, {
+    key: 'clearListeners',
+    value: function clearListeners() {
+      window.removeEventListener('focus', this.setFocus);
+      document.removeEventListener('keydown', this.handleKeyDown, false);
     }
   }, {
     key: 'render',
@@ -399,5 +429,5 @@ ComposeSection.contextTypes = {
 
 _reactMixin2.default.onClass(ComposeSection, _reactIntl.IntlMixin);
 
-exports.default = _utils.Container.create(ComposeSection);
+exports.default = _utils.Container.create(ComposeSection, { pure: false });
 //# sourceMappingURL=ComposeSection.react.js.map

@@ -15,6 +15,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
+var _ComposeActionCreators = require('../actions/ComposeActionCreators');
+
+var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -50,12 +54,14 @@ var Confirm = (function (_React$Component) {
   _createClass(Confirm, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      _ComposeActionCreators2.default.toggleAutoFocus(false);
       _react2.default.findDOMNode(this.refs.confirm).focus();
       document.addEventListener('keydown', this.onKeyDown, false);
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
+      _ComposeActionCreators2.default.toggleAutoFocus(true);
       document.removeEventListener('keydown', this.onKeyDown, false);
     }
   }, {

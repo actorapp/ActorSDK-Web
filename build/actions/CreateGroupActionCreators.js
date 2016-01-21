@@ -16,18 +16,20 @@ var _DialogActionCreators = require('./DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _ComposeActionCreators = require('../actions/ComposeActionCreators');
 
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
+var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CreateGroupActionCreators = {
   open: function open() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_OPEN);
+    _ComposeActionCreators2.default.toggleAutoFocus(false);
   },
   close: function close() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_CLOSE);
+    _ComposeActionCreators2.default.toggleAutoFocus(true);
   },
   setGroupName: function setGroupName(name) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_CREATE_SET_NAME, { name: name });
@@ -55,7 +57,9 @@ var CreateGroupActionCreators = {
 
     createGroup().then(openCreatedGroup).then(this.close);
   }
-};
+}; /*
+    * Copyright (C) 2015 Actor LLC. <https://actor.im>
+    */
 
 exports.default = CreateGroupActionCreators;
 //# sourceMappingURL=CreateGroupActionCreators.js.map

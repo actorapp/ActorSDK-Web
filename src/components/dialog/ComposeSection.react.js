@@ -44,7 +44,7 @@ class ComposeSection extends Component {
       mentions: ComposeStore.getMentions(),
       isSendAttachmentOpen: AttachmentStore.isOpen(),
       isMarkdownHintShow: prevState ? prevState.isMarkdownHintShow || false : false,
-      isFocusDisabled: ComposeStore.isFocusDisabled()
+      isAutoFocusEnabled: ComposeStore.isAutoFocusEnabled()
     };
   }
 
@@ -55,26 +55,49 @@ class ComposeSection extends Component {
   constructor(props) {
     super(props);
 
-    window.addEventListener('focus', this.setFocus);
-    document.addEventListener('keydown', this.handleKeyDown, false);
+    this.setListeners();
   }
 
   componentWillUnmount() {
-    window.removeEventListener('focus', this.setFocus);
-    document.removeEventListener('keydown', this.handleKeyDown, false);
+    this.setBlur();
+    this.clearListeners();
   }
 
   componentDidMount() {
     this.setFocus();
   }
 
-  componentDidUpdate() {
-    this.setFocus();
+  componentDidUpdate(prevProps, prevState) {
+    const { isAutoFocusEnabled } = this.state;
+
+    if (isAutoFocusEnabled) {
+      if (prevState.isAutoFocusEnabled !== true) {
+        this.setListeners();
+      }
+      this.setFocus();
+    } else {
+      if (prevState.isAutoFocusEnabled !== false) {
+        this.clearListeners();
+      }
+    }
+  }
+
+  setListeners() {
+    window.addEventListener('focus', this.setFocus);
+    document.addEventListener('keydown', this.handleKeyDown, false);
+  }
+
+  clearListeners() {
+    window.removeEventListener('focus', this.setFocus);
+    document.removeEventListener('keydown', this.handleKeyDown, false);
   }
 
   handleKeyDown = (event) => {
-    if (!event.metaKey && !event.altKey && !event.ctrlKey && !event.shiftKey) {
-      this.setFocus();
+    const { isAutoFocusEnabled } = this.state;
+    if (isAutoFocusEnabled) {
+      if (!event.metaKey && !event.altKey && !event.ctrlKey && !event.shiftKey) {
+        this.setFocus();
+      }
     }
   };
 
@@ -129,14 +152,18 @@ class ComposeSection extends Component {
 
   onPaste = event => {
     let preventDefault = false;
+    let attachments = [];
 
     forEach(event.clipboardData.items, (item) => {
       if (item.type.indexOf('image') !== -1) {
         preventDefault = true;
-        console.debug(item.getAsFile());
-        MessageActionCreators.sendClipboardPhotoMessage(this.state.peer, item.getAsFile());
+        attachments.push(item.getAsFile());
       }
     }, this);
+
+    if (attachments.length > 0) {
+      AttachmentsActionCreators.show(attachments);
+    }
 
     if (preventDefault) {
       event.preventDefault();
@@ -166,12 +193,11 @@ class ComposeSection extends Component {
   };
 
   setFocus = () => {
-    const { isFocusDisabled } = this.state;
+    React.findDOMNode(this.refs.area).focus();
+  };
 
-    if (!isFocusDisabled) {
-      React.findDOMNode(this.refs.area).focus();
-    }
-
+  setBlur = () => {
+    React.findDOMNode(this.refs.area).blur();
   };
 
   handleDrop = (files) => {
@@ -271,4 +297,4 @@ class ComposeSection extends Component {
 
 ReactMixin.onClass(ComposeSection, IntlMixin);
 
-export default Container.create(ComposeSection);
+export default Container.create(ComposeSection, {pure: false});

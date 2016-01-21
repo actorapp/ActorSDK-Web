@@ -20,16 +20,25 @@ var _DialogActionCreators = require('./DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
+var _ComposeActionCreators = require('../actions/ComposeActionCreators');
+
+var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
 
 exports.default = {
   open: function open() {
-    return (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CONTACT_ADD_MODAL_SHOW);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CONTACT_ADD_MODAL_SHOW);
+    _ComposeActionCreators2.default.toggleAutoFocus(false);
   },
   close: function close() {
-    return (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CONTACT_ADD_MODAL_HIDE);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CONTACT_ADD_MODAL_HIDE);
+    _ComposeActionCreators2.default.toggleAutoFocus(true);
   },
-
   findUsers: function findUsers(query) {
     (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.findUsers(query), {
       request: _ActorAppConstants.ActionTypes.CONTACT_FIND,
@@ -44,7 +53,5 @@ exports.default = {
     }
     _DialogActionCreators2.default.selectDialogPeer(peer);
   }
-}; /*
-    * Copyright (C) 2015 Actor LLC. <https://actor.im>
-    */
+};
 //# sourceMappingURL=AddContactActionCreators.js.map

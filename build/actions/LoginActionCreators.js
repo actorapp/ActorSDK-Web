@@ -109,7 +109,6 @@ var LoginActionCreators = {
 
     signUpPromise().then(setLoggedIn);
   },
-
   setLoggedIn: function setLoggedIn() {
     var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
@@ -151,9 +150,8 @@ var LoginActionCreators = {
       _ActorClient2.default.unbindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon);
     }
   },
-
   restartAuth: function restartAuth() {
-    return (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_RESTART);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_RESTART);
   }
 };
 

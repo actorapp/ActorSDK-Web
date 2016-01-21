@@ -45,6 +45,9 @@ exports.default = {
 
     _DraftActionCreators2.default.saveDraft(text);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.COMPOSE_TYPING, { peer: peer, text: text, caretPosition: caretPosition });
+  },
+  toggleAutoFocus: function toggleAutoFocus(isEnable) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.COMPOSE_TOGGLE_AUTO_FOCUS, { isEnable: isEnable });
   }
 };
 //# sourceMappingURL=ComposeActionCreators.js.map

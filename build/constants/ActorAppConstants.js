@@ -54,6 +54,7 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   COMPOSE_MENTION_INSERT: null,
   COMPOSE_MENTION_CLOSE: null,
   COMPOSE_PASTE: null,
+  COMPOSE_TOGGLE_AUTO_FOCUS: null,
 
   EMOJI_INSERT: null,
   EMOJI_SHOW: null,
@@ -63,6 +64,8 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   MESSAGE_SEND_FILE: null,
   MESSAGE_SEND_PHOTO: null,
   MESSAGE_DELETE: null,
+  MESSAGE_LIKE_ADD: null,
+  MESSAGE_LIKE_REMOVE: null,
   MESSAGES_SET_SELECTED: null,
 
   ACTIVITY_SHOW: null,

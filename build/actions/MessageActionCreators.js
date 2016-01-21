@@ -29,47 +29,33 @@ exports.default = {
   setMessageShown: function setMessageShown(peer, message) {
     _ActorClient2.default.onMessageShown(peer, message);
   },
-
   sendTextMessage: function sendTextMessage(peer, text) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_SEND_TEXT, {
-      peer: peer, text: text
-    });
     _ActorClient2.default.sendTextMessage(peer, replaceColons(text));
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_SEND_TEXT, { peer: peer, text: text });
   },
-
   sendFileMessage: function sendFileMessage(peer, file) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_SEND_FILE, {
-      peer: peer, file: file
-    });
     _ActorClient2.default.sendFileMessage(peer, file);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_SEND_FILE, { peer: peer, file: file });
   },
-
   sendPhotoMessage: function sendPhotoMessage(peer, photo) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_SEND_PHOTO, {
-      peer: peer, photo: photo
-    });
     _ActorClient2.default.sendPhotoMessage(peer, photo);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_SEND_PHOTO, { peer: peer, photo: photo });
   },
-
   sendClipboardPhotoMessage: function sendClipboardPhotoMessage(peer, photo) {
     _ActorClient2.default.sendClipboardPhotoMessage(peer, photo);
   },
-
   deleteMessage: function deleteMessage(peer, rid) {
     _ActorClient2.default.deleteMessage(peer, rid);
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_DELETE, {
-      peer: peer, rid: rid
-    });
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_DELETE, { peer: peer, rid: rid });
   },
-
   addLike: function addLike(peer, rid) {
     _ActorClient2.default.addLike(peer, rid);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_LIKE_ADD, { peer: peer, rid: rid });
   },
-
   removeLike: function removeLike(peer, rid) {
     _ActorClient2.default.removeLike(peer, rid);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_LIKE_REMOVE, { peer: peer, rid: rid });
   },
-
   setMessages: function setMessages(messages, overlay) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_CHANGED, { messages: messages, overlay: overlay });
   },

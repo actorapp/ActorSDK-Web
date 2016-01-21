@@ -65,18 +65,14 @@ var RecentSection = (function (_Component) {
   }
 
   _createClass(RecentSection, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _this2 = this;
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      var listRect = _react2.default.findDOMNode(this.refs.list).getBoundingClientRect();
+      var recentRect = _react2.default.findDOMNode(this.refs.recent).getBoundingClientRect();
 
-      setTimeout(function () {
-        var listRect = _react2.default.findDOMNode(_this2.refs.list).getBoundingClientRect();
-        var recentRect = _react2.default.findDOMNode(_this2.refs.recent).getBoundingClientRect();
-
-        if (listRect.height < recentRect.height) {
-          _DialogActionCreators2.default.onDialogsEnd();
-        }
-      });
+      if (listRect.height < recentRect.height) {
+        _DialogActionCreators2.default.onDialogsEnd();
+      }
     }
   }, {
     key: 'render',
@@ -117,5 +113,5 @@ RecentSection.getStores = function () {
   return [_AllDialogsStore2.default];
 };
 
-exports.default = _utils.Container.create(RecentSection);
+exports.default = _utils.Container.create(RecentSection, { pure: false });
 //# sourceMappingURL=RecentSection.react.js.map

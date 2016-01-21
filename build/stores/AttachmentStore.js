@@ -32,6 +32,12 @@ var _isOpen = false,
 
 var SEND_AS_PICTURE = true;
 
+var blobToFile = function blobToFile(blob, fileName) {
+  blob.lastModifiedDate = blob.lastModifiedDate ? blob.lastModifiedDate : new Date();
+  blob.name = fileName ? fileName : blob.lastModifiedDate + '.' + blob.type.split('/')[1];
+  return blob;
+};
+
 var AttachmentStore = (function (_Store) {
   _inherits(AttachmentStore, _Store);
 
@@ -90,6 +96,10 @@ var AttachmentStore = (function (_Store) {
         case _ActorAppConstants.ActionTypes.ATTACHMENT_MODAL_SHOW:
           _isOpen = true;
           _attachments = (0, _lodash.map)(action.attachments, function (file) {
+            if (file instanceof Blob) {
+              file = blobToFile(file);
+            }
+
             var isImage = file.type.includes('image') && file.type !== 'image/gif';
             return {
               isImage: isImage,

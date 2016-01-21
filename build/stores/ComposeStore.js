@@ -65,7 +65,7 @@ var getQuery = function getQuery(text, position) {
 
 var text = '';
 var mentions = null;
-var _isFocusDisabled = false;
+var _isAutoFocusEnabled = true;
 
 var ComposeStore = (function (_Store) {
   _inherits(ComposeStore, _Store);
@@ -143,9 +143,9 @@ var ComposeStore = (function (_Store) {
       return text;
     }
   }, {
-    key: 'isFocusDisabled',
-    value: function isFocusDisabled() {
-      return _isFocusDisabled;
+    key: 'isAutoFocusEnabled',
+    value: function isAutoFocusEnabled() {
+      return _isAutoFocusEnabled;
     }
   }, {
     key: '__onDispatch',
@@ -172,6 +172,12 @@ var ComposeStore = (function (_Store) {
         case _ActorAppConstants.ActionTypes.COMPOSE_PASTE:
           this.onComposePaste(action.text);
           break;
+
+        case _ActorAppConstants.ActionTypes.COMPOSE_TOGGLE_AUTO_FOCUS:
+          _isAutoFocusEnabled = action.isEnable;
+          this.__emitChange();
+          break;
+
         default:
       }
     }

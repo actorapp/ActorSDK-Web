@@ -16,22 +16,24 @@ var _EditGroupStore = require('../stores/EditGroupStore');
 
 var _EditGroupStore2 = _interopRequireDefault(_EditGroupStore);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _ComposeActionCreators = require('../actions/ComposeActionCreators');
 
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
+var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   show: function show(gid) {
     var group = _ActorClient2.default.getGroup(gid);
     _ActorClient2.default.bindGroup(gid, this.onCurrentGroupChange);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_EDIT_MODAL_SHOW, { group: group });
+    _ComposeActionCreators2.default.toggleAutoFocus(false);
   },
   hide: function hide() {
     var group = _EditGroupStore2.default.getGroup();
     _ActorClient2.default.unbindGroup(group.id, this.onCurrentGroupChange);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_EDIT_MODAL_HIDE);
+    _ComposeActionCreators2.default.toggleAutoFocus(true);
   },
   onCurrentGroupChange: function onCurrentGroupChange(group) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_INFO_CHANGED, { group: group });
@@ -48,7 +50,6 @@ exports.default = {
   changeGroupAvatar: function changeGroupAvatar(gid, avatar) {
     _ActorClient2.default.changeGroupAvatar(gid, avatar);
   },
-
   editGroupAbout: function editGroupAbout(gid, about) {
     about = about === '' ? null : about;
     if (about !== _EditGroupStore2.default.getAbout()) {
@@ -59,9 +60,10 @@ exports.default = {
       }, { gid: gid, about: about });
     }
   },
-
   removeGroupAvatar: function removeGroupAvatar(gid) {
     _ActorClient2.default.removeGroupAvatar(gid);
   }
-};
+}; /*
+    * Copyright (C) 2015 Actor LLC. <https://actor.im>
+    */
 //# sourceMappingURL=EditGroupActionCreators.js.map

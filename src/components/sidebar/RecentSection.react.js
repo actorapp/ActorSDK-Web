@@ -29,18 +29,16 @@ class RecentSection extends Component {
     };
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      const listRect = React.findDOMNode(this.refs.list).getBoundingClientRect();
-      const recentRect = React.findDOMNode(this.refs.recent).getBoundingClientRect();
+  componentDidUpdate() {
+    const listRect = React.findDOMNode(this.refs.list).getBoundingClientRect();
+    const recentRect = React.findDOMNode(this.refs.recent).getBoundingClientRect();
 
-      if (listRect.height < recentRect.height) {
-        DialogActionCreators.onDialogsEnd();
-      }
-    });
+    if (listRect.height < recentRect.height) {
+      DialogActionCreators.onDialogsEnd();
+    }
   }
 
-  onScroll = event => {
+  onScroll = (event) => {
     const { scrollHeight, scrollTop, clientHeight } = event.target;
 
     if (scrollHeight - scrollTop - clientHeight <= LoadDialogsScrollBottom) {
@@ -65,4 +63,4 @@ class RecentSection extends Component {
   }
 }
 
-export default Container.create(RecentSection);
+export default Container.create(RecentSection, { pure: false });

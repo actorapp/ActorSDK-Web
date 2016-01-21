@@ -12,14 +12,24 @@ var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
+var _ComposeActionCreators = require('../actions/ComposeActionCreators');
+
+var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
 
 exports.default = {
   show: function show() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MY_PROFILE_MODAL_SHOW);
+    _ComposeActionCreators2.default.toggleAutoFocus(false);
   },
   hide: function hide() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MY_PROFILE_MODAL_HIDE);
+    _ComposeActionCreators2.default.toggleAutoFocus(true);
   },
   onProfileChanged: function onProfileChanged(profile) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MY_PROFILE_CHANGED, { profile: profile });
@@ -47,7 +57,5 @@ exports.default = {
   removeMyAvatar: function removeMyAvatar() {
     _ActorClient2.default.removeMyAvatar();
   }
-}; /*
-    * Copyright (C) 2015 Actor LLC. <https://actor.im>
-    */
+};
 //# sourceMappingURL=MyProfileActionCreators.js.map

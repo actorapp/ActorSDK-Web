@@ -193,7 +193,8 @@ var ComposeSection = (function (_Component) {
       (0, _lodash.forEach)(event.clipboardData.items, function (item) {
         if (item.type.indexOf('image') !== -1) {
           preventDefault = true;
-          _MessageActionCreators2.default.sendClipboardPhotoMessage(_this.props.peer, item.getAsFile());
+          console.debug(item.getAsFile());
+          _MessageActionCreators2.default.sendClipboardPhotoMessage(_this.state.peer, item.getAsFile());
         }
       }, _this);
 
@@ -296,12 +297,12 @@ var ComposeSection = (function (_Component) {
       var text = _state.text;
       var profile = _state.profile;
       var mentions = _state.mentions;
-      var isMardownHintShow = _state.isMardownHintShow;
+      var isMarkdownHintShow = _state.isMarkdownHintShow;
       var isSendAttachmentOpen = _state.isSendAttachmentOpen;
       var isExperimental = this.context.isExperimental;
 
       var markdownHintClassName = (0, _classnames2.default)('compose__markdown-hint', {
-        'compose__markdown-hint--active': isMardownHintShow
+        'compose__markdown-hint--active': isMarkdownHintShow
       });
 
       return _react2.default.createElement(

@@ -16,6 +16,8 @@ var _Scrollbar = require('../common/Scrollbar.react');
 
 var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
 
+var _utils = require('flux/utils');
+
 var _DialogActionCreators = require('../../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
@@ -40,12 +42,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var LoadDialogsScrollBottom = 100;
 
-var getStateFromStore = function getStateFromStore() {
-  return {
-    dialogs: _AllDialogsStore2.default.getAllDialogs()
-  };
-};
-
 var RecentSection = (function (_Component) {
   _inherits(RecentSection, _Component);
 
@@ -53,10 +49,6 @@ var RecentSection = (function (_Component) {
     _classCallCheck(this, RecentSection);
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RecentSection).call(this, props));
-
-    _this.onChange = function () {
-      return _this.setState(getStateFromStore());
-    };
 
     _this.onScroll = function (event) {
       var _event$target = event.target;
@@ -69,13 +61,24 @@ var RecentSection = (function (_Component) {
       }
     };
 
-    _this.state = getStateFromStore();
-
-    _AllDialogsStore2.default.addListener(_this.onChange);
     return _this;
   }
 
   _createClass(RecentSection, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        var listRect = _react2.default.findDOMNode(_this2.refs.list).getBoundingClientRect();
+        var recentRect = _react2.default.findDOMNode(_this2.refs.recent).getBoundingClientRect();
+
+        if (listRect.height < recentRect.height) {
+          _DialogActionCreators2.default.onDialogsEnd();
+        }
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       var dialogs = this.state.dialogs;
@@ -86,22 +89,33 @@ var RecentSection = (function (_Component) {
 
       return _react2.default.createElement(
         'section',
-        { className: 'sidebar__recent' },
+        { className: 'sidebar__recent', ref: 'recent' },
         _react2.default.createElement(
           _Scrollbar2.default,
           { onScroll: this.onScroll },
           _react2.default.createElement(
             'ul',
-            { className: 'sidebar__list' },
+            { className: 'sidebar__list', ref: 'list' },
             dialogList
           )
         )
       );
+    }
+  }], [{
+    key: 'calculateState',
+    value: function calculateState() {
+      return {
+        dialogs: _AllDialogsStore2.default.getAllDialogs()
+      };
     }
   }]);
 
   return RecentSection;
 })(_react.Component);
 
-exports.default = RecentSection;
+RecentSection.getStores = function () {
+  return [_AllDialogsStore2.default];
+};
+
+exports.default = _utils.Container.create(RecentSection);
 //# sourceMappingURL=RecentSection.react.js.map

@@ -136,7 +136,6 @@ var DialogSection = (function (_Component) {
         lastScrolledFromBottom = node.scrollHeight - scrollTop - node.offsetHeight; // was node.scrollHeight - scrollTop
 
         if (node.scrollTop < loadMessagesScrollTop) {
-          _DialogActionCreators2.default.onChatEnd(peer);
 
           if (messages.length > messagesToRender.length) {
             renderMessagesCount += renderMessagesStep;
@@ -146,6 +145,8 @@ var DialogSection = (function (_Component) {
             }
 
             _this.setState(getStateFromStores());
+          } else {
+            _DialogActionCreators2.default.onChatEnd(peer);
           }
         }
       }

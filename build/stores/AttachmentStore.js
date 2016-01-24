@@ -96,7 +96,7 @@ var AttachmentStore = (function (_Store) {
         case _ActorAppConstants.ActionTypes.ATTACHMENT_MODAL_SHOW:
           _isOpen = true;
           _attachments = (0, _lodash.map)(action.attachments, function (file) {
-            if (file instanceof Blob) {
+            if (file instanceof File == false) {
               file = blobToFile(file);
             }
 

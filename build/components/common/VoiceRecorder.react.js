@@ -49,7 +49,7 @@ var VoiceRecorder = (function (_Component) {
       var onFinish = _this.props.onFinish;
       var duration = _this.state.duration;
 
-      onFinish && onFinish(duration, event.detail);
+      onFinish && onFinish(duration * 1000, event.detail); //Duration must be in ms
     };
 
     _this.handleStreamReady = function () {

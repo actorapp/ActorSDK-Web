@@ -121,6 +121,11 @@ var ComposeSection = (function (_Component) {
         isAutoFocusEnabled: _ComposeStore2.default.isAutoFocusEnabled()
       };
     }
+
+    //static contextTypes = {
+    //  isExperimental: PropTypes.bool
+    //};
+
   }]);
 
   function ComposeSection(props) {
@@ -344,7 +349,7 @@ var ComposeSection = (function (_Component) {
           onSelect: this.onMentionSelect,
           onClose: this.onMentionClose }),
         _react2.default.createElement(_EmojiDropdown2.default, { onSelect: this.handleEmojiSelect }),
-        isExperimental ? _react2.default.createElement(_VoiceRecorder2.default, { onFinish: this.sendVoiceRecord }) : null,
+        _react2.default.createElement(_VoiceRecorder2.default, { onFinish: this.sendVoiceRecord }),
         _react2.default.createElement(
           'div',
           { className: markdownHintClassName },
@@ -423,10 +428,6 @@ var ComposeSection = (function (_Component) {
 
 ComposeSection.getStores = function () {
   return [_DialogStore2.default, _GroupStore2.default, _PreferencesStore2.default, _AttachmentStore2.default, _ComposeStore2.default];
-};
-
-ComposeSection.contextTypes = {
-  isExperimental: _react.PropTypes.bool
 };
 
 _reactMixin2.default.onClass(ComposeSection, _reactIntl.IntlMixin);

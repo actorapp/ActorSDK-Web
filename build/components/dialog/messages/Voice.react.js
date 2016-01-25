@@ -154,7 +154,7 @@ var Voice = (function (_Component) {
       var voiceClassName = (0, _classnames2.default)(className, 'row');
 
       var current = this.humanTime(currentTime * 1000);
-      var total = this.humanTime(duration * 1000);
+      var total = this.humanTime(duration);
       var progress = currentTime / duration * 100;
 
       return _react2.default.createElement(

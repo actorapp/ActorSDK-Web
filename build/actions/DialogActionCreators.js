@@ -46,6 +46,10 @@ var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var messagesBinding = null; /*
+                             * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                             */
+
 var DialogActionCreators = {
   setDialogs: function setDialogs(dialogs) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DIALOGS_CHANGED, { dialogs: dialogs });
@@ -57,7 +61,8 @@ var DialogActionCreators = {
     // Unbind from previous peer
     if (currentPeer !== null) {
       this.onConversationClosed(currentPeer);
-      _ActorClient2.default.unbindChat(currentPeer, _MessageActionCreators2.default.setMessages);
+      //ActorClient.unbindChat(currentPeer, MessageActionCreators.setMessages);
+      messagesBinding.unbind();
       _ActorClient2.default.unbindTyping(currentPeer, _TypingActionCreators2.default.setTyping);
 
       switch (currentPeer.type) {
@@ -76,7 +81,8 @@ var DialogActionCreators = {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER, { peer: peer });
 
     this.onConversationOpen(peer);
-    _ActorClient2.default.bindChat(peer, _MessageActionCreators2.default.setMessages);
+    //ActorClient.bindChat(peer, MessageActionCreators.setMessages);
+    messagesBinding = _ActorClient2.default.bindMessages(peer, _MessageActionCreators2.default.setMessages);
     _ActorClient2.default.bindTyping(peer, _TypingActionCreators2.default.setTyping);
     switch (peer.type) {
       case _ActorAppConstants.PeerTypes.USER:
@@ -160,9 +166,7 @@ var DialogActionCreators = {
       failure: _ActorAppConstants.ActionTypes.GROUP_HIDE_ERROR
     }, { peer: peer });
   }
-}; /*
-    * Copyright (C) 2015 Actor LLC. <https://actor.im>
-    */
+};
 
 exports.default = DialogActionCreators;
 //# sourceMappingURL=DialogActionCreators.js.map

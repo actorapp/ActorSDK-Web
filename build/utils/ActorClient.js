@@ -109,6 +109,9 @@ exports.default = {
   unbindGroupOnline: function unbindGroupOnline(gid, callback) {
     window.messenger.unbindGroupOnline(gid, callback);
   },
+  bindMessages: function bindMessages(peer, callback) {
+    return window.messenger.bindMessages(peer, callback);
+  },
   getUser: function getUser(uid) {
     return window.messenger.getUser(uid);
   },

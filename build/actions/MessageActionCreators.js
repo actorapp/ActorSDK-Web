@@ -46,6 +46,7 @@ exports.default = {
   },
   sendVoiceMessage: function sendVoiceMessage(peer, duration, voice) {
     _ActorClient2.default.sendVoiceMessage(peer, duration, voice);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_SEND_VOICE, { peer: peer, duration: duration, voice: voice });
   },
   deleteMessage: function deleteMessage(peer, rid) {
     _ActorClient2.default.deleteMessage(peer, rid);

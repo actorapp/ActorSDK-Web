@@ -110,10 +110,12 @@ var Voice = (function (_Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      this.audio.removeEventListener('loadeddata', this.handleLoading);
-      this.audio.removeEventListener('timeupdate', this.handleTimeUpdate);
-      this.audio.removeEventListener('ended', this.handlePlayEnding);
-      this.audio.removeEventListener('canplaythrough', this.handleLoading);
+      if (this.audio) {
+        this.audio.removeEventListener('loadeddata', this.handleLoading);
+        this.audio.removeEventListener('timeupdate', this.handleTimeUpdate);
+        this.audio.removeEventListener('ended', this.handlePlayEnding);
+        this.audio.removeEventListener('canplaythrough', this.handleLoading);
+      }
     }
   }, {
     key: 'createAudioElement',

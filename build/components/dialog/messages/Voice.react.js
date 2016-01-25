@@ -30,6 +30,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
+var cache = [];
+
 /**
  * Class that represents a component for display voice message content
  */
@@ -45,6 +47,7 @@ var Voice = (function (_Component) {
     _this.humanTime = function (millis) {
       var minutes = Math.floor(millis / 60000);
       var seconds = (millis % 60000 / 1000).toFixed(0);
+
       return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
     };
 
@@ -66,7 +69,7 @@ var Voice = (function (_Component) {
     };
 
     _this.handlePlayEnding = function () {
-      return _this.setState({ isPlaying: false });
+      _this.setState({ isPlaying: false });
     };
 
     _this.handleRewind = function (event) {
@@ -77,29 +80,66 @@ var Voice = (function (_Component) {
     };
 
     _this.handleLoading = function () {
-      _this.setState({ isLoaded: true });
+      return _this.setCached();
     };
+
+    var content = props.content;
+
+    if (content.fileUrl) {
+      _this.createAudioElement(content.fileUrl);
+    }
 
     _this.state = {
-      isLoaded: false,
+      isLoaded: _this.isCached(),
       isPlaying: false,
       currentTime: 0,
-      duration: props.content.duration / 1000
+      duration: props.content.duration
     };
-
-    _this.audio = new Audio(props.content.fileUrl);
-    _this.audio.volume = 1;
-    _this.audio.addEventListener('timeupdate', _this.handleTimeUpdate);
-    _this.audio.addEventListener('ended', _this.handlePlayEnding);
-    _this.audio.addEventListener('canplaythrough', _this.handleLoading);
     return _this;
   }
 
   _createClass(Voice, [{
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps, prevState) {
+      var content = this.props.content;
+
+      if (content.fileUrl && !this.isCached()) {
+        this.createAudioElement(content.fileUrl);
+      }
+    }
+  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
+      this.audio.removeEventListener('loadeddata', this.handleLoading);
       this.audio.removeEventListener('timeupdate', this.handleTimeUpdate);
       this.audio.removeEventListener('ended', this.handlePlayEnding);
+      this.audio.removeEventListener('canplaythrough', this.handleLoading);
+    }
+  }, {
+    key: 'createAudioElement',
+    value: function createAudioElement(fileUrl) {
+      this.audio = new Audio(fileUrl);
+      this.audio.volume = 1;
+      this.audio.addEventListener('loadeddata', this.handleLoading);
+      this.audio.addEventListener('timeupdate', this.handleTimeUpdate);
+      this.audio.addEventListener('ended', this.handlePlayEnding);
+      this.audio.addEventListener('canplaythrough', this.handleLoading);
+      this.setCached();
+    }
+  }, {
+    key: 'isCached',
+    value: function isCached() {
+      var content = this.props.content;
+
+      return cache[content.fileUrl] === true;
+    }
+  }, {
+    key: 'setCached',
+    value: function setCached() {
+      var content = this.props.content;
+
+      cache[content.fileUrl] = true;
+      this.setState({ isLoaded: cache[content.fileUrl] });
     }
   }, {
     key: 'render',

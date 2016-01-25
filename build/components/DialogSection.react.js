@@ -210,7 +210,7 @@ var DialogSection = (function (_Component) {
         activity.push(_react2.default.createElement(_ActivitySection2.default, null));
       }
 
-      var mainScreen = _react2.default.createElement(
+      var mainScreen = peer ? _react2.default.createElement(
         'section',
         { className: 'dialog' },
         _react2.default.createElement(_ConnectionState2.default, null),
@@ -237,7 +237,8 @@ var DialogSection = (function (_Component) {
             'You are not a member'
           )
         )
-      );
+      ) : null;
+
       var emptyScreen = _react2.default.createElement(
         'section',
         { className: 'dialog dialog--empty row center-xs middle-xs' },
@@ -262,7 +263,7 @@ var DialogSection = (function (_Component) {
       return _react2.default.createElement(
         'section',
         { className: 'main' },
-        _react2.default.createElement(ToolbarSection, null),
+        peer ? _react2.default.createElement(ToolbarSection, null) : null,
         _react2.default.createElement(
           'div',
           { className: 'flexrow' },

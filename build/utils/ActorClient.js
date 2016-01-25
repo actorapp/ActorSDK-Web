@@ -317,6 +317,9 @@ exports.default = {
   removeLike: function removeLike(peer, rid) {
     return window.messenger.removeLike(peer, rid);
   },
+  sendVoiceMessage: function sendVoiceMessage(peer, duration, voice) {
+    window.messenger.sendVoiceMessage(peer, duration, voice);
+  },
 
   // Search
 

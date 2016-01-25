@@ -22,6 +22,10 @@ var _ActivityActionCreators = require('../actions/ActivityActionCreators');
 
 var _ActivityActionCreators2 = _interopRequireDefault(_ActivityActionCreators);
 
+var _AvatarItem = require('../components/common/AvatarItem.react');
+
+var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
+
 var _DialogInfoStore = require('../stores/DialogInfoStore');
 
 var _DialogInfoStore2 = _interopRequireDefault(_DialogInfoStore);
@@ -79,6 +83,10 @@ var ToolbarSection = (function (_Component) {
         return _react2.default.createElement(
           'header',
           { className: 'toolbar row' },
+          _react2.default.createElement(_AvatarItem2.default, { image: dialogInfo.avatar,
+            placeholder: dialogInfo.placeholder,
+            size: 'medium',
+            title: dialogInfo.name }),
           _react2.default.createElement(
             'div',
             { className: 'toolbar__peer col-xs' },

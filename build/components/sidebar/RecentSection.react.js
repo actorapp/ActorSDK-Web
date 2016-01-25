@@ -18,9 +18,23 @@ var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
 
 var _utils = require('flux/utils');
 
+var _reactMixin = require('react-mixin');
+
+var _reactMixin2 = _interopRequireDefault(_reactMixin);
+
+var _reactIntl = require('react-intl');
+
 var _DialogActionCreators = require('../../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
+
+var _CreateGroupActionCreators = require('../../actions/CreateGroupActionCreators');
+
+var _CreateGroupActionCreators2 = _interopRequireDefault(_CreateGroupActionCreators);
+
+var _AddContactActionCreators = require('../../actions/AddContactActionCreators');
+
+var _AddContactActionCreators2 = _interopRequireDefault(_AddContactActionCreators);
 
 var _AllDialogsStore = require('../../stores/AllDialogsStore');
 
@@ -61,17 +75,29 @@ var RecentSection = (function (_Component) {
       }
     };
 
+    _this.handleCreateGroupClick = function () {
+      return _CreateGroupActionCreators2.default.open();
+    };
+
+    _this.handleAddPeopleClick = function () {
+      return _AddContactActionCreators2.default.open();
+    };
+
     return _this;
   }
 
   _createClass(RecentSection, [{
     key: 'componentDidUpdate',
     value: function componentDidUpdate() {
-      var listRect = _react2.default.findDOMNode(this.refs.list).getBoundingClientRect();
-      var recentRect = _react2.default.findDOMNode(this.refs.recent).getBoundingClientRect();
+      var dialogs = this.state.dialogs;
 
-      if (listRect.height < recentRect.height) {
-        _DialogActionCreators2.default.onDialogsEnd();
+      if (dialogs.length !== 0) {
+        var listRect = _react2.default.findDOMNode(this.refs.list).getBoundingClientRect();
+        var recentRect = _react2.default.findDOMNode(this.refs.recent).getBoundingClientRect();
+
+        if (listRect.height < recentRect.height) {
+          _DialogActionCreators2.default.onDialogsEnd();
+        }
       }
     }
   }, {
@@ -82,17 +108,45 @@ var RecentSection = (function (_Component) {
       var dialogList = (0, _lodash.map)(dialogs, function (dialog, index) {
         return _react2.default.createElement(_RecentSectionItem2.default, { dialog: dialog, key: index });
       });
-
       return _react2.default.createElement(
         'section',
         { className: 'sidebar__recent', ref: 'recent' },
-        _react2.default.createElement(
+        dialogList.length !== 0 ? _react2.default.createElement(
           _Scrollbar2.default,
           { onScroll: this.onScroll },
           _react2.default.createElement(
             'ul',
             { className: 'sidebar__list', ref: 'list' },
             dialogList
+          )
+        ) : _react2.default.createElement(
+          'div',
+          { className: 'sidebar__recent__empty row center-xs middle-xs' },
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'p',
+              null,
+              this.getIntlMessage('sidebar.recents.empty.first')
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              this.getIntlMessage('sidebar.recents.empty.second.start'),
+              _react2.default.createElement(
+                'a',
+                { onClick: this.handleCreateGroupClick },
+                this.getIntlMessage('sidebar.recents.newDialog')
+              ),
+              this.getIntlMessage('sidebar.recents.empty.second.or'),
+              _react2.default.createElement(
+                'a',
+                { onClick: this.handleAddPeopleClick },
+                this.getIntlMessage('sidebar.recents.addPeople')
+              ),
+              this.getIntlMessage('sidebar.recents.empty.second.end')
+            )
           )
         )
       );
@@ -112,6 +166,8 @@ var RecentSection = (function (_Component) {
 RecentSection.getStores = function () {
   return [_AllDialogsStore2.default];
 };
+
+_reactMixin2.default.onClass(RecentSection, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(RecentSection, { pure: false });
 //# sourceMappingURL=RecentSection.react.js.map

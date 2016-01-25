@@ -42,16 +42,14 @@ var VoiceRecorder = (function (_Component) {
 
     _this.handleStopRecord = function () {
       _this.recorder.stop();
-      _this.setState({
-        isRecording: false,
-        duration: '0:00'
-      });
+      _this.setState({ isRecording: false });
     };
 
     _this.handleSendRecord = function (event) {
       var onFinish = _this.props.onFinish;
+      var duration = _this.state.duration;
 
-      onFinish && onFinish(event.detail);
+      onFinish && onFinish(duration, event.detail);
     };
 
     _this.handleStreamReady = function () {

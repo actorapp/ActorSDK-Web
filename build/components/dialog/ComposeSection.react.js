@@ -217,7 +217,7 @@ var ComposeSection = (function (_Component) {
       var text = _this$state3.text;
 
       _ComposeActionCreators2.default.insertMention(peer, text, _this.getCaretPosition(), mention);
-      _react2.default.findDOMNode(_this.refs.area).focus();
+      _this.setFocus();
     };
 
     _this.onMentionClose = function () {
@@ -232,7 +232,7 @@ var ComposeSection = (function (_Component) {
 
     _this.handleEmojiSelect = function (emoji) {
       _EmojiActionCreators2.default.insertEmoji(_this.state.text, _this.getCaretPosition(), emoji);
-      _react2.default.findDOMNode(_this.refs.area).focus();
+      _this.setFocus();
     };
 
     _this.setFocus = function () {
@@ -273,8 +273,10 @@ var ComposeSection = (function (_Component) {
       _this.resetAttachmentForm();
     };
 
-    _this.sendVoiceRecord = function (record) {
-      console.debug('sendVoiceRecord: ', record);
+    _this.sendVoiceRecord = function (duration, record) {
+      var peer = _this.state.peer;
+
+      _MessageActionCreators2.default.sendVoiceMessage(peer, duration, record);
     };
 
     _this.setListeners();

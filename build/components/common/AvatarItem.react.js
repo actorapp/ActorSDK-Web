@@ -60,7 +60,8 @@ var AvatarItem = (function (_React$Component) {
         'avatar--medium': size === 'medium',
         'avatar--large': size === 'large',
         'avatar--big': size === 'big',
-        'avatar--huge': size === 'huge'
+        'avatar--huge': size === 'huge',
+        'avatar--without-shadow': !image
       }, className);
 
       var avatar = image ? _react2.default.createElement('img', { alt: title, className: 'avatar__image', src: image }) : null;

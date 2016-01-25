@@ -24,8 +24,6 @@ var _reactIntl = require('react-intl');
 
 var _ActorAppConstants = require('../../../constants/ActorAppConstants');
 
-var _materialUi = require('material-ui');
-
 var _CreateGroupActionCreators = require('../../../actions/CreateGroupActionCreators');
 
 var _CreateGroupActionCreators2 = _interopRequireDefault(_CreateGroupActionCreators);
@@ -42,9 +40,9 @@ var _ContactItem = require('./ContactItem.react');
 
 var _ContactItem2 = _interopRequireDefault(_ContactItem);
 
-var _ActorTheme = require('../../../constants/ActorTheme');
+var _TextField = require('../../common/TextField.react');
 
-var _ActorTheme2 = _interopRequireDefault(_ActorTheme);
+var _TextField2 = _interopRequireDefault(_TextField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -55,8 +53,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-var ThemeManager = new _materialUi.Styles.ThemeManager();
 
 var CreateGroupForm = (function (_Component) {
   _inherits(CreateGroupForm, _Component);
@@ -107,40 +103,16 @@ var CreateGroupForm = (function (_Component) {
   }
 
   _createClass(CreateGroupForm, [{
-    key: 'getChildContext',
-    value: function getChildContext() {
-      return {
-        muiTheme: ThemeManager.getCurrentTheme()
-      };
-    }
-  }, {
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      ThemeManager.setTheme(_ActorTheme2.default);
-      ThemeManager.setComponentThemes({
-        textField: {
-          textColor: 'rgba(0,0,0,.87)',
-          focusColor: '#68a3e7',
-          backgroundColor: 'transparent',
-          borderColor: '#68a3e7'
-        }
-      });
-    }
-  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this2 = this;
-
       if (this.state.step === _ActorAppConstants.CreateGroupSteps.NAME_INPUT) {
-        setTimeout(function () {
-          _this2.refs.groupName.focus();
-        }, 10);
+        this.refs.groupName.focus();
       }
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
       var _state = this.state;
       var step = _state.step;
@@ -158,9 +130,8 @@ var CreateGroupForm = (function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'modal-new__body' },
-              _react2.default.createElement(_materialUi.TextField, { className: 'login__form__input',
-                floatingLabelText: this.getIntlMessage('modal.createGroup.groupName'),
-                fullWidth: true,
+              _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
+                floatingLabel: this.getIntlMessage('modal.createGroup.groupName'),
                 ref: 'groupName',
                 onChange: this.handleNameChange,
                 value: name })
@@ -181,7 +152,7 @@ var CreateGroupForm = (function (_Component) {
         case _ActorAppConstants.CreateGroupSteps.CONTACTS_SELECTION:
         case _ActorAppConstants.CreateGroupSteps.CREATION_STARTED:
           var contactList = _lodash2.default.map(contacts, function (contact, i) {
-            return _react2.default.createElement(_ContactItem2.default, { contact: contact, key: i, onToggle: _this3.onContactToggle });
+            return _react2.default.createElement(_ContactItem2.default, { contact: contact, key: i, onToggle: _this2.onContactToggle });
           });
           stepForm = _react2.default.createElement(
             'form',
@@ -225,7 +196,7 @@ var CreateGroupForm = (function (_Component) {
   }], [{
     key: 'getStores',
     value: function getStores() {
-      return [_CreateGroupStore2.default];
+      return [_PeopleStore2.default, _CreateGroupStore2.default];
     }
   }, {
     key: 'calculateState',
@@ -241,10 +212,6 @@ var CreateGroupForm = (function (_Component) {
 
   return CreateGroupForm;
 })(_react.Component);
-
-CreateGroupForm.childContextTypes = {
-  muiTheme: _react.PropTypes.object
-};
 
 _reactMixin2.default.onClass(CreateGroupForm, _reactIntl.IntlMixin);
 

@@ -86,11 +86,14 @@ var getEmojiCategories = exports.getEmojiCategories = function getEmojiCategorie
         case 'Places':
           icon = ':airplane:';
           break;
+        case 'Objects':
+          icon = ':bulb:';
+          break;
         case 'Flags':
           icon = ':flag-ru:';
           break;
         case 'Symbols':
-          icon = ':eyeglasses:';
+          icon = ':peace_symbol:';
           break;
         default:
       }

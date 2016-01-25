@@ -44,6 +44,9 @@ exports.default = {
   sendClipboardPhotoMessage: function sendClipboardPhotoMessage(peer, photo) {
     _ActorClient2.default.sendClipboardPhotoMessage(peer, photo);
   },
+  sendVoiceMessage: function sendVoiceMessage(peer, duration, voice) {
+    _ActorClient2.default.sendVoiceMessage(peer, duration, voice);
+  },
   deleteMessage: function deleteMessage(peer, rid) {
     _ActorClient2.default.deleteMessage(peer, rid);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_DELETE, { peer: peer, rid: rid });

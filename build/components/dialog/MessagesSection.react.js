@@ -76,6 +76,21 @@ var flushDelayedDebounced = (0, _lodash.debounce)(flushDelayed, 30, { maxWait: 1
 var MessagesSection = (function (_Component) {
   _inherits(MessagesSection, _Component);
 
+  _createClass(MessagesSection, null, [{
+    key: 'getStores',
+    value: function getStores() {
+      return [_MessageStore2.default, _VisibilityStore2.default];
+    }
+  }, {
+    key: 'calculateState',
+    value: function calculateState() {
+      return {
+        selectedMessages: _MessageStore2.default.getSelected(),
+        isAppVisible: _VisibilityStore2.default.isAppVisible()
+      };
+    }
+  }]);
+
   function MessagesSection(props) {
     _classCallCheck(this, MessagesSection);
 
@@ -83,7 +98,9 @@ var MessagesSection = (function (_Component) {
 
     _this.getMessagesListItem = function (message, index) {
       var selectedMessages = _this.state.selectedMessages;
-      var overlay = _this.props.overlay;
+      var _this$props = _this.props;
+      var peer = _this$props.peer;
+      var overlay = _this$props.overlay;
 
       var dateDivider = overlay[index] && overlay[index].dateDivider ? _react2.default.createElement(
         'li',
@@ -91,30 +108,17 @@ var MessagesSection = (function (_Component) {
         overlay[index].dateDivider
       ) : null;
 
-      var isShortMessage = overlay[index] && overlay[index].useShort ? overlay[index].useShort : false;
-
       var isSelected = selectedMessages.has(message.rid);
 
       var messageItem = _react2.default.createElement(_MessageItem2.default, { key: message.sortKey,
         message: message,
-        isShortMessage: isShortMessage,
+        overlay: overlay[index],
         onSelect: _this.handleMessageSelect,
         isSelected: isSelected,
         onVisibilityChange: _this.onMessageVisibilityChange,
-        peer: _this.props.peer });
+        peer: peer });
 
-      // return [dateDivider, messageItem];
-      return messageItem;
-    };
-
-    _this.onAppVisibilityChange = function () {
-      if (_VisibilityStore2.default.isAppVisible()) {
-        flushDelayed();
-      }
-    };
-
-    _this.onMessagesChange = function () {
-      return _this.setState({ selectedMessages: _MessageStore2.default.getSelected() });
+      return dateDivider ? [dateDivider, messageItem] : messageItem;
     };
 
     _this.handleMessageSelect = function (rid) {
@@ -144,18 +148,26 @@ var MessagesSection = (function (_Component) {
       onScroll && onScroll();
     };
 
-    _this.state = {
-      selectedMessages: _MessageStore2.default.getSelected()
-    };
     return _this;
   }
 
   _createClass(MessagesSection, [{
-    key: 'shouldComponentUpdate',
-    value: function shouldComponentUpdate(nextProps, nextState) {
-      // console.warn('messagesSection:shouldComponentUpdate')
-      return true;
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      var isAppVisible = this.state.isAppVisible;
+
+      if (isAppVisible) {
+        flushDelayed();
+      }
     }
+
+    //onMessagesChange = () => this.setState({selectedMessages: MessageStore.getSelected()});
+
+    //shouldComponentUpdate(nextProps, nextState) {
+    //    // console.warn('messagesSection:shouldComponentUpdate')
+    //    return true
+    //}
+
   }, {
     key: 'render',
     value: function render() {
@@ -185,5 +197,5 @@ MessagesSection.propTypes = {
   peer: _react.PropTypes.object.isRequired,
   onScroll: _react.PropTypes.func.isRequired
 };
-exports.default = MessagesSection;
+exports.default = _utils.Container.create(MessagesSection, { pure: false, withProps: true });
 //# sourceMappingURL=MessagesSection.react.js.map

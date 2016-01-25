@@ -20,9 +20,7 @@ var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 var _reactIntl = require('react-intl');
 
-var _addons = require('react/addons');
-
-var _addons2 = _interopRequireDefault(_addons);
+var _utils = require('flux/utils');
 
 var _classnames = require('classnames');
 
@@ -124,21 +122,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 // Default message content components
 
-var PureRenderMixin = _addons2.default.addons.PureRenderMixin;
-
 var MessageItem = (function (_Component) {
   _inherits(MessageItem, _Component);
+
+  _createClass(MessageItem, null, [{
+    key: 'calculateState',
+    value: function calculateState(prevState, props) {
+      return {
+        isHighlighted: props && props.message ? _DropdownStore2.default.isOpen(props.message.rid) : false
+      };
+    }
+  }]);
 
   function MessageItem(props) {
     _classCallCheck(this, MessageItem);
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MessageItem).call(this, props));
-
-    _this.onMessagesChange = function () {
-      var message = _this.props.message;
-
-      _this.setState({ isHighlighted: _DropdownStore2.default.isOpen(message.rid) });
-    };
 
     _this.onClick = function () {
       var _this$props = _this.props;
@@ -166,44 +165,28 @@ var MessageItem = (function (_Component) {
       onSelect && onSelect(message.rid);
     };
 
-    _this.state = {
-      isHighlighted: _DropdownStore2.default.isOpen(props.message.rid)
-    };
-
-    _this.dropdownToken = _DropdownStore2.default.addListener(_this.onMessagesChange);
     return _this;
   }
 
   _createClass(MessageItem, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      // console.warn('messageItem:onComponentUnmount')
-      this.dropdownToken.remove();
-    }
-  }, {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps, nextState) {
-      if (this.props.message != nextProps.message) {
-        return true;
-      }
-      if (this.props.isShortMessage != nextProps.isShortMessage) {
-        return true;
-      }
-      // console.warn('messageItem:shouldComponentUpdate')
-      return false;
+      return this.props.message !== nextProps.message || this.props.isShortMessage != nextProps.isShortMessage;
     }
   }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
       var message = _props.message;
-      var isShortMessage = _props.isShortMessage;
+      var overlay = _props.overlay;
       var peer = _props.peer;
       var isSelected = _props.isSelected;
       var isHighlighted = this.state.isHighlighted;
       var _context = this.context;
       var delegate = _context.delegate;
       var isExperimental = _context.isExperimental;
+
+      var isShortMessage = overlay.useShort;
 
       var Service = undefined,
           Text = undefined,
@@ -370,9 +353,14 @@ var MessageItem = (function (_Component) {
   return MessageItem;
 })(_react.Component);
 
+MessageItem.getStores = function () {
+  return [_DropdownStore2.default];
+};
+
 MessageItem.propTypes = {
   peer: _react.PropTypes.object.isRequired,
   message: _react.PropTypes.object.isRequired,
+  overlay: _react.PropTypes.object.isRequired,
   isShortMessage: _react.PropTypes.bool,
   isSelected: _react.PropTypes.bool,
   onSelect: _react.PropTypes.func
@@ -383,7 +371,6 @@ MessageItem.contextTypes = {
 };
 
 _reactMixin2.default.onClass(MessageItem, _reactIntl.IntlMixin);
-// ReactMixin.onClass(MessageItem, PureRenderMixin);
 
-exports.default = MessageItem;
+exports.default = _utils.Container.create(MessageItem, { withProps: true });
 //# sourceMappingURL=MessageItem.react.js.map

@@ -76,13 +76,15 @@ var TextField = (function (_Component) {
       var type = _props.type;
       var value = _props.value;
       var ref = _props.ref;
+      var disabled = _props.disabled;
       var _state = this.state;
       var isFocused = _state.isFocused;
       var inputId = _state.inputId;
 
       var inputClassName = (0, _classnames2.default)('input input__material', className, {
         'input__material--focus': isFocused,
-        'input__material--filled': value && value.length > 0
+        'input__material--filled': value && value.length > 0,
+        'input__material--disabled': disabled
       });
 
       var inputProps = {
@@ -92,6 +94,7 @@ var TextField = (function (_Component) {
         onFocus: this.handleFocus,
         onBlur: this.handleBlur,
         value: value,
+        disabled: disabled,
         ref: ref ? ref : 'input'
       };
 

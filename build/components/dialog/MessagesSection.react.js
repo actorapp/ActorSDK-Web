@@ -12,9 +12,15 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _utils = require('flux/utils');
+
 var _ActorClient = require('../../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
+
+var _Scrollbar = require('../common/Scrollbar.react');
+
+var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
 
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
@@ -25,10 +31,6 @@ var _MessageActionCreators2 = _interopRequireDefault(_MessageActionCreators);
 var _VisibilityStore = require('../../stores/VisibilityStore');
 
 var _VisibilityStore2 = _interopRequireDefault(_VisibilityStore);
-
-var _GroupStore = require('../../stores/GroupStore');
-
-var _GroupStore2 = _interopRequireDefault(_GroupStore);
 
 var _DialogStore = require('../../stores/DialogStore');
 
@@ -50,8 +52,6 @@ var _Loading = require('./messages/Loading.react');
 
 var _Loading2 = _interopRequireDefault(_Loading);
 
-var _utils = require('flux/utils');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -61,6 +61,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
+
+//import GroupStore from '../../stores/GroupStore';
 
 var _delayed = [];
 
@@ -86,6 +88,7 @@ var MessagesSection = (function (_Component) {
     value: function calculateState() {
       return {
         selectedMessages: _MessageStore2.default.getSelected(),
+        isAllMessagesLoaded: _MessageStore2.default.isLoaded(),
         isAppVisible: _VisibilityStore2.default.isAppVisible()
       };
     }
@@ -160,30 +163,27 @@ var MessagesSection = (function (_Component) {
         flushDelayed();
       }
     }
-
-    //onMessagesChange = () => this.setState({selectedMessages: MessageStore.getSelected()});
-
-    //shouldComponentUpdate(nextProps, nextState) {
-    //    // console.warn('messagesSection:shouldComponentUpdate')
-    //    return true
-    //}
-
   }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
       var messages = _props.messages;
       var peer = _props.peer;
+      var isAllMessagesLoaded = this.state.isAllMessagesLoaded;
 
-      var messagesList = (0, _lodash.map)(messages, this.getMessagesListItem);
       var isMember = _DialogStore2.default.isMember();
+      var messagesList = (0, _lodash.map)(messages, this.getMessagesListItem);
 
       return _react2.default.createElement(
-        'ul',
-        { className: 'messages__list', onScroll: this.handleScroll },
-        isMember && messagesList.length < 30 ? _react2.default.createElement(_Welcome2.default, { peer: peer }) : null,
-        messagesList.length >= 30 ? _react2.default.createElement(_Loading2.default, null) : null,
-        messagesList
+        _Scrollbar2.default,
+        { onScroll: this.handleScroll, ref: 'messagesScroll' },
+        _react2.default.createElement(
+          'ul',
+          { className: 'messages__list' },
+          isMember && isAllMessagesLoaded || isMember && messagesList.length < 30 ? _react2.default.createElement(_Welcome2.default, { peer: peer }) : null,
+          !isAllMessagesLoaded && messagesList.length >= 30 ? _react2.default.createElement(_Loading2.default, null) : null,
+          messagesList
+        )
       );
     }
   }]);

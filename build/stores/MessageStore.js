@@ -30,6 +30,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var _messages = [];
 var _overlay = [];
+var _isLoaded = false;
 var _selectedMessages = new _immutable2.default.Set();
 
 /**
@@ -64,6 +65,11 @@ var MessageStore = (function (_Store) {
     value: function getOverlay() {
       return _overlay;
     }
+  }, {
+    key: 'isLoaded',
+    value: function isLoaded() {
+      return _isLoaded;
+    }
 
     /**
      * @returns {Array} Selected messages
@@ -86,6 +92,7 @@ var MessageStore = (function (_Store) {
         case _ActorAppConstants.ActionTypes.MESSAGES_CHANGED:
           _messages = action.messages;
           _overlay = action.overlay;
+          _isLoaded = action.isLoaded;
           this.__emitChange();
           break;
 

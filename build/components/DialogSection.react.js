@@ -109,7 +109,8 @@ var DialogSection = (function (_Component) {
     };
 
     _this.fixScroll = function () {
-      var node = _react2.default.findDOMNode(_this.refs.MessagesSection);
+      var scrollNode = _react2.default.findDOMNode(_this.refs.messagesSection.refs.messagesScroll.refs.scroll);
+      var node = scrollNode.getElementsByClassName('ss-content')[0];
       if (node) {
         node.scrollTop = node.scrollHeight - lastScrolledFromBottom - node.offsetHeight;
       }
@@ -131,7 +132,8 @@ var DialogSection = (function (_Component) {
       var messagesToRender = _this$state.messagesToRender;
 
       if (peer) {
-        var node = _react2.default.findDOMNode(_this.refs.MessagesSection);
+        var scrollNode = _react2.default.findDOMNode(_this.refs.messagesSection.refs.messagesScroll.refs.scroll);
+        var node = scrollNode.getElementsByClassName('ss-content')[0];
         var scrollTop = node.scrollTop;
         lastScrolledFromBottom = node.scrollHeight - scrollTop - node.offsetHeight; // was node.scrollHeight - scrollTop
 
@@ -220,7 +222,7 @@ var DialogSection = (function (_Component) {
           _react2.default.createElement(_MessagesSection2.default, { messages: messagesToRender,
             overlay: overlayToRender,
             peer: peer,
-            ref: 'MessagesSection',
+            ref: 'messagesSection',
             onScroll: this.loadMessagesByScroll })
         ),
         isMember ? _react2.default.createElement(

@@ -52,11 +52,9 @@ var _CropAvatar = require('./CropAvatar.react');
 
 var _CropAvatar2 = _interopRequireDefault(_CropAvatar);
 
-var _materialUi = require('material-ui');
+var _TextField = require('../common/TextField.react');
 
-var _ActorTheme = require('../../constants/ActorTheme');
-
-var _ActorTheme2 = _interopRequireDefault(_ActorTheme);
+var _TextField2 = _interopRequireDefault(_TextField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -68,7 +66,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var ThemeManager = new _materialUi.Styles.ThemeManager();
+var currentName = '',
+    currentNick = '',
+    currentAbout = '';
 
 var MyProfile = (function (_Component) {
   _inherits(MyProfile, _Component);
@@ -86,39 +86,49 @@ var MyProfile = (function (_Component) {
       return document.removeEventListener('keydown', _this.onKeyDown, false);
     };
 
-    _this.onClose = function () {
+    _this.handleClose = function () {
       return _MyProfileActionCreators2.default.hide();
     };
 
     _this.onKeyDown = function (event) {
       if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
         event.preventDefault();
-        _this.onClose();
+        _this.handleClose();
       }
     };
 
-    _this.onNameChange = function (event) {
+    _this.handleNameChange = function (event) {
       return _this.setState({ name: event.target.value });
     };
 
-    _this.onNicknameChange = function (event) {
+    _this.handleNicknameChange = function (event) {
       return _this.setState({ nick: event.target.value });
     };
 
-    _this.onAboutChange = function (event) {
+    _this.handleAboutChange = function (event) {
       return _this.setState({ about: event.target.value });
     };
 
-    _this.onSave = function () {
+    _this.isProfileChanged = function () {
       var _this$state = _this.state;
-      var nick = _this$state.nick;
       var name = _this$state.name;
+      var nick = _this$state.nick;
       var about = _this$state.about;
 
-      _MyProfileActionCreators2.default.saveName(name);
-      _MyProfileActionCreators2.default.saveNickname(nick);
-      _MyProfileActionCreators2.default.editMyAbout(about);
-      _this.onClose();
+      return name !== currentName || nick !== currentNick || about !== currentAbout;
+    };
+
+    _this.handleSave = function () {
+      var _this$state2 = _this.state;
+      var nick = _this$state2.nick;
+      var name = _this$state2.name;
+      var about = _this$state2.about;
+
+      if (name !== currentName) _MyProfileActionCreators2.default.saveName(name);
+      if (nick !== currentNick) _MyProfileActionCreators2.default.saveNickname(nick);
+      if (about !== currentAbout) _MyProfileActionCreators2.default.editMyAbout(about);
+
+      _this.handleClose();
     };
 
     _this.onProfilePictureInputChange = function () {
@@ -134,7 +144,7 @@ var MyProfile = (function (_Component) {
       reader.readAsDataURL(file);
     };
 
-    _this.onChangeAvatarClick = function () {
+    _this.handleChangeAvatarClick = function () {
       var imageInput = _react2.default.findDOMNode(_this.refs.imageInput);
       imageInput.click();
     };
@@ -151,25 +161,17 @@ var MyProfile = (function (_Component) {
   }
 
   _createClass(MyProfile, [{
-    key: 'getChildContext',
-    value: function getChildContext() {
-      return {
-        muiTheme: ThemeManager.getCurrentTheme()
-      };
-    }
-  }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
-      ThemeManager.setTheme(_ActorTheme2.default);
-      ThemeManager.setComponentThemes({
-        textField: {
-          textColor: 'rgba(0,0,0,.87)',
-          focusColor: '#68a3e7',
-          backgroundColor: 'transparent',
-          borderColor: '#68a3e7',
-          disabledTextColor: 'rgba(0,0,0,.4)'
-        }
-      });
+      var _state = this.state;
+      var name = _state.name;
+      var nick = _state.nick;
+      var about = _state.about;
+
+      currentName = name;
+      currentNick = nick;
+      currentAbout = about;
+
       this.setListeners();
     }
   }, {
@@ -191,13 +193,15 @@ var MyProfile = (function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _state = this.state;
-      var isOpen = _state.isOpen;
-      var isCropModalOpen = _state.isCropModalOpen;
-      var profile = _state.profile;
-      var nick = _state.nick;
-      var name = _state.name;
-      var about = _state.about;
+      var _state2 = this.state;
+      var isOpen = _state2.isOpen;
+      var isCropModalOpen = _state2.isCropModalOpen;
+      var profile = _state2.profile;
+      var nick = _state2.nick;
+      var name = _state2.name;
+      var about = _state2.about;
+
+      var isProfileChanged = this.isProfileChanged();
 
       var cropAvatar = isCropModalOpen ? _react2.default.createElement(_CropAvatar2.default, { onCropFinish: this.changeMyAvatar }) : null;
 
@@ -224,10 +228,14 @@ var MyProfile = (function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'pull-right' },
-              _react2.default.createElement(
+              isProfileChanged ? _react2.default.createElement(
                 'button',
-                { className: 'button button--lightblue', onClick: this.onSave },
-                this.getIntlMessage('button.done')
+                { className: 'button button--lightblue', onClick: this.handleSave },
+                this.getIntlMessage('button.save')
+              ) : _react2.default.createElement(
+                'button',
+                { className: 'button', onClick: this.handleClose },
+                this.getIntlMessage('button.close')
               )
             )
           ),
@@ -240,40 +248,36 @@ var MyProfile = (function (_Component) {
               _react2.default.createElement(
                 'div',
                 { className: 'name' },
-                _react2.default.createElement(_materialUi.TextField, { className: 'login__form__input',
-                  floatingLabelText: this.getIntlMessage('modal.profile.name'),
-                  fullWidth: true,
-                  onChange: this.onNameChange,
+                _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
+                  floatingLabel: this.getIntlMessage('modal.profile.name'),
+                  onChange: this.handleNameChange,
                   type: 'text',
                   value: name })
               ),
               _react2.default.createElement(
                 'div',
                 { className: 'nick' },
-                _react2.default.createElement(_materialUi.TextField, { className: 'login__form__input',
-                  floatingLabelText: this.getIntlMessage('modal.profile.nick'),
-                  fullWidth: true,
-                  onChange: this.onNicknameChange,
+                _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
+                  floatingLabel: this.getIntlMessage('modal.profile.nick'),
+                  onChange: this.handleNicknameChange,
                   type: 'text',
                   value: nick })
               ),
               profile.phones[0] ? _react2.default.createElement(
                 'div',
                 { className: 'phone' },
-                _react2.default.createElement(_materialUi.TextField, { className: 'login__form__input',
+                _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
+                  floatingLabel: this.getIntlMessage('modal.profile.phone'),
                   disabled: true,
-                  floatingLabelText: this.getIntlMessage('modal.profile.phone'),
-                  fullWidth: true,
                   type: 'tel',
                   value: (profile.phones[0] || {}).number })
               ) : null,
               profile.emails[0] ? _react2.default.createElement(
                 'div',
                 { className: 'phone' },
-                _react2.default.createElement(_materialUi.TextField, { className: 'login__form__input',
+                _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
+                  floatingLabel: this.getIntlMessage('modal.profile.email'),
                   disabled: true,
-                  floatingLabelText: this.getIntlMessage('modal.profile.email'),
-                  fullWidth: true,
                   type: 'email',
                   value: (profile.emails[0] || {}).email })
               ) : null,
@@ -287,7 +291,7 @@ var MyProfile = (function (_Component) {
                 ),
                 _react2.default.createElement('textarea', { className: 'textarea',
                   id: 'about',
-                  onChange: this.onAboutChange,
+                  onChange: this.handleAboutChange,
                   value: about })
               )
             ),
@@ -303,7 +307,7 @@ var MyProfile = (function (_Component) {
                   title: profile.name }),
                 _react2.default.createElement(
                   'a',
-                  { onClick: this.onChangeAvatarClick },
+                  { onClick: this.handleChangeAvatarClick },
                   _react2.default.createElement(
                     'span',
                     null,
@@ -311,7 +315,7 @@ var MyProfile = (function (_Component) {
                   )
                 )
               ),
-              _react2.default.createElement(
+              profile.bigAvatar ? _react2.default.createElement(
                 'div',
                 { className: 'profile-picture__controls' },
                 _react2.default.createElement(
@@ -319,7 +323,7 @@ var MyProfile = (function (_Component) {
                   { onClick: this.onProfilePictureRemove },
                   this.getIntlMessage('modal.profile.avatarRemove')
                 )
-              ),
+              ) : null,
               _react2.default.createElement(
                 'form',
                 { className: 'hide', ref: 'imageForm' },
@@ -349,10 +353,6 @@ var MyProfile = (function (_Component) {
 
   return MyProfile;
 })(_react.Component);
-
-MyProfile.childContextTypes = {
-  muiTheme: _react2.default.PropTypes.object
-};
 
 MyProfile.getStores = function () {
   return [_MyProfileStore2.default, _CropAvatarStore2.default];

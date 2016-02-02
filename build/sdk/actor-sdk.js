@@ -154,30 +154,17 @@ _reactMixin2.default.onClass(App, _reactIntl.IntlMixin);
 var ActorSDK = (function () {
   /**
    * @constructor
-   * @param {object} options - Object contains custom components, actions and localisation strings.
+   * @param {object} options - Object contains custom components, actions, localisation strings and etc.
    */
 
   function ActorSDK() {
+    var _this2 = this;
+
     var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
     _classCallCheck(this, ActorSDK);
 
-    this.endpoints = options.endpoints && options.endpoints.length > 0 ? options.endpoints : _ActorAppConstants.endpoints;
-    this.isExperimental = options.isExperimental ? options.isExperimental : false;
-
-    this.delegate = options.delegate ? options.delegate : new _actorSdkDelegate2.default();
-    _DelegateContainer2.default.set(this.delegate);
-
-    if (this.delegate.l18n) {
-      (0, _l18n.extendL18n)();
-    }
-  }
-
-  _createClass(ActorSDK, [{
-    key: '_starter',
-    value: function _starter() {
-      var _this2 = this;
-
+    this._starter = function () {
       var ActorInitEvent = 'concurrentActorInit';
 
       if (_crosstab2.default.supported) {
@@ -189,20 +176,20 @@ var ActorSDK = (function () {
         });
       }
 
-      var appRootElemet = document.getElementById('actor-web-app');
+      var appRootElemet = document.getElementById(_this2.rootElement);
 
       if (window.location.hash !== '#/deactivated') {
         if (_crosstab2.default.supported) {
           _crosstab2.default.broadcast(ActorInitEvent, {});
         }
 
-        window.messenger = _actorJs2.default.create(this.endpoints);
+        window.messenger = _actorJs2.default.create(_this2.endpoints);
       }
 
-      var Login = this.delegate.components.login || _Login2.default;
-      var Deactivated = this.delegate.components.deactivated || _Deactivated2.default;
-      var Install = this.delegate.components.install || _Install2.default;
-      var JoinGroup = this.delegate.components.joinGroup || _JoinGroup2.default;
+      var Login = _this2.delegate.components.login || _Login2.default;
+      var Deactivated = _this2.delegate.components.deactivated || _Deactivated2.default;
+      var Install = _this2.delegate.components.install || _Install2.default;
+      var JoinGroup = _this2.delegate.components.joinGroup || _JoinGroup2.default;
       var intlData = (0, _l18n.getIntlData)();
 
       var routes = _react2.default.createElement(
@@ -229,8 +216,22 @@ var ActorSDK = (function () {
           _LoginActionCreators2.default.setLoggedIn({ redirect: false });
         }
       }
+    };
+
+    this.endpoints = options.endpoints && options.endpoints.length > 0 ? options.endpoints : _ActorAppConstants.endpoints;
+    this.isExperimental = options.isExperimental ? options.isExperimental : false;
+
+    this.rootElement = options.rootElement ? options.rootElement : 'actor-web-app';
+
+    this.delegate = options.delegate ? options.delegate : new _actorSdkDelegate2.default();
+    _DelegateContainer2.default.set(this.delegate);
+
+    if (this.delegate.l18n) {
+      (0, _l18n.extendL18n)();
     }
-  }, {
+  }
+
+  _createClass(ActorSDK, [{
     key: 'startApp',
 
     /**
@@ -240,7 +241,7 @@ var ActorSDK = (function () {
       if (window.isJsAppLoaded) {
         this._starter();
       } else {
-        window.jsAppLoaded = this._starter.bind(this);
+        window.jsAppLoaded = this._starter;
       }
     }
   }]);

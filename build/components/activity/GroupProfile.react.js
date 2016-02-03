@@ -44,10 +44,6 @@ var _DialogActionCreators = require('../../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
-var _GroupProfileActionCreators = require('../../actions/GroupProfileActionCreators');
-
-var _GroupProfileActionCreators2 = _interopRequireDefault(_GroupProfileActionCreators);
-
 var _InviteUserActions = require('../../actions/InviteUserActions');
 
 var _InviteUserActions2 = _interopRequireDefault(_InviteUserActions);
@@ -59,10 +55,6 @@ var _EditGroupActionCreators2 = _interopRequireDefault(_EditGroupActionCreators)
 var _NotificationsActionCreators = require('../../actions/NotificationsActionCreators');
 
 var _NotificationsActionCreators2 = _interopRequireDefault(_NotificationsActionCreators);
-
-var _PeerStore = require('../../stores/PeerStore');
-
-var _PeerStore2 = _interopRequireDefault(_PeerStore);
 
 var _DialogStore = require('../../stores/DialogStore');
 
@@ -115,7 +107,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var getStateFromStores = function getStateFromStores(gid) {

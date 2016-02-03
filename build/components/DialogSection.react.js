@@ -14,10 +14,6 @@ var _lodash = require('lodash');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _PeerUtils = require('../utils/PeerUtils');
-
-var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
-
 var _MessagesSection = require('./dialog/MessagesSection.react');
 
 var _MessagesSection2 = _interopRequireDefault(_MessagesSection);
@@ -54,10 +50,6 @@ var _MessageStore = require('../stores/MessageStore');
 
 var _MessageStore2 = _interopRequireDefault(_MessageStore);
 
-var _GroupStore = require('../stores/GroupStore');
-
-var _GroupStore2 = _interopRequireDefault(_GroupStore);
-
 var _DialogActionCreators = require('../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
@@ -69,7 +61,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 // On which scrollTop value start loading older messages
@@ -191,10 +183,12 @@ var DialogSection = (function (_Component) {
       var activity = [],
           ToolbarSection = undefined,
           TypingSection = undefined,
-          ComposeSection = undefined;
+          ComposeSection = undefined,
+          MessagesSection = undefined;
 
       if (delegate.components.dialog !== null && typeof delegate.components.dialog !== 'function') {
         ToolbarSection = delegate.components.dialog.toolbar || _ToolbarSection2.default;
+        MessagesSection = typeof delegate.components.dialog.messages == 'function' ? delegate.components.dialog.messages : _MessagesSection2.default;
         TypingSection = delegate.components.dialog.typing || _TypingSection2.default;
         ComposeSection = delegate.components.dialog.compose || _ComposeSection2.default;
 
@@ -207,6 +201,7 @@ var DialogSection = (function (_Component) {
         }
       } else {
         ToolbarSection = _ToolbarSection2.default;
+        MessagesSection = _MessagesSection2.default;
         TypingSection = _TypingSection2.default;
         ComposeSection = _ComposeSection2.default;
         activity.push(_react2.default.createElement(_ActivitySection2.default, null));
@@ -219,7 +214,7 @@ var DialogSection = (function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'messages' },
-          _react2.default.createElement(_MessagesSection2.default, { messages: messagesToRender,
+          _react2.default.createElement(MessagesSection, { messages: messagesToRender,
             overlay: overlayToRender,
             peer: peer,
             ref: 'messagesSection',

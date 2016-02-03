@@ -38,17 +38,9 @@ var _DialogActionCreators = require('../../../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
-var _MessageActionCreators = require('../../../actions/MessageActionCreators');
-
-var _MessageActionCreators2 = _interopRequireDefault(_MessageActionCreators);
-
 var _ActivityActionCreators = require('../../../actions/ActivityActionCreators');
 
 var _ActivityActionCreators2 = _interopRequireDefault(_ActivityActionCreators);
-
-var _ComposeActionCreators = require('../../../actions/ComposeActionCreators');
-
-var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
 
 var _DropdownActionCreators = require('../../../actions/DropdownActionCreators');
 
@@ -117,7 +109,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 // Default message content components
@@ -197,7 +189,7 @@ var MessageItem = (function (_Component) {
           Contact = undefined,
           Location = undefined,
           Sticker = undefined;
-      if (delegate.components.dialog !== null && delegate.components.dialog.messages) {
+      if (delegate.components.dialog && delegate.components.dialog.messages && delegate.components.dialog.messages.message !== null && typeof delegate.components.messages.message !== 'function') {
         Service = delegate.components.dialog.messages.service || _Service2.default;
         Text = delegate.components.dialog.messages.text || _Text2.default;
         Modern = delegate.components.dialog.messages.modern || _ModernReact2.default;

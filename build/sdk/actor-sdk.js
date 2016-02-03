@@ -54,6 +54,8 @@ var _crosstab = require('crosstab');
 
 var _crosstab2 = _interopRequireDefault(_crosstab);
 
+var _ImageUtils = require('../utils/ImageUtils');
+
 var _LoginActionCreators = require('../actions/LoginActionCreators');
 
 var _LoginActionCreators2 = _interopRequireDefault(_LoginActionCreators);
@@ -102,6 +104,11 @@ _pace2.default.start({
   ajax: false,
   restartOnRequestAfter: false,
   restartOnPushState: false
+});
+
+_ImageUtils.lightbox.load({
+  animation: false,
+  controlClose: '<i class="material-icons">close</i>'
 });
 
 window.isJsAppLoaded = false;

@@ -59,10 +59,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-//import GroupStore from '../../stores/GroupStore';
 
 var _delayed = [];
 
@@ -98,31 +96,6 @@ var MessagesSection = (function (_Component) {
     _classCallCheck(this, MessagesSection);
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MessagesSection).call(this, props));
-
-    _this.getMessagesListItem = function (message, index) {
-      var selectedMessages = _this.state.selectedMessages;
-      var _this$props = _this.props;
-      var peer = _this$props.peer;
-      var overlay = _this$props.overlay;
-
-      var dateDivider = overlay[index] && overlay[index].dateDivider ? _react2.default.createElement(
-        'li',
-        { className: 'date-divider' },
-        overlay[index].dateDivider
-      ) : null;
-
-      var isSelected = selectedMessages.has(message.rid);
-
-      var messageItem = _react2.default.createElement(_MessageItem2.default, { key: message.sortKey,
-        message: message,
-        overlay: overlay[index],
-        onSelect: _this.handleMessageSelect,
-        isSelected: isSelected,
-        onVisibilityChange: _this.onMessageVisibilityChange,
-        peer: peer });
-
-      return dateDivider ? [dateDivider, messageItem] : messageItem;
-    };
 
     _this.handleMessageSelect = function (rid) {
       var selectedMessages = _this.state.selectedMessages;
@@ -166,13 +139,45 @@ var MessagesSection = (function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var _props = this.props;
       var messages = _props.messages;
       var peer = _props.peer;
+      var delegate = this.context.delegate;
       var isAllMessagesLoaded = this.state.isAllMessagesLoaded;
 
       var isMember = _DialogStore2.default.isMember();
-      var messagesList = (0, _lodash.map)(messages, this.getMessagesListItem);
+
+      var MessageItem = undefined;
+      if (delegate.components.dialog && delegate.components.dialog.messages !== null && typeof delegate.components.messages !== 'function') {
+        MessageItem = typeof delegate.components.dialog.messages.message == 'function' ? delegate.components.dialog.messages.message : _MessageItem2.default;
+      } else {
+        MessageItem = _MessageItem2.default;
+      }
+
+      var messagesList = (0, _lodash.map)(messages, function (message, index) {
+        var selectedMessages = _this2.state.selectedMessages;
+        var _props2 = _this2.props;
+        var peer = _props2.peer;
+        var overlay = _props2.overlay;
+
+        var dateDivider = overlay[index] && overlay[index].dateDivider ? _react2.default.createElement(
+          'li',
+          { className: 'date-divider' },
+          overlay[index].dateDivider
+        ) : null;
+
+        var messageItem = _react2.default.createElement(MessageItem, { key: message.sortKey,
+          message: message,
+          overlay: overlay[index],
+          onSelect: _this2.handleMessageSelect,
+          isSelected: selectedMessages.has(message.rid),
+          onVisibilityChange: _this2.onMessageVisibilityChange,
+          peer: peer });
+
+        return dateDivider ? [dateDivider, messageItem] : messageItem;
+      });
 
       return _react2.default.createElement(
         _Scrollbar2.default,
@@ -196,6 +201,9 @@ MessagesSection.propTypes = {
   overlay: _react.PropTypes.array.isRequired,
   peer: _react.PropTypes.object.isRequired,
   onScroll: _react.PropTypes.func.isRequired
+};
+MessagesSection.contextTypes = {
+  delegate: _react.PropTypes.object
 };
 exports.default = _utils.Container.create(MessagesSection, { pure: false, withProps: true });
 //# sourceMappingURL=MessagesSection.react.js.map

@@ -32,7 +32,8 @@ exports.default = {
       'helpAndFeedback': 'Ayuda',
       'twitter': 'Nuestro Twitter',
       'preferences': 'Preferencias',
-      'signOut': 'Salir'
+      'signOut': 'Salir',
+      'homePage': 'Portada del sitio'
     },
 
     // Buttons

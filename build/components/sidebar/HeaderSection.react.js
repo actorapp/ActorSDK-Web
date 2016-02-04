@@ -153,10 +153,20 @@ var HeaderSection = (function (_Component) {
     };
 
     _this.openTwitter = function (event) {
+      event.preventDefault();
       if (_ActorClient2.default.isElectron()) {
         _ActorClient2.default.handleLinkClick(event);
       } else {
-        window.open('https://twitter.com/' + _this.twitter);
+        window.open('https://twitter.com/' + _this.twitter, '_blank');
+      }
+    };
+
+    _this.openHomePage = function (event) {
+      event.preventDefault();
+      if (_ActorClient2.default.isElectron()) {
+        _ActorClient2.default.handleLinkClick(event);
+      } else {
+        window.open(_this.homePage, '_blank');
       }
     };
 
@@ -171,6 +181,7 @@ var HeaderSection = (function (_Component) {
 
     var SharedActor = _SharedContainer2.default.get();
     _this.twitter = SharedActor.twitter ? SharedActor.twitter : _ActorAppConstants.twitter;
+    _this.homePage = SharedActor.homePage ? SharedActor.homePage : _ActorAppConstants.homePage;
     return _this;
   }
 
@@ -259,6 +270,16 @@ var HeaderSection = (function (_Component) {
                 _react2.default.createElement('li', { className: 'dropdown__menu__separator' }),
                 _react2.default.createElement(
                   'li',
+                  { className: 'dropdown__menu__item', onClick: this.onSettingsOpen },
+                  _react2.default.createElement(
+                    'i',
+                    { className: 'material-icons' },
+                    'settings'
+                  ),
+                  this.getIntlMessage('menu.preferences')
+                ),
+                _react2.default.createElement(
+                  'li',
                   { className: 'dropdown__menu__item', onClick: this.openHelpDialog },
                   _react2.default.createElement(
                     'i',
@@ -269,21 +290,29 @@ var HeaderSection = (function (_Component) {
                 ),
                 _react2.default.createElement(
                   'li',
-                  { className: 'dropdown__menu__item', onClick: this.openTwitter },
-                  _react2.default.createElement('svg', { className: 'icon icon--dropdown',
-                    style: { marginLeft: -34 },
-                    dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#twitter"/>' } }),
-                  this.getIntlMessage('menu.twitter')
+                  { className: 'dropdown__menu__item' },
+                  _react2.default.createElement(
+                    'a',
+                    { href: 'https://twitter.com/' + this.twitter, onClick: this.openTwitter },
+                    _react2.default.createElement('svg', { className: 'icon icon--dropdown',
+                      style: { marginLeft: -34 },
+                      dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#twitter"/>' } }),
+                    this.getIntlMessage('menu.twitter')
+                  )
                 ),
                 _react2.default.createElement(
                   'li',
-                  { className: 'dropdown__menu__item', onClick: this.onSettingsOpen },
+                  { className: 'dropdown__menu__item' },
                   _react2.default.createElement(
-                    'i',
-                    { className: 'material-icons' },
-                    'settings'
-                  ),
-                  this.getIntlMessage('menu.preferences')
+                    'a',
+                    { href: this.homePage, onClick: this.openHomePage },
+                    _react2.default.createElement(
+                      'i',
+                      { className: 'material-icons' },
+                      'public'
+                    ),
+                    this.getIntlMessage('menu.homePage')
+                  )
                 ),
                 _react2.default.createElement('li', { className: 'dropdown__menu__separator' }),
                 _react2.default.createElement(

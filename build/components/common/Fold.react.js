@@ -103,4 +103,4 @@ Fold.propTypes = {
   title: _react.PropTypes.string.isRequired
 };
 exports.default = Fold;
-//# sourceMappingURL=Fold.React.js.map
+//# sourceMappingURL=Fold.react.js.map

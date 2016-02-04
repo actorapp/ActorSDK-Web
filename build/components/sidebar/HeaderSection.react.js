@@ -32,6 +32,12 @@ var _confirm = require('../../utils/confirm');
 
 var _confirm2 = _interopRequireDefault(_confirm);
 
+var _SharedContainer = require('../../utils/SharedContainer');
+
+var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
+
+var _ActorAppConstants = require('../../constants/ActorAppConstants');
+
 var _MyProfileActionCreators = require('../../actions/MyProfileActionCreators');
 
 var _MyProfileActionCreators2 = _interopRequireDefault(_MyProfileActionCreators);
@@ -150,7 +156,7 @@ var HeaderSection = (function (_Component) {
       if (_ActorClient2.default.isElectron()) {
         _ActorClient2.default.handleLinkClick(event);
       } else {
-        window.open('https://twitter.com/actorapp');
+        window.open('https://twitter.com/' + _this.twitter);
       }
     };
 
@@ -163,6 +169,8 @@ var HeaderSection = (function (_Component) {
       }, function () {});
     };
 
+    var SharedActor = _SharedContainer2.default.get();
+    _this.twitter = SharedActor.twitter ? SharedActor.twitter : _ActorAppConstants.twitter;
     return _this;
   }
 

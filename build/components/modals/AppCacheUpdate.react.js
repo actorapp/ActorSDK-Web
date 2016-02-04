@@ -40,9 +40,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var ThemeManager = new _materialUi.Styles.ThemeManager();
 
-var appElement = document.getElementById('actor-web-app');
-_reactModal2.default.setAppElement(appElement);
-
 var getStateFromStores = function getStateFromStores() {
   return {
     isShown: _AppCacheStore2.default.isModalOpen()

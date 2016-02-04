@@ -12,8 +12,6 @@ require('babel-polyfill');
 
 require('../utils/intl-polyfill');
 
-require('../workers');
-
 var _RouterContainer = require('../utils/RouterContainer');
 
 var _RouterContainer2 = _interopRequireDefault(_RouterContainer);
@@ -21,6 +19,10 @@ var _RouterContainer2 = _interopRequireDefault(_RouterContainer);
 var _DelegateContainer = require('../utils/DelegateContainer');
 
 var _DelegateContainer2 = _interopRequireDefault(_DelegateContainer);
+
+var _SharedContainer = require('../utils/SharedContainer');
+
+var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
 
 var _actorSdkDelegate = require('./actor-sdk-delegate');
 
@@ -84,6 +86,10 @@ var _Install = require('../components/Install.react');
 
 var _Install2 = _interopRequireDefault(_Install);
 
+var _reactModal = require('react-modal');
+
+var _reactModal2 = _interopRequireDefault(_reactModal);
+
 var _l18n = require('../l18n');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -93,12 +99,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
+
+//import '../workers'
 
 var DefaultRoute = _reactRouter2.default.DefaultRoute;
 var Route = _reactRouter2.default.Route;
 var RouteHandler = _reactRouter2.default.RouteHandler;
+
+// Init app loading progressbar
 
 _pace2.default.start({
   ajax: false,
@@ -106,6 +116,7 @@ _pace2.default.start({
   restartOnPushState: false
 });
 
+// Init lightbox
 _ImageUtils.lightbox.load({
   animation: false,
   controlClose: '<i class="material-icons">close</i>'
@@ -113,7 +124,7 @@ _ImageUtils.lightbox.load({
 
 window.isJsAppLoaded = false;
 window.jsAppLoaded = function () {
-  window.isJsAppLoaded = true;
+  return window.isJsAppLoaded = true;
 };
 
 var App = (function (_Component) {
@@ -156,14 +167,12 @@ App.propTypes = {
 
 _reactMixin2.default.onClass(App, _reactIntl.IntlMixin);
 
-/** Class represents ActorSKD itself */
+/**
+ * Class represents ActorSKD itself
+ * @param {object} options - Object contains custom components, actions, localisation strings and etc.
+ */
 
 var ActorSDK = (function () {
-  /**
-   * @constructor
-   * @param {object} options - Object contains custom components, actions, localisation strings and etc.
-   */
-
   function ActorSDK() {
     var _this2 = this;
 
@@ -185,11 +194,11 @@ var ActorSDK = (function () {
 
       var appRootElemet = document.getElementById(_this2.rootElement);
 
-      if (window.location.hash !== '#/deactivated') {
-        if (_crosstab2.default.supported) {
-          _crosstab2.default.broadcast(ActorInitEvent, {});
-        }
+      // initial setup fot react modal
+      _reactModal2.default.setAppElement(appRootElemet);
 
+      if (window.location.hash !== '#/deactivated') {
+        if (_crosstab2.default.supported) _crosstab2.default.broadcast(ActorInitEvent, {});
         window.messenger = _actorJs2.default.create(_this2.endpoints);
       }
 
@@ -197,7 +206,7 @@ var ActorSDK = (function () {
       var Deactivated = _this2.delegate.components.deactivated || _Deactivated2.default;
       var Install = _this2.delegate.components.install || _Install2.default;
       var JoinGroup = _this2.delegate.components.joinGroup || _JoinGroup2.default;
-      var intlData = (0, _l18n.getIntlData)();
+      var intlData = (0, _l18n.getIntlData)(_this2.forceLocale);
 
       var routes = _react2.default.createElement(
         Route,
@@ -219,23 +228,24 @@ var ActorSDK = (function () {
       });
 
       if (window.location.hash !== '#/deactivated') {
-        if (_LoginStore2.default.isLoggedIn()) {
-          _LoginActionCreators2.default.setLoggedIn({ redirect: false });
-        }
+        if (_LoginStore2.default.isLoggedIn()) _LoginActionCreators2.default.setLoggedIn({ redirect: false });
       }
     };
 
     this.endpoints = options.endpoints && options.endpoints.length > 0 ? options.endpoints : _ActorAppConstants.endpoints;
     this.isExperimental = options.isExperimental ? options.isExperimental : false;
-
-    this.rootElement = options.rootElement ? options.rootElement : 'actor-web-app';
-
+    this.forceLocale = options.forceLocale ? options.forceLocale : null;
+    this.rootElement = options.rootElement ? options.rootElement : _ActorAppConstants.rootElement;
+    this.homePage = options.homePage ? options.homePage : _ActorAppConstants.homePage;
+    this.twitter = options.twitter ? options.twitter : _ActorAppConstants.twitter;
+    this.helpPhone = options.helpPhone ? options.helpPhone : _ActorAppConstants.helpPhone;
     this.delegate = options.delegate ? options.delegate : new _actorSdkDelegate2.default();
+
     _DelegateContainer2.default.set(this.delegate);
 
-    if (this.delegate.l18n) {
-      (0, _l18n.extendL18n)();
-    }
+    if (this.delegate.l18n) (0, _l18n.extendL18n)();
+
+    _SharedContainer2.default.set(this);
   }
 
   _createClass(ActorSDK, [{

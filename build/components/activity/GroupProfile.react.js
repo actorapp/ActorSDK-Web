@@ -92,7 +92,7 @@ var _GroupProfileMembers = require('../activity/GroupProfileMembers.react');
 
 var _GroupProfileMembers2 = _interopRequireDefault(_GroupProfileMembers);
 
-var _Fold = require('../common/Fold.React');
+var _Fold = require('../common/Fold.react');
 
 var _Fold2 = _interopRequireDefault(_Fold);
 

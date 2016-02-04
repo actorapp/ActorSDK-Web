@@ -40,10 +40,10 @@ var _modalOpen = false,
 var CreateGroupStore = (function (_Store) {
   _inherits(CreateGroupStore, _Store);
 
-  function CreateGroupStore(Dispatcher) {
+  function CreateGroupStore(dispatcher) {
     _classCallCheck(this, CreateGroupStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(CreateGroupStore).call(this, Dispatcher));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(CreateGroupStore).call(this, dispatcher));
   }
 
   _createClass(CreateGroupStore, [{

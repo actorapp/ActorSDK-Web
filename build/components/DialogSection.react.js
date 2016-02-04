@@ -34,6 +34,10 @@ var _ActivitySection = require('./ActivitySection.react');
 
 var _ActivitySection2 = _interopRequireDefault(_ActivitySection);
 
+var _EmptyScreen = require('./common/EmptyScreen.react');
+
+var _EmptyScreen2 = _interopRequireDefault(_EmptyScreen);
+
 var _ConnectionState = require('./common/ConnectionState.react');
 
 var _ConnectionState2 = _interopRequireDefault(_ConnectionState);
@@ -184,13 +188,15 @@ var DialogSection = (function (_Component) {
           ToolbarSection = undefined,
           TypingSection = undefined,
           ComposeSection = undefined,
-          MessagesSection = undefined;
+          MessagesSection = undefined,
+          EmptyScreen = undefined;
 
       if (delegate.components.dialog !== null && typeof delegate.components.dialog !== 'function') {
         ToolbarSection = delegate.components.dialog.toolbar || _ToolbarSection2.default;
         MessagesSection = typeof delegate.components.dialog.messages == 'function' ? delegate.components.dialog.messages : _MessagesSection2.default;
         TypingSection = delegate.components.dialog.typing || _TypingSection2.default;
         ComposeSection = delegate.components.dialog.compose || _ComposeSection2.default;
+        EmptyScreen = delegate.components.dialog.empty || _EmptyScreen2.default;
 
         if (delegate.components.dialog.activity) {
           (0, _lodash.forEach)(delegate.components.dialog.activity, function (Activity) {
@@ -204,6 +210,7 @@ var DialogSection = (function (_Component) {
         MessagesSection = _MessagesSection2.default;
         TypingSection = _TypingSection2.default;
         ComposeSection = _ComposeSection2.default;
+        EmptyScreen = _EmptyScreen2.default;
         activity.push(_react2.default.createElement(_ActivitySection2.default, null));
       }
 
@@ -236,27 +243,6 @@ var DialogSection = (function (_Component) {
         )
       ) : null;
 
-      var emptyScreen = _react2.default.createElement(
-        'section',
-        { className: 'dialog dialog--empty row center-xs middle-xs' },
-        _react2.default.createElement(_ConnectionState2.default, null),
-        _react2.default.createElement(
-          'div',
-          { className: 'advice' },
-          _react2.default.createElement(
-            'div',
-            { className: 'actor-logo' },
-            _react2.default.createElement('svg', { className: 'icon icon--gray',
-              dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#star"/>' } })
-          ),
-          _react2.default.createElement(
-            'h2',
-            null,
-            'Try to be better than yesterday!'
-          )
-        )
-      );
-
       return _react2.default.createElement(
         'section',
         { className: 'main' },
@@ -264,8 +250,7 @@ var DialogSection = (function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'flexrow' },
-          peer ? mainScreen : emptyScreen,
-          activity
+          peer ? [mainScreen, activity] : _react2.default.createElement(EmptyScreen, null)
         )
       );
     }

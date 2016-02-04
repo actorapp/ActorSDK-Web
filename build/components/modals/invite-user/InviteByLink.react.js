@@ -52,9 +52,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var appElement = document.getElementById('actor-web-app');
-_reactModal2.default.setAppElement(appElement);
-
 var PureRenderMixin = _addons2.default.addons.PureRenderMixin;
 
 var getStateFromStores = function getStateFromStores() {

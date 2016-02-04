@@ -40,9 +40,7 @@ var language = navigator.language.toLocaleLowerCase() || navigator.browserLangua
                                                                                                          * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                          */
 
-if (language === 'zh-cn') {
-  language = 'zh';
-}
+if (language === 'zh-cn') language = 'zh';
 
 // Fallback to default language
 var defaultLanguage = _enUS2.default;
@@ -72,7 +70,8 @@ function extendL18n() {
   _zhCN2.default.messages = delegate.l18n.chinese ? (0, _assignDeep2.default)({}, _zhCN2.default.messages, delegate.l18n.default.messages, delegate.l18n.chinese.messages) : _zhCN2.default.messages;
 }
 
-function getIntlData() {
-  return languageData[language] || languageData[language.split('-')[0]] || languageData['default'];
+function getIntlData(locale) {
+  var lang = locale ? locale : language;
+  return languageData[lang] || languageData[lang.split('-')[0]] || languageData['default'];
 }
 //# sourceMappingURL=index.js.map

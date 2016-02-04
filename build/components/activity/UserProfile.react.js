@@ -66,7 +66,7 @@ var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
-var _Fold = require('../common/Fold.React');
+var _Fold = require('../common/Fold.react');
 
 var _Fold2 = _interopRequireDefault(_Fold);
 

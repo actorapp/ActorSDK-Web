@@ -7,14 +7,14 @@ Object.defineProperty(exports, "__esModule", {
  * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
  */
 
-var _router = null;
+var _sharedActor = null;
 
 exports.default = {
-  set: function set(router) {
-    return _router = router;
+  set: function set(shared) {
+    return _sharedActor = shared;
   },
   get: function get() {
-    return _router;
+    return _sharedActor;
   }
 };
-//# sourceMappingURL=RouterContainer.js.map
+//# sourceMappingURL=SharedContainer.js.map

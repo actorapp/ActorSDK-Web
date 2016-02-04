@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.endpoints = exports.Path = exports.Support = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypes = exports.ActionTypes = exports.AuthSteps = undefined;
+exports.helpPhone = exports.twitter = exports.homePage = exports.rootElement = exports.endpoints = exports.Path = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypes = exports.ActionTypes = exports.AuthSteps = undefined;
 
 var _keymirror = require('keymirror');
 
@@ -245,17 +245,17 @@ var AsyncActionStates = exports.AsyncActionStates = {
   FAILURE: 3
 };
 
-var Support = exports.Support = {
-  id: 576465533,
-  phone: '+75551234567'
-};
-
 var Path = exports.Path = {
   toImages: 'assets/images',
   toEmoji: 'assets/images/emoji'
 };
 
 var endpoints = exports.endpoints = ['wss://front1-ws-mtproto-api-rev2.actor.im', 'wss://front2-ws-mtproto-api-rev2.actor.im'];
+
+var rootElement = exports.rootElement = 'actor-web-app';
+var homePage = exports.homePage = 'https://actor.im';
+var twitter = exports.twitter = 'actorapp';
+var helpPhone = exports.helpPhone = '75551234567';
 
 exports.default = {
   AuthSteps: AuthSteps,
@@ -266,8 +266,11 @@ exports.default = {
   MessageContentTypes: MessageContentTypes,
   KeyCodes: KeyCodes,
   AsyncActionStates: AsyncActionStates,
-  Support: Support,
   Path: Path,
-  endpoints: endpoints
+  endpoints: endpoints,
+  rootElement: rootElement,
+  homePage: homePage,
+  twitter: twitter,
+  helpPhone: helpPhone
 };
 //# sourceMappingURL=ActorAppConstants.js.map

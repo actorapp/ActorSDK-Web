@@ -150,8 +150,8 @@ var MessagesSection = (function (_Component) {
       var isMember = _DialogStore2.default.isMember();
 
       var MessageItem = undefined;
-      if (delegate.components.dialog && delegate.components.dialog.messages !== null && typeof delegate.components.messages !== 'function') {
-        MessageItem = typeof delegate.components.dialog.messages.message == 'function' ? delegate.components.dialog.messages.message : _MessageItem2.default;
+      if (delegate.components.dialog.messages && delegate.components.dialog.messages !== null && typeof delegate.components.messages !== 'function') {
+        MessageItem = typeof delegate.components.dialog.messages.message === 'function' ? delegate.components.dialog.messages.message : _MessageItem2.default;
       } else {
         MessageItem = _MessageItem2.default;
       }

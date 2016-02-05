@@ -239,6 +239,7 @@ var ActorSDK = (function () {
     this.homePage = options.homePage ? options.homePage : _ActorAppConstants.homePage;
     this.twitter = options.twitter ? options.twitter : _ActorAppConstants.twitter;
     this.helpPhone = options.helpPhone ? options.helpPhone : _ActorAppConstants.helpPhone;
+    this.appName = options.appName ? options.appName : _ActorAppConstants.appName;
     this.delegate = options.delegate ? options.delegate : new _actorSdkDelegate2.default();
 
     _DelegateContainer2.default.set(this.delegate);

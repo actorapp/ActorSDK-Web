@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.helpPhone = exports.twitter = exports.homePage = exports.rootElement = exports.endpoints = exports.Path = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypes = exports.ActionTypes = exports.AuthSteps = undefined;
+exports.helpPhone = exports.twitter = exports.homePage = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypes = exports.ActionTypes = exports.AuthSteps = undefined;
 
 var _keymirror = require('keymirror');
 
@@ -252,6 +252,7 @@ var Path = exports.Path = {
 
 var endpoints = exports.endpoints = ['wss://front1-ws-mtproto-api-rev2.actor.im', 'wss://front2-ws-mtproto-api-rev2.actor.im'];
 
+var appName = exports.appName = 'Actor';
 var rootElement = exports.rootElement = 'actor-web-app';
 var homePage = exports.homePage = 'https://actor.im';
 var twitter = exports.twitter = 'actorapp';
@@ -268,6 +269,7 @@ exports.default = {
   AsyncActionStates: AsyncActionStates,
   Path: Path,
   endpoints: endpoints,
+  appName: appName,
   rootElement: rootElement,
   homePage: homePage,
   twitter: twitter,

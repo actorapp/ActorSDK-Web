@@ -18,6 +18,12 @@ var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 var _reactIntl = require('react-intl');
 
+var _SharedContainer = require('../../utils/SharedContainer');
+
+var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
+
+var _ActorAppConstants = require('../../constants/ActorAppConstants');
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -42,7 +48,11 @@ var ConnectionState = (function (_Component) {
   function ConnectionState(props) {
     _classCallCheck(this, ConnectionState);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(ConnectionState).call(this, props));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ConnectionState).call(this, props));
+
+    var SharedActor = _SharedContainer2.default.get();
+    _this.appName = SharedActor.appName ? SharedActor.appName : _ActorAppConstants.appName;
+    return _this;
   }
 
   _createClass(ConnectionState, [{
@@ -58,7 +68,7 @@ var ConnectionState = (function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: className },
-        this.getIntlMessage('connectionState.' + connectionState)
+        _react2.default.createElement(_reactIntl.FormattedMessage, { message: this.getIntlMessage('connectionState.' + connectionState), appName: this.appName })
       );
     }
   }], [{

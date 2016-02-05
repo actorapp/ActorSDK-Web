@@ -6,10 +6,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _lodash = require('lodash');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -27,6 +23,10 @@ var _reactMixin2 = _interopRequireDefault(_reactMixin);
 var _reactIntl = require('react-intl');
 
 var _materialUi = require('material-ui');
+
+var _SharedContainer = require('../utils/SharedContainer');
+
+var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
@@ -49,7 +49,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var ThemeManager = new _materialUi.Styles.ThemeManager();
@@ -114,6 +114,8 @@ var Login = (function (_Component) {
       }
     };
 
+    var SharedActor = _SharedContainer2.default.get();
+    _this.appName = SharedActor.appName ? SharedActor.appName : _ActorAppConstants.appName;
     return _this;
   }
 
@@ -194,7 +196,7 @@ var Login = (function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'login-new__welcome col-xs row center-xs middle-xs' },
-          _react2.default.createElement('img', { alt: 'Actor messenger',
+          _react2.default.createElement('img', { alt: this.appName + ' messenger',
             className: 'logo',
             src: 'assets/images/logo.png',
             srcSet: 'assets/images/logo@2x.png 2x' }),
@@ -204,23 +206,9 @@ var Login = (function (_Component) {
             _react2.default.createElement(
               'h1',
               { className: 'login-new__heading' },
-              'Welcome to ',
-              _react2.default.createElement(
-                'strong',
-                null,
-                'Actor'
-              )
+              _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { message: this.getIntlMessage('login.welcome.header'), appName: this.appName })
             ),
-            _react2.default.createElement(
-              'p',
-              null,
-              'Actor Messenger brings all your business network connections into one place, makes it easily accessible wherever you go.'
-            ),
-            _react2.default.createElement(
-              'p',
-              null,
-              'Our aim is to make your work easier, reduce your email amount, make the business world closer by reducing time to find right contacts.'
-            )
+            _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { message: this.getIntlMessage('login.welcome.text'), appName: this.appName })
           ),
           _react2.default.createElement(
             'footer',
@@ -228,7 +216,8 @@ var Login = (function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'pull-left' },
-              'Actor Messenger © 2015'
+              this.appName,
+              ' Messenger © 2015'
             ),
             _react2.default.createElement(
               'div',

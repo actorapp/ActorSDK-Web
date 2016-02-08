@@ -248,7 +248,7 @@ exports.default = {
       'install': '<h1>Versión Web de <b>{appName}</b> Versión solo para navegadores</h1>' + '<h3>Link de aplicaciones móviles <b>{appName}</b>.</h3>',
       'deactivated': {
         'header': 'Pestaña desactivada',
-        'text': 'Vaya, ha abierto otra sesión con {appName},así que tuvimos que desactivar ésta para evitar posibles errores.'
+        'text': 'Vaya, ha abierto otra sesión con {appName}, así que tuvimos que desactivar ésta para evitar posibles errores.'
       }
     }
   }

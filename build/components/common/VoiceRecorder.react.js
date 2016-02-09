@@ -1,10 +1,10 @@
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _react = require('react');
 
@@ -27,6 +27,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
+
+var isRecordingSupported = _opusRecorder2.default.isRecordingSupported() ? true : false;
 
 var VoiceRecorder = (function (_Component) {
   _inherits(VoiceRecorder, _Component);
@@ -65,45 +67,51 @@ var VoiceRecorder = (function (_Component) {
       isRecording: false
     };
 
-    _this.recorder = new _opusRecorder2.default();
-    _this.recorder.addEventListener('duration', _this.handleChangeDuration);
-    _this.recorder.addEventListener('streamReady', _this.handleStreamReady);
-    _this.recorder.addEventListener('dataAvailable', _this.handleSendRecord);
+    if (isRecordingSupported) {
+      _this.recorder = new _opusRecorder2.default();
+      _this.recorder.addEventListener('duration', _this.handleChangeDuration);
+      _this.recorder.addEventListener('streamReady', _this.handleStreamReady);
+      _this.recorder.addEventListener('dataAvailable', _this.handleSendRecord);
+    }
     return _this;
   }
 
   _createClass(VoiceRecorder, [{
     key: 'render',
     value: function render() {
-      var _state = this.state;
-      var isRecording = _state.isRecording;
-      var duration = _state.duration;
+      if (isRecordingSupported) {
+        var _state = this.state;
+        var isRecording = _state.isRecording;
+        var duration = _state.duration;
 
-      var voiceRecorderClassName = (0, _classnames2.default)('voice-recorder', {
-        'voice-recorder--recording': isRecording
-      });
+        var voiceRecorderClassName = (0, _classnames2.default)('voice-recorder', {
+          'voice-recorder--recording': isRecording
+        });
 
-      return _react2.default.createElement(
-        'div',
-        { className: voiceRecorderClassName },
-        _react2.default.createElement(
-          'i',
-          { className: 'material-icons icon',
-            onMouseDown: this.handleStartRecord,
-            onMouseUp: this.handleStopRecord },
-          'mic'
-        ),
-        _react2.default.createElement(
+        return _react2.default.createElement(
           'div',
-          { className: 'duration' },
+          { className: voiceRecorderClassName },
+          _react2.default.createElement(
+            'i',
+            { className: 'material-icons icon',
+              onMouseDown: this.handleStartRecord,
+              onMouseUp: this.handleStopRecord },
+            'mic'
+          ),
           _react2.default.createElement(
             'div',
-            { className: 'fill row middle-xs center-xs' },
-            'Voice message duration:  ',
-            duration
+            { className: 'duration' },
+            _react2.default.createElement(
+              'div',
+              { className: 'fill row middle-xs center-xs' },
+              'Voice message duration:  ',
+              duration
+            )
           )
-        )
-      );
+        );
+      } else {
+        return null;
+      }
     }
   }]);
 

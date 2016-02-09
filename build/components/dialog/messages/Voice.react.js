@@ -1,10 +1,10 @@
 'use strict';
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _react = require('react');
 
@@ -93,7 +93,7 @@ var Voice = (function (_Component) {
       isLoaded: _this.isCached(),
       isPlaying: false,
       currentTime: 0,
-      duration: props.content.duration
+      duration: props.content.duration / 1000
     };
     return _this;
   }
@@ -156,7 +156,7 @@ var Voice = (function (_Component) {
       var voiceClassName = (0, _classnames2.default)(className, 'row');
 
       var current = this.humanTime(currentTime * 1000);
-      var total = this.humanTime(duration);
+      var total = this.humanTime(duration * 1000);
       var progress = currentTime / duration * 100;
 
       return _react2.default.createElement(

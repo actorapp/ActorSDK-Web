@@ -46,6 +46,10 @@ var _NotificationsActionCreators = require('../../actions/NotificationsActionCre
 
 var _NotificationsActionCreators2 = _interopRequireDefault(_NotificationsActionCreators);
 
+var _CallActionCreators = require('../../actions/CallActionCreators');
+
+var _CallActionCreators2 = _interopRequireDefault(_CallActionCreators);
+
 var _PeerStore = require('../../stores/PeerStore');
 
 var _PeerStore2 = _interopRequireDefault(_PeerStore);
@@ -166,6 +170,12 @@ var UserProfile = (function (_Component) {
       return _ImageUtils.lightbox.open(_this.props.user.bigAvatar);
     };
 
+    _this.makeCall = function () {
+      var user = _this.props.user;
+
+      _CallActionCreators2.default.makeCall(user.id);
+    };
+
     _this.state = (0, _lodash.assign)({
       isActionsDropdownOpen: false
     }, getStateFromStores(props.user.id));
@@ -187,7 +197,7 @@ var UserProfile = (function (_Component) {
       var isActionsDropdownOpen = _state.isActionsDropdownOpen;
       var message = _state.message;
 
-      var dropdownClassNames = (0, _classnames2.default)('dropdown pull-left', {
+      var dropdownClassNames = (0, _classnames2.default)('dropdown', {
         'dropdown--opened': isActionsDropdownOpen
       });
 
@@ -281,45 +291,64 @@ var UserProfile = (function (_Component) {
               dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(user.about).replace(/\n/g, '<br/>') } }) : null,
             _react2.default.createElement(
               'footer',
-              null,
+              { className: 'row' },
               _react2.default.createElement(
                 'div',
-                { className: dropdownClassNames },
+                { className: 'col-xs' },
                 _react2.default.createElement(
                   'button',
-                  { className: 'dropdown__button button button--flat', onClick: this.toggleActionsDropdown },
+                  { className: 'button button--green button--wide', onClick: this.makeCall },
                   _react2.default.createElement(
                     'i',
                     { className: 'material-icons' },
-                    'more_horiz'
+                    'phone'
                   ),
-                  this.getIntlMessage('actions')
-                ),
+                  this.getIntlMessage('button.call')
+                )
+              ),
+              _react2.default.createElement('div', { style: { width: 10 } }),
+              _react2.default.createElement(
+                'div',
+                { className: 'col-xs' },
                 _react2.default.createElement(
-                  'ul',
-                  { className: 'dropdown__menu dropdown__menu--left' },
-                  user.isContact ? _react2.default.createElement(
-                    'li',
-                    { className: 'dropdown__menu__item', onClick: this.removeFromContacts },
-                    this.getIntlMessage('removeFromContacts')
-                  ) : _react2.default.createElement(
-                    'li',
-                    { className: 'dropdown__menu__item', onClick: this.addToContacts },
-                    this.getIntlMessage('addToContacts')
+                  'div',
+                  { className: dropdownClassNames },
+                  _react2.default.createElement(
+                    'button',
+                    { className: 'dropdown__button button button--flat button--wide', onClick: this.toggleActionsDropdown },
+                    _react2.default.createElement(
+                      'i',
+                      { className: 'material-icons' },
+                      'more_horiz'
+                    ),
+                    this.getIntlMessage('actions')
                   ),
                   _react2.default.createElement(
-                    'li',
-                    { className: 'dropdown__menu__item', onClick: function onClick() {
-                        return _this2.clearChat(user.id);
-                      } },
-                    this.getIntlMessage('clearConversation')
-                  ),
-                  _react2.default.createElement(
-                    'li',
-                    { className: 'dropdown__menu__item', onClick: function onClick() {
-                        return _this2.deleteChat(user.id);
-                      } },
-                    this.getIntlMessage('deleteConversation')
+                    'ul',
+                    { className: 'dropdown__menu dropdown__menu--right' },
+                    user.isContact ? _react2.default.createElement(
+                      'li',
+                      { className: 'dropdown__menu__item', onClick: this.removeFromContacts },
+                      this.getIntlMessage('removeFromContacts')
+                    ) : _react2.default.createElement(
+                      'li',
+                      { className: 'dropdown__menu__item', onClick: this.addToContacts },
+                      this.getIntlMessage('addToContacts')
+                    ),
+                    _react2.default.createElement(
+                      'li',
+                      { className: 'dropdown__menu__item', onClick: function onClick() {
+                          return _this2.clearChat(user.id);
+                        } },
+                      this.getIntlMessage('clearConversation')
+                    ),
+                    _react2.default.createElement(
+                      'li',
+                      { className: 'dropdown__menu__item', onClick: function onClick() {
+                          return _this2.deleteChat(user.id);
+                        } },
+                      this.getIntlMessage('deleteConversation')
+                    )
                   )
                 )
               )

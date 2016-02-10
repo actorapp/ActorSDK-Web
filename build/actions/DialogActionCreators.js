@@ -61,8 +61,7 @@ var DialogActionCreators = {
     // Unbind from previous peer
     if (currentPeer !== null) {
       this.onConversationClosed(currentPeer);
-      //ActorClient.unbindChat(currentPeer, MessageActionCreators.setMessages);
-      messagesBinding.unbind();
+      messagesBinding && messagesBinding.unbind();
       _ActorClient2.default.unbindTyping(currentPeer, _TypingActionCreators2.default.setTyping);
 
       switch (currentPeer.type) {
@@ -81,7 +80,6 @@ var DialogActionCreators = {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER, { peer: peer });
 
     this.onConversationOpen(peer);
-    //ActorClient.bindChat(peer, MessageActionCreators.setMessages);
     messagesBinding = _ActorClient2.default.bindMessages(peer, _MessageActionCreators2.default.setMessages);
     _ActorClient2.default.bindTyping(peer, _TypingActionCreators2.default.setTyping);
     switch (peer.type) {

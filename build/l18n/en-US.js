@@ -55,7 +55,8 @@ exports.default = {
       'addMembers': 'Add users',
       'quickSearch': 'Quick search',
       'close': 'Close',
-      'save': 'Save'
+      'save': 'Save',
+      'call': 'Voice call'
     },
 
     // Messages

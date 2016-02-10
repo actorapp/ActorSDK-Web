@@ -58,6 +58,10 @@ var _ModalsWrapper = require('./modals/ModalsWrapper.react');
 
 var _ModalsWrapper2 = _interopRequireDefault(_ModalsWrapper);
 
+var _CallModal = require('./modals/CallModal.react');
+
+var _CallModal2 = _interopRequireDefault(_CallModal);
+
 var _DropdownWrapper = require('./common/DropdownWrapper.react');
 
 var _DropdownWrapper2 = _interopRequireDefault(_DropdownWrapper);
@@ -148,7 +152,8 @@ var Main = (function (_Component) {
         _react2.default.createElement(SidebarSection, { selectedPeer: peer }),
         _react2.default.createElement(DialogSection, { peer: peer }),
         _react2.default.createElement(_ModalsWrapper2.default, null),
-        _react2.default.createElement(_DropdownWrapper2.default, null)
+        _react2.default.createElement(_DropdownWrapper2.default, null),
+        _react2.default.createElement(_CallModal2.default, null)
       );
     }
   }]);

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.helpPhone = exports.twitter = exports.homePage = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypes = exports.ActionTypes = exports.AuthSteps = undefined;
+exports.helpPhone = exports.twitter = exports.homePage = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypes = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
 
 var _keymirror = require('keymirror');
 
@@ -194,8 +194,30 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   USER_ONLINE_CHANGE: null,
 
   DROPDOWN_SHOW: null,
-  DROPDOWN_HIDE: null
+  DROPDOWN_HIDE: null,
+
+  CALL_MODAL_OPEN: null,
+  CALL_MODAL_HIDE: null,
+  CALL: null,
+  CALL_SUCCESS: null,
+  CALL_ERROR: null,
+  CALL_CHANGED: null
 });
+
+var EventTypes = exports.EventTypes = {
+  CALL: 'call'
+};
+
+var CallTypes = exports.CallTypes = {
+  INCOMING: 'incoming',
+  OUTGOING: 'outgoing'
+};
+
+var CallStates = exports.CallStates = {
+  CALLING_IN: 'calling_in',
+  CALLING_OUT: 'calling_out',
+  ENDED: 'ended'
+};
 
 var PeerTypes = exports.PeerTypes = {
   USER: 'user',

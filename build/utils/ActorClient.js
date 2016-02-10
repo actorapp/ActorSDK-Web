@@ -112,6 +112,21 @@ exports.default = {
   bindMessages: function bindMessages(peer, callback) {
     return window.messenger.bindMessages(peer, callback);
   },
+  bindEventBus: function bindEventBus(callback) {
+    window.messenger.bindEventBus(callback);
+  },
+  unbindEventBus: function unbindEventBus(callback) {
+    window.messenger.unbindEventBus(callback);
+  },
+  bindCall: function bindCall(id, callback) {
+    window.messenger.bindCall(id, callback);
+  },
+  unbindCall: function unbindCall(id, callback) {
+    window.messenger.unbindCall(id, callback);
+  },
+  makeCall: function makeCall(uid) {
+    return window.messenger.doCall(uid);
+  },
   getUser: function getUser(uid) {
     return window.messenger.getUser(uid);
   },

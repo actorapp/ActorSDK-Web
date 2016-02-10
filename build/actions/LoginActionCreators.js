@@ -40,11 +40,11 @@ var _FaviconActionCreators = require('./FaviconActionCreators');
 
 var _FaviconActionCreators2 = _interopRequireDefault(_FaviconActionCreators);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _EventBusActionCreators = require('./EventBusActionCreators');
 
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
+var _EventBusActionCreators2 = _interopRequireDefault(_EventBusActionCreators);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var LoginActionCreators = {
   changeLogin: function changeLogin(login) {
@@ -134,6 +134,7 @@ var LoginActionCreators = {
       _ActorClient2.default.bindContacts(_ContactActionCreators2.default.setContacts);
       _ActorClient2.default.bindSearch(_QuickSearchActionCreators2.default.setQuickSearchList);
       _ActorClient2.default.bindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon);
+      _ActorClient2.default.bindEventBus(_EventBusActionCreators2.default.broadcastEvent);
     }
   },
   setLoggedOut: function setLoggedOut() {
@@ -148,12 +149,15 @@ var LoginActionCreators = {
       _ActorClient2.default.unbindContacts(_ContactActionCreators2.default.setContacts);
       _ActorClient2.default.unbindSearch(_QuickSearchActionCreators2.default.setQuickSearchList);
       _ActorClient2.default.unbindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon);
+      _ActorClient2.default.unbindEventBus(_EventBusActionCreators2.default.broadcastEvent);
     }
   },
   restartAuth: function restartAuth() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_RESTART);
   }
-};
+}; /*
+    * Copyright (C) 2015 Actor LLC. <https://actor.im>
+    */
 
 exports.default = LoginActionCreators;
 //# sourceMappingURL=LoginActionCreators.js.map

@@ -133,13 +133,13 @@ var LoginActionCreators = {
         _history2.default.replace('/');
       }
 
-      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_IN);
       _ActorClient2.default.bindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged);
       _ActorClient2.default.bindDialogs(_DialogActionCreators2.default.setDialogs);
       _ActorClient2.default.bindContacts(_ContactActionCreators2.default.setContacts);
       _ActorClient2.default.bindSearch(_QuickSearchActionCreators2.default.setQuickSearchList);
       _ActorClient2.default.bindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon);
       _ActorClient2.default.bindEventBus(_EventBusActionCreators2.default.broadcastEvent);
+      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_IN);
     }
   },
   setLoggedOut: function setLoggedOut() {
@@ -148,13 +148,13 @@ var LoginActionCreators = {
     if (delegate.actions.setLoggedOut) {
       delegate.actions.setLoggedOut();
     } else {
-      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_OUT);
       _ActorClient2.default.unbindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged);
       _ActorClient2.default.unbindDialogs(_DialogActionCreators2.default.setDialogs);
       _ActorClient2.default.unbindContacts(_ContactActionCreators2.default.setContacts);
       _ActorClient2.default.unbindSearch(_QuickSearchActionCreators2.default.setQuickSearchList);
       _ActorClient2.default.unbindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon);
       _ActorClient2.default.unbindEventBus(_EventBusActionCreators2.default.broadcastEvent);
+      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_OUT);
     }
   },
   restartAuth: function restartAuth() {

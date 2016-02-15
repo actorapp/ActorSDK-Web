@@ -126,10 +126,10 @@ function confirm(message) {
   var element = document.createElement('div');
   element.className = 'modal-backdrop';
   var wrapper = document.body.appendChild(element);
-  var component = _react2.default.render(_react2.default.createElement(Confirm, _extends({ message: message }, options)), wrapper);
+  var component = (0, _react.render)((0, _react.createElement)(Confirm, _extends({ message: message }, options)), wrapper);
 
   function cleanup() {
-    _react2.default.unmountComponentAtNode(wrapper);
+    (0, _reactDom.unmountComponentAtNode)(wrapper);
     setTimeout(function () {
       return wrapper.remove();
     }, 0);

@@ -12,12 +12,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
-
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -105,7 +99,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var HeaderSection = (function (_Component) {
@@ -171,9 +165,11 @@ var HeaderSection = (function (_Component) {
     };
 
     _this.setLogout = function () {
-      (0, _confirm2.default)(_this.getIntlMessage('modal.confirm.logout'), {
-        abortLabel: _this.getIntlMessage('button.cancel'),
-        confirmLabel: _this.getIntlMessage('button.ok')
+      var intl = _this.context.intl;
+
+      (0, _confirm2.default)(intl.messages['modal.confirm.logout'], {
+        abortLabel: intl.messages['button.cancel'],
+        confirmLabel: intl.messages['button.ok']
       }).then(function () {
         return _LoginActionCreators2.default.setLoggedOut();
       }, function () {});
@@ -200,9 +196,9 @@ var HeaderSection = (function (_Component) {
       var isCreateGroupOpen = _state.isCreateGroupOpen;
       var isAddContactsOpen = _state.isAddContactsOpen;
       var isPreferencesOpen = _state.isPreferencesOpen;
+      var intl = this.context.intl;
 
       if (profile) {
-
         var headerClass = (0, _classnames2.default)('sidebar__header', 'sidebar__header--clickable', {
           'sidebar__header--opened': isOpened
         });
@@ -245,7 +241,7 @@ var HeaderSection = (function (_Component) {
                     { className: 'material-icons' },
                     'edit'
                   ),
-                  this.getIntlMessage('menu.editProfile')
+                  intl.messages['menu.editProfile']
                 ),
                 _react2.default.createElement(
                   'li',
@@ -255,7 +251,7 @@ var HeaderSection = (function (_Component) {
                     { className: 'material-icons' },
                     'person_add'
                   ),
-                  this.getIntlMessage('menu.addToContacts')
+                  intl.messages['menu.addToContacts']
                 ),
                 _react2.default.createElement(
                   'li',
@@ -265,7 +261,7 @@ var HeaderSection = (function (_Component) {
                     { className: 'material-icons' },
                     'group_add'
                   ),
-                  this.getIntlMessage('menu.createGroup')
+                  intl.messages['menu.createGroup']
                 ),
                 _react2.default.createElement('li', { className: 'dropdown__menu__separator' }),
                 _react2.default.createElement(
@@ -276,7 +272,7 @@ var HeaderSection = (function (_Component) {
                     { className: 'material-icons' },
                     'settings'
                   ),
-                  this.getIntlMessage('menu.preferences')
+                  intl.messages['menu.preferences']
                 ),
                 _react2.default.createElement(
                   'li',
@@ -286,7 +282,7 @@ var HeaderSection = (function (_Component) {
                     { className: 'material-icons' },
                     'help'
                   ),
-                  this.getIntlMessage('menu.helpAndFeedback')
+                  intl.messages['menu.helpAndFeedback']
                 ),
                 _react2.default.createElement(
                   'li',
@@ -297,7 +293,7 @@ var HeaderSection = (function (_Component) {
                     _react2.default.createElement('svg', { className: 'icon icon--dropdown',
                       style: { marginLeft: -34 },
                       dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#twitter"/>' } }),
-                    this.getIntlMessage('menu.twitter')
+                    intl.messages['menu.twitter']
                   )
                 ),
                 _react2.default.createElement(
@@ -311,14 +307,14 @@ var HeaderSection = (function (_Component) {
                       { className: 'material-icons' },
                       'public'
                     ),
-                    this.getIntlMessage('menu.homePage')
+                    intl.messages['menu.homePage']
                   )
                 ),
                 _react2.default.createElement('li', { className: 'dropdown__menu__separator' }),
                 _react2.default.createElement(
                   'li',
                   { className: 'dropdown__menu__item', onClick: this.setLogout },
-                  this.getIntlMessage('menu.signOut')
+                  intl.messages['menu.signOut']
                 )
               )
             )
@@ -352,7 +348,8 @@ HeaderSection.getStores = function () {
   return [_MyProfileStore2.default, _CreateGroupStore2.default, _AddContactStore2.default, _PreferencesStore2.default];
 };
 
-_reactMixin2.default.onClass(HeaderSection, _reactIntl.IntlMixin);
-
+HeaderSection.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = _utils.Container.create(HeaderSection);
 //# sourceMappingURL=HeaderSection.react.js.map

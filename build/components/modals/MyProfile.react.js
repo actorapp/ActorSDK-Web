@@ -10,21 +10,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
 var _utils = require('flux/utils');
 
 var _reactModal = require('react-modal');
 
 var _reactModal2 = _interopRequireDefault(_reactModal);
-
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
-
-var _ActorClient = require('../../utils/ActorClient');
-
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
@@ -63,7 +55,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var currentName = '',
@@ -132,8 +124,8 @@ var MyProfile = (function (_Component) {
     };
 
     _this.onProfilePictureInputChange = function () {
-      var imageInput = _react2.default.findDOMNode(_this.refs.imageInput);
-      var imageForm = _react2.default.findDOMNode(_this.refs.imageForm);
+      var imageInput = (0, _reactDom.findDOMNode)(_this.refs.imageInput);
+      var imageForm = (0, _reactDom.findDOMNode)(_this.refs.imageForm);
       var file = imageInput.files[0];
 
       var reader = new FileReader();
@@ -145,7 +137,7 @@ var MyProfile = (function (_Component) {
     };
 
     _this.handleChangeAvatarClick = function () {
-      var imageInput = _react2.default.findDOMNode(_this.refs.imageInput);
+      var imageInput = (0, _reactDom.findDOMNode)(_this.refs.imageInput);
       imageInput.click();
     };
 
@@ -200,10 +192,28 @@ var MyProfile = (function (_Component) {
       var nick = _state2.nick;
       var name = _state2.name;
       var about = _state2.about;
+      var intl = this.context.intl;
 
       var isProfileChanged = this.isProfileChanged();
 
       var cropAvatar = isCropModalOpen ? _react2.default.createElement(_CropAvatar2.default, { onCropFinish: this.changeMyAvatar }) : null;
+
+      var modalStyle = {
+        content: {
+          position: null,
+          top: null,
+          left: null,
+          right: null,
+          bottom: null,
+          border: null,
+          background: null,
+          overflow: null,
+          outline: null,
+          padding: null,
+          borderRadius: null,
+          width: 440
+        }
+      };
 
       if (profile !== null && isOpen) {
         return _react2.default.createElement(
@@ -211,7 +221,7 @@ var MyProfile = (function (_Component) {
           { className: 'modal-new modal-new--profile',
             closeTimeoutMS: 150,
             isOpen: isOpen,
-            style: { width: 440 } },
+            style: modalStyle },
           _react2.default.createElement(
             'header',
             { className: 'modal-new__header' },
@@ -223,7 +233,7 @@ var MyProfile = (function (_Component) {
             _react2.default.createElement(
               'h3',
               { className: 'modal-new__header__title' },
-              this.getIntlMessage('modal.profile.title')
+              intl.messages['modal.profile.title']
             ),
             _react2.default.createElement(
               'div',
@@ -231,11 +241,11 @@ var MyProfile = (function (_Component) {
               isProfileChanged ? _react2.default.createElement(
                 'button',
                 { className: 'button button--lightblue', onClick: this.handleSave },
-                this.getIntlMessage('button.save')
+                intl.messages['button.save']
               ) : _react2.default.createElement(
                 'button',
                 { className: 'button', onClick: this.handleClose },
-                this.getIntlMessage('button.close')
+                intl.messages['button.close']
               )
             )
           ),
@@ -249,7 +259,7 @@ var MyProfile = (function (_Component) {
                 'div',
                 { className: 'name' },
                 _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
-                  floatingLabel: this.getIntlMessage('modal.profile.name'),
+                  floatingLabel: intl.messages['modal.profile.name'],
                   onChange: this.handleNameChange,
                   type: 'text',
                   value: name })
@@ -258,7 +268,7 @@ var MyProfile = (function (_Component) {
                 'div',
                 { className: 'nick' },
                 _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
-                  floatingLabel: this.getIntlMessage('modal.profile.nick'),
+                  floatingLabel: intl.messages['modal.profile.nick'],
                   onChange: this.handleNicknameChange,
                   type: 'text',
                   value: nick })
@@ -267,7 +277,7 @@ var MyProfile = (function (_Component) {
                 'div',
                 { className: 'phone' },
                 _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
-                  floatingLabel: this.getIntlMessage('modal.profile.phone'),
+                  floatingLabel: intl.messages['modal.profile.phone'],
                   disabled: true,
                   type: 'tel',
                   value: (profile.phones[0] || {}).number })
@@ -276,7 +286,7 @@ var MyProfile = (function (_Component) {
                 'div',
                 { className: 'phone' },
                 _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
-                  floatingLabel: this.getIntlMessage('modal.profile.email'),
+                  floatingLabel: intl.messages['modal.profile.email'],
                   disabled: true,
                   type: 'email',
                   value: (profile.emails[0] || {}).email })
@@ -287,7 +297,7 @@ var MyProfile = (function (_Component) {
                 _react2.default.createElement(
                   'label',
                   { htmlFor: 'about' },
-                  this.getIntlMessage('modal.profile.about')
+                  intl.messages['modal.profile.about']
                 ),
                 _react2.default.createElement('textarea', { className: 'textarea',
                   id: 'about',
@@ -311,7 +321,7 @@ var MyProfile = (function (_Component) {
                   _react2.default.createElement(
                     'span',
                     null,
-                    this.getIntlMessage('modal.profile.avatarChange')
+                    intl.messages['modal.profile.avatarChange']
                   )
                 )
               ),
@@ -321,7 +331,7 @@ var MyProfile = (function (_Component) {
                 _react2.default.createElement(
                   'a',
                   { onClick: this.onProfilePictureRemove },
-                  this.getIntlMessage('modal.profile.avatarRemove')
+                  intl.messages['modal.profile.avatarRemove']
                 )
               ) : null,
               _react2.default.createElement(
@@ -358,7 +368,8 @@ MyProfile.getStores = function () {
   return [_MyProfileStore2.default, _CropAvatarStore2.default];
 };
 
-_reactMixin2.default.onClass(MyProfile, _reactIntl.IntlMixin);
-
+MyProfile.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = _utils.Container.create(MyProfile, { pure: false });
 //# sourceMappingURL=MyProfile.react.js.map

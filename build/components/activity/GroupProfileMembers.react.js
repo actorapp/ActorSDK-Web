@@ -10,8 +10,6 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 var _lodash = require('lodash');
 
-var _lodash2 = _interopRequireDefault(_lodash);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -20,9 +18,9 @@ var _reactMixin = require('react-mixin');
 
 var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
-var _addons = require('react/addons');
+var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
-var _addons2 = _interopRequireDefault(_addons);
+var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
 var _GroupMember = require('../activity/GroupMember.react');
 
@@ -35,13 +33,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var PureRenderMixin = _addons2.default.addons.PureRenderMixin;
-
-var GroupProfileMembers = (function (_React$Component) {
-  _inherits(GroupProfileMembers, _React$Component);
+var GroupProfileMembers = (function (_Component) {
+  _inherits(GroupProfileMembers, _Component);
 
   function GroupProfileMembers(props) {
     _classCallCheck(this, GroupProfileMembers);
@@ -56,9 +52,9 @@ var GroupProfileMembers = (function (_React$Component) {
       var groupId = _props.groupId;
       var members = _props.members;
 
-      var membersList = _lodash2.default.map(members, function (member, index) {
+      var membersList = (0, _lodash.map)(members, function (member, index) {
         return _react2.default.createElement(_GroupMember2.default, _extends({}, member, { gid: groupId, key: index }));
-      }, this);
+      });
 
       return _react2.default.createElement(
         'ul',
@@ -69,14 +65,14 @@ var GroupProfileMembers = (function (_React$Component) {
   }]);
 
   return GroupProfileMembers;
-})(_react2.default.Component);
+})(_react.Component);
 
 GroupProfileMembers.propTypes = {
-  groupId: _react2.default.PropTypes.number,
-  members: _react2.default.PropTypes.array.isRequired
+  groupId: _react.PropTypes.number,
+  members: _react.PropTypes.array.isRequired
 };
 
-_reactMixin2.default.onClass(GroupProfileMembers, PureRenderMixin);
+_reactMixin2.default.onClass(GroupProfileMembers, _reactAddonsPureRenderMixin2.default);
 
 exports.default = GroupProfileMembers;
 //# sourceMappingURL=GroupProfileMembers.react.js.map

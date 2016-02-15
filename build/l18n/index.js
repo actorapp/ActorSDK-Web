@@ -72,6 +72,28 @@ function extendL18n() {
 
 function getIntlData(locale) {
   var lang = locale ? locale : language;
-  return languageData[lang] || languageData[lang.split('-')[0]] || languageData['default'];
+  var currentLanguage = languageData[lang] || languageData[lang.split('-')[0]] || languageData['default'];
+
+  var flattenMessages = function flattenMessages(nestedMessages) {
+    var prefix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+
+    return Object.keys(nestedMessages).reduce(function (messages, key) {
+      var value = nestedMessages[key];
+      var prefixedKey = prefix ? prefix + '.' + key : key;
+
+      if (typeof value === 'string') {
+        messages[prefixedKey] = value;
+      } else {
+        Object.assign(messages, flattenMessages(value, prefixedKey));
+      }
+
+      return messages;
+    }, {});
+  };
+
+  return {
+    locale: currentLanguage.locale,
+    messages: flattenMessages(currentLanguage.messages)
+  };
 }
 //# sourceMappingURL=index.js.map

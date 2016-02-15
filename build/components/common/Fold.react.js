@@ -21,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var Fold = (function (_Component) {
@@ -33,7 +33,7 @@ var Fold = (function (_Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Fold).call(this, props));
 
     _this.onClick = function () {
-      _this.setState({ isOpen: !_this.state.isOpen });
+      return _this.setState({ isOpen: !_this.state.isOpen });
     };
 
     _this.state = {
@@ -96,7 +96,7 @@ var Fold = (function (_Component) {
 })(_react.Component);
 
 Fold.propTypes = {
-  children: _react.PropTypes.element,
+  children: _react.PropTypes.oneOfType([_react.PropTypes.arrayOf(_react.PropTypes.node), _react.PropTypes.node]),
   icon: _react.PropTypes.string,
   iconClassName: _react.PropTypes.string,
   iconElement: _react.PropTypes.element,

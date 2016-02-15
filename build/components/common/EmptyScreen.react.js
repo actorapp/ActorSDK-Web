@@ -10,10 +10,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _reactIntl = require('react-intl');
 
 var _ConnectionState = require('./ConnectionState.react');
@@ -58,7 +54,7 @@ var EmptyScreen = (function (_Component) {
           _react2.default.createElement(
             'h2',
             null,
-            this.getIntlMessage('main.empty')
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'main.empty' })
           )
         )
       );
@@ -67,8 +63,6 @@ var EmptyScreen = (function (_Component) {
 
   return EmptyScreen;
 })(_react.Component);
-
-_reactMixin2.default.onClass(EmptyScreen, _reactIntl.IntlMixin);
 
 exports.default = EmptyScreen;
 //# sourceMappingURL=EmptyScreen.react.js.map

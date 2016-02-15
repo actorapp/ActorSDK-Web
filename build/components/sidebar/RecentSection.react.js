@@ -12,17 +12,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Scrollbar = require('../common/Scrollbar.react');
-
-var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
+var _reactDom = require('react-dom');
 
 var _utils = require('flux/utils');
-
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
 
 var _DialogActionCreators = require('../../actions/DialogActionCreators');
 
@@ -40,6 +32,10 @@ var _AllDialogsStore = require('../../stores/AllDialogsStore');
 
 var _AllDialogsStore2 = _interopRequireDefault(_AllDialogsStore);
 
+var _Scrollbar = require('../common/Scrollbar.react');
+
+var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
+
 var _RecentSectionItem = require('./RecentSectionItem.react');
 
 var _RecentSectionItem2 = _interopRequireDefault(_RecentSectionItem);
@@ -51,7 +47,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var LoadDialogsScrollBottom = 100;
@@ -92,8 +88,8 @@ var RecentSection = (function (_Component) {
       var dialogs = this.state.dialogs;
 
       if (dialogs.length !== 0) {
-        var listRect = _react2.default.findDOMNode(this.refs.list).getBoundingClientRect();
-        var recentRect = _react2.default.findDOMNode(this.refs.recent).getBoundingClientRect();
+        var listRect = (0, _reactDom.findDOMNode)(this.refs.list).getBoundingClientRect();
+        var recentRect = (0, _reactDom.findDOMNode)(this.refs.recent).getBoundingClientRect();
 
         if (listRect.height < recentRect.height) {
           _DialogActionCreators2.default.onDialogsEnd();
@@ -104,10 +100,12 @@ var RecentSection = (function (_Component) {
     key: 'render',
     value: function render() {
       var dialogs = this.state.dialogs;
+      var intl = this.context.intl;
 
       var dialogList = (0, _lodash.map)(dialogs, function (dialog, index) {
         return _react2.default.createElement(_RecentSectionItem2.default, { dialog: dialog, key: index });
       });
+
       return _react2.default.createElement(
         'section',
         { className: 'sidebar__recent', ref: 'recent' },
@@ -128,24 +126,24 @@ var RecentSection = (function (_Component) {
             _react2.default.createElement(
               'p',
               null,
-              this.getIntlMessage('sidebar.recents.empty.first')
+              intl.messages['sidebar.recents.empty.first']
             ),
             _react2.default.createElement(
               'p',
               null,
-              this.getIntlMessage('sidebar.recents.empty.second.start'),
+              intl.messages['sidebar.recents.empty.second.start'],
               _react2.default.createElement(
                 'a',
                 { onClick: this.handleCreateGroupClick },
-                this.getIntlMessage('sidebar.recents.newDialog')
+                intl.messages['sidebar.recents.newDialog']
               ),
-              this.getIntlMessage('sidebar.recents.empty.second.or'),
+              intl.messages['sidebar.recents.empty.second.or'],
               _react2.default.createElement(
                 'a',
                 { onClick: this.handleAddPeopleClick },
-                this.getIntlMessage('sidebar.recents.addPeople')
+                intl.messages['sidebar.recents.addPeople']
               ),
-              this.getIntlMessage('sidebar.recents.empty.second.end')
+              intl.messages['sidebar.recents.empty.second.end']
             )
           )
         )
@@ -167,7 +165,8 @@ RecentSection.getStores = function () {
   return [_AllDialogsStore2.default];
 };
 
-_reactMixin2.default.onClass(RecentSection, _reactIntl.IntlMixin);
-
+RecentSection.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = _utils.Container.create(RecentSection, { pure: false });
 //# sourceMappingURL=RecentSection.react.js.map

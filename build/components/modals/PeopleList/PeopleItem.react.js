@@ -14,9 +14,9 @@ var _reactMixin = require('react-mixin');
 
 var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
-var _addons = require('react/addons');
+var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
-var _addons2 = _interopRequireDefault(_addons);
+var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
 var _classnames = require('classnames');
 
@@ -37,8 +37,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-var PureRenderMixin = _addons2.default.addons.PureRenderMixin;
 
 var PeopleItem = (function (_Component) {
   _inherits(PeopleItem, _Component);
@@ -104,7 +102,7 @@ PeopleItem.propTypes = {
   onMouseOver: _react.PropTypes.func.isRequired
 };
 
-_reactMixin2.default.onClass(PeopleItem, PureRenderMixin);
+_reactMixin2.default.onClass(PeopleItem, _reactAddonsPureRenderMixin2.default);
 
 exports.default = PeopleItem;
 //# sourceMappingURL=PeopleItem.react.js.map

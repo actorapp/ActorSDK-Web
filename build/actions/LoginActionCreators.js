@@ -12,9 +12,9 @@ var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
-var _RouterContainer = require('../utils/RouterContainer');
+var _history = require('../utils/history');
 
-var _RouterContainer2 = _interopRequireDefault(_RouterContainer);
+var _history2 = _interopRequireDefault(_history);
 
 var _DelegateContainer = require('../utils/DelegateContainer');
 
@@ -118,14 +118,19 @@ var LoginActionCreators = {
       delegate.actions.setLoggedIn(opts);
     } else {
       if (opts.redirect) {
-        var router = _RouterContainer2.default.get();
-        var nextPath = router.getCurrentQuery().nextPath;
+        // console.debug('opts.redirect', opts.redirect);
+        // console.debug('history', history);
 
-        if (nextPath) {
-          router.replaceWith(nextPath);
-        } else {
-          router.replaceWith('/');
-        }
+        // TODO: redirect to home after login
+        // const router = RouterContainer.get();
+        // const nextPath = router.getCurrentQuery().nextPath;
+        //
+        // if (nextPath) {
+        //   router.replaceWith(nextPath);
+        // } else {
+        //   router.replaceWith('/');
+        // }
+        _history2.default.replace('/');
       }
 
       (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_IN);
@@ -156,7 +161,7 @@ var LoginActionCreators = {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_RESTART);
   }
 }; /*
-    * Copyright (C) 2015 Actor LLC. <https://actor.im>
+    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
     */
 
 exports.default = LoginActionCreators;

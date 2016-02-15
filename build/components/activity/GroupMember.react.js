@@ -10,10 +10,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _reactIntl = require('react-intl');
 
 var _confirm = require('../../utils/confirm');
@@ -25,8 +21,6 @@ var _EmojiUtils = require('../../utils/EmojiUtils');
 var _ActorClient = require('../../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
-var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _DialogActionCreators = require('../../actions/DialogActionCreators');
 
@@ -55,7 +49,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var getStateFromStore = function getStateFromStore(uid) {
@@ -66,8 +60,8 @@ var getStateFromStore = function getStateFromStore(uid) {
   };
 };
 
-var GroupMember = (function (_React$Component) {
-  _inherits(GroupMember, _React$Component);
+var GroupMember = (function (_Component) {
+  _inherits(GroupMember, _Component);
 
   function GroupMember(props) {
     _classCallCheck(this, GroupMember);
@@ -86,13 +80,11 @@ var GroupMember = (function (_React$Component) {
 
     _this.onKick = function (gid, uid) {
       var peerInfo = _this.props.peerInfo;
+      var intl = _this.context.intl;
 
-      var confirmText = _react2.default.createElement(_reactIntl.FormattedMessage, { message: _this.getIntlMessage('modal.confirm.kick'),
-        name: peerInfo.title });
-
-      (0, _confirm2.default)(confirmText, {
-        abortLabel: _this.getIntlMessage('button.cancel'),
-        confirmLabel: _this.getIntlMessage('button.ok')
+      (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.kick', values: { name: peerInfo.title } }), {
+        abortLabel: intl.messages['button.cancel'],
+        confirmLabel: intl.messages['button.ok']
       }).then(function () {
         _KickUserStore2.default.addChangeListener(_this.onChange);
         _KickUserActionCreators2.default.kickMember(gid, uid);
@@ -121,6 +113,7 @@ var GroupMember = (function (_React$Component) {
       var canKick = _props.canKick;
       var gid = _props.gid;
       var kickUserState = this.state.kickUserState;
+      var intl = this.context.intl;
 
       var myId = _ActorClient2.default.getUid();
 
@@ -140,7 +133,7 @@ var GroupMember = (function (_React$Component) {
                 { onClick: function onClick() {
                     return _this2.onKick(gid, peerInfo.peer.id);
                   } },
-                this.getIntlMessage('kick')
+                intl.messages['kick']
               )
             ),
             _react2.default.createElement(
@@ -198,15 +191,15 @@ var GroupMember = (function (_React$Component) {
   }]);
 
   return GroupMember;
-})(_react2.default.Component);
+})(_react.Component);
 
 GroupMember.propTypes = {
-  peerInfo: _react2.default.PropTypes.object.isRequired,
-  canKick: _react2.default.PropTypes.bool.isRequired,
-  gid: _react2.default.PropTypes.number.isRequired
+  peerInfo: _react.PropTypes.object.isRequired,
+  canKick: _react.PropTypes.bool.isRequired,
+  gid: _react.PropTypes.number.isRequired
 };
-
-_reactMixin2.default.onClass(GroupMember, _reactIntl.IntlMixin);
-
+GroupMember.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = GroupMember;
 //# sourceMappingURL=GroupMember.react.js.map

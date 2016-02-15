@@ -14,7 +14,9 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _addons = require('react/addons');
+var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
+
+var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
 
 var _MessageActionCreators = require('../../../actions/MessageActionCreators');
 
@@ -29,8 +31,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-var CSSTransitionGroup = _addons.addons.CSSTransitionGroup;
 
 var MessageReactions = (function (_Component) {
   _inherits(MessageReactions, _Component);
@@ -116,7 +116,7 @@ var MessageReactions = (function (_Component) {
         'div',
         { className: reactionsClassName },
         _react2.default.createElement(
-          CSSTransitionGroup,
+          _reactAddonsCssTransitionGroup2.default,
           { transitionName: 'counter', transitionEnterTimeout: 125, transitionLeaveTimeout: 100 },
           counter
         ),

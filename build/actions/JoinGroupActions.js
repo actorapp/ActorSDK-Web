@@ -12,9 +12,9 @@ var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
-var _RouterContainer = require('../utils/RouterContainer');
+var _history = require('../utils/history');
 
-var _RouterContainer2 = _interopRequireDefault(_RouterContainer);
+var _history2 = _interopRequireDefault(_history);
 
 var _DialogActionCreators = require('./DialogActionCreators');
 
@@ -23,7 +23,7 @@ var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var urlBase = 'https://quit.email'; /*
-                                     * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                     * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                      */
 
 exports.default = {
@@ -47,8 +47,7 @@ exports.default = {
     };
 
     var goHome = function goHome() {
-      var router = _RouterContainer2.default.get();
-      router.replaceWith('/');
+      return _history2.default.replace('/');
     };
 
     joinViaLink().then(selectJoined).catch(goHome);

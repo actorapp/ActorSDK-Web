@@ -14,15 +14,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _ActorClient = require('../../utils/ActorClient');
-
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
 var _Scrollbar = require('../common/Scrollbar.react');
 
 var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
-
-var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _MessageActionCreators = require('../../actions/MessageActionCreators');
 

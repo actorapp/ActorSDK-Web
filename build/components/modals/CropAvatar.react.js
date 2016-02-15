@@ -10,17 +10,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
 var _utils = require('flux/utils');
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
 
 var _ImageUtils = require('../../utils/ImageUtils');
 
@@ -45,7 +37,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var minCropSize = 100;
@@ -74,7 +66,7 @@ var CropAvatarModal = (function (_Component) {
 
       event.preventDefault();
 
-      var wrapper = _react2.default.findDOMNode(_this.refs.wrapper);
+      var wrapper = (0, _reactDom.findDOMNode)(_this.refs.wrapper);
       var wrapperRect = wrapper.getBoundingClientRect();
 
       var dragOffset = {
@@ -92,7 +84,7 @@ var CropAvatarModal = (function (_Component) {
       var dragOffset = _this$state.dragOffset;
       var cropSize = _this$state.cropSize;
 
-      var wrapper = _react2.default.findDOMNode(_this.refs.wrapper);
+      var wrapper = (0, _reactDom.findDOMNode)(_this.refs.wrapper);
       var wrapperRect = wrapper.getBoundingClientRect();
 
       var cropPosition = {
@@ -116,7 +108,7 @@ var CropAvatarModal = (function (_Component) {
     };
 
     _this.onStartResizeTop = function (event) {
-      var wrapper = _react2.default.findDOMNode(_this.refs.wrapper);
+      var wrapper = (0, _reactDom.findDOMNode)(_this.refs.wrapper);
       var resizeLastCoord = event.pageY;
       event.preventDefault();
       _this.setState({ resizeLastCoord: resizeLastCoord });
@@ -125,7 +117,7 @@ var CropAvatarModal = (function (_Component) {
     };
 
     _this.onStartResizeRight = function (event) {
-      var wrapper = _react2.default.findDOMNode(_this.refs.wrapper);
+      var wrapper = (0, _reactDom.findDOMNode)(_this.refs.wrapper);
       var resizeLastCoord = event.pageX;
       event.preventDefault();
       _this.setState({ resizeLastCoord: resizeLastCoord });
@@ -134,7 +126,7 @@ var CropAvatarModal = (function (_Component) {
     };
 
     _this.onStartResizeBottom = function (event) {
-      var wrapper = _react2.default.findDOMNode(_this.refs.wrapper);
+      var wrapper = (0, _reactDom.findDOMNode)(_this.refs.wrapper);
       var resizeLastCoord = event.pageY;
       event.preventDefault();
       _this.setState({ resizeLastCoord: resizeLastCoord });
@@ -143,7 +135,7 @@ var CropAvatarModal = (function (_Component) {
     };
 
     _this.onStartResizeLeft = function (event) {
-      var wrapper = _react2.default.findDOMNode(_this.refs.wrapper);
+      var wrapper = (0, _reactDom.findDOMNode)(_this.refs.wrapper);
       var resizeLastCoord = event.pageX;
       event.preventDefault();
       _this.setState({ resizeLastCoord: resizeLastCoord });
@@ -222,7 +214,7 @@ var CropAvatarModal = (function (_Component) {
     };
 
     _this.removeListeners = function () {
-      var wrapper = _react2.default.findDOMNode(_this.refs.wrapper);
+      var wrapper = (0, _reactDom.findDOMNode)(_this.refs.wrapper);
 
       wrapper.removeEventListener('mousemove', _this.onMoving);
       wrapper.removeEventListener('touchmove', _this.onMoving);
@@ -247,7 +239,7 @@ var CropAvatarModal = (function (_Component) {
       var scaleRatio = _this$state3.scaleRatio;
       var onCropFinish = _this.props.onCropFinish;
 
-      var cropImage = _react2.default.findDOMNode(_this.refs.cropImage);
+      var cropImage = (0, _reactDom.findDOMNode)(_this.refs.cropImage);
       var canvas = document.createElement('canvas');
       var context = canvas.getContext('2d');
 
@@ -264,7 +256,7 @@ var CropAvatarModal = (function (_Component) {
     _this.storeScaledSizes = function (event) {
       var cropSize = _this.state.cropSize;
 
-      var originalImage = _react2.default.findDOMNode(_this.refs.originalImage);
+      var originalImage = (0, _reactDom.findDOMNode)(_this.refs.originalImage);
       var scaledWidth = originalImage.width;
       var scaledHeight = originalImage.height;
       var naturalWidth = originalImage.naturalWidth;
@@ -283,9 +275,8 @@ var CropAvatarModal = (function (_Component) {
 
   _createClass(CropAvatarModal, [{
     key: 'componentDidMount',
-    // 64 is modal header height.
     value: function componentDidMount() {
-      var originalImage = _react2.default.findDOMNode(this.refs.originalImage);
+      var originalImage = (0, _reactDom.findDOMNode)(this.refs.originalImage);
       document.addEventListener('keydown', this.onKeyDown, false);
       window.addEventListener('resize', this.storeScaledSizes, false);
       originalImage.addEventListener('load', this.storeScaledSizes, false);
@@ -293,9 +284,10 @@ var CropAvatarModal = (function (_Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      var originalImage = _react2.default.findDOMNode(this.refs.originalImage);
+      var originalImage = (0, _reactDom.findDOMNode)(this.refs.originalImage);
       document.removeEventListener('keydown', this.onKeyDown, false);
       window.removeEventListener('resize', this.storeScaledSizes, false);
+      originalImage.removeEventListener('load', this.storeScaledSizes, false);
     }
   }, {
     key: 'render',
@@ -308,13 +300,31 @@ var CropAvatarModal = (function (_Component) {
       var scaledWidth = _state.scaledWidth;
       var scaledHeight = _state.scaledHeight;
       var maxImageHeight = _state.maxImageHeight;
+      var intl = this.context.intl;
+
+      var modalStyle = {
+        content: {
+          position: null,
+          top: null,
+          left: null,
+          right: null,
+          bottom: null,
+          border: null,
+          background: null,
+          overflow: null,
+          outline: null,
+          padding: null,
+          borderRadius: null
+        }
+      };
 
       if (isOpen) {
         return _react2.default.createElement(
           _reactModal2.default,
           { className: 'modal-new modal-new--profile-picture',
             closeTimeoutMS: 150,
-            isOpen: isOpen },
+            isOpen: isOpen,
+            style: modalStyle },
           _react2.default.createElement(
             'div',
             { className: 'modal-new__header' },
@@ -326,7 +336,7 @@ var CropAvatarModal = (function (_Component) {
             _react2.default.createElement(
               'h3',
               { className: 'modal-new__header__title' },
-              this.getIntlMessage('modal.crop.title')
+              intl.messages['modal.crop.title']
             ),
             _react2.default.createElement(
               'div',
@@ -334,7 +344,7 @@ var CropAvatarModal = (function (_Component) {
               _react2.default.createElement(
                 'button',
                 { className: 'button button--lightblue', onClick: this.onCrop },
-                this.getIntlMessage('button.done')
+                intl.messages['button.done']
               )
             )
           ),
@@ -403,7 +413,8 @@ var CropAvatarModal = (function (_Component) {
         scaledHeight: 0,
         naturalWidth: 0,
         naturalHeight: 0,
-        maxImageHeight: document.body.clientHeight * .9 - 64 };
+        maxImageHeight: document.body.clientHeight * .9 - 64 // 64 is modal header height.
+      };
     }
   }]);
 
@@ -411,14 +422,15 @@ var CropAvatarModal = (function (_Component) {
 })(_react.Component);
 
 CropAvatarModal.propTypes = {
-  onCropFinish: _react2.default.PropTypes.func.isRequired
+  onCropFinish: _react.PropTypes.func.isRequired
 };
 
 CropAvatarModal.getStores = function () {
   return [_CropAvatarStore2.default];
 };
 
-_reactMixin2.default.onClass(CropAvatarModal, _reactIntl.IntlMixin);
-
+CropAvatarModal.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = _utils.Container.create(CropAvatarModal);
 //# sourceMappingURL=CropAvatar.react.js.map

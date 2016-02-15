@@ -12,10 +12,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _reactIntl = require('react-intl');
 
 var _SharedContainer = require('../../utils/SharedContainer');
@@ -39,7 +35,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var ConnectionState = (function (_Component) {
@@ -68,7 +64,7 @@ var ConnectionState = (function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: className },
-        _react2.default.createElement(_reactIntl.FormattedMessage, { message: this.getIntlMessage('connectionState.' + connectionState), appName: this.appName })
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'connectionState.' + connectionState, values: { appName: this.appName } })
       );
     }
   }], [{
@@ -86,8 +82,6 @@ var ConnectionState = (function (_Component) {
 ConnectionState.getStores = function () {
   return [_ConnectionStateStore2.default];
 };
-
-_reactMixin2.default.onClass(ConnectionState, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(ConnectionState, { pure: false });
 //# sourceMappingURL=ConnectionState.react.js.map

@@ -12,12 +12,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
-
 var _QuickSearchActionCreators = require('../../actions/QuickSearchActionCreators');
 
 var _QuickSearchActionCreators2 = _interopRequireDefault(_QuickSearchActionCreators);
@@ -37,7 +31,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var QuickSearchButton = (function (_Component) {
@@ -59,6 +53,7 @@ var QuickSearchButton = (function (_Component) {
     key: 'render',
     value: function render() {
       var isQuickSearchOpen = this.state.isQuickSearchOpen;
+      var intl = this.context.intl;
 
       return _react2.default.createElement(
         'footer',
@@ -75,7 +70,7 @@ var QuickSearchButton = (function (_Component) {
               'search'
             )
           ),
-          this.getIntlMessage('button.quickSearch')
+          intl.messages['button.quickSearch']
         ),
         isQuickSearchOpen ? _react2.default.createElement(_QuickSearch2.default, null) : null
       );
@@ -96,7 +91,8 @@ QuickSearchButton.getStores = function () {
   return [_QuickSearchStore2.default];
 };
 
-_reactMixin2.default.onClass(QuickSearchButton, _reactIntl.IntlMixin);
-
+QuickSearchButton.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = _utils.Container.create(QuickSearchButton, { pure: false });
 //# sourceMappingURL=QuickSearchButton.react.js.map

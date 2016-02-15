@@ -22,12 +22,6 @@ var _reactModal = require('react-modal');
 
 var _reactModal2 = _interopRequireDefault(_reactModal);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
-
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _PreferencesActionCreators = require('../../actions/PreferencesActionCreators');
@@ -49,7 +43,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var PreferencesModal = (function (_Component) {
@@ -144,6 +138,7 @@ var PreferencesModal = (function (_Component) {
       var isOnlyMentionNotifications = _state.isOnlyMentionNotifications;
       var isShowNotificationsTextEnabled = _state.isShowNotificationsTextEnabled;
       var sessions = _state.sessions;
+      var intl = this.context.intl;
 
       var sessionList = (0, _lodash.map)(sessions, function (session) {
         return _react2.default.createElement(_Session2.default, session);
@@ -168,12 +163,29 @@ var PreferencesModal = (function (_Component) {
         'preferences__list__item--active': activeTab === 'SECURITY'
       });
 
+      var modalStyle = {
+        content: {
+          position: null,
+          top: null,
+          left: null,
+          right: null,
+          bottom: null,
+          border: null,
+          background: null,
+          overflow: null,
+          outline: null,
+          padding: null,
+          borderRadius: null,
+          width: 760
+        }
+      };
+
       return _react2.default.createElement(
         _reactModal2.default,
         { className: 'modal-new modal-new--preferences',
           closeTimeoutMS: 150,
           isOpen: isOpen,
-          style: { width: 760 } },
+          style: modalStyle },
         _react2.default.createElement(
           'div',
           { className: 'modal-new__header' },
@@ -185,7 +197,7 @@ var PreferencesModal = (function (_Component) {
           _react2.default.createElement(
             'h3',
             { className: 'modal-new__header__title' },
-            this.getIntlMessage('preferencesModalTitle')
+            intl.messages['preferencesModalTitle']
           ),
           _react2.default.createElement(
             'div',
@@ -193,7 +205,7 @@ var PreferencesModal = (function (_Component) {
             _react2.default.createElement(
               'button',
               { className: 'button button--lightblue', onClick: this.onDone },
-              this.getIntlMessage('button.done')
+              intl.messages['button.done']
             )
           )
         ),
@@ -212,7 +224,7 @@ var PreferencesModal = (function (_Component) {
                   onClick: function onClick() {
                     return _this2.changeTab('GENERAL');
                   } },
-                this.getIntlMessage('preferencesGeneralTab')
+                intl.messages['preferencesGeneralTab']
               ),
               _react2.default.createElement(
                 'a',
@@ -220,7 +232,7 @@ var PreferencesModal = (function (_Component) {
                   onClick: function onClick() {
                     return _this2.changeTab('NOTIFICATIONS');
                   } },
-                this.getIntlMessage('preferencesNotificationsTab')
+                intl.messages['preferencesNotificationsTab']
               ),
               _react2.default.createElement(
                 'a',
@@ -228,7 +240,7 @@ var PreferencesModal = (function (_Component) {
                   onClick: function onClick() {
                     return _this2.changeTab('SECURITY');
                   } },
-                this.getIntlMessage('preferencesSecurityTab')
+                intl.messages['preferencesSecurityTab']
               )
             ),
             _react2.default.createElement(
@@ -254,7 +266,7 @@ var PreferencesModal = (function (_Component) {
                       _react2.default.createElement(
                         'h4',
                         null,
-                        this.getIntlMessage('preferencesSendMessageTitle')
+                        intl.messages['preferencesSendMessageTitle']
                       ),
                       _react2.default.createElement(
                         'div',
@@ -274,7 +286,7 @@ var PreferencesModal = (function (_Component) {
                             'Enter'
                           ),
                           ' – ',
-                          this.getIntlMessage('preferencesSendMessage'),
+                          intl.messages['preferencesSendMessage'],
                           ', ',
                           _react2.default.createElement(
                             'b',
@@ -282,7 +294,7 @@ var PreferencesModal = (function (_Component) {
                             'Shift + Enter'
                           ),
                           ' – ',
-                          this.getIntlMessage('preferencesNewLine')
+                          intl.messages['preferencesNewLine']
                         )
                       ),
                       _react2.default.createElement(
@@ -303,7 +315,7 @@ var PreferencesModal = (function (_Component) {
                             'Cmd + Enter'
                           ),
                           ' – ',
-                          this.getIntlMessage('preferencesSendMessage'),
+                          intl.messages['preferencesSendMessage'],
                           ', ',
                           _react2.default.createElement(
                             'b',
@@ -311,7 +323,7 @@ var PreferencesModal = (function (_Component) {
                             'Enter'
                           ),
                           ' – ',
-                          this.getIntlMessage('preferencesNewLine')
+                          intl.messages['preferencesNewLine']
                         )
                       )
                     )
@@ -334,7 +346,7 @@ var PreferencesModal = (function (_Component) {
                       _react2.default.createElement(
                         'h4',
                         null,
-                        this.getIntlMessage('preferencesEffectsTitle')
+                        intl.messages['preferencesEffectsTitle']
                       ),
                       _react2.default.createElement(
                         'div',
@@ -346,7 +358,7 @@ var PreferencesModal = (function (_Component) {
                         _react2.default.createElement(
                           'label',
                           { htmlFor: 'soundEffects' },
-                          this.getIntlMessage('preferencesEnableEffects')
+                          intl.messages['preferencesEnableEffects']
                         )
                       )
                     ),
@@ -361,7 +373,7 @@ var PreferencesModal = (function (_Component) {
                       _react2.default.createElement(
                         'h4',
                         null,
-                        this.getIntlMessage('preferencesNotificationsTitle')
+                        intl.messages['preferencesNotificationsTitle']
                       ),
                       _react2.default.createElement(
                         'div',
@@ -373,7 +385,7 @@ var PreferencesModal = (function (_Component) {
                         _react2.default.createElement(
                           'label',
                           { htmlFor: 'groupNotifications' },
-                          this.getIntlMessage('preferencesNotificationsGroup')
+                          intl.messages['preferencesNotificationsGroup']
                         )
                       ),
                       _react2.default.createElement(
@@ -386,13 +398,13 @@ var PreferencesModal = (function (_Component) {
                         _react2.default.createElement(
                           'label',
                           { htmlFor: 'mentionsNotifications' },
-                          this.getIntlMessage('preferencesNotificationsOnlyMention')
+                          intl.messages['preferencesNotificationsOnlyMention']
                         )
                       ),
                       _react2.default.createElement(
                         'p',
                         { className: 'hint' },
-                        this.getIntlMessage('preferencesNotificationsOnlyMentionHint')
+                        intl.messages['preferencesNotificationsOnlyMentionHint']
                       )
                     ),
                     _react2.default.createElement(
@@ -406,7 +418,7 @@ var PreferencesModal = (function (_Component) {
                       _react2.default.createElement(
                         'h4',
                         null,
-                        this.getIntlMessage('preferencesPrivacyTitle')
+                        intl.messages['preferencesPrivacyTitle']
                       ),
                       _react2.default.createElement(
                         'div',
@@ -418,13 +430,13 @@ var PreferencesModal = (function (_Component) {
                         _react2.default.createElement(
                           'label',
                           { htmlFor: 'notificationTextPreview' },
-                          this.getIntlMessage('preferencesMessagePreview')
+                          intl.messages['preferencesMessagePreview']
                         )
                       ),
                       _react2.default.createElement(
                         'p',
                         { className: 'hint' },
-                        this.getIntlMessage('preferencesMessagePreviewHint')
+                        intl.messages['preferencesMessagePreviewHint']
                       )
                     )
                   )
@@ -446,7 +458,7 @@ var PreferencesModal = (function (_Component) {
                       _react2.default.createElement(
                         'h4',
                         null,
-                        this.getIntlMessage('preferencesSessionsTitle')
+                        intl.messages['preferencesSessionsTitle']
                       ),
                       _react2.default.createElement(
                         'ul',
@@ -458,7 +470,7 @@ var PreferencesModal = (function (_Component) {
                           _react2.default.createElement(
                             'a',
                             { className: 'link--red', onClick: this.onTerminateAllSessionsClick },
-                            this.getIntlMessage('preferencesSessionsTerminateAll')
+                            intl.messages['preferencesSessionsTerminateAll']
                           )
                         )
                       )
@@ -490,11 +502,13 @@ var PreferencesModal = (function (_Component) {
   return PreferencesModal;
 })(_react.Component);
 
+PreferencesModal.contextTypes = {
+  intl: _react.PropTypes.object
+};
+
 PreferencesModal.getStores = function () {
   return [_PreferencesStore2.default];
 };
-
-_reactMixin2.default.onClass(PreferencesModal, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(PreferencesModal);
 //# sourceMappingURL=Preferences.react.js.map

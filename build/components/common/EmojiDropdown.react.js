@@ -12,6 +12,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
 var _utils = require('flux/utils');
 
 var _classnames = require('classnames');
@@ -43,7 +45,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var emojiTabs = [];
@@ -87,7 +89,7 @@ var EmojiDropdown = (function (_Component) {
       event.stopPropagation();
       event.preventDefault();
       if (!event.target.className.includes('emoji-dropdown__header__tabs__tab')) {
-        var emojiDropdown = _react2.default.findDOMNode(_this.refs.emojiDropdown);
+        var emojiDropdown = (0, _reactDom.findDOMNode)(_this.refs.emojiDropdown);
         var emojiRect = emojiDropdown.getBoundingClientRect();
         var coords = {
           x: event.pageX || event.clientX,
@@ -180,7 +182,7 @@ var EmojiDropdown = (function (_Component) {
     value: function componentWillUpdate(nextProps, nextState) {
       var isOpen = nextState.isOpen;
 
-      var emojiDropdown = _react2.default.findDOMNode(this.refs.emojiDropdown);
+      var emojiDropdown = (0, _reactDom.findDOMNode)(this.refs.emojiDropdown);
 
       if (isOpen) {
         emojiDropdown.addEventListener('mouseenter', this.handleEmojiMouseEnter, false);

@@ -10,15 +10,15 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
 var _reactMixin = require('react-mixin');
 
 var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
-var _reactIntl = require('react-intl');
+var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
-var _addons = require('react/addons');
-
-var _addons2 = _interopRequireDefault(_addons);
+var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
 var _isInside = require('../../../utils/isInside');
 
@@ -49,10 +49,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-var PureRenderMixin = _addons2.default.addons.PureRenderMixin;
 
 var MessageActions = (function (_Component) {
   _inherits(MessageActions, _Component);
@@ -63,7 +61,7 @@ var MessageActions = (function (_Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MessageActions).call(this, props));
 
     _this.handleDocumentClick = function (event) {
-      var dropdown = _react2.default.findDOMNode(_this.refs.dropdown);
+      var dropdown = (0, _reactDom.findDOMNode)(_this.refs.dropdown);
       var dropdownRect = dropdown.getBoundingClientRect();
       var coords = {
         x: event.pageX || event.clientX,
@@ -130,6 +128,7 @@ var MessageActions = (function (_Component) {
       var _props = this.props;
       var message = _props.message;
       var targetRect = _props.targetRect;
+      var intl = this.context.intl;
 
       var isThisMyMessage = _UserStore2.default.getMyId() === message.sender.peer.id;
 
@@ -138,12 +137,18 @@ var MessageActions = (function (_Component) {
         left: targetRect.left
       };
 
+      var dropdownMenuStyles = {
+        minWidth: 120,
+        right: 2,
+        top: -4
+      };
+
       return _react2.default.createElement(
         'div',
         { className: 'dropdown dropdown--opened dropdown--small', style: dropdownStyles },
         _react2.default.createElement(
           'ul',
-          { className: 'dropdown__menu dropdown__menu--right', ref: 'dropdown', style: { minWidth: 120, right: 2, top: -4 } },
+          { className: 'dropdown__menu dropdown__menu--right', ref: 'dropdown', style: dropdownMenuStyles },
           _react2.default.createElement(
             'li',
             { className: 'dropdown__menu__item hide' },
@@ -153,7 +158,7 @@ var MessageActions = (function (_Component) {
               'star_rate'
             ),
             ' ',
-            this.getIntlMessage('message.pin')
+            intl.messages['message.pin']
           ),
           !isThisMyMessage ? _react2.default.createElement(
             'li',
@@ -164,7 +169,7 @@ var MessageActions = (function (_Component) {
               'reply'
             ),
             ' ',
-            this.getIntlMessage('message.reply')
+            intl.messages['message.reply']
           ) : null,
           message.content.content === _ActorAppConstants.MessageContentTypes.TEXT ? _react2.default.createElement(
             'li',
@@ -175,7 +180,7 @@ var MessageActions = (function (_Component) {
               'format_quote'
             ),
             ' ',
-            this.getIntlMessage('message.quote')
+            intl.messages['message.quote']
           ) : null,
           _react2.default.createElement(
             'li',
@@ -186,7 +191,7 @@ var MessageActions = (function (_Component) {
               'forward'
             ),
             ' ',
-            this.getIntlMessage('message.forward')
+            intl.messages['message.forward']
           ),
           _react2.default.createElement(
             'li',
@@ -197,7 +202,7 @@ var MessageActions = (function (_Component) {
               'delete'
             ),
             ' ',
-            this.getIntlMessage('message.delete')
+            intl.messages['message.delete']
           )
         )
       );
@@ -213,9 +218,11 @@ MessageActions.propTypes = {
   targetRect: _react.PropTypes.object.isRequired,
   hideOnScroll: _react.PropTypes.bool.isRequired
 };
+MessageActions.contextTypes = {
+  intl: _react.PropTypes.object
+};
 
-_reactMixin2.default.onClass(MessageActions, _reactIntl.IntlMixin);
-_reactMixin2.default.onClass(MessageActions, PureRenderMixin);
+_reactMixin2.default.onClass(MessageActions, _reactAddonsPureRenderMixin2.default);
 
 exports.default = MessageActions;
 //# sourceMappingURL=MessageActions.react.js.map

@@ -12,17 +12,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _utils = require('flux/utils');
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
-
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
-
-var _utils = require('flux/utils');
 
 var _ActorClient = require('../../utils/ActorClient');
 
@@ -101,7 +97,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var ComposeSection = (function (_Component) {
@@ -121,11 +117,6 @@ var ComposeSection = (function (_Component) {
         isAutoFocusEnabled: _ComposeStore2.default.isAutoFocusEnabled()
       };
     }
-
-    //static contextTypes = {
-    //  isExperimental: PropTypes.bool
-    //};
-
   }]);
 
   function ComposeSection(props) {
@@ -192,7 +183,7 @@ var ComposeSection = (function (_Component) {
     };
 
     _this.resetAttachmentForm = function () {
-      var form = _react2.default.findDOMNode(_this.refs.attachmentForm);
+      var form = (0, _reactDom.findDOMNode)(_this.refs.attachmentForm);
       form.reset();
     };
 
@@ -230,7 +221,7 @@ var ComposeSection = (function (_Component) {
     };
 
     _this.getCaretPosition = function () {
-      var composeArea = _react2.default.findDOMNode(_this.refs.area);
+      var composeArea = (0, _reactDom.findDOMNode)(_this.refs.area);
       var selection = _Inputs2.default.getInputSelection(composeArea);
       return selection.start;
     };
@@ -241,11 +232,11 @@ var ComposeSection = (function (_Component) {
     };
 
     _this.setFocus = function () {
-      _react2.default.findDOMNode(_this.refs.area).focus();
+      (0, _reactDom.findDOMNode)(_this.refs.area).focus();
     };
 
     _this.setBlur = function () {
-      _react2.default.findDOMNode(_this.refs.area).blur();
+      (0, _reactDom.findDOMNode)(_this.refs.area).blur();
     };
 
     _this.handleDrop = function (files) {
@@ -261,13 +252,13 @@ var ComposeSection = (function (_Component) {
     };
 
     _this.handleAttachmentClick = function () {
-      var attachmentInputNode = _react2.default.findDOMNode(_this.refs.attachment);
+      var attachmentInputNode = (0, _reactDom.findDOMNode)(_this.refs.attachment);
       attachmentInputNode.setAttribute('multiple', true);
       attachmentInputNode.click();
     };
 
     _this.handleComposeAttachmentChange = function () {
-      var attachmentInputNode = _react2.default.findDOMNode(_this.refs.attachment);
+      var attachmentInputNode = (0, _reactDom.findDOMNode)(_this.refs.attachment);
       var attachments = [];
 
       (0, _lodash.forEach)(attachmentInputNode.files, function (file) {
@@ -336,7 +327,7 @@ var ComposeSection = (function (_Component) {
       var mentions = _state.mentions;
       var isMarkdownHintShow = _state.isMarkdownHintShow;
       var isSendAttachmentOpen = _state.isSendAttachmentOpen;
-      var isExperimental = this.context.isExperimental;
+      var intl = this.context.intl;
 
       var markdownHintClassName = (0, _classnames2.default)('compose__markdown-hint', {
         'compose__markdown-hint--active': isMarkdownHintShow
@@ -357,7 +348,7 @@ var ComposeSection = (function (_Component) {
             'b',
             null,
             '*',
-            this.getIntlMessage('compose.markdown.bold'),
+            intl.messages['compose.markdown.bold'],
             '*'
           ),
           '  ',
@@ -365,7 +356,7 @@ var ComposeSection = (function (_Component) {
             'i',
             null,
             '_',
-            this.getIntlMessage('compose.markdown.italic'),
+            intl.messages['compose.markdown.italic'],
             '_'
           ),
           '  ',
@@ -373,7 +364,7 @@ var ComposeSection = (function (_Component) {
             'code',
             null,
             '```',
-            this.getIntlMessage('compose.markdown.preformatted'),
+            intl.messages['compose.markdown.preformatted'],
             '```'
           )
         ),
@@ -390,7 +381,7 @@ var ComposeSection = (function (_Component) {
         _react2.default.createElement(
           _DropZone2.default,
           { onDropComplete: this.handleDrop },
-          this.getIntlMessage('compose.dropzone')
+          intl.messages['compose.dropzone']
         ),
         _react2.default.createElement(
           'footer',
@@ -404,13 +395,13 @@ var ComposeSection = (function (_Component) {
               'attachment'
             ),
             ' ',
-            this.getIntlMessage('compose.attach')
+            intl.messages['compose.attach']
           ),
           _react2.default.createElement('span', { className: 'col-xs' }),
           _react2.default.createElement(
             'button',
             { className: 'button button--lightblue', onClick: this.sendTextMessage },
-            this.getIntlMessage('compose.send')
+            intl.messages['compose.send']
           )
         ),
         _react2.default.createElement(
@@ -430,7 +421,8 @@ ComposeSection.getStores = function () {
   return [_DialogStore2.default, _GroupStore2.default, _PreferencesStore2.default, _AttachmentStore2.default, _ComposeStore2.default];
 };
 
-_reactMixin2.default.onClass(ComposeSection, _reactIntl.IntlMixin);
-
+ComposeSection.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = _utils.Container.create(ComposeSection, { pure: false });
 //# sourceMappingURL=ComposeSection.react.js.map

@@ -14,12 +14,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
-
 var _utils = require('flux/utils');
 
 var _classnames = require('classnames');
@@ -45,10 +39,6 @@ var _ActivityActionCreators2 = _interopRequireDefault(_ActivityActionCreators);
 var _DropdownActionCreators = require('../../../actions/DropdownActionCreators');
 
 var _DropdownActionCreators2 = _interopRequireDefault(_DropdownActionCreators);
-
-var _UserStore = require('../../../stores/UserStore');
-
-var _UserStore2 = _interopRequireDefault(_UserStore);
 
 var _DropdownStore = require('../../../stores/DropdownStore');
 
@@ -361,8 +351,5 @@ MessageItem.contextTypes = {
   delegate: _react.PropTypes.object,
   isExperimental: _react.PropTypes.bool
 };
-
-_reactMixin2.default.onClass(MessageItem, _reactIntl.IntlMixin);
-
 exports.default = _utils.Container.create(MessageItem, { withProps: true });
 //# sourceMappingURL=MessageItem.react.js.map

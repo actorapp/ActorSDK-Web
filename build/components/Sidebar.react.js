@@ -10,9 +10,17 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _BannerActionCreators = require('../../actions/BannerActionCreators');
+var _HeaderSection = require('./sidebar/HeaderSection.react');
 
-var _BannerActionCreators2 = _interopRequireDefault(_BannerActionCreators);
+var _HeaderSection2 = _interopRequireDefault(_HeaderSection);
+
+var _RecentSection = require('./sidebar/RecentSection.react');
+
+var _RecentSection2 = _interopRequireDefault(_RecentSection);
+
+var _QuickSearchButton = require('./sidebar/QuickSearchButton.react');
+
+var _QuickSearchButton2 = _interopRequireDefault(_QuickSearchButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21,76 +29,51 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Banner = (function (_Component) {
-  _inherits(Banner, _Component);
+var SidebarSection = (function (_Component) {
+  _inherits(SidebarSection, _Component);
 
-  function Banner(props) {
-    _classCallCheck(this, Banner);
+  function SidebarSection(props) {
+    _classCallCheck(this, SidebarSection);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Banner).call(this, props));
-
-    _this.onClose = function () {
-      _BannerActionCreators2.default.hide();
-    };
-
-    _this.onJump = function (os) {
-      _BannerActionCreators2.default.jump(os);
-      _this.onClose();
-    };
-
-    if (window.localStorage.getItem('banner_jump') === null) {
-      _BannerActionCreators2.default.show();
-    }
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(SidebarSection).call(this, props));
   }
 
-  _createClass(Banner, [{
+  _createClass(SidebarSection, [{
     key: 'render',
     value: function render() {
+      var delegate = this.context.delegate;
+
+      var HeaderSection = undefined,
+          RecentSection = undefined,
+          FooterSection = undefined;
+      if (delegate.components.sidebar !== null && typeof delegate.components.sidebar !== 'function') {
+        HeaderSection = delegate.components.sidebar.header || _HeaderSection2.default;
+        RecentSection = delegate.components.sidebar.recent || _RecentSection2.default;
+        FooterSection = delegate.components.sidebar.footer || _QuickSearchButton2.default;
+      } else {
+        HeaderSection = _HeaderSection2.default;
+        RecentSection = _RecentSection2.default;
+        FooterSection = _QuickSearchButton2.default;
+      }
+
       return _react2.default.createElement(
-        'section',
-        { className: 'banner' },
-        _react2.default.createElement(
-          'p',
-          null,
-          'Welcome to ',
-          _react2.default.createElement(
-            'b',
-            null,
-            'Actor Network'
-          ),
-          '! Check out our ',
-          _react2.default.createElement(
-            'a',
-            { href: '//actor.im/ios', onClick: this.onJump.bind(this, 'IOS'), target: '_blank' },
-            'iPhone'
-          ),
-          ' and ',
-          _react2.default.createElement(
-            'a',
-            { href: '//actor.im/android', onClick: this.onJump.bind(this, 'ANDROID'), target: '_blank' },
-            'Android'
-          ),
-          ' apps!'
-        ),
-        _react2.default.createElement(
-          'a',
-          { className: 'banner__hide', onClick: this.onClose },
-          _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'close'
-          )
-        )
+        'aside',
+        { className: 'sidebar' },
+        _react2.default.createElement(HeaderSection, null),
+        _react2.default.createElement(RecentSection, null),
+        _react2.default.createElement(FooterSection, null)
       );
     }
   }]);
 
-  return Banner;
+  return SidebarSection;
 })(_react.Component);
 
-exports.default = Banner;
-//# sourceMappingURL=Banner.react.js.map
+SidebarSection.contextTypes = {
+  delegate: _react.PropTypes.object
+};
+exports.default = SidebarSection;
+//# sourceMappingURL=Sidebar.react.js.map

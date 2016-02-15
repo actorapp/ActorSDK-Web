@@ -16,9 +16,9 @@ var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 var _reactIntl = require('react-intl');
 
-var _addons = require('react/addons');
+var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
-var _addons2 = _interopRequireDefault(_addons);
+var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
 var _ActorAppConstants = require('../../../constants/ActorAppConstants');
 
@@ -41,10 +41,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-var PureRenderMixin = _addons2.default.addons.PureRenderMixin;
 
 var Welcome = (function (_Component) {
   _inherits(Welcome, _Component);
@@ -59,32 +57,32 @@ var Welcome = (function (_Component) {
     key: 'render',
     value: function render() {
       var peer = this.props.peer;
+      var intl = this.context.intl;
 
       var welcomeText = undefined;
       switch (peer.type) {
         case _ActorAppConstants.PeerTypes.USER:
           var user = _UserStore2.default.getUser(peer.id);
-          welcomeText = _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { message: this.getIntlMessage('message.welcome.private'), name: user.name });
+          welcomeText = _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.private', values: { name: user.name } });
           break;
         case _ActorAppConstants.PeerTypes.GROUP:
           var group = _GroupStore2.default.getGroup(peer.id);
           var myID = _UserStore2.default.getMyId();
           var admin = _UserStore2.default.getUser(group.adminId);
-          var creator = group.adminId === myID ? this.getIntlMessage('message.welcome.group.you') : admin.name;
-          welcomeText = [_react2.default.createElement(_reactIntl.FormattedHTMLMessage, { message: this.getIntlMessage('message.welcome.group.main'),
-            name: group.name,
-            creator: creator }), _react2.default.createElement(
+          var creator = group.adminId === myID ? intl.messages['message.welcome.group.you'] : admin.name;
+          welcomeText = [_react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.group.main', key: 1,
+            values: { name: group.name, creator: creator } }), _react2.default.createElement(
             'p',
-            null,
-            this.getIntlMessage('message.welcome.group.actions.start'),
+            { key: 2 },
+            intl.messages['message.welcome.group.actions.start'],
             _react2.default.createElement(
               'a',
               { onClick: function onClick() {
                   return _InviteUserActions2.default.show(group);
                 } },
-              this.getIntlMessage('message.welcome.group.actions.invite')
+              intl.messages['message.welcome.group.actions.invite']
             ),
-            this.getIntlMessage('message.welcome.group.actions.end')
+            intl.messages['message.welcome.group.actions.end']
           )];
           break;
       }
@@ -117,9 +115,11 @@ var Welcome = (function (_Component) {
 Welcome.propTypes = {
   peer: _react.PropTypes.object.isRequired
 };
+Welcome.contextTypes = {
+  intl: _react.PropTypes.object
+};
 
-_reactMixin2.default.onClass(Welcome, _reactIntl.IntlMixin);
-_reactMixin2.default.onClass(Welcome, PureRenderMixin);
+_reactMixin2.default.onClass(Welcome, _reactAddonsPureRenderMixin2.default);
 
 exports.default = Welcome;
 //# sourceMappingURL=Welcome.react.js.map

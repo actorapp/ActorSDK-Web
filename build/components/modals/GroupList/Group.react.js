@@ -10,23 +10,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
-
-var _reactIntl = require('react-intl');
-
-var _GroupListActionCreators = require('../../../actions/GroupListActionCreators');
-
-var _GroupListActionCreators2 = _interopRequireDefault(_GroupListActionCreators);
-
-var _GroupListStore = require('../../../stores/GroupListStore');
-
-var _GroupListStore2 = _interopRequireDefault(_GroupListStore);
 
 var _AvatarItem = require('../../common/AvatarItem.react');
 
@@ -41,7 +27,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var Group = (function (_Component) {
@@ -137,8 +123,5 @@ Group.propTypes = {
   onClick: _react.PropTypes.func.isRequired,
   onMouseOver: _react.PropTypes.func.isRequired
 };
-
-_reactMixin2.default.onClass(Group, _reactIntl.IntlMixin);
-
 exports.default = Group;
 //# sourceMappingURL=Group.react.js.map

@@ -12,11 +12,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
 var _utils = require('flux/utils');
-
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 var _reactIntl = require('react-intl');
 
@@ -57,7 +55,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var RESULT_ITEM_HEIGHT = 44;
@@ -73,7 +71,7 @@ var QuickSearch = (function (_Component) {
 
     _this.setFocus = function () {
       setTimeout(function () {
-        _react2.default.findDOMNode(_this.refs.query).focus();
+        (0, _reactDom.findDOMNode)(_this.refs.query).focus();
       }, 0);
     };
 
@@ -157,12 +155,12 @@ var QuickSearch = (function (_Component) {
     };
 
     _this.handleScroll = function (top) {
-      var resultsNode = _react2.default.findDOMNode(_this.refs.results);
+      var resultsNode = (0, _reactDom.findDOMNode)(_this.refs.results);
       resultsNode.scrollTop = top;
     };
 
     _this.handleDocumentClick = function (event) {
-      var modal = _react2.default.findDOMNode(_this.refs.modal);
+      var modal = (0, _reactDom.findDOMNode)(_this.refs.modal);
       var modalRect = modal.getBoundingClientRect();
       var coords = {
         x: event.pageX || event.clientX,
@@ -200,6 +198,7 @@ var QuickSearch = (function (_Component) {
       var results = _state.results;
       var selectedIndex = _state.selectedIndex;
       var query = _state.query;
+      var intl = this.context.intl;
 
       var resultsList = (0, _lodash.map)(results, function (result, index) {
         var resultClassName = (0, _classnames2.default)('results__item row', {
@@ -226,19 +225,36 @@ var QuickSearch = (function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'hint pull-right' },
-              _this2.getIntlMessage('modal.quickSearch.openDialog')
+              intl.messages['modal.quickSearch.openDialog']
             ),
             result.peerInfo.title
           )
         );
       });
 
+      var modalStyle = {
+        content: {
+          position: null,
+          top: null,
+          left: null,
+          right: null,
+          bottom: null,
+          border: null,
+          background: null,
+          overflow: null,
+          outline: null,
+          padding: null,
+          borderRadius: null,
+          width: 460
+        }
+      };
+
       return _react2.default.createElement(
         _reactModal2.default,
         { className: 'modal modal--quick-search',
           closeTimeoutMS: 150,
           isOpen: isOpen,
-          style: { width: 460 } },
+          style: modalStyle },
         _react2.default.createElement(
           'div',
           { ref: 'modal' },
@@ -248,7 +264,7 @@ var QuickSearch = (function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'pull-left' },
-              this.getIntlMessage('modal.quickSearch.title')
+              intl.messages['modal.quickSearch.title']
             ),
             _react2.default.createElement(
               'div',
@@ -259,7 +275,7 @@ var QuickSearch = (function (_Component) {
                 'esc'
               ),
               '  ',
-              this.getIntlMessage('modal.quickSearch.toClose')
+              intl.messages['modal.quickSearch.toClose']
             ),
             _react2.default.createElement(
               'div',
@@ -270,7 +286,7 @@ var QuickSearch = (function (_Component) {
                 '↵'
               ),
               '  ',
-              this.getIntlMessage('modal.quickSearch.toSelect')
+              intl.messages['modal.quickSearch.toSelect']
             ),
             _react2.default.createElement(
               'div',
@@ -292,14 +308,14 @@ var QuickSearch = (function (_Component) {
                 '↓'
               ),
               '  ',
-              this.getIntlMessage('modal.quickSearch.toNavigate')
+              intl.messages['modal.quickSearch.toNavigate']
             )
           ),
           _react2.default.createElement(
             'div',
             { className: 'input' },
             _react2.default.createElement('input', { type: 'text',
-              placeholder: this.getIntlMessage('modal.quickSearch.placeholder'),
+              placeholder: intl.messages['modal.quickSearch.placeholder'],
               onChange: this.handleSearch,
               value: query,
               ref: 'query' })
@@ -310,9 +326,8 @@ var QuickSearch = (function (_Component) {
             resultsList.length > 0 ? resultsList : _react2.default.createElement(
               'li',
               { className: 'results__item results__item--suggestion row' },
-              _react2.default.createElement(_reactIntl.FormattedHTMLMessage, {
-                message: this.getIntlMessage('modal.quickSearch.notFound'),
-                query: query }),
+              _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'modal.quickSearch.notFound',
+                values: { query: query } }),
               _react2.default.createElement(
                 'button',
                 { className: 'button button--rised hide' },
@@ -342,7 +357,8 @@ QuickSearch.getStores = function () {
   return [_QuickSearchStore2.default];
 };
 
-_reactMixin2.default.onClass(QuickSearch, _reactIntl.IntlMixin);
-
+QuickSearch.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = _utils.Container.create(QuickSearch, { pure: false });
 //# sourceMappingURL=QuickSearch.react.js.map

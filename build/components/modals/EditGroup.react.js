@@ -10,17 +10,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
 var _utils = require('flux/utils');
 
 var _reactModal = require('react-modal');
 
 var _reactModal2 = _interopRequireDefault(_reactModal);
-
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
 
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
@@ -59,13 +55,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-//import { Styles, TextField } from 'material-ui';
-//import ActorTheme from '../../constants/ActorTheme';
-
-//const ThemeManager = new Styles.ThemeManager();
 
 var EditGroup = (function (_Component) {
   _inherits(EditGroup, _Component);
@@ -117,8 +108,8 @@ var EditGroup = (function (_Component) {
     };
 
     _this.onProfilePictureInputChange = function () {
-      var imageInput = _react2.default.findDOMNode(_this.refs.imageInput);
-      var imageForm = _react2.default.findDOMNode(_this.refs.imageForm);
+      var imageInput = (0, _reactDom.findDOMNode)(_this.refs.imageInput);
+      var imageForm = (0, _reactDom.findDOMNode)(_this.refs.imageForm);
       var file = imageInput.files[0];
 
       var reader = new FileReader();
@@ -130,7 +121,7 @@ var EditGroup = (function (_Component) {
     };
 
     _this.onChangeAvatarClick = function () {
-      var imageInput = _react2.default.findDOMNode(_this.refs.imageInput);
+      var imageInput = (0, _reactDom.findDOMNode)(_this.refs.imageInput);
       imageInput.click();
     };
 
@@ -149,32 +140,8 @@ var EditGroup = (function (_Component) {
     return _this;
   }
 
-  //static childContextTypes = {
-  //  muiTheme: React.PropTypes.object
-  //};
-  //
-  //getChildContext() {
-  //  return {
-  //    muiTheme: ThemeManager.getCurrentTheme()
-  //  };
-  //}
-
   _createClass(EditGroup, [{
     key: 'componentWillUnmount',
-
-    //componentWillMount() {
-    //  ThemeManager.setTheme(ActorTheme);
-    //  ThemeManager.setComponentThemes({
-    //    textField: {
-    //      textColor: 'rgba(0,0,0,.87)',
-    //      focusColor: '#68a3e7',
-    //      backgroundColor: 'transparent',
-    //      borderColor: '#68a3e7',
-    //      disabledTextColor: 'rgba(0,0,0,.4)'
-    //    }
-    //  });
-    //}
-
     value: function componentWillUnmount() {
       this.removeListeners();
     }
@@ -197,8 +164,25 @@ var EditGroup = (function (_Component) {
       var title = _state.title;
       var about = _state.about;
       var isAdmin = _state.isAdmin;
+      var intl = this.context.intl;
 
       var cropAvatar = isCropModalOpen ? _react2.default.createElement(_CropAvatar2.default, { onCropFinish: this.changeGroupAvatar }) : null;
+      var modalStyle = {
+        content: {
+          position: null,
+          top: null,
+          left: null,
+          right: null,
+          bottom: null,
+          border: null,
+          background: null,
+          overflow: null,
+          outline: null,
+          padding: null,
+          borderRadius: null,
+          width: 440
+        }
+      };
 
       if (isOpen) {
         return _react2.default.createElement(
@@ -206,7 +190,7 @@ var EditGroup = (function (_Component) {
           { className: 'modal-new modal-new--edit-group',
             closeTimeoutMS: 150,
             isOpen: isOpen,
-            style: { width: 440 } },
+            style: modalStyle },
           _react2.default.createElement(
             'header',
             { className: 'modal-new__header' },
@@ -218,7 +202,7 @@ var EditGroup = (function (_Component) {
             _react2.default.createElement(
               'h3',
               { className: 'modal-new__header__title' },
-              this.getIntlMessage('modal.group.title')
+              intl.messages['modal.group.title']
             ),
             _react2.default.createElement(
               'div',
@@ -226,7 +210,7 @@ var EditGroup = (function (_Component) {
               _react2.default.createElement(
                 'button',
                 { className: 'button button--lightblue', onClick: this.onSave },
-                this.getIntlMessage('button.done')
+                intl.messages['button.done']
               )
             )
           ),
@@ -237,7 +221,7 @@ var EditGroup = (function (_Component) {
               'div',
               { className: 'col-xs' },
               _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
-                floatingLabel: this.getIntlMessage('modal.group.name'),
+                floatingLabel: intl.messages['modal.group.name'],
                 onChange: this.onTitleChange,
                 ref: 'name',
                 value: title }),
@@ -247,7 +231,7 @@ var EditGroup = (function (_Component) {
                 _react2.default.createElement(
                   'label',
                   { htmlFor: 'about' },
-                  this.getIntlMessage('modal.group.about')
+                  intl.messages['modal.group.about']
                 ),
                 _react2.default.createElement('textarea', { className: 'textarea', value: about, onChange: this.onAboutChange, id: 'about' })
               ) : null
@@ -268,7 +252,7 @@ var EditGroup = (function (_Component) {
                   _react2.default.createElement(
                     'span',
                     null,
-                    this.getIntlMessage('modal.group.avatarChange')
+                    intl.messages['modal.group.avatarChange']
                   )
                 )
               ),
@@ -278,7 +262,7 @@ var EditGroup = (function (_Component) {
                 _react2.default.createElement(
                   'a',
                   { onClick: this.onProfilePictureRemove },
-                  this.getIntlMessage('modal.group.avatarRemove')
+                  intl.messages['modal.group.avatarRemove']
                 )
               ),
               _react2.default.createElement(
@@ -311,11 +295,13 @@ var EditGroup = (function (_Component) {
   return EditGroup;
 })(_react.Component);
 
+EditGroup.contextTypes = {
+  intl: _react.PropTypes.object
+};
+
 EditGroup.getStores = function () {
   return [_EditGroupStore2.default, _CropAvatarStore2.default];
 };
-
-_reactMixin2.default.onClass(EditGroup, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(EditGroup, { pure: false });
 //# sourceMappingURL=EditGroup.react.js.map

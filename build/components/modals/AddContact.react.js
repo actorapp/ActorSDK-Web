@@ -16,17 +16,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _reactModal = require('react-modal');
 
 var _reactModal2 = _interopRequireDefault(_reactModal);
-
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
 var _reactIntl = require('react-intl');
 
@@ -55,7 +47,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var AddContact = (function (_Component) {
@@ -127,6 +119,7 @@ var AddContact = (function (_Component) {
       var isSearching = _state.isSearching;
       var query = _state.query;
       var results = _state.results;
+      var intl = this.context.intl;
 
       var isQueryEmpty = !query || query.length === '';
 
@@ -138,23 +131,40 @@ var AddContact = (function (_Component) {
         resultContacts.push(_react2.default.createElement(
           'li',
           { className: 'add-contact__results__item add-contact__results__item--not-found' },
-          this.getIntlMessage('modal.addContact.notFound')
+          intl.messages['modal.addContact.notFound']
         ));
       }
+
+      var modalStyle = {
+        content: {
+          position: null,
+          top: null,
+          left: null,
+          right: null,
+          bottom: null,
+          border: null,
+          background: null,
+          overflow: null,
+          outline: null,
+          padding: null,
+          borderRadius: null,
+          width: 360
+        }
+      };
 
       return _react2.default.createElement(
         _reactModal2.default,
         { className: 'modal-new modal-new--add-contact add-contact',
           closeTimeoutMS: 150,
           isOpen: isOpen,
-          style: { width: 360 } },
+          style: modalStyle },
         _react2.default.createElement(
           'header',
           { className: 'modal-new__header' },
           _react2.default.createElement(
             'h3',
             { className: 'modal-new__header__title' },
-            this.getIntlMessage('modal.addContact.title')
+            intl.messages['modal.addContact.title']
           ),
           _react2.default.createElement(
             'a',
@@ -167,7 +177,7 @@ var AddContact = (function (_Component) {
           'div',
           { className: 'modal-new__body' },
           _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
-            floatingLabel: this.getIntlMessage('modal.addContact.query'),
+            floatingLabel: intl.messages['modal.addContact.query'],
             onChange: this.handleQueryChange,
             ref: 'query',
             value: query })
@@ -181,13 +191,13 @@ var AddContact = (function (_Component) {
             isQueryEmpty ? _react2.default.createElement(
               'li',
               { className: 'add-contact__results__item add-contact__results__item--searching' },
-              this.getIntlMessage('modal.addContact.empty')
+              intl.messages['modal.addContact.empty']
             ) : resultContacts
 
             // Search is too fast for showing searching status.
             //: isSearching
             //  ? <li className="add-contact__results__item add-contact__results__item--searching">
-            //      <FormattedMessage message={this.getIntlMessage('modal.addContact.searching')} query={query}/>
+            //      <FormattedMessage id="modal.addContact.searching" values={{query}}/>
             //    </li>
             //  : resultContacts
 
@@ -213,7 +223,8 @@ AddContact.getStores = function () {
   return [_AddContactStore2.default];
 };
 
-_reactMixin2.default.onClass(AddContact, _reactIntl.IntlMixin);
-
+AddContact.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = _utils.Container.create(AddContact);
 //# sourceMappingURL=AddContact.react.js.map

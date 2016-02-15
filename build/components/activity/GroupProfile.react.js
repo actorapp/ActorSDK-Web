@@ -12,10 +12,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _reactIntl = require('react-intl');
 
 var _classnames = require('classnames');
@@ -146,9 +142,11 @@ var GroupProfile = (function (_Component) {
     };
 
     _this.onLeaveGroupClick = function (gid) {
-      (0, _confirm2.default)(_this.getIntlMessage('modal.confirm.leave'), {
-        abortLabel: _this.getIntlMessage('button.cancel'),
-        confirmLabel: _this.getIntlMessage('button.ok')
+      var intl = _this.context.intl;
+
+      (0, _confirm2.default)(intl.messages['modal.confirm.leave'], {
+        abortLabel: intl.messages['button.cancel'],
+        confirmLabel: intl.messages['button.ok']
       }).then(function () {
         return _DialogActionCreators2.default.leaveGroup(gid);
       }, function () {});
@@ -185,9 +183,11 @@ var GroupProfile = (function (_Component) {
     };
 
     _this.onClearGroupClick = function (gid) {
-      (0, _confirm2.default)(_this.getIntlMessage('modal.confirm.clear'), {
-        abortLabel: _this.getIntlMessage('button.cancel'),
-        confirmLabel: _this.getIntlMessage('button.ok')
+      var intl = _this.context.intl;
+
+      (0, _confirm2.default)(intl.messages['modal.confirm.clear'], {
+        abortLabel: intl.messages['button.cancel'],
+        confirmLabel: intl.messages['button.ok']
       }).then(function () {
         var peer = _ActorClient2.default.getGroupPeer(gid);
         _DialogActionCreators2.default.clearChat(peer);
@@ -195,9 +195,11 @@ var GroupProfile = (function (_Component) {
     };
 
     _this.onDeleteGroupClick = function (gid) {
-      (0, _confirm2.default)(_this.getIntlMessage('modal.confirm.delete'), {
-        abortLabel: _this.getIntlMessage('button.cancel'),
-        confirmLabel: _this.getIntlMessage('button.ok')
+      var intl = _this.context.intl;
+
+      (0, _confirm2.default)(intl.messages['modal.confirm.delete'], {
+        abortLabel: intl.messages['button.cancel'],
+        confirmLabel: intl.messages['button.ok']
       }).then(function () {
         var peer = _ActorClient2.default.getGroupPeer(gid);
         _DialogActionCreators2.default.deleteChat(peer);
@@ -237,6 +239,7 @@ var GroupProfile = (function (_Component) {
       var integrationToken = _state.integrationToken;
       var isMoreDropdownOpen = _state.isMoreDropdownOpen;
       var message = _state.message;
+      var intl = this.context.intl;
 
       var myId = _UserStore2.default.getMyId();
       var admin = _UserStore2.default.getUser(group.adminId);
@@ -251,7 +254,7 @@ var GroupProfile = (function (_Component) {
 
       var groupMeta = [_react2.default.createElement(
         'header',
-        null,
+        { key: 1 },
         _react2.default.createElement(_AvatarItem2.default, { image: group.bigAvatar,
           placeholder: group.placeholder,
           size: 'large',
@@ -261,11 +264,11 @@ var GroupProfile = (function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'group_profile__meta__created' },
-          this.getIntlMessage('createdBy'),
+          intl.messages['createdBy'],
           ' ',
           _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(admin.name) } })
         )
-      ), group.about ? _react2.default.createElement('div', { className: 'group_profile__meta__description',
+      ), group.about ? _react2.default.createElement('div', { className: 'group_profile__meta__description', key: 2,
         dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.about).replace(/\n/g, '<br/>') } }) : null];
 
       var token = group.adminId === myId ? _react2.default.createElement(
@@ -273,19 +276,19 @@ var GroupProfile = (function (_Component) {
         { className: 'profile__list__item group_profile__integration no-p' },
         _react2.default.createElement(
           _Fold2.default,
-          { icon: 'power', iconClassName: 'icon--pink', title: this.getIntlMessage('integrationToken') },
+          { icon: 'power', iconClassName: 'icon--pink', title: intl.messages['integrationToken'] },
           _react2.default.createElement(
             'div',
             { className: 'info info--light' },
             _react2.default.createElement(
               'p',
               null,
-              this.getIntlMessage('integrationTokenHint')
+              intl.messages['integrationTokenHint']
             ),
             _react2.default.createElement(
               'a',
               { href: 'https://actor.readme.io/docs/simple-integration', target: '_blank' },
-              this.getIntlMessage('integrationTokenHelp')
+              intl.messages['integrationTokenHelp']
             )
           ),
           _react2.default.createElement('textarea', { className: 'textarea', onClick: this.selectToken, readOnly: true, row: '3', value: integrationToken })
@@ -323,7 +326,7 @@ var GroupProfile = (function (_Component) {
                         { className: 'material-icons' },
                         'person_add'
                       ),
-                      this.getIntlMessage('addPeople')
+                      intl.messages['addPeople']
                     )
                   ),
                   _react2.default.createElement('div', { style: { width: 10 } }),
@@ -342,7 +345,7 @@ var GroupProfile = (function (_Component) {
                           { className: 'material-icons' },
                           'more_horiz'
                         ),
-                        this.getIntlMessage('more')
+                        intl.messages['more']
                       ),
                       _react2.default.createElement(
                         'ul',
@@ -357,7 +360,7 @@ var GroupProfile = (function (_Component) {
                             { className: 'material-icons' },
                             'mode_edit'
                           ),
-                          this.getIntlMessage('editGroup')
+                          intl.messages['editGroup']
                         ),
                         _react2.default.createElement(
                           'li',
@@ -365,7 +368,7 @@ var GroupProfile = (function (_Component) {
                             onClick: function onClick() {
                               return _this2.onLeaveGroupClick(group.id);
                             } },
-                          this.getIntlMessage('leaveGroup')
+                          intl.messages['leaveGroup']
                         ),
                         _react2.default.createElement(
                           'li',
@@ -373,7 +376,7 @@ var GroupProfile = (function (_Component) {
                             onClick: function onClick() {
                               return _this2.onClearGroupClick(group.id);
                             } },
-                          this.getIntlMessage('clearGroup')
+                          intl.messages['clearGroup']
                         ),
                         _react2.default.createElement(
                           'li',
@@ -381,7 +384,7 @@ var GroupProfile = (function (_Component) {
                             onClick: function onClick() {
                               return _this2.onDeleteGroupClick(group.id);
                             } },
-                          this.getIntlMessage('deleteGroup')
+                          intl.messages['deleteGroup']
                         )
                       )
                     )
@@ -393,7 +396,7 @@ var GroupProfile = (function (_Component) {
                 { className: 'profile__list__item group_profile__media no-p hide' },
                 _react2.default.createElement(
                   _Fold2.default,
-                  { icon: 'attach_file', iconClassName: 'icon--gray', title: this.getIntlMessage('sharedMedia') },
+                  { icon: 'attach_file', iconClassName: 'icon--gray', title: intl.messages['sharedMedia'] },
                   _react2.default.createElement(
                     'ul',
                     null,
@@ -438,7 +441,7 @@ var GroupProfile = (function (_Component) {
                     { className: 'material-icons icon icon--squash' },
                     'notifications_none'
                   ),
-                  this.getIntlMessage('notifications'),
+                  intl.messages['notifications'],
                   _react2.default.createElement(
                     'div',
                     { className: 'switch pull-right' },
@@ -491,8 +494,8 @@ var GroupProfile = (function (_Component) {
 GroupProfile.propTypes = {
   group: _react.PropTypes.object.isRequired
 };
-
-_reactMixin2.default.onClass(GroupProfile, _reactIntl.IntlMixin);
-
+GroupProfile.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = _utils.Container.create(GroupProfile);
 //# sourceMappingURL=GroupProfile.react.js.map

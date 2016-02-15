@@ -23,7 +23,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var targetCollection = [];
@@ -37,11 +37,13 @@ var DropZone = (function (_Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DropZone).call(this, props));
 
     _this.onWindowDragEnter = function (event) {
+      var onDragEnterCallback = _this.props.onDragEnterCallback;
+
       event.preventDefault();
 
       if (targetCollection.length === 0) {
         _this.setState({ isActive: true });
-        _this.props.onDragEnterCallback && _this.props.onDragEnterCallback();
+        onDragEnterCallback && onDragEnterCallback();
       }
 
       targetCollection = (0, _lodash.union)(targetCollection, [event.target]);
@@ -52,13 +54,15 @@ var DropZone = (function (_Component) {
     };
 
     _this.onWindowDragLeave = function (event) {
+      var onDragLeaveCallback = _this.props.onDragLeaveCallback;
+
       event.preventDefault();
 
       targetCollection = (0, _lodash.without)(targetCollection, event.target);
 
       if (targetCollection.length === 0) {
         _this.setState({ isActive: false });
-        _this.props.onDragLeaveCallback && _this.props.onDragLeaveCallback();
+        onDragLeaveCallback && onDragLeaveCallback();
       }
     };
 
@@ -71,10 +75,14 @@ var DropZone = (function (_Component) {
     };
 
     _this.onDrop = function (event) {
+      var _this$props = _this.props;
+      var onDropCallback = _this$props.onDropCallback;
+      var onDropComplete = _this$props.onDropComplete;
+
       _this.onDragLeave();
       _this.onWindowDragLeave(event);
-      _this.props.onDropCallback && _this.props.onDropCallback();
-      _this.props.onDropComplete(event.dataTransfer.files);
+      onDropCallback && onDropCallback();
+      onDropComplete(event.dataTransfer.files);
     };
 
     _this.state = {
@@ -127,14 +135,14 @@ var DropZone = (function (_Component) {
 })(_react.Component);
 
 DropZone.propTypes = {
-  children: _react2.default.PropTypes.node,
+  children: _react.PropTypes.node,
 
-  onDropComplete: _react2.default.PropTypes.func.isRequired,
+  onDropComplete: _react.PropTypes.func.isRequired,
 
   // Callbacks
-  onDragEnterCallback: _react2.default.PropTypes.func,
-  onDragLeaveCallback: _react2.default.PropTypes.func,
-  onDropCallback: _react2.default.PropTypes.func
+  onDragEnterCallback: _react.PropTypes.func,
+  onDragLeaveCallback: _react.PropTypes.func,
+  onDropCallback: _react.PropTypes.func
 };
 exports.default = DropZone;
 //# sourceMappingURL=DropZone.react.js.map

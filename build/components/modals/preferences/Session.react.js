@@ -12,12 +12,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
-
 var _PreferencesActionCreators = require('../../../actions/PreferencesActionCreators');
 
 var _PreferencesActionCreators2 = _interopRequireDefault(_PreferencesActionCreators);
@@ -37,7 +31,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var SessionItem = (function (_Component) {
@@ -61,11 +55,12 @@ var SessionItem = (function (_Component) {
       var holder = _props.holder;
       var authTime = _props.authTime;
       var terminateSessionState = this.state.terminateSessionState;
+      var intl = this.context.intl;
 
       var currentDevice = holder === 'THIS_DEVICE' ? _react2.default.createElement(
         'small',
         null,
-        this.getIntlMessage('preferencesSessionsCurrentSession')
+        intl.messages['preferencesSessionsCurrentSession']
       ) : null;
 
       return _react2.default.createElement(
@@ -83,7 +78,7 @@ var SessionItem = (function (_Component) {
           _react2.default.createElement(
             'b',
             null,
-            this.getIntlMessage('preferencesSessionsAuthTime'),
+            intl.messages['preferencesSessionsAuthTime'],
             ':'
           ),
           ' ',
@@ -98,7 +93,7 @@ var SessionItem = (function (_Component) {
             _react2.default.createElement(
               'a',
               { className: 'session-list__session__terminate link--blue', onClick: this.onTerminate },
-              this.getIntlMessage('preferencesSessionsTerminate')
+              intl.messages['preferencesSessionsTerminate']
             )
           ),
           _react2.default.createElement(
@@ -147,10 +142,13 @@ SessionItem.calculateState = function (prevState, props) {
 };
 
 SessionItem.propTypes = {
-  appTitle: _react2.default.PropTypes.string.isRequired,
-  holder: _react2.default.PropTypes.string.isRequired,
-  id: _react2.default.PropTypes.number.isRequired,
-  authTime: _react2.default.PropTypes.object.isRequired
+  appTitle: _react.PropTypes.string.isRequired,
+  holder: _react.PropTypes.string.isRequired,
+  id: _react.PropTypes.number.isRequired,
+  authTime: _react.PropTypes.object.isRequired
+};
+SessionItem.contextTypes = {
+  intl: _react.PropTypes.object
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -160,8 +158,6 @@ var _initialiseProps = function _initialiseProps() {
     return _PreferencesActionCreators2.default.terminateSession(_this2.props.id);
   };
 };
-
-_reactMixin2.default.onClass(SessionItem, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(SessionItem, { pure: false, withProps: true });
 //# sourceMappingURL=Session.react.js.map

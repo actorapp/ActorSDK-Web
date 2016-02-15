@@ -25,7 +25,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var ColorTypes = {
@@ -54,9 +54,9 @@ function getColor(color) {
 
 /**
  * Class that represents component for display modern text message attachment field
- * @param {string} title Field title
- * @param {string} value Field value
- * @param {bool} isShort Display short version of field
+ * @param {String} title Field title
+ * @param {String} value Field value
+ * @param {Boolean} isShort Display short version of field
  */
 
 var Field = (function (_Component) {
@@ -104,11 +104,11 @@ var Field = (function (_Component) {
 
 /**
  * Class that represents component for display modern text message attachments
- * @param {array} fields Array of objects contains attachment fields
- * @param {object} paragraphStyle Contains attachment styles
- * @param {string} text Attachment text
- * @param {string} title Attachment title
- * @param {string} titleUrl Attachment title url
+ * @param {Array} fields Array of objects contains attachment fields
+ * @param {Object} paragraphStyle Contains attachment styles
+ * @param {String} text Attachment text
+ * @param {String} title Attachment title
+ * @param {String} titleUrl Attachment title url
  */
 
 Field.propTypes = {
@@ -178,10 +178,10 @@ var Attach = (function (_Component2) {
 
 /**
  * Class that represents component for display modern text messages content
- * @param {array} attaches Array of objects contains modern message attached paragraphs
- * @param {object} paragraphStyle Contains message styles
- * @param {string} text Message text
- * @param {string} className Component class name
+ * @param {Array} attaches Array of objects contains modern message attached paragraphs
+ * @param {Object} paragraphStyle Contains message styles
+ * @param {String} text Message text
+ * @param {String} className Component class name
  */
 
 Attach.propTypes = {

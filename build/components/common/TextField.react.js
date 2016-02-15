@@ -10,6 +10,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -21,7 +23,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var TextField = (function (_Component) {
@@ -36,7 +38,7 @@ var TextField = (function (_Component) {
       var ref = _this.props.ref;
 
       setTimeout(function () {
-        _react2.default.findDOMNode(ref ? ref : _this.refs.input).focus();
+        (0, _reactDom.findDOMNode)(ref ? ref : _this.refs.input).focus();
       }, 0);
     };
 
@@ -115,16 +117,16 @@ var TextField = (function (_Component) {
 })(_react.Component);
 
 TextField.propTypes = {
-  className: _react2.default.PropTypes.string,
-  floatingLabel: _react2.default.PropTypes.string,
-  type: _react2.default.PropTypes.string,
-  value: _react2.default.PropTypes.string,
-  ref: _react2.default.PropTypes.string,
-  disabled: _react2.default.PropTypes.bool,
+  className: _react.PropTypes.string,
+  floatingLabel: _react.PropTypes.oneOfType([_react.PropTypes.node, _react.PropTypes.string]),
+  type: _react.PropTypes.string,
+  value: _react.PropTypes.string,
+  ref: _react.PropTypes.string,
+  disabled: _react.PropTypes.bool,
 
-  onChange: _react2.default.PropTypes.func,
-  onFocus: _react2.default.PropTypes.func,
-  onBlur: _react2.default.PropTypes.func
+  onChange: _react.PropTypes.func,
+  onFocus: _react.PropTypes.func,
+  onBlur: _react.PropTypes.func
 };
 exports.default = TextField;
 //# sourceMappingURL=TextField.react.js.map

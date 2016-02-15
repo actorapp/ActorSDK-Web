@@ -12,21 +12,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _requireAuth = require('../utils/require-auth');
-
-var _requireAuth2 = _interopRequireDefault(_requireAuth);
-
-var _ActorClient = require('../utils/ActorClient');
-
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
 var _PeerUtils = require('../utils/PeerUtils');
 
 var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
 
-var _RouterContainer = require('../utils/RouterContainer');
+var _history = require('../utils/history');
 
-var _RouterContainer2 = _interopRequireDefault(_RouterContainer);
+var _history2 = _interopRequireDefault(_history);
 
 var _EmojiUtils = require('../utils/EmojiUtils');
 
@@ -42,13 +34,21 @@ var _QuickSearchActionCreators = require('../actions/QuickSearchActionCreators')
 
 var _QuickSearchActionCreators2 = _interopRequireDefault(_QuickSearchActionCreators);
 
-var _SidebarSection = require('./SidebarSection.react');
+var _UserStore = require('../stores/UserStore');
 
-var _SidebarSection2 = _interopRequireDefault(_SidebarSection);
+var _UserStore2 = _interopRequireDefault(_UserStore);
 
-var _DialogSection = require('./DialogSection.react');
+var _GroupStore = require('../stores/GroupStore');
 
-var _DialogSection2 = _interopRequireDefault(_DialogSection);
+var _GroupStore2 = _interopRequireDefault(_GroupStore);
+
+var _Sidebar = require('./Sidebar.react');
+
+var _Sidebar2 = _interopRequireDefault(_Sidebar);
+
+var _Dialog = require('./Dialog.react');
+
+var _Dialog2 = _interopRequireDefault(_Dialog);
 
 var _Favicon = require('./common/Favicon.react');
 
@@ -73,7 +73,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var Main = (function (_Component) {
@@ -101,10 +101,6 @@ var Main = (function (_Component) {
       }
     };
 
-    var params = props.params;
-
-    var peer = _PeerUtils2.default.stringToPeer(params.id);
-
     document.addEventListener('visibilitychange', _this.onVisibilityChange);
     document.addEventListener('keydown', _this.onKeyDown, false);
 
@@ -114,43 +110,65 @@ var Main = (function (_Component) {
     if (!document.hidden) {
       _VisibilityActionCreators2.default.createAppVisible();
     }
-
-    if (peer) {
-      // It is needed to prevent failure on opening dialog while library didn't load dialogs (right after auth)
-      var peerInfo = undefined;
-
-      if (peer.type == _ActorAppConstants.PeerTypes.GROUP) {
-        peerInfo = _ActorClient2.default.getGroup(peer.id);
-      } else {
-        peerInfo = _ActorClient2.default.getUser(peer.id);
-      }
-
-      if (peerInfo) {
-        _DialogActionCreators2.default.selectDialogPeer(peer);
-      } else {
-        _RouterContainer2.default.get().transitionTo('/');
-      }
-    }
     return _this;
   }
 
   _createClass(Main, [{
-    key: 'render',
-    value: function render() {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
       var params = this.props.params;
-      var delegate = this.context.delegate;
 
       var peer = _PeerUtils2.default.stringToPeer(params.id);
 
-      var SidebarSection = typeof delegate.components.sidebar == 'function' ? delegate.components.sidebar : _SidebarSection2.default;
-      var DialogSection = typeof delegate.components.dialog == 'function' ? delegate.components.dialog : _DialogSection2.default;
+      if (peer) {
+        // It is needed to prevent failure on opening dialog while library didn't load dialogs (right after auth)
+        var peerInfo = undefined;
+
+        if (peer.type == _ActorAppConstants.PeerTypes.GROUP) {
+          peerInfo = _GroupStore2.default.getGroup(peer.id);
+        } else {
+          peerInfo = _UserStore2.default.getUser(peer.id);
+        }
+
+        if (peerInfo) {
+          _DialogActionCreators2.default.selectDialogPeer(peer);
+        } else {
+          _history2.default.replace('/');
+        }
+      }
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var params = nextProps.params;
+
+      if (this.props.params.id !== params.id) {
+        var peer = _PeerUtils2.default.stringToPeer(params.id);
+        if (peer) {
+          _DialogActionCreators2.default.selectDialogPeer(peer);
+        } else {
+          _history2.default.push('/');
+        }
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props;
+      var delegate = _props.delegate;
+      var params = _props.params;
+
+      var peer = _PeerUtils2.default.stringToPeer(params.id);
+
+      var Sidebar = typeof delegate.components.sidebar == 'function' ? delegate.components.sidebar : _Sidebar2.default;
+      var Dialog = typeof delegate.components.dialog == 'function' ? delegate.components.dialog : _Dialog2.default;
 
       return _react2.default.createElement(
         'div',
         { className: 'app' },
         _react2.default.createElement(_Favicon2.default, null),
-        _react2.default.createElement(SidebarSection, { selectedPeer: peer }),
-        _react2.default.createElement(DialogSection, { peer: peer }),
+        _react2.default.createElement(Sidebar, null),
+        _react2.default.createElement(Dialog, { peer: peer }),
         _react2.default.createElement(_ModalsWrapper2.default, null),
         _react2.default.createElement(_DropdownWrapper2.default, null),
         _react2.default.createElement(_CallModal2.default, null)
@@ -161,12 +179,9 @@ var Main = (function (_Component) {
   return Main;
 })(_react.Component);
 
-Main.contextTypes = {
-  router: _react.PropTypes.func,
+Main.propTypes = {
+  params: _react.PropTypes.object,
   delegate: _react.PropTypes.object
 };
-Main.propTypes = {
-  params: _react.PropTypes.object
-};
-exports.default = (0, _requireAuth2.default)(Main);
+exports.default = Main;
 //# sourceMappingURL=Main.react.js.map

@@ -16,16 +16,6 @@ var _reactModal = require('react-modal');
 
 var _reactModal2 = _interopRequireDefault(_reactModal);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
-
-var _ActorClient = require('../../utils/ActorClient');
-
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _InviteUserActions = require('../../actions/InviteUserActions');
@@ -55,7 +45,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var getStateFromStores = function getStateFromStores() {
@@ -72,8 +62,8 @@ var hasMember = function hasMember(group, userId) {
   });
 };
 
-var InviteUser = (function (_React$Component) {
-  _inherits(InviteUser, _React$Component);
+var InviteUser = (function (_Component) {
+  _inherits(InviteUser, _Component);
 
   function InviteUser(props) {
     _classCallCheck(this, InviteUser);
@@ -143,6 +133,7 @@ var InviteUser = (function (_React$Component) {
       var group = _state.group;
       var search = _state.search;
       var isOpen = _state.isOpen;
+      var intl = this.context.intl;
 
       var contactList = [];
 
@@ -163,16 +154,32 @@ var InviteUser = (function (_React$Component) {
           contactList.push(_react2.default.createElement(
             'li',
             { className: 'contacts__list__item contacts__list__item--empty text-center' },
-            this.getIntlMessage('inviteModalNotFound')
+            intl.messages['inviteModalNotFound']
           ));
         }
+        var modalStyle = {
+          content: {
+            position: null,
+            top: null,
+            left: null,
+            right: null,
+            bottom: null,
+            border: null,
+            background: null,
+            overflow: null,
+            outline: null,
+            padding: null,
+            borderRadius: null,
+            width: 440
+          }
+        };
 
         return _react2.default.createElement(
           _reactModal2.default,
           { className: 'modal-new modal-new--invite contacts',
             closeTimeoutMS: 150,
             isOpen: isOpen,
-            style: { width: 440 } },
+            style: modalStyle },
           _react2.default.createElement(
             'header',
             { className: 'modal-new__header' },
@@ -184,7 +191,7 @@ var InviteUser = (function (_React$Component) {
             _react2.default.createElement(
               'h3',
               { className: 'modal-new__header__title' },
-              this.getIntlMessage('inviteModalTitle')
+              intl.messages['inviteModalTitle']
             ),
             _react2.default.createElement(
               'div',
@@ -192,7 +199,7 @@ var InviteUser = (function (_React$Component) {
               _react2.default.createElement(
                 'button',
                 { className: 'button button--lightblue', onClick: this.onClose },
-                this.getIntlMessage('button.done')
+                intl.messages['button.done']
               )
             )
           ),
@@ -209,7 +216,7 @@ var InviteUser = (function (_React$Component) {
               ),
               _react2.default.createElement('input', { className: 'input input--search',
                 onChange: this.onSearchChange,
-                placeholder: this.getIntlMessage('inviteModalSearch'),
+                placeholder: intl.messages['inviteModalSearch'],
                 type: 'search',
                 value: search })
             ),
@@ -221,7 +228,7 @@ var InviteUser = (function (_React$Component) {
                 { className: 'material-icons' },
                 'link'
               ),
-              this.getIntlMessage('inviteByLink')
+              intl.messages['inviteByLink']
             )
           ),
           _react2.default.createElement(
@@ -241,9 +248,10 @@ var InviteUser = (function (_React$Component) {
   }]);
 
   return InviteUser;
-})(_react2.default.Component);
+})(_react.Component);
 
-_reactMixin2.default.onClass(InviteUser, _reactIntl.IntlMixin);
-
+InviteUser.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = InviteUser;
 //# sourceMappingURL=InviteUser.react.js.map

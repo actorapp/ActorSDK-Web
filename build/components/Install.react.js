@@ -10,10 +10,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _reactIntl = require('react-intl');
 
 var _SharedContainer = require('../utils/SharedContainer');
@@ -58,22 +54,7 @@ var Install = (function (_Component) {
             className: 'logo',
             src: 'assets/images/logo.png',
             srcSet: 'assets/images/logo@2x.png 2x' }),
-          _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { message: this.getIntlMessage('main.install'), appName: this.appName }),
-          _react2.default.createElement(
-            'p',
-            null,
-            _react2.default.createElement(
-              'a',
-              { href: '//actor.im/ios' },
-              'iPhone'
-            ),
-            ' | ',
-            _react2.default.createElement(
-              'a',
-              { href: '//actor.im/android' },
-              'Android'
-            )
-          )
+          _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'main.install', values: { appName: this.appName } })
         )
       );
     }
@@ -81,8 +62,6 @@ var Install = (function (_Component) {
 
   return Install;
 })(_react.Component);
-
-_reactMixin2.default.onClass(Install, _reactIntl.IntlMixin);
 
 exports.default = Install;
 //# sourceMappingURL=Install.react.js.map

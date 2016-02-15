@@ -12,12 +12,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
-
 var _reactModal = require('react-modal');
 
 var _reactModal2 = _interopRequireDefault(_reactModal);
@@ -41,6 +35,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
+
+// import { FormattedMessage } from 'react-intl';
 
 var CallModal = (function (_Component) {
   _inherits(CallModal, _Component);
@@ -125,8 +121,6 @@ var CallModal = (function (_Component) {
 CallModal.getStores = function () {
   return [_CallStore2.default];
 };
-
-_reactMixin2.default.onClass(CallModal, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(CallModal, { pure: false });
 //# sourceMappingURL=CallModal.react.js.map

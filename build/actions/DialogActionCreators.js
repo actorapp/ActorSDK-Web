@@ -8,6 +8,10 @@ var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
+var _history = require('../utils/history');
+
+var _history2 = _interopRequireDefault(_history);
+
 var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
@@ -15,10 +19,6 @@ var _ActorClient2 = _interopRequireDefault(_ActorClient);
 var _PeerUtils = require('../utils/PeerUtils');
 
 var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
-
-var _RouterContainer = require('../utils/RouterContainer');
-
-var _RouterContainer2 = _interopRequireDefault(_RouterContainer);
 
 var _MessageActionCreators = require('./MessageActionCreators');
 
@@ -55,7 +55,6 @@ var DialogActionCreators = {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DIALOGS_CHANGED, { dialogs: dialogs });
   },
   selectDialogPeer: function selectDialogPeer(peer) {
-    var router = _RouterContainer2.default.get();
     var currentPeer = _DialogStore2.default.getCurrentPeer();
 
     // Unbind from previous peer
@@ -95,7 +94,9 @@ var DialogActionCreators = {
       default:
     }
 
-    router.transitionTo('main', { id: _PeerUtils2.default.peerToString(peer) });
+    // console.debug('history', history);
+    // console.debug('string', `im/${PeerUtils.peerToString(peer)}`);
+    _history2.default.push('/im/' + _PeerUtils2.default.peerToString(peer));
   },
   selectDialogPeerUser: function selectDialogPeerUser(uid) {
     if (uid === _ActorClient2.default.getUid()) {

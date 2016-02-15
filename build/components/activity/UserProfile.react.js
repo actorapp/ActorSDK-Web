@@ -12,10 +12,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _reactIntl = require('react-intl');
 
 var _classnames = require('classnames');
@@ -107,12 +103,11 @@ var UserProfile = (function (_Component) {
 
     _this.removeFromContacts = function () {
       var user = _this.props.user;
+      var intl = _this.context.intl;
 
-      var confirmText = _react2.default.createElement(_reactIntl.FormattedMessage, { message: _this.getIntlMessage('modal.confirm.removeContact'),
-        name: user.name });
-      (0, _confirm2.default)(confirmText, {
-        abortLabel: _this.getIntlMessage('button.cancel'),
-        confirmLabel: _this.getIntlMessage('button.ok')
+      (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.removeContact', values: { name: user.name } }), {
+        abortLabel: intl.messages['button.cancel'],
+        confirmLabel: intl.messages['button.ok']
       }).then(function () {
         return _ContactActionCreators2.default.removeContact(user.id);
       }, function () {});
@@ -147,9 +142,11 @@ var UserProfile = (function (_Component) {
     };
 
     _this.clearChat = function (uid) {
-      (0, _confirm2.default)(_this.getIntlMessage('modal.confirm.clear'), {
-        abortLabel: _this.getIntlMessage('button.cancel'),
-        confirmLabel: _this.getIntlMessage('button.ok')
+      var intl = _this.context.intl;
+
+      (0, _confirm2.default)(intl.messages['modal.confirm.clear'], {
+        abortLabel: intl.messages['button.cancel'],
+        confirmLabel: intl.messages['button.ok']
       }).then(function () {
         var peer = _ActorClient2.default.getUserPeer(uid);
         _DialogActionCreators2.default.clearChat(peer);
@@ -157,9 +154,11 @@ var UserProfile = (function (_Component) {
     };
 
     _this.deleteChat = function (uid) {
-      (0, _confirm2.default)(_this.getIntlMessage('modal.confirm.delete'), {
-        abortLabel: _this.getIntlMessage('button.cancel'),
-        confirmLabel: _this.getIntlMessage('button.ok')
+      var intl = _this.context.intl;
+
+      (0, _confirm2.default)(intl.messages['modal.confirm.delete'], {
+        abortLabel: intl.messages['button.cancel'],
+        confirmLabel: intl.messages['button.ok']
       }).then(function () {
         var peer = _ActorClient2.default.getUserPeer(uid);
         _DialogActionCreators2.default.deleteChat(peer);
@@ -192,6 +191,7 @@ var UserProfile = (function (_Component) {
       var _this2 = this;
 
       var user = this.props.user;
+      var intl = this.context.intl;
       var _state = this.state;
       var isNotificationsEnabled = _state.isNotificationsEnabled;
       var isActionsDropdownOpen = _state.isActionsDropdownOpen;
@@ -214,7 +214,7 @@ var UserProfile = (function (_Component) {
         _react2.default.createElement(
           'span',
           { className: 'description' },
-          this.getIntlMessage('profile.nickname')
+          intl.messages['profile.nickname']
         )
       ) : null;
 
@@ -235,7 +235,7 @@ var UserProfile = (function (_Component) {
         _react2.default.createElement(
           'span',
           { className: 'description' },
-          this.getIntlMessage('profile.email')
+          intl.messages['profile.email']
         )
       ) : null;
 
@@ -259,7 +259,7 @@ var UserProfile = (function (_Component) {
         _react2.default.createElement(
           'span',
           { className: 'description' },
-          this.getIntlMessage('profile.phone')
+          intl.messages['profile.phone']
         )
       ) : null;
 
@@ -303,7 +303,7 @@ var UserProfile = (function (_Component) {
                     { className: 'material-icons' },
                     'phone'
                   ),
-                  this.getIntlMessage('button.call')
+                  intl.messages['button.call']
                 )
               ),
               _react2.default.createElement('div', { style: { width: 10 } }),
@@ -321,7 +321,7 @@ var UserProfile = (function (_Component) {
                       { className: 'material-icons' },
                       'more_horiz'
                     ),
-                    this.getIntlMessage('actions')
+                    intl.messages['actions']
                   ),
                   _react2.default.createElement(
                     'ul',
@@ -329,25 +329,25 @@ var UserProfile = (function (_Component) {
                     user.isContact ? _react2.default.createElement(
                       'li',
                       { className: 'dropdown__menu__item', onClick: this.removeFromContacts },
-                      this.getIntlMessage('removeFromContacts')
+                      intl.messages['removeFromContacts']
                     ) : _react2.default.createElement(
                       'li',
                       { className: 'dropdown__menu__item', onClick: this.addToContacts },
-                      this.getIntlMessage('addToContacts')
+                      intl.messages['addToContacts']
                     ),
                     _react2.default.createElement(
                       'li',
                       { className: 'dropdown__menu__item', onClick: function onClick() {
                           return _this2.clearChat(user.id);
                         } },
-                      this.getIntlMessage('clearConversation')
+                      intl.messages['clearConversation']
                     ),
                     _react2.default.createElement(
                       'li',
                       { className: 'dropdown__menu__item', onClick: function onClick() {
                           return _this2.deleteChat(user.id);
                         } },
-                      this.getIntlMessage('deleteConversation')
+                      intl.messages['deleteConversation']
                     )
                   )
                 )
@@ -370,7 +370,7 @@ var UserProfile = (function (_Component) {
             { className: 'profile__list__item user_profile__media no-p hide' },
             _react2.default.createElement(
               _Fold2.default,
-              { icon: 'attach_file', iconClassName: 'icon--gray', title: this.getIntlMessage('sharedMedia') },
+              { icon: 'attach_file', iconClassName: 'icon--gray', title: intl.messages['sharedMedia'] },
               _react2.default.createElement(
                 'ul',
                 null,
@@ -415,7 +415,7 @@ var UserProfile = (function (_Component) {
                 { className: 'material-icons icon icon--squash' },
                 'notifications_none'
               ),
-              this.getIntlMessage('notifications'),
+              intl.messages['notifications'],
               _react2.default.createElement(
                 'div',
                 { className: 'switch pull-right' },
@@ -438,8 +438,8 @@ var UserProfile = (function (_Component) {
 UserProfile.propTypes = {
   user: _react.PropTypes.object.isRequired
 };
-
-_reactMixin2.default.onClass(UserProfile, _reactIntl.IntlMixin);
-
+UserProfile.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = UserProfile;
 //# sourceMappingURL=UserProfile.react.js.map

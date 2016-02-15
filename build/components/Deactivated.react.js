@@ -10,10 +10,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _reactIntl = require('react-intl');
 
 var _SharedContainer = require('../utils/SharedContainer');
@@ -57,12 +53,12 @@ var Deactivated = (function (_Component) {
           _react2.default.createElement(
             'h2',
             null,
-            this.getIntlMessage('main.deactivated.header')
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'main.deactivated.header' })
           ),
           _react2.default.createElement(
             'p',
             null,
-            _react2.default.createElement(_reactIntl.FormattedMessage, { message: this.getIntlMessage('main.deactivated.text'), appName: this.appName })
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'main.deactivated.text', values: { appName: this.appName } })
           )
         )
       );
@@ -71,8 +67,6 @@ var Deactivated = (function (_Component) {
 
   return Deactivated;
 })(_react.Component);
-
-_reactMixin2.default.onClass(Deactivated, _reactIntl.IntlMixin);
 
 exports.default = Deactivated;
 //# sourceMappingURL=Deactivated.react.js.map

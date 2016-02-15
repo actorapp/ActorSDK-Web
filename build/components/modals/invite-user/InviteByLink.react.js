@@ -16,13 +16,13 @@ var _reactModal = require('react-modal');
 
 var _reactModal2 = _interopRequireDefault(_reactModal);
 
-var _addons = require('react/addons');
-
-var _addons2 = _interopRequireDefault(_addons);
-
 var _reactMixin = require('react-mixin');
 
 var _reactMixin2 = _interopRequireDefault(_reactMixin);
+
+var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
+
+var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
 var _reactIntl = require('react-intl');
 
@@ -49,10 +49,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-var PureRenderMixin = _addons2.default.addons.PureRenderMixin;
 
 var getStateFromStores = function getStateFromStores() {
   return {
@@ -62,8 +60,8 @@ var getStateFromStores = function getStateFromStores() {
   };
 };
 
-var InviteByLink = (function (_React$Component) {
-  _inherits(InviteByLink, _React$Component);
+var InviteByLink = (function (_Component) {
+  _inherits(InviteByLink, _Component);
 
   function InviteByLink(props) {
     _classCallCheck(this, InviteByLink);
@@ -123,8 +121,26 @@ var InviteByLink = (function (_React$Component) {
       var group = _state.group;
       var inviteUrl = _state.inviteUrl;
       var isOpen = _state.isOpen;
+      var intl = this.context.intl;
 
       var groupName = group !== null ? _react2.default.createElement('b', { dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.name) } }) : null;
+
+      var modalStyle = {
+        content: {
+          position: null,
+          top: null,
+          left: null,
+          right: null,
+          bottom: null,
+          border: null,
+          background: null,
+          overflow: null,
+          outline: null,
+          padding: null,
+          borderRadius: null,
+          width: 440
+        }
+      };
 
       if (isOpen) {
         return _react2.default.createElement(
@@ -132,7 +148,7 @@ var InviteByLink = (function (_React$Component) {
           { className: 'modal-new modal-new--invite-by-link',
             closeTimeoutMS: 150,
             isOpen: isOpen,
-            style: { width: 440 } },
+            style: modalStyle },
           _react2.default.createElement(
             'header',
             { className: 'modal-new__header' },
@@ -142,7 +158,7 @@ var InviteByLink = (function (_React$Component) {
             _react2.default.createElement(
               'h3',
               { className: 'modal-new__header__title' },
-              this.getIntlMessage('inviteByLinkModalTitle')
+              intl.messages['inviteByLinkModalTitle']
             ),
             _react2.default.createElement(
               'div',
@@ -150,14 +166,14 @@ var InviteByLink = (function (_React$Component) {
               _react2.default.createElement(
                 'button',
                 { className: 'button button--lightblue', onClick: this.onClose },
-                this.getIntlMessage('button.done')
+                intl.messages['button.done']
               )
             )
           ),
           _react2.default.createElement(
             'div',
             { className: 'modal-new__body' },
-            _react2.default.createElement(_reactIntl.FormattedMessage, { groupName: groupName, message: this.getIntlMessage('inviteByLinkModalDescription') }),
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'inviteByLinkModalDescription', values: { groupName: groupName } }),
             _react2.default.createElement('textarea', { className: 'textarea', onClick: this.onInviteLinkClick, readOnly: true, row: '3', value: inviteUrl })
           ),
           _react2.default.createElement(
@@ -166,12 +182,12 @@ var InviteByLink = (function (_React$Component) {
             _react2.default.createElement(
               'button',
               { className: 'button button--rised pull-left hide' },
-              this.getIntlMessage('inviteByLinkModalRevokeButton')
+              intl.messages['inviteByLinkModalRevokeButton']
             ),
             _react2.default.createElement(
               'button',
               { className: 'button button--rised pull-right hide' },
-              this.getIntlMessage('inviteByLinkModalCopyButton')
+              intl.messages['inviteByLinkModalCopyButton']
             )
           )
         );
@@ -182,10 +198,13 @@ var InviteByLink = (function (_React$Component) {
   }]);
 
   return InviteByLink;
-})(_react2.default.Component);
+})(_react.Component);
 
-_reactMixin2.default.onClass(InviteByLink, _reactIntl.IntlMixin);
-_reactMixin2.default.onClass(InviteByLink, PureRenderMixin);
+InviteByLink.contextTypes = {
+  intl: _react.PropTypes.object
+};
+
+_reactMixin2.default.onClass(InviteByLink, _reactAddonsPureRenderMixin2.default);
 
 exports.default = InviteByLink;
 //# sourceMappingURL=InviteByLink.react.js.map

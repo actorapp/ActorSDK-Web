@@ -12,12 +12,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
-
 var _reactModal = require('react-modal');
 
 var _reactModal2 = _interopRequireDefault(_reactModal);
@@ -43,7 +37,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var CreateGroup = (function (_Component) {
@@ -82,20 +76,38 @@ var CreateGroup = (function (_Component) {
     key: 'render',
     value: function render() {
       var isOpen = this.state.isOpen;
+      var intl = this.context.intl;
+
+      var modalStyle = {
+        content: {
+          position: null,
+          top: null,
+          left: null,
+          right: null,
+          bottom: null,
+          border: null,
+          background: null,
+          overflow: null,
+          outline: null,
+          padding: null,
+          borderRadius: null,
+          width: 350
+        }
+      };
 
       return _react2.default.createElement(
         _reactModal2.default,
         { className: 'modal-new modal-new--create-group',
           closeTimeoutMS: 150,
           isOpen: isOpen,
-          style: { width: 350 } },
+          style: modalStyle },
         _react2.default.createElement(
           'header',
           { className: 'modal-new__header' },
           _react2.default.createElement(
             'h3',
             { className: 'modal-new__header__title' },
-            this.getIntlMessage('modal.createGroup.title')
+            intl.messages['modal.createGroup.title']
           ),
           _react2.default.createElement(
             'a',
@@ -123,7 +135,8 @@ CreateGroup.getStores = function () {
   return [_CreateGroupStore2.default];
 };
 
-_reactMixin2.default.onClass(CreateGroup, _reactIntl.IntlMixin);
-
+CreateGroup.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = _utils.Container.create(CreateGroup);
 //# sourceMappingURL=CreateGroup.react.js.map

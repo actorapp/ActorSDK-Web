@@ -16,19 +16,13 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
-
-var _materialUi = require('material-ui');
-
 var _SharedContainer = require('../utils/SharedContainer');
 
 var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
+
+var _reactIntl = require('react-intl');
 
 var _LoginActionCreators = require('../actions/LoginActionCreators');
 
@@ -38,9 +32,9 @@ var _LoginStore = require('../stores/LoginStore');
 
 var _LoginStore2 = _interopRequireDefault(_LoginStore);
 
-var _ActorTheme = require('../constants/ActorTheme');
+var _TextField = require('./common/TextField.react');
 
-var _ActorTheme2 = _interopRequireDefault(_ActorTheme);
+var _TextField2 = _interopRequireDefault(_TextField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51,8 +45,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-var ThemeManager = new _materialUi.Styles.ThemeManager();
 
 var Login = (function (_Component) {
   _inherits(Login, _Component);
@@ -120,20 +112,6 @@ var Login = (function (_Component) {
   }
 
   _createClass(Login, [{
-    key: 'getChildContext',
-    value: function getChildContext() {
-      return {
-        muiTheme: ThemeManager.getCurrentTheme()
-      };
-    }
-  }, {
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      var query = this.props.query;
-
-      ThemeManager.setTheme(_ActorTheme2.default);
-    }
-  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.handleFocus();
@@ -160,17 +138,18 @@ var Login = (function (_Component) {
       var isCodeRequested = _state.isCodeRequested;
       var isCodeSended = _state.isCodeSended;
       var isSignupStarted = _state.isSignupStarted;
+      var intl = this.context.intl;
 
-      var requestFormClassName = (0, _classnames2.default)('login__form', 'login__form--request', {
-        'login__form--active': step === _ActorAppConstants.AuthSteps.LOGIN_WAIT,
-        'login__form--done': step !== _ActorAppConstants.AuthSteps.LOGIN_WAIT && isCodeRequested
+      var requestFormClassName = (0, _classnames2.default)('login-new__forms__form', 'login-new__forms__form--request', {
+        'login-new__forms__form--active': step === _ActorAppConstants.AuthSteps.LOGIN_WAIT,
+        'login-new__forms__form--done': step !== _ActorAppConstants.AuthSteps.LOGIN_WAIT && isCodeRequested
       });
-      var checkFormClassName = (0, _classnames2.default)('login__form', 'login__form--check', {
-        'login__form--active': step === _ActorAppConstants.AuthSteps.CODE_WAIT && isCodeRequested,
-        'login__form--done': step !== _ActorAppConstants.AuthSteps.CODE_WAIT && isCodeSended
+      var checkFormClassName = (0, _classnames2.default)('login-new__forms__form', 'login-new__forms__form--check', {
+        'login-new__forms__form--active': step === _ActorAppConstants.AuthSteps.CODE_WAIT && isCodeRequested,
+        'login-new__forms__form--done': step !== _ActorAppConstants.AuthSteps.CODE_WAIT && isCodeSended
       });
-      var signupFormClassName = (0, _classnames2.default)('login__form', 'login__form--signup', {
-        'login__form--active': step === _ActorAppConstants.AuthSteps.NAME_WAIT
+      var signupFormClassName = (0, _classnames2.default)('login-new__forms__form', 'login-new__forms__form--signup', {
+        'login-new__forms__form--active': step === _ActorAppConstants.AuthSteps.NAME_WAIT
       });
 
       var spinner = _react2.default.createElement(
@@ -206,9 +185,9 @@ var Login = (function (_Component) {
             _react2.default.createElement(
               'h1',
               { className: 'login-new__heading' },
-              _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { message: this.getIntlMessage('login.welcome.header'), appName: this.appName })
+              _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'login.welcome.header', values: { appName: this.appName } })
             ),
-            _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { message: this.getIntlMessage('login.welcome.text'), appName: this.appName })
+            _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'login.welcome.text', values: { appName: this.appName } })
           ),
           _react2.default.createElement(
             'footer',
@@ -216,8 +195,7 @@ var Login = (function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'pull-left' },
-              this.appName,
-              ' Messenger © 2015'
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'login.welcome.copyright', values: { appName: this.appName } })
             ),
             _react2.default.createElement(
               'div',
@@ -244,14 +222,14 @@ var Login = (function (_Component) {
         ),
         _react2.default.createElement(
           'div',
-          { className: 'login-new__form col-xs-6 col-md-4 row center-xs middle-xs' },
+          { className: 'login-new__forms col-xs-6 col-md-4 row center-xs middle-xs' },
           _react2.default.createElement(
             'div',
             null,
             _react2.default.createElement(
               'h1',
               { className: 'login-new__heading' },
-              this.getIntlMessage('login.signIn')
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'login.signIn' })
             ),
             _react2.default.createElement(
               'form',
@@ -259,12 +237,12 @@ var Login = (function (_Component) {
               _react2.default.createElement(
                 'a',
                 { className: 'wrong', onClick: this.handleRestartAuthClick },
-                this.getIntlMessage('login.wrong')
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'login.wrong' })
               ),
-              _react2.default.createElement(_materialUi.TextField, { className: 'login__form__input',
+              _react2.default.createElement(_TextField2.default, { className: 'login-new__forms__form__input input__material--wide',
                 disabled: isCodeRequested || step !== _ActorAppConstants.AuthSteps.LOGIN_WAIT,
                 errorText: errors.login,
-                floatingLabelText: this.getIntlMessage('login.phone'),
+                floatingLabel: intl.messages['login.phone'],
                 onChange: this.onLoginChange,
                 ref: 'login',
                 value: login }),
@@ -276,7 +254,7 @@ var Login = (function (_Component) {
                   { className: 'button button--rised button--wide',
                     type: 'submit',
                     disabled: isCodeRequested },
-                  this.getIntlMessage('button.requestCode'),
+                  _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.requestCode' }),
                   isCodeRequested ? spinner : null
                 )
               )
@@ -284,10 +262,10 @@ var Login = (function (_Component) {
             _react2.default.createElement(
               'form',
               { className: checkFormClassName, onSubmit: this.onSendCode },
-              _react2.default.createElement(_materialUi.TextField, { className: 'login__form__input',
+              _react2.default.createElement(_TextField2.default, { className: 'login-new__forms__form__input input__material--wide',
                 disabled: isCodeSended || step !== _ActorAppConstants.AuthSteps.CODE_WAIT,
                 errorText: errors.code,
-                floatingLabelText: this.getIntlMessage('login.authCode'),
+                floatingLabel: intl.messages['login.authCode'],
                 onChange: this.onCodeChange,
                 ref: 'code',
                 type: 'text',
@@ -300,7 +278,7 @@ var Login = (function (_Component) {
                   { className: 'button button--rised button--wide',
                     type: 'submit',
                     disabled: isCodeSended },
-                  this.getIntlMessage('button.checkCode'),
+                  _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.checkCode' }),
                   isCodeSended ? spinner : null
                 )
               )
@@ -308,10 +286,10 @@ var Login = (function (_Component) {
             _react2.default.createElement(
               'form',
               { className: signupFormClassName, onSubmit: this.onSignupRequested },
-              _react2.default.createElement(_materialUi.TextField, { className: 'login__form__input',
+              _react2.default.createElement(_TextField2.default, { className: 'login-new__forms__form__input input__material--wide',
                 disabled: isSignupStarted || step === _ActorAppConstants.AuthSteps.COMPLETED,
                 errorText: errors.signup,
-                floatingLabelText: this.getIntlMessage('login.yourName'),
+                floatingLabel: intl.messages['login.yourName'],
                 onChange: this.onNameChange,
                 ref: 'name',
                 type: 'text',
@@ -324,7 +302,7 @@ var Login = (function (_Component) {
                   { className: 'button button--rised button--wide',
                     type: 'submit',
                     disabled: isSignupStarted },
-                  this.getIntlMessage('button.signUp'),
+                  _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.signUp' }),
                   isSignupStarted ? spinner : null
                 )
               )
@@ -334,11 +312,6 @@ var Login = (function (_Component) {
       );
     }
   }], [{
-    key: 'getStores',
-    value: function getStores() {
-      return [_LoginStore2.default];
-    }
-  }, {
     key: 'calculateState',
     value: function calculateState() {
       return {
@@ -357,17 +330,12 @@ var Login = (function (_Component) {
   return Login;
 })(_react.Component);
 
+Login.getStores = function () {
+  return [_LoginStore2.default];
+};
+
 Login.contextTypes = {
-  router: _react.PropTypes.func
+  intl: _react.PropTypes.object
 };
-Login.propTypes = {
-  query: _react.PropTypes.object
-};
-Login.childContextTypes = {
-  muiTheme: _react.PropTypes.object
-};
-
-_reactMixin2.default.onClass(Login, _reactIntl.IntlMixin);
-
-exports.default = _utils.Container.create(Login, { pure: false });
+exports.default = _utils.Container.create(Login, { pure: false, withProps: true });
 //# sourceMappingURL=Login.react.js.map

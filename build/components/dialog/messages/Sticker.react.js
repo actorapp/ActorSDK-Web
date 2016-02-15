@@ -120,7 +120,7 @@ var Sticker = (function (_Component) {
 
 Sticker.propTypes = {
   className: _react.PropTypes.string,
-  fileUrl: _react.PropTypes.string.isRequired,
+  fileUrl: _react.PropTypes.string,
   h: _react.PropTypes.number.isRequired,
   w: _react.PropTypes.number.isRequired
 };

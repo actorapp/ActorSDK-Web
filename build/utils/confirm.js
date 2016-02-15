@@ -14,6 +14,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
 var _ComposeActionCreators = require('../actions/ComposeActionCreators');
@@ -27,11 +29,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Confirm = (function (_React$Component) {
-  _inherits(Confirm, _React$Component);
+var Confirm = (function (_Component) {
+  _inherits(Confirm, _Component);
 
   function Confirm(props) {
     _classCallCheck(this, Confirm);
@@ -56,7 +58,7 @@ var Confirm = (function (_React$Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       _ComposeActionCreators2.default.toggleAutoFocus(false);
-      _react2.default.findDOMNode(this.refs.confirm).focus();
+      (0, _reactDom.findDOMNode)(this.refs.confirm).focus();
       document.addEventListener('keydown', this.onKeyDown, false);
     }
   }, {
@@ -110,13 +112,13 @@ var Confirm = (function (_React$Component) {
   }]);
 
   return Confirm;
-})(_react2.default.Component);
+})(_react.Component);
 
 Confirm.propTypes = {
-  message: _react2.default.PropTypes.string.isRequired,
-  description: _react2.default.PropTypes.string,
-  abortLabel: _react2.default.PropTypes.string,
-  confirmLabel: _react2.default.PropTypes.string
+  message: _react.PropTypes.string.isRequired,
+  description: _react.PropTypes.string,
+  abortLabel: _react.PropTypes.string,
+  confirmLabel: _react.PropTypes.string
 };
 function confirm(message) {
   var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];

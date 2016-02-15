@@ -1,8 +1,9 @@
 'use strict';
 
-// Intl polyfill
 if (!global.Intl) {
-  require('intl');
-  require('intl/locale-data/jsonp/en');
+  require.ensure(['intl', 'intl/locale-data/jsonp/en.js'], function (require) {
+    require('intl');
+    require('intl/locale-data/jsonp/en.js');
+  });
 }
 //# sourceMappingURL=intl-polyfill.js.map

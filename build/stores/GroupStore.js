@@ -39,11 +39,25 @@ var GroupStore = (function (_Store) {
     return _possibleConstructorReturn(this, Object.getPrototypeOf(GroupStore).call(this, dispatcher));
   }
 
+  /**
+   * Get group information
+   *
+   * @param gid {number} Group id
+   * @returns {object} Group information
+   */
+
   _createClass(GroupStore, [{
     key: 'getGroup',
     value: function getGroup(gid) {
       return _ActorClient2.default.getGroup(gid);
     }
+
+    /**
+     * Get group integration token
+     *
+     * @returns {string|null}
+     */
+
   }, {
     key: 'getToken',
     value: function getToken() {

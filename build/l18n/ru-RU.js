@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  'locales': 'ru-RU',
+  'locale': 'ru',
   'messages': {
     // Login
     'login': {

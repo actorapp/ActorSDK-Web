@@ -14,12 +14,6 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 /**
@@ -49,6 +43,7 @@ var Document = (function (_Component) {
       var _props = this.props;
       var content = _props.content;
       var className = _props.className;
+      var intl = this.context.intl;
 
       var documentClassName = (0, _classnames2.default)(className, 'row');
 
@@ -103,11 +98,11 @@ var Document = (function (_Component) {
               content.isUploading ? _react2.default.createElement(
                 'span',
                 null,
-                this.getIntlMessage('message.uploading')
+                intl.messages['message.uploading']
               ) : _react2.default.createElement(
                 'a',
                 { href: content.fileUrl },
-                this.getIntlMessage('message.download')
+                intl.messages['message.download']
               )
             )
           )
@@ -124,8 +119,8 @@ Document.propTypes = {
   content: _react.PropTypes.object.isRequired,
   className: _react.PropTypes.string
 };
-
-_reactMixin2.default.onClass(Document, _reactIntl.IntlMixin);
-
+Document.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = Document;
 //# sourceMappingURL=Document.react.js.map

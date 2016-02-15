@@ -12,13 +12,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
 var _utils = require('flux/utils');
-
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
 
 var _ActorAppConstants = require('../../../constants/ActorAppConstants');
 
@@ -45,7 +41,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var PeopleList = (function (_Component) {
@@ -57,7 +53,7 @@ var PeopleList = (function (_Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PeopleList).call(this, props));
 
     _this.setFocus = function () {
-      return _react2.default.findDOMNode(_this.refs.search).focus();
+      return (0, _reactDom.findDOMNode)(_this.refs.search).focus();
     };
 
     _this.handleClose = function () {
@@ -95,8 +91,8 @@ var PeopleList = (function (_Component) {
 
         _this.setState({ selectedIndex: index });
 
-        var scrollContainerNode = _react2.default.findDOMNode(_this.refs.results);
-        var selectedNode = _react2.default.findDOMNode(_this.refs.selected);
+        var scrollContainerNode = (0, _reactDom.findDOMNode)(_this.refs.results);
+        var selectedNode = (0, _reactDom.findDOMNode)(_this.refs.selected);
         var scrollContainerNodeRect = scrollContainerNode.getBoundingClientRect();
         var selectedNodeRect = selectedNode.getBoundingClientRect();
 
@@ -115,8 +111,8 @@ var PeopleList = (function (_Component) {
 
         _this.setState({ selectedIndex: index });
 
-        var scrollContainerNode = _react2.default.findDOMNode(_this.refs.results);
-        var selectedNode = _react2.default.findDOMNode(_this.refs.selected);
+        var scrollContainerNode = (0, _reactDom.findDOMNode)(_this.refs.results);
+        var selectedNode = (0, _reactDom.findDOMNode)(_this.refs.selected);
         var scrollContainerNodeRect = scrollContainerNode.getBoundingClientRect();
         var selectedNodeRect = selectedNode.getBoundingClientRect();
 
@@ -158,7 +154,7 @@ var PeopleList = (function (_Component) {
     };
 
     _this.handleScroll = function (top) {
-      var resultsNode = _react2.default.findDOMNode(_this.refs.results);
+      var resultsNode = (0, _reactDom.findDOMNode)(_this.refs.results);
       resultsNode.scrollTop = top;
     };
 
@@ -186,6 +182,7 @@ var PeopleList = (function (_Component) {
       var results = _state.results;
       var selectedIndex = _state.selectedIndex;
       var list = _state.list;
+      var intl = this.context.intl;
 
       var peopleList = (0, _lodash.map)(results, function (result, index) {
         return _react2.default.createElement(_PeopleItem2.default, { contact: result, key: index,
@@ -206,7 +203,7 @@ var PeopleList = (function (_Component) {
           _react2.default.createElement(
             'h2',
             null,
-            this.getIntlMessage('modal.contacts.title')
+            intl.messages['modal.contacts.title']
           )
         ),
         _react2.default.createElement(
@@ -214,7 +211,7 @@ var PeopleList = (function (_Component) {
           { className: 'newmodal__search' },
           _react2.default.createElement('input', { className: 'newmodal__search__input',
             onChange: this.handleSearchChange,
-            placeholder: this.getIntlMessage('modal.contacts.search'),
+            placeholder: intl.messages['modal.contacts.search'],
             type: 'search',
             ref: 'search',
             value: query })
@@ -225,11 +222,11 @@ var PeopleList = (function (_Component) {
           list.length === 0 ? _react2.default.createElement(
             'div',
             null,
-            this.getIntlMessage('modal.contacts.loading')
+            intl.messages['modal.contacts.loading']
           ) : results.length === 0 ? _react2.default.createElement(
             'li',
             { className: 'contacts__list__item contacts__list__item--empty text-center' },
-            this.getIntlMessage('modal.contacts.notFound')
+            intl.messages['modal.contacts.notFound']
           ) : peopleList
         )
       );
@@ -248,11 +245,13 @@ var PeopleList = (function (_Component) {
   return PeopleList;
 })(_react.Component);
 
+PeopleList.contextTypes = {
+  intl: _react.PropTypes.object
+};
+
 PeopleList.getStores = function () {
   return [_PeopleStore2.default];
 };
-
-_reactMixin2.default.onClass(PeopleList, _reactIntl.IntlMixin);
 
 exports.default = _utils.Container.create(PeopleList, { pure: false });
 //# sourceMappingURL=PeopleList.react.js.map

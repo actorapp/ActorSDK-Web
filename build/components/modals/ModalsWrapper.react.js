@@ -10,17 +10,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _utils = require('flux/utils');
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
-
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactIntl = require('react-intl');
 
 var _ContactActionCreators = require('../../actions/ContactActionCreators');
 
@@ -53,15 +49,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-var getStates = function getStates() {
-  return {
-    isPeoplesOpen: _PeopleStore2.default.isOpen(),
-    isGroupsOpen: _GroupListStore2.default.isOpen()
-  };
-};
 
 var ModalsWrapper = (function (_Component) {
   _inherits(ModalsWrapper, _Component);
@@ -70,10 +59,6 @@ var ModalsWrapper = (function (_Component) {
     _classCallCheck(this, ModalsWrapper);
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ModalsWrapper).call(this, props));
-
-    _this.handleChange = function () {
-      return _this.setState(getStates());
-    };
 
     _this.handleKeyDown = function (event) {
       switch (event.keyCode) {
@@ -112,7 +97,6 @@ var ModalsWrapper = (function (_Component) {
       }
     };
 
-    _this.state = getStates();
     return _this;
   }
 
@@ -120,9 +104,6 @@ var ModalsWrapper = (function (_Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       document.addEventListener('keydown', this.handleKeyDown, false);
-
-      _PeopleStore2.default.addListener(this.handleChange);
-      _GroupListStore2.default.addListener(this.handleChange);
     }
   }, {
     key: 'componentWillUnmount',
@@ -135,6 +116,7 @@ var ModalsWrapper = (function (_Component) {
       var _state = this.state;
       var isPeoplesOpen = _state.isPeoplesOpen;
       var isGroupsOpen = _state.isGroupsOpen;
+      var intl = this.context.intl;
 
       var wrapperClassName = (0, _classnames2.default)('modal-wrapper', {
         'modal-wrapper--opened': isPeoplesOpen || isGroupsOpen
@@ -154,19 +136,32 @@ var ModalsWrapper = (function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'text' },
-            this.getIntlMessage('button.close')
+            intl.messages['button.close']
           )
         ),
         isPeoplesOpen ? _react2.default.createElement(_PeopleList2.default, null) : null,
         isGroupsOpen ? _react2.default.createElement(_GroupList2.default, null) : null
       );
     }
+  }], [{
+    key: 'calculateState',
+    value: function calculateState() {
+      return {
+        isPeoplesOpen: _PeopleStore2.default.isOpen(),
+        isGroupsOpen: _GroupListStore2.default.isOpen()
+      };
+    }
   }]);
 
   return ModalsWrapper;
 })(_react.Component);
 
-_reactMixin2.default.onClass(ModalsWrapper, _reactIntl.IntlMixin);
+ModalsWrapper.getStores = function () {
+  return [_PeopleStore2.default, _GroupListStore2.default];
+};
 
-exports.default = ModalsWrapper;
+ModalsWrapper.contextTypes = {
+  intl: _react.PropTypes.object
+};
+exports.default = _utils.Container.create(ModalsWrapper, { pure: false });
 //# sourceMappingURL=ModalsWrapper.react.js.map

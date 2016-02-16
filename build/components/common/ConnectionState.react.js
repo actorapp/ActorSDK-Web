@@ -57,14 +57,14 @@ var ConnectionState = (function (_Component) {
       var connectionState = this.state.connectionState;
 
       var className = (0, _classnames2.default)('connection-state', {
-        'connection-state--online': connectionState === 'online',
-        'connection-state--connection': connectionState === 'connecting'
+        'connection-state--online': connectionState === _ActorAppConstants.ConnectionStates.ONLINE,
+        'connection-state--connection': connectionState === _ActorAppConstants.ConnectionStates.CONNECTING
       });
 
       return _react2.default.createElement(
         'div',
         { className: className },
-        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'connectionState.' + connectionState, values: { appName: this.appName } })
+        connectionState !== _ActorAppConstants.ConnectionStates.UPDATING ? _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'connectionState.' + connectionState, values: { appName: this.appName } }) : null
       );
     }
   }], [{

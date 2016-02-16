@@ -8,11 +8,19 @@ var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
+var _CallStore = require('../stores/CallStore');
+
+var _CallStore2 = _interopRequireDefault(_CallStore);
+
 var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 exports.default = {
   handleCall: function handleCall(event) {
@@ -36,8 +44,14 @@ exports.default = {
         break;
       default:
     }
+  },
+  answerCall: function answerCall(id) {
+    _ActorClient2.default.answerCall(id);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_ANSWER, { id: id });
+  },
+  endCall: function endCall() {
+    _ActorClient2.default.endCall(id);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_END, { id: id });
   }
-}; /*
-    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-    */
+};
 //# sourceMappingURL=CallActionCreators.js.map

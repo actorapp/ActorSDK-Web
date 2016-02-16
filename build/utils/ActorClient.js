@@ -127,6 +127,12 @@ exports.default = {
   makeCall: function makeCall(uid) {
     return window.messenger.doCall(uid);
   },
+  answerCall: function answerCall(id) {
+    window.messenger.answerCall(id);
+  },
+  endCall: function endCall(id) {
+    window.messenger.endCall(id);
+  },
   getUser: function getUser(uid) {
     return window.messenger.getUser(uid);
   },

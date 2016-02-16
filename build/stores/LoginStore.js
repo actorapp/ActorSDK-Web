@@ -50,6 +50,8 @@ var LoginStore = (function (_Store) {
   function LoginStore(dispatcher) {
     _classCallCheck(this, LoginStore);
 
+    // TODO: do not use intlData here. save error codes and send them to ui.
+
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LoginStore).call(this, dispatcher));
 
     _this.getStep = function () {
@@ -138,10 +140,10 @@ var LoginStore = (function (_Store) {
         case _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_FAILURE:
           switch (action.error) {
             case 'PHONE_NUMBER_INVALID':
-              errors.login = this.intl.messages.login.errors.numberInvalid;
+              errors.login = this.intl.messages['login.errors.numberInvalid'];
               break;
             case 'CODE_WAIT':
-              errors.login = this.intl.messages.login.errors.codeWait;
+              errors.login = this.intl.messages['login.errors.codeWait'];
               break;
             default:
               errors.login = action.error;
@@ -162,10 +164,10 @@ var LoginStore = (function (_Store) {
           switch (action.error) {
             case 'PHONE_CODE_INVALID':
             case 'EMAIL_CODE_INVALID':
-              errors.code = this.intl.messages.login.errors.codeInvalid;
+              errors.code = this.intl.messages['login.errors.codeInvalid'];
               break;
             case 'PHONE_CODE_EXPIRED':
-              errors.code = this.intl.messages.login.errors.codeExpired;
+              errors.code = this.intl.messages['login.errors.codeExpired'];
               break;
             default:
               errors.code = action.error;
@@ -190,7 +192,7 @@ var LoginStore = (function (_Store) {
         case _ActorAppConstants.ActionTypes.AUTH_SIGNUP_FAILURE:
           switch (action.error) {
             case 'NAME_INVALID':
-              errors.signup = this.intl.messages.login.errors.nameInvalid;
+              errors.signup = this.intl.messages['login.errors.nameInvalid'];
               break;
             default:
               errors.signup = action.error;

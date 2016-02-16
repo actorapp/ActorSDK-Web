@@ -25,7 +25,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var _isOpen = false;
-var _type = undefined,
+var _id = undefined,
+    _type = undefined,
     _members = undefined,
     _peer = undefined,
     _state = undefined;
@@ -43,6 +44,11 @@ var CallStore = (function (_Store) {
     key: 'isOpen',
     value: function isOpen() {
       return _isOpen;
+    }
+  }, {
+    key: 'getCallId',
+    value: function getCallId() {
+      return _id;
     }
   }, {
     key: 'getCallType',
@@ -69,8 +75,13 @@ var CallStore = (function (_Store) {
     value: function __onDispatch(action) {
       switch (action.type) {
         case _ActorAppConstants.ActionTypes.CALL_MODAL_OPEN:
+          var _action$event = action.event;
+          var id = _action$event.id;
+          var type = _action$event.type;
+
           _isOpen = true;
-          _type = action.event.type;
+          _id = id;
+          _type = type;
           this.__emitChange();
           break;
         case _ActorAppConstants.ActionTypes.CALL_MODAL_HIDE:

@@ -88,7 +88,7 @@ exports.default = {
     'connectionState': {
       'connecting': 'Houston, we have a problem! Connection to {appName} server is lost. Trying to reconnect now...',
       'online': 'You\'re back online!',
-      'updating': ''
+      'updating': 'Update connection'
     },
 
     // Compose
@@ -257,7 +257,10 @@ exports.default = {
           }
         },
         'newDialog': 'create new dialog',
-        'addPeople': 'add people'
+        'addPeople': 'add people',
+        'favourites': 'Favorites',
+        'groups': 'Groups',
+        'privates': 'Privates'
       }
     },
     'main': {

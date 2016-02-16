@@ -57,6 +57,26 @@ var CallModal = (function (_Component) {
       }
     };
 
+    _this.handleAnswer = function () {
+      var callId = _this.state.callId;
+
+      console.debug('handleAnswer', callId);
+      _CallActionCreators2.default.answerCall(callId);
+    };
+
+    _this.handleDecline = function () {
+      var callId = _this.state.callId;
+
+      console.debug('handleDecline', callId);
+    };
+
+    _this.handleEnd = function () {
+      var callId = _this.state.callId;
+
+      console.debug('handleEnd', callId);
+      _CallActionCreators2.default.endCall(callId);
+    };
+
     return _this;
   }
 
@@ -66,6 +86,38 @@ var CallModal = (function (_Component) {
       var _state = this.state;
       var isOpen = _state.isOpen;
       var callType = _state.callType;
+
+      var modalFooter = undefined;
+      switch (callType) {
+        case _ActorAppConstants.CallTypes.INCOMING:
+          modalFooter = _react2.default.createElement(
+            'div',
+            { className: 'modal-new__footer' },
+            _react2.default.createElement(
+              'button',
+              { className: 'button button--rised button--wide', onClick: this.handleAnswer },
+              'Answer'
+            ),
+            _react2.default.createElement(
+              'button',
+              { className: 'button button--rised button--wide', onClick: this.handleDecline },
+              'Decline'
+            )
+          );
+          break;
+        case _ActorAppConstants.CallTypes.OUTGOING:
+          modalFooter = _react2.default.createElement(
+            'div',
+            { className: 'modal-new__footer' },
+            _react2.default.createElement(
+              'button',
+              { className: 'button button--rised button--wide', onClick: this.handleEnd },
+              'End'
+            )
+          );
+          break;
+        default:
+      }
 
       if (isOpen) {
         return _react2.default.createElement(
@@ -83,20 +135,7 @@ var CallModal = (function (_Component) {
             )
           ),
           _react2.default.createElement('div', { className: 'modal-new__body' }),
-          _react2.default.createElement(
-            'div',
-            { className: 'modal-new__footer' },
-            _react2.default.createElement(
-              'button',
-              { className: 'button button--rised button--wide' },
-              'Answer'
-            ),
-            _react2.default.createElement(
-              'button',
-              { className: 'button button--rised button--wide' },
-              'Decline'
-            )
-          )
+          modalFooter
         );
       } else {
         return null;
@@ -107,6 +146,7 @@ var CallModal = (function (_Component) {
     value: function calculateState() {
       return {
         isOpen: _CallStore2.default.isOpen(),
+        callId: _CallStore2.default.getCallId(),
         callType: _CallStore2.default.getCallType(),
         callMembers: _CallStore2.default.getCallMembers(),
         callPeer: _CallStore2.default.getCallPeer(),

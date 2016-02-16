@@ -12,7 +12,9 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 require('babel-polyfill');
 
-require('../utils/intl-polyfill');
+var _polyfills = require('../utils/polyfills');
+
+var _polyfills2 = _interopRequireDefault(_polyfills);
 
 var _actorJs = require('actor-js');
 
@@ -227,11 +229,17 @@ var ActorSDK = (function () {
      * Start application
      */
     value: function startApp() {
-      if (window.isJsAppLoaded) {
-        this._starter();
-      } else {
-        window.jsAppLoaded = this._starter;
-      }
+      var _this2 = this;
+
+      var start = function start() {
+        if (window.isJsAppLoaded) {
+          _this2._starter();
+        } else {
+          window.jsAppLoaded = _this2._starter;
+        }
+      };
+
+      (0, _polyfills2.default)(start);
     }
   }]);
 

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.helpPhone = exports.twitter = exports.homePage = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypes = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
+exports.helpPhone = exports.twitter = exports.homePage = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypes = exports.ConnectionStates = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
 
 var _keymirror = require('keymirror');
 
@@ -201,7 +201,9 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   CALL: null,
   CALL_SUCCESS: null,
   CALL_ERROR: null,
-  CALL_CHANGED: null
+  CALL_CHANGED: null,
+  CALL_ANSWER: null,
+  CALL_END: null
 });
 
 var EventTypes = exports.EventTypes = {
@@ -217,6 +219,12 @@ var CallStates = exports.CallStates = {
   CALLING_IN: 'calling_in',
   CALLING_OUT: 'calling_out',
   ENDED: 'ended'
+};
+
+var ConnectionStates = exports.ConnectionStates = {
+  ONLINE: 'online',
+  CONNECTING: 'connecting',
+  UPDATING: 'updating'
 };
 
 var PeerTypes = exports.PeerTypes = {
@@ -283,6 +291,10 @@ var helpPhone = exports.helpPhone = '75551234567';
 exports.default = {
   AuthSteps: AuthSteps,
   ActionTypes: ActionTypes,
+  EventTypes: EventTypes,
+  CallTypes: CallTypes,
+  CallStates: CallStates,
+  ConnectionStates: ConnectionStates,
   PeerTypes: PeerTypes,
   ActivityTypes: ActivityTypes,
   CreateGroupSteps: CreateGroupSteps,

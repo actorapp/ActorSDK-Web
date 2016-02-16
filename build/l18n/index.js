@@ -34,12 +34,40 @@ var _zhCN = require('./zh-CN');
 
 var _zhCN2 = _interopRequireDefault(_zhCN);
 
+var _reactIntl = require('react-intl');
+
+var _en = require('react-intl/lib/locale-data/en');
+
+var _en2 = _interopRequireDefault(_en);
+
+var _ru = require('react-intl/lib/locale-data/ru');
+
+var _ru2 = _interopRequireDefault(_ru);
+
+var _es = require('react-intl/lib/locale-data/es');
+
+var _es2 = _interopRequireDefault(_es);
+
+var _pt = require('react-intl/lib/locale-data/pt');
+
+var _pt2 = _interopRequireDefault(_pt);
+
+var _zh = require('react-intl/lib/locale-data/zh');
+
+var _zh2 = _interopRequireDefault(_zh);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var language = navigator.language.toLocaleLowerCase() || navigator.browserLanguage.toLocaleLowerCase(); /*
-                                                                                                         * Copyright (C) 2015 Actor LLC. <https://actor.im>
-                                                                                                         */
+(0, _reactIntl.addLocaleData)(_en2.default); /*
+                                              * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                              */
 
+(0, _reactIntl.addLocaleData)(_ru2.default);
+(0, _reactIntl.addLocaleData)(_es2.default);
+(0, _reactIntl.addLocaleData)(_pt2.default);
+(0, _reactIntl.addLocaleData)(_zh2.default);
+
+var language = navigator.language.toLocaleLowerCase() || navigator.browserLanguage.toLocaleLowerCase();
 if (language === 'zh-cn') language = 'zh';
 
 // Fallback to default language

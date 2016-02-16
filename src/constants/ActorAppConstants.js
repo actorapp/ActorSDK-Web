@@ -192,7 +192,9 @@ export const ActionTypes = keymirror({
   CALL: null,
   CALL_SUCCESS: null,
   CALL_ERROR: null,
-  CALL_CHANGED: null
+  CALL_CHANGED: null,
+  CALL_ANSWER: null,
+  CALL_END: null
 });
 
 export const EventTypes = {
@@ -209,6 +211,12 @@ export const CallStates = {
   CALLING_OUT: 'calling_out',
   ENDED: 'ended'
 };
+
+export const ConnectionStates = {
+  ONLINE: 'online',
+  CONNECTING: 'connecting',
+  UPDATING: 'updating'
+}
 
 export const PeerTypes = {
   USER: 'user',
@@ -277,6 +285,10 @@ export const helpPhone = '75551234567';
 export default {
   AuthSteps,
   ActionTypes,
+  EventTypes,
+  CallTypes,
+  CallStates,
+  ConnectionStates,
   PeerTypes,
   ActivityTypes,
   CreateGroupSteps,

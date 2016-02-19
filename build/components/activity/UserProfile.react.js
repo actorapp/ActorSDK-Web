@@ -12,6 +12,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _utils = require('flux/utils');
+
 var _reactIntl = require('react-intl');
 
 var _classnames = require('classnames');
@@ -80,17 +82,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var getStateFromStores = function getStateFromStores(userId) {
-  var thisPeer = _PeerStore2.default.getUserPeer(userId);
+var getStateFromStores = function getStateFromStores(uid) {
+  var thisPeer = uid ? GroupStore.getGroup(uid) : null;
   return {
     thisPeer: thisPeer,
-    isNotificationsEnabled: _NotificationsStore2.default.isNotificationsEnabled(thisPeer),
+    isNotificationsEnabled: thisPeer ? _NotificationsStore2.default.isNotificationsEnabled(thisPeer) : true,
     message: _OnlineStore2.default.getMessage()
   };
 };
 
 var UserProfile = (function (_Component) {
   _inherits(UserProfile, _Component);
+
+  _createClass(UserProfile, null, [{
+    key: 'getStores',
+    value: function getStores() {
+      return [_NotificationsStore2.default, _OnlineStore2.default];
+    }
+  }, {
+    key: 'calculateState',
+    value: function calculateState(prevState) {
+      return getStateFromStores(prevState && prevState.user ? prevState.user.id : null);
+    }
+  }]);
 
   function UserProfile(props) {
     _classCallCheck(this, UserProfile);
@@ -175,13 +189,10 @@ var UserProfile = (function (_Component) {
       _CallActionCreators2.default.makeCall(user.id);
     };
 
-    _this.state = (0, _lodash.assign)({
-      isActionsDropdownOpen: false
-    }, getStateFromStores(props.user.id));
-
-    _NotificationsStore2.default.addListener(_this.onChange);
-    _DialogStore2.default.addListener(_this.onChange);
-    _OnlineStore2.default.addListener(_this.onChange);
+    _this.state = {
+      isMoreDropdownOpen: false,
+      user: props.user // hack to be able to access userId in getStateFromStores
+    };
     return _this;
   }
 
@@ -441,5 +452,5 @@ UserProfile.propTypes = {
 UserProfile.contextTypes = {
   intl: _react.PropTypes.object
 };
-exports.default = UserProfile;
+exports.default = _utils.Container.create(UserProfile);
 //# sourceMappingURL=UserProfile.react.js.map

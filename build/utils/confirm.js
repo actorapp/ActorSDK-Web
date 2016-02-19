@@ -22,6 +22,14 @@ var _ComposeActionCreators = require('../actions/ComposeActionCreators');
 
 var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
 
+var _reactIntl = require('react-intl');
+
+var _l18n = require('../l18n');
+
+var _SharedContainer = require('../utils/SharedContainer');
+
+var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -51,6 +59,9 @@ var Confirm = (function (_Component) {
       _this.reject = reject;
       _this.resolve = resolve;
     });
+
+    var SharedActor = _SharedContainer2.default.get();
+    _this.intlData = (0, _l18n.getIntlData)(SharedActor.forceLocale);
     return _this;
   }
 
@@ -77,34 +88,38 @@ var Confirm = (function (_Component) {
       var confirmLabel = _props.confirmLabel;
 
       return _react2.default.createElement(
-        'div',
-        { className: 'modal modal--confirm' },
+        _reactIntl.IntlProvider,
+        this.intlData,
         _react2.default.createElement(
-          'header',
-          { className: 'modal__header' },
-          _react2.default.createElement(
-            'h4',
-            { className: 'modal__header__title' },
-            message
-          )
-        ),
-        description ? _react2.default.createElement(
           'div',
-          { className: 'modal__body' },
-          description
-        ) : null,
-        _react2.default.createElement(
-          'footer',
-          { className: 'modal__footer text-right' },
+          { className: 'modal modal--confirm' },
           _react2.default.createElement(
-            'button',
-            { className: 'button', onClick: this.reject },
-            abortLabel || 'Cancel'
+            'header',
+            { className: 'modal__header' },
+            _react2.default.createElement(
+              'h4',
+              { className: 'modal__header__title' },
+              message
+            )
           ),
+          description ? _react2.default.createElement(
+            'div',
+            { className: 'modal__body' },
+            description
+          ) : null,
           _react2.default.createElement(
-            'button',
-            { className: 'button button--lightblue', onClick: this.resolve, ref: 'confirm' },
-            confirmLabel || 'Ok'
+            'footer',
+            { className: 'modal__footer text-right' },
+            _react2.default.createElement(
+              'button',
+              { className: 'button', onClick: this.reject },
+              abortLabel || _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.cancel' })
+            ),
+            _react2.default.createElement(
+              'button',
+              { className: 'button button--lightblue', onClick: this.resolve, ref: 'confirm' },
+              confirmLabel || _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.ok' })
+            )
           )
         )
       );
@@ -126,6 +141,7 @@ function confirm(message) {
   var element = document.createElement('div');
   element.className = 'modal-backdrop';
   var wrapper = document.body.appendChild(element);
+
   var component = (0, _reactDom.render)((0, _react.createElement)(Confirm, _extends({ message: message }, options)), wrapper);
 
   function cleanup() {

@@ -61,10 +61,10 @@ var Contact = (function (_Component) {
       var emaislList = [],
           phonesList = [];
       if (emails.length > 0) {
-        emaislList = (0, _lodash.map)(emails, function (email) {
+        emaislList = (0, _lodash.map)(emails, function (email, index) {
           return _react2.default.createElement(
             'li',
-            { className: 'contact__emails__item' },
+            { className: 'contact__emails__item', key: index },
             _react2.default.createElement(
               'a',
               { href: 'mailto:' + email },
@@ -75,10 +75,10 @@ var Contact = (function (_Component) {
       }
       // TODO: `pones` must be renamed to `phones` in library
       if (pones.length > 0) {
-        phonesList = (0, _lodash.map)(pones, function (phone) {
+        phonesList = (0, _lodash.map)(pones, function (phone, index) {
           return _react2.default.createElement(
             'li',
-            { className: 'contact__phones__item' },
+            { className: 'contact__phones__item', key: index },
             _react2.default.createElement(
               'a',
               { href: 'tel:' + phone },

@@ -115,7 +115,7 @@ var Confirm = (function (_Component) {
 })(_react.Component);
 
 Confirm.propTypes = {
-  message: _react.PropTypes.string.isRequired,
+  message: _react.PropTypes.oneOfType([_react.PropTypes.arrayOf(_react.PropTypes.node), _react.PropTypes.node]).isRequired,
   description: _react.PropTypes.string,
   abortLabel: _react.PropTypes.string,
   confirmLabel: _react.PropTypes.string
@@ -126,7 +126,7 @@ function confirm(message) {
   var element = document.createElement('div');
   element.className = 'modal-backdrop';
   var wrapper = document.body.appendChild(element);
-  var component = (0, _react.render)((0, _react.createElement)(Confirm, _extends({ message: message }, options)), wrapper);
+  var component = (0, _reactDom.render)((0, _react.createElement)(Confirm, _extends({ message: message }, options)), wrapper);
 
   function cleanup() {
     (0, _reactDom.unmountComponentAtNode)(wrapper);

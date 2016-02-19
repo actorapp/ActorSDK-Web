@@ -207,17 +207,18 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
 });
 
 var EventTypes = exports.EventTypes = {
-  CALL: 'call'
+  CALLS: 'calls'
 };
 
 var CallTypes = exports.CallTypes = {
-  INCOMING: 'incoming',
-  OUTGOING: 'outgoing'
+  STARTED: 'started',
+  ENDED: 'ended'
 };
 
 var CallStates = exports.CallStates = {
-  CALLING_IN: 'calling_in',
-  CALLING_OUT: 'calling_out',
+  CALLING: 'calling',
+  CONNECTING: 'connecting',
+  IN_PROGRESS: 'in_progress',
   ENDED: 'ended'
 };
 

@@ -25,8 +25,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var _isOpen = false;
+var _isOutgoing = false;
 var _id = undefined,
-    _type = undefined,
     _members = undefined,
     _peer = undefined,
     _state = undefined;
@@ -46,28 +46,28 @@ var CallStore = (function (_Store) {
       return _isOpen;
     }
   }, {
-    key: 'getCallId',
-    value: function getCallId() {
+    key: 'isOutgoing',
+    value: function isOutgoing() {
+      return _isOutgoing;
+    }
+  }, {
+    key: 'getId',
+    value: function getId() {
       return _id;
     }
   }, {
-    key: 'getCallType',
-    value: function getCallType() {
-      return _type;
-    }
-  }, {
-    key: 'getCallMembers',
-    value: function getCallMembers() {
+    key: 'getMembers',
+    value: function getMembers() {
       return _members;
     }
   }, {
-    key: 'getCallPeer',
-    value: function getCallPeer() {
+    key: 'getPeer',
+    value: function getPeer() {
       return _peer;
     }
   }, {
-    key: 'getCallState',
-    value: function getCallState() {
+    key: 'getState',
+    value: function getState() {
       return _state;
     }
   }, {
@@ -75,13 +75,8 @@ var CallStore = (function (_Store) {
     value: function __onDispatch(action) {
       switch (action.type) {
         case _ActorAppConstants.ActionTypes.CALL_MODAL_OPEN:
-          var _action$event = action.event;
-          var id = _action$event.id;
-          var type = _action$event.type;
-
           _isOpen = true;
-          _id = id;
-          _type = type;
+          _id = action.id;
           this.__emitChange();
           break;
         case _ActorAppConstants.ActionTypes.CALL_MODAL_HIDE:
@@ -93,14 +88,16 @@ var CallStore = (function (_Store) {
           var members = _action$call.members;
           var peer = _action$call.peer;
           var state = _action$call.state;
+          var isOutgoing = _action$call.isOutgoing;
 
+          _isOutgoing = isOutgoing;
           _members = members;
           _peer = peer;
           _state = state;
           this.__emitChange();
           break;
         case _ActorAppConstants.ActionTypes.CALL:
-          console.debug('ActionTypes.CALL', action);
+          // console.debug('ActionTypes.CALL', action);
           break;
         default:
       }

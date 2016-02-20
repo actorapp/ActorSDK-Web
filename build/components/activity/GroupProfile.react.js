@@ -52,6 +52,10 @@ var _NotificationsActionCreators = require('../../actions/NotificationsActionCre
 
 var _NotificationsActionCreators2 = _interopRequireDefault(_NotificationsActionCreators);
 
+var _CallActionCreators = require('../../actions/CallActionCreators');
+
+var _CallActionCreators2 = _interopRequireDefault(_CallActionCreators);
+
 var _DialogStore = require('../../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
@@ -76,14 +80,6 @@ var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
-var _InviteUser = require('../modals/InviteUser.react');
-
-var _InviteUser2 = _interopRequireDefault(_InviteUser);
-
-var _InviteByLink = require('../modals/invite-user/InviteByLink.react');
-
-var _InviteByLink2 = _interopRequireDefault(_InviteByLink);
-
 var _GroupProfileMembers = require('../activity/GroupProfileMembers.react');
 
 var _GroupProfileMembers2 = _interopRequireDefault(_GroupProfileMembers);
@@ -91,10 +87,6 @@ var _GroupProfileMembers2 = _interopRequireDefault(_GroupProfileMembers);
 var _Fold = require('../common/Fold.react');
 
 var _Fold2 = _interopRequireDefault(_Fold);
-
-var _EditGroup = require('../modals/EditGroup.react');
-
-var _EditGroup2 = _interopRequireDefault(_EditGroup);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -105,6 +97,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
+
+var MAX_GROUP_CALL_SIZE = 25;
 
 var getStateFromStores = function getStateFromStores(gid) {
   var thisPeer = gid ? _GroupStore2.default.getGroup(gid) : null;
@@ -144,10 +138,7 @@ var GroupProfile = (function (_Component) {
     _this.onLeaveGroupClick = function (gid) {
       var intl = _this.context.intl;
 
-      (0, _confirm2.default)(intl.messages['modal.confirm.leave'], {
-        abortLabel: intl.messages['button.cancel'],
-        confirmLabel: intl.messages['button.ok']
-      }).then(function () {
+      (0, _confirm2.default)(intl.messages['modal.confirm.leave']).then(function () {
         return _DialogActionCreators2.default.leaveGroup(gid);
       }, function () {});
     };
@@ -156,10 +147,6 @@ var GroupProfile = (function (_Component) {
       var thisPeer = _this.state.thisPeer;
 
       _NotificationsActionCreators2.default.changeNotificationsEnabled(thisPeer, event.target.checked);
-    };
-
-    _this.onChange = function () {
-      return _this.setState(getStateFromStores(_this.props.group.id));
     };
 
     _this.selectToken = function (event) {
@@ -185,10 +172,7 @@ var GroupProfile = (function (_Component) {
     _this.onClearGroupClick = function (gid) {
       var intl = _this.context.intl;
 
-      (0, _confirm2.default)(intl.messages['modal.confirm.clear'], {
-        abortLabel: intl.messages['button.cancel'],
-        confirmLabel: intl.messages['button.ok']
-      }).then(function () {
+      (0, _confirm2.default)(intl.messages['modal.confirm.clear']).then(function () {
         var peer = _ActorClient2.default.getGroupPeer(gid);
         _DialogActionCreators2.default.clearChat(peer);
       }, function () {});
@@ -197,10 +181,7 @@ var GroupProfile = (function (_Component) {
     _this.onDeleteGroupClick = function (gid) {
       var intl = _this.context.intl;
 
-      (0, _confirm2.default)(intl.messages['modal.confirm.delete'], {
-        abortLabel: intl.messages['button.cancel'],
-        confirmLabel: intl.messages['button.ok']
-      }).then(function () {
+      (0, _confirm2.default)(intl.messages['modal.confirm.delete']).then(function () {
         var peer = _ActorClient2.default.getGroupPeer(gid);
         _DialogActionCreators2.default.deleteChat(peer);
       }, function () {});
@@ -212,6 +193,12 @@ var GroupProfile = (function (_Component) {
 
     _this.handleAvatarClick = function () {
       return _ImageUtils.lightbox.open(_this.props.group.bigAvatar);
+    };
+
+    _this.makeCall = function () {
+      var group = _this.props.group;
+
+      _CallActionCreators2.default.makeCall(group.id);
     };
 
     _this.state = {
@@ -315,7 +302,16 @@ var GroupProfile = (function (_Component) {
                   _react2.default.createElement(
                     'div',
                     { className: 'col-xs' },
-                    _react2.default.createElement(
+                    group.members.length < MAX_GROUP_CALL_SIZE ? _react2.default.createElement(
+                      'button',
+                      { className: 'button button--green button--wide', onClick: this.makeCall },
+                      _react2.default.createElement(
+                        'i',
+                        { className: 'material-icons' },
+                        'phone'
+                      ),
+                      intl.messages['button.call']
+                    ) : _react2.default.createElement(
                       'button',
                       { className: 'button button--flat button--wide',
                         onClick: function onClick() {
@@ -362,6 +358,18 @@ var GroupProfile = (function (_Component) {
                           ),
                           intl.messages['editGroup']
                         ),
+                        group.members.length < MAX_GROUP_CALL_SIZE ? _react2.default.createElement(
+                          'li',
+                          { className: 'dropdown__menu__item', onClick: function onClick() {
+                              return _this2.onAddMemberClick(group);
+                            } },
+                          _react2.default.createElement(
+                            'i',
+                            { className: 'material-icons' },
+                            'person_add'
+                          ),
+                          intl.messages['addPeople']
+                        ) : null,
                         _react2.default.createElement(
                           'li',
                           { className: 'dropdown__menu__item',
@@ -465,10 +473,7 @@ var GroupProfile = (function (_Component) {
               ),
               token
             )
-          ),
-          _react2.default.createElement(_InviteUser2.default, null),
-          _react2.default.createElement(_InviteByLink2.default, null),
-          _react2.default.createElement(_EditGroup2.default, null)
+          )
         );
       } else {
         return _react2.default.createElement(

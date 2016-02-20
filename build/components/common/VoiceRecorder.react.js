@@ -29,6 +29,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var isRecordingSupported = _opusRecorder2.default.isRecordingSupported() ? true : false;
+console.debug('isRecordingSupported', isRecordingSupported);
 
 var VoiceRecorder = (function (_Component) {
   _inherits(VoiceRecorder, _Component);

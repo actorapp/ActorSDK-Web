@@ -112,9 +112,9 @@ var Field = (function (_Component) {
  */
 
 Field.propTypes = {
-  title: _react.PropTypes.string.isRequired,
-  value: _react.PropTypes.string.isRequired,
-  isShort: _react.PropTypes.bool.isRequired
+  title: _react.PropTypes.string,
+  value: _react.PropTypes.string,
+  isShort: _react.PropTypes.bool
 };
 
 var Attach = (function (_Component2) {
@@ -145,12 +145,6 @@ var Attach = (function (_Component2) {
         backgroundColor: getColor(paragraphStyle.bgColor) || 'transparent'
       };
 
-      var visibleTitle = titleUrl ? _react2.default.createElement(
-        'a',
-        { href: titleUrl },
-        title
-      ) : { title: title };
-
       var attachmentFields = (0, _lodash.map)(fields, function (field, index) {
         return _react2.default.createElement(Field, _extends({ key: index }, field));
       });
@@ -161,7 +155,11 @@ var Attach = (function (_Component2) {
         _react2.default.createElement(
           'div',
           { className: 'attachment__title' },
-          visibleTitle
+          titleUrl ? _react2.default.createElement(
+            'a',
+            { href: titleUrl },
+            title
+          ) : title
         ),
         text ? text : null,
         attachmentFields ? _react2.default.createElement(
@@ -185,11 +183,11 @@ var Attach = (function (_Component2) {
  */
 
 Attach.propTypes = {
-  paragraphStyle: _react.PropTypes.object.isRequired,
-  text: _react.PropTypes.string.isRequired,
-  title: _react.PropTypes.string.isRequired,
-  titleUrl: _react.PropTypes.string.isRequired,
-  fields: _react.PropTypes.array.isRequired
+  paragraphStyle: _react.PropTypes.object,
+  text: _react.PropTypes.string,
+  title: _react.PropTypes.string,
+  titleUrl: _react.PropTypes.string,
+  fields: _react.PropTypes.array
 };
 
 var TextModern = (function (_Component3) {
@@ -244,9 +242,9 @@ var TextModern = (function (_Component3) {
 })(_react.Component);
 
 TextModern.propTypes = {
-  attaches: _react.PropTypes.array.isRequired,
-  paragraphStyle: _react.PropTypes.object.isRequired,
-  text: _react.PropTypes.string.isRequired,
+  attaches: _react.PropTypes.array,
+  paragraphStyle: _react.PropTypes.object,
+  text: _react.PropTypes.string,
   className: _react.PropTypes.string
 };
 exports.default = TextModern;

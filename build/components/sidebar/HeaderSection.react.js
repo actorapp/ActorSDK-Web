@@ -32,6 +32,8 @@ var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
 
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
+var _reactRouter = require('react-router');
+
 var _MyProfileActionCreators = require('../../actions/MyProfileActionCreators');
 
 var _MyProfileActionCreators2 = _interopRequireDefault(_MyProfileActionCreators);
@@ -315,6 +317,16 @@ var HeaderSection = (function (_Component) {
                   'li',
                   { className: 'dropdown__menu__item', onClick: this.setLogout },
                   intl.messages['menu.signOut']
+                ),
+                _react2.default.createElement('li', { className: 'dropdown__menu__separator' }),
+                _react2.default.createElement(
+                  'li',
+                  { className: 'dropdown__menu__item' },
+                  _react2.default.createElement(
+                    _reactRouter.Link,
+                    { to: '/im/archive' },
+                    'Archive'
+                  )
                 )
               )
             )

@@ -14,9 +14,9 @@ var _HeaderSection = require('./sidebar/HeaderSection.react');
 
 var _HeaderSection2 = _interopRequireDefault(_HeaderSection);
 
-var _RecentSection = require('./sidebar/RecentSection.react');
+var _Recent = require('./sidebar/Recent.react');
 
-var _RecentSection2 = _interopRequireDefault(_RecentSection);
+var _Recent2 = _interopRequireDefault(_Recent);
 
 var _QuickSearchButton = require('./sidebar/QuickSearchButton.react');
 
@@ -47,15 +47,15 @@ var SidebarSection = (function (_Component) {
       var delegate = this.context.delegate;
 
       var HeaderSection = undefined,
-          RecentSection = undefined,
+          Recent = undefined,
           FooterSection = undefined;
       if (delegate.components.sidebar !== null && typeof delegate.components.sidebar !== 'function') {
         HeaderSection = delegate.components.sidebar.header || _HeaderSection2.default;
-        RecentSection = delegate.components.sidebar.recent || _RecentSection2.default;
+        Recent = delegate.components.sidebar.recent || _Recent2.default;
         FooterSection = delegate.components.sidebar.footer || _QuickSearchButton2.default;
       } else {
         HeaderSection = _HeaderSection2.default;
-        RecentSection = _RecentSection2.default;
+        Recent = _Recent2.default;
         FooterSection = _QuickSearchButton2.default;
       }
 
@@ -63,7 +63,7 @@ var SidebarSection = (function (_Component) {
         'aside',
         { className: 'sidebar' },
         _react2.default.createElement(HeaderSection, null),
-        _react2.default.createElement(RecentSection, null),
+        _react2.default.createElement(Recent, null),
         _react2.default.createElement(FooterSection, null)
       );
     }

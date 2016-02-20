@@ -90,6 +90,18 @@ var _Install = require('../components/Install.react');
 
 var _Install2 = _interopRequireDefault(_Install);
 
+var _Archive = require('../components/Archive.react');
+
+var _Archive2 = _interopRequireDefault(_Archive);
+
+var _Dialog = require('../components/Dialog.react');
+
+var _Dialog2 = _interopRequireDefault(_Dialog);
+
+var _EmptyScreen = require('../components/common/EmptyScreen.react');
+
+var _EmptyScreen2 = _interopRequireDefault(_EmptyScreen);
+
 var _reactModal = require('react-modal');
 
 var _reactModal2 = _interopRequireDefault(_reactModal);
@@ -153,7 +165,10 @@ var ActorSDK = (function () {
       var Login = _this.delegate.components.login || _Login2.default;
       var Deactivated = _this.delegate.components.deactivated || _Deactivated2.default;
       var Install = _this.delegate.components.install || _Install2.default;
+      var Archive = _this.delegate.components.archive || _Archive2.default;
       var Join = _this.delegate.components.join || _Join2.default;
+      var Empty = _this.delegate.components.empty || _EmptyScreen2.default;
+      var Dialog = _this.delegate.components.dialog || _Dialog2.default;
       var intlData = (0, _l18n.getIntlData)(_this.forceLocale);
 
       var requireAuth = function requireAuth(nextState, replaceState) {
@@ -188,9 +203,15 @@ var ActorSDK = (function () {
             _react2.default.createElement(_reactRouter.Route, { path: 'auth', component: Login }),
             _react2.default.createElement(_reactRouter.Route, { path: 'deactivated', component: Deactivated }),
             _react2.default.createElement(_reactRouter.Route, { path: 'install', component: Install }),
-            _react2.default.createElement(_reactRouter.Route, { path: 'join/:token', component: Join }),
-            _react2.default.createElement(_reactRouter.Route, { path: 'im/:id', component: _Main2.default }),
-            _react2.default.createElement(_reactRouter.IndexRoute, { component: _Main2.default, onEnter: requireAuth })
+            _react2.default.createElement(_reactRouter.Route, { path: 'join/:token', component: Join, onEnter: requireAuth }),
+            _react2.default.createElement(
+              _reactRouter.Route,
+              { path: 'im', component: _Main2.default, onEnter: requireAuth },
+              _react2.default.createElement(_reactRouter.Route, { path: 'archive', component: Archive }),
+              _react2.default.createElement(_reactRouter.Route, { path: ':id', component: Dialog }),
+              _react2.default.createElement(_reactRouter.IndexRoute, { component: Empty })
+            ),
+            _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'im' })
           )
         )
       );

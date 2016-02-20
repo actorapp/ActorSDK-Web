@@ -20,6 +20,10 @@ var _DelegateContainer = require('../utils/DelegateContainer');
 
 var _DelegateContainer2 = _interopRequireDefault(_DelegateContainer);
 
+var _LocationContainer = require('../utils/LocationContainer');
+
+var _LocationContainer2 = _interopRequireDefault(_LocationContainer);
+
 var _MyProfileActionCreators = require('./MyProfileActionCreators');
 
 var _MyProfileActionCreators2 = _interopRequireDefault(_MyProfileActionCreators);
@@ -45,6 +49,10 @@ var _EventBusActionCreators = require('./EventBusActionCreators');
 var _EventBusActionCreators2 = _interopRequireDefault(_EventBusActionCreators);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var LoginActionCreators = {
   changeLogin: function changeLogin(login) {
@@ -118,23 +126,19 @@ var LoginActionCreators = {
       delegate.actions.setLoggedIn(opts);
     } else {
       if (opts.redirect) {
-        // console.debug('opts.redirect', opts.redirect);
-        // console.debug('history', history);
+        var location = _LocationContainer2.default.get();
+        var nextPathname = location.state.nextPathname;
 
-        // TODO: redirect to home after login
-        // const router = RouterContainer.get();
-        // const nextPath = router.getCurrentQuery().nextPath;
-        //
-        // if (nextPath) {
-        //   router.replaceWith(nextPath);
-        // } else {
-        //   router.replaceWith('/');
-        // }
-        _history2.default.replace('/');
+        if (nextPathname) {
+          _history2.default.replace(nextPathname);
+        } else {
+          _history2.default.replace('/');
+        }
       }
 
       _ActorClient2.default.bindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged);
-      _ActorClient2.default.bindDialogs(_DialogActionCreators2.default.setDialogs);
+      // ActorClient.bindDialogs(DialogActionCreators.setDialogs);
+      _ActorClient2.default.bindGroupDialogs(_DialogActionCreators2.default.setDialogs);
       _ActorClient2.default.bindContacts(_ContactActionCreators2.default.setContacts);
       _ActorClient2.default.bindSearch(_QuickSearchActionCreators2.default.setQuickSearchList);
       _ActorClient2.default.bindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon);
@@ -150,7 +154,8 @@ var LoginActionCreators = {
     } else {
       _ActorClient2.default.unbindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged);
       _ActorClient2.default.unbindDialogs(_DialogActionCreators2.default.setDialogs);
-      _ActorClient2.default.unbindContacts(_ContactActionCreators2.default.setContacts);
+      // ActorClient.unbindContacts(ContactActionCreators.setContacts);
+      _ActorClient2.default.unbindGroupDialogs(_DialogActionCreators2.default.setDialogs);
       _ActorClient2.default.unbindSearch(_QuickSearchActionCreators2.default.setQuickSearchList);
       _ActorClient2.default.unbindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon);
       _ActorClient2.default.unbindEventBus(_EventBusActionCreators2.default.broadcastEvent);
@@ -160,9 +165,7 @@ var LoginActionCreators = {
   restartAuth: function restartAuth() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_RESTART);
   }
-}; /*
-    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-    */
+};
 
 exports.default = LoginActionCreators;
 //# sourceMappingURL=LoginActionCreators.js.map

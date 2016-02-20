@@ -10,6 +10,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _LocationContainer = require('../utils/LocationContainer');
+
+var _LocationContainer2 = _interopRequireDefault(_LocationContainer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -43,7 +47,10 @@ var App = (function (_Component) {
   function App(props) {
     _classCallCheck(this, App);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
+
+    _LocationContainer2.default.set(props.location);
+    return _this;
   }
 
   _createClass(App, [{
@@ -59,7 +66,8 @@ var App = (function (_Component) {
 App.propTypes = {
   delegate: _react.PropTypes.object,
   isExperimental: _react.PropTypes.bool,
-  children: _react.PropTypes.oneOfType([_react.PropTypes.arrayOf(_react.PropTypes.node), _react.PropTypes.node])
+  children: _react.PropTypes.oneOfType([_react.PropTypes.arrayOf(_react.PropTypes.node), _react.PropTypes.node]),
+  location: _react.PropTypes.object
 };
 App.childContextTypes = {
   delegate: _react.PropTypes.object,

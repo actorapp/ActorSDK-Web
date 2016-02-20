@@ -124,8 +124,8 @@ exports.default = {
   unbindCall: function unbindCall(id, callback) {
     window.messenger.unbindCall(id, callback);
   },
-  makeCall: function makeCall(uid) {
-    return window.messenger.doCall(uid);
+  makeCall: function makeCall(peerId) {
+    return window.messenger.doCall(peerId);
   },
   answerCall: function answerCall(id) {
     window.messenger.answerCall(id);

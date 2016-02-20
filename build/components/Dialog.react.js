@@ -14,6 +14,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = require('react-dom');
 
+var _PeerUtils = require('../utils/PeerUtils');
+
+var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
+
 var _MessagesSection = require('./dialog/MessagesSection.react');
 
 var _MessagesSection2 = _interopRequireDefault(_MessagesSection);
@@ -106,7 +110,7 @@ var DialogSection = (function (_Component) {
 
     _this.fixScroll = function () {
       var scrollNode = (0, _reactDom.findDOMNode)(_this.refs.messagesSection.refs.messagesScroll.refs.scroll);
-      var node = scrollNode.getElementsByClassName('ss-content')[0];
+      var node = scrollNode.getElementsByClassName('ss-scrollarea')[0];
       if (node) {
         node.scrollTop = node.scrollHeight - lastScrolledFromBottom - node.offsetHeight;
       }
@@ -129,7 +133,7 @@ var DialogSection = (function (_Component) {
 
       if (peer) {
         var scrollNode = (0, _reactDom.findDOMNode)(_this.refs.messagesSection.refs.messagesScroll.refs.scroll);
-        var node = scrollNode.getElementsByClassName('ss-content')[0];
+        var node = scrollNode.getElementsByClassName('ss-scrollarea')[0];
         var scrollTop = node.scrollTop;
         lastScrolledFromBottom = node.scrollHeight - scrollTop - node.offsetHeight; // was node.scrollHeight - scrollTop
 
@@ -159,20 +163,38 @@ var DialogSection = (function (_Component) {
   }
 
   _createClass(DialogSection, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var peer = _PeerUtils2.default.stringToPeer(this.props.params.id);
+      _DialogActionCreators2.default.selectDialogPeer(peer);
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var peer = this.state.peer;
-
+      var peer = _PeerUtils2.default.stringToPeer(this.props.params.id);
       if (peer) {
         this.fixScroll();
         this.loadMessagesByScroll();
       }
     }
   }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      this.fixScroll();
-      this.loadMessagesByScroll();
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var params = nextProps.params;
+
+      if (this.props.params.id !== params.id) {
+        var peer = _PeerUtils2.default.stringToPeer(params.id);
+        _DialogActionCreators2.default.selectDialogPeer(peer);
+        if (peer) {
+          this.fixScroll();
+          this.loadMessagesByScroll();
+        }
+      }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      _DialogActionCreators2.default.selectDialogPeer(null);
     }
   }, {
     key: 'render',
@@ -246,11 +268,12 @@ var DialogSection = (function (_Component) {
       return _react2.default.createElement(
         'section',
         { className: 'main' },
-        peer ? _react2.default.createElement(ToolbarSection, null) : null,
+        _react2.default.createElement(ToolbarSection, null),
         _react2.default.createElement(
           'div',
           { className: 'flexrow' },
-          peer ? [mainScreen, activity] : _react2.default.createElement(EmptyScreen, null)
+          mainScreen,
+          activity
         )
       );
     }
@@ -261,6 +284,9 @@ var DialogSection = (function (_Component) {
 
 DialogSection.contextTypes = {
   delegate: _react.PropTypes.object
+};
+DialogSection.propTypes = {
+  params: _react.PropTypes.object
 };
 exports.default = DialogSection;
 //# sourceMappingURL=Dialog.react.js.map

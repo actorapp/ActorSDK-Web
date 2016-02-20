@@ -65,6 +65,10 @@ var ActivitySection = (function (_Component) {
       var info = _state.info;
       var isOpen = _state.isOpen;
 
+      setTimeout(function () {
+        window.dispatchEvent(new Event('resize'));
+      }, 0);
+
       if (peer !== null) {
         var activityClassName = (0, _classnames2.default)('activity', {
           'activity--shown': isOpen

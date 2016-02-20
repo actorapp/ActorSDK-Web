@@ -64,9 +64,14 @@ var DialogStore = (function (_Store) {
     key: '__onDispatch',
     value: function __onDispatch(action) {
       switch (action.type) {
-        case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
+        case _ActorAppConstants.ActionTypes.BIND_DIALOG_PEER:
           _lastPeer = _currentPeer;
           _currentPeer = action.peer;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.UNBIND_DIALOG_PEER:
+          _lastPeer = _currentPeer;
+          _currentPeer = null;
           this.__emitChange();
           break;
         default:

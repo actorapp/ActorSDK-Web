@@ -117,12 +117,8 @@ var UserProfile = (function (_Component) {
 
     _this.removeFromContacts = function () {
       var user = _this.props.user;
-      var intl = _this.context.intl;
 
-      (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.removeContact', values: { name: user.name } }), {
-        abortLabel: intl.messages['button.cancel'],
-        confirmLabel: intl.messages['button.ok']
-      }).then(function () {
+      (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.removeContact', values: { name: user.name } })).then(function () {
         return _ContactActionCreators2.default.removeContact(user.id);
       }, function () {});
     };
@@ -158,10 +154,7 @@ var UserProfile = (function (_Component) {
     _this.clearChat = function (uid) {
       var intl = _this.context.intl;
 
-      (0, _confirm2.default)(intl.messages['modal.confirm.clear'], {
-        abortLabel: intl.messages['button.cancel'],
-        confirmLabel: intl.messages['button.ok']
-      }).then(function () {
+      (0, _confirm2.default)(intl.messages['modal.confirm.clear']).then(function () {
         var peer = _ActorClient2.default.getUserPeer(uid);
         _DialogActionCreators2.default.clearChat(peer);
       }, function () {});
@@ -170,10 +163,7 @@ var UserProfile = (function (_Component) {
     _this.deleteChat = function (uid) {
       var intl = _this.context.intl;
 
-      (0, _confirm2.default)(intl.messages['modal.confirm.delete'], {
-        abortLabel: intl.messages['button.cancel'],
-        confirmLabel: intl.messages['button.ok']
-      }).then(function () {
+      (0, _confirm2.default)(intl.messages['modal.confirm.delete']).then(function () {
         var peer = _ActorClient2.default.getUserPeer(uid);
         _DialogActionCreators2.default.deleteChat(peer);
       }, function () {});

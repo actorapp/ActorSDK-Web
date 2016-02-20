@@ -14,19 +14,35 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _reactIntl = require('react-intl');
+
 var _PeerUtils = require('../../utils/PeerUtils');
 
 var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
 
 var _EmojiUtils = require('../../utils/EmojiUtils');
 
+var _confirm = require('../../utils/confirm');
+
+var _confirm2 = _interopRequireDefault(_confirm);
+
+var _reactRouter = require('react-router');
+
 var _DialogActionCreators = require('../../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
+var _FavoriteActionCreators = require('../../actions/FavoriteActionCreators');
+
+var _FavoriteActionCreators2 = _interopRequireDefault(_FavoriteActionCreators);
+
 var _DialogStore = require('../../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
+
+var _UserStore = require('../../stores/UserStore');
+
+var _UserStore2 = _interopRequireDefault(_UserStore);
 
 var _AvatarItem = require('../common/AvatarItem.react');
 
@@ -42,57 +58,94 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var RecentSectionItem = (function (_Component) {
-  _inherits(RecentSectionItem, _Component);
+var RecentItem = (function (_Component) {
+  _inherits(RecentItem, _Component);
 
-  function RecentSectionItem(props) {
-    _classCallCheck(this, RecentSectionItem);
+  function RecentItem(props) {
+    _classCallCheck(this, RecentItem);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RecentSectionItem).call(this, props));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RecentItem).call(this, props));
 
     _this.onClick = function () {
       return _DialogActionCreators2.default.selectDialogPeer(_this.props.dialog.peer.peer);
     };
 
+    _this.handleHideChat = function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      var dialog = _this.props.dialog;
+      var intl = _this.context.intl;
+
+      if (_UserStore2.default.isContact(dialog.peer.peer.id)) {
+        _DialogActionCreators2.default.hideChat(dialog.peer.peer);
+      } else {
+        (0, _confirm2.default)(intl.messages['modal.confirm.nonContactHide.title'], {
+          description: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.nonContactHide.body',
+            values: { name: dialog.peer.title } }),
+          abortLabel: intl.messages['button.cancel'],
+          confirmLabel: intl.messages['button.ok']
+        }).then(function () {
+          return _DialogActionCreators2.default.hideChat(dialog.peer.peer);
+        }, function () {});
+      }
+    };
+
+    _this.handleFavorite = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      _FavoriteActionCreators2.default.favoriteChat(_this.props.dialog.peer.peer);
+    };
+
+    _this.handleUnfavorite = function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      _FavoriteActionCreators2.default.unfavoriteChat(_this.props.dialog.peer.peer);
+    };
+
     return _this;
   }
 
-  _createClass(RecentSectionItem, [{
+  _createClass(RecentItem, [{
     key: 'render',
     value: function render() {
       var dialog = this.props.dialog;
 
-      var selectedPeer = _DialogStore2.default.getCurrentPeer();
-
-      var isActive = selectedPeer && _PeerUtils2.default.equals(dialog.peer.peer, selectedPeer);
+      var toPeer = _PeerUtils2.default.peerToString(dialog.peer.peer);
 
       var recentClassName = (0, _classnames2.default)('sidebar__list__item', 'row', {
-        'sidebar__list__item--active': isActive,
         'sidebar__list__item--unread': dialog.counter > 0
       });
 
       return _react2.default.createElement(
         'li',
-        { className: recentClassName, onClick: this.onClick },
-        _react2.default.createElement(_AvatarItem2.default, { image: dialog.peer.avatar,
-          placeholder: dialog.peer.placeholder,
-          size: 'tiny',
-          title: dialog.peer.title }),
-        _react2.default.createElement('div', { className: 'title col-xs', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(dialog.peer.title) } }),
-        dialog.counter > 0 ? _react2.default.createElement(
-          'span',
-          { className: 'counter' },
-          dialog.counter
-        ) : null
+        null,
+        _react2.default.createElement(
+          _reactRouter.Link,
+          { to: '/im/' + toPeer, className: recentClassName, activeClassName: 'sidebar__list__item--active' },
+          _react2.default.createElement(_AvatarItem2.default, { image: dialog.peer.avatar,
+            placeholder: dialog.peer.placeholder,
+            size: 'tiny',
+            title: dialog.peer.title }),
+          _react2.default.createElement('div', { className: 'title col-xs', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(dialog.peer.title) } }),
+          dialog.counter > 0 ? _react2.default.createElement(
+            'span',
+            { className: 'counter' },
+            dialog.counter
+          ) : null
+        )
       );
     }
   }]);
 
-  return RecentSectionItem;
+  return RecentItem;
 })(_react.Component);
 
-RecentSectionItem.propTypes = {
-  dialog: _react.PropTypes.object.isRequired
+RecentItem.propTypes = {
+  dialog: _react.PropTypes.object.isRequired,
+  type: _react.PropTypes.string
 };
-exports.default = RecentSectionItem;
-//# sourceMappingURL=RecentSectionItem.react.js.map
+RecentItem.contextTypes = {
+  intl: _react.PropTypes.object
+};
+exports.default = RecentItem;
+//# sourceMappingURL=RecentItem.react.js.map

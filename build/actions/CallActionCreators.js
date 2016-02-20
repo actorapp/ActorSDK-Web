@@ -48,12 +48,12 @@ exports.default = {
       default:
     }
   },
-  makeCall: function makeCall(uid) {
-    (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.makeCall(uid), {
+  makeCall: function makeCall(peerId) {
+    (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.makeCall(peerId), {
       request: _ActorAppConstants.ActionTypes.CALL,
       success: _ActorAppConstants.ActionTypes.CALL_SUCCESS,
       failure: _ActorAppConstants.ActionTypes.CALL_ERROR
-    }, { uid: uid });
+    }, { peerId: peerId });
   },
   setCall: function setCall(call) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_CHANGED, { call: call });

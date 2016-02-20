@@ -24,10 +24,6 @@ var _MessageActionCreators = require('./MessageActionCreators');
 
 var _MessageActionCreators2 = _interopRequireDefault(_MessageActionCreators);
 
-var _GroupProfileActionCreators = require('./GroupProfileActionCreators');
-
-var _GroupProfileActionCreators2 = _interopRequireDefault(_GroupProfileActionCreators);
-
 var _TypingActionCreators = require('./TypingActionCreators');
 
 var _TypingActionCreators2 = _interopRequireDefault(_TypingActionCreators);
@@ -39,6 +35,10 @@ var _DialogInfoActionCreators2 = _interopRequireDefault(_DialogInfoActionCreator
 var _OnlineActionCreators = require('./OnlineActionCreators');
 
 var _OnlineActionCreators2 = _interopRequireDefault(_OnlineActionCreators);
+
+var _GroupProfileActionCreators = require('./GroupProfileActionCreators');
+
+var _GroupProfileActionCreators2 = _interopRequireDefault(_GroupProfileActionCreators);
 
 var _DialogStore = require('../stores/DialogStore');
 
@@ -59,6 +59,8 @@ var DialogActionCreators = {
 
     // Unbind from previous peer
     if (currentPeer !== null) {
+      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.UNBIND_DIALOG_PEER);
+
       this.onConversationClosed(currentPeer);
       messagesBinding && messagesBinding.unbind();
       _ActorClient2.default.unbindTyping(currentPeer, _TypingActionCreators2.default.setTyping);
@@ -76,33 +78,31 @@ var DialogActionCreators = {
       }
     }
 
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER, { peer: peer });
+    if (peer !== null) {
+      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.BIND_DIALOG_PEER, { peer: peer });
 
-    this.onConversationOpen(peer);
-    messagesBinding = _ActorClient2.default.bindMessages(peer, _MessageActionCreators2.default.setMessages);
-    _ActorClient2.default.bindTyping(peer, _TypingActionCreators2.default.setTyping);
-    switch (peer.type) {
-      case _ActorAppConstants.PeerTypes.USER:
-        _ActorClient2.default.bindUser(peer.id, _DialogInfoActionCreators2.default.setDialogInfo);
-        _ActorClient2.default.bindUserOnline(peer.id, _OnlineActionCreators2.default.setUserOnline);
-        break;
-      case _ActorAppConstants.PeerTypes.GROUP:
-        _ActorClient2.default.bindGroup(peer.id, _DialogInfoActionCreators2.default.setDialogInfo);
-        _ActorClient2.default.bindGroupOnline(peer.id, _OnlineActionCreators2.default.setGroupOnline);
-        _GroupProfileActionCreators2.default.getIntegrationToken(peer.id);
-        break;
-      default:
+      this.onConversationOpen(peer);
+      messagesBinding = _ActorClient2.default.bindMessages(peer, _MessageActionCreators2.default.setMessages);
+      _ActorClient2.default.bindTyping(peer, _TypingActionCreators2.default.setTyping);
+      switch (peer.type) {
+        case _ActorAppConstants.PeerTypes.USER:
+          _ActorClient2.default.bindUser(peer.id, _DialogInfoActionCreators2.default.setDialogInfo);
+          _ActorClient2.default.bindUserOnline(peer.id, _OnlineActionCreators2.default.setUserOnline);
+          break;
+        case _ActorAppConstants.PeerTypes.GROUP:
+          _ActorClient2.default.bindGroup(peer.id, _DialogInfoActionCreators2.default.setDialogInfo);
+          _ActorClient2.default.bindGroupOnline(peer.id, _OnlineActionCreators2.default.setGroupOnline);
+          _GroupProfileActionCreators2.default.getIntegrationToken(peer.id);
+          break;
+        default:
+      }
     }
-
-    // console.debug('history', history);
-    // console.debug('string', `im/${PeerUtils.peerToString(peer)}`);
-    _history2.default.push('/im/' + _PeerUtils2.default.peerToString(peer));
   },
   selectDialogPeerUser: function selectDialogPeerUser(uid) {
     if (uid === _ActorClient2.default.getUid()) {
       console.warn('You can\'t chat with yourself');
     } else {
-      this.selectDialogPeer(_ActorClient2.default.getUserPeer(uid));
+      _history2.default.push('/im/' + _PeerUtils2.default.peerToString(_ActorClient2.default.getUserPeer(uid)));
     }
   },
   onConversationOpen: function onConversationOpen(peer) {

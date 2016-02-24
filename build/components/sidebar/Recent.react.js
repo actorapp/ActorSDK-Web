@@ -139,7 +139,7 @@ var Recent = (function (_Component) {
 
       setTimeout(function () {
         return _this2.checkInvisibleCounters();
-      }, 1);
+      }, 500);
     }
   }, {
     key: 'render',

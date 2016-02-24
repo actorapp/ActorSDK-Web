@@ -284,10 +284,8 @@ var CropAvatarModal = (function (_Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      var originalImage = (0, _reactDom.findDOMNode)(this.refs.originalImage);
       document.removeEventListener('keydown', this.onKeyDown, false);
       window.removeEventListener('resize', this.storeScaledSizes, false);
-      originalImage.removeEventListener('load', this.storeScaledSizes, false);
     }
   }, {
     key: 'render',

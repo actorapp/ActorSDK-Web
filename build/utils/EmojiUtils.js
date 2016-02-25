@@ -11,7 +11,7 @@ var _jsEmoji = require('js-emoji');
 
 var _jsEmoji2 = _interopRequireDefault(_jsEmoji);
 
-var _emoji_categories = require('emoji-data/build/emoji_categories.json');
+var _emoji_categories = require('emoji-data/emoji_categories.json');
 
 var _emoji_categories2 = _interopRequireDefault(_emoji_categories);
 
@@ -30,22 +30,22 @@ _jsEmoji2.default.colons_mode = false;
 _jsEmoji2.default.img_set = 'apple';
 _jsEmoji2.default.img_sets = {
   'apple': {
-    'path': _ActorAppConstants.Path.toEmoji + '/img-apple-64/',
+    // 'path': Path.toEmoji + '/img-apple-64/',
     'sheet': _ActorAppConstants.Path.toEmoji + '/sheet_apple_64.png',
     'mask': 1
   },
   'google': {
-    'path': _ActorAppConstants.Path.toEmoji + '/img-google-64/',
+    // 'path': Path.toEmoji + '/img-google-64/',
     'sheet': _ActorAppConstants.Path.toEmoji + '/sheet_google_64.png',
     'mask': 2
   },
   'twitter': {
-    'path': _ActorAppConstants.Path.toEmoji + '/img-twitter-64/',
+    // 'path': Path.toEmoji + '/img-twitter-64/',
     'sheet': _ActorAppConstants.Path.toEmoji + '/sheet_twitter_64.png',
     'mask': 4
   },
   'emojione': {
-    'path': _ActorAppConstants.Path.toEmoji + '/img-emojione-64/',
+    // 'path': Path.toEmoji + '/img-emojione-64/',
     'sheet': _ActorAppConstants.Path.toEmoji + '/sheet_emojione_64.png',
     'mask': 8
   }

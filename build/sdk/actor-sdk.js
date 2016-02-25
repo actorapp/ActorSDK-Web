@@ -162,13 +162,13 @@ var ActorSDK = (function () {
         window.messenger = _actorJs2.default.create(_this.endpoints);
       }
 
-      var Login = _this.delegate.components.login || _Login2.default;
-      var Deactivated = _this.delegate.components.deactivated || _Deactivated2.default;
-      var Install = _this.delegate.components.install || _Install2.default;
-      var Archive = _this.delegate.components.archive || _Archive2.default;
-      var Join = _this.delegate.components.join || _Join2.default;
-      var Empty = _this.delegate.components.empty || _EmptyScreen2.default;
-      var Dialog = _this.delegate.components.dialog || _Dialog2.default;
+      var Login = typeof _this.delegate.components.login == 'function' ? _this.delegate.components.login : _Login2.default;
+      var Deactivated = typeof _this.delegate.components.deactivated == 'function' ? _this.delegate.components.deactivated : _Deactivated2.default;
+      var Install = typeof _this.delegate.components.install == 'function' ? _this.delegate.components.install : _Install2.default;
+      var Archive = typeof _this.delegate.components.archive == 'function' ? _this.delegate.components.archive : _Archive2.default;
+      var Join = typeof _this.delegate.components.join == 'function' ? _this.delegate.components.join : _Join2.default;
+      var Empty = typeof _this.delegate.components.empty == 'function' ? _this.delegate.components.empty : _EmptyScreen2.default;
+      var Dialog = typeof _this.delegate.components.dialog == 'function' ? _this.delegate.components.dialog : _Dialog2.default;
       var intlData = (0, _l18n.getIntlData)(_this.forceLocale);
 
       var requireAuth = function requireAuth(nextState, replaceState) {

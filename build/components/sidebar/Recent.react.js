@@ -78,9 +78,9 @@ var Recent = (function (_Component) {
       return _ContactActionCreators2.default.open();
     };
 
-    _this.handleRecentScroll = (0, _lodash.throttle)(function (event) {
-      _this.checkInvisibleCounters();
-    }, 100, { trailing: true });
+    _this.handleRecentScroll = function () {
+      return _this.checkInvisibleCounters();
+    };
 
     _this.checkInvisibleCounters = function () {
       var unreadNodes = document.getElementsByClassName('sidebar__list__item--unread');
@@ -129,6 +129,10 @@ var Recent = (function (_Component) {
       _this.refs.container.scrollTo(scrollNode.scrollTop + rect.top - (scrollNodeRect.top + scrollNodeRect.height - rect.height));
     };
 
+    _this.checkInvisibleCounters = (0, _lodash.debounce)(_this.checkInvisibleCounters, 50, {
+      maxWait: 150,
+      leading: true
+    });
     return _this;
   }
 

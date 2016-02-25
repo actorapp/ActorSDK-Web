@@ -79,6 +79,7 @@ var TextField = (function (_Component) {
       var value = _props.value;
       var ref = _props.ref;
       var disabled = _props.disabled;
+      var errorText = _props.errorText;
       var _state = this.state;
       var isFocused = _state.isFocused;
       var inputId = _state.inputId;
@@ -86,7 +87,8 @@ var TextField = (function (_Component) {
       var inputClassName = (0, _classnames2.default)('input input__material', className, {
         'input__material--focus': isFocused,
         'input__material--filled': value && value.length > 0,
-        'input__material--disabled': disabled
+        'input__material--disabled': disabled,
+        'input__material--with-error': errorText
       });
 
       var inputProps = {
@@ -108,7 +110,12 @@ var TextField = (function (_Component) {
           { htmlFor: inputId, onMouseDown: this.focus },
           floatingLabel
         ) : null,
-        _react2.default.createElement('input', inputProps)
+        _react2.default.createElement('input', inputProps),
+        errorText ? _react2.default.createElement(
+          'span',
+          { className: 'error' },
+          errorText
+        ) : null
       );
     }
   }]);
@@ -123,6 +130,7 @@ TextField.propTypes = {
   value: _react.PropTypes.string,
   ref: _react.PropTypes.string,
   disabled: _react.PropTypes.bool,
+  errorText: _react.PropTypes.string,
 
   onChange: _react.PropTypes.func,
   onFocus: _react.PropTypes.func,

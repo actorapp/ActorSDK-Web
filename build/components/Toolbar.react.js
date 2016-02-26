@@ -22,6 +22,10 @@ var _ActivityActionCreators = require('../actions/ActivityActionCreators');
 
 var _ActivityActionCreators2 = _interopRequireDefault(_ActivityActionCreators);
 
+var _FavoriteActionCreators = require('../actions/FavoriteActionCreators');
+
+var _FavoriteActionCreators2 = _interopRequireDefault(_FavoriteActionCreators);
+
 var _AvatarItem = require('../components/common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -37,6 +41,10 @@ var _OnlineStore2 = _interopRequireDefault(_OnlineStore);
 var _ActivityStore = require('../stores/ActivityStore');
 
 var _ActivityStore2 = _interopRequireDefault(_ActivityStore);
+
+var _DialogStore = require('../stores/DialogStore');
+
+var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -56,6 +64,18 @@ var ToolbarSection = (function (_Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ToolbarSection).call(this, props));
 
+    _this.handleFavorite = function (event) {
+      var thisPeer = _this.state.thisPeer;
+
+      _FavoriteActionCreators2.default.favoriteChat(thisPeer);
+    };
+
+    _this.handleUnfavorite = function (event) {
+      var thisPeer = _this.state.thisPeer;
+
+      _FavoriteActionCreators2.default.unfavoriteChat(thisPeer);
+    };
+
     _this.onClick = function () {
       if (!_this.state.isActivityOpen) {
         _ActivityActionCreators2.default.show();
@@ -74,9 +94,16 @@ var ToolbarSection = (function (_Component) {
       var dialogInfo = _state.dialogInfo;
       var isActivityOpen = _state.isActivityOpen;
       var message = _state.message;
+      var isExperimental = this.context.isExperimental;
+
+      var isFavorited = false;
 
       var infoButtonClassName = (0, _classnames2.default)('button button--icon', {
         'active': isActivityOpen
+      });
+
+      var favoriteClassName = (0, _classnames2.default)('toolbar__peer__favorite', {
+        'toolbar__peer__favorite--active': isFavorited
       });
 
       if (dialogInfo !== null) {
@@ -90,9 +117,26 @@ var ToolbarSection = (function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'toolbar__peer col-xs' },
-            _react2.default.createElement('span', { className: 'toolbar__peer__title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(dialogInfo.name) } }),
             _react2.default.createElement(
-              'span',
+              'header',
+              null,
+              _react2.default.createElement('span', { className: 'toolbar__peer__title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(dialogInfo.name) } }),
+              _react2.default.createElement(
+                'span',
+                { className: favoriteClassName },
+                isExperimental ? isFavorited ? _react2.default.createElement(
+                  'i',
+                  { className: 'material-icons', onClick: this.handleUnfavorite },
+                  'star'
+                ) : _react2.default.createElement(
+                  'i',
+                  { className: 'material-icons', onClick: this.handleFavorite },
+                  'star_border'
+                ) : null
+              )
+            ),
+            _react2.default.createElement(
+              'div',
               { className: 'toolbar__peer__message' },
               message
             )
@@ -132,6 +176,7 @@ var ToolbarSection = (function (_Component) {
     key: 'calculateState',
     value: function calculateState() {
       return {
+        thisPeer: _DialogStore2.default.getCurrentPeer(),
         dialogInfo: _DialogInfoStore2.default.getInfo(),
         isActivityOpen: _ActivityStore2.default.isOpen(),
         message: _OnlineStore2.default.getMessage()
@@ -143,8 +188,11 @@ var ToolbarSection = (function (_Component) {
 })(_react.Component);
 
 ToolbarSection.getStores = function () {
-  return [_DialogInfoStore2.default, _ActivityStore2.default, _OnlineStore2.default];
+  return [_DialogInfoStore2.default, _ActivityStore2.default, _OnlineStore2.default, _DialogStore2.default];
 };
 
+ToolbarSection.contextTypes = {
+  isExperimental: _react.PropTypes.bool
+};
 exports.default = _utils.Container.create(ToolbarSection, { pure: false });
 //# sourceMappingURL=Toolbar.react.js.map

@@ -10,6 +10,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _utils = require('flux/utils');
+
 var _reactIntl = require('react-intl');
 
 var _confirm = require('../../utils/confirm');
@@ -52,14 +54,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var getStateFromStore = function getStateFromStore(uid) {
-  var kickUserState = _KickUserStore2.default.getKickUserState(uid);
-
-  return {
-    kickUserState: kickUserState
-  };
-};
-
 var GroupMember = (function (_Component) {
   _inherits(GroupMember, _Component);
 
@@ -67,12 +61,6 @@ var GroupMember = (function (_Component) {
     _classCallCheck(this, GroupMember);
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GroupMember).call(this, props));
-
-    _this.onChange = function () {
-      var peerInfo = _this.props.peerInfo;
-
-      _this.setState(getStateFromStore(peerInfo.peer.id));
-    };
 
     _this.onClick = function (id) {
       return _DialogActionCreators2.default.selectDialogPeerUser(id);
@@ -82,16 +70,11 @@ var GroupMember = (function (_Component) {
       var peerInfo = _this.props.peerInfo;
       var intl = _this.context.intl;
 
-      (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.kick', values: { name: peerInfo.title } }), {
-        abortLabel: intl.messages['button.cancel'],
-        confirmLabel: intl.messages['button.ok']
-      }).then(function () {
-        _KickUserStore2.default.addChangeListener(_this.onChange);
-        _KickUserActionCreators2.default.kickMember(gid, uid);
+      (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.kick', values: { name: peerInfo.title } })).then(function () {
+        return _KickUserActionCreators2.default.kickMember(gid, uid);
       }, function () {});
     };
 
-    _this.state = getStateFromStore(props.peerInfo.peer.id);
     return _this;
   }
 
@@ -101,7 +84,6 @@ var GroupMember = (function (_Component) {
       var peerInfo = this.props.peerInfo;
 
       _KickUserStore2.default.resetKickUserState(peerInfo.peer.id);
-      _KickUserStore2.default.removeChangeListener(this.onChange);
     }
   }, {
     key: 'render',
@@ -188,6 +170,18 @@ var GroupMember = (function (_Component) {
         controls
       );
     }
+  }], [{
+    key: 'getStores',
+    value: function getStores() {
+      return [_KickUserStore2.default];
+    }
+  }, {
+    key: 'calculateState',
+    value: function calculateState(prevState, nextProps) {
+      return {
+        kickUserState: _KickUserStore2.default.getKickUserState(nextProps.peerInfo.peer.id)
+      };
+    }
   }]);
 
   return GroupMember;
@@ -201,5 +195,5 @@ GroupMember.propTypes = {
 GroupMember.contextTypes = {
   intl: _react.PropTypes.object
 };
-exports.default = GroupMember;
+exports.default = _utils.Container.create(GroupMember, { pure: false, withProps: true });
 //# sourceMappingURL=GroupMember.react.js.map

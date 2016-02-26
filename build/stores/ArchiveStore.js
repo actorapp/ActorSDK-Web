@@ -24,51 +24,77 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var KickUserStore = (function (_Store) {
-  _inherits(KickUserStore, _Store);
+var ArchiveStore = (function (_Store) {
+  _inherits(ArchiveStore, _Store);
 
-  function KickUserStore(dispatcher) {
-    _classCallCheck(this, KickUserStore);
+  function ArchiveStore(dispatcher) {
+    _classCallCheck(this, ArchiveStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(KickUserStore).call(this, dispatcher));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ArchiveStore).call(this, dispatcher));
 
-    _this.kickUserState = [];
+    _this.isLoading = true;
+    _this.dialogs = [];
+    _this.archiveChatState = [];
     return _this;
   }
 
-  _createClass(KickUserStore, [{
-    key: 'getKickUserState',
-    value: function getKickUserState(uid) {
-      return this.kickUserState[uid] || _ActorAppConstants.AsyncActionStates.PENDING;
+  _createClass(ArchiveStore, [{
+    key: 'isArchiveLoading',
+    value: function isArchiveLoading() {
+      return this.isLoading;
     }
   }, {
-    key: 'resetKickUserState',
-    value: function resetKickUserState(uid) {
-      delete this.kickUserState[uid];
+    key: 'getDialogs',
+    value: function getDialogs() {
+      return this.dialogs;
+    }
+  }, {
+    key: 'getArchiveChatState',
+    value: function getArchiveChatState(id) {
+      return this.archiveChatState[id] || _ActorAppConstants.AsyncActionStates.PENDING;
+    }
+  }, {
+    key: 'resetArchiveChatState',
+    value: function resetArchiveChatState(id) {
+      delete this.archiveChatState[id];
     }
   }, {
     key: '__onDispatch',
     value: function __onDispatch(action) {
       switch (action.type) {
-        case _ActorAppConstants.ActionTypes.KICK_USER:
-          this.kickUserState[action.uid] = _ActorAppConstants.AsyncActionStates.PROCESSING;
+        case _ActorAppConstants.ActionTypes.ARCHIVE_ADD:
+          this.archiveChatState[action.peer.id] = _ActorAppConstants.AsyncActionStates.PROCESSING;
           this.__emitChange();
           break;
-        case _ActorAppConstants.ActionTypes.KICK_USER_SUCCESS:
-          this.resetKickUserState(action.uid);
+        case _ActorAppConstants.ActionTypes.ARCHIVE_ADD_SUCCESS:
+          this.resetArchiveChatState(action.peer.id);
           this.__emitChange();
           break;
-        case _ActorAppConstants.ActionTypes.KICK_USER_ERROR:
-          this.kickUserState[action.uid] = _ActorAppConstants.AsyncActionStates.FAILURE;
+        case _ActorAppConstants.ActionTypes.ARCHIVE_ADD_ERROR:
+          this.archiveChatState[action.peer.id] = _ActorAppConstants.AsyncActionStates.FAILURE;
           this.__emitChange();
           break;
+
+        case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD:
+        case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD_MORE:
+          this.isLoading = true;
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD_SUCCESS:
+        case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD_MORE_SUCCESS:
+          this.isLoading = false;
+          this.dialogs = action.response;
+          this.__emitChange();
+          break;
+
         default:
       }
     }
   }]);
 
-  return KickUserStore;
+  return ArchiveStore;
 })(_utils.Store);
 
-exports.default = new KickUserStore(_ActorAppDispatcher2.default);
-//# sourceMappingURL=KickUserStore.js.map
+exports.default = new ArchiveStore(_ActorAppDispatcher2.default);
+//# sourceMappingURL=ArchiveStore.js.map

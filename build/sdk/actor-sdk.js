@@ -98,9 +98,9 @@ var _Dialog = require('../components/Dialog.react');
 
 var _Dialog2 = _interopRequireDefault(_Dialog);
 
-var _EmptyScreen = require('../components/common/EmptyScreen.react');
+var _Empty = require('../components/Empty.react');
 
-var _EmptyScreen2 = _interopRequireDefault(_EmptyScreen);
+var _Empty2 = _interopRequireDefault(_Empty);
 
 var _reactModal = require('react-modal');
 
@@ -167,7 +167,7 @@ var ActorSDK = (function () {
       var Install = typeof _this.delegate.components.install == 'function' ? _this.delegate.components.install : _Install2.default;
       var Archive = typeof _this.delegate.components.archive == 'function' ? _this.delegate.components.archive : _Archive2.default;
       var Join = typeof _this.delegate.components.join == 'function' ? _this.delegate.components.join : _Join2.default;
-      var Empty = typeof _this.delegate.components.empty == 'function' ? _this.delegate.components.empty : _EmptyScreen2.default;
+      var Empty = typeof _this.delegate.components.empty == 'function' ? _this.delegate.components.empty : _Empty2.default;
       var Dialog = typeof _this.delegate.components.dialog == 'function' ? _this.delegate.components.dialog : _Dialog2.default;
       var intlData = (0, _l18n.getIntlData)(_this.forceLocale);
 

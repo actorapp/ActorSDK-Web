@@ -376,6 +376,15 @@ exports.default = {
   },
   unfavoriteChat: function unfavoriteChat(peer) {
     return window.messenger.unfavoriteChat(peer);
+  },
+  archiveChat: function archiveChat(peer) {
+    return window.messenger.archiveChat(peer);
+  },
+  loadArchivedDialogs: function loadArchivedDialogs() {
+    return window.messenger.loadArchivedDialogs();
+  },
+  loadMoreArchivedDialogs: function loadMoreArchivedDialogs() {
+    return window.messenger.loadMoreArchivedDialogs();
   }
 };
 //# sourceMappingURL=ActorClient.js.map

@@ -12,7 +12,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactIntl = require('react-intl');
 
-var _ConnectionState = require('./ConnectionState.react');
+var _ConnectionState = require('./common/ConnectionState.react');
 
 var _ConnectionState2 = _interopRequireDefault(_ConnectionState);
 
@@ -73,4 +73,4 @@ var EmptyScreen = (function (_Component) {
 })(_react.Component);
 
 exports.default = EmptyScreen;
-//# sourceMappingURL=EmptyScreen.react.js.map
+//# sourceMappingURL=Empty.react.js.map

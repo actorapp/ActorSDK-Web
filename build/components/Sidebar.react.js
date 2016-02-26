@@ -10,6 +10,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _utils = require('flux/utils');
+
 var _HeaderSection = require('./sidebar/HeaderSection.react');
 
 var _HeaderSection2 = _interopRequireDefault(_HeaderSection);
@@ -21,6 +23,10 @@ var _Recent2 = _interopRequireDefault(_Recent);
 var _QuickSearchButton = require('./sidebar/QuickSearchButton.react');
 
 var _QuickSearchButton2 = _interopRequireDefault(_QuickSearchButton);
+
+var _AllDialogsStore = require('../stores/AllDialogsStore');
+
+var _AllDialogsStore2 = _interopRequireDefault(_AllDialogsStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -45,6 +51,7 @@ var SidebarSection = (function (_Component) {
     key: 'render',
     value: function render() {
       var delegate = this.context.delegate;
+      var allDialogs = this.state.allDialogs;
 
       var HeaderSection = undefined,
           Recent = undefined,
@@ -63,17 +70,28 @@ var SidebarSection = (function (_Component) {
         'aside',
         { className: 'sidebar' },
         _react2.default.createElement(HeaderSection, null),
-        _react2.default.createElement(Recent, null),
+        _react2.default.createElement(Recent, { dialogs: allDialogs }),
         _react2.default.createElement(FooterSection, null)
       );
+    }
+  }], [{
+    key: 'calculateState',
+    value: function calculateState() {
+      return {
+        allDialogs: _AllDialogsStore2.default.getAllDialogs()
+      };
     }
   }]);
 
   return SidebarSection;
 })(_react.Component);
 
+SidebarSection.getStores = function () {
+  return [_AllDialogsStore2.default];
+};
+
 SidebarSection.contextTypes = {
   delegate: _react.PropTypes.object
 };
-exports.default = SidebarSection;
+exports.default = _utils.Container.create(SidebarSection, { pure: false });
 //# sourceMappingURL=Sidebar.react.js.map

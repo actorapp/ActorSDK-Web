@@ -121,8 +121,8 @@ var GroupProfile = (function (_Component) {
     }
   }, {
     key: 'calculateState',
-    value: function calculateState(prevState) {
-      return getStateFromStores(prevState && prevState.group ? prevState.group.id : null);
+    value: function calculateState(prevState, nextProps) {
+      return getStateFromStores(nextProps.group.id || null);
     }
   }]);
 
@@ -202,20 +202,12 @@ var GroupProfile = (function (_Component) {
     };
 
     _this.state = {
-      isMoreDropdownOpen: false,
-      group: props.group // hack to be able to access groupId in getStateFromStores
+      isMoreDropdownOpen: false
     };
     return _this;
   }
 
-  // hack for groupId in getStateFromStores
-
   _createClass(GroupProfile, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      this.setState({ group: nextProps.group });
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -502,5 +494,5 @@ GroupProfile.propTypes = {
 GroupProfile.contextTypes = {
   intl: _react.PropTypes.object
 };
-exports.default = _utils.Container.create(GroupProfile);
+exports.default = _utils.Container.create(GroupProfile, { pure: false, withProps: true });
 //# sourceMappingURL=GroupProfile.react.js.map

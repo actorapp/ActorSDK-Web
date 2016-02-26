@@ -17,19 +17,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
   favoriteChat: function favoriteChat(peer) {
     (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.favoriteChat(peer), {
-      request: _ActorAppConstants.ActionTypes.GROUP_FAVORITE,
-      success: _ActorAppConstants.ActionTypes.GROUP_FAVORITE_SUCCESS,
-      failure: _ActorAppConstants.ActionTypes.GROUP_FAVORITE_ERROR
+      request: _ActorAppConstants.ActionTypes.FAVORITE_ADD,
+      success: _ActorAppConstants.ActionTypes.FAVORITE_ADD_SUCCESS,
+      failure: _ActorAppConstants.ActionTypes.FAVORITE_ADD_ERROR
     }, { peer: peer });
   },
   unfavoriteChat: function unfavoriteChat(peer) {
     (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.unfavoriteChat(peer), {
-      request: _ActorAppConstants.ActionTypes.GROUP_UNFAVORITE,
-      success: _ActorAppConstants.ActionTypes.GROUP_UNFAVORITE_SUCCESS,
-      failure: _ActorAppConstants.ActionTypes.GROUP_UNFAVORITE_ERROR
+      request: _ActorAppConstants.ActionTypes.FAVORITE_REMOVE,
+      success: _ActorAppConstants.ActionTypes.FAVORITE_REMOVE_SUCCESS,
+      failure: _ActorAppConstants.ActionTypes.FAVORITE_REMOVE_ERROR
     }, { peer: peer });
   }
 }; /*
-    * Copyright (C) 2015 Actor LLC. <https://actor.im>
+    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
     */
 //# sourceMappingURL=FavoriteActionCreators.js.map

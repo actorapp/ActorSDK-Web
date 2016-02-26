@@ -196,7 +196,24 @@ export const ActionTypes = keymirror({
   CALL_ERROR: null,
   CALL_CHANGED: null,
   CALL_ANSWER: null,
-  CALL_END: null
+  CALL_END: null,
+
+  ARCHIVE_ADD: null,
+  ARCHIVE_ADD_SUCCESS: null,
+  ARCHIVE_ADD_ERROR: null,
+  ARCHIVE_LOAD: null,
+  ARCHIVE_LOAD_SUCCESS: null,
+  ARCHIVE_LOAD_ERROR: null,
+  ARCHIVE_LOAD_MORE: null,
+  ARCHIVE_LOAD_MORE_SUCCESS: null,
+  ARCHIVE_LOAD_MORE_ERROR: null,
+
+  FAVORITE_ADD: null,
+  FAVORITE_ADD_SUCCESS: null,
+  FAVORITE_ADD_ERROR: null,
+  FAVORITE_REMOVE: null,
+  FAVORITE_REMOVE_SUCCESS: null,
+  FAVORITE_REMOVE_ERROR: null
 });
 
 export const EventTypes = {

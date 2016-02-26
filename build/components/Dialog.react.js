@@ -38,10 +38,6 @@ var _Activity = require('./Activity.react');
 
 var _Activity2 = _interopRequireDefault(_Activity);
 
-var _EmptyScreen = require('./common/EmptyScreen.react');
-
-var _EmptyScreen2 = _interopRequireDefault(_EmptyScreen);
-
 var _ConnectionState = require('./common/ConnectionState.react');
 
 var _ConnectionState2 = _interopRequireDefault(_ConnectionState);
@@ -192,6 +188,11 @@ var DialogSection = (function (_Component) {
       }
     }
   }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      this.fixScroll();
+    }
+  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       _DialogActionCreators2.default.selectDialogPeer(null);
@@ -210,15 +211,13 @@ var DialogSection = (function (_Component) {
           ToolbarSection = undefined,
           TypingSection = undefined,
           ComposeSection = undefined,
-          MessagesSection = undefined,
-          EmptyScreen = undefined;
+          MessagesSection = undefined;
 
       if (delegate.components.dialog !== null && typeof delegate.components.dialog !== 'function') {
         ToolbarSection = delegate.components.dialog.toolbar || _Toolbar2.default;
         MessagesSection = typeof delegate.components.dialog.messages == 'function' ? delegate.components.dialog.messages : _MessagesSection2.default;
         TypingSection = delegate.components.dialog.typing || _TypingSection2.default;
         ComposeSection = delegate.components.dialog.compose || _ComposeSection2.default;
-        EmptyScreen = delegate.components.dialog.empty || _EmptyScreen2.default;
 
         if (delegate.components.dialog.activity) {
           (0, _lodash.forEach)(delegate.components.dialog.activity, function (Activity, index) {
@@ -232,13 +231,12 @@ var DialogSection = (function (_Component) {
         MessagesSection = _MessagesSection2.default;
         TypingSection = _TypingSection2.default;
         ComposeSection = _ComposeSection2.default;
-        EmptyScreen = _EmptyScreen2.default;
         activity.push(_react2.default.createElement(_Activity2.default, { key: 1 }));
       }
 
       var mainScreen = peer ? _react2.default.createElement(
         'section',
-        { className: 'dialog', key: 0 },
+        { className: 'dialog' },
         _react2.default.createElement(_ConnectionState2.default, null),
         _react2.default.createElement(
           'div',

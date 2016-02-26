@@ -14,12 +14,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = require('react-dom');
 
-var _utils = require('flux/utils');
-
-var _Scrollbar = require('../common/Scrollbar.react');
-
-var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
-
 var _CreateGroupActionCreators = require('../../actions/CreateGroupActionCreators');
 
 var _CreateGroupActionCreators2 = _interopRequireDefault(_CreateGroupActionCreators);
@@ -36,9 +30,9 @@ var _AddContactActionCreators = require('../../actions/AddContactActionCreators'
 
 var _AddContactActionCreators2 = _interopRequireDefault(_AddContactActionCreators);
 
-var _AllDialogsStore = require('../../stores/AllDialogsStore');
+var _Scrollbar = require('../common/Scrollbar.react');
 
-var _AllDialogsStore2 = _interopRequireDefault(_AllDialogsStore);
+var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
 
 var _RecentItem = require('./RecentItem.react');
 
@@ -89,8 +83,8 @@ var Recent = (function (_Component) {
 
       var haveUnreadAbove = false,
           haveUnreadBelow = false,
-          lastUnreadBelow = undefined,
-          firstUnreadAbove = undefined;
+          lastUnreadBelow = null,
+          firstUnreadAbove = null;
 
       (0, _lodash.forEach)(unreadNodes, function (node) {
         var rect = node.getBoundingClientRect();
@@ -113,7 +107,7 @@ var Recent = (function (_Component) {
       var firstUnreadAbove = _this.state.firstUnreadAbove;
 
       var rect = firstUnreadAbove.getBoundingClientRect();
-      var scrollNode = (0, _reactDom.findDOMNode)(_this.refs.container).getElementsByClassName('ss-content')[0];
+      var scrollNode = (0, _reactDom.findDOMNode)(_this.refs.container).getElementsByClassName('ss-scrollarea')[0];
       var scrollNodeRect = scrollNode.getBoundingClientRect();
 
       _this.refs.container.scrollTo(scrollNode.scrollTop + rect.top - scrollNodeRect.top);
@@ -123,7 +117,7 @@ var Recent = (function (_Component) {
       var lastUnreadBelow = _this.state.lastUnreadBelow;
 
       var rect = lastUnreadBelow.getBoundingClientRect();
-      var scrollNode = (0, _reactDom.findDOMNode)(_this.refs.container).getElementsByClassName('ss-content')[0];
+      var scrollNode = (0, _reactDom.findDOMNode)(_this.refs.container).getElementsByClassName('ss-scrollarea')[0];
       var scrollNodeRect = scrollNode.getBoundingClientRect();
 
       _this.refs.container.scrollTo(scrollNode.scrollTop + rect.top - (scrollNodeRect.top + scrollNodeRect.height - rect.height));
@@ -133,30 +127,35 @@ var Recent = (function (_Component) {
       maxWait: 150,
       leading: true
     });
+
+    _this.state = {
+      haveUnreadAbove: false,
+      haveUnreadBelow: false,
+      lastUnreadBelow: null,
+      firstUnreadAbove: null
+    };
     return _this;
   }
 
   _createClass(Recent, [{
     key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      var _this2 = this;
-
-      setTimeout(function () {
-        return _this2.checkInvisibleCounters();
-      }, 500);
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps !== this.props) {
+        this.checkInvisibleCounters();
+      }
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
+      var _this2 = this;
 
+      var dialogs = this.props.dialogs;
       var _state = this.state;
-      var allDialogs = _state.allDialogs;
       var haveUnreadAbove = _state.haveUnreadAbove;
       var haveUnreadBelow = _state.haveUnreadBelow;
       var intl = this.context.intl;
 
-      var recentGroups = (0, _lodash.map)(allDialogs, function (dialogGroup, index) {
+      var recentGroups = (0, _lodash.map)(dialogs, function (dialogGroup, index) {
         var groupTitle = undefined;
         switch (dialogGroup.key) {
           case 'groups':
@@ -165,13 +164,13 @@ var Recent = (function (_Component) {
               { className: 'sidebar__list__title' },
               _react2.default.createElement(
                 'a',
-                { onClick: _this3.handleGroupListClick },
+                { onClick: _this2.handleGroupListClick },
                 intl.messages['sidebar.recents.' + dialogGroup.key]
               ),
               _react2.default.createElement(
                 'i',
                 { className: 'material-icons sidebar__list__title__icon pull-right',
-                  onClick: _this3.handleCreateGroup },
+                  onClick: _this2.handleCreateGroup },
                 'add_circle_outline'
               )
             );
@@ -182,13 +181,13 @@ var Recent = (function (_Component) {
               { className: 'sidebar__list__title' },
               _react2.default.createElement(
                 'a',
-                { onClick: _this3.handlePrivateListClick },
+                { onClick: _this2.handlePrivateListClick },
                 intl.messages['sidebar.recents.' + dialogGroup.key]
               ),
               _react2.default.createElement(
                 'i',
                 { className: 'material-icons sidebar__list__title__icon pull-right',
-                  onClick: _this3.handleCreatePrivate },
+                  onClick: _this2.handleCreatePrivate },
                 'add_circle_outline'
               )
             );
@@ -247,13 +246,6 @@ var Recent = (function (_Component) {
         ) : null
       );
     }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        allDialogs: _AllDialogsStore2.default.getAllDialogs()
-      };
-    }
   }]);
 
   return Recent;
@@ -262,10 +254,8 @@ var Recent = (function (_Component) {
 Recent.contextTypes = {
   intl: _react.PropTypes.object
 };
-
-Recent.getStores = function () {
-  return [_AllDialogsStore2.default];
+Recent.propTypes = {
+  dialogs: _react.PropTypes.array.isRequired
 };
-
-exports.default = _utils.Container.create(Recent, { pure: false });
+exports.default = Recent;
 //# sourceMappingURL=Recent.react.js.map

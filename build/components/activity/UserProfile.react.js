@@ -48,13 +48,9 @@ var _CallActionCreators = require('../../actions/CallActionCreators');
 
 var _CallActionCreators2 = _interopRequireDefault(_CallActionCreators);
 
-var _PeerStore = require('../../stores/PeerStore');
+var _UserStore = require('../../stores/UserStore');
 
-var _PeerStore2 = _interopRequireDefault(_PeerStore);
-
-var _DialogStore = require('../../stores/DialogStore');
-
-var _DialogStore2 = _interopRequireDefault(_DialogStore);
+var _UserStore2 = _interopRequireDefault(_UserStore);
 
 var _NotificationsStore = require('../../stores/NotificationsStore');
 
@@ -83,7 +79,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var getStateFromStores = function getStateFromStores(uid) {
-  var thisPeer = uid ? GroupStore.getGroup(uid) : null;
+  var thisPeer = uid ? _UserStore2.default.getUser(uid) : null;
   return {
     thisPeer: thisPeer,
     isNotificationsEnabled: thisPeer ? _NotificationsStore2.default.isNotificationsEnabled(thisPeer) : true,
@@ -101,8 +97,8 @@ var UserProfile = (function (_Component) {
     }
   }, {
     key: 'calculateState',
-    value: function calculateState(prevState) {
-      return getStateFromStores(prevState && prevState.user ? prevState.user.id : null);
+    value: function calculateState(prevState, nextProps) {
+      return getStateFromStores(nextProps.user.id);
     }
   }]);
 
@@ -124,15 +120,10 @@ var UserProfile = (function (_Component) {
     };
 
     _this.onNotificationChange = function (event) {
+      console.debug('onNotificationChange', _this.state);
       var thisPeer = _this.state.thisPeer;
 
       _NotificationsActionCreators2.default.changeNotificationsEnabled(thisPeer, event.target.checked);
-    };
-
-    _this.onChange = function () {
-      var user = _this.props.user;
-
-      _this.setState(getStateFromStores(user.id));
     };
 
     _this.toggleActionsDropdown = function () {
@@ -180,8 +171,7 @@ var UserProfile = (function (_Component) {
     };
 
     _this.state = {
-      isMoreDropdownOpen: false,
-      user: props.user // hack to be able to access userId in getStateFromStores
+      isMoreDropdownOpen: false
     };
     return _this;
   }
@@ -442,5 +432,5 @@ UserProfile.propTypes = {
 UserProfile.contextTypes = {
   intl: _react.PropTypes.object
 };
-exports.default = _utils.Container.create(UserProfile);
+exports.default = _utils.Container.create(UserProfile, { pure: false, withProps: true });
 //# sourceMappingURL=UserProfile.react.js.map

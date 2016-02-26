@@ -10,6 +10,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _utils = require('flux/utils');
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -36,17 +38,25 @@ var _FavoriteActionCreators = require('../../actions/FavoriteActionCreators');
 
 var _FavoriteActionCreators2 = _interopRequireDefault(_FavoriteActionCreators);
 
-var _DialogStore = require('../../stores/DialogStore');
+var _ArchiveActionCreators = require('../../actions/ArchiveActionCreators');
 
-var _DialogStore2 = _interopRequireDefault(_DialogStore);
+var _ArchiveActionCreators2 = _interopRequireDefault(_ArchiveActionCreators);
 
 var _UserStore = require('../../stores/UserStore');
 
 var _UserStore2 = _interopRequireDefault(_UserStore);
 
+var _ArchiveStore = require('../../stores/ArchiveStore');
+
+var _ArchiveStore2 = _interopRequireDefault(_ArchiveStore);
+
 var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
+
+var _Stateful = require('../common/Stateful');
+
+var _Stateful2 = _interopRequireDefault(_Stateful);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -70,36 +80,12 @@ var RecentItem = (function (_Component) {
       return _DialogActionCreators2.default.selectDialogPeer(_this.props.dialog.peer.peer);
     };
 
-    _this.handleHideChat = function (event) {
-      event.stopPropagation();
-      event.preventDefault();
-      var dialog = _this.props.dialog;
-      var intl = _this.context.intl;
-
-      if (_UserStore2.default.isContact(dialog.peer.peer.id)) {
-        _DialogActionCreators2.default.hideChat(dialog.peer.peer);
-      } else {
-        (0, _confirm2.default)(intl.messages['modal.confirm.nonContactHide.title'], {
-          description: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.nonContactHide.body',
-            values: { name: dialog.peer.title } }),
-          abortLabel: intl.messages['button.cancel'],
-          confirmLabel: intl.messages['button.ok']
-        }).then(function () {
-          return _DialogActionCreators2.default.hideChat(dialog.peer.peer);
-        }, function () {});
-      }
-    };
-
-    _this.handleFavorite = function (event) {
+    _this.handleAddToArchive = function (event) {
       event.preventDefault();
       event.stopPropagation();
-      _FavoriteActionCreators2.default.favoriteChat(_this.props.dialog.peer.peer);
-    };
+      var peer = _this.props.dialog.peer.peer;
 
-    _this.handleUnfavorite = function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-      _FavoriteActionCreators2.default.unfavoriteChat(_this.props.dialog.peer.peer);
+      _ArchiveActionCreators2.default.archiveChat(peer);
     };
 
     return _this;
@@ -108,7 +94,10 @@ var RecentItem = (function (_Component) {
   _createClass(RecentItem, [{
     key: 'render',
     value: function render() {
-      var dialog = this.props.dialog;
+      var _props = this.props;
+      var dialog = _props.dialog;
+      var type = _props.type;
+      var archiveChatState = this.state.archiveChatState;
 
       var toPeer = _PeerUtils2.default.peerToString(dialog.peer.peer);
 
@@ -131,10 +120,98 @@ var RecentItem = (function (_Component) {
             'span',
             { className: 'counter' },
             dialog.counter
-          ) : null
+          ) : null,
+          _react2.default.createElement(
+            _Stateful2.default.Root,
+            { currentState: archiveChatState },
+            _react2.default.createElement(
+              _Stateful2.default.Pending,
+              null,
+              _react2.default.createElement(
+                'div',
+                { className: 'archive', onClick: this.handleAddToArchive },
+                _react2.default.createElement(
+                  'i',
+                  { className: 'icon material-icons' },
+                  'archive'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              _Stateful2.default.Processing,
+              null,
+              _react2.default.createElement(
+                'div',
+                { className: 'archive archive--in-progress' },
+                _react2.default.createElement(
+                  'i',
+                  { className: 'icon material-icons spin' },
+                  'autorenew'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              _Stateful2.default.Success,
+              null,
+              _react2.default.createElement(
+                'div',
+                { className: 'archive archive--in-progress' },
+                _react2.default.createElement(
+                  'i',
+                  { className: 'icon material-icons' },
+                  'check'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              _Stateful2.default.Failure,
+              null,
+              _react2.default.createElement(
+                'div',
+                { className: 'archive archive--failure' },
+                _react2.default.createElement(
+                  'i',
+                  { className: 'icon material-icons' },
+                  'warning'
+                )
+              )
+            )
+          )
         )
       );
     }
+  }], [{
+    key: 'getStores',
+    value: function getStores() {
+      return [_ArchiveStore2.default];
+    }
+  }, {
+    key: 'calculateState',
+    value: function calculateState(prevState, nextProps) {
+      return {
+        archiveChatState: _ArchiveStore2.default.getArchiveChatState(nextProps.dialog.peer.peer.id)
+      };
+    }
+
+    // handleHideChat = (event) => {
+    //   event.stopPropagation();
+    //   event.preventDefault();
+    //   const { dialog } = this.props;
+    //   const { intl } = this.context;
+    //
+    //   if (UserStore.isContact(dialog.peer.peer.id)) {
+    //     DialogActionCreators.hideChat(dialog.peer.peer);
+    //   } else {
+    //     confirm(intl.messages['modal.confirm.nonContactHide.title'], {
+    //       description: <FormattedMessage id="modal.confirm.nonContactHide.body"
+    //                                      values={{name: dialog.peer.title}}/>
+    //     }).then(
+    //       () => DialogActionCreators.hideChat(dialog.peer.peer),
+    //       () => {}
+    //     );
+    //   }
+    // };
+
   }]);
 
   return RecentItem;
@@ -147,5 +224,5 @@ RecentItem.propTypes = {
 RecentItem.contextTypes = {
   intl: _react.PropTypes.object
 };
-exports.default = RecentItem;
+exports.default = _utils.Container.create(RecentItem, { pure: false, withProps: true });
 //# sourceMappingURL=RecentItem.react.js.map

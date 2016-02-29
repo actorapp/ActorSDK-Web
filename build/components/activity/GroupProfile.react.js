@@ -198,7 +198,7 @@ var GroupProfile = (function (_Component) {
     _this.makeCall = function () {
       var group = _this.props.group;
 
-      _CallActionCreators2.default.makeCall(group.id);
+      _CallActionCreators2.default.makeGroupCall(group.id);
     };
 
     _this.state = {

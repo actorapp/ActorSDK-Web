@@ -70,12 +70,34 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var language = navigator.language.toLocaleLowerCase() || navigator.browserLanguage.toLocaleLowerCase();
 if (language === 'zh-cn') language = 'zh';
 
+function buildMessages(defaultLanguage, language) {
+  if (process.env.NODE_ENV === 'development') {
+    (function () {
+      var flattenDefault = flattenMessages(defaultLanguage.messages);
+      var flattenLanguage = flattenMessages(language.messages);
+      var missingKeys = Object.keys(flattenDefault).filter(function (key) {
+        return !flattenLanguage[key];
+      });
+      if (missingKeys.length) {
+        var groupMessage = 'There are missing transations for "' + language.locale + '" locale.';
+        console.groupCollapsed(groupMessage);
+        missingKeys.forEach(function (key) {
+          console.warn(key + ': ' + flattenDefault[key]);
+        });
+        console.groupEnd(groupMessage);
+      }
+    })();
+  }
+
+  language.messages = (0, _assignDeep2.default)({}, defaultLanguage.messages, language.messages);
+}
+
 // Fallback to default language
 var defaultLanguage = _enUS2.default;
-_ruRU2.default.messages = (0, _assignDeep2.default)({}, defaultLanguage.messages, _ruRU2.default.messages);
-_esES2.default.messages = (0, _assignDeep2.default)({}, defaultLanguage.messages, _esES2.default.messages);
-_ptBR2.default.messages = (0, _assignDeep2.default)({}, defaultLanguage.messages, _ptBR2.default.messages);
-_zhCN2.default.messages = (0, _assignDeep2.default)({}, defaultLanguage.messages, _zhCN2.default.messages);
+buildMessages(defaultLanguage, _ruRU2.default);
+buildMessages(defaultLanguage, _esES2.default);
+buildMessages(defaultLanguage, _ptBR2.default);
+buildMessages(defaultLanguage, _zhCN2.default);
 
 // Set language data
 var languageData = {
@@ -98,26 +120,26 @@ function extendL18n() {
   _zhCN2.default.messages = delegate.l18n.chinese ? (0, _assignDeep2.default)({}, _zhCN2.default.messages, delegate.l18n.default.messages, delegate.l18n.chinese.messages) : _zhCN2.default.messages;
 }
 
+function flattenMessages(nestedMessages) {
+  var prefix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+
+  return Object.keys(nestedMessages).reduce(function (messages, key) {
+    var value = nestedMessages[key];
+    var prefixedKey = prefix ? prefix + '.' + key : key;
+
+    if (typeof value === 'string') {
+      messages[prefixedKey] = value;
+    } else {
+      Object.assign(messages, flattenMessages(value, prefixedKey));
+    }
+
+    return messages;
+  }, {});
+}
+
 function getIntlData(locale) {
   var lang = locale ? locale : language;
   var currentLanguage = languageData[lang] || languageData[lang.split('-')[0]] || languageData['default'];
-
-  var flattenMessages = function flattenMessages(nestedMessages) {
-    var prefix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
-
-    return Object.keys(nestedMessages).reduce(function (messages, key) {
-      var value = nestedMessages[key];
-      var prefixedKey = prefix ? prefix + '.' + key : key;
-
-      if (typeof value === 'string') {
-        messages[prefixedKey] = value;
-      } else {
-        Object.assign(messages, flattenMessages(value, prefixedKey));
-      }
-
-      return messages;
-    }, {});
-  };
 
   return {
     locale: currentLanguage.locale,

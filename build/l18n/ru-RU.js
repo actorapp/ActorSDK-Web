@@ -20,6 +20,9 @@ exports.default = {
         'codeInvalid': 'Неправильный код',
         'codeExpired': 'Время действия кода истекло',
         'codeWait': 'Попытайтесь запросить код позже'
+      },
+      'welcome': {
+        'header': 'Добро пожаловать в <strong>{appName}</strong>'
       }
     },
 
@@ -51,7 +54,8 @@ exports.default = {
       'addMembers': 'Добавить пользователей',
       'quickSearch': 'Быстрый поиск',
       'close': 'Закрыть',
-      'save': 'Сохранить'
+      'save': 'Сохранить',
+      'call': 'Позвонить'
     },
 
     // Messages
@@ -124,6 +128,7 @@ exports.default = {
       'contacts': {
         'title': 'Люди',
         'search': 'Поиск контактов',
+        'loading': 'Загружается',
         'notFound': 'Извините, ничего не найдено.'
       },
       'groups': {
@@ -142,7 +147,7 @@ exports.default = {
       },
       'addContact': {
         'title': 'Добавить контакт',
-        'query': 'Никнейм, емайл или телефон',
+        'query': 'Никнейм, email или телефон',
         'phone': 'Номер телефона',
         'notFound': 'Пользователь с такими данными не найден.',
         'empty': 'Начните печатать для поиска людей',
@@ -179,7 +184,7 @@ exports.default = {
 
     // Profiles
     'profile': {
-      'email': 'емайл',
+      'email': 'email',
       'phone': 'телефон',
       'nickname': 'ник'
     },
@@ -212,7 +217,7 @@ exports.default = {
     'inviteModalNotFound': 'Извините, ничего не найдено',
     'inviteByLink': 'Ссылка для приглашения в группу',
     'inviteByLinkModalTitle': 'Пригласить по ссылке',
-    'inviteByLinkModalDescription': 'Любой в интернете теперь может присоедениться к ”{groupName}” открыв эту ссылку:',
+    'inviteByLinkModalDescription': 'Любой в интернете теперь может присоедениться к ”{groupName}”, открыв эту ссылку:',
     'inviteByLinkModalCopyButton': 'Скопировать',
     'inviteByLinkModalRevokeButton': 'Отменить',
     'inviteLinkCopied': 'Ссылка скопирована.',
@@ -229,7 +234,7 @@ exports.default = {
     'preferencesNotificationsTitle': 'Уведомления',
     'preferencesNotificationsGroup': 'Включить уведомления для групп',
     'preferencesNotificationsOnlyMention': 'Включить уведомления только для упоминаний',
-    'preferencesNotificationsOnlyMentionHint': 'Вы можете включить уведомления только для сообщений в которых вы упомянуты.',
+    'preferencesNotificationsOnlyMentionHint': 'Вы можете включить уведомления только для сообщений, в которых вы упомянуты.',
     'preferencesPrivacyTitle': 'Конфиденциальность',
     'preferencesMessagePreview': 'Предварительный просмотр сообщений',
     'preferencesMessagePreviewHint': 'Удаляет текст сообщений из уведомлений.',
@@ -242,6 +247,8 @@ exports.default = {
     // Sidebar
     'sidebar': {
       'recents': {
+        'groups': 'Группы',
+        'privates': 'Диалоги',
         'empty': {
           'first': 'В данный момент у вас нет открытых диалогов.',
           'second': {
@@ -251,11 +258,12 @@ exports.default = {
           }
         },
         'newDialog': 'создать диалог',
+        'favourites': 'Избранное',
         'addPeople': 'добавить контакт'
       }
     },
     'main': {
-      'empty': 'Старайся быть лучше чем был вчера!',
+      'empty': 'Старайся быть лучше, чем был вчера!',
       'deactivated': {
         'header': 'Вкладка деактивирована',
         'text': 'Упс, похоже что вы открыли еще одну вкладку с {appName}, поэтому мы вынуждены деактивировать эту вкладку чтобы избежать ошибок.'

@@ -95,7 +95,7 @@ var CallModal = (function (_Component) {
       var callMembers = _state.callMembers;
       var callState = _state.callState;
 
-      var peerInfo = callPeer ? _UserStore2.default.getUser(callPeer.id) : null;
+      var peerInfo = callPeer ? callPeer.type == "user" ? _UserStore2.default.getUser(callPeer.id) : null : null;
 
       var modalStyles = {
         content: {

@@ -55,6 +55,13 @@ exports.default = {
       failure: _ActorAppConstants.ActionTypes.CALL_ERROR
     }, { peerId: peerId });
   },
+  makeGroupCall: function makeGroupCall(peerId) {
+    (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.makeGroupCall(peerId), {
+      request: _ActorAppConstants.ActionTypes.CALL,
+      success: _ActorAppConstants.ActionTypes.CALL_SUCCESS,
+      failure: _ActorAppConstants.ActionTypes.CALL_ERROR
+    }, { peerId: peerId });
+  },
   setCall: function setCall(call) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_CHANGED, { call: call });
   },

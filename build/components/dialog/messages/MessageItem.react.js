@@ -111,7 +111,7 @@ var MessageItem = (function (_Component) {
     key: 'calculateState',
     value: function calculateState(prevState, props) {
       return {
-        isHighlighted: props && props.message ? _DropdownStore2.default.isOpen(props.message.rid) : false
+        isHighlighted: props && props.message ? _DropdownStore2.default.isMessageDropdownOpen(props.message.rid) : false
       };
     }
   }]);

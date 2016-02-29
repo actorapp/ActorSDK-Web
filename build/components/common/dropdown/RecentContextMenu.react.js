@@ -24,23 +24,29 @@ var _isInside = require('../../../utils/isInside');
 
 var _isInside2 = _interopRequireDefault(_isInside);
 
-var _ActorAppConstants = require('../../../constants/ActorAppConstants');
+var _confirm = require('../../../utils/confirm');
 
-var _MessageActionCreators = require('../../../actions/MessageActionCreators');
+var _confirm2 = _interopRequireDefault(_confirm);
 
-var _MessageActionCreators2 = _interopRequireDefault(_MessageActionCreators);
+var _DialogStore = require('../../../stores/DialogStore');
 
-var _ComposeActionCreators = require('../../../actions/ComposeActionCreators');
+var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
-var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
+var _ArchiveActionCreators = require('../../../actions/ArchiveActionCreators');
+
+var _ArchiveActionCreators2 = _interopRequireDefault(_ArchiveActionCreators);
+
+var _FavoriteActionCreators = require('../../../actions/FavoriteActionCreators');
+
+var _FavoriteActionCreators2 = _interopRequireDefault(_FavoriteActionCreators);
 
 var _DropdownActionCreators = require('../../../actions/DropdownActionCreators');
 
 var _DropdownActionCreators2 = _interopRequireDefault(_DropdownActionCreators);
 
-var _UserStore = require('../../../stores/UserStore');
+var _DialogActionCreators = require('../../../actions/DialogActionCreators');
 
-var _UserStore2 = _interopRequireDefault(_UserStore);
+var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -52,95 +58,101 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var MessageActions = (function (_Component) {
-  _inherits(MessageActions, _Component);
+var RecentContextMenu = (function (_Component) {
+  _inherits(RecentContextMenu, _Component);
 
-  function MessageActions(props) {
-    _classCallCheck(this, MessageActions);
+  function RecentContextMenu(props) {
+    _classCallCheck(this, RecentContextMenu);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MessageActions).call(this, props));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RecentContextMenu).call(this, props));
 
     _this.handleDocumentClick = function (event) {
-      var dropdown = (0, _reactDom.findDOMNode)(_this.refs.dropdown);
-      var dropdownRect = dropdown.getBoundingClientRect();
+      var menu = (0, _reactDom.findDOMNode)(_this.refs.menu);
+      var menuRect = menu.getBoundingClientRect();
       var coords = {
         x: event.pageX || event.clientX,
         y: event.pageY || event.clientY
       };
 
-      if (!(0, _isInside2.default)(coords, dropdownRect)) {
-        event.preventDefault();
-        _this.handleDropdownClose();
+      if (!(0, _isInside2.default)(coords, menuRect)) {
+        // event.preventDefault();
+        _this.handleClose();
       }
     };
 
-    _this.handleDropdownClose = function () {
-      return _DropdownActionCreators2.default.hideMessageDropdown();
+    _this.handleClose = function () {
+      return _DropdownActionCreators2.default.hideRecentContext();
     };
 
-    _this.handleDelete = function () {
-      var _this$props = _this.props;
-      var peer = _this$props.peer;
-      var message = _this$props.message;
+    _this.handleAddToArchive = function (event) {
+      var peer = _this.props.peer;
 
-      _MessageActionCreators2.default.deleteMessage(peer, message.rid);
-      _this.handleDropdownClose();
+      _ArchiveActionCreators2.default.archiveChat(peer);
+      _this.handleClose();
     };
 
-    _this.handleReply = function () {
-      var message = _this.props.message;
+    _this.handleFavorite = function (event) {
+      var peer = _this.props.peer;
 
-      var info = _UserStore2.default.getUser(message.sender.peer.id);
-      var replyText = info.nick ? '@' + info.nick + ': ' : info.name + ': ';
-      _ComposeActionCreators2.default.pasteText(replyText);
-      _this.handleDropdownClose();
+      _FavoriteActionCreators2.default.favoriteChat(peer);
+      _this.handleClose();
     };
 
-    _this.handleQuote = function () {
-      var message = _this.props.message;
+    _this.handleUnfavorite = function (event) {
+      var peer = _this.props.peer;
 
-      _ComposeActionCreators2.default.pasteText('> ' + message.content.text + ' \n');
-      _this.handleDropdownClose();
+      _FavoriteActionCreators2.default.unfavoriteChat(peer);
+      _this.handleClose();
+    };
+
+    _this.handleDelete = function (event) {
+      var intl = _this.context.intl;
+      var peer = _this.props.peer;
+
+      (0, _confirm2.default)(intl.messages['modal.confirm.delete']).then(function () {
+        return _DialogActionCreators2.default.deleteChat(peer);
+      }, function () {});
     };
 
     document.addEventListener('click', _this.handleDocumentClick, true);
+    document.addEventListener('contextmenu', _this.handleClose, true);
 
     if (props.hideOnScroll) {
-      document.addEventListener('scroll', _this.handleDropdownClose, true);
+      document.addEventListener('scroll', _this.handleClose, true);
     }
     return _this;
   }
 
-  _createClass(MessageActions, [{
+  _createClass(RecentContextMenu, [{
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       var hideOnScroll = this.props.hideOnScroll;
 
       document.removeEventListener('click', this.handleDocumentClick, true);
+      document.removeEventListener('contextmenu', this.handleClose, true);
 
       if (hideOnScroll) {
-        document.removeEventListener('scroll', this.handleDropdownClose, true);
+        document.removeEventListener('scroll', this.handleClose, true);
       }
     }
   }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
-      var message = _props.message;
-      var targetRect = _props.targetRect;
-      var intl = this.context.intl;
+      var peer = _props.peer;
+      var contextPos = _props.contextPos;
 
-      var isThisMyMessage = _UserStore2.default.getMyId() === message.sender.peer.id;
+      var isFavorite = _DialogStore2.default.isFavorite(peer.id);
 
       var dropdownStyles = {
-        top: targetRect.top,
-        left: targetRect.left
+        top: contextPos.y,
+        left: contextPos.x
       };
 
       var dropdownMenuStyles = {
-        minWidth: 120,
-        right: 2,
-        top: -4
+        minWidth: 140,
+        left: 2,
+        top: 2
       };
 
       return _react2.default.createElement(
@@ -148,50 +160,35 @@ var MessageActions = (function (_Component) {
         { className: 'dropdown dropdown--opened dropdown--small', style: dropdownStyles },
         _react2.default.createElement(
           'ul',
-          { className: 'dropdown__menu dropdown__menu--right', ref: 'dropdown', style: dropdownMenuStyles },
-          _react2.default.createElement(
+          { className: 'dropdown__menu dropdown__menu--left', ref: 'menu', style: dropdownMenuStyles },
+          isFavorite ? _react2.default.createElement(
             'li',
-            { className: 'dropdown__menu__item hide' },
+            { className: 'dropdown__menu__item', onClick: this.handleUnfavorite },
             _react2.default.createElement(
               'i',
               { className: 'icon material-icons' },
-              'star_rate'
+              'star_border'
             ),
-            ' ',
-            intl.messages['message.pin']
+            ' Unfavorite'
+          ) : _react2.default.createElement(
+            'li',
+            { className: 'dropdown__menu__item', onClick: this.handleFavorite },
+            _react2.default.createElement(
+              'i',
+              { className: 'icon material-icons' },
+              'star'
+            ),
+            ' Favorite'
           ),
-          !isThisMyMessage ? _react2.default.createElement(
-            'li',
-            { className: 'dropdown__menu__item', onClick: this.handleReply },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons' },
-              'reply'
-            ),
-            ' ',
-            intl.messages['message.reply']
-          ) : null,
-          message.content.content === _ActorAppConstants.MessageContentTypes.TEXT ? _react2.default.createElement(
-            'li',
-            { className: 'dropdown__menu__item', onClick: this.handleQuote },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons' },
-              'format_quote'
-            ),
-            ' ',
-            intl.messages['message.quote']
-          ) : null,
           _react2.default.createElement(
             'li',
-            { className: 'dropdown__menu__item hide' },
+            { className: 'dropdown__menu__item', onClick: this.handleAddToArchive },
             _react2.default.createElement(
               'i',
               { className: 'icon material-icons' },
-              'forward'
+              'archive'
             ),
-            ' ',
-            intl.messages['message.forward']
+            ' Send to archive'
           ),
           _react2.default.createElement(
             'li',
@@ -201,28 +198,26 @@ var MessageActions = (function (_Component) {
               { className: 'icon material-icons' },
               'delete'
             ),
-            ' ',
-            intl.messages['message.delete']
+            ' Delete'
           )
         )
       );
     }
   }]);
 
-  return MessageActions;
+  return RecentContextMenu;
 })(_react.Component);
 
-MessageActions.propTypes = {
+RecentContextMenu.propTypes = {
   peer: _react.PropTypes.object.isRequired,
-  message: _react.PropTypes.object.isRequired,
-  targetRect: _react.PropTypes.object.isRequired,
+  contextPos: _react.PropTypes.object.isRequired,
   hideOnScroll: _react.PropTypes.bool.isRequired
 };
-MessageActions.contextTypes = {
+RecentContextMenu.contextTypes = {
   intl: _react.PropTypes.object
 };
 
-_reactMixin2.default.onClass(MessageActions, _reactAddonsPureRenderMixin2.default);
+_reactMixin2.default.onClass(RecentContextMenu, _reactAddonsPureRenderMixin2.default);
 
-exports.default = MessageActions;
-//# sourceMappingURL=MessageActions.react.js.map
+exports.default = RecentContextMenu;
+//# sourceMappingURL=RecentContextMenu.react.js.map

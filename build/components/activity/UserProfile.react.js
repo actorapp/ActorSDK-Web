@@ -120,7 +120,6 @@ var UserProfile = (function (_Component) {
     };
 
     _this.onNotificationChange = function (event) {
-      console.debug('onNotificationChange', _this.state);
       var thisPeer = _this.state.thisPeer;
 
       _NotificationsActionCreators2.default.changeNotificationsEnabled(thisPeer, event.target.checked);

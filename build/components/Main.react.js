@@ -34,9 +34,9 @@ var _ModalsWrapper = require('./modals/ModalsWrapper.react');
 
 var _ModalsWrapper2 = _interopRequireDefault(_ModalsWrapper);
 
-var _DropdownWrapper = require('./common/DropdownWrapper.react');
+var _MenuOverlay = require('./common/MenuOverlay.react');
 
-var _DropdownWrapper2 = _interopRequireDefault(_DropdownWrapper);
+var _MenuOverlay2 = _interopRequireDefault(_MenuOverlay);
 
 var _CallModal = require('./modals/CallModal.react');
 
@@ -115,7 +115,7 @@ var Main = (function (_Component) {
         _react2.default.createElement(Sidebar, null),
         this.props.children,
         _react2.default.createElement(_ModalsWrapper2.default, null),
-        _react2.default.createElement(_DropdownWrapper2.default, null),
+        _react2.default.createElement(_MenuOverlay2.default, null),
         _react2.default.createElement(_InviteUser2.default, null),
         _react2.default.createElement(_InviteByLink2.default, null),
         _react2.default.createElement(_EditGroup2.default, null),

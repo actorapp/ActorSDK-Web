@@ -57,7 +57,9 @@ exports.default = {
       'quickSearch': 'Quick search',
       'close': 'Close',
       'save': 'Save',
-      'call': 'Make call'
+      'call': 'Make call',
+      'archive': 'Archive',
+      'invite': '+ Invite people'
     },
 
     // Messages
@@ -261,6 +263,12 @@ exports.default = {
         'favourites': 'Favorites',
         'groups': 'Groups',
         'privates': 'Privates'
+      },
+      'group': {
+        'empty': 'Create your first group conversation'
+      },
+      'private': {
+        'empty': 'There is no one in your network'
       }
     },
     'main': {

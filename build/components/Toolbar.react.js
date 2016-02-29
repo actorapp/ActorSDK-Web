@@ -94,16 +94,15 @@ var ToolbarSection = (function (_Component) {
       var dialogInfo = _state.dialogInfo;
       var isActivityOpen = _state.isActivityOpen;
       var message = _state.message;
+      var isFavorite = _state.isFavorite;
       var isExperimental = this.context.isExperimental;
-
-      var isFavorited = false;
 
       var infoButtonClassName = (0, _classnames2.default)('button button--icon', {
         'active': isActivityOpen
       });
 
       var favoriteClassName = (0, _classnames2.default)('toolbar__peer__favorite', {
-        'toolbar__peer__favorite--active': isFavorited
+        'toolbar__peer__favorite--active': isFavorite
       });
 
       if (dialogInfo !== null) {
@@ -124,7 +123,7 @@ var ToolbarSection = (function (_Component) {
               _react2.default.createElement(
                 'span',
                 { className: favoriteClassName },
-                isExperimental ? isFavorited ? _react2.default.createElement(
+                isFavorite ? _react2.default.createElement(
                   'i',
                   { className: 'material-icons', onClick: this.handleUnfavorite },
                   'star'
@@ -132,7 +131,7 @@ var ToolbarSection = (function (_Component) {
                   'i',
                   { className: 'material-icons', onClick: this.handleFavorite },
                   'star_border'
-                ) : null
+                )
               )
             ),
             _react2.default.createElement(
@@ -175,11 +174,14 @@ var ToolbarSection = (function (_Component) {
   }], [{
     key: 'calculateState',
     value: function calculateState() {
+      var thisPeer = _DialogStore2.default.getCurrentPeer();
+
       return {
-        thisPeer: _DialogStore2.default.getCurrentPeer(),
+        thisPeer: thisPeer,
         dialogInfo: _DialogInfoStore2.default.getInfo(),
         isActivityOpen: _ActivityStore2.default.isOpen(),
-        message: _OnlineStore2.default.getMessage()
+        message: _OnlineStore2.default.getMessage(),
+        isFavorite: _DialogStore2.default.isFavorite(thisPeer.id)
       };
     }
   }]);

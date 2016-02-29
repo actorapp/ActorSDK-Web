@@ -18,6 +18,10 @@ var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
+var _PeerUtils = require('../utils/PeerUtils');
+
+var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28,50 +32,82 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var _isOpen = false;
-var _message = {};
-var _targetRect = {};
-
 var DropdownStore = (function (_Store) {
   _inherits(DropdownStore, _Store);
 
   function DropdownStore(dispatcher) {
     _classCallCheck(this, DropdownStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(DropdownStore).call(this, dispatcher));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DropdownStore).call(this, dispatcher));
+
+    _this._isMessageDropdownOpen = false;
+    _this._isRecentContextOpen = false;
+    _this._targetRect = {};
+    _this._contextPos = {};
+    _this._message = {};
+    _this._peer = {};
+    return _this;
   }
 
   _createClass(DropdownStore, [{
-    key: 'isOpen',
-    value: function isOpen(rid) {
-      if (rid === _message.rid) {
-        return _isOpen;
+    key: 'isMessageDropdownOpen',
+    value: function isMessageDropdownOpen(rid) {
+      if (rid === this._message.rid) {
+        return this._isMessageDropdownOpen;
       } else {
         return false;
       }
     }
   }, {
+    key: 'isRecentContextOpen',
+    value: function isRecentContextOpen() {
+      return this._isRecentContextOpen;
+    }
+  }, {
     key: 'getMessage',
     value: function getMessage() {
-      return _message;
+      return this._message;
     }
   }, {
     key: 'getTargetRect',
     value: function getTargetRect() {
-      return _targetRect;
+      return this._targetRect;
+    }
+  }, {
+    key: 'getContextPos',
+    value: function getContextPos() {
+      return this._contextPos;
+    }
+  }, {
+    key: 'getPeer',
+    value: function getPeer() {
+      return this._peer;
     }
   }, {
     key: '__onDispatch',
     value: function __onDispatch(action) {
       switch (action.type) {
-        case _ActorAppConstants.ActionTypes.DROPDOWN_SHOW:
-          _isOpen = true;
-          _message = action.message;
-          _targetRect = action.targetRect;
+        case _ActorAppConstants.ActionTypes.MESSAGE_DROPDOWN_SHOW:
+          this._isMessageDropdownOpen = true;
+          this._isRecentContextOpen = false;
+          this._message = action.message;
+          this._targetRect = action.targetRect;
           this.__emitChange();
           break;
-        case _ActorAppConstants.ActionTypes.DROPDOWN_HIDE:
-          _isOpen = false;
+        case _ActorAppConstants.ActionTypes.MESSAGE_DROPDOWN_HIDE:
+          this._isMessageDropdownOpen = false;
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.RECENT_CONTEXT_MENU_SHOW:
+          this._isRecentContextOpen = true;
+          this._isMessageDropdownOpen = false;
+          this._contextPos = action.contextPos;
+          this._peer = action.peer;
+          this.__emitChange();
+          break;
+        case _ActorAppConstants.ActionTypes.RECENT_CONTEXT_MENU_HIDE:
+          this._isRecentContextOpen = false;
           this.__emitChange();
           break;
         default:

@@ -14,6 +14,14 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = require('react-dom');
 
+var _reactRouter = require('react-router');
+
+var _reactIntl = require('react-intl');
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _CreateGroupActionCreators = require('../../actions/CreateGroupActionCreators');
 
 var _CreateGroupActionCreators2 = _interopRequireDefault(_CreateGroupActionCreators);
@@ -156,7 +164,9 @@ var Recent = (function (_Component) {
       var intl = this.context.intl;
 
       var recentGroups = (0, _lodash.map)(dialogs, function (dialogGroup, index) {
+        var isEmpty = dialogGroup.shorts.length === 0;
         var groupTitle = undefined;
+
         switch (dialogGroup.key) {
           case 'groups':
             groupTitle = _react2.default.createElement(
@@ -206,11 +216,40 @@ var Recent = (function (_Component) {
             type: dialogGroup.key });
         });
 
+        var groupClassname = (0, _classnames2.default)('sidebar__list sidebar__list--' + dialogGroup.key, {
+          'sidebar__list--empty': isEmpty
+        });
+
+        var getEmptyMessage = function getEmptyMessage() {
+          switch (dialogGroup.key) {
+            case 'groups':
+              return _react2.default.createElement(
+                'li',
+                { className: 'sidebar__list__item sidebar__list__item--empty' },
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.group.empty' }),
+                _react2.default.createElement('div', { className: 'stem' })
+              );
+            case 'privates':
+              return _react2.default.createElement(
+                'li',
+                { className: 'sidebar__list__item sidebar__list__item--empty' },
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.private.empty' }),
+                _react2.default.createElement(
+                  'button',
+                  { className: 'button button--outline button--wide hide' },
+                  _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.invite' })
+                )
+              );
+            default:
+              return null;
+          }
+        };
+
         return _react2.default.createElement(
           'ul',
-          { className: 'sidebar__list sidebar__list--' + dialogGroup.key, key: index },
+          { className: groupClassname, key: index },
           groupTitle,
-          groupList
+          isEmpty ? getEmptyMessage() : groupList
         );
       });
 
@@ -232,7 +271,16 @@ var Recent = (function (_Component) {
           _react2.default.createElement(
             'div',
             null,
-            recentGroups
+            recentGroups,
+            _react2.default.createElement(
+              'footer',
+              null,
+              _react2.default.createElement(
+                _reactRouter.Link,
+                { to: '/im/archive', className: 'button button--rised button--wide' },
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.archive' })
+              )
+            )
           )
         ),
         haveUnreadBelow ? _react2.default.createElement(

@@ -24,9 +24,9 @@ var _QuickSearchButton = require('./sidebar/QuickSearchButton.react');
 
 var _QuickSearchButton2 = _interopRequireDefault(_QuickSearchButton);
 
-var _AllDialogsStore = require('../stores/AllDialogsStore');
+var _DialogStore = require('../stores/DialogStore');
 
-var _AllDialogsStore2 = _interopRequireDefault(_AllDialogsStore);
+var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51,7 +51,7 @@ var SidebarSection = (function (_Component) {
     key: 'render',
     value: function render() {
       var delegate = this.context.delegate;
-      var allDialogs = this.state.allDialogs;
+      var dialogs = this.state.dialogs;
 
       var HeaderSection = undefined,
           Recent = undefined,
@@ -70,7 +70,7 @@ var SidebarSection = (function (_Component) {
         'aside',
         { className: 'sidebar' },
         _react2.default.createElement(HeaderSection, null),
-        _react2.default.createElement(Recent, { dialogs: allDialogs }),
+        _react2.default.createElement(Recent, { dialogs: dialogs }),
         _react2.default.createElement(FooterSection, null)
       );
     }
@@ -78,7 +78,7 @@ var SidebarSection = (function (_Component) {
     key: 'calculateState',
     value: function calculateState() {
       return {
-        allDialogs: _AllDialogsStore2.default.getAllDialogs()
+        dialogs: _DialogStore2.default.getDialogs()
       };
     }
   }]);
@@ -87,7 +87,7 @@ var SidebarSection = (function (_Component) {
 })(_react.Component);
 
 SidebarSection.getStores = function () {
-  return [_AllDialogsStore2.default];
+  return [_DialogStore2.default];
 };
 
 SidebarSection.contextTypes = {

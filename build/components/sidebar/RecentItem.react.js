@@ -10,6 +10,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
 var _utils = require('flux/utils');
 
 var _classnames = require('classnames');
@@ -34,13 +36,9 @@ var _DialogActionCreators = require('../../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
-var _FavoriteActionCreators = require('../../actions/FavoriteActionCreators');
+var _DropdownActionCreators = require('../../actions/DropdownActionCreators');
 
-var _FavoriteActionCreators2 = _interopRequireDefault(_FavoriteActionCreators);
-
-var _ArchiveActionCreators = require('../../actions/ArchiveActionCreators');
-
-var _ArchiveActionCreators2 = _interopRequireDefault(_ArchiveActionCreators);
+var _DropdownActionCreators2 = _interopRequireDefault(_DropdownActionCreators);
 
 var _UserStore = require('../../stores/UserStore');
 
@@ -76,22 +74,33 @@ var RecentItem = (function (_Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RecentItem).call(this, props));
 
-    _this.onClick = function () {
-      return _DialogActionCreators2.default.selectDialogPeer(_this.props.dialog.peer.peer);
-    };
-
-    _this.handleAddToArchive = function (event) {
+    _this.openContextMenu = function (event) {
       event.preventDefault();
-      event.stopPropagation();
       var peer = _this.props.dialog.peer.peer;
 
-      _ArchiveActionCreators2.default.archiveChat(peer);
+      var contextPos = {
+        x: event.pageX || event.clientX,
+        y: event.pageY || event.clientY
+      };
+      _DropdownActionCreators2.default.openRecentContextMenu(contextPos, peer);
     };
 
     return _this;
   }
 
   _createClass(RecentItem, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var recentNode = (0, _reactDom.findDOMNode)(this.refs.recentItem);
+      recentNode.addEventListener('contextmenu', this.openContextMenu);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      var recentNode = (0, _reactDom.findDOMNode)(this.refs.recentItem);
+      recentNode.removeEventListener('contextmenu', this.openContextMenu);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
@@ -107,7 +116,7 @@ var RecentItem = (function (_Component) {
 
       return _react2.default.createElement(
         'li',
-        null,
+        { ref: 'recentItem' },
         _react2.default.createElement(
           _reactRouter.Link,
           { to: '/im/' + toPeer, className: recentClassName, activeClassName: 'sidebar__list__item--active' },
@@ -124,19 +133,6 @@ var RecentItem = (function (_Component) {
           _react2.default.createElement(
             _Stateful2.default.Root,
             { currentState: archiveChatState },
-            _react2.default.createElement(
-              _Stateful2.default.Pending,
-              null,
-              _react2.default.createElement(
-                'div',
-                { className: 'archive', onClick: this.handleAddToArchive },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'icon material-icons' },
-                  'archive'
-                )
-              )
-            ),
             _react2.default.createElement(
               _Stateful2.default.Processing,
               null,
@@ -192,26 +188,6 @@ var RecentItem = (function (_Component) {
         archiveChatState: _ArchiveStore2.default.getArchiveChatState(nextProps.dialog.peer.peer.id)
       };
     }
-
-    // handleHideChat = (event) => {
-    //   event.stopPropagation();
-    //   event.preventDefault();
-    //   const { dialog } = this.props;
-    //   const { intl } = this.context;
-    //
-    //   if (UserStore.isContact(dialog.peer.peer.id)) {
-    //     DialogActionCreators.hideChat(dialog.peer.peer);
-    //   } else {
-    //     confirm(intl.messages['modal.confirm.nonContactHide.title'], {
-    //       description: <FormattedMessage id="modal.confirm.nonContactHide.body"
-    //                                      values={{name: dialog.peer.title}}/>
-    //     }).then(
-    //       () => DialogActionCreators.hideChat(dialog.peer.peer),
-    //       () => {}
-    //     );
-    //   }
-    // };
-
   }]);
 
   return RecentItem;

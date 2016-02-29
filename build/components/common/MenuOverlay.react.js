@@ -20,6 +20,10 @@ var _MessageActions = require('./dropdown/MessageActions.react');
 
 var _MessageActions2 = _interopRequireDefault(_MessageActions);
 
+var _RecentContextMenu = require('./dropdown/RecentContextMenu.react');
+
+var _RecentContextMenu2 = _interopRequireDefault(_RecentContextMenu);
+
 var _DropdownStore = require('../../stores/DropdownStore');
 
 var _DropdownStore2 = _interopRequireDefault(_DropdownStore);
@@ -38,59 +42,68 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var DropdownWrapper = (function (_Component) {
-  _inherits(DropdownWrapper, _Component);
+var MenuOverlay = (function (_Component) {
+  _inherits(MenuOverlay, _Component);
 
-  _createClass(DropdownWrapper, null, [{
+  _createClass(MenuOverlay, null, [{
     key: 'calculateState',
     value: function calculateState() {
       var message = _DropdownStore2.default.getMessage();
 
       return {
-        isOpen: _DropdownStore2.default.isOpen(message.rid),
-        peer: _DialogStore2.default.getCurrentPeer(),
+        isMessageDropdownOpen: _DropdownStore2.default.isMessageDropdownOpen(message.rid),
+        isRecentContextOpen: _DropdownStore2.default.isRecentContextOpen(),
         targetRect: _DropdownStore2.default.getTargetRect(),
+        contextPos: _DropdownStore2.default.getContextPos(),
+        contextPeer: _DropdownStore2.default.getPeer(),
         message: message
       };
     }
   }]);
 
-  function DropdownWrapper(props) {
-    _classCallCheck(this, DropdownWrapper);
+  function MenuOverlay(props) {
+    _classCallCheck(this, MenuOverlay);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(DropdownWrapper).call(this, props));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(MenuOverlay).call(this, props));
   }
 
-  _createClass(DropdownWrapper, [{
+  _createClass(MenuOverlay, [{
     key: 'render',
     value: function render() {
       var _state = this.state;
-      var isOpen = _state.isOpen;
+      var isMessageDropdownOpen = _state.isMessageDropdownOpen;
+      var isRecentContextOpen = _state.isRecentContextOpen;
       var message = _state.message;
       var targetRect = _state.targetRect;
-      var peer = _state.peer;
+      var contextPeer = _state.contextPeer;
+      var contextPos = _state.contextPos;
 
-      var dropdownWrapperClassName = (0, _classnames2.default)('dropdown-wrapper', {
-        'dropdown-wrapper--opened': isOpen
+      var currentPeer = _DialogStore2.default.getCurrentPeer();
+
+      var menuOverlayClassName = (0, _classnames2.default)('menu-overlay', {
+        'menu-overlay--opened': isMessageDropdownOpen || isRecentContextOpen
       });
 
       return _react2.default.createElement(
         'div',
-        { className: dropdownWrapperClassName },
-        isOpen ? _react2.default.createElement(_MessageActions2.default, { message: message,
+        { className: menuOverlayClassName },
+        isMessageDropdownOpen ? _react2.default.createElement(_MessageActions2.default, { message: message,
           targetRect: targetRect,
-          peer: peer,
+          peer: currentPeer,
+          hideOnScroll: true }) : null,
+        isRecentContextOpen ? _react2.default.createElement(_RecentContextMenu2.default, { peer: contextPeer,
+          contextPos: contextPos,
           hideOnScroll: true }) : null
       );
     }
   }]);
 
-  return DropdownWrapper;
+  return MenuOverlay;
 })(_react.Component);
 
-DropdownWrapper.getStores = function () {
+MenuOverlay.getStores = function () {
   return [_DropdownStore2.default, _DialogStore2.default];
 };
 
-exports.default = _utils.Container.create(DropdownWrapper, { pure: false });
-//# sourceMappingURL=DropdownWrapper.react.js.map
+exports.default = _utils.Container.create(MenuOverlay, { pure: false });
+//# sourceMappingURL=MenuOverlay.react.js.map

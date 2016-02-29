@@ -16,11 +16,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   openMessageActions: function openMessageActions(targetRect, message) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DROPDOWN_SHOW, { targetRect: targetRect, message: message });
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_DROPDOWN_SHOW, { targetRect: targetRect, message: message });
     _ComposeActionCreators2.default.toggleAutoFocus(false);
   },
-  hide: function hide() {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DROPDOWN_HIDE);
+  openRecentContextMenu: function openRecentContextMenu(contextPos, peer) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.RECENT_CONTEXT_MENU_SHOW, { contextPos: contextPos, peer: peer });
+    _ComposeActionCreators2.default.toggleAutoFocus(false);
+  },
+  hideMessageDropdown: function hideMessageDropdown() {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_DROPDOWN_HIDE);
+    _ComposeActionCreators2.default.toggleAutoFocus(true);
+  },
+  hideRecentContext: function hideRecentContext() {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.RECENT_CONTEXT_MENU_HIDE);
     _ComposeActionCreators2.default.toggleAutoFocus(true);
   }
 }; /*

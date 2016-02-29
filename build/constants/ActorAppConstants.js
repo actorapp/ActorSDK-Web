@@ -195,8 +195,8 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   GROUP_ONLINE_CHANGE: null,
   USER_ONLINE_CHANGE: null,
 
-  DROPDOWN_SHOW: null,
-  DROPDOWN_HIDE: null,
+  MESSAGE_DROPDOWN_SHOW: null,
+  MESSAGE_DROPDOWN_HIDE: null,
 
   CALL_MODAL_OPEN: null,
   CALL_MODAL_HIDE: null,
@@ -222,7 +222,10 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   FAVORITE_ADD_ERROR: null,
   FAVORITE_REMOVE: null,
   FAVORITE_REMOVE_SUCCESS: null,
-  FAVORITE_REMOVE_ERROR: null
+  FAVORITE_REMOVE_ERROR: null,
+
+  RECENT_CONTEXT_MENU_SHOW: null,
+  RECENT_CONTEXT_MENU_HIDE: null
 });
 
 var EventTypes = exports.EventTypes = {

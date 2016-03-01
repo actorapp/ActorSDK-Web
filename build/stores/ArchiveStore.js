@@ -21,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var ArchiveStore = (function (_Store) {
@@ -35,6 +35,8 @@ var ArchiveStore = (function (_Store) {
     _this.isLoading = true;
     _this.dialogs = [];
     _this.archiveChatState = [];
+    _this._isAllLoaded = false;
+    _this._isInitialLoadingComplete = false;
     return _this;
   }
 
@@ -42,6 +44,16 @@ var ArchiveStore = (function (_Store) {
     key: 'isArchiveLoading',
     value: function isArchiveLoading() {
       return this.isLoading;
+    }
+  }, {
+    key: 'isAllLoaded',
+    value: function isAllLoaded() {
+      return this._isAllLoaded;
+    }
+  }, {
+    key: 'isInitialLoadingComplete',
+    value: function isInitialLoadingComplete() {
+      return this._isInitialLoadingComplete;
     }
   }, {
     key: 'getDialogs',
@@ -76,15 +88,28 @@ var ArchiveStore = (function (_Store) {
           break;
 
         case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD:
+          this.isLoading = true;
+          this._isAllLoaded = false;
+          this._isInitialLoadingComplete = false;
+          this.__emitChange();
+          break;
+
+        case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD_SUCCESS:
+          this.isLoading = false;
+          this._isInitialLoadingComplete = true;
+          this.dialogs = action.response;
+          this.__emitChange();
+          break;
+
         case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD_MORE:
           this.isLoading = true;
           this.__emitChange();
           break;
 
-        case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD_SUCCESS:
         case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD_MORE_SUCCESS:
           this.isLoading = false;
-          this.dialogs = action.response;
+          this._isAllLoaded = action.response.length === 0;
+          this.dialogs.push.apply(this.dialogs, action.response);
           this.__emitChange();
           break;
 

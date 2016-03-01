@@ -18,6 +18,18 @@ var _utils = require('flux/utils');
 
 var _reactIntl = require('react-intl');
 
+var _history = require('../../../utils/history');
+
+var _history2 = _interopRequireDefault(_history);
+
+var _PeerUtils = require('../../../utils/PeerUtils');
+
+var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
+
+var _Scrollbar = require('../../common/Scrollbar.react');
+
+var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
+
 var _ActorAppConstants = require('../../../constants/ActorAppConstants');
 
 var _GroupListActionCreators = require('../../../actions/GroupListActionCreators');
@@ -73,7 +85,8 @@ var GroupList = (function (_Component) {
     }, 300, { trailing: true });
 
     _this.handleGroupSelect = function (peer) {
-      _DialogActionCreators2.default.selectDialogPeer(peer);
+      var peerStr = _PeerUtils2.default.peerToString(peer);
+      _history2.default.push('/im/' + peerStr);
       _this.handleClose();
     };
 
@@ -93,7 +106,7 @@ var GroupList = (function (_Component) {
 
         _this.setState({ selectedIndex: index });
 
-        var scrollContainerNode = (0, _reactDom.findDOMNode)(_this.refs.results);
+        var scrollContainerNode = (0, _reactDom.findDOMNode)(_this.refs.results).getElementsByClassName('ss-scrollarea')[0];
         var selectedNode = (0, _reactDom.findDOMNode)(_this.refs.selected);
         var scrollContainerNodeRect = scrollContainerNode.getBoundingClientRect();
         var selectedNodeRect = selectedNode.getBoundingClientRect();
@@ -113,7 +126,7 @@ var GroupList = (function (_Component) {
 
         _this.setState({ selectedIndex: index });
 
-        var scrollContainerNode = (0, _reactDom.findDOMNode)(_this.refs.results);
+        var scrollContainerNode = (0, _reactDom.findDOMNode)(_this.refs.results).getElementsByClassName('ss-scrollarea')[0];
         var selectedNode = (0, _reactDom.findDOMNode)(_this.refs.selected);
         var scrollContainerNodeRect = scrollContainerNode.getBoundingClientRect();
         var selectedNodeRect = selectedNode.getBoundingClientRect();
@@ -156,8 +169,7 @@ var GroupList = (function (_Component) {
     };
 
     _this.handleScroll = function (top) {
-      var resultsNode = (0, _reactDom.findDOMNode)(_this.refs.results);
-      resultsNode.scrollTop = top;
+      return _this.refs.results.scrollTo(top);
     };
 
     return _this;
@@ -219,18 +231,22 @@ var GroupList = (function (_Component) {
             value: query })
         ),
         _react2.default.createElement(
-          'ul',
-          { className: 'newmodal__result group__list', ref: 'results' },
-          list.length === 0 ? _react2.default.createElement(
-            'div',
-            null,
-            intl.messages['modal.groups.loading']
-          ) : results.length === 0 ? _react2.default.createElement(
-            'li',
-            { className: 'group__list__item group__list__item--empty text-center' },
-            _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'modal.groups.notFound',
-              values: { query: query } })
-          ) : groupList
+          _Scrollbar2.default,
+          { ref: 'results' },
+          _react2.default.createElement(
+            'ul',
+            { className: 'newmodal__result group__list' },
+            list.length === 0 ? _react2.default.createElement(
+              'div',
+              null,
+              intl.messages['modal.groups.loading']
+            ) : results.length === 0 ? _react2.default.createElement(
+              'li',
+              { className: 'group__list__item group__list__item--empty text-center' },
+              _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'modal.groups.notFound',
+                values: { query: query } })
+            ) : groupList
+          )
         )
       );
     }

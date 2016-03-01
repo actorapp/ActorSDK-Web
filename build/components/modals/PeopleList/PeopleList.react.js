@@ -16,6 +16,18 @@ var _reactDom = require('react-dom');
 
 var _utils = require('flux/utils');
 
+var _history = require('../../../utils/history');
+
+var _history2 = _interopRequireDefault(_history);
+
+var _PeerUtils = require('../../../utils/PeerUtils');
+
+var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
+
+var _Scrollbar = require('../../common/Scrollbar.react');
+
+var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
+
 var _ActorAppConstants = require('../../../constants/ActorAppConstants');
 
 var _ContactActionCreators = require('../../../actions/ContactActionCreators');
@@ -91,7 +103,7 @@ var PeopleList = (function (_Component) {
 
         _this.setState({ selectedIndex: index });
 
-        var scrollContainerNode = (0, _reactDom.findDOMNode)(_this.refs.results);
+        var scrollContainerNode = (0, _reactDom.findDOMNode)(_this.refs.results).getElementsByClassName('ss-scrollarea')[0];
         var selectedNode = (0, _reactDom.findDOMNode)(_this.refs.selected);
         var scrollContainerNodeRect = scrollContainerNode.getBoundingClientRect();
         var selectedNodeRect = selectedNode.getBoundingClientRect();
@@ -111,7 +123,7 @@ var PeopleList = (function (_Component) {
 
         _this.setState({ selectedIndex: index });
 
-        var scrollContainerNode = (0, _reactDom.findDOMNode)(_this.refs.results);
+        var scrollContainerNode = (0, _reactDom.findDOMNode)(_this.refs.results).getElementsByClassName('ss-scrollarea')[0];
         var selectedNode = (0, _reactDom.findDOMNode)(_this.refs.selected);
         var scrollContainerNodeRect = scrollContainerNode.getBoundingClientRect();
         var selectedNodeRect = selectedNode.getBoundingClientRect();
@@ -154,8 +166,7 @@ var PeopleList = (function (_Component) {
     };
 
     _this.handleScroll = function (top) {
-      var resultsNode = (0, _reactDom.findDOMNode)(_this.refs.results);
-      resultsNode.scrollTop = top;
+      return _this.refs.results.scrollTo(top);
     };
 
     return _this;
@@ -217,17 +228,21 @@ var PeopleList = (function (_Component) {
             value: query })
         ),
         _react2.default.createElement(
-          'ul',
-          { className: 'newmodal__result contacts__list', ref: 'results' },
-          list.length === 0 ? _react2.default.createElement(
-            'div',
-            null,
-            intl.messages['modal.contacts.loading']
-          ) : results.length === 0 ? _react2.default.createElement(
-            'li',
-            { className: 'contacts__list__item contacts__list__item--empty text-center' },
-            intl.messages['modal.contacts.notFound']
-          ) : peopleList
+          _Scrollbar2.default,
+          { ref: 'results' },
+          _react2.default.createElement(
+            'ul',
+            { className: 'newmodal__result contacts__list' },
+            list.length === 0 ? _react2.default.createElement(
+              'div',
+              null,
+              intl.messages['modal.contacts.loading']
+            ) : results.length === 0 ? _react2.default.createElement(
+              'li',
+              { className: 'contacts__list__item contacts__list__item--empty text-center' },
+              intl.messages['modal.contacts.notFound']
+            ) : peopleList
+          )
         )
       );
     }

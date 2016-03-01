@@ -4,6 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _react = require('react');
@@ -65,12 +67,13 @@ var Scrollbar = (function (_Component) {
       var _props = this.props;
       var children = _props.children;
       var className = _props.className;
+      var style = _props.style;
 
       var wrapperClassName = (0, _classnames2.default)('scroll-wrapper', className);
 
       return _react2.default.createElement(
         'div',
-        { className: wrapperClassName, ref: 'scroll', onScroll: this.handleScroll },
+        { className: wrapperClassName, ref: 'scroll', onScroll: this.handleScroll, style: _extends({}, style) },
         children
       );
     }
@@ -82,6 +85,7 @@ var Scrollbar = (function (_Component) {
 Scrollbar.propTypes = {
   children: _react.PropTypes.oneOfType([_react.PropTypes.element, _react.PropTypes.array]),
   className: _react.PropTypes.string,
+  style: _react.PropTypes.object,
 
   onScroll: _react.PropTypes.func
 };

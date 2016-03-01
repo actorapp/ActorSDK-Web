@@ -30,6 +30,18 @@ var _isInside = require('../../utils/isInside');
 
 var _isInside2 = _interopRequireDefault(_isInside);
 
+var _history = require('../../utils/history');
+
+var _history2 = _interopRequireDefault(_history);
+
+var _PeerUtils = require('../../utils/PeerUtils');
+
+var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
+
+var _Scrollbar = require('../common/Scrollbar.react');
+
+var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
+
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _QuickSearchActionCreators = require('../../actions/QuickSearchActionCreators');
@@ -86,7 +98,8 @@ var QuickSearch = (function (_Component) {
     };
 
     _this.handleDialogSelect = function (peer) {
-      _DialogActionCreators2.default.selectDialogPeer(peer);
+      var peerStr = _PeerUtils2.default.peerToString(peer);
+      _history2.default.push('/im/' + peerStr);
       _this.handleClose();
     };
 
@@ -155,8 +168,7 @@ var QuickSearch = (function (_Component) {
     };
 
     _this.handleScroll = function (top) {
-      var resultsNode = (0, _reactDom.findDOMNode)(_this.refs.results);
-      resultsNode.scrollTop = top;
+      return _this.refs.results.scrollTo(top);
     };
 
     _this.handleDocumentClick = function (event) {
@@ -321,18 +333,22 @@ var QuickSearch = (function (_Component) {
               ref: 'query' })
           ),
           _react2.default.createElement(
-            'ul',
-            { className: 'results', ref: 'results' },
-            resultsList.length > 0 ? resultsList : _react2.default.createElement(
-              'li',
-              { className: 'results__item results__item--suggestion row' },
-              _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'modal.quickSearch.notFound',
-                values: { query: query } }),
-              _react2.default.createElement(
-                'button',
-                { className: 'button button--rised hide' },
-                'Create new dialog ',
-                query
+            _Scrollbar2.default,
+            { style: { height: RESULT_ITEM_HEIGHT * 8 }, ref: 'results' },
+            _react2.default.createElement(
+              'ul',
+              { className: 'results' },
+              resultsList.length > 0 ? resultsList : _react2.default.createElement(
+                'li',
+                { className: 'results__item results__item--suggestion row' },
+                _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'modal.quickSearch.notFound',
+                  values: { query: query } }),
+                _react2.default.createElement(
+                  'button',
+                  { className: 'button button--rised hide' },
+                  'Create new dialog ',
+                  query
+                )
               )
             )
           )

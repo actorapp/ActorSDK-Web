@@ -95,7 +95,6 @@ var ToolbarSection = (function (_Component) {
       var isActivityOpen = _state.isActivityOpen;
       var message = _state.message;
       var isFavorite = _state.isFavorite;
-      var isExperimental = this.context.isExperimental;
 
       var infoButtonClassName = (0, _classnames2.default)('button button--icon', {
         'active': isActivityOpen

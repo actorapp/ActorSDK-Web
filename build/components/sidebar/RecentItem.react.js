@@ -69,12 +69,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var RecentItem = (function (_Component) {
   _inherits(RecentItem, _Component);
 
-  function RecentItem(props) {
+  function RecentItem() {
+    var _Object$getPrototypeO;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, RecentItem);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RecentItem).call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.openContextMenu = function (event) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(RecentItem)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.onContextMenu = function (event) {
       event.preventDefault();
       var peer = _this.props.dialog.peer.peer;
 
@@ -83,24 +89,10 @@ var RecentItem = (function (_Component) {
         y: event.pageY || event.clientY
       };
       _DropdownActionCreators2.default.openRecentContextMenu(contextPos, peer);
-    };
-
-    return _this;
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(RecentItem, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var recentNode = (0, _reactDom.findDOMNode)(this.refs.recentItem);
-      recentNode.addEventListener('contextmenu', this.openContextMenu);
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      var recentNode = (0, _reactDom.findDOMNode)(this.refs.recentItem);
-      recentNode.removeEventListener('contextmenu', this.openContextMenu);
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
@@ -116,7 +108,7 @@ var RecentItem = (function (_Component) {
 
       return _react2.default.createElement(
         'li',
-        { ref: 'recentItem' },
+        { onContextMenu: this.onContextMenu },
         _react2.default.createElement(
           _reactRouter.Link,
           { to: '/im/' + toPeer, className: recentClassName, activeClassName: 'sidebar__list__item--active' },

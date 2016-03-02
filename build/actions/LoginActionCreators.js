@@ -127,7 +127,7 @@ var LoginActionCreators = {
     } else {
       if (opts.redirect) {
         var location = _LocationContainer2.default.get();
-        var nextPathname = location.state.nextPathname;
+        var nextPathname = location.state ? location.state.nextPathname : null;
 
         if (nextPathname) {
           _history2.default.replace(nextPathname);

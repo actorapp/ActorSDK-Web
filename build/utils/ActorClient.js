@@ -14,12 +14,12 @@ exports.default = (_requestSms$requestCo = {
 
   requestSms: function requestSms(phone) {
     return new Promise(function (resolve, reject) {
-      window.messenger.requestSms(phone, resolve, reject);
+      window.messenger.requestSms(phone.trim(), resolve, reject);
     });
   },
   requestCodeEmail: function requestCodeEmail(email) {
     return new Promise(function (resolve, reject) {
-      window.messenger.requestCodeEmail(email, resolve, reject);
+      window.messenger.requestCodeEmail(email.trim(), resolve, reject);
     });
   },
   sendCode: function sendCode(code) {

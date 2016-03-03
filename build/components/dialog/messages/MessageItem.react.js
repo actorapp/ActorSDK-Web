@@ -103,18 +103,16 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MessageItem = (function (_Component) {
   _inherits(MessageItem, _Component);
 
-  MessageItem.calculateState = function calculateState(prevState, props) {
-    return {
-      isHighlighted: props && props.message ? _DropdownStore2.default.isMessageDropdownOpen(props.message.rid) : false
-    };
-  };
+  function MessageItem() {
+    var _temp, _this, _ret;
 
-  function MessageItem(props) {
     _classCallCheck(this, MessageItem);
 
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.onClick = function () {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onClick = function () {
       var _this$props = _this.props;
       var message = _this$props.message;
       var peer = _this$props.peer;
@@ -124,24 +122,24 @@ var MessageItem = (function (_Component) {
       } else {
         _DialogActionCreators2.default.selectDialogPeerUser(message.sender.peer.id);
       }
-    };
-
-    _this.showActions = function (event) {
+    }, _this.showActions = function (event) {
       var message = _this.props.message;
 
       _DropdownActionCreators2.default.openMessageActions(event.target.getBoundingClientRect(), message);
-    };
-
-    _this.toggleMessageSelection = function () {
+    }, _this.toggleMessageSelection = function () {
       var _this$props2 = _this.props;
       var message = _this$props2.message;
       var onSelect = _this$props2.onSelect;
 
       onSelect && onSelect(message.rid);
-    };
-
-    return _this;
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
+
+  MessageItem.calculateState = function calculateState(prevState, props) {
+    return {
+      isHighlighted: props && props.message ? _DropdownStore2.default.isMessageDropdownOpen(props.message.rid) : false
+    };
+  };
 
   MessageItem.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
     return this.props.message !== nextProps.message || this.props.isShortMessage != nextProps.isShortMessage;

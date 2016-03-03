@@ -60,6 +60,10 @@ var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
+var _ToggleNotifications = require('../common/ToggleNotifications.react');
+
+var _ToggleNotifications2 = _interopRequireDefault(_ToggleNotifications);
+
 var _Fold = require('../common/Fold.react');
 
 var _Fold2 = _interopRequireDefault(_Fold);
@@ -387,25 +391,7 @@ var UserProfile = (function (_Component) {
         _react2.default.createElement(
           'li',
           { className: 'profile__list__item user_profile__notifications no-p' },
-          _react2.default.createElement(
-            'label',
-            { htmlFor: 'notifications' },
-            _react2.default.createElement(
-              'i',
-              { className: 'material-icons icon icon--squash' },
-              'notifications_none'
-            ),
-            intl.messages['notifications'],
-            _react2.default.createElement(
-              'div',
-              { className: 'switch pull-right' },
-              _react2.default.createElement('input', { checked: isNotificationsEnabled,
-                id: 'notifications',
-                onChange: this.onNotificationChange,
-                type: 'checkbox' }),
-              _react2.default.createElement('label', { htmlFor: 'notifications' })
-            )
-          )
+          _react2.default.createElement(_ToggleNotifications2.default, { isNotificationsEnabled: isNotificationsEnabled, onNotificationChange: this.onNotificationChange })
         )
       )
     );

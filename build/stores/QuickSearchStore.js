@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -36,64 +32,58 @@ var QuickSearchStore = (function (_Store) {
   function QuickSearchStore(dispatcher) {
     _classCallCheck(this, QuickSearchStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(QuickSearchStore).call(this, dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
   }
 
-  _createClass(QuickSearchStore, [{
-    key: 'isOpen',
-    value: function isOpen() {
-      return _isOpen;
+  QuickSearchStore.prototype.isOpen = function isOpen() {
+    return _isOpen;
+  };
+
+  QuickSearchStore.prototype.getResults = function getResults() {
+    return _results;
+  };
+
+  QuickSearchStore.prototype.handleSearchQuery = function handleSearchQuery(query) {
+    var results = [];
+
+    if (query === '') {
+      results = _list;
+    } else {
+      (0, _lodash.forEach)(_list, function (result) {
+        if (result.peerInfo.title.toLowerCase().includes(query.toLowerCase())) {
+          results.push(result);
+        }
+      });
     }
-  }, {
-    key: 'getResults',
-    value: function getResults() {
-      return _results;
+
+    _results = results;
+    this.__emitChange();
+  };
+
+  QuickSearchStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.QUICK_SEARCH_SHOW:
+        _isOpen = true;
+        this.handleSearchQuery('');
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.QUICK_SEARCH_HIDE:
+        _isOpen = false;
+        _results = [];
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.QUICK_SEARCH_CHANGED:
+        _list = action.list;
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.QUICK_SEARCH:
+        this.handleSearchQuery(action.query);
+        break;
     }
-  }, {
-    key: 'handleSearchQuery',
-    value: function handleSearchQuery(query) {
-      var results = [];
-
-      if (query === '') {
-        results = _list;
-      } else {
-        (0, _lodash.forEach)(_list, function (result) {
-          if (result.peerInfo.title.toLowerCase().includes(query.toLowerCase())) {
-            results.push(result);
-          }
-        });
-      }
-
-      _results = results;
-      this.__emitChange();
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.QUICK_SEARCH_SHOW:
-          _isOpen = true;
-          this.handleSearchQuery('');
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.QUICK_SEARCH_HIDE:
-          _isOpen = false;
-          _results = [];
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.QUICK_SEARCH_CHANGED:
-          _list = action.list;
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.QUICK_SEARCH:
-          this.handleSearchQuery(action.query);
-          break;
-      }
-    }
-  }]);
+  };
 
   return QuickSearchStore;
 })(_utils.Store);

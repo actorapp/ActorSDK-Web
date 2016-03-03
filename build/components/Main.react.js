@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -38,10 +34,6 @@ var _MenuOverlay = require('./common/MenuOverlay.react');
 
 var _MenuOverlay2 = _interopRequireDefault(_MenuOverlay);
 
-var _CallModal = require('./modals/CallModal.react');
-
-var _CallModal2 = _interopRequireDefault(_CallModal);
-
 var _InviteUser = require('./modals/InviteUser.react');
 
 var _InviteUser2 = _interopRequireDefault(_InviteUser);
@@ -70,7 +62,7 @@ var Main = (function (_Component) {
   function Main(props) {
     _classCallCheck(this, Main);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Main).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onVisibilityChange = function () {
       if (!document.hidden) {
@@ -101,28 +93,24 @@ var Main = (function (_Component) {
     return _this;
   }
 
-  _createClass(Main, [{
-    key: 'render',
-    value: function render() {
-      var delegate = this.context.delegate;
+  Main.prototype.render = function render() {
+    var delegate = this.context.delegate;
 
-      var Sidebar = typeof delegate.components.sidebar == 'function' ? delegate.components.sidebar : _Sidebar2.default;
+    var Sidebar = typeof delegate.components.sidebar == 'function' ? delegate.components.sidebar : _Sidebar2.default;
 
-      return _react2.default.createElement(
-        'div',
-        { className: 'app' },
-        _react2.default.createElement(_Favicon2.default, null),
-        _react2.default.createElement(Sidebar, null),
-        this.props.children,
-        _react2.default.createElement(_ModalsWrapper2.default, null),
-        _react2.default.createElement(_MenuOverlay2.default, null),
-        _react2.default.createElement(_InviteUser2.default, null),
-        _react2.default.createElement(_InviteByLink2.default, null),
-        _react2.default.createElement(_EditGroup2.default, null),
-        _react2.default.createElement(_CallModal2.default, null)
-      );
-    }
-  }]);
+    return _react2.default.createElement(
+      'div',
+      { className: 'app' },
+      _react2.default.createElement(_Favicon2.default, null),
+      _react2.default.createElement(Sidebar, null),
+      this.props.children,
+      _react2.default.createElement(_ModalsWrapper2.default, null),
+      _react2.default.createElement(_MenuOverlay2.default, null),
+      _react2.default.createElement(_InviteUser2.default, null),
+      _react2.default.createElement(_InviteByLink2.default, null),
+      _react2.default.createElement(_EditGroup2.default, null)
+    );
+  };
 
   return Main;
 })(_react.Component);

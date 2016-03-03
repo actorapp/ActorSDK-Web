@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -40,54 +36,46 @@ var OnlineStore = (function (_Store) {
   function OnlineStore(dispatcher) {
     _classCallCheck(this, OnlineStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(OnlineStore).call(this, dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
   }
 
-  _createClass(OnlineStore, [{
-    key: 'getMessage',
-    value: function getMessage() {
-      return message;
+  OnlineStore.prototype.getMessage = function getMessage() {
+    return message;
+  };
+
+  OnlineStore.prototype.getTotal = function getTotal() {
+    return total;
+  };
+
+  OnlineStore.prototype.getOnline = function getOnline() {
+    return online;
+  };
+
+  OnlineStore.prototype.isOnline = function isOnline() {
+    return _isOnline;
+  };
+
+  OnlineStore.prototype.isNotMember = function isNotMember() {
+    return _isNotMember;
+  };
+
+  OnlineStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.GROUP_ONLINE_CHANGE:
+        message = action.message;
+        online = action.online;
+        total = action.total;
+        _isNotMember = action.isNotMember;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.USER_ONLINE_CHANGE:
+        message = action.message;
+        _isOnline = action.isOnline;
+        this.__emitChange();
+        break;
+      default:
     }
-  }, {
-    key: 'getTotal',
-    value: function getTotal() {
-      return total;
-    }
-  }, {
-    key: 'getOnline',
-    value: function getOnline() {
-      return online;
-    }
-  }, {
-    key: 'isOnline',
-    value: function isOnline() {
-      return _isOnline;
-    }
-  }, {
-    key: 'isNotMember',
-    value: function isNotMember() {
-      return _isNotMember;
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.GROUP_ONLINE_CHANGE:
-          message = action.message;
-          online = action.online;
-          total = action.total;
-          _isNotMember = action.isNotMember;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.USER_ONLINE_CHANGE:
-          message = action.message;
-          _isOnline = action.isOnline;
-          this.__emitChange();
-          break;
-        default:
-      }
-    }
-  }]);
+  };
 
   return OnlineStore;
 })(_utils.Store);

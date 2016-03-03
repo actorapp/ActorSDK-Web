@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -64,7 +60,7 @@ var RecentContextMenu = (function (_Component) {
   function RecentContextMenu(props) {
     _classCallCheck(this, RecentContextMenu);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(RecentContextMenu).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleDocumentClick = function (event) {
       var menu = (0, _reactDom.findDOMNode)(_this.refs.menu);
@@ -123,87 +119,83 @@ var RecentContextMenu = (function (_Component) {
     return _this;
   }
 
-  _createClass(RecentContextMenu, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      var hideOnScroll = this.props.hideOnScroll;
+  RecentContextMenu.prototype.componentWillUnmount = function componentWillUnmount() {
+    var hideOnScroll = this.props.hideOnScroll;
 
-      document.removeEventListener('click', this.handleDocumentClick, true);
-      document.removeEventListener('contextmenu', this.handleClose, true);
+    document.removeEventListener('click', this.handleDocumentClick, true);
+    document.removeEventListener('contextmenu', this.handleClose, true);
 
-      if (hideOnScroll) {
-        document.removeEventListener('scroll', this.handleClose, true);
-      }
+    if (hideOnScroll) {
+      document.removeEventListener('scroll', this.handleClose, true);
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var peer = _props.peer;
-      var contextPos = _props.contextPos;
+  };
 
-      var isFavorite = _DialogStore2.default.isFavorite(peer.id);
+  RecentContextMenu.prototype.render = function render() {
+    var _props = this.props;
+    var peer = _props.peer;
+    var contextPos = _props.contextPos;
 
-      var dropdownStyles = {
-        top: contextPos.y,
-        left: contextPos.x
-      };
+    var isFavorite = _DialogStore2.default.isFavorite(peer.id);
 
-      var dropdownMenuStyles = {
-        minWidth: 140,
-        left: 2,
-        top: 2
-      };
+    var dropdownStyles = {
+      top: contextPos.y,
+      left: contextPos.x
+    };
 
-      return _react2.default.createElement(
-        'div',
-        { className: 'dropdown dropdown--opened dropdown--small', style: dropdownStyles },
+    var dropdownMenuStyles = {
+      minWidth: 140,
+      left: 2,
+      top: 2
+    };
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'dropdown dropdown--opened dropdown--small', style: dropdownStyles },
+      _react2.default.createElement(
+        'ul',
+        { className: 'dropdown__menu dropdown__menu--left', ref: 'menu', style: dropdownMenuStyles },
+        isFavorite ? _react2.default.createElement(
+          'li',
+          { className: 'dropdown__menu__item', onClick: this.handleUnfavorite },
+          _react2.default.createElement(
+            'i',
+            { className: 'icon material-icons' },
+            'star_border'
+          ),
+          ' Unfavorite'
+        ) : _react2.default.createElement(
+          'li',
+          { className: 'dropdown__menu__item', onClick: this.handleFavorite },
+          _react2.default.createElement(
+            'i',
+            { className: 'icon material-icons' },
+            'star'
+          ),
+          ' Favorite'
+        ),
         _react2.default.createElement(
-          'ul',
-          { className: 'dropdown__menu dropdown__menu--left', ref: 'menu', style: dropdownMenuStyles },
-          isFavorite ? _react2.default.createElement(
-            'li',
-            { className: 'dropdown__menu__item', onClick: this.handleUnfavorite },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons' },
-              'star_border'
-            ),
-            ' Unfavorite'
-          ) : _react2.default.createElement(
-            'li',
-            { className: 'dropdown__menu__item', onClick: this.handleFavorite },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons' },
-              'star'
-            ),
-            ' Favorite'
-          ),
+          'li',
+          { className: 'dropdown__menu__item', onClick: this.handleAddToArchive },
           _react2.default.createElement(
-            'li',
-            { className: 'dropdown__menu__item', onClick: this.handleAddToArchive },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons' },
-              'archive'
-            ),
-            ' Send to archive'
+            'i',
+            { className: 'icon material-icons' },
+            'archive'
           ),
+          ' Send to archive'
+        ),
+        _react2.default.createElement(
+          'li',
+          { className: 'dropdown__menu__item', onClick: this.handleDelete },
           _react2.default.createElement(
-            'li',
-            { className: 'dropdown__menu__item', onClick: this.handleDelete },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons' },
-              'delete'
-            ),
-            ' Delete'
-          )
+            'i',
+            { className: 'icon material-icons' },
+            'delete'
+          ),
+          ' Delete'
         )
-      );
-    }
-  }]);
+      )
+    );
+  };
 
   return RecentContextMenu;
 })(_react.Component);

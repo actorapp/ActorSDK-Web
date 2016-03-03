@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -68,7 +64,7 @@ var MyProfile = (function (_Component) {
   function MyProfile(props) {
     _classCallCheck(this, MyProfile);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MyProfile).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.setListeners = function () {
       return document.addEventListener('keydown', _this.onKeyDown, false);
@@ -152,214 +148,207 @@ var MyProfile = (function (_Component) {
     return _this;
   }
 
-  _createClass(MyProfile, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      var _state = this.state;
-      var name = _state.name;
-      var nick = _state.nick;
-      var about = _state.about;
+  MyProfile.calculateState = function calculateState() {
+    return {
+      profile: _MyProfileStore2.default.getProfile(),
+      name: _MyProfileStore2.default.getName(),
+      nick: _MyProfileStore2.default.getNick(),
+      about: _MyProfileStore2.default.getAbout(),
+      isOpen: _MyProfileStore2.default.isModalOpen(),
+      isCropModalOpen: _CropAvatarStore2.default.isOpen()
+    };
+  };
 
-      currentName = name;
-      currentNick = nick;
-      currentAbout = about;
+  MyProfile.prototype.componentWillMount = function componentWillMount() {
+    var _state = this.state;
+    var name = _state.name;
+    var nick = _state.nick;
+    var about = _state.about;
 
-      this.setListeners();
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.removeListeners();
-    }
-  }, {
-    key: 'componentWillUpdate',
-    value: function componentWillUpdate(nextProps, nextState) {
-      if (nextState.isOpen) {
-        if (nextState.isCropModalOpen) {
-          this.removeListeners();
-        } else {
-          this.setListeners();
-        }
+    currentName = name;
+    currentNick = nick;
+    currentAbout = about;
+
+    this.setListeners();
+  };
+
+  MyProfile.prototype.componentWillUnmount = function componentWillUnmount() {
+    this.removeListeners();
+  };
+
+  MyProfile.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
+    if (nextState.isOpen) {
+      if (nextState.isCropModalOpen) {
+        this.removeListeners();
+      } else {
+        this.setListeners();
       }
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state2 = this.state;
-      var isOpen = _state2.isOpen;
-      var isCropModalOpen = _state2.isCropModalOpen;
-      var profile = _state2.profile;
-      var nick = _state2.nick;
-      var name = _state2.name;
-      var about = _state2.about;
-      var intl = this.context.intl;
+  };
 
-      var isProfileChanged = this.isProfileChanged();
+  MyProfile.prototype.render = function render() {
+    var _state2 = this.state;
+    var isOpen = _state2.isOpen;
+    var isCropModalOpen = _state2.isCropModalOpen;
+    var profile = _state2.profile;
+    var nick = _state2.nick;
+    var name = _state2.name;
+    var about = _state2.about;
+    var intl = this.context.intl;
 
-      var cropAvatar = isCropModalOpen ? _react2.default.createElement(_CropAvatar2.default, { onCropFinish: this.changeMyAvatar }) : null;
+    var isProfileChanged = this.isProfileChanged();
 
-      var modalStyle = {
-        content: {
-          position: null,
-          top: null,
-          left: null,
-          right: null,
-          bottom: null,
-          border: null,
-          background: null,
-          overflow: null,
-          outline: null,
-          padding: null,
-          borderRadius: null,
-          width: 440
-        }
-      };
+    var cropAvatar = isCropModalOpen ? _react2.default.createElement(_CropAvatar2.default, { onCropFinish: this.changeMyAvatar }) : null;
 
-      if (profile !== null && isOpen) {
-        return _react2.default.createElement(
-          _reactModal2.default,
-          { className: 'modal-new modal-new--profile',
-            closeTimeoutMS: 150,
-            isOpen: isOpen,
-            style: modalStyle },
+    var modalStyle = {
+      content: {
+        position: null,
+        top: null,
+        left: null,
+        right: null,
+        bottom: null,
+        border: null,
+        background: null,
+        overflow: null,
+        outline: null,
+        padding: null,
+        borderRadius: null,
+        width: 440
+      }
+    };
+
+    if (profile !== null && isOpen) {
+      return _react2.default.createElement(
+        _reactModal2.default,
+        { className: 'modal-new modal-new--profile',
+          closeTimeoutMS: 150,
+          isOpen: isOpen,
+          style: modalStyle },
+        _react2.default.createElement(
+          'header',
+          { className: 'modal-new__header' },
           _react2.default.createElement(
-            'header',
-            { className: 'modal-new__header' },
+            'a',
+            { className: 'modal-new__header__icon material-icons' },
+            'person'
+          ),
+          _react2.default.createElement(
+            'h3',
+            { className: 'modal-new__header__title' },
+            intl.messages['modal.profile.title']
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'pull-right' },
+            isProfileChanged ? _react2.default.createElement(
+              'button',
+              { className: 'button button--lightblue', onClick: this.handleSave },
+              intl.messages['button.save']
+            ) : _react2.default.createElement(
+              'button',
+              { className: 'button', onClick: this.handleClose },
+              intl.messages['button.close']
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'modal-new__body row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs' },
             _react2.default.createElement(
-              'a',
-              { className: 'modal-new__header__icon material-icons' },
-              'person'
-            ),
-            _react2.default.createElement(
-              'h3',
-              { className: 'modal-new__header__title' },
-              intl.messages['modal.profile.title']
+              'div',
+              { className: 'name' },
+              _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
+                floatingLabel: intl.messages['modal.profile.name'],
+                onChange: this.handleNameChange,
+                type: 'text',
+                value: name })
             ),
             _react2.default.createElement(
               'div',
-              { className: 'pull-right' },
-              isProfileChanged ? _react2.default.createElement(
-                'button',
-                { className: 'button button--lightblue', onClick: this.handleSave },
-                intl.messages['button.save']
-              ) : _react2.default.createElement(
-                'button',
-                { className: 'button', onClick: this.handleClose },
-                intl.messages['button.close']
-              )
+              { className: 'nick' },
+              _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
+                floatingLabel: intl.messages['modal.profile.nick'],
+                onChange: this.handleNicknameChange,
+                type: 'text',
+                value: nick })
+            ),
+            profile.phones[0] ? _react2.default.createElement(
+              'div',
+              { className: 'phone' },
+              _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
+                floatingLabel: intl.messages['modal.profile.phone'],
+                disabled: true,
+                type: 'tel',
+                value: (profile.phones[0] || {}).number })
+            ) : null,
+            profile.emails[0] ? _react2.default.createElement(
+              'div',
+              { className: 'phone' },
+              _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
+                floatingLabel: intl.messages['modal.profile.email'],
+                disabled: true,
+                type: 'email',
+                value: (profile.emails[0] || {}).email })
+            ) : null,
+            _react2.default.createElement(
+              'div',
+              { className: 'about' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'about' },
+                intl.messages['modal.profile.about']
+              ),
+              _react2.default.createElement('textarea', { className: 'textarea',
+                id: 'about',
+                onChange: this.handleAboutChange,
+                value: about })
             )
           ),
           _react2.default.createElement(
             'div',
-            { className: 'modal-new__body row' },
+            { className: 'profile-picture text-center' },
             _react2.default.createElement(
               'div',
-              { className: 'col-xs' },
+              { className: 'profile-picture__changer' },
+              _react2.default.createElement(_AvatarItem2.default, { image: profile.bigAvatar,
+                placeholder: profile.placeholder,
+                size: 'big',
+                title: profile.name }),
               _react2.default.createElement(
-                'div',
-                { className: 'name' },
-                _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
-                  floatingLabel: intl.messages['modal.profile.name'],
-                  onChange: this.handleNameChange,
-                  type: 'text',
-                  value: name })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'nick' },
-                _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
-                  floatingLabel: intl.messages['modal.profile.nick'],
-                  onChange: this.handleNicknameChange,
-                  type: 'text',
-                  value: nick })
-              ),
-              profile.phones[0] ? _react2.default.createElement(
-                'div',
-                { className: 'phone' },
-                _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
-                  floatingLabel: intl.messages['modal.profile.phone'],
-                  disabled: true,
-                  type: 'tel',
-                  value: (profile.phones[0] || {}).number })
-              ) : null,
-              profile.emails[0] ? _react2.default.createElement(
-                'div',
-                { className: 'phone' },
-                _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
-                  floatingLabel: intl.messages['modal.profile.email'],
-                  disabled: true,
-                  type: 'email',
-                  value: (profile.emails[0] || {}).email })
-              ) : null,
-              _react2.default.createElement(
-                'div',
-                { className: 'about' },
+                'a',
+                { onClick: this.handleChangeAvatarClick },
                 _react2.default.createElement(
-                  'label',
-                  { htmlFor: 'about' },
-                  intl.messages['modal.profile.about']
-                ),
-                _react2.default.createElement('textarea', { className: 'textarea',
-                  id: 'about',
-                  onChange: this.handleAboutChange,
-                  value: about })
+                  'span',
+                  null,
+                  intl.messages['modal.profile.avatarChange']
+                )
               )
             ),
-            _react2.default.createElement(
+            profile.bigAvatar ? _react2.default.createElement(
               'div',
-              { className: 'profile-picture text-center' },
+              { className: 'profile-picture__controls' },
               _react2.default.createElement(
-                'div',
-                { className: 'profile-picture__changer' },
-                _react2.default.createElement(_AvatarItem2.default, { image: profile.bigAvatar,
-                  placeholder: profile.placeholder,
-                  size: 'big',
-                  title: profile.name }),
-                _react2.default.createElement(
-                  'a',
-                  { onClick: this.handleChangeAvatarClick },
-                  _react2.default.createElement(
-                    'span',
-                    null,
-                    intl.messages['modal.profile.avatarChange']
-                  )
-                )
-              ),
-              profile.bigAvatar ? _react2.default.createElement(
-                'div',
-                { className: 'profile-picture__controls' },
-                _react2.default.createElement(
-                  'a',
-                  { onClick: this.onProfilePictureRemove },
-                  intl.messages['modal.profile.avatarRemove']
-                )
-              ) : null,
-              _react2.default.createElement(
-                'form',
-                { className: 'hide', ref: 'imageForm' },
-                _react2.default.createElement('input', { onChange: this.onProfilePictureInputChange, ref: 'imageInput', type: 'file' })
+                'a',
+                { onClick: this.onProfilePictureRemove },
+                intl.messages['modal.profile.avatarRemove']
               )
+            ) : null,
+            _react2.default.createElement(
+              'form',
+              { className: 'hide', ref: 'imageForm' },
+              _react2.default.createElement('input', { onChange: this.onProfilePictureInputChange, ref: 'imageInput', type: 'file' })
             )
-          ),
-          cropAvatar
-        );
-      } else {
-        return null;
-      }
+          )
+        ),
+        cropAvatar
+      );
+    } else {
+      return null;
     }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        profile: _MyProfileStore2.default.getProfile(),
-        name: _MyProfileStore2.default.getName(),
-        nick: _MyProfileStore2.default.getNick(),
-        about: _MyProfileStore2.default.getAbout(),
-        isOpen: _MyProfileStore2.default.isModalOpen(),
-        isCropModalOpen: _CropAvatarStore2.default.isOpen()
-      };
-    }
-  }]);
+  };
 
   return MyProfile;
 })(_react.Component);

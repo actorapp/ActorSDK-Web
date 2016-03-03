@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -50,64 +46,61 @@ var Welcome = (function (_Component) {
   function Welcome(props) {
     _classCallCheck(this, Welcome);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Welcome).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(Welcome, [{
-    key: 'render',
-    value: function render() {
-      var peer = this.props.peer;
-      var intl = this.context.intl;
+  Welcome.prototype.render = function render() {
+    var peer = this.props.peer;
+    var intl = this.context.intl;
 
-      var welcomeText = undefined;
-      switch (peer.type) {
-        case _ActorAppConstants.PeerTypes.USER:
-          var user = _UserStore2.default.getUser(peer.id);
-          welcomeText = _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.private', values: { name: user.name } });
-          break;
-        case _ActorAppConstants.PeerTypes.GROUP:
-          var group = _GroupStore2.default.getGroup(peer.id);
-          var myID = _UserStore2.default.getMyId();
-          var admin = _UserStore2.default.getUser(group.adminId);
-          var creator = group.adminId === myID ? intl.messages['message.welcome.group.you'] : admin.name;
-          welcomeText = [_react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.group.main', key: 1,
-            values: { name: group.name, creator: creator } }), _react2.default.createElement(
-            'p',
-            { key: 2 },
-            intl.messages['message.welcome.group.actions.start'],
-            _react2.default.createElement(
-              'a',
-              { onClick: function onClick() {
-                  return _InviteUserActions2.default.show(group);
-                } },
-              intl.messages['message.welcome.group.actions.invite']
-            ),
-            intl.messages['message.welcome.group.actions.end']
-          )];
-          break;
-      }
-
-      return _react2.default.createElement(
-        'li',
-        { className: 'message message--welcome row' },
-        _react2.default.createElement(
-          'div',
-          { className: 'message__info' },
+    var welcomeText = undefined;
+    switch (peer.type) {
+      case _ActorAppConstants.PeerTypes.USER:
+        var user = _UserStore2.default.getUser(peer.id);
+        welcomeText = _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.private', values: { name: user.name } });
+        break;
+      case _ActorAppConstants.PeerTypes.GROUP:
+        var group = _GroupStore2.default.getGroup(peer.id);
+        var myID = _UserStore2.default.getMyId();
+        var admin = _UserStore2.default.getUser(group.adminId);
+        var creator = group.adminId === myID ? intl.messages['message.welcome.group.you'] : admin.name;
+        welcomeText = [_react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.group.main', key: 1,
+          values: { name: group.name, creator: creator } }), _react2.default.createElement(
+          'p',
+          { key: 2 },
+          intl.messages['message.welcome.group.actions.start'],
           _react2.default.createElement(
-            'div',
-            { className: 'welcome-avatar' },
-            _react2.default.createElement('svg', { className: 'icon icon--gray',
-              dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#star"/>' } })
-          )
-        ),
+            'a',
+            { onClick: function onClick() {
+                return _InviteUserActions2.default.show(group);
+              } },
+            intl.messages['message.welcome.group.actions.invite']
+          ),
+          intl.messages['message.welcome.group.actions.end']
+        )];
+        break;
+    }
+
+    return _react2.default.createElement(
+      'li',
+      { className: 'message message--welcome row' },
+      _react2.default.createElement(
+        'div',
+        { className: 'message__info' },
         _react2.default.createElement(
           'div',
-          { className: 'message__body col-xs' },
-          welcomeText
+          { className: 'welcome-avatar' },
+          _react2.default.createElement('svg', { className: 'icon icon--gray',
+            dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#star"/>' } })
         )
-      );
-    }
-  }]);
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'message__body col-xs' },
+        welcomeText
+      )
+    );
+  };
 
   return Welcome;
 })(_react.Component);

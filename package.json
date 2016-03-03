@@ -1,6 +1,6 @@
 {
   "name": "actor-sdk",
-  "version": "1.0.161",
+  "version": "1.0.162",
   "description": "Actor SDK for building messaging web apps on top of Actor platform",
   "homepage": "https://actor.im/",
   "license": {
@@ -89,6 +89,7 @@
     "babel-loader": "^6.2.0",
     "babel-plugin-transform-strict-mode": "^6.2.0",
     "babel-preset-es2015": "^6.2.4",
+    "babel-preset-es2015-loose": "^7.0.0",
     "babel-preset-react": "^6.2.4",
     "babel-preset-stage-0": "^6.2.4",
     "copyfiles": "^0.2.1",

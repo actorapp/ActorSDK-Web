@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -90,22 +86,18 @@ var getStateFromStores = function getStateFromStores(uid) {
 var UserProfile = (function (_Component) {
   _inherits(UserProfile, _Component);
 
-  _createClass(UserProfile, null, [{
-    key: 'getStores',
-    value: function getStores() {
-      return [_NotificationsStore2.default, _OnlineStore2.default];
-    }
-  }, {
-    key: 'calculateState',
-    value: function calculateState(prevState, nextProps) {
-      return getStateFromStores(nextProps.user.id);
-    }
-  }]);
+  UserProfile.getStores = function getStores() {
+    return [_NotificationsStore2.default, _OnlineStore2.default];
+  };
+
+  UserProfile.calculateState = function calculateState(prevState, nextProps) {
+    return getStateFromStores(nextProps.user.id);
+  };
 
   function UserProfile(props) {
     _classCallCheck(this, UserProfile);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserProfile).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.addToContacts = function () {
       return _ContactActionCreators2.default.addContact(_this.props.user.id);
@@ -175,252 +167,249 @@ var UserProfile = (function (_Component) {
     return _this;
   }
 
-  _createClass(UserProfile, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
+  UserProfile.prototype.render = function render() {
+    var _this2 = this;
 
-      var user = this.props.user;
-      var intl = this.context.intl;
-      var _state = this.state;
-      var isNotificationsEnabled = _state.isNotificationsEnabled;
-      var isActionsDropdownOpen = _state.isActionsDropdownOpen;
-      var message = _state.message;
+    var user = this.props.user;
+    var intl = this.context.intl;
+    var _state = this.state;
+    var isNotificationsEnabled = _state.isNotificationsEnabled;
+    var isActionsDropdownOpen = _state.isActionsDropdownOpen;
+    var message = _state.message;
 
-      var dropdownClassNames = (0, _classnames2.default)('dropdown', {
-        'dropdown--opened': isActionsDropdownOpen
-      });
+    var dropdownClassNames = (0, _classnames2.default)('dropdown', {
+      'dropdown--opened': isActionsDropdownOpen
+    });
 
-      var nickname = user.nick ? _react2.default.createElement(
-        'li',
-        null,
-        _react2.default.createElement('svg', { className: 'icon icon--pink',
-          dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#username"/>' } }),
+    var nickname = user.nick ? _react2.default.createElement(
+      'li',
+      null,
+      _react2.default.createElement('svg', { className: 'icon icon--pink',
+        dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#username"/>' } }),
+      _react2.default.createElement(
+        'span',
+        { className: 'title' },
+        user.nick
+      ),
+      _react2.default.createElement(
+        'span',
+        { className: 'description' },
+        intl.messages['profile.nickname']
+      )
+    ) : null;
+
+    var email = user.emails[0] ? _react2.default.createElement(
+      'li',
+      null,
+      _react2.default.createElement('svg', { className: 'icon icon--blue',
+        dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#envelope"/>' } }),
+      _react2.default.createElement(
+        'span',
+        { className: 'title' },
         _react2.default.createElement(
-          'span',
-          { className: 'title' },
-          user.nick
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: 'description' },
-          intl.messages['profile.nickname']
+          'a',
+          { href: 'mailto:' + user.emails[0].email },
+          user.emails[0].email
         )
-      ) : null;
+      ),
+      _react2.default.createElement(
+        'span',
+        { className: 'description' },
+        intl.messages['profile.email']
+      )
+    ) : null;
 
-      var email = user.emails[0] ? _react2.default.createElement(
-        'li',
-        null,
-        _react2.default.createElement('svg', { className: 'icon icon--blue',
-          dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#envelope"/>' } }),
+    var phone = user.phones[0] ? _react2.default.createElement(
+      'li',
+      null,
+      _react2.default.createElement(
+        'i',
+        { className: 'material-icons icon icon--green' },
+        'call'
+      ),
+      _react2.default.createElement(
+        'span',
+        { className: 'title' },
         _react2.default.createElement(
-          'span',
-          { className: 'title' },
-          _react2.default.createElement(
-            'a',
-            { href: 'mailto:' + user.emails[0].email },
-            user.emails[0].email
-          )
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: 'description' },
-          intl.messages['profile.email']
+          'a',
+          { href: 'tel:+' + user.phones[0].number },
+          '+' + user.phones[0].number
         )
-      ) : null;
+      ),
+      _react2.default.createElement(
+        'span',
+        { className: 'description' },
+        intl.messages['profile.phone']
+      )
+    ) : null;
 
-      var phone = user.phones[0] ? _react2.default.createElement(
-        'li',
-        null,
+    return _react2.default.createElement(
+      'div',
+      { className: 'activity__body user_profile' },
+      _react2.default.createElement(
+        'ul',
+        { className: 'profile__list' },
         _react2.default.createElement(
-          'i',
-          { className: 'material-icons icon icon--green' },
-          'call'
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: 'title' },
+          'li',
+          { className: 'profile__list__item user_profile__meta' },
           _react2.default.createElement(
-            'a',
-            { href: 'tel:+' + user.phones[0].number },
-            '+' + user.phones[0].number
-          )
-        ),
-        _react2.default.createElement(
-          'span',
-          { className: 'description' },
-          intl.messages['profile.phone']
-        )
-      ) : null;
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'activity__body user_profile' },
-        _react2.default.createElement(
-          'ul',
-          { className: 'profile__list' },
-          _react2.default.createElement(
-            'li',
-            { className: 'profile__list__item user_profile__meta' },
+            'header',
+            null,
+            _react2.default.createElement(_AvatarItem2.default, { image: user.bigAvatar,
+              placeholder: user.placeholder,
+              size: 'large',
+              title: user.name,
+              onClick: this.handleAvatarClick }),
+            _react2.default.createElement('h3', { className: 'user_profile__meta__title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(user.name) } }),
             _react2.default.createElement(
-              'header',
-              null,
-              _react2.default.createElement(_AvatarItem2.default, { image: user.bigAvatar,
-                placeholder: user.placeholder,
-                size: 'large',
-                title: user.name,
-                onClick: this.handleAvatarClick }),
-              _react2.default.createElement('h3', { className: 'user_profile__meta__title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(user.name) } }),
+              'div',
+              { className: 'user_profile__meta__message' },
+              message
+            )
+          ),
+          user.about ? _react2.default.createElement('div', { className: 'user_profile__meta__about',
+            dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(user.about).replace(/\n/g, '<br/>') } }) : null,
+          _react2.default.createElement(
+            'footer',
+            { className: 'row' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-xs' },
               _react2.default.createElement(
-                'div',
-                { className: 'user_profile__meta__message' },
-                message
+                'button',
+                { className: 'button button--green button--wide', onClick: this.makeCall },
+                _react2.default.createElement(
+                  'i',
+                  { className: 'material-icons' },
+                  'phone'
+                ),
+                intl.messages['button.call']
               )
             ),
-            user.about ? _react2.default.createElement('div', { className: 'user_profile__meta__about',
-              dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(user.about).replace(/\n/g, '<br/>') } }) : null,
+            _react2.default.createElement('div', { style: { width: 10 } }),
             _react2.default.createElement(
-              'footer',
-              { className: 'row' },
+              'div',
+              { className: 'col-xs' },
               _react2.default.createElement(
                 'div',
-                { className: 'col-xs' },
+                { className: dropdownClassNames },
                 _react2.default.createElement(
                   'button',
-                  { className: 'button button--green button--wide', onClick: this.makeCall },
+                  { className: 'dropdown__button button button--flat button--wide', onClick: this.toggleActionsDropdown },
                   _react2.default.createElement(
                     'i',
                     { className: 'material-icons' },
-                    'phone'
+                    'more_horiz'
                   ),
-                  intl.messages['button.call']
-                )
-              ),
-              _react2.default.createElement('div', { style: { width: 10 } }),
-              _react2.default.createElement(
-                'div',
-                { className: 'col-xs' },
-                _react2.default.createElement(
-                  'div',
-                  { className: dropdownClassNames },
-                  _react2.default.createElement(
-                    'button',
-                    { className: 'dropdown__button button button--flat button--wide', onClick: this.toggleActionsDropdown },
-                    _react2.default.createElement(
-                      'i',
-                      { className: 'material-icons' },
-                      'more_horiz'
-                    ),
-                    intl.messages['actions']
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'dropdown__menu dropdown__menu--right' },
-                    user.isContact ? _react2.default.createElement(
-                      'li',
-                      { className: 'dropdown__menu__item', onClick: this.removeFromContacts },
-                      intl.messages['removeFromContacts']
-                    ) : _react2.default.createElement(
-                      'li',
-                      { className: 'dropdown__menu__item', onClick: this.addToContacts },
-                      intl.messages['addToContacts']
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      { className: 'dropdown__menu__item', onClick: function onClick() {
-                          return _this2.clearChat(user.id);
-                        } },
-                      intl.messages['clearConversation']
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      { className: 'dropdown__menu__item', onClick: function onClick() {
-                          return _this2.deleteChat(user.id);
-                        } },
-                      intl.messages['deleteConversation']
-                    )
-                  )
-                )
-              )
-            )
-          ),
-          _react2.default.createElement(
-            'li',
-            { className: 'profile__list__item user_profile__contact_info no-p' },
-            _react2.default.createElement(
-              'ul',
-              { className: 'user_profile__contact_info__list' },
-              phone,
-              email,
-              nickname
-            )
-          ),
-          _react2.default.createElement(
-            'li',
-            { className: 'profile__list__item user_profile__media no-p hide' },
-            _react2.default.createElement(
-              _Fold2.default,
-              { icon: 'attach_file', iconClassName: 'icon--gray', title: intl.messages['sharedMedia'] },
-              _react2.default.createElement(
-                'ul',
-                null,
-                _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement(
-                    'a',
-                    null,
-                    '230 Shared Photos and Videos'
-                  )
+                  intl.messages['actions']
                 ),
                 _react2.default.createElement(
-                  'li',
-                  null,
+                  'ul',
+                  { className: 'dropdown__menu dropdown__menu--right' },
+                  user.isContact ? _react2.default.createElement(
+                    'li',
+                    { className: 'dropdown__menu__item', onClick: this.removeFromContacts },
+                    intl.messages['removeFromContacts']
+                  ) : _react2.default.createElement(
+                    'li',
+                    { className: 'dropdown__menu__item', onClick: this.addToContacts },
+                    intl.messages['addToContacts']
+                  ),
                   _react2.default.createElement(
-                    'a',
-                    null,
-                    '49 Shared Links'
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  null,
+                    'li',
+                    { className: 'dropdown__menu__item', onClick: function onClick() {
+                        return _this2.clearChat(user.id);
+                      } },
+                    intl.messages['clearConversation']
+                  ),
                   _react2.default.createElement(
-                    'a',
-                    null,
-                    '49 Shared Files'
+                    'li',
+                    { className: 'dropdown__menu__item', onClick: function onClick() {
+                        return _this2.deleteChat(user.id);
+                      } },
+                    intl.messages['deleteConversation']
                   )
                 )
-              )
-            )
-          ),
-          _react2.default.createElement(
-            'li',
-            { className: 'profile__list__item user_profile__notifications no-p' },
-            _react2.default.createElement(
-              'label',
-              { htmlFor: 'notifications' },
-              _react2.default.createElement(
-                'i',
-                { className: 'material-icons icon icon--squash' },
-                'notifications_none'
-              ),
-              intl.messages['notifications'],
-              _react2.default.createElement(
-                'div',
-                { className: 'switch pull-right' },
-                _react2.default.createElement('input', { checked: isNotificationsEnabled,
-                  id: 'notifications',
-                  onChange: this.onNotificationChange,
-                  type: 'checkbox' }),
-                _react2.default.createElement('label', { htmlFor: 'notifications' })
               )
             )
           )
+        ),
+        _react2.default.createElement(
+          'li',
+          { className: 'profile__list__item user_profile__contact_info no-p' },
+          _react2.default.createElement(
+            'ul',
+            { className: 'user_profile__contact_info__list' },
+            phone,
+            email,
+            nickname
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          { className: 'profile__list__item user_profile__media no-p hide' },
+          _react2.default.createElement(
+            _Fold2.default,
+            { icon: 'attach_file', iconClassName: 'icon--gray', title: intl.messages['sharedMedia'] },
+            _react2.default.createElement(
+              'ul',
+              null,
+              _react2.default.createElement(
+                'li',
+                null,
+                _react2.default.createElement(
+                  'a',
+                  null,
+                  '230 Shared Photos and Videos'
+                )
+              ),
+              _react2.default.createElement(
+                'li',
+                null,
+                _react2.default.createElement(
+                  'a',
+                  null,
+                  '49 Shared Links'
+                )
+              ),
+              _react2.default.createElement(
+                'li',
+                null,
+                _react2.default.createElement(
+                  'a',
+                  null,
+                  '49 Shared Files'
+                )
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          { className: 'profile__list__item user_profile__notifications no-p' },
+          _react2.default.createElement(
+            'label',
+            { htmlFor: 'notifications' },
+            _react2.default.createElement(
+              'i',
+              { className: 'material-icons icon icon--squash' },
+              'notifications_none'
+            ),
+            intl.messages['notifications'],
+            _react2.default.createElement(
+              'div',
+              { className: 'switch pull-right' },
+              _react2.default.createElement('input', { checked: isNotificationsEnabled,
+                id: 'notifications',
+                onChange: this.onNotificationChange,
+                type: 'checkbox' }),
+              _react2.default.createElement('label', { htmlFor: 'notifications' })
+            )
+          )
         )
-      );
-    }
-  }]);
+      )
+    );
+  };
 
   return UserProfile;
 })(_react.Component);

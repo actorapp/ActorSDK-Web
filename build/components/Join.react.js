@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -30,18 +26,15 @@ var Join = (function (_Component) {
   function Join(props) {
     _classCallCheck(this, Join);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Join).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _JoinGroupActions2.default.joinGroupViaLink(props.params.token);
     return _this;
   }
 
-  _createClass(Join, [{
-    key: 'render',
-    value: function render() {
-      return null;
-    }
-  }]);
+  Join.prototype.render = function render() {
+    return null;
+  };
 
   return Join;
 })(_react.Component);

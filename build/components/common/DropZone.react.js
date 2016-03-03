@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -34,7 +30,7 @@ var DropZone = (function (_Component) {
   function DropZone(props) {
     _classCallCheck(this, DropZone);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DropZone).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onWindowDragEnter = function (event) {
       var onDragEnterCallback = _this.props.onDragEnterCallback;
@@ -97,39 +93,35 @@ var DropZone = (function (_Component) {
     return _this;
   }
 
-  _createClass(DropZone, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      window.removeEventListener('dragenter', this.onWindowDragEnter, false);
-      window.removeEventListener('dragover', this.onWindowDragOver, false);
-      window.removeEventListener('dragleave', this.onWindowDragLeave, false);
-      window.removeEventListener('drop', this.onWindowDragLeave, false);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state = this.state;
-      var isActive = _state.isActive;
-      var isHovered = _state.isHovered;
+  DropZone.prototype.componentWillUnmount = function componentWillUnmount() {
+    window.removeEventListener('dragenter', this.onWindowDragEnter, false);
+    window.removeEventListener('dragover', this.onWindowDragOver, false);
+    window.removeEventListener('dragleave', this.onWindowDragLeave, false);
+    window.removeEventListener('drop', this.onWindowDragLeave, false);
+  };
 
-      var dropzoneClassName = (0, _classnames2.default)('dropzone', {
-        'dropzone--hover': isHovered
-      });
+  DropZone.prototype.render = function render() {
+    var _state = this.state;
+    var isActive = _state.isActive;
+    var isHovered = _state.isHovered;
 
-      if (isActive) {
-        return _react2.default.createElement(
-          'div',
-          { className: dropzoneClassName,
-            onDragEnter: this.onDragEnter,
-            onDragLeave: this.onDragLeave,
-            onDrop: this.onDrop },
-          this.props.children || 'Drop here'
-        );
-      } else {
-        return null;
-      }
+    var dropzoneClassName = (0, _classnames2.default)('dropzone', {
+      'dropzone--hover': isHovered
+    });
+
+    if (isActive) {
+      return _react2.default.createElement(
+        'div',
+        { className: dropzoneClassName,
+          onDragEnter: this.onDragEnter,
+          onDragLeave: this.onDragLeave,
+          onDrop: this.onDrop },
+        this.props.children || 'Drop here'
+      );
+    } else {
+      return null;
     }
-  }]);
+  };
 
   return DropZone;
 })(_react.Component);

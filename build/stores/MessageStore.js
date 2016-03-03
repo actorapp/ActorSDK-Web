@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _immutable = require('immutable');
 
@@ -43,68 +39,59 @@ var MessageStore = (function (_Store) {
   function MessageStore(dispatcher) {
     _classCallCheck(this, MessageStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(MessageStore).call(this, dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
   }
 
   /**
    * @returns {Array} All messages stored for currently bound conversation
    */
 
-  _createClass(MessageStore, [{
-    key: 'getAll',
-    value: function getAll() {
-      return _messages;
+  MessageStore.prototype.getAll = function getAll() {
+    return _messages;
+  };
+
+  /**
+   * @returns {Array} Meesages overlay
+   */
+
+  MessageStore.prototype.getOverlay = function getOverlay() {
+    return _overlay;
+  };
+
+  MessageStore.prototype.isLoaded = function isLoaded() {
+    return _isLoaded;
+  };
+
+  /**
+   * @returns {Array} Selected messages
+   */
+
+  MessageStore.prototype.getSelected = function getSelected() {
+    return _selectedMessages;
+  };
+
+  MessageStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
+        _selectedMessages = new _immutable2.default.Set();
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.MESSAGES_CHANGED:
+        _messages = action.messages;
+        _overlay = action.overlay;
+        _isLoaded = action.isLoaded;
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.MESSAGES_SET_SELECTED:
+        _selectedMessages = action.selectedMesages;
+        this.__emitChange();
+        break;
+
+      default:
     }
-
-    /**
-     * @returns {Array} Meesages overlay
-     */
-
-  }, {
-    key: 'getOverlay',
-    value: function getOverlay() {
-      return _overlay;
-    }
-  }, {
-    key: 'isLoaded',
-    value: function isLoaded() {
-      return _isLoaded;
-    }
-
-    /**
-     * @returns {Array} Selected messages
-     */
-
-  }, {
-    key: 'getSelected',
-    value: function getSelected() {
-      return _selectedMessages;
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-          _selectedMessages = new _immutable2.default.Set();
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.MESSAGES_CHANGED:
-          _messages = action.messages;
-          _overlay = action.overlay;
-          _isLoaded = action.isLoaded;
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.MESSAGES_SET_SELECTED:
-          _selectedMessages = action.selectedMesages;
-          this.__emitChange();
-          break;
-
-        default:
-      }
-    }
-  }]);
+  };
 
   return MessageStore;
 })(_utils.Store);

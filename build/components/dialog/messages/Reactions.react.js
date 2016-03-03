@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -38,7 +34,7 @@ var MessageReactions = (function (_Component) {
   function MessageReactions(props) {
     _classCallCheck(this, MessageReactions);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MessageReactions).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleAddLike = function () {
       _MessageActionCreators2.default.addLike(_this.props.peer, _this.props.message.rid);
@@ -56,74 +52,70 @@ var MessageReactions = (function (_Component) {
     return _this;
   }
 
-  _createClass(MessageReactions, [{
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      if (this.state.isThisMyReaction) {
-        this.setState({
-          canAnimateHeart: false,
-          isThisMyReaction: false
-        });
+  MessageReactions.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    if (this.state.isThisMyReaction) {
+      this.setState({
+        canAnimateHeart: false,
+        isThisMyReaction: false
+      });
+    } else {
+      this.setState({ canAnimateHeart: true });
+    }
+  };
+
+  MessageReactions.prototype.render = function render() {
+    var message = this.props.message;
+    var canAnimateHeart = this.state.canAnimateHeart;
+
+    var hasReactions = message.reactions.length > 0;
+
+    var counter = undefined;
+    var icon = _react2.default.createElement(
+      'i',
+      { className: 'icon material-icons', onClick: this.handleAddLike },
+      'favorite'
+    );
+    var reactionsClassName = 'message__actions__like';
+
+    if (hasReactions) {
+      var amILikeThat = message.reactions[0].isOwnSet;
+
+      reactionsClassName = (0, _classnames2.default)(reactionsClassName, {
+        'message__actions__like--has-reactions': hasReactions,
+        'message__actions__like--liked': amILikeThat,
+        'message__actions__like--with-animations': canAnimateHeart
+      });
+
+      if (amILikeThat) {
+        icon = _react2.default.createElement(
+          'i',
+          { className: 'icon material-icons', onClick: this.handleRemoveLike },
+          'favorite'
+        );
+      }
+
+      if (message.reactions[0].uids.length > 0) {
+        counter = _react2.default.createElement(
+          'span',
+          { className: 'counter', key: 1 },
+          message.reactions[0].uids.length
+        );
       } else {
-        this.setState({ canAnimateHeart: true });
+        counter = null;
       }
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var message = this.props.message;
-      var canAnimateHeart = this.state.canAnimateHeart;
 
-      var hasReactions = message.reactions.length > 0;
-
-      var counter = undefined;
-      var icon = _react2.default.createElement(
-        'i',
-        { className: 'icon material-icons', onClick: this.handleAddLike },
-        'favorite'
-      );
-      var reactionsClassName = 'message__actions__like';
-
-      if (hasReactions) {
-        var amILikeThat = message.reactions[0].isOwnSet;
-
-        reactionsClassName = (0, _classnames2.default)(reactionsClassName, {
-          'message__actions__like--has-reactions': hasReactions,
-          'message__actions__like--liked': amILikeThat,
-          'message__actions__like--with-animations': canAnimateHeart
-        });
-
-        if (amILikeThat) {
-          icon = _react2.default.createElement(
-            'i',
-            { className: 'icon material-icons', onClick: this.handleRemoveLike },
-            'favorite'
-          );
-        }
-
-        if (message.reactions[0].uids.length > 0) {
-          counter = _react2.default.createElement(
-            'span',
-            { className: 'counter', key: 1 },
-            message.reactions[0].uids.length
-          );
-        } else {
-          counter = null;
-        }
-      }
-
-      return _react2.default.createElement(
-        'div',
-        { className: reactionsClassName },
-        _react2.default.createElement(
-          _reactAddonsCssTransitionGroup2.default,
-          { transitionName: 'counter', transitionEnterTimeout: 125, transitionLeaveTimeout: 100 },
-          counter
-        ),
-        icon
-      );
-    }
-  }]);
+    return _react2.default.createElement(
+      'div',
+      { className: reactionsClassName },
+      _react2.default.createElement(
+        _reactAddonsCssTransitionGroup2.default,
+        { transitionName: 'counter', transitionEnterTimeout: 125, transitionLeaveTimeout: 100 },
+        counter
+      ),
+      icon
+    );
+  };
 
   return MessageReactions;
 })(_react.Component);

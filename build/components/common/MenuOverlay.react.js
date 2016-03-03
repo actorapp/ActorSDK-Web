@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -45,58 +41,52 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MenuOverlay = (function (_Component) {
   _inherits(MenuOverlay, _Component);
 
-  _createClass(MenuOverlay, null, [{
-    key: 'calculateState',
-    value: function calculateState() {
-      var message = _DropdownStore2.default.getMessage();
+  MenuOverlay.calculateState = function calculateState() {
+    var message = _DropdownStore2.default.getMessage();
 
-      return {
-        isMessageDropdownOpen: _DropdownStore2.default.isMessageDropdownOpen(message.rid),
-        isRecentContextOpen: _DropdownStore2.default.isRecentContextOpen(),
-        targetRect: _DropdownStore2.default.getTargetRect(),
-        contextPos: _DropdownStore2.default.getContextPos(),
-        contextPeer: _DropdownStore2.default.getPeer(),
-        message: message
-      };
-    }
-  }]);
+    return {
+      isMessageDropdownOpen: _DropdownStore2.default.isMessageDropdownOpen(message.rid),
+      isRecentContextOpen: _DropdownStore2.default.isRecentContextOpen(),
+      targetRect: _DropdownStore2.default.getTargetRect(),
+      contextPos: _DropdownStore2.default.getContextPos(),
+      contextPeer: _DropdownStore2.default.getPeer(),
+      message: message
+    };
+  };
 
   function MenuOverlay(props) {
     _classCallCheck(this, MenuOverlay);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(MenuOverlay).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(MenuOverlay, [{
-    key: 'render',
-    value: function render() {
-      var _state = this.state;
-      var isMessageDropdownOpen = _state.isMessageDropdownOpen;
-      var isRecentContextOpen = _state.isRecentContextOpen;
-      var message = _state.message;
-      var targetRect = _state.targetRect;
-      var contextPeer = _state.contextPeer;
-      var contextPos = _state.contextPos;
+  MenuOverlay.prototype.render = function render() {
+    var _state = this.state;
+    var isMessageDropdownOpen = _state.isMessageDropdownOpen;
+    var isRecentContextOpen = _state.isRecentContextOpen;
+    var message = _state.message;
+    var targetRect = _state.targetRect;
+    var contextPeer = _state.contextPeer;
+    var contextPos = _state.contextPos;
 
-      var currentPeer = _DialogStore2.default.getCurrentPeer();
+    var currentPeer = _DialogStore2.default.getCurrentPeer();
 
-      var menuOverlayClassName = (0, _classnames2.default)('menu-overlay', {
-        'menu-overlay--opened': isMessageDropdownOpen || isRecentContextOpen
-      });
+    var menuOverlayClassName = (0, _classnames2.default)('menu-overlay', {
+      'menu-overlay--opened': isMessageDropdownOpen || isRecentContextOpen
+    });
 
-      return _react2.default.createElement(
-        'div',
-        { className: menuOverlayClassName },
-        isMessageDropdownOpen ? _react2.default.createElement(_MessageActions2.default, { message: message,
-          targetRect: targetRect,
-          peer: currentPeer,
-          hideOnScroll: true }) : null,
-        isRecentContextOpen ? _react2.default.createElement(_RecentContextMenu2.default, { peer: contextPeer,
-          contextPos: contextPos,
-          hideOnScroll: true }) : null
-      );
-    }
-  }]);
+    return _react2.default.createElement(
+      'div',
+      { className: menuOverlayClassName },
+      isMessageDropdownOpen ? _react2.default.createElement(_MessageActions2.default, { message: message,
+        targetRect: targetRect,
+        peer: currentPeer,
+        hideOnScroll: true }) : null,
+      isRecentContextOpen ? _react2.default.createElement(_RecentContextMenu2.default, { peer: contextPeer,
+        contextPos: contextPos,
+        hideOnScroll: true }) : null
+    );
+  };
 
   return MenuOverlay;
 })(_react.Component);

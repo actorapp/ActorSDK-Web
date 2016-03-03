@@ -1,8 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 exports.default = {
   'locale': 'ru',
   'messages': {
@@ -283,7 +281,10 @@ exports.default = {
       mute: 'Отключить звук',
       answer: 'Ответить',
       decline: 'Отменить',
-      end: 'Завершить вызов'
+      end: 'Завершить вызов',
+      addUser: 'Добавить пользователя',
+      fullScreen: 'Полный экран',
+      video: 'Видео'
     }
   }
 };

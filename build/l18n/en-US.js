@@ -1,8 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 exports.default = {
   'locale': 'en',
   'messages': {
@@ -285,7 +283,10 @@ exports.default = {
       mute: 'Mute',
       answer: 'Answer',
       decline: 'Decline',
-      end: 'End call'
+      end: 'End call',
+      addUser: 'Add user',
+      fullScreen: 'Fullscreen',
+      video: 'Video'
     }
   }
 };

@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -68,7 +64,7 @@ var InviteUser = (function (_Component) {
   function InviteUser(props) {
     _classCallCheck(this, InviteUser);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(InviteUser).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onChange = function () {
       return _this.setState(getStateFromStores());
@@ -109,143 +105,138 @@ var InviteUser = (function (_Component) {
     return _this;
   }
 
-  _createClass(InviteUser, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _InviteUserStore2.default.removeChangeListener(this.onChange);
+  InviteUser.prototype.componentWillUnmount = function componentWillUnmount() {
+    _InviteUserStore2.default.removeChangeListener(this.onChange);
+  };
+
+  InviteUser.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
+    if (nextState.isOpen && !this.state.isOpen) {
+      document.addEventListener('keydown', this.onKeyDown, false);
+    } else if (!nextState.isOpen && this.state.isOpen) {
+      document.removeEventListener('keydown', this.onKeyDown, false);
     }
-  }, {
-    key: 'componentWillUpdate',
-    value: function componentWillUpdate(nextProps, nextState) {
-      if (nextState.isOpen && !this.state.isOpen) {
-        document.addEventListener('keydown', this.onKeyDown, false);
-      } else if (!nextState.isOpen && this.state.isOpen) {
-        document.removeEventListener('keydown', this.onKeyDown, false);
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
+  };
 
-      var _state = this.state;
-      var contacts = _state.contacts;
-      var group = _state.group;
-      var search = _state.search;
-      var isOpen = _state.isOpen;
-      var intl = this.context.intl;
+  InviteUser.prototype.render = function render() {
+    var _this2 = this;
 
-      var contactList = [];
+    var _state = this.state;
+    var contacts = _state.contacts;
+    var group = _state.group;
+    var search = _state.search;
+    var isOpen = _state.isOpen;
+    var intl = this.context.intl;
 
-      if (isOpen) {
+    var contactList = [];
 
-        (0, _lodash.forEach)(contacts, function (contact, i) {
-          var name = contact.name.toLowerCase();
-          if (name.includes(search.toLowerCase())) {
-            if (!hasMember(group, contact.uid)) {
-              contactList.push(_react2.default.createElement(_ContactItem2.default, { contact: contact, key: i, onSelect: _this2.onContactSelect }));
-            } else {
-              contactList.push(_react2.default.createElement(_ContactItem2.default, { contact: contact, key: i, isMember: true }));
-            }
+    if (isOpen) {
+
+      (0, _lodash.forEach)(contacts, function (contact, i) {
+        var name = contact.name.toLowerCase();
+        if (name.includes(search.toLowerCase())) {
+          if (!hasMember(group, contact.uid)) {
+            contactList.push(_react2.default.createElement(_ContactItem2.default, { contact: contact, key: i, onSelect: _this2.onContactSelect }));
+          } else {
+            contactList.push(_react2.default.createElement(_ContactItem2.default, { contact: contact, key: i, isMember: true }));
           }
-        }, this);
-
-        if (contactList.length === 0) {
-          contactList.push(_react2.default.createElement(
-            'li',
-            { className: 'contacts__list__item contacts__list__item--empty text-center' },
-            intl.messages['inviteModalNotFound']
-          ));
         }
-        var modalStyle = {
-          content: {
-            position: null,
-            top: null,
-            left: null,
-            right: null,
-            bottom: null,
-            border: null,
-            background: null,
-            overflow: null,
-            outline: null,
-            padding: null,
-            borderRadius: null,
-            width: 440
-          }
-        };
+      }, this);
 
-        return _react2.default.createElement(
-          _reactModal2.default,
-          { className: 'modal-new modal-new--invite contacts',
-            closeTimeoutMS: 150,
-            isOpen: isOpen,
-            style: modalStyle },
+      if (contactList.length === 0) {
+        contactList.push(_react2.default.createElement(
+          'li',
+          { className: 'contacts__list__item contacts__list__item--empty text-center' },
+          intl.messages['inviteModalNotFound']
+        ));
+      }
+      var modalStyle = {
+        content: {
+          position: null,
+          top: null,
+          left: null,
+          right: null,
+          bottom: null,
+          border: null,
+          background: null,
+          overflow: null,
+          outline: null,
+          padding: null,
+          borderRadius: null,
+          width: 440
+        }
+      };
+
+      return _react2.default.createElement(
+        _reactModal2.default,
+        { className: 'modal-new modal-new--invite contacts',
+          closeTimeoutMS: 150,
+          isOpen: isOpen,
+          style: modalStyle },
+        _react2.default.createElement(
+          'header',
+          { className: 'modal-new__header' },
           _react2.default.createElement(
-            'header',
-            { className: 'modal-new__header' },
-            _react2.default.createElement(
-              'a',
-              { className: 'modal-new__header__icon material-icons' },
-              'person_add'
-            ),
-            _react2.default.createElement(
-              'h3',
-              { className: 'modal-new__header__title' },
-              intl.messages['inviteModalTitle']
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'pull-right' },
-              _react2.default.createElement(
-                'button',
-                { className: 'button button--lightblue', onClick: this.onClose },
-                intl.messages['button.done']
-              )
-            )
+            'a',
+            { className: 'modal-new__header__icon material-icons' },
+            'person_add'
+          ),
+          _react2.default.createElement(
+            'h3',
+            { className: 'modal-new__header__title' },
+            intl.messages['inviteModalTitle']
           ),
           _react2.default.createElement(
             'div',
-            { className: 'modal-new__body' },
+            { className: 'pull-right' },
             _react2.default.createElement(
-              'div',
-              { className: 'modal-new__search' },
-              _react2.default.createElement(
-                'i',
-                { className: 'material-icons' },
-                'search'
-              ),
-              _react2.default.createElement('input', { className: 'input input--search',
-                onChange: this.onSearchChange,
-                placeholder: intl.messages['inviteModalSearch'],
-                type: 'search',
-                value: search })
-            ),
-            _react2.default.createElement(
-              'a',
-              { className: 'link link--blue', onClick: this.onInviteUrlByClick },
-              _react2.default.createElement(
-                'i',
-                { className: 'material-icons' },
-                'link'
-              ),
-              intl.messages['inviteByLink']
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'contacts__body' },
-            _react2.default.createElement(
-              'ul',
-              { className: 'contacts__list' },
-              contactList
+              'button',
+              { className: 'button button--lightblue', onClick: this.onClose },
+              intl.messages['button.done']
             )
           )
-        );
-      } else {
-        return null;
-      }
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'modal-new__body' },
+          _react2.default.createElement(
+            'div',
+            { className: 'modal-new__search' },
+            _react2.default.createElement(
+              'i',
+              { className: 'material-icons' },
+              'search'
+            ),
+            _react2.default.createElement('input', { className: 'input input--search',
+              onChange: this.onSearchChange,
+              placeholder: intl.messages['inviteModalSearch'],
+              type: 'search',
+              value: search })
+          ),
+          _react2.default.createElement(
+            'a',
+            { className: 'link link--blue', onClick: this.onInviteUrlByClick },
+            _react2.default.createElement(
+              'i',
+              { className: 'material-icons' },
+              'link'
+            ),
+            intl.messages['inviteByLink']
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'contacts__body' },
+          _react2.default.createElement(
+            'ul',
+            { className: 'contacts__list' },
+            contactList
+          )
+        )
+      );
+    } else {
+      return null;
     }
-  }]);
+  };
 
   return InviteUser;
 })(_react.Component);

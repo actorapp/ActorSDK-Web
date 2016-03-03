@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -38,7 +34,7 @@ var Voice = (function (_Component) {
   function Voice(props) {
     _classCallCheck(this, Voice);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Voice).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.humanTime = function (millis) {
       var minutes = Math.floor(millis / 60000);
@@ -88,135 +84,126 @@ var Voice = (function (_Component) {
     return _this;
   }
 
-  _createClass(Voice, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var content = this.props.content;
+  Voice.prototype.componentDidMount = function componentDidMount() {
+    var content = this.props.content;
 
-      if (content.fileUrl) {
-        this.createAudioElement(content.fileUrl);
-      }
+    if (content.fileUrl) {
+      this.createAudioElement(content.fileUrl);
     }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate(prevProps, prevState) {
-      var content = this.props.content;
+  };
 
-      if (content.fileUrl && !this.isCached()) {
-        this.createAudioElement(content.fileUrl);
-      }
+  Voice.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
+    var content = this.props.content;
+
+    if (content.fileUrl && !this.isCached()) {
+      this.createAudioElement(content.fileUrl);
     }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      if (this.audio) {
-        this.audio.removeEventListener('loadeddata', this.handleLoading);
-        this.audio.removeEventListener('timeupdate', this.handleTimeUpdate);
-        this.audio.removeEventListener('ended', this.handlePlayEnding);
-        this.audio.removeEventListener('canplaythrough', this.handleLoading);
-      }
+  };
+
+  Voice.prototype.componentWillUnmount = function componentWillUnmount() {
+    if (this.audio) {
+      this.audio.removeEventListener('loadeddata', this.handleLoading);
+      this.audio.removeEventListener('timeupdate', this.handleTimeUpdate);
+      this.audio.removeEventListener('ended', this.handlePlayEnding);
+      this.audio.removeEventListener('canplaythrough', this.handleLoading);
     }
-  }, {
-    key: 'createAudioElement',
-    value: function createAudioElement(fileUrl) {
-      this.audio = new Audio(fileUrl);
-      this.audio.volume = 1;
-      this.audio.addEventListener('loadeddata', this.handleLoading);
-      this.audio.addEventListener('timeupdate', this.handleTimeUpdate);
-      this.audio.addEventListener('ended', this.handlePlayEnding);
-      this.audio.addEventListener('canplaythrough', this.handleLoading);
-      this.setCached();
-    }
-  }, {
-    key: 'isCached',
-    value: function isCached() {
-      var content = this.props.content;
+  };
 
-      return cache[content.fileUrl] === true;
-    }
-  }, {
-    key: 'setCached',
-    value: function setCached() {
-      var content = this.props.content;
+  Voice.prototype.createAudioElement = function createAudioElement(fileUrl) {
+    this.audio = new Audio(fileUrl);
+    this.audio.volume = 1;
+    this.audio.addEventListener('loadeddata', this.handleLoading);
+    this.audio.addEventListener('timeupdate', this.handleTimeUpdate);
+    this.audio.addEventListener('ended', this.handlePlayEnding);
+    this.audio.addEventListener('canplaythrough', this.handleLoading);
+    this.setCached();
+  };
 
-      cache[content.fileUrl] = true;
-      this.setState({ isLoaded: cache[content.fileUrl] });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var className = this.props.className;
-      var _state = this.state;
-      var isPlaying = _state.isPlaying;
-      var currentTime = _state.currentTime;
-      var duration = _state.duration;
-      var isLoaded = _state.isLoaded;
+  Voice.prototype.isCached = function isCached() {
+    var content = this.props.content;
 
-      var voiceClassName = (0, _classnames2.default)(className, 'row');
+    return cache[content.fileUrl] === true;
+  };
 
-      var current = this.humanTime(currentTime * 1000);
-      var total = this.humanTime(duration * 1000);
-      var progress = currentTime / duration * 100;
+  Voice.prototype.setCached = function setCached() {
+    var content = this.props.content;
 
-      return _react2.default.createElement(
+    cache[content.fileUrl] = true;
+    this.setState({ isLoaded: cache[content.fileUrl] });
+  };
+
+  Voice.prototype.render = function render() {
+    var className = this.props.className;
+    var _state = this.state;
+    var isPlaying = _state.isPlaying;
+    var currentTime = _state.currentTime;
+    var duration = _state.duration;
+    var isLoaded = _state.isLoaded;
+
+    var voiceClassName = (0, _classnames2.default)(className, 'row');
+
+    var current = this.humanTime(currentTime * 1000);
+    var total = this.humanTime(duration * 1000);
+    var progress = currentTime / duration * 100;
+
+    return _react2.default.createElement(
+      'div',
+      { className: voiceClassName },
+      _react2.default.createElement(
         'div',
-        { className: voiceClassName },
+        { className: 'voice row' },
         _react2.default.createElement(
           'div',
-          { className: 'voice row' },
-          _react2.default.createElement(
-            'div',
-            { className: 'voice__controls' },
-            !isLoaded ? _react2.default.createElement(
-              'i',
-              { className: 'material-icons', style: { opacity: 0.3 } },
-              'play_circle_filled'
-            ) : isPlaying ? _react2.default.createElement(
-              'i',
-              { className: 'material-icons', onClick: this.handlePauseClick },
-              'pause_circle_filled'
-            ) : _react2.default.createElement(
-              'i',
-              { className: 'material-icons', onClick: this.handlePlayClick },
-              'play_circle_filled'
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'voice__body col-xs' },
-            _react2.default.createElement(
-              'div',
-              { className: 'row' },
-              _react2.default.createElement(
-                'div',
-                { className: 'col-xs text-left' },
-                _react2.default.createElement(
-                  'time',
-                  { className: 'voice__time voice__time--current' },
-                  current
-                )
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'col-xs text-right' },
-                _react2.default.createElement(
-                  'time',
-                  { className: 'voice__time voice__time--total' },
-                  total
-                )
-              )
-            ),
-            isLoaded ? _react2.default.createElement(
-              'div',
-              { className: 'voice__rewind', onClick: this.handleRewind, ref: 'rewind' },
-              _react2.default.createElement('div', { className: 'played', style: { width: progress + '%' } })
-            ) : _react2.default.createElement('div', { className: 'voice__rewind voice__rewind--loading' })
+          { className: 'voice__controls' },
+          !isLoaded ? _react2.default.createElement(
+            'i',
+            { className: 'material-icons', style: { opacity: 0.3 } },
+            'play_circle_filled'
+          ) : isPlaying ? _react2.default.createElement(
+            'i',
+            { className: 'material-icons', onClick: this.handlePauseClick },
+            'pause_circle_filled'
+          ) : _react2.default.createElement(
+            'i',
+            { className: 'material-icons', onClick: this.handlePlayClick },
+            'play_circle_filled'
           )
         ),
-        _react2.default.createElement('div', { className: 'col-xs' })
-      );
-    }
-  }]);
+        _react2.default.createElement(
+          'div',
+          { className: 'voice__body col-xs' },
+          _react2.default.createElement(
+            'div',
+            { className: 'row' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-xs text-left' },
+              _react2.default.createElement(
+                'time',
+                { className: 'voice__time voice__time--current' },
+                current
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'col-xs text-right' },
+              _react2.default.createElement(
+                'time',
+                { className: 'voice__time voice__time--total' },
+                total
+              )
+            )
+          ),
+          isLoaded ? _react2.default.createElement(
+            'div',
+            { className: 'voice__rewind', onClick: this.handleRewind, ref: 'rewind' },
+            _react2.default.createElement('div', { className: 'played', style: { width: progress + '%' } })
+          ) : _react2.default.createElement('div', { className: 'voice__rewind voice__rewind--loading' })
+        )
+      ),
+      _react2.default.createElement('div', { className: 'col-xs' })
+    );
+  };
 
   return Voice;
 })(_react.Component);

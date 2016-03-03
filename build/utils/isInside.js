@@ -1,8 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 exports.default = isInside;
 /*
  * Copyright (C) 2015 Actor LLC. <https://actor.im>

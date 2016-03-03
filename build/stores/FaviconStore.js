@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -37,30 +33,26 @@ var FaviconStore = (function (_Store) {
   function FaviconStore(dispatcher) {
     _classCallCheck(this, FaviconStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(FaviconStore).call(this, dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
   }
 
-  _createClass(FaviconStore, [{
-    key: 'getFaviconPath',
-    value: function getFaviconPath() {
-      return _iconPath;
+  FaviconStore.prototype.getFaviconPath = function getFaviconPath() {
+    return _iconPath;
+  };
+
+  FaviconStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.FAVICON_SET:
+        if (action.counter === 0) {
+          _iconPath = FaviconPath.DEFAULT;
+        } else {
+          _iconPath = FaviconPath.NOTIFICATION;
+        }
+        this.__emitChange();
+        break;
+      default:
     }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.FAVICON_SET:
-          if (action.counter === 0) {
-            _iconPath = FaviconPath.DEFAULT;
-          } else {
-            _iconPath = FaviconPath.NOTIFICATION;
-          }
-          this.__emitChange();
-          break;
-        default:
-      }
-    }
-  }]);
+  };
 
   return FaviconStore;
 })(_utils.Store);

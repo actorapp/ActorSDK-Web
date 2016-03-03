@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -73,7 +69,7 @@ var ComposeStore = (function (_Store) {
   function ComposeStore(dispatcher) {
     _classCallCheck(this, ComposeStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ComposeStore).call(this, dispatcher));
+    var _this = _possibleConstructorReturn(this, _Store.call(this, dispatcher));
 
     _this.onTyping = function (action) {
       text = action.text;
@@ -132,56 +128,50 @@ var ComposeStore = (function (_Store) {
     return _this;
   }
 
-  _createClass(ComposeStore, [{
-    key: 'getMentions',
-    value: function getMentions() {
-      return mentions;
-    }
-  }, {
-    key: 'getText',
-    value: function getText() {
-      return text;
-    }
-  }, {
-    key: 'isAutoFocusEnabled',
-    value: function isAutoFocusEnabled() {
-      return _isAutoFocusEnabled;
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.COMPOSE_TYPING:
-          this.onTyping(action);
-          break;
-        case _ActorAppConstants.ActionTypes.COMPOSE_MENTION_INSERT:
-          this.onMentionInsert(action);
-          break;
-        case _ActorAppConstants.ActionTypes.COMPOSE_MENTION_CLOSE:
-          this.onMentionClose();
-          break;
-        case _ActorAppConstants.ActionTypes.COMPOSE_CLEAN:
-          this.onComposeClean();
-          break;
-        case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-          this.onSelectDialogPeer();
-          break;
-        case _ActorAppConstants.ActionTypes.EMOJI_INSERT:
-          this.onEmojiInsert(action);
-          break;
-        case _ActorAppConstants.ActionTypes.COMPOSE_PASTE:
-          this.onComposePaste(action.text);
-          break;
+  ComposeStore.prototype.getMentions = function getMentions() {
+    return mentions;
+  };
 
-        case _ActorAppConstants.ActionTypes.COMPOSE_TOGGLE_AUTO_FOCUS:
-          _isAutoFocusEnabled = action.isEnable;
-          this.__emitChange();
-          break;
+  ComposeStore.prototype.getText = function getText() {
+    return text;
+  };
 
-        default:
-      }
+  ComposeStore.prototype.isAutoFocusEnabled = function isAutoFocusEnabled() {
+    return _isAutoFocusEnabled;
+  };
+
+  ComposeStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.COMPOSE_TYPING:
+        this.onTyping(action);
+        break;
+      case _ActorAppConstants.ActionTypes.COMPOSE_MENTION_INSERT:
+        this.onMentionInsert(action);
+        break;
+      case _ActorAppConstants.ActionTypes.COMPOSE_MENTION_CLOSE:
+        this.onMentionClose();
+        break;
+      case _ActorAppConstants.ActionTypes.COMPOSE_CLEAN:
+        this.onComposeClean();
+        break;
+      case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
+        this.onSelectDialogPeer();
+        break;
+      case _ActorAppConstants.ActionTypes.EMOJI_INSERT:
+        this.onEmojiInsert(action);
+        break;
+      case _ActorAppConstants.ActionTypes.COMPOSE_PASTE:
+        this.onComposePaste(action.text);
+        break;
+
+      case _ActorAppConstants.ActionTypes.COMPOSE_TOGGLE_AUTO_FOCUS:
+        _isAutoFocusEnabled = action.isEnable;
+        this.__emitChange();
+        break;
+
+      default:
     }
-  }]);
+  };
 
   return ComposeStore;
 })(_utils.Store);

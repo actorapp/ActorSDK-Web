@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -36,30 +32,26 @@ var TypingStore = (function (_Store) {
   function TypingStore() {
     _classCallCheck(this, TypingStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(TypingStore).apply(this, arguments));
+    return _possibleConstructorReturn(this, _Store.apply(this, arguments));
   }
 
-  _createClass(TypingStore, [{
-    key: 'getTyping',
+  /**
+   * @returns {String}
+   */
 
-    /**
-     * @returns {String}
-     */
-    value: function getTyping() {
-      return _typing;
+  TypingStore.prototype.getTyping = function getTyping() {
+    return _typing;
+  };
+
+  TypingStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.TYPING_CHANGED:
+        _typing = action.typing;
+        this.__emitChange();
+        break;
+      default:
     }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.TYPING_CHANGED:
-          _typing = action.typing;
-          this.__emitChange();
-          break;
-        default:
-      }
-    }
-  }]);
+  };
 
   return TypingStore;
 })(_utils.Store);

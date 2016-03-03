@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -79,7 +75,7 @@ var QuickSearch = (function (_Component) {
   function QuickSearch(props) {
     _classCallCheck(this, QuickSearch);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(QuickSearch).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.setFocus = function () {
       setTimeout(function () {
@@ -187,184 +183,178 @@ var QuickSearch = (function (_Component) {
     return _this;
   }
 
-  _createClass(QuickSearch, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.setFocus();
-      document.addEventListener('keydown', this.handleKeyDown, false);
-      document.addEventListener('click', this.handleDocumentClick, false);
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      document.removeEventListener('keydown', this.handleKeyDown, false);
-      document.removeEventListener('click', this.handleDocumentClick, false);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
+  QuickSearch.calculateState = function calculateState() {
+    return {
+      isOpen: _QuickSearchStore2.default.isOpen(),
+      results: _QuickSearchStore2.default.getResults(),
+      selectedIndex: 0
+    };
+  };
 
-      var _state = this.state;
-      var isOpen = _state.isOpen;
-      var results = _state.results;
-      var selectedIndex = _state.selectedIndex;
-      var query = _state.query;
-      var intl = this.context.intl;
+  QuickSearch.prototype.componentDidMount = function componentDidMount() {
+    this.setFocus();
+    document.addEventListener('keydown', this.handleKeyDown, false);
+    document.addEventListener('click', this.handleDocumentClick, false);
+  };
 
-      var resultsList = (0, _lodash.map)(results, function (result, index) {
-        var resultClassName = (0, _classnames2.default)('results__item row', {
-          'results__item--active': selectedIndex === index
-        });
+  QuickSearch.prototype.componentWillUnmount = function componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown, false);
+    document.removeEventListener('click', this.handleDocumentClick, false);
+  };
 
-        return _react2.default.createElement(
-          'li',
-          { className: resultClassName,
-            key: index,
-            onClick: function onClick() {
-              return _this2.handleDialogSelect(result.peerInfo.peer);
-            },
-            onMouseOver: function onMouseOver() {
-              return _this2.setState({ selectedIndex: index });
-            } },
-          _react2.default.createElement(_AvatarItem2.default, { image: result.peerInfo.avatar,
-            placeholder: result.peerInfo.placeholder,
-            size: 'small',
-            title: result.peerInfo.title }),
-          _react2.default.createElement(
-            'div',
-            { className: 'title col-xs' },
-            _react2.default.createElement(
-              'div',
-              { className: 'hint pull-right' },
-              intl.messages['modal.quickSearch.openDialog']
-            ),
-            result.peerInfo.title
-          )
-        );
+  QuickSearch.prototype.render = function render() {
+    var _this2 = this;
+
+    var _state = this.state;
+    var isOpen = _state.isOpen;
+    var results = _state.results;
+    var selectedIndex = _state.selectedIndex;
+    var query = _state.query;
+    var intl = this.context.intl;
+
+    var resultsList = (0, _lodash.map)(results, function (result, index) {
+      var resultClassName = (0, _classnames2.default)('results__item row', {
+        'results__item--active': selectedIndex === index
       });
 
-      var modalStyle = {
-        content: {
-          position: null,
-          top: null,
-          left: null,
-          right: null,
-          bottom: null,
-          border: null,
-          background: null,
-          overflow: null,
-          outline: null,
-          padding: null,
-          borderRadius: null,
-          width: 460
-        }
-      };
-
       return _react2.default.createElement(
-        _reactModal2.default,
-        { className: 'modal modal--quick-search',
-          closeTimeoutMS: 150,
-          isOpen: isOpen,
-          style: modalStyle },
+        'li',
+        { className: resultClassName,
+          key: index,
+          onClick: function onClick() {
+            return _this2.handleDialogSelect(result.peerInfo.peer);
+          },
+          onMouseOver: function onMouseOver() {
+            return _this2.setState({ selectedIndex: index });
+          } },
+        _react2.default.createElement(_AvatarItem2.default, { image: result.peerInfo.avatar,
+          placeholder: result.peerInfo.placeholder,
+          size: 'small',
+          title: result.peerInfo.title }),
         _react2.default.createElement(
           'div',
-          { ref: 'modal' },
+          { className: 'title col-xs' },
           _react2.default.createElement(
-            'header',
-            { className: 'header' },
-            _react2.default.createElement(
-              'div',
-              { className: 'pull-left' },
-              intl.messages['modal.quickSearch.title']
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'pull-right' },
-              _react2.default.createElement(
-                'strong',
-                null,
-                'esc'
-              ),
-              '  ',
-              intl.messages['modal.quickSearch.toClose']
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'pull-right' },
-              _react2.default.createElement(
-                'strong',
-                null,
-                '↵'
-              ),
-              '  ',
-              intl.messages['modal.quickSearch.toSelect']
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'pull-right' },
-              _react2.default.createElement(
-                'strong',
-                null,
-                'tab'
-              ),
-              '  or  ',
-              _react2.default.createElement(
-                'strong',
-                null,
-                '↑'
-              ),
-              _react2.default.createElement(
-                'strong',
-                null,
-                '↓'
-              ),
-              '  ',
-              intl.messages['modal.quickSearch.toNavigate']
-            )
+            'div',
+            { className: 'hint pull-right' },
+            intl.messages['modal.quickSearch.openDialog']
+          ),
+          result.peerInfo.title
+        )
+      );
+    });
+
+    var modalStyle = {
+      content: {
+        position: null,
+        top: null,
+        left: null,
+        right: null,
+        bottom: null,
+        border: null,
+        background: null,
+        overflow: null,
+        outline: null,
+        padding: null,
+        borderRadius: null,
+        width: 460
+      }
+    };
+
+    return _react2.default.createElement(
+      _reactModal2.default,
+      { className: 'modal modal--quick-search',
+        closeTimeoutMS: 150,
+        isOpen: isOpen,
+        style: modalStyle },
+      _react2.default.createElement(
+        'div',
+        { ref: 'modal' },
+        _react2.default.createElement(
+          'header',
+          { className: 'header' },
+          _react2.default.createElement(
+            'div',
+            { className: 'pull-left' },
+            intl.messages['modal.quickSearch.title']
           ),
           _react2.default.createElement(
             'div',
-            { className: 'input' },
-            _react2.default.createElement('input', { type: 'text',
-              placeholder: intl.messages['modal.quickSearch.placeholder'],
-              onChange: this.handleSearch,
-              value: query,
-              ref: 'query' })
+            { className: 'pull-right' },
+            _react2.default.createElement(
+              'strong',
+              null,
+              'esc'
+            ),
+            '  ',
+            intl.messages['modal.quickSearch.toClose']
           ),
           _react2.default.createElement(
-            _Scrollbar2.default,
-            { style: { height: RESULT_ITEM_HEIGHT * 8 }, ref: 'results' },
+            'div',
+            { className: 'pull-right' },
             _react2.default.createElement(
-              'ul',
-              { className: 'results' },
-              resultsList.length > 0 ? resultsList : _react2.default.createElement(
-                'li',
-                { className: 'results__item results__item--suggestion row' },
-                _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'modal.quickSearch.notFound',
-                  values: { query: query } }),
-                _react2.default.createElement(
-                  'button',
-                  { className: 'button button--rised hide' },
-                  'Create new dialog ',
-                  query
-                )
+              'strong',
+              null,
+              '↵'
+            ),
+            '  ',
+            intl.messages['modal.quickSearch.toSelect']
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'pull-right' },
+            _react2.default.createElement(
+              'strong',
+              null,
+              'tab'
+            ),
+            '  or  ',
+            _react2.default.createElement(
+              'strong',
+              null,
+              '↑'
+            ),
+            _react2.default.createElement(
+              'strong',
+              null,
+              '↓'
+            ),
+            '  ',
+            intl.messages['modal.quickSearch.toNavigate']
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'input' },
+          _react2.default.createElement('input', { type: 'text',
+            placeholder: intl.messages['modal.quickSearch.placeholder'],
+            onChange: this.handleSearch,
+            value: query,
+            ref: 'query' })
+        ),
+        _react2.default.createElement(
+          _Scrollbar2.default,
+          { style: { height: RESULT_ITEM_HEIGHT * 8 }, ref: 'results' },
+          _react2.default.createElement(
+            'ul',
+            { className: 'results' },
+            resultsList.length > 0 ? resultsList : _react2.default.createElement(
+              'li',
+              { className: 'results__item results__item--suggestion row' },
+              _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'modal.quickSearch.notFound',
+                values: { query: query } }),
+              _react2.default.createElement(
+                'button',
+                { className: 'button button--rised hide' },
+                'Create new dialog ',
+                query
               )
             )
           )
         )
-      );
-    }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        isOpen: _QuickSearchStore2.default.isOpen(),
-        results: _QuickSearchStore2.default.getResults(),
-        selectedIndex: 0
-      };
-    }
-  }]);
+      )
+    );
+  };
 
   return QuickSearch;
 })(_react.Component);

@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -33,18 +29,15 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Typing = (function (_Component) {
   _inherits(Typing, _Component);
 
-  _createClass(Typing, null, [{
-    key: 'calculateState',
-    value: function calculateState() {
-      var typing = _TypingStore2.default.getTyping();
-      return typing === null ? { show: false } : { typing: typing, show: true };
-    }
-  }]);
+  Typing.calculateState = function calculateState() {
+    var typing = _TypingStore2.default.getTyping();
+    return typing === null ? { show: false } : { typing: typing, show: true };
+  };
 
   function Typing(props) {
     _classCallCheck(this, Typing);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Typing).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.state = {
       typing: null
@@ -52,35 +45,32 @@ var Typing = (function (_Component) {
     return _this;
   }
 
-  _createClass(Typing, [{
-    key: 'render',
-    value: function render() {
-      var _state = this.state;
-      var show = _state.show;
-      var typing = _state.typing;
+  Typing.prototype.render = function render() {
+    var _state = this.state;
+    var show = _state.show;
+    var typing = _state.typing;
 
-      var typingClassName = (0, _classnames2.default)('typing', {
-        'typing--hidden': !show
-      });
+    var typingClassName = (0, _classnames2.default)('typing', {
+      'typing--hidden': !show
+    });
 
-      return _react2.default.createElement(
+    return _react2.default.createElement(
+      'div',
+      { className: typingClassName },
+      _react2.default.createElement(
         'div',
-        { className: typingClassName },
-        _react2.default.createElement(
-          'div',
-          { className: 'typing-indicator' },
-          _react2.default.createElement('i', null),
-          _react2.default.createElement('i', null),
-          _react2.default.createElement('i', null)
-        ),
-        _react2.default.createElement(
-          'span',
-          null,
-          typing
-        )
-      );
-    }
-  }]);
+        { className: 'typing-indicator' },
+        _react2.default.createElement('i', null),
+        _react2.default.createElement('i', null),
+        _react2.default.createElement('i', null)
+      ),
+      _react2.default.createElement(
+        'span',
+        null,
+        typing
+      )
+    );
+  };
 
   return Typing;
 })(_react.Component);

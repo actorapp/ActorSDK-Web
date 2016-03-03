@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -60,7 +56,7 @@ var GroupMember = (function (_Component) {
   function GroupMember(props) {
     _classCallCheck(this, GroupMember);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GroupMember).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onClick = function (id) {
       return _DialogActionCreators2.default.selectDialogPeerUser(id);
@@ -78,111 +74,105 @@ var GroupMember = (function (_Component) {
     return _this;
   }
 
-  _createClass(GroupMember, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      var peerInfo = this.props.peerInfo;
+  GroupMember.getStores = function getStores() {
+    return [_KickUserStore2.default];
+  };
 
-      _KickUserStore2.default.resetKickUserState(peerInfo.peer.id);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
+  GroupMember.calculateState = function calculateState(prevState, nextProps) {
+    return {
+      kickUserState: _KickUserStore2.default.getKickUserState(nextProps.peerInfo.peer.id)
+    };
+  };
 
-      var _props = this.props;
-      var peerInfo = _props.peerInfo;
-      var canKick = _props.canKick;
-      var gid = _props.gid;
-      var kickUserState = this.state.kickUserState;
-      var intl = this.context.intl;
+  GroupMember.prototype.componentWillUnmount = function componentWillUnmount() {
+    var peerInfo = this.props.peerInfo;
 
-      var myId = _ActorClient2.default.getUid();
+    _KickUserStore2.default.resetKickUserState(peerInfo.peer.id);
+  };
 
-      var controls = undefined;
-      if (canKick && peerInfo.peer.id !== myId) {
-        controls = _react2.default.createElement(
-          'div',
-          { className: 'controls pull-right' },
+  GroupMember.prototype.render = function render() {
+    var _this2 = this;
+
+    var _props = this.props;
+    var peerInfo = _props.peerInfo;
+    var canKick = _props.canKick;
+    var gid = _props.gid;
+    var kickUserState = this.state.kickUserState;
+    var intl = this.context.intl;
+
+    var myId = _ActorClient2.default.getUid();
+
+    var controls = undefined;
+    if (canKick && peerInfo.peer.id !== myId) {
+      controls = _react2.default.createElement(
+        'div',
+        { className: 'controls pull-right' },
+        _react2.default.createElement(
+          _Stateful2.default.Root,
+          { currentState: kickUserState },
           _react2.default.createElement(
-            _Stateful2.default.Root,
-            { currentState: kickUserState },
+            _Stateful2.default.Pending,
+            null,
             _react2.default.createElement(
-              _Stateful2.default.Pending,
-              null,
-              _react2.default.createElement(
-                'a',
-                { onClick: function onClick() {
-                    return _this2.onKick(gid, peerInfo.peer.id);
-                  } },
-                intl.messages['kick']
-              )
-            ),
+              'a',
+              { onClick: function onClick() {
+                  return _this2.onKick(gid, peerInfo.peer.id);
+                } },
+              intl.messages['kick']
+            )
+          ),
+          _react2.default.createElement(
+            _Stateful2.default.Processing,
+            null,
             _react2.default.createElement(
-              _Stateful2.default.Processing,
-              null,
-              _react2.default.createElement(
-                'i',
-                { className: 'material-icons spin' },
-                'autorenew'
-              )
-            ),
+              'i',
+              { className: 'material-icons spin' },
+              'autorenew'
+            )
+          ),
+          _react2.default.createElement(
+            _Stateful2.default.Success,
+            null,
             _react2.default.createElement(
-              _Stateful2.default.Success,
-              null,
-              _react2.default.createElement(
-                'i',
-                { className: 'material-icons' },
-                'check'
-              )
-            ),
+              'i',
+              { className: 'material-icons' },
+              'check'
+            )
+          ),
+          _react2.default.createElement(
+            _Stateful2.default.Failure,
+            null,
             _react2.default.createElement(
-              _Stateful2.default.Failure,
-              null,
-              _react2.default.createElement(
-                'i',
-                { className: 'material-icons' },
-                'warning'
-              )
+              'i',
+              { className: 'material-icons' },
+              'warning'
             )
           )
-        );
-      } else {
-        controls = null;
-      }
-
-      return _react2.default.createElement(
-        'li',
-        { className: 'group_profile__members__list__item' },
-        _react2.default.createElement(
-          'a',
-          { onClick: function onClick() {
-              return _this2.onClick(peerInfo.peer.id);
-            } },
-          _react2.default.createElement(_AvatarItem2.default, { image: peerInfo.avatar,
-            placeholder: peerInfo.placeholder,
-            title: peerInfo.title })
-        ),
-        _react2.default.createElement('a', { onClick: function onClick() {
-            return _this2.onClick(peerInfo.peer.id);
-          },
-          dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(peerInfo.title) } }),
-        controls
+        )
       );
+    } else {
+      controls = null;
     }
-  }], [{
-    key: 'getStores',
-    value: function getStores() {
-      return [_KickUserStore2.default];
-    }
-  }, {
-    key: 'calculateState',
-    value: function calculateState(prevState, nextProps) {
-      return {
-        kickUserState: _KickUserStore2.default.getKickUserState(nextProps.peerInfo.peer.id)
-      };
-    }
-  }]);
+
+    return _react2.default.createElement(
+      'li',
+      { className: 'group_profile__members__list__item' },
+      _react2.default.createElement(
+        'a',
+        { onClick: function onClick() {
+            return _this2.onClick(peerInfo.peer.id);
+          } },
+        _react2.default.createElement(_AvatarItem2.default, { image: peerInfo.avatar,
+          placeholder: peerInfo.placeholder,
+          title: peerInfo.title })
+      ),
+      _react2.default.createElement('a', { onClick: function onClick() {
+          return _this2.onClick(peerInfo.peer.id);
+        },
+        dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(peerInfo.title) } }),
+      controls
+    );
+  };
 
   return GroupMember;
 })(_react.Component);

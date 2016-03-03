@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -39,64 +35,55 @@ var EditGroupStore = (function (_Store) {
   function EditGroupStore(Dispatcher) {
     _classCallCheck(this, EditGroupStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(EditGroupStore).call(this, Dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, Dispatcher));
   }
 
-  _createClass(EditGroupStore, [{
-    key: 'isOpen',
-    value: function isOpen() {
-      return _isOpen;
-    }
-  }, {
-    key: 'getGroup',
-    value: function getGroup() {
-      return _group;
-    }
-  }, {
-    key: 'getAbout',
-    value: function getAbout() {
-      return _about;
-    }
-  }, {
-    key: 'getTitle',
-    value: function getTitle() {
-      return _title;
-    }
-  }, {
-    key: 'isAdmin',
-    value: function isAdmin() {
-      var myID = _ActorClient2.default.getUid();
-      return _group.adminId === myID;
-    }
-  }, {
-    key: 'setGroup',
-    value: function setGroup(group) {
-      _group = group;
-      _title = _group.name;
-      _about = _group.about;
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.GROUP_EDIT_MODAL_SHOW:
-          _isOpen = true;
-          this.setGroup(action.group);
-          this.__emitChange();
-          break;
+  EditGroupStore.prototype.isOpen = function isOpen() {
+    return _isOpen;
+  };
 
-        case _ActorAppConstants.ActionTypes.GROUP_INFO_CHANGED:
-          this.setGroup(action.group);
-          this.__emitChange();
-          break;
+  EditGroupStore.prototype.getGroup = function getGroup() {
+    return _group;
+  };
 
-        case _ActorAppConstants.ActionTypes.GROUP_EDIT_MODAL_HIDE:
-          _isOpen = false;
-          this.__emitChange();
-          break;
-      }
+  EditGroupStore.prototype.getAbout = function getAbout() {
+    return _about;
+  };
+
+  EditGroupStore.prototype.getTitle = function getTitle() {
+    return _title;
+  };
+
+  EditGroupStore.prototype.isAdmin = function isAdmin() {
+    var myID = _ActorClient2.default.getUid();
+    return _group.adminId === myID;
+  };
+
+  EditGroupStore.prototype.setGroup = function setGroup(group) {
+    _group = group;
+    _title = _group.name;
+    _about = _group.about;
+  };
+
+  EditGroupStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.GROUP_EDIT_MODAL_SHOW:
+        _isOpen = true;
+        this.setGroup(action.group);
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.GROUP_INFO_CHANGED:
+        this.setGroup(action.group);
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.GROUP_EDIT_MODAL_HIDE:
+        _isOpen = false;
+        this.__emitChange();
+        break;
     }
-  }]);
+  };
 
   return EditGroupStore;
 })(_utils.Store);

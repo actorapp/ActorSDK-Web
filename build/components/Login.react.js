@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -52,7 +48,7 @@ var Login = (function (_Component) {
   function Login(props) {
     _classCallCheck(this, Login);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Login).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onLoginChange = function (event) {
       event.preventDefault();
@@ -111,221 +107,214 @@ var Login = (function (_Component) {
     return _this;
   }
 
-  _createClass(Login, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.handleFocus();
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      this.handleFocus();
-    }
+  Login.calculateState = function calculateState() {
+    return {
+      login: _LoginStore2.default.getLogin(),
+      code: _LoginStore2.default.getCode(),
+      name: _LoginStore2.default.getName(),
+      step: _LoginStore2.default.getStep(),
+      errors: _LoginStore2.default.getErrors(),
+      isCodeRequested: _LoginStore2.default.isCodeRequested(),
+      isCodeSended: _LoginStore2.default.isCodeSended(),
+      isSignupStarted: _LoginStore2.default.isSignupStarted()
+    };
+  };
 
-    // From change handlers
+  Login.prototype.componentDidMount = function componentDidMount() {
+    this.handleFocus();
+  };
 
-    // Form submit handlers
+  Login.prototype.componentDidUpdate = function componentDidUpdate() {
+    this.handleFocus();
+  };
 
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state = this.state;
-      var step = _state.step;
-      var errors = _state.errors;
-      var login = _state.login;
-      var code = _state.code;
-      var name = _state.name;
-      var isCodeRequested = _state.isCodeRequested;
-      var isCodeSended = _state.isCodeSended;
-      var isSignupStarted = _state.isSignupStarted;
-      var intl = this.context.intl;
+  // From change handlers
 
-      var requestFormClassName = (0, _classnames2.default)('login-new__forms__form', 'login-new__forms__form--request', {
-        'login-new__forms__form--active': step === _ActorAppConstants.AuthSteps.LOGIN_WAIT,
-        'login-new__forms__form--done': step !== _ActorAppConstants.AuthSteps.LOGIN_WAIT && isCodeRequested
-      });
-      var checkFormClassName = (0, _classnames2.default)('login-new__forms__form', 'login-new__forms__form--check', {
-        'login-new__forms__form--active': step === _ActorAppConstants.AuthSteps.CODE_WAIT && isCodeRequested,
-        'login-new__forms__form--done': step !== _ActorAppConstants.AuthSteps.CODE_WAIT && isCodeSended
-      });
-      var signupFormClassName = (0, _classnames2.default)('login-new__forms__form', 'login-new__forms__form--signup', {
-        'login-new__forms__form--active': step === _ActorAppConstants.AuthSteps.NAME_WAIT
-      });
+  // Form submit handlers
 
-      var spinner = _react2.default.createElement(
+  Login.prototype.render = function render() {
+    var _state = this.state;
+    var step = _state.step;
+    var errors = _state.errors;
+    var login = _state.login;
+    var code = _state.code;
+    var name = _state.name;
+    var isCodeRequested = _state.isCodeRequested;
+    var isCodeSended = _state.isCodeSended;
+    var isSignupStarted = _state.isSignupStarted;
+    var intl = this.context.intl;
+
+    var requestFormClassName = (0, _classnames2.default)('login-new__forms__form', 'login-new__forms__form--request', {
+      'login-new__forms__form--active': step === _ActorAppConstants.AuthSteps.LOGIN_WAIT,
+      'login-new__forms__form--done': step !== _ActorAppConstants.AuthSteps.LOGIN_WAIT && isCodeRequested
+    });
+    var checkFormClassName = (0, _classnames2.default)('login-new__forms__form', 'login-new__forms__form--check', {
+      'login-new__forms__form--active': step === _ActorAppConstants.AuthSteps.CODE_WAIT && isCodeRequested,
+      'login-new__forms__form--done': step !== _ActorAppConstants.AuthSteps.CODE_WAIT && isCodeSended
+    });
+    var signupFormClassName = (0, _classnames2.default)('login-new__forms__form', 'login-new__forms__form--signup', {
+      'login-new__forms__form--active': step === _ActorAppConstants.AuthSteps.NAME_WAIT
+    });
+
+    var spinner = _react2.default.createElement(
+      'div',
+      { className: 'spinner' },
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null)
+    );
+
+    return _react2.default.createElement(
+      'section',
+      { className: 'login-new row center-xs middle-xs' },
+      _react2.default.createElement(
         'div',
-        { className: 'spinner' },
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null)
-      );
-
-      return _react2.default.createElement(
-        'section',
-        { className: 'login-new row center-xs middle-xs' },
+        { className: 'login-new__welcome col-xs row center-xs middle-xs' },
+        _react2.default.createElement('img', { alt: this.appName + ' messenger',
+          className: 'logo',
+          src: 'assets/images/logo.png',
+          srcSet: 'assets/images/logo@2x.png 2x' }),
         _react2.default.createElement(
-          'div',
-          { className: 'login-new__welcome col-xs row center-xs middle-xs' },
-          _react2.default.createElement('img', { alt: this.appName + ' messenger',
-            className: 'logo',
-            src: 'assets/images/logo.png',
-            srcSet: 'assets/images/logo@2x.png 2x' }),
+          'article',
+          null,
           _react2.default.createElement(
-            'article',
-            null,
-            _react2.default.createElement(
-              'h1',
-              { className: 'login-new__heading' },
-              _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'login.welcome.header', values: { appName: this.appName } })
-            ),
-            _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'login.welcome.text', values: { appName: this.appName } })
+            'h1',
+            { className: 'login-new__heading' },
+            _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'login.welcome.header', values: { appName: this.appName } })
           ),
-          _react2.default.createElement(
-            'footer',
-            null,
-            _react2.default.createElement(
-              'div',
-              { className: 'pull-left' },
-              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'login.welcome.copyright', values: { appName: this.appName } })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'pull-right' },
-              _react2.default.createElement(
-                'a',
-                { href: '//actorapp.ghost.io/desktop-apps' },
-                'Desktop'
-              ),
-              '  •  ',
-              _react2.default.createElement(
-                'a',
-                { href: '//actor.im/ios' },
-                'iPhone'
-              ),
-              '  •  ',
-              _react2.default.createElement(
-                'a',
-                { href: '//actor.im/android' },
-                'Android'
-              )
-            )
-          )
+          _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'login.welcome.text', values: { appName: this.appName } })
         ),
         _react2.default.createElement(
-          'div',
-          { className: 'login-new__forms col-xs-6 col-md-4 row center-xs middle-xs' },
+          'footer',
+          null,
           _react2.default.createElement(
             'div',
-            null,
+            { className: 'pull-left' },
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'login.welcome.copyright', values: { appName: this.appName } })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'pull-right' },
             _react2.default.createElement(
-              'h1',
-              { className: 'login-new__heading' },
-              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'login.signIn' })
+              'a',
+              { href: '//actorapp.ghost.io/desktop-apps' },
+              'Desktop'
             ),
+            '  •  ',
             _react2.default.createElement(
-              'form',
-              { className: requestFormClassName, onSubmit: this.onRequestCode },
+              'a',
+              { href: '//actor.im/ios' },
+              'iPhone'
+            ),
+            '  •  ',
+            _react2.default.createElement(
+              'a',
+              { href: '//actor.im/android' },
+              'Android'
+            )
+          )
+        )
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'login-new__forms col-xs-6 col-md-4 row center-xs middle-xs' },
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'h1',
+            { className: 'login-new__heading' },
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'login.signIn' })
+          ),
+          _react2.default.createElement(
+            'form',
+            { className: requestFormClassName, onSubmit: this.onRequestCode },
+            _react2.default.createElement(
+              'a',
+              { className: 'wrong', onClick: this.handleRestartAuthClick },
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'login.wrong' })
+            ),
+            _react2.default.createElement(_TextField2.default, { className: 'login-new__forms__form__input input__material--wide',
+              disabled: isCodeRequested || step !== _ActorAppConstants.AuthSteps.LOGIN_WAIT,
+              errorText: errors.login,
+              floatingLabel: intl.messages['login.phone'],
+              onChange: this.onLoginChange,
+              ref: 'login',
+              value: login }),
+            _react2.default.createElement(
+              'footer',
+              { className: 'text-center' },
               _react2.default.createElement(
-                'a',
-                { className: 'wrong', onClick: this.handleRestartAuthClick },
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'login.wrong' })
-              ),
-              _react2.default.createElement(_TextField2.default, { className: 'login-new__forms__form__input input__material--wide',
-                disabled: isCodeRequested || step !== _ActorAppConstants.AuthSteps.LOGIN_WAIT,
-                errorText: errors.login,
-                floatingLabel: intl.messages['login.phone'],
-                onChange: this.onLoginChange,
-                ref: 'login',
-                value: login }),
-              _react2.default.createElement(
-                'footer',
-                { className: 'text-center' },
-                _react2.default.createElement(
-                  'button',
-                  { className: 'button button--rised button--wide',
-                    type: 'submit',
-                    disabled: isCodeRequested },
-                  _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.requestCode' }),
-                  isCodeRequested ? spinner : null
-                )
+                'button',
+                { className: 'button button--rised button--wide',
+                  type: 'submit',
+                  disabled: isCodeRequested },
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.requestCode' }),
+                isCodeRequested ? spinner : null
               )
-            ),
+            )
+          ),
+          _react2.default.createElement(
+            'form',
+            { className: checkFormClassName, onSubmit: this.onSendCode },
+            _react2.default.createElement(_TextField2.default, { className: 'login-new__forms__form__input input__material--wide',
+              disabled: isCodeSended || step !== _ActorAppConstants.AuthSteps.CODE_WAIT,
+              errorText: errors.code,
+              floatingLabel: intl.messages['login.authCode'],
+              onChange: this.onCodeChange,
+              ref: 'code',
+              type: 'text',
+              value: code }),
             _react2.default.createElement(
-              'form',
-              { className: checkFormClassName, onSubmit: this.onSendCode },
-              _react2.default.createElement(_TextField2.default, { className: 'login-new__forms__form__input input__material--wide',
-                disabled: isCodeSended || step !== _ActorAppConstants.AuthSteps.CODE_WAIT,
-                errorText: errors.code,
-                floatingLabel: intl.messages['login.authCode'],
-                onChange: this.onCodeChange,
-                ref: 'code',
-                type: 'text',
-                value: code }),
+              'footer',
+              { className: 'text-center' },
               _react2.default.createElement(
-                'footer',
-                { className: 'text-center' },
-                _react2.default.createElement(
-                  'button',
-                  { className: 'button button--rised button--wide',
-                    type: 'submit',
-                    disabled: isCodeSended },
-                  _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.checkCode' }),
-                  isCodeSended ? spinner : null
-                )
+                'button',
+                { className: 'button button--rised button--wide',
+                  type: 'submit',
+                  disabled: isCodeSended },
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.checkCode' }),
+                isCodeSended ? spinner : null
               )
-            ),
+            )
+          ),
+          _react2.default.createElement(
+            'form',
+            { className: signupFormClassName, onSubmit: this.onSignupRequested },
+            _react2.default.createElement(_TextField2.default, { className: 'login-new__forms__form__input input__material--wide',
+              disabled: isSignupStarted || step === _ActorAppConstants.AuthSteps.COMPLETED,
+              errorText: errors.signup,
+              floatingLabel: intl.messages['login.yourName'],
+              onChange: this.onNameChange,
+              ref: 'name',
+              type: 'text',
+              value: name }),
             _react2.default.createElement(
-              'form',
-              { className: signupFormClassName, onSubmit: this.onSignupRequested },
-              _react2.default.createElement(_TextField2.default, { className: 'login-new__forms__form__input input__material--wide',
-                disabled: isSignupStarted || step === _ActorAppConstants.AuthSteps.COMPLETED,
-                errorText: errors.signup,
-                floatingLabel: intl.messages['login.yourName'],
-                onChange: this.onNameChange,
-                ref: 'name',
-                type: 'text',
-                value: name }),
+              'footer',
+              { className: 'text-center' },
               _react2.default.createElement(
-                'footer',
-                { className: 'text-center' },
-                _react2.default.createElement(
-                  'button',
-                  { className: 'button button--rised button--wide',
-                    type: 'submit',
-                    disabled: isSignupStarted },
-                  _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.signUp' }),
-                  isSignupStarted ? spinner : null
-                )
+                'button',
+                { className: 'button button--rised button--wide',
+                  type: 'submit',
+                  disabled: isSignupStarted },
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.signUp' }),
+                isSignupStarted ? spinner : null
               )
             )
           )
         )
-      );
-    }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        login: _LoginStore2.default.getLogin(),
-        code: _LoginStore2.default.getCode(),
-        name: _LoginStore2.default.getName(),
-        step: _LoginStore2.default.getStep(),
-        errors: _LoginStore2.default.getErrors(),
-        isCodeRequested: _LoginStore2.default.isCodeRequested(),
-        isCodeSended: _LoginStore2.default.isCodeSended(),
-        isSignupStarted: _LoginStore2.default.isSignupStarted()
-      };
-    }
-  }]);
+      )
+    );
+  };
 
   return Login;
 })(_react.Component);

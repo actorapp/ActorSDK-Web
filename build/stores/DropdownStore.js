@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -38,7 +34,7 @@ var DropdownStore = (function (_Store) {
   function DropdownStore(dispatcher) {
     _classCallCheck(this, DropdownStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DropdownStore).call(this, dispatcher));
+    var _this = _possibleConstructorReturn(this, _Store.call(this, dispatcher));
 
     _this._isMessageDropdownOpen = false;
     _this._isRecentContextOpen = false;
@@ -49,71 +45,62 @@ var DropdownStore = (function (_Store) {
     return _this;
   }
 
-  _createClass(DropdownStore, [{
-    key: 'isMessageDropdownOpen',
-    value: function isMessageDropdownOpen(rid) {
-      if (rid === this._message.rid) {
-        return this._isMessageDropdownOpen;
-      } else {
-        return false;
-      }
+  DropdownStore.prototype.isMessageDropdownOpen = function isMessageDropdownOpen(rid) {
+    if (rid === this._message.rid) {
+      return this._isMessageDropdownOpen;
+    } else {
+      return false;
     }
-  }, {
-    key: 'isRecentContextOpen',
-    value: function isRecentContextOpen() {
-      return this._isRecentContextOpen;
-    }
-  }, {
-    key: 'getMessage',
-    value: function getMessage() {
-      return this._message;
-    }
-  }, {
-    key: 'getTargetRect',
-    value: function getTargetRect() {
-      return this._targetRect;
-    }
-  }, {
-    key: 'getContextPos',
-    value: function getContextPos() {
-      return this._contextPos;
-    }
-  }, {
-    key: 'getPeer',
-    value: function getPeer() {
-      return this._peer;
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.MESSAGE_DROPDOWN_SHOW:
-          this._isMessageDropdownOpen = true;
-          this._isRecentContextOpen = false;
-          this._message = action.message;
-          this._targetRect = action.targetRect;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.MESSAGE_DROPDOWN_HIDE:
-          this._isMessageDropdownOpen = false;
-          this.__emitChange();
-          break;
+  };
 
-        case _ActorAppConstants.ActionTypes.RECENT_CONTEXT_MENU_SHOW:
-          this._isRecentContextOpen = true;
-          this._isMessageDropdownOpen = false;
-          this._contextPos = action.contextPos;
-          this._peer = action.peer;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.RECENT_CONTEXT_MENU_HIDE:
-          this._isRecentContextOpen = false;
-          this.__emitChange();
-          break;
-        default:
-      }
+  DropdownStore.prototype.isRecentContextOpen = function isRecentContextOpen() {
+    return this._isRecentContextOpen;
+  };
+
+  DropdownStore.prototype.getMessage = function getMessage() {
+    return this._message;
+  };
+
+  DropdownStore.prototype.getTargetRect = function getTargetRect() {
+    return this._targetRect;
+  };
+
+  DropdownStore.prototype.getContextPos = function getContextPos() {
+    return this._contextPos;
+  };
+
+  DropdownStore.prototype.getPeer = function getPeer() {
+    return this._peer;
+  };
+
+  DropdownStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.MESSAGE_DROPDOWN_SHOW:
+        this._isMessageDropdownOpen = true;
+        this._isRecentContextOpen = false;
+        this._message = action.message;
+        this._targetRect = action.targetRect;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.MESSAGE_DROPDOWN_HIDE:
+        this._isMessageDropdownOpen = false;
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.RECENT_CONTEXT_MENU_SHOW:
+        this._isRecentContextOpen = true;
+        this._isMessageDropdownOpen = false;
+        this._contextPos = action.contextPos;
+        this._peer = action.peer;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.RECENT_CONTEXT_MENU_HIDE:
+        this._isRecentContextOpen = false;
+        this.__emitChange();
+        break;
+      default:
     }
-  }]);
+  };
 
   return DropdownStore;
 })(_utils.Store);

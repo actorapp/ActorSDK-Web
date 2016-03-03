@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -103,26 +99,23 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ComposeSection = (function (_Component) {
   _inherits(ComposeSection, _Component);
 
-  _createClass(ComposeSection, null, [{
-    key: 'calculateState',
-    value: function calculateState(prevState) {
-      return {
-        peer: _DialogStore2.default.getCurrentPeer(),
-        text: _ComposeStore2.default.getText(),
-        profile: _ActorClient2.default.getUser(_ActorClient2.default.getUid()),
-        sendByEnter: _PreferencesStore2.default.isSendByEnterEnabled(),
-        mentions: _ComposeStore2.default.getMentions(),
-        isSendAttachmentOpen: _AttachmentStore2.default.isOpen(),
-        isMarkdownHintShow: prevState ? prevState.isMarkdownHintShow || false : false,
-        isAutoFocusEnabled: _ComposeStore2.default.isAutoFocusEnabled()
-      };
-    }
-  }]);
+  ComposeSection.calculateState = function calculateState(prevState) {
+    return {
+      peer: _DialogStore2.default.getCurrentPeer(),
+      text: _ComposeStore2.default.getText(),
+      profile: _ActorClient2.default.getUser(_ActorClient2.default.getUid()),
+      sendByEnter: _PreferencesStore2.default.isSendByEnterEnabled(),
+      mentions: _ComposeStore2.default.getMentions(),
+      isSendAttachmentOpen: _AttachmentStore2.default.isOpen(),
+      isMarkdownHintShow: prevState ? prevState.isMarkdownHintShow || false : false,
+      isAutoFocusEnabled: _ComposeStore2.default.isAutoFocusEnabled()
+    };
+  };
 
   function ComposeSection(props) {
     _classCallCheck(this, ComposeSection);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ComposeSection).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleKeyDown = function (event) {
       var isAutoFocusEnabled = _this.state.isAutoFocusEnabled;
@@ -279,140 +272,132 @@ var ComposeSection = (function (_Component) {
     return _this;
   }
 
-  _createClass(ComposeSection, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.setBlur();
-      this.clearListeners();
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.setFocus();
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate(prevProps, prevState) {
-      var isAutoFocusEnabled = this.state.isAutoFocusEnabled;
+  ComposeSection.prototype.componentWillUnmount = function componentWillUnmount() {
+    this.setBlur();
+    this.clearListeners();
+  };
 
-      if (isAutoFocusEnabled) {
-        if (prevState.isAutoFocusEnabled !== true) {
-          this.setListeners();
-        }
-        this.setFocus();
-      } else {
-        if (prevState.isAutoFocusEnabled !== false) {
-          this.clearListeners();
-        }
+  ComposeSection.prototype.componentDidMount = function componentDidMount() {
+    this.setFocus();
+  };
+
+  ComposeSection.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
+    var isAutoFocusEnabled = this.state.isAutoFocusEnabled;
+
+    if (isAutoFocusEnabled) {
+      if (prevState.isAutoFocusEnabled !== true) {
+        this.setListeners();
+      }
+      this.setFocus();
+    } else {
+      if (prevState.isAutoFocusEnabled !== false) {
+        this.clearListeners();
       }
     }
-  }, {
-    key: 'setListeners',
-    value: function setListeners() {
-      window.addEventListener('focus', this.setFocus);
-      document.addEventListener('keydown', this.handleKeyDown, false);
-    }
-  }, {
-    key: 'clearListeners',
-    value: function clearListeners() {
-      window.removeEventListener('focus', this.setFocus);
-      document.removeEventListener('keydown', this.handleKeyDown, false);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state = this.state;
-      var text = _state.text;
-      var profile = _state.profile;
-      var mentions = _state.mentions;
-      var isMarkdownHintShow = _state.isMarkdownHintShow;
-      var isSendAttachmentOpen = _state.isSendAttachmentOpen;
-      var intl = this.context.intl;
+  };
 
-      var markdownHintClassName = (0, _classnames2.default)('compose__markdown-hint', {
-        'compose__markdown-hint--active': isMarkdownHintShow
-      });
+  ComposeSection.prototype.setListeners = function setListeners() {
+    window.addEventListener('focus', this.setFocus);
+    document.addEventListener('keydown', this.handleKeyDown, false);
+  };
 
-      return _react2.default.createElement(
-        'section',
-        { className: 'compose' },
-        _react2.default.createElement(_MentionDropdown2.default, { mentions: mentions,
-          onSelect: this.onMentionSelect,
-          onClose: this.onMentionClose }),
-        _react2.default.createElement(_EmojiDropdown2.default, { onSelect: this.handleEmojiSelect }),
-        _react2.default.createElement(_VoiceRecorder2.default, { onFinish: this.sendVoiceRecord }),
+  ComposeSection.prototype.clearListeners = function clearListeners() {
+    window.removeEventListener('focus', this.setFocus);
+    document.removeEventListener('keydown', this.handleKeyDown, false);
+  };
+
+  ComposeSection.prototype.render = function render() {
+    var _state = this.state;
+    var text = _state.text;
+    var profile = _state.profile;
+    var mentions = _state.mentions;
+    var isMarkdownHintShow = _state.isMarkdownHintShow;
+    var isSendAttachmentOpen = _state.isSendAttachmentOpen;
+    var intl = this.context.intl;
+
+    var markdownHintClassName = (0, _classnames2.default)('compose__markdown-hint', {
+      'compose__markdown-hint--active': isMarkdownHintShow
+    });
+
+    return _react2.default.createElement(
+      'section',
+      { className: 'compose' },
+      _react2.default.createElement(_MentionDropdown2.default, { mentions: mentions,
+        onSelect: this.onMentionSelect,
+        onClose: this.onMentionClose }),
+      _react2.default.createElement(_EmojiDropdown2.default, { onSelect: this.handleEmojiSelect }),
+      _react2.default.createElement(_VoiceRecorder2.default, { onFinish: this.sendVoiceRecord }),
+      _react2.default.createElement(
+        'div',
+        { className: markdownHintClassName },
         _react2.default.createElement(
-          'div',
-          { className: markdownHintClassName },
-          _react2.default.createElement(
-            'b',
-            null,
-            '*',
-            intl.messages['compose.markdown.bold'],
-            '*'
-          ),
-          '  ',
+          'b',
+          null,
+          '*',
+          intl.messages['compose.markdown.bold'],
+          '*'
+        ),
+        '  ',
+        _react2.default.createElement(
+          'i',
+          null,
+          '_',
+          intl.messages['compose.markdown.italic'],
+          '_'
+        ),
+        '  ',
+        _react2.default.createElement(
+          'code',
+          null,
+          '```',
+          intl.messages['compose.markdown.preformatted'],
+          '```'
+        )
+      ),
+      _react2.default.createElement(_AvatarItem2.default, { className: 'my-avatar',
+        image: profile.avatar,
+        placeholder: profile.placeholder,
+        title: profile.name }),
+      _react2.default.createElement('textarea', { className: 'compose__message',
+        onChange: this.onMessageChange,
+        onKeyDown: this.onKeyDown,
+        onPaste: this.onPaste,
+        value: text,
+        ref: 'area' }),
+      _react2.default.createElement(
+        _DropZone2.default,
+        { onDropComplete: this.handleDrop },
+        intl.messages['compose.dropzone']
+      ),
+      _react2.default.createElement(
+        'footer',
+        { className: 'compose__footer row' },
+        _react2.default.createElement(
+          'button',
+          { className: 'button attachment', onClick: this.handleAttachmentClick },
           _react2.default.createElement(
             'i',
-            null,
-            '_',
-            intl.messages['compose.markdown.italic'],
-            '_'
+            { className: 'material-icons' },
+            'attachment'
           ),
-          '  ',
-          _react2.default.createElement(
-            'code',
-            null,
-            '```',
-            intl.messages['compose.markdown.preformatted'],
-            '```'
-          )
+          ' ',
+          intl.messages['compose.attach']
         ),
-        _react2.default.createElement(_AvatarItem2.default, { className: 'my-avatar',
-          image: profile.avatar,
-          placeholder: profile.placeholder,
-          title: profile.name }),
-        _react2.default.createElement('textarea', { className: 'compose__message',
-          onChange: this.onMessageChange,
-          onKeyDown: this.onKeyDown,
-          onPaste: this.onPaste,
-          value: text,
-          ref: 'area' }),
+        _react2.default.createElement('span', { className: 'col-xs' }),
         _react2.default.createElement(
-          _DropZone2.default,
-          { onDropComplete: this.handleDrop },
-          intl.messages['compose.dropzone']
-        ),
-        _react2.default.createElement(
-          'footer',
-          { className: 'compose__footer row' },
-          _react2.default.createElement(
-            'button',
-            { className: 'button attachment', onClick: this.handleAttachmentClick },
-            _react2.default.createElement(
-              'i',
-              { className: 'material-icons' },
-              'attachment'
-            ),
-            ' ',
-            intl.messages['compose.attach']
-          ),
-          _react2.default.createElement('span', { className: 'col-xs' }),
-          _react2.default.createElement(
-            'button',
-            { className: 'button button--lightblue', onClick: this.sendTextMessage },
-            intl.messages['compose.send']
-          )
-        ),
-        _react2.default.createElement(
-          'form',
-          { className: 'compose__hidden', ref: 'attachmentForm' },
-          _react2.default.createElement('input', { ref: 'attachment', onChange: this.handleComposeAttachmentChange, type: 'file' })
-        ),
-        isSendAttachmentOpen ? _react2.default.createElement(_SendAttachment2.default, null) : null
-      );
-    }
-  }]);
+          'button',
+          { className: 'button button--lightblue', onClick: this.sendTextMessage },
+          intl.messages['compose.send']
+        )
+      ),
+      _react2.default.createElement(
+        'form',
+        { className: 'compose__hidden', ref: 'attachmentForm' },
+        _react2.default.createElement('input', { ref: 'attachment', onChange: this.handleComposeAttachmentChange, type: 'file' })
+      ),
+      isSendAttachmentOpen ? _react2.default.createElement(_SendAttachment2.default, null) : null
+    );
+  };
 
   return ComposeSection;
 })(_react.Component);

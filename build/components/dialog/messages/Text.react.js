@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -60,23 +56,20 @@ var Text = (function (_Component) {
   function Text(props) {
     _classCallCheck(this, Text);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Text).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(Text, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var text = _props.text;
-      var className = _props.className;
+  Text.prototype.render = function render() {
+    var _props = this.props;
+    var text = _props.text;
+    var className = _props.className;
 
-      return _react2.default.createElement(
-        'div',
-        { className: className },
-        _react2.default.createElement('div', { className: 'text', dangerouslySetInnerHTML: { __html: memoizedProcessText(text) } })
-      );
-    }
-  }]);
+    return _react2.default.createElement(
+      'div',
+      { className: className },
+      _react2.default.createElement('div', { className: 'text', dangerouslySetInnerHTML: { __html: memoizedProcessText(text) } })
+    );
+  };
 
   return Text;
 })(_react.Component);

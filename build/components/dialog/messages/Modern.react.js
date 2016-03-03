@@ -1,12 +1,8 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _lodash = require('lodash');
 
@@ -65,39 +61,36 @@ var Field = (function (_Component) {
   function Field(props) {
     _classCallCheck(this, Field);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Field).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(Field, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var title = _props.title;
-      var value = _props.value;
-      var isShort = _props.isShort;
+  Field.prototype.render = function render() {
+    var _props = this.props;
+    var title = _props.title;
+    var value = _props.value;
+    var isShort = _props.isShort;
 
-      var fieldClassName = (0, _classnames2.default)('field', {
-        'field--short': isShort,
-        'col-xs-6': isShort,
-        'col-xs-12': !isShort
-      });
+    var fieldClassName = (0, _classnames2.default)('field', {
+      'field--short': isShort,
+      'col-xs-6': isShort,
+      'col-xs-12': !isShort
+    });
 
-      return _react2.default.createElement(
+    return _react2.default.createElement(
+      'div',
+      { className: fieldClassName },
+      title ? _react2.default.createElement(
         'div',
-        { className: fieldClassName },
-        title ? _react2.default.createElement(
-          'div',
-          { className: 'field__title' },
-          title
-        ) : null,
-        value ? _react2.default.createElement(
-          'div',
-          { className: 'field__value' },
-          value
-        ) : null
-      );
-    }
-  }]);
+        { className: 'field__title' },
+        title
+      ) : null,
+      value ? _react2.default.createElement(
+        'div',
+        { className: 'field__value' },
+        value
+      ) : null
+    );
+  };
 
   return Field;
 })(_react.Component);
@@ -123,53 +116,50 @@ var Attach = (function (_Component2) {
   function Attach(props) {
     _classCallCheck(this, Attach);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Attach).call(this, props));
+    return _possibleConstructorReturn(this, _Component2.call(this, props));
   }
 
-  _createClass(Attach, [{
-    key: 'render',
-    value: function render() {
-      var _props2 = this.props;
-      var paragraphStyle = _props2.paragraphStyle;
-      var titleUrl = _props2.titleUrl;
-      var title = _props2.title;
-      var text = _props2.text;
-      var fields = _props2.fields;
+  Attach.prototype.render = function render() {
+    var _props2 = this.props;
+    var paragraphStyle = _props2.paragraphStyle;
+    var titleUrl = _props2.titleUrl;
+    var title = _props2.title;
+    var text = _props2.text;
+    var fields = _props2.fields;
 
-      var attachmentClassName = (0, _classnames2.default)('attachment', {
-        'attachment--paragraph': paragraphStyle.showParagraph
-      });
+    var attachmentClassName = (0, _classnames2.default)('attachment', {
+      'attachment--paragraph': paragraphStyle.showParagraph
+    });
 
-      var attachmentStyles = {
-        borderColor: getColor(paragraphStyle.color) || 'transparent',
-        backgroundColor: getColor(paragraphStyle.bgColor) || 'transparent'
-      };
+    var attachmentStyles = {
+      borderColor: getColor(paragraphStyle.color) || 'transparent',
+      backgroundColor: getColor(paragraphStyle.bgColor) || 'transparent'
+    };
 
-      var attachmentFields = (0, _lodash.map)(fields, function (field, index) {
-        return _react2.default.createElement(Field, _extends({ key: index }, field));
-      });
+    var attachmentFields = (0, _lodash.map)(fields, function (field, index) {
+      return _react2.default.createElement(Field, _extends({ key: index }, field));
+    });
 
-      return _react2.default.createElement(
+    return _react2.default.createElement(
+      'div',
+      { className: attachmentClassName, style: attachmentStyles },
+      _react2.default.createElement(
         'div',
-        { className: attachmentClassName, style: attachmentStyles },
-        _react2.default.createElement(
-          'div',
-          { className: 'attachment__title' },
-          titleUrl ? _react2.default.createElement(
-            'a',
-            { href: titleUrl },
-            title
-          ) : title
-        ),
-        text ? text : null,
-        attachmentFields ? _react2.default.createElement(
-          'div',
-          { className: 'attachment_fields row' },
-          attachmentFields
-        ) : null
-      );
-    }
-  }]);
+        { className: 'attachment__title' },
+        titleUrl ? _react2.default.createElement(
+          'a',
+          { href: titleUrl },
+          title
+        ) : title
+      ),
+      text ? text : null,
+      attachmentFields ? _react2.default.createElement(
+        'div',
+        { className: 'attachment_fields row' },
+        attachmentFields
+      ) : null
+    );
+  };
 
   return Attach;
 })(_react.Component);
@@ -196,47 +186,44 @@ var TextModern = (function (_Component3) {
   function TextModern(props) {
     _classCallCheck(this, TextModern);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(TextModern).call(this, props));
+    return _possibleConstructorReturn(this, _Component3.call(this, props));
   }
 
-  _createClass(TextModern, [{
-    key: 'render',
-    value: function render() {
-      var _props3 = this.props;
-      var paragraphStyle = _props3.paragraphStyle;
-      var attaches = _props3.attaches;
-      var text = _props3.text;
-      var className = _props3.className;
+  TextModern.prototype.render = function render() {
+    var _props3 = this.props;
+    var paragraphStyle = _props3.paragraphStyle;
+    var attaches = _props3.attaches;
+    var text = _props3.text;
+    var className = _props3.className;
 
-      var modernClassName = (0, _classnames2.default)('modern', {
-        'modern--paragraph': paragraphStyle.showParagraph
-      });
+    var modernClassName = (0, _classnames2.default)('modern', {
+      'modern--paragraph': paragraphStyle.showParagraph
+    });
 
-      var modernStyles = {
-        borderColor: getColor(paragraphStyle.color) || 'transparent',
-        backgroundColor: getColor(paragraphStyle.bgColor) || 'transparent'
-      };
+    var modernStyles = {
+      borderColor: getColor(paragraphStyle.color) || 'transparent',
+      backgroundColor: getColor(paragraphStyle.bgColor) || 'transparent'
+    };
 
-      var modernAttachments = (0, _lodash.map)(attaches, function (attachment, index) {
-        return _react2.default.createElement(Attach, _extends({ key: index }, attachment));
-      });
+    var modernAttachments = (0, _lodash.map)(attaches, function (attachment, index) {
+      return _react2.default.createElement(Attach, _extends({ key: index }, attachment));
+    });
 
-      return _react2.default.createElement(
+    return _react2.default.createElement(
+      'div',
+      { className: className },
+      _react2.default.createElement(
         'div',
-        { className: className },
-        _react2.default.createElement(
-          'div',
-          { className: modernClassName, style: modernStyles },
-          text ? _react2.default.createElement(
-            'p',
-            null,
-            text
-          ) : null,
-          modernAttachments
-        )
-      );
-    }
-  }]);
+        { className: modernClassName, style: modernStyles },
+        text ? _react2.default.createElement(
+          'p',
+          null,
+          text
+        ) : null,
+        modernAttachments
+      )
+    );
+  };
 
   return TextModern;
 })(_react.Component);

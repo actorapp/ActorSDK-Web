@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -30,42 +26,37 @@ var KickUserStore = (function (_Store) {
   function KickUserStore(dispatcher) {
     _classCallCheck(this, KickUserStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(KickUserStore).call(this, dispatcher));
+    var _this = _possibleConstructorReturn(this, _Store.call(this, dispatcher));
 
     _this.kickUserState = [];
     return _this;
   }
 
-  _createClass(KickUserStore, [{
-    key: 'getKickUserState',
-    value: function getKickUserState(uid) {
-      return this.kickUserState[uid] || _ActorAppConstants.AsyncActionStates.PENDING;
+  KickUserStore.prototype.getKickUserState = function getKickUserState(uid) {
+    return this.kickUserState[uid] || _ActorAppConstants.AsyncActionStates.PENDING;
+  };
+
+  KickUserStore.prototype.resetKickUserState = function resetKickUserState(uid) {
+    delete this.kickUserState[uid];
+  };
+
+  KickUserStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.KICK_USER:
+        this.kickUserState[action.uid] = _ActorAppConstants.AsyncActionStates.PROCESSING;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.KICK_USER_SUCCESS:
+        this.resetKickUserState(action.uid);
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.KICK_USER_ERROR:
+        this.kickUserState[action.uid] = _ActorAppConstants.AsyncActionStates.FAILURE;
+        this.__emitChange();
+        break;
+      default:
     }
-  }, {
-    key: 'resetKickUserState',
-    value: function resetKickUserState(uid) {
-      delete this.kickUserState[uid];
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.KICK_USER:
-          this.kickUserState[action.uid] = _ActorAppConstants.AsyncActionStates.PROCESSING;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.KICK_USER_SUCCESS:
-          this.resetKickUserState(action.uid);
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.KICK_USER_ERROR:
-          this.kickUserState[action.uid] = _ActorAppConstants.AsyncActionStates.FAILURE;
-          this.__emitChange();
-          break;
-        default:
-      }
-    }
-  }]);
+  };
 
   return KickUserStore;
 })(_utils.Store);

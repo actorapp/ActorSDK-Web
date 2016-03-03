@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -62,7 +58,7 @@ var PeopleList = (function (_Component) {
   function PeopleList(props) {
     _classCallCheck(this, PeopleList);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PeopleList).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.setFocus = function () {
       return (0, _reactDom.findDOMNode)(_this.refs.search).focus();
@@ -172,90 +168,84 @@ var PeopleList = (function (_Component) {
     return _this;
   }
 
-  _createClass(PeopleList, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      this.setFocus();
-      document.addEventListener('keydown', this.handleKeyDown, false);
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      document.removeEventListener('keydown', this.handleKeyDown, false);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
+  PeopleList.calculateState = function calculateState() {
+    return {
+      list: _PeopleStore2.default.getList(),
+      results: _PeopleStore2.default.getResults(),
+      selectedIndex: 0
+    };
+  };
 
-      var _state = this.state;
-      var query = _state.query;
-      var results = _state.results;
-      var selectedIndex = _state.selectedIndex;
-      var list = _state.list;
-      var intl = this.context.intl;
+  PeopleList.prototype.componentDidMount = function componentDidMount() {
+    this.setFocus();
+    document.addEventListener('keydown', this.handleKeyDown, false);
+  };
 
-      var peopleList = (0, _lodash.map)(results, function (result, index) {
-        return _react2.default.createElement(_PeopleItem2.default, { contact: result, key: index,
-          onClick: _this2.handleContactSelect,
-          isSelected: selectedIndex === index,
-          ref: selectedIndex === index ? 'selected' : null,
-          onMouseOver: function onMouseOver() {
-            return _this2.setState({ selectedIndex: index });
-          } });
-      });
+  PeopleList.prototype.componentWillUnmount = function componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown, false);
+  };
 
-      return _react2.default.createElement(
-        'div',
-        { className: 'newmodal newmodal__contacts' },
+  PeopleList.prototype.render = function render() {
+    var _this2 = this;
+
+    var _state = this.state;
+    var query = _state.query;
+    var results = _state.results;
+    var selectedIndex = _state.selectedIndex;
+    var list = _state.list;
+    var intl = this.context.intl;
+
+    var peopleList = (0, _lodash.map)(results, function (result, index) {
+      return _react2.default.createElement(_PeopleItem2.default, { contact: result, key: index,
+        onClick: _this2.handleContactSelect,
+        isSelected: selectedIndex === index,
+        ref: selectedIndex === index ? 'selected' : null,
+        onMouseOver: function onMouseOver() {
+          return _this2.setState({ selectedIndex: index });
+        } });
+    });
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'newmodal newmodal__contacts' },
+      _react2.default.createElement(
+        'header',
+        { className: 'newmodal__header' },
         _react2.default.createElement(
-          'header',
-          { className: 'newmodal__header' },
-          _react2.default.createElement(
-            'h2',
-            null,
-            intl.messages['modal.contacts.title']
-          )
-        ),
-        _react2.default.createElement(
-          'section',
-          { className: 'newmodal__search' },
-          _react2.default.createElement('input', { className: 'newmodal__search__input',
-            onChange: this.handleSearchChange,
-            placeholder: intl.messages['modal.contacts.search'],
-            type: 'search',
-            ref: 'search',
-            value: query })
-        ),
-        _react2.default.createElement(
-          _Scrollbar2.default,
-          { ref: 'results' },
-          _react2.default.createElement(
-            'ul',
-            { className: 'newmodal__result contacts__list' },
-            list.length === 0 ? _react2.default.createElement(
-              'div',
-              null,
-              intl.messages['modal.contacts.loading']
-            ) : results.length === 0 ? _react2.default.createElement(
-              'li',
-              { className: 'contacts__list__item contacts__list__item--empty text-center' },
-              intl.messages['modal.contacts.notFound']
-            ) : peopleList
-          )
+          'h2',
+          null,
+          intl.messages['modal.contacts.title']
         )
-      );
-    }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        list: _PeopleStore2.default.getList(),
-        results: _PeopleStore2.default.getResults(),
-        selectedIndex: 0
-      };
-    }
-  }]);
+      ),
+      _react2.default.createElement(
+        'section',
+        { className: 'newmodal__search' },
+        _react2.default.createElement('input', { className: 'newmodal__search__input',
+          onChange: this.handleSearchChange,
+          placeholder: intl.messages['modal.contacts.search'],
+          type: 'search',
+          ref: 'search',
+          value: query })
+      ),
+      _react2.default.createElement(
+        _Scrollbar2.default,
+        { ref: 'results' },
+        _react2.default.createElement(
+          'ul',
+          { className: 'newmodal__result contacts__list' },
+          list.length === 0 ? _react2.default.createElement(
+            'div',
+            null,
+            intl.messages['modal.contacts.loading']
+          ) : results.length === 0 ? _react2.default.createElement(
+            'li',
+            { className: 'contacts__list__item contacts__list__item--empty text-center' },
+            intl.messages['modal.contacts.notFound']
+          ) : peopleList
+        )
+      )
+    );
+  };
 
   return PeopleList;
 })(_react.Component);

@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -36,7 +32,7 @@ var Sticker = (function (_Component) {
   function Sticker(props) {
     _classCallCheck(this, Sticker);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Sticker).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onLoad = function () {
       _this.setCached();
@@ -59,61 +55,58 @@ var Sticker = (function (_Component) {
     return _this;
   }
 
-  _createClass(Sticker, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var className = _props.className;
-      var w = _props.w;
-      var h = _props.h;
-      var fileUrl = _props.fileUrl;
-      var isLoaded = this.state.isLoaded;
+  Sticker.prototype.render = function render() {
+    var _props = this.props;
+    var className = _props.className;
+    var w = _props.w;
+    var h = _props.h;
+    var fileUrl = _props.fileUrl;
+    var isLoaded = this.state.isLoaded;
 
-      var preloader = _react2.default.createElement(
-        'div',
-        { className: 'preloader' },
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null),
-        _react2.default.createElement('div', null)
-      );
-      var stickerClassName = (0, _classnames2.default)('sticker', {
-        'sticker--loaded': isLoaded
-      });
+    var preloader = _react2.default.createElement(
+      'div',
+      { className: 'preloader' },
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null)
+    );
+    var stickerClassName = (0, _classnames2.default)('sticker', {
+      'sticker--loaded': isLoaded
+    });
 
-      var MAX_WIDTH = 200;
-      var MAX_HEIGHT = 200;
-      var width = w;
-      var height = h;
+    var MAX_WIDTH = 200;
+    var MAX_HEIGHT = 200;
+    var width = w;
+    var height = h;
 
-      if (width > height) {
-        if (width > MAX_WIDTH) {
-          height *= MAX_WIDTH / width;
-          width = MAX_WIDTH;
-        }
-      } else {
-        if (height > MAX_HEIGHT) {
-          width *= MAX_HEIGHT / height;
-          height = MAX_HEIGHT;
-        }
+    if (width > height) {
+      if (width > MAX_WIDTH) {
+        height *= MAX_WIDTH / width;
+        width = MAX_WIDTH;
       }
-
-      return _react2.default.createElement(
-        'div',
-        { className: className },
-        _react2.default.createElement(
-          'div',
-          { className: stickerClassName, style: { width: width, height: height } },
-          preloader,
-          _react2.default.createElement('img', { src: fileUrl,
-            width: width,
-            height: height,
-            onLoad: this.onLoad })
-        )
-      );
+    } else {
+      if (height > MAX_HEIGHT) {
+        width *= MAX_HEIGHT / height;
+        height = MAX_HEIGHT;
+      }
     }
-  }]);
+
+    return _react2.default.createElement(
+      'div',
+      { className: className },
+      _react2.default.createElement(
+        'div',
+        { className: stickerClassName, style: { width: width, height: height } },
+        preloader,
+        _react2.default.createElement('img', { src: fileUrl,
+          width: width,
+          height: height,
+          onLoad: this.onLoad })
+      )
+    );
+  };
 
   return Sticker;
 })(_react.Component);

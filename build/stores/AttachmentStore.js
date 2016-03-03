@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -44,96 +40,87 @@ var AttachmentStore = (function (_Store) {
   function AttachmentStore(dispatcher) {
     _classCallCheck(this, AttachmentStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(AttachmentStore).call(this, dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
   }
 
-  _createClass(AttachmentStore, [{
-    key: 'isOpen',
-    value: function isOpen() {
-      return _isOpen;
-    }
-  }, {
-    key: 'getAllAttachments',
-    value: function getAllAttachments() {
-      return _attachments;
-    }
-  }, {
-    key: 'getAttachment',
-    value: function getAttachment() {
-      var index = arguments.length <= 0 || arguments[0] === undefined ? _selectedIndex : arguments[0];
+  AttachmentStore.prototype.isOpen = function isOpen() {
+    return _isOpen;
+  };
 
-      return _attachments[index];
-    }
-  }, {
-    key: 'getSelectedIndex',
-    value: function getSelectedIndex() {
-      return _selectedIndex;
-    }
-  }, {
-    key: 'deleteAttachment',
-    value: function deleteAttachment() {
-      var index = arguments.length <= 0 || arguments[0] === undefined ? _selectedIndex : arguments[0];
+  AttachmentStore.prototype.getAllAttachments = function getAllAttachments() {
+    return _attachments;
+  };
 
-      _attachments.splice(index, 1);
+  AttachmentStore.prototype.getAttachment = function getAttachment() {
+    var index = arguments.length <= 0 || arguments[0] === undefined ? _selectedIndex : arguments[0];
 
-      if (_attachments.length === 0) {
+    return _attachments[index];
+  };
+
+  AttachmentStore.prototype.getSelectedIndex = function getSelectedIndex() {
+    return _selectedIndex;
+  };
+
+  AttachmentStore.prototype.deleteAttachment = function deleteAttachment() {
+    var index = arguments.length <= 0 || arguments[0] === undefined ? _selectedIndex : arguments[0];
+
+    _attachments.splice(index, 1);
+
+    if (_attachments.length === 0) {
+      this.resetStore();
+    }
+
+    _selectedIndex = 0; // TODO: select relevant index
+  };
+
+  AttachmentStore.prototype.resetStore = function resetStore() {
+    _isOpen = false;
+    _attachments = [];
+    _selectedIndex = 0;
+  };
+
+  AttachmentStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.ATTACHMENT_MODAL_SHOW:
+        _isOpen = true;
+        _attachments = (0, _lodash.map)(action.attachments, function (file) {
+          if (file instanceof File == false) {
+            file = blobToFile(file);
+          }
+
+          var isImage = file.type.includes('image') && file.type !== 'image/gif';
+          return {
+            isImage: isImage,
+            sendAsPicture: SEND_AS_PICTURE,
+            file: file
+          };
+        });
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.ATTACHMENT_MODAL_HIDE:
         this.resetStore();
-      }
-
-      _selectedIndex = 0; // TODO: select relevant index
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.ATTACHMENT_SELECT:
+        _selectedIndex = action.index;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.ATTACHMENT_CHANGE:
+        _attachments[_selectedIndex].sendAsPicture = action.sendAsPicture;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.ATTACHMENT_DELETE:
+      case _ActorAppConstants.ActionTypes.ATTACHMENT_SEND:
+        this.deleteAttachment();
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.ATTACHMENT_SEND_ALL:
+        this.resetStore();
+        this.__emitChange();
+        break;
+      default:
     }
-  }, {
-    key: 'resetStore',
-    value: function resetStore() {
-      _isOpen = false;
-      _attachments = [];
-      _selectedIndex = 0;
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_MODAL_SHOW:
-          _isOpen = true;
-          _attachments = (0, _lodash.map)(action.attachments, function (file) {
-            if (file instanceof File == false) {
-              file = blobToFile(file);
-            }
-
-            var isImage = file.type.includes('image') && file.type !== 'image/gif';
-            return {
-              isImage: isImage,
-              sendAsPicture: SEND_AS_PICTURE,
-              file: file
-            };
-          });
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_MODAL_HIDE:
-          this.resetStore();
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_SELECT:
-          _selectedIndex = action.index;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_CHANGE:
-          _attachments[_selectedIndex].sendAsPicture = action.sendAsPicture;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_DELETE:
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_SEND:
-          this.deleteAttachment();
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.ATTACHMENT_SEND_ALL:
-          this.resetStore();
-          this.__emitChange();
-          break;
-        default:
-      }
-    }
-  }]);
+  };
 
   return AttachmentStore;
 })(_utils.Store);

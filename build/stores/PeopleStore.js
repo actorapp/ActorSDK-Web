@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -44,94 +40,85 @@ var PeopleStore = (function (_Store) {
   function PeopleStore(dispatcher) {
     _classCallCheck(this, PeopleStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(PeopleStore).call(this, dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
   }
 
   /**
    * @returns {boolean}
    */
 
-  _createClass(PeopleStore, [{
-    key: 'isOpen',
-    value: function isOpen() {
-      return _isOpen;
+  PeopleStore.prototype.isOpen = function isOpen() {
+    return _isOpen;
+  };
+
+  /**
+   * @returns {Array}
+   */
+
+  PeopleStore.prototype.getList = function getList() {
+    return _list;
+  };
+
+  /**
+   * @returns {Array}
+   */
+
+  PeopleStore.prototype.getResults = function getResults() {
+    return _results;
+  };
+
+  PeopleStore.prototype.handleSearchQuery = function handleSearchQuery(query) {
+    var results = [];
+
+    if (query === '') {
+      results = _list;
+    } else {
+      (0, _lodash.forEach)(_list, function (result) {
+        var name = result.name.toLowerCase();
+        if (name.includes(query.toLowerCase())) {
+          results.push(result);
+        }
+      });
     }
 
-    /**
-     * @returns {Array}
-     */
+    _results = results;
+  };
 
-  }, {
-    key: 'getList',
-    value: function getList() {
-      return _list;
-    }
+  PeopleStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.CONTACT_LIST_SHOW:
+        _isOpen = true;
+        this.handleSearchQuery('');
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.CONTACT_LIST_HIDE:
+        _isOpen = false;
+        _results = [];
+        this.__emitChange();
+        break;
 
-    /**
-     * @returns {Array}
-     */
-
-  }, {
-    key: 'getResults',
-    value: function getResults() {
-      return _results;
-    }
-  }, {
-    key: 'handleSearchQuery',
-    value: function handleSearchQuery(query) {
-      var results = [];
-
-      if (query === '') {
-        results = _list;
-      } else {
-        (0, _lodash.forEach)(_list, function (result) {
-          var name = result.name.toLowerCase();
-          if (name.includes(query.toLowerCase())) {
-            results.push(result);
+      case _ActorAppConstants.ActionTypes.CONTACT_LIST_CHANGED:
+        // Remove current user from contacts list
+        _list = (0, _lodash.filter)(action.contacts, function (contact) {
+          if (contact.uid != _ActorClient2.default.getUid()) {
+            return contact;
           }
         });
-      }
+        this.__emitChange();
+        break;
 
-      _results = results;
+      case _ActorAppConstants.ActionTypes.CONTACT_LIST_SEARCH:
+        this.handleSearchQuery(action.query);
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.CONTACT_ADD:
+      case _ActorAppConstants.ActionTypes.CONTACT_REMOVE:
+        this.__emitChange();
+        break;
+      default:
     }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.CONTACT_LIST_SHOW:
-          _isOpen = true;
-          this.handleSearchQuery('');
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.CONTACT_LIST_HIDE:
-          _isOpen = false;
-          _results = [];
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.CONTACT_LIST_CHANGED:
-          // Remove current user from contacts list
-          _list = (0, _lodash.filter)(action.contacts, function (contact) {
-            if (contact.uid != _ActorClient2.default.getUid()) {
-              return contact;
-            }
-          });
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.CONTACT_LIST_SEARCH:
-          this.handleSearchQuery(action.query);
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.CONTACT_ADD:
-        case _ActorAppConstants.ActionTypes.CONTACT_REMOVE:
-          this.__emitChange();
-          break;
-        default:
-      }
-    }
-  }]);
+  };
 
   return PeopleStore;
 })(_utils.Store);

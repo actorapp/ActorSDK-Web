@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -30,7 +26,7 @@ var ArchiveStore = (function (_Store) {
   function ArchiveStore(dispatcher) {
     _classCallCheck(this, ArchiveStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ArchiveStore).call(this, dispatcher));
+    var _this = _possibleConstructorReturn(this, _Store.call(this, dispatcher));
 
     _this.isLoading = true;
     _this.dialogs = [];
@@ -40,83 +36,74 @@ var ArchiveStore = (function (_Store) {
     return _this;
   }
 
-  _createClass(ArchiveStore, [{
-    key: 'isArchiveLoading',
-    value: function isArchiveLoading() {
-      return this.isLoading;
-    }
-  }, {
-    key: 'isAllLoaded',
-    value: function isAllLoaded() {
-      return this._isAllLoaded;
-    }
-  }, {
-    key: 'isInitialLoadingComplete',
-    value: function isInitialLoadingComplete() {
-      return this._isInitialLoadingComplete;
-    }
-  }, {
-    key: 'getDialogs',
-    value: function getDialogs() {
-      return this.dialogs;
-    }
-  }, {
-    key: 'getArchiveChatState',
-    value: function getArchiveChatState(id) {
-      return this.archiveChatState[id] || _ActorAppConstants.AsyncActionStates.PENDING;
-    }
-  }, {
-    key: 'resetArchiveChatState',
-    value: function resetArchiveChatState(id) {
-      delete this.archiveChatState[id];
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.ARCHIVE_ADD:
-          this.archiveChatState[action.peer.id] = _ActorAppConstants.AsyncActionStates.PROCESSING;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.ARCHIVE_ADD_SUCCESS:
-          this.resetArchiveChatState(action.peer.id);
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.ARCHIVE_ADD_ERROR:
-          this.archiveChatState[action.peer.id] = _ActorAppConstants.AsyncActionStates.FAILURE;
-          this.__emitChange();
-          break;
+  ArchiveStore.prototype.isArchiveLoading = function isArchiveLoading() {
+    return this.isLoading;
+  };
 
-        case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD:
-          this.isLoading = true;
-          this._isAllLoaded = false;
-          this._isInitialLoadingComplete = false;
-          this.__emitChange();
-          break;
+  ArchiveStore.prototype.isAllLoaded = function isAllLoaded() {
+    return this._isAllLoaded;
+  };
 
-        case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD_SUCCESS:
-          this.isLoading = false;
-          this._isInitialLoadingComplete = true;
-          this.dialogs = action.response;
-          this.__emitChange();
-          break;
+  ArchiveStore.prototype.isInitialLoadingComplete = function isInitialLoadingComplete() {
+    return this._isInitialLoadingComplete;
+  };
 
-        case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD_MORE:
-          this.isLoading = true;
-          this.__emitChange();
-          break;
+  ArchiveStore.prototype.getDialogs = function getDialogs() {
+    return this.dialogs;
+  };
 
-        case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD_MORE_SUCCESS:
-          this.isLoading = false;
-          this._isAllLoaded = action.response.length === 0;
-          this.dialogs.push.apply(this.dialogs, action.response);
-          this.__emitChange();
-          break;
+  ArchiveStore.prototype.getArchiveChatState = function getArchiveChatState(id) {
+    return this.archiveChatState[id] || _ActorAppConstants.AsyncActionStates.PENDING;
+  };
 
-        default:
-      }
+  ArchiveStore.prototype.resetArchiveChatState = function resetArchiveChatState(id) {
+    delete this.archiveChatState[id];
+  };
+
+  ArchiveStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.ARCHIVE_ADD:
+        this.archiveChatState[action.peer.id] = _ActorAppConstants.AsyncActionStates.PROCESSING;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.ARCHIVE_ADD_SUCCESS:
+        this.resetArchiveChatState(action.peer.id);
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.ARCHIVE_ADD_ERROR:
+        this.archiveChatState[action.peer.id] = _ActorAppConstants.AsyncActionStates.FAILURE;
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD:
+        this.isLoading = true;
+        this._isAllLoaded = false;
+        this._isInitialLoadingComplete = false;
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD_SUCCESS:
+        this.isLoading = false;
+        this._isInitialLoadingComplete = true;
+        this.dialogs = action.response;
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD_MORE:
+        this.isLoading = true;
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.ARCHIVE_LOAD_MORE_SUCCESS:
+        this.isLoading = false;
+        this._isAllLoaded = action.response.length === 0;
+        this.dialogs.push.apply(this.dialogs, action.response);
+        this.__emitChange();
+        break;
+
+      default:
     }
-  }]);
+  };
 
   return ArchiveStore;
 })(_utils.Store);

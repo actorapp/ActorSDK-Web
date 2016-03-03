@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -70,26 +66,22 @@ var flushDelayedDebounced = (0, _lodash.debounce)(flushDelayed, 30, { maxWait: 1
 var MessagesSection = (function (_Component) {
   _inherits(MessagesSection, _Component);
 
-  _createClass(MessagesSection, null, [{
-    key: 'getStores',
-    value: function getStores() {
-      return [_MessageStore2.default, _VisibilityStore2.default];
-    }
-  }, {
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        selectedMessages: _MessageStore2.default.getSelected(),
-        isAllMessagesLoaded: _MessageStore2.default.isLoaded(),
-        isAppVisible: _VisibilityStore2.default.isAppVisible()
-      };
-    }
-  }]);
+  MessagesSection.getStores = function getStores() {
+    return [_MessageStore2.default, _VisibilityStore2.default];
+  };
+
+  MessagesSection.calculateState = function calculateState() {
+    return {
+      selectedMessages: _MessageStore2.default.getSelected(),
+      isAllMessagesLoaded: _MessageStore2.default.isLoaded(),
+      isAppVisible: _VisibilityStore2.default.isAppVisible()
+    };
+  };
 
   function MessagesSection(props) {
     _classCallCheck(this, MessagesSection);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MessagesSection).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleMessageSelect = function (rid) {
       var selectedMessages = _this.state.selectedMessages;
@@ -112,84 +104,74 @@ var MessagesSection = (function (_Component) {
       }
     };
 
-    _this.handleScroll = function () {
-      var onScroll = _this.props.onScroll;
-
-      onScroll && onScroll();
-    };
-
     return _this;
   }
 
-  _createClass(MessagesSection, [{
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      var isAppVisible = this.state.isAppVisible;
+  MessagesSection.prototype.componentDidUpdate = function componentDidUpdate() {
+    var isAppVisible = this.state.isAppVisible;
 
-      if (isAppVisible) {
-        flushDelayed();
-      }
+    if (isAppVisible) {
+      flushDelayed();
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
+  };
 
-      var _props = this.props;
-      var messages = _props.messages;
-      var peer = _props.peer;
-      var delegate = this.context.delegate;
-      var isAllMessagesLoaded = this.state.isAllMessagesLoaded;
+  MessagesSection.prototype.render = function render() {
+    var _this2 = this;
 
-      var isMember = _DialogStore2.default.isMember();
+    var _props = this.props;
+    var messages = _props.messages;
+    var peer = _props.peer;
+    var delegate = this.context.delegate;
+    var isAllMessagesLoaded = this.state.isAllMessagesLoaded;
 
-      var MessageItem = undefined;
-      if (delegate.components.dialog !== null) {
-        if (delegate.components.dialog.messages && delegate.components.dialog.messages !== null && typeof delegate.components.messages !== 'function') {
-          MessageItem = typeof delegate.components.dialog.messages.message === 'function' ? delegate.components.dialog.messages.message : _MessageItem2.default;
-        } else {
-          MessageItem = _MessageItem2.default;
-        }
+    var isMember = _DialogStore2.default.isMember();
+
+    var MessageItem = undefined;
+    if (delegate.components.dialog !== null) {
+      if (delegate.components.dialog.messages && delegate.components.dialog.messages !== null && typeof delegate.components.messages !== 'function') {
+        MessageItem = typeof delegate.components.dialog.messages.message === 'function' ? delegate.components.dialog.messages.message : _MessageItem2.default;
       } else {
         MessageItem = _MessageItem2.default;
       }
-
-      var messagesList = (0, _lodash.map)(messages, function (message, index) {
-        var selectedMessages = _this2.state.selectedMessages;
-        var _props2 = _this2.props;
-        var peer = _props2.peer;
-        var overlay = _props2.overlay;
-
-        var dateDivider = overlay[index] && overlay[index].dateDivider ? _react2.default.createElement(
-          'li',
-          { className: 'date-divider' },
-          overlay[index].dateDivider
-        ) : null;
-
-        var messageItem = _react2.default.createElement(MessageItem, { key: message.sortKey,
-          message: message,
-          overlay: overlay[index],
-          onSelect: _this2.handleMessageSelect,
-          isSelected: selectedMessages.has(message.rid),
-          onVisibilityChange: _this2.onMessageVisibilityChange,
-          peer: peer });
-
-        return dateDivider ? [dateDivider, messageItem] : messageItem;
-      });
-
-      return _react2.default.createElement(
-        _Scrollbar2.default,
-        { onScroll: this.handleScroll, ref: 'messagesScroll' },
-        _react2.default.createElement(
-          'ul',
-          { className: 'messages__list' },
-          isMember && isAllMessagesLoaded || isMember && messagesList.length < 30 ? _react2.default.createElement(_Welcome2.default, { peer: peer }) : null,
-          !isAllMessagesLoaded && messagesList.length >= 30 ? _react2.default.createElement(_Loading2.default, null) : null,
-          messagesList
-        )
-      );
+    } else {
+      MessageItem = _MessageItem2.default;
     }
-  }]);
+
+    var messagesList = (0, _lodash.map)(messages, function (message, index) {
+      var selectedMessages = _this2.state.selectedMessages;
+      var _props2 = _this2.props;
+      var peer = _props2.peer;
+      var overlay = _props2.overlay;
+
+      var dateDivider = overlay[index] && overlay[index].dateDivider ? _react2.default.createElement(
+        'li',
+        { className: 'date-divider' },
+        overlay[index].dateDivider
+      ) : null;
+
+      var messageItem = _react2.default.createElement(MessageItem, { key: message.sortKey,
+        message: message,
+        overlay: overlay[index],
+        onSelect: _this2.handleMessageSelect,
+        isSelected: selectedMessages.has(message.rid),
+        onVisibilityChange: _this2.onMessageVisibilityChange,
+        peer: peer });
+
+      return dateDivider ? [dateDivider, messageItem] : messageItem;
+    });
+
+    return _react2.default.createElement(
+      _Scrollbar2.default,
+      { onScroll: this.props.onScroll, ref: 'messagesScroll' },
+      _react2.default.createElement(
+        'ul',
+        { className: 'messages__list' },
+        isMember && isAllMessagesLoaded || isMember && messagesList.length < 30 ? _react2.default.createElement(_Welcome2.default, { peer: peer }) : null,
+        !isAllMessagesLoaded && messagesList.length >= 30 ? _react2.default.createElement(_Loading2.default, null) : null,
+        messagesList
+      )
+    );
+  };
 
   return MessagesSection;
 })(_react.Component);

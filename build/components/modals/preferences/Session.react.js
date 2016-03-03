@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -40,93 +36,90 @@ var SessionItem = (function (_Component) {
   function SessionItem(props) {
     _classCallCheck(this, SessionItem);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SessionItem).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _initialiseProps.call(_this);
 
     return _this;
   }
 
-  _createClass(SessionItem, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var appTitle = _props.appTitle;
-      var holder = _props.holder;
-      var authTime = _props.authTime;
-      var terminateSessionState = this.state.terminateSessionState;
-      var intl = this.context.intl;
+  SessionItem.prototype.render = function render() {
+    var _props = this.props;
+    var appTitle = _props.appTitle;
+    var holder = _props.holder;
+    var authTime = _props.authTime;
+    var terminateSessionState = this.state.terminateSessionState;
+    var intl = this.context.intl;
 
-      var currentDevice = holder === 'THIS_DEVICE' ? _react2.default.createElement(
+    var currentDevice = holder === 'THIS_DEVICE' ? _react2.default.createElement(
+      'small',
+      null,
+      intl.messages['preferencesSessionsCurrentSession']
+    ) : null;
+
+    return _react2.default.createElement(
+      'li',
+      { className: 'session-list__session' },
+      _react2.default.createElement(
+        'div',
+        { className: 'title' },
+        appTitle,
+        currentDevice
+      ),
+      _react2.default.createElement(
         'small',
         null,
-        intl.messages['preferencesSessionsCurrentSession']
-      ) : null;
-
-      return _react2.default.createElement(
-        'li',
-        { className: 'session-list__session' },
         _react2.default.createElement(
-          'div',
-          { className: 'title' },
-          appTitle,
-          currentDevice
+          'b',
+          null,
+          intl.messages['preferencesSessionsAuthTime'],
+          ':'
         ),
+        ' ',
+        authTime.toString()
+      ),
+      _react2.default.createElement(
+        _Stateful2.default.Root,
+        { currentState: terminateSessionState },
         _react2.default.createElement(
-          'small',
+          _Stateful2.default.Pending,
           null,
           _react2.default.createElement(
-            'b',
-            null,
-            intl.messages['preferencesSessionsAuthTime'],
-            ':'
-          ),
-          ' ',
-          authTime.toString()
+            'a',
+            { className: 'session-list__session__terminate link--blue', onClick: this.onTerminate },
+            intl.messages['preferencesSessionsTerminate']
+          )
         ),
         _react2.default.createElement(
-          _Stateful2.default.Root,
-          { currentState: terminateSessionState },
+          _Stateful2.default.Processing,
+          null,
           _react2.default.createElement(
-            _Stateful2.default.Pending,
-            null,
-            _react2.default.createElement(
-              'a',
-              { className: 'session-list__session__terminate link--blue', onClick: this.onTerminate },
-              intl.messages['preferencesSessionsTerminate']
-            )
-          ),
+            'i',
+            { className: 'session-list__session__terminate material-icons spin' },
+            'autorenew'
+          )
+        ),
+        _react2.default.createElement(
+          _Stateful2.default.Success,
+          null,
           _react2.default.createElement(
-            _Stateful2.default.Processing,
-            null,
-            _react2.default.createElement(
-              'i',
-              { className: 'session-list__session__terminate material-icons spin' },
-              'autorenew'
-            )
-          ),
+            'i',
+            { className: 'session-list__session__terminate material-icons' },
+            'check'
+          )
+        ),
+        _react2.default.createElement(
+          _Stateful2.default.Failure,
+          null,
           _react2.default.createElement(
-            _Stateful2.default.Success,
-            null,
-            _react2.default.createElement(
-              'i',
-              { className: 'session-list__session__terminate material-icons' },
-              'check'
-            )
-          ),
-          _react2.default.createElement(
-            _Stateful2.default.Failure,
-            null,
-            _react2.default.createElement(
-              'i',
-              { className: 'session-list__session__terminate material-icons' },
-              'warning'
-            )
+            'i',
+            { className: 'session-list__session__terminate material-icons' },
+            'warning'
           )
         )
-      );
-    }
-  }]);
+      )
+    );
+  };
 
   return SessionItem;
 })(_react.Component);

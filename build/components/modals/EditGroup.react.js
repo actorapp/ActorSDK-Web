@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -64,7 +60,7 @@ var EditGroup = (function (_Component) {
   function EditGroup(props) {
     _classCallCheck(this, EditGroup);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(EditGroup).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.setListeners = function () {
       return document.addEventListener('keydown', _this.onKeyDown, false);
@@ -140,157 +136,151 @@ var EditGroup = (function (_Component) {
     return _this;
   }
 
-  _createClass(EditGroup, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      this.removeListeners();
+  EditGroup.calculateState = function calculateState() {
+    return {
+      isOpen: _EditGroupStore2.default.isOpen(),
+      group: _EditGroupStore2.default.getGroup(),
+      isAdmin: _EditGroupStore2.default.isAdmin(),
+      title: _EditGroupStore2.default.getTitle(),
+      about: _EditGroupStore2.default.getAbout(),
+      isCropModalOpen: _CropAvatarStore2.default.isOpen()
+    };
+  };
+
+  EditGroup.prototype.componentWillUnmount = function componentWillUnmount() {
+    this.removeListeners();
+  };
+
+  EditGroup.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
+    if (nextState.isOpen) {
+      nextState.isCropModalOpen ? this.removeListeners() : this.setListeners();
+    } else {
+      nextState.isCropModalOpen ? this.setListeners() : this.removeListeners();
     }
-  }, {
-    key: 'componentWillUpdate',
-    value: function componentWillUpdate(nextProps, nextState) {
-      if (nextState.isOpen) {
-        nextState.isCropModalOpen ? this.removeListeners() : this.setListeners();
-      } else {
-        nextState.isCropModalOpen ? this.setListeners() : this.removeListeners();
+  };
+
+  EditGroup.prototype.render = function render() {
+    var _state = this.state;
+    var isOpen = _state.isOpen;
+    var group = _state.group;
+    var isCropModalOpen = _state.isCropModalOpen;
+    var title = _state.title;
+    var about = _state.about;
+    var isAdmin = _state.isAdmin;
+    var intl = this.context.intl;
+
+    var cropAvatar = isCropModalOpen ? _react2.default.createElement(_CropAvatar2.default, { onCropFinish: this.changeGroupAvatar }) : null;
+    var modalStyle = {
+      content: {
+        position: null,
+        top: null,
+        left: null,
+        right: null,
+        bottom: null,
+        border: null,
+        background: null,
+        overflow: null,
+        outline: null,
+        padding: null,
+        borderRadius: null,
+        width: 440
       }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state = this.state;
-      var isOpen = _state.isOpen;
-      var group = _state.group;
-      var isCropModalOpen = _state.isCropModalOpen;
-      var title = _state.title;
-      var about = _state.about;
-      var isAdmin = _state.isAdmin;
-      var intl = this.context.intl;
+    };
 
-      var cropAvatar = isCropModalOpen ? _react2.default.createElement(_CropAvatar2.default, { onCropFinish: this.changeGroupAvatar }) : null;
-      var modalStyle = {
-        content: {
-          position: null,
-          top: null,
-          left: null,
-          right: null,
-          bottom: null,
-          border: null,
-          background: null,
-          overflow: null,
-          outline: null,
-          padding: null,
-          borderRadius: null,
-          width: 440
-        }
-      };
-
-      if (isOpen) {
-        return _react2.default.createElement(
-          _reactModal2.default,
-          { className: 'modal-new modal-new--edit-group',
-            closeTimeoutMS: 150,
-            isOpen: isOpen,
-            style: modalStyle },
+    if (isOpen) {
+      return _react2.default.createElement(
+        _reactModal2.default,
+        { className: 'modal-new modal-new--edit-group',
+          closeTimeoutMS: 150,
+          isOpen: isOpen,
+          style: modalStyle },
+        _react2.default.createElement(
+          'header',
+          { className: 'modal-new__header' },
           _react2.default.createElement(
-            'header',
-            { className: 'modal-new__header' },
-            _react2.default.createElement(
-              'a',
-              { className: 'modal-new__header__icon material-icons' },
-              'edit'
-            ),
-            _react2.default.createElement(
-              'h3',
-              { className: 'modal-new__header__title' },
-              intl.messages['modal.group.title']
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'pull-right' },
-              _react2.default.createElement(
-                'button',
-                { className: 'button button--lightblue', onClick: this.onSave },
-                intl.messages['button.done']
-              )
-            )
+            'a',
+            { className: 'modal-new__header__icon material-icons' },
+            'edit'
+          ),
+          _react2.default.createElement(
+            'h3',
+            { className: 'modal-new__header__title' },
+            intl.messages['modal.group.title']
           ),
           _react2.default.createElement(
             'div',
-            { className: 'modal-new__body row' },
+            { className: 'pull-right' },
+            _react2.default.createElement(
+              'button',
+              { className: 'button button--lightblue', onClick: this.onSave },
+              intl.messages['button.done']
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'modal-new__body row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs' },
+            _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
+              floatingLabel: intl.messages['modal.group.name'],
+              onChange: this.onTitleChange,
+              ref: 'name',
+              value: title }),
+            isAdmin ? _react2.default.createElement(
+              'div',
+              { className: 'about' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'about' },
+                intl.messages['modal.group.about']
+              ),
+              _react2.default.createElement('textarea', { className: 'textarea', value: about, onChange: this.onAboutChange, id: 'about' })
+            ) : null
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'profile-picture text-center' },
             _react2.default.createElement(
               'div',
-              { className: 'col-xs' },
-              _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
-                floatingLabel: intl.messages['modal.group.name'],
-                onChange: this.onTitleChange,
-                ref: 'name',
-                value: title }),
-              isAdmin ? _react2.default.createElement(
-                'div',
-                { className: 'about' },
+              { className: 'profile-picture__changer' },
+              _react2.default.createElement(_AvatarItem2.default, { image: group.bigAvatar,
+                placeholder: group.placeholder,
+                size: 'big',
+                title: group.name }),
+              _react2.default.createElement(
+                'a',
+                { onClick: this.onChangeAvatarClick },
                 _react2.default.createElement(
-                  'label',
-                  { htmlFor: 'about' },
-                  intl.messages['modal.group.about']
-                ),
-                _react2.default.createElement('textarea', { className: 'textarea', value: about, onChange: this.onAboutChange, id: 'about' })
-              ) : null
+                  'span',
+                  null,
+                  intl.messages['modal.group.avatarChange']
+                )
+              )
             ),
             _react2.default.createElement(
               'div',
-              { className: 'profile-picture text-center' },
+              { className: 'profile-picture__controls' },
               _react2.default.createElement(
-                'div',
-                { className: 'profile-picture__changer' },
-                _react2.default.createElement(_AvatarItem2.default, { image: group.bigAvatar,
-                  placeholder: group.placeholder,
-                  size: 'big',
-                  title: group.name }),
-                _react2.default.createElement(
-                  'a',
-                  { onClick: this.onChangeAvatarClick },
-                  _react2.default.createElement(
-                    'span',
-                    null,
-                    intl.messages['modal.group.avatarChange']
-                  )
-                )
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'profile-picture__controls' },
-                _react2.default.createElement(
-                  'a',
-                  { onClick: this.onProfilePictureRemove },
-                  intl.messages['modal.group.avatarRemove']
-                )
-              ),
-              _react2.default.createElement(
-                'form',
-                { className: 'hide', ref: 'imageForm' },
-                _react2.default.createElement('input', { onChange: this.onProfilePictureInputChange, ref: 'imageInput', type: 'file' })
+                'a',
+                { onClick: this.onProfilePictureRemove },
+                intl.messages['modal.group.avatarRemove']
               )
+            ),
+            _react2.default.createElement(
+              'form',
+              { className: 'hide', ref: 'imageForm' },
+              _react2.default.createElement('input', { onChange: this.onProfilePictureInputChange, ref: 'imageInput', type: 'file' })
             )
-          ),
-          cropAvatar
-        );
-      } else {
-        return null;
-      }
+          )
+        ),
+        cropAvatar
+      );
+    } else {
+      return null;
     }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        isOpen: _EditGroupStore2.default.isOpen(),
-        group: _EditGroupStore2.default.getGroup(),
-        isAdmin: _EditGroupStore2.default.isAdmin(),
-        title: _EditGroupStore2.default.getTitle(),
-        about: _EditGroupStore2.default.getAbout(),
-        isCropModalOpen: _CropAvatarStore2.default.isOpen()
-      };
-    }
-  }]);
+  };
 
   return EditGroup;
 })(_react.Component);

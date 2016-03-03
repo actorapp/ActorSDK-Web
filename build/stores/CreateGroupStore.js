@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _immutable = require('immutable');
 
@@ -43,82 +39,74 @@ var CreateGroupStore = (function (_Store) {
   function CreateGroupStore(dispatcher) {
     _classCallCheck(this, CreateGroupStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(CreateGroupStore).call(this, dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
   }
 
-  _createClass(CreateGroupStore, [{
-    key: 'isModalOpen',
-    value: function isModalOpen() {
-      return _modalOpen;
-    }
-  }, {
-    key: 'getCurrentStep',
-    value: function getCurrentStep() {
-      return _currentStep;
-    }
-  }, {
-    key: 'getGroupName',
-    value: function getGroupName() {
-      return _groupName;
-    }
-  }, {
-    key: 'getSelectedUserIds',
-    value: function getSelectedUserIds() {
-      return _selectedUserIds;
-    }
-  }, {
-    key: 'resetStore',
-    value: function resetStore() {
-      _modalOpen = false;
-      _currentStep = _ActorAppConstants.CreateGroupSteps.NAME_INPUT;
-      _groupName = '';
-      _selectedUserIds = new _immutable2.default.Set();
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
+  CreateGroupStore.prototype.isModalOpen = function isModalOpen() {
+    return _modalOpen;
+  };
 
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_OPEN:
-          _modalOpen = true;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_CLOSE:
-          this.resetStore();
-          this.__emitChange();
-          break;
+  CreateGroupStore.prototype.getCurrentStep = function getCurrentStep() {
+    return _currentStep;
+  };
 
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE_SET_NAME:
-          _currentStep = _ActorAppConstants.CreateGroupSteps.CONTACTS_SELECTION;
-          _groupName = action.name;
-          this.__emitChange();
-          break;
+  CreateGroupStore.prototype.getGroupName = function getGroupName() {
+    return _groupName;
+  };
 
-        //case ActionTypes.GROUP_CREATE_SET_AVATAR:
-        //  _avatar = action.avatar;
-        //  this.__emitChange();
-        //  break;
+  CreateGroupStore.prototype.getSelectedUserIds = function getSelectedUserIds() {
+    return _selectedUserIds;
+  };
 
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE_SET_MEMBERS:
-          _selectedUserIds = action.selectedUserIds;
-          this.__emitChange();
-          break;
+  CreateGroupStore.prototype.resetStore = function resetStore() {
+    _modalOpen = false;
+    _currentStep = _ActorAppConstants.CreateGroupSteps.NAME_INPUT;
+    _groupName = '';
+    _selectedUserIds = new _immutable2.default.Set();
+  };
 
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE:
-          _currentStep = _ActorAppConstants.CreateGroupSteps.CREATION_STARTED;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE_SUCCESS:
-          this.resetStore();
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.GROUP_CREATE_ERROR:
-          console.error('Failed to create group', action.error);
-          this.__emitChange();
-          break;
-      }
+  CreateGroupStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+
+      case _ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_OPEN:
+        _modalOpen = true;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_CLOSE:
+        this.resetStore();
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.GROUP_CREATE_SET_NAME:
+        _currentStep = _ActorAppConstants.CreateGroupSteps.CONTACTS_SELECTION;
+        _groupName = action.name;
+        this.__emitChange();
+        break;
+
+      //case ActionTypes.GROUP_CREATE_SET_AVATAR:
+      //  _avatar = action.avatar;
+      //  this.__emitChange();
+      //  break;
+
+      case _ActorAppConstants.ActionTypes.GROUP_CREATE_SET_MEMBERS:
+        _selectedUserIds = action.selectedUserIds;
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.GROUP_CREATE:
+        _currentStep = _ActorAppConstants.CreateGroupSteps.CREATION_STARTED;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.GROUP_CREATE_SUCCESS:
+        this.resetStore();
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.GROUP_CREATE_ERROR:
+        console.error('Failed to create group', action.error);
+        this.__emitChange();
+        break;
     }
-  }]);
+  };
 
   return CreateGroupStore;
 })(_utils.Store);

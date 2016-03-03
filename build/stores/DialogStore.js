@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -36,7 +32,7 @@ var DialogStore = (function (_Store) {
   function DialogStore(dispatcher) {
     _classCallCheck(this, DialogStore);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DialogStore).call(this, dispatcher));
+    var _this = _possibleConstructorReturn(this, _Store.call(this, dispatcher));
 
     _this.dialogs = [];
     _this.currentPeer = null;
@@ -44,63 +40,55 @@ var DialogStore = (function (_Store) {
     return _this;
   }
 
-  _createClass(DialogStore, [{
-    key: 'getDialogs',
-    value: function getDialogs() {
-      return this.dialogs;
-    }
-  }, {
-    key: 'getCurrentPeer',
-    value: function getCurrentPeer() {
-      return this.currentPeer;
-    }
-  }, {
-    key: 'getLastPeer',
-    value: function getLastPeer() {
-      return this.lastPeer;
-    }
-  }, {
-    key: 'isMember',
-    value: function isMember() {
-      if (this.currentPeer !== null && this.currentPeer.type === _ActorAppConstants.PeerTypes.GROUP) {
-        var group = _ActorClient2.default.getGroup(this.currentPeer.id);
-        return group.members.length !== 0;
-      } else {
-        return true;
-      }
-    }
-  }, {
-    key: 'isFavorite',
-    value: function isFavorite(id) {
-      var favoriteDialogs = (0, _lodash.find)(this.dialogs, { key: 'favourites' });
-      if (!favoriteDialogs) return false;
+  DialogStore.prototype.getDialogs = function getDialogs() {
+    return this.dialogs;
+  };
 
-      return (0, _lodash.some)(favoriteDialogs.shorts, function (dialog) {
-        return dialog.peer.peer.id === id;
-      });
+  DialogStore.prototype.getCurrentPeer = function getCurrentPeer() {
+    return this.currentPeer;
+  };
+
+  DialogStore.prototype.getLastPeer = function getLastPeer() {
+    return this.lastPeer;
+  };
+
+  DialogStore.prototype.isMember = function isMember() {
+    if (this.currentPeer !== null && this.currentPeer.type === _ActorAppConstants.PeerTypes.GROUP) {
+      var group = _ActorClient2.default.getGroup(this.currentPeer.id);
+      return group.members.length !== 0;
+    } else {
+      return true;
     }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.DIALOGS_CHANGED:
-          this.dialogs = action.dialogs;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.BIND_DIALOG_PEER:
-          this.lastPeer = this.currentPeer;
-          this.currentPeer = action.peer;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.UNBIND_DIALOG_PEER:
-          this.lastPeer = this.currentPeer;
-          this.currentPeer = null;
-          this.__emitChange();
-          break;
-        default:
-      }
+  };
+
+  DialogStore.prototype.isFavorite = function isFavorite(id) {
+    var favoriteDialogs = (0, _lodash.find)(this.dialogs, { key: 'favourites' });
+    if (!favoriteDialogs) return false;
+
+    return (0, _lodash.some)(favoriteDialogs.shorts, function (dialog) {
+      return dialog.peer.peer.id === id;
+    });
+  };
+
+  DialogStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.DIALOGS_CHANGED:
+        this.dialogs = action.dialogs;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.BIND_DIALOG_PEER:
+        this.lastPeer = this.currentPeer;
+        this.currentPeer = action.peer;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.UNBIND_DIALOG_PEER:
+        this.lastPeer = this.currentPeer;
+        this.currentPeer = null;
+        this.__emitChange();
+        break;
+      default:
     }
-  }]);
+  };
 
   return DialogStore;
 })(_utils.Store);

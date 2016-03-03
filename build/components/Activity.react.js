@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -54,56 +50,61 @@ var ActivitySection = (function (_Component) {
   function ActivitySection(props) {
     _classCallCheck(this, ActivitySection);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(ActivitySection).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(ActivitySection, [{
-    key: 'render',
-    value: function render() {
-      var _state = this.state;
-      var peer = _state.peer;
-      var info = _state.info;
-      var isOpen = _state.isOpen;
+  ActivitySection.calculateState = function calculateState() {
+    return {
+      peer: _DialogStore2.default.getCurrentPeer(),
+      info: _DialogInfoStore2.default.getInfo(),
+      isOpen: _ActivityStore2.default.isOpen()
+    };
+  };
 
-      setTimeout(function () {
-        window.dispatchEvent(new Event('resize'));
-      }, 0);
+  ActivitySection.prototype.renderBody = function renderBody() {
+    var _state = this.state;
+    var isOpen = _state.isOpen;
+    var peer = _state.peer;
+    var info = _state.info;
 
-      if (peer !== null) {
-        var activityClassName = (0, _classnames2.default)('activity', {
-          'activity--shown': isOpen
-        });
-        var activityBody = undefined;
+    if (!isOpen) {
+      return null;
+    }
 
-        switch (peer.type) {
-          case _ActorAppConstants.PeerTypes.USER:
-            activityBody = _react2.default.createElement(_UserProfile2.default, { user: info });
-            break;
-          case _ActorAppConstants.PeerTypes.GROUP:
-            activityBody = _react2.default.createElement(_GroupProfile2.default, { group: info });
-            break;
-          default:
-        }
-
-        return _react2.default.createElement(
-          'section',
-          { className: activityClassName },
-          isOpen ? activityBody : null
-        );
-      } else {
+    switch (peer.type) {
+      case _ActorAppConstants.PeerTypes.USER:
+        return _react2.default.createElement(_UserProfile2.default, { user: info });
+      case _ActorAppConstants.PeerTypes.GROUP:
+        return _react2.default.createElement(_GroupProfile2.default, { group: info });
+      default:
         return null;
-      }
     }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        peer: _DialogStore2.default.getCurrentPeer(),
-        info: _DialogInfoStore2.default.getInfo(),
-        isOpen: _ActivityStore2.default.isOpen()
-      };
+  };
+
+  ActivitySection.prototype.render = function render() {
+    var _state2 = this.state;
+    var peer = _state2.peer;
+    var info = _state2.info;
+    var isOpen = _state2.isOpen;
+
+    if (peer === null) {
+      return null;
     }
-  }]);
+
+    setTimeout(function () {
+      window.dispatchEvent(new Event('resize'));
+    }, 0);
+
+    var activityClassName = (0, _classnames2.default)('activity', {
+      'activity--shown': isOpen
+    });
+
+    return _react2.default.createElement(
+      'section',
+      { className: activityClassName },
+      this.renderBody()
+    );
+  };
 
   return ActivitySection;
 })(_react.Component);

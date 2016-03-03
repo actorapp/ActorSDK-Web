@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -34,7 +30,7 @@ var Attachment = (function (_Component) {
   function Attachment(props) {
     _classCallCheck(this, Attachment);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Attachment).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.changeAttachment = function () {
       var sendAsPicture = _this.props.attachment.sendAsPicture;
@@ -45,108 +41,105 @@ var Attachment = (function (_Component) {
     return _this;
   }
 
-  _createClass(Attachment, [{
-    key: 'render',
-    value: function render() {
-      var attachment = this.props.attachment;
-      var intl = this.context.intl;
+  Attachment.prototype.render = function render() {
+    var attachment = this.props.attachment;
+    var intl = this.context.intl;
 
-      return _react2.default.createElement(
+    return _react2.default.createElement(
+      'div',
+      { className: 'attachment row' },
+      _react2.default.createElement(
         'div',
-        { className: 'attachment row' },
+        { className: 'attachment__preview col-xs-5' },
+        attachment.isImage ? _react2.default.createElement('img', { src: window.URL.createObjectURL(attachment.file) }) : null
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-xs-7', style: { paddingLeft: 16 } },
         _react2.default.createElement(
           'div',
-          { className: 'attachment__preview col-xs-5' },
-          attachment.isImage ? _react2.default.createElement('img', { src: window.URL.createObjectURL(attachment.file) }) : null
+          { className: 'attachment__meta attachment__meta--name' },
+          _react2.default.createElement(
+            'div',
+            { className: 'attachment__meta__title' },
+            intl.messages['modal.attachments.name']
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'attachment__meta__content' },
+            attachment.file.name
+          )
         ),
         _react2.default.createElement(
           'div',
-          { className: 'col-xs-7', style: { paddingLeft: 16 } },
+          { className: 'row' },
           _react2.default.createElement(
             'div',
-            { className: 'attachment__meta attachment__meta--name' },
+            { className: 'col-xs' },
             _react2.default.createElement(
               'div',
-              { className: 'attachment__meta__title' },
-              intl.messages['modal.attachments.name']
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'attachment__meta__content' },
-              attachment.file.name
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'row' },
-            _react2.default.createElement(
-              'div',
-              { className: 'col-xs' },
+              { className: 'attachment__meta attachment__meta--size' },
               _react2.default.createElement(
                 'div',
-                { className: 'attachment__meta attachment__meta--size' },
-                _react2.default.createElement(
-                  'div',
-                  { className: 'attachment__meta__title' },
-                  intl.messages['modal.attachments.type']
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'attachment__meta__content' },
-                  attachment.file.type
-                )
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'col-xs' },
-              _react2.default.createElement(
-                'div',
-                { className: 'attachment__meta attachment__meta--size' },
-                _react2.default.createElement(
-                  'div',
-                  { className: 'attachment__meta__title' },
-                  intl.messages['modal.attachments.size']
-                ),
-                _react2.default.createElement(
-                  'div',
-                  { className: 'attachment__meta__content' },
-                  (0, _humanFileSize2.default)(attachment.file.size, true)
-                )
-              )
-            )
-          ),
-          attachment.isImage ? _react2.default.createElement(
-            'div',
-            { className: 'attachment__extra' },
-            _react2.default.createElement(
-              'div',
-              { className: 'attachment__extra__title' },
-              intl.messages['modal.attachments.extra']
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'attachment__extra__switcher' },
-              _react2.default.createElement(
-                'label',
-                { htmlFor: 'sendAsPicture', className: 'switch-label' },
-                intl.messages['modal.attachments.sendAsPicture']
+                { className: 'attachment__meta__title' },
+                intl.messages['modal.attachments.type']
               ),
               _react2.default.createElement(
                 'div',
-                { className: 'switch pull-right' },
-                _react2.default.createElement('input', { checked: attachment.sendAsPicture,
-                  id: 'sendAsPicture',
-                  onChange: this.changeAttachment,
-                  type: 'checkbox' }),
-                _react2.default.createElement('label', { htmlFor: 'sendAsPicture' })
+                { className: 'attachment__meta__content' },
+                attachment.file.type
               )
             )
-          ) : null
-        )
-      );
-    }
-  }]);
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs' },
+            _react2.default.createElement(
+              'div',
+              { className: 'attachment__meta attachment__meta--size' },
+              _react2.default.createElement(
+                'div',
+                { className: 'attachment__meta__title' },
+                intl.messages['modal.attachments.size']
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'attachment__meta__content' },
+                (0, _humanFileSize2.default)(attachment.file.size, true)
+              )
+            )
+          )
+        ),
+        attachment.isImage ? _react2.default.createElement(
+          'div',
+          { className: 'attachment__extra' },
+          _react2.default.createElement(
+            'div',
+            { className: 'attachment__extra__title' },
+            intl.messages['modal.attachments.extra']
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'attachment__extra__switcher' },
+            _react2.default.createElement(
+              'label',
+              { htmlFor: 'sendAsPicture', className: 'switch-label' },
+              intl.messages['modal.attachments.sendAsPicture']
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'switch pull-right' },
+              _react2.default.createElement('input', { checked: attachment.sendAsPicture,
+                id: 'sendAsPicture',
+                onChange: this.changeAttachment,
+                type: 'checkbox' }),
+              _react2.default.createElement('label', { htmlFor: 'sendAsPicture' })
+            )
+          )
+        ) : null
+      )
+    );
+  };
 
   return Attachment;
 })(_react.Component);

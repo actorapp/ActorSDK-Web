@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -34,36 +30,33 @@ var Deactivated = (function (_Component) {
   function Deactivated(props) {
     _classCallCheck(this, Deactivated);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Deactivated).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     var SharedActor = _SharedContainer2.default.get();
     _this.appName = SharedActor.appName ? SharedActor.appName : _ActorAppConstants.appName;
     return _this;
   }
 
-  _createClass(Deactivated, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
+  Deactivated.prototype.render = function render() {
+    return _react2.default.createElement(
+      'div',
+      { className: 'deactivated row center-xs middle-xs' },
+      _react2.default.createElement(
         'div',
-        { className: 'deactivated row center-xs middle-xs' },
+        { className: 'deactivated__window' },
         _react2.default.createElement(
-          'div',
-          { className: 'deactivated__window' },
-          _react2.default.createElement(
-            'h2',
-            null,
-            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'main.deactivated.header' })
-          ),
-          _react2.default.createElement(
-            'p',
-            null,
-            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'main.deactivated.text', values: { appName: this.appName } })
-          )
+          'h2',
+          null,
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'main.deactivated.header' })
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'main.deactivated.text', values: { appName: this.appName } })
         )
-      );
-    }
-  }]);
+      )
+    );
+  };
 
   return Deactivated;
 })(_react.Component);

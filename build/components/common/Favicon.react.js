@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -32,36 +28,31 @@ var Favicon = (function (_Component) {
   function Favicon(props) {
     _classCallCheck(this, Favicon);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Favicon).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(Favicon, [{
-    key: 'componentWillUpdate',
-    value: function componentWillUpdate(nextProps, nextState) {
-      // Clone created element and create href attribute
-      var currentFaviconNode = document.getElementById('favicon');
-      var updatedFaviconNode = currentFaviconNode.cloneNode(true);
+  Favicon.calculateState = function calculateState() {
+    return {
+      iconPath: _FaviconStore2.default.getFaviconPath()
+    };
+  };
 
-      // Set new href attribute
-      updatedFaviconNode.setAttribute('href', nextState.iconPath);
+  Favicon.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
+    // Clone created element and create href attribute
+    var currentFaviconNode = document.getElementById('favicon');
+    var updatedFaviconNode = currentFaviconNode.cloneNode(true);
 
-      // Remove old and add new favicon
-      currentFaviconNode.remove();
-      document.head.appendChild(updatedFaviconNode);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return null;
-    }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        iconPath: _FaviconStore2.default.getFaviconPath()
-      };
-    }
-  }]);
+    // Set new href attribute
+    updatedFaviconNode.setAttribute('href', nextState.iconPath);
+
+    // Remove old and add new favicon
+    currentFaviconNode.remove();
+    document.head.appendChild(updatedFaviconNode);
+  };
+
+  Favicon.prototype.render = function render() {
+    return null;
+  };
 
   return Favicon;
 })(_react.Component);

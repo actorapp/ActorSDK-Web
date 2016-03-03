@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -35,77 +31,68 @@ var AddContactStore = (function (_Store) {
   function AddContactStore(Dispatcher) {
     _classCallCheck(this, AddContactStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(AddContactStore).call(this, Dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, Dispatcher));
   }
 
-  _createClass(AddContactStore, [{
-    key: 'isOpen',
-    value: function isOpen() {
-      return _isOpen;
-    }
-  }, {
-    key: 'isSearching',
-    value: function isSearching() {
-      return _isSearching;
-    }
-  }, {
-    key: 'getQuery',
-    value: function getQuery() {
-      return _query;
-    }
-  }, {
-    key: 'getResults',
-    value: function getResults() {
-      return _results;
-    }
-  }, {
-    key: 'setResults',
-    value: function setResults(results) {
-      _results = results;
-    }
-  }, {
-    key: 'resetStore',
-    value: function resetStore() {
-      _isOpen = false;
-      _query = '';
-      _isSearching = false;
-      _results = [];
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.CONTACT_ADD_MODAL_SHOW:
-          _isOpen = true;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.CONTACT_ADD_MODAL_HIDE:
-          this.resetStore();
-          this.__emitChange();
-          break;
+  AddContactStore.prototype.isOpen = function isOpen() {
+    return _isOpen;
+  };
 
-        case _ActorAppConstants.ActionTypes.CONTACT_FIND:
-          _query = action.query;
-          _isSearching = true;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.CONTACT_FIND_SUCCESS:
-          _isSearching = false;
-          if (action.query === '') {
-            this.setResults([]);
-          } else {
-            this.setResults(action.response);
-          }
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.CONTACT_FIND_ERROR:
-          _isSearching = false;
-          this.__emitChange();
-          break;
-        default:
-      }
+  AddContactStore.prototype.isSearching = function isSearching() {
+    return _isSearching;
+  };
+
+  AddContactStore.prototype.getQuery = function getQuery() {
+    return _query;
+  };
+
+  AddContactStore.prototype.getResults = function getResults() {
+    return _results;
+  };
+
+  AddContactStore.prototype.setResults = function setResults(results) {
+    _results = results;
+  };
+
+  AddContactStore.prototype.resetStore = function resetStore() {
+    _isOpen = false;
+    _query = '';
+    _isSearching = false;
+    _results = [];
+  };
+
+  AddContactStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.CONTACT_ADD_MODAL_SHOW:
+        _isOpen = true;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.CONTACT_ADD_MODAL_HIDE:
+        this.resetStore();
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.CONTACT_FIND:
+        _query = action.query;
+        _isSearching = true;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.CONTACT_FIND_SUCCESS:
+        _isSearching = false;
+        if (action.query === '') {
+          this.setResults([]);
+        } else {
+          this.setResults(action.response);
+        }
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.CONTACT_FIND_ERROR:
+        _isSearching = false;
+        this.__emitChange();
+        break;
+      default:
     }
-  }]);
+  };
 
   return AddContactStore;
 })(_utils.Store);

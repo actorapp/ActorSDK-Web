@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _events = require('events');
 
@@ -40,55 +36,44 @@ var InviteUserStore = (function (_EventEmitter) {
   function InviteUserStore() {
     _classCallCheck(this, InviteUserStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(InviteUserStore).apply(this, arguments));
+    return _possibleConstructorReturn(this, _EventEmitter.apply(this, arguments));
   }
 
-  _createClass(InviteUserStore, [{
-    key: 'emitChange',
-    value: function emitChange() {
-      this.emit(CHANGE_EVENT);
-    }
-  }, {
-    key: 'addChangeListener',
-    value: function addChangeListener(callback) {
-      this.on(CHANGE_EVENT, callback);
-    }
-  }, {
-    key: 'removeChangeListener',
-    value: function removeChangeListener(callback) {
-      this.removeListener(CHANGE_EVENT, callback);
-    }
-  }, {
-    key: 'isModalOpen',
-    value: function isModalOpen() {
-      return _isInviteModalOpen;
-    }
-  }, {
-    key: 'isInviteWithLinkModalOpen',
-    value: function isInviteWithLinkModalOpen() {
-      return _isInviteByLinkModalOpen;
-    }
-  }, {
-    key: 'getGroup',
-    value: function getGroup() {
-      return _group;
-    }
-  }, {
-    key: 'getInviteUrl',
-    value: function getInviteUrl() {
-      return _inviteUrl;
-    }
-  }, {
-    key: 'getInviteUserState',
-    value: function getInviteUserState(uid) {
-      return _inviteUserState[uid] || _ActorAppConstants.AsyncActionStates.PENDING;
-    }
-  }, {
-    key: 'resetInviteUserState',
-    value: function resetInviteUserState(uid) {
-      delete _inviteUserState[uid];
-    }
-  }]);
+  InviteUserStore.prototype.emitChange = function emitChange() {
+    this.emit(CHANGE_EVENT);
+  };
+
+  InviteUserStore.prototype.addChangeListener = function addChangeListener(callback) {
+    this.on(CHANGE_EVENT, callback);
+  };
+
+  InviteUserStore.prototype.removeChangeListener = function removeChangeListener(callback) {
+    this.removeListener(CHANGE_EVENT, callback);
+  };
+
+  InviteUserStore.prototype.isModalOpen = function isModalOpen() {
+    return _isInviteModalOpen;
+  };
+
+  InviteUserStore.prototype.isInviteWithLinkModalOpen = function isInviteWithLinkModalOpen() {
+    return _isInviteByLinkModalOpen;
+  };
+
+  InviteUserStore.prototype.getGroup = function getGroup() {
+    return _group;
+  };
+
+  InviteUserStore.prototype.getInviteUrl = function getInviteUrl() {
+    return _inviteUrl;
+  };
+
+  InviteUserStore.prototype.getInviteUserState = function getInviteUserState(uid) {
+    return _inviteUserState[uid] || _ActorAppConstants.AsyncActionStates.PENDING;
+  };
+
+  InviteUserStore.prototype.resetInviteUserState = function resetInviteUserState(uid) {
+    delete _inviteUserState[uid];
+  };
 
   return InviteUserStore;
 })(_events.EventEmitter);

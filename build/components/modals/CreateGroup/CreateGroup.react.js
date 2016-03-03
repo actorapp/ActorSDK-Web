@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -46,7 +42,7 @@ var CreateGroup = (function (_Component) {
   function CreateGroup(props) {
     _classCallCheck(this, CreateGroup);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CreateGroup).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleClose = function () {
       return _CreateGroupActionCreators2.default.close();
@@ -62,71 +58,65 @@ var CreateGroup = (function (_Component) {
     return _this;
   }
 
-  _createClass(CreateGroup, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      document.addEventListener('keydown', this.handleKeyDown, false);
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      document.removeEventListener('keydown', this.handleKeyDown, false);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var isOpen = this.state.isOpen;
-      var intl = this.context.intl;
+  CreateGroup.calculateState = function calculateState() {
+    return {
+      isOpen: _CreateGroupStore2.default.isModalOpen()
+    };
+  };
 
-      var modalStyle = {
-        content: {
-          position: null,
-          top: null,
-          left: null,
-          right: null,
-          bottom: null,
-          border: null,
-          background: null,
-          overflow: null,
-          outline: null,
-          padding: null,
-          borderRadius: null,
-          width: 350
-        }
-      };
+  CreateGroup.prototype.componentWillMount = function componentWillMount() {
+    document.addEventListener('keydown', this.handleKeyDown, false);
+  };
 
-      return _react2.default.createElement(
-        _reactModal2.default,
-        { className: 'modal-new modal-new--create-group',
-          closeTimeoutMS: 150,
-          isOpen: isOpen,
-          style: modalStyle },
+  CreateGroup.prototype.componentWillUnmount = function componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown, false);
+  };
+
+  CreateGroup.prototype.render = function render() {
+    var isOpen = this.state.isOpen;
+    var intl = this.context.intl;
+
+    var modalStyle = {
+      content: {
+        position: null,
+        top: null,
+        left: null,
+        right: null,
+        bottom: null,
+        border: null,
+        background: null,
+        overflow: null,
+        outline: null,
+        padding: null,
+        borderRadius: null,
+        width: 350
+      }
+    };
+
+    return _react2.default.createElement(
+      _reactModal2.default,
+      { className: 'modal-new modal-new--create-group',
+        closeTimeoutMS: 150,
+        isOpen: isOpen,
+        style: modalStyle },
+      _react2.default.createElement(
+        'header',
+        { className: 'modal-new__header' },
         _react2.default.createElement(
-          'header',
-          { className: 'modal-new__header' },
-          _react2.default.createElement(
-            'h3',
-            { className: 'modal-new__header__title' },
-            intl.messages['modal.createGroup.title']
-          ),
-          _react2.default.createElement(
-            'a',
-            { className: 'modal-new__header__close modal-new__header__icon material-icons pull-right',
-              onClick: this.handleClose },
-            'clear'
-          )
+          'h3',
+          { className: 'modal-new__header__title' },
+          intl.messages['modal.createGroup.title']
         ),
-        _react2.default.createElement(_Form2.default, null)
-      );
-    }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        isOpen: _CreateGroupStore2.default.isModalOpen()
-      };
-    }
-  }]);
+        _react2.default.createElement(
+          'a',
+          { className: 'modal-new__header__close modal-new__header__icon material-icons pull-right',
+            onClick: this.handleClose },
+          'clear'
+        )
+      ),
+      _react2.default.createElement(_Form2.default, null)
+    );
+  };
 
   return CreateGroup;
 })(_react.Component);

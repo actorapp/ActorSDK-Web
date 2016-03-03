@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -32,7 +28,7 @@ var TextField = (function (_Component) {
   function TextField(props) {
     _classCallCheck(this, TextField);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TextField).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.focus = function () {
       var ref = _this.props.ref;
@@ -69,56 +65,53 @@ var TextField = (function (_Component) {
     return _this;
   }
 
-  _createClass(TextField, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var className = _props.className;
-      var floatingLabel = _props.floatingLabel;
-      var type = _props.type;
-      var value = _props.value;
-      var ref = _props.ref;
-      var disabled = _props.disabled;
-      var errorText = _props.errorText;
-      var _state = this.state;
-      var isFocused = _state.isFocused;
-      var inputId = _state.inputId;
+  TextField.prototype.render = function render() {
+    var _props = this.props;
+    var className = _props.className;
+    var floatingLabel = _props.floatingLabel;
+    var type = _props.type;
+    var value = _props.value;
+    var ref = _props.ref;
+    var disabled = _props.disabled;
+    var errorText = _props.errorText;
+    var _state = this.state;
+    var isFocused = _state.isFocused;
+    var inputId = _state.inputId;
 
-      var inputClassName = (0, _classnames2.default)('input input__material', className, {
-        'input__material--focus': isFocused,
-        'input__material--filled': value && value.length > 0,
-        'input__material--disabled': disabled,
-        'input__material--with-error': errorText
-      });
+    var inputClassName = (0, _classnames2.default)('input input__material', className, {
+      'input__material--focus': isFocused,
+      'input__material--filled': value && value.length > 0,
+      'input__material--disabled': disabled,
+      'input__material--with-error': errorText
+    });
 
-      var inputProps = {
-        type: type || 'text',
-        id: inputId,
-        onChange: this.handleChange,
-        onFocus: this.handleFocus,
-        onBlur: this.handleBlur,
-        value: value,
-        disabled: disabled,
-        ref: ref ? ref : 'input'
-      };
+    var inputProps = {
+      type: type || 'text',
+      id: inputId,
+      onChange: this.handleChange,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
+      value: value,
+      disabled: disabled,
+      ref: ref ? ref : 'input'
+    };
 
-      return _react2.default.createElement(
-        'div',
-        { className: inputClassName },
-        floatingLabel ? _react2.default.createElement(
-          'label',
-          { htmlFor: inputId, onMouseDown: this.focus },
-          floatingLabel
-        ) : null,
-        _react2.default.createElement('input', inputProps),
-        errorText ? _react2.default.createElement(
-          'span',
-          { className: 'error' },
-          errorText
-        ) : null
-      );
-    }
-  }]);
+    return _react2.default.createElement(
+      'div',
+      { className: inputClassName },
+      floatingLabel ? _react2.default.createElement(
+        'label',
+        { htmlFor: inputId, onMouseDown: this.focus },
+        floatingLabel
+      ) : null,
+      _react2.default.createElement('input', inputProps),
+      errorText ? _react2.default.createElement(
+        'span',
+        { className: 'error' },
+        errorText
+      ) : null
+    );
+  };
 
   return TextField;
 })(_react.Component);

@@ -1,10 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require("react");
 
@@ -32,27 +28,24 @@ var Service = (function (_Component) {
   function Service(props) {
     _classCallCheck(this, Service);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Service).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(Service, [{
-    key: "render",
-    value: function render() {
-      var _props = this.props;
-      var text = _props.text;
-      var className = _props.className;
+  Service.prototype.render = function render() {
+    var _props = this.props;
+    var text = _props.text;
+    var className = _props.className;
 
-      return _react2.default.createElement(
+    return _react2.default.createElement(
+      "div",
+      { className: className },
+      _react2.default.createElement(
         "div",
-        { className: className },
-        _react2.default.createElement(
-          "div",
-          { className: "service" },
-          text
-        )
-      );
-    }
-  }]);
+        { className: "service" },
+        text
+      )
+    );
+  };
 
   return Service;
 })(_react.Component);

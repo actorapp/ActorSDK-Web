@@ -1,8 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 exports.helpPhone = exports.twitter = exports.homePage = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypes = exports.ConnectionStates = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
 
 var _keymirror = require('keymirror');
@@ -206,6 +204,7 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   CALL_CHANGED: null,
   CALL_ANSWER: null,
   CALL_END: null,
+  CALL_MUTE_TOGGLE: null,
 
   ARCHIVE_ADD: null,
   ARCHIVE_ADD_SUCCESS: null,

@@ -1,10 +1,6 @@
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require("react");
 
@@ -26,7 +22,7 @@ var Pagination = (function (_Component) {
   function Pagination(props) {
     _classCallCheck(this, Pagination);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Pagination).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handlePrevClick = function () {
       var _this$props = _this.props;
@@ -56,71 +52,67 @@ var Pagination = (function (_Component) {
     return _this;
   }
 
-  _createClass(Pagination, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
-      this.setState({
-        isAtStart: nextProps.current === 0,
-        isAtEnd: nextProps.current === nextProps.total
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _state = this.state;
-      var isAtStart = _state.isAtStart;
-      var isAtEnd = _state.isAtEnd;
-      var _props = this.props;
-      var current = _props.current;
-      var total = _props.total;
+  Pagination.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    this.setState({
+      isAtStart: nextProps.current === 0,
+      isAtEnd: nextProps.current === nextProps.total
+    });
+  };
 
-      return _react2.default.createElement(
+  Pagination.prototype.render = function render() {
+    var _state = this.state;
+    var isAtStart = _state.isAtStart;
+    var isAtEnd = _state.isAtEnd;
+    var _props = this.props;
+    var current = _props.current;
+    var total = _props.total;
+
+    return _react2.default.createElement(
+      "div",
+      { className: "pagination" },
+      isAtStart ? _react2.default.createElement(
         "div",
-        { className: "pagination" },
-        isAtStart ? _react2.default.createElement(
-          "div",
-          { className: "pagination__control pagination__control--disabled" },
-          _react2.default.createElement(
-            "i",
-            { className: "material-icons" },
-            "keyboard_arrow_left"
-          )
-        ) : _react2.default.createElement(
-          "div",
-          { className: "pagination__control", onClick: this.handlePrevClick },
-          _react2.default.createElement(
-            "i",
-            { className: "material-icons" },
-            "keyboard_arrow_left"
-          )
-        ),
+        { className: "pagination__control pagination__control--disabled" },
         _react2.default.createElement(
-          "div",
-          { className: "pagination__pager" },
-          current + 1,
-          " / ",
-          total + 1
-        ),
-        isAtEnd ? _react2.default.createElement(
-          "div",
-          { className: "pagination__control pagination__control--disabled" },
-          _react2.default.createElement(
-            "i",
-            { className: "material-icons" },
-            "keyboard_arrow_right"
-          )
-        ) : _react2.default.createElement(
-          "div",
-          { className: "pagination__control", onClick: this.handleNextClick },
-          _react2.default.createElement(
-            "i",
-            { className: "material-icons" },
-            "keyboard_arrow_right"
-          )
+          "i",
+          { className: "material-icons" },
+          "keyboard_arrow_left"
         )
-      );
-    }
-  }]);
+      ) : _react2.default.createElement(
+        "div",
+        { className: "pagination__control", onClick: this.handlePrevClick },
+        _react2.default.createElement(
+          "i",
+          { className: "material-icons" },
+          "keyboard_arrow_left"
+        )
+      ),
+      _react2.default.createElement(
+        "div",
+        { className: "pagination__pager" },
+        current + 1,
+        " / ",
+        total + 1
+      ),
+      isAtEnd ? _react2.default.createElement(
+        "div",
+        { className: "pagination__control pagination__control--disabled" },
+        _react2.default.createElement(
+          "i",
+          { className: "material-icons" },
+          "keyboard_arrow_right"
+        )
+      ) : _react2.default.createElement(
+        "div",
+        { className: "pagination__control", onClick: this.handleNextClick },
+        _react2.default.createElement(
+          "i",
+          { className: "material-icons" },
+          "keyboard_arrow_right"
+        )
+      )
+    );
+  };
 
   return Pagination;
 })(_react.Component);

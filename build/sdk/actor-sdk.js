@@ -1,14 +1,8 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })(); /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        */
 
 require('babel-polyfill');
 
@@ -110,7 +104,9 @@ var _l18n = require('../l18n');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
+                                                                                                                                                           * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                                                                                                                                           */
 
 var ACTOR_INIT_EVENT = 'INIT';
 
@@ -243,26 +239,23 @@ var ActorSDK = (function () {
     _SharedContainer2.default.set(this);
   }
 
-  _createClass(ActorSDK, [{
-    key: 'startApp',
+  /**
+   * Start application
+   */
 
-    /**
-     * Start application
-     */
-    value: function startApp() {
-      var _this2 = this;
+  ActorSDK.prototype.startApp = function startApp() {
+    var _this2 = this;
 
-      var start = function start() {
-        if (window.isJsAppLoaded) {
-          _this2._starter();
-        } else {
-          window.jsAppLoaded = _this2._starter;
-        }
-      };
+    var start = function start() {
+      if (window.isJsAppLoaded) {
+        _this2._starter();
+      } else {
+        window.jsAppLoaded = _this2._starter;
+      }
+    };
 
-      (0, _polyfills2.default)(start);
-    }
-  }]);
+    (0, _polyfills2.default)(start);
+  };
 
   return ActorSDK;
 })();

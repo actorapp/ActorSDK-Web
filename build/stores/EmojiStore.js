@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -32,30 +28,26 @@ var EmojiStore = (function (_Store) {
   function EmojiStore(dispatcher) {
     _classCallCheck(this, EmojiStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(EmojiStore).call(this, dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
   }
 
-  _createClass(EmojiStore, [{
-    key: 'isOpen',
-    value: function isOpen() {
-      return _isOpen;
+  EmojiStore.prototype.isOpen = function isOpen() {
+    return _isOpen;
+  };
+
+  EmojiStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.EMOJI_SHOW:
+        _isOpen = true;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.EMOJI_CLOSE:
+        _isOpen = false;
+        this.__emitChange();
+        break;
+      default:
     }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.EMOJI_SHOW:
-          _isOpen = true;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.EMOJI_CLOSE:
-          _isOpen = false;
-          this.__emitChange();
-          break;
-        default:
-      }
-    }
-  }]);
+  };
 
   return EmojiStore;
 })(_utils.Store);

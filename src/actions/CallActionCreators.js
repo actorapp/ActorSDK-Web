@@ -38,6 +38,7 @@ export default {
       failure: ActionTypes.CALL_ERROR
     }, { peerId });
   },
+
   makeGroupCall(peerId) {
     dispatchAsync(ActorClient.makeGroupCall(peerId), {
       request: ActionTypes.CALL,
@@ -50,13 +51,18 @@ export default {
     dispatch(ActionTypes.CALL_CHANGED, { call });
   },
 
-  answerCall(id) {
-    ActorClient.answerCall(id);
-    dispatch(ActionTypes.CALL_ANSWER, { id })
+  answerCall(callId) {
+    ActorClient.answerCall(callId);
+    dispatch(ActionTypes.CALL_ANSWER, { callId })
   },
 
-  endCall(id) {
-    ActorClient.endCall(id);
-    dispatch(ActionTypes.CALL_END, { id })
+  endCall(callId) {
+    ActorClient.endCall(callId);
+    dispatch(ActionTypes.CALL_END, { callId })
+  },
+
+  toggleCallMute(callId) {
+    ActorClient.toggleCallMute(callId);
+    dispatch(ActionTypes.CALL_MUTE_TOGGLE, { callId })
   }
 }

@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -114,22 +110,18 @@ var getStateFromStores = function getStateFromStores(gid) {
 var GroupProfile = (function (_Component) {
   _inherits(GroupProfile, _Component);
 
-  _createClass(GroupProfile, null, [{
-    key: 'getStores',
-    value: function getStores() {
-      return [_NotificationsStore2.default, _GroupStore2.default, _OnlineStore2.default];
-    }
-  }, {
-    key: 'calculateState',
-    value: function calculateState(prevState, nextProps) {
-      return getStateFromStores(nextProps.group.id || null);
-    }
-  }]);
+  GroupProfile.getStores = function getStores() {
+    return [_NotificationsStore2.default, _GroupStore2.default, _OnlineStore2.default];
+  };
+
+  GroupProfile.calculateState = function calculateState(prevState, nextProps) {
+    return getStateFromStores(nextProps.group.id || null);
+  };
 
   function GroupProfile(props) {
     _classCallCheck(this, GroupProfile);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(GroupProfile).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onAddMemberClick = function (group) {
       return _InviteUserActions2.default.show(group);
@@ -207,283 +199,280 @@ var GroupProfile = (function (_Component) {
     return _this;
   }
 
-  _createClass(GroupProfile, [{
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
+  GroupProfile.prototype.render = function render() {
+    var _this2 = this;
 
-      var group = this.props.group;
-      var _state = this.state;
-      var isNotificationsEnabled = _state.isNotificationsEnabled;
-      var integrationToken = _state.integrationToken;
-      var isMoreDropdownOpen = _state.isMoreDropdownOpen;
-      var message = _state.message;
-      var intl = this.context.intl;
+    var group = this.props.group;
+    var _state = this.state;
+    var isNotificationsEnabled = _state.isNotificationsEnabled;
+    var integrationToken = _state.integrationToken;
+    var isMoreDropdownOpen = _state.isMoreDropdownOpen;
+    var message = _state.message;
+    var intl = this.context.intl;
 
-      var myId = _UserStore2.default.getMyId();
-      var admin = _UserStore2.default.getUser(group.adminId);
-      var isMember = _DialogStore2.default.isMember();
+    var myId = _UserStore2.default.getMyId();
+    var admin = _UserStore2.default.getUser(group.adminId);
+    var isMember = _DialogStore2.default.isMember();
 
-      var dropdownClassNames = (0, _classnames2.default)('dropdown', {
-        'dropdown--opened': isMoreDropdownOpen
-      });
+    var dropdownClassNames = (0, _classnames2.default)('dropdown', {
+      'dropdown--opened': isMoreDropdownOpen
+    });
 
-      var iconElement = _react2.default.createElement('svg', { className: 'icon icon--green',
-        dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#members"/>' } });
+    var iconElement = _react2.default.createElement('svg', { className: 'icon icon--green',
+      dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#members"/>' } });
 
-      var groupMeta = [_react2.default.createElement(
-        'header',
-        { key: 1 },
-        _react2.default.createElement(_AvatarItem2.default, { image: group.bigAvatar,
-          placeholder: group.placeholder,
-          size: 'large',
-          title: group.name,
-          onClick: this.handleAvatarClick }),
-        _react2.default.createElement('h3', { className: 'group_profile__meta__title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.name) } }),
+    var groupMeta = [_react2.default.createElement(
+      'header',
+      { key: 1 },
+      _react2.default.createElement(_AvatarItem2.default, { image: group.bigAvatar,
+        placeholder: group.placeholder,
+        size: 'large',
+        title: group.name,
+        onClick: this.handleAvatarClick }),
+      _react2.default.createElement('h3', { className: 'group_profile__meta__title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.name) } }),
+      _react2.default.createElement(
+        'div',
+        { className: 'group_profile__meta__created' },
+        intl.messages['createdBy'],
+        ' ',
+        _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(admin.name) } })
+      )
+    ), group.about ? _react2.default.createElement('div', { className: 'group_profile__meta__description', key: 2,
+      dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.about).replace(/\n/g, '<br/>') } }) : null];
+
+    var token = group.adminId === myId ? _react2.default.createElement(
+      'li',
+      { className: 'profile__list__item group_profile__integration no-p' },
+      _react2.default.createElement(
+        _Fold2.default,
+        { icon: 'power', iconClassName: 'icon--pink', title: intl.messages['integrationToken'] },
         _react2.default.createElement(
           'div',
-          { className: 'group_profile__meta__created' },
-          intl.messages['createdBy'],
-          ' ',
-          _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(admin.name) } })
-        )
-      ), group.about ? _react2.default.createElement('div', { className: 'group_profile__meta__description', key: 2,
-        dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.about).replace(/\n/g, '<br/>') } }) : null];
-
-      var token = group.adminId === myId ? _react2.default.createElement(
-        'li',
-        { className: 'profile__list__item group_profile__integration no-p' },
-        _react2.default.createElement(
-          _Fold2.default,
-          { icon: 'power', iconClassName: 'icon--pink', title: intl.messages['integrationToken'] },
+          { className: 'info info--light' },
           _react2.default.createElement(
-            'div',
-            { className: 'info info--light' },
-            _react2.default.createElement(
-              'p',
-              null,
-              intl.messages['integrationTokenHint']
-            ),
-            _react2.default.createElement(
-              'a',
-              { href: 'https://actor.readme.io/docs/simple-integration', target: '_blank' },
-              intl.messages['integrationTokenHelp']
-            )
-          ),
-          _react2.default.createElement('textarea', { className: 'textarea', onClick: this.selectToken, readOnly: true, row: '3', value: integrationToken })
-        )
-      ) : null;
-
-      if (isMember) {
-        return _react2.default.createElement(
-          'div',
-          { className: 'activity__body group_profile' },
-          _react2.default.createElement(
-            _Scrollbar2.default,
+            'p',
             null,
-            _react2.default.createElement(
-              'ul',
-              { className: 'profile__list' },
-              _react2.default.createElement(
-                'li',
-                { className: 'profile__list__item group_profile__meta' },
-                groupMeta,
-                _react2.default.createElement(
-                  'footer',
-                  { className: 'row' },
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'col-xs' },
-                    group.members.length < MAX_GROUP_CALL_SIZE ? _react2.default.createElement(
-                      'button',
-                      { className: 'button button--green button--wide', onClick: this.makeCall },
-                      _react2.default.createElement(
-                        'i',
-                        { className: 'material-icons' },
-                        'phone'
-                      ),
-                      intl.messages['button.call']
-                    ) : _react2.default.createElement(
-                      'button',
-                      { className: 'button button--flat button--wide',
-                        onClick: function onClick() {
-                          return _this2.onAddMemberClick(group);
-                        } },
-                      _react2.default.createElement(
-                        'i',
-                        { className: 'material-icons' },
-                        'person_add'
-                      ),
-                      intl.messages['addPeople']
-                    )
-                  ),
-                  _react2.default.createElement('div', { style: { width: 10 } }),
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'col-xs' },
-                    _react2.default.createElement(
-                      'div',
-                      { className: dropdownClassNames },
-                      _react2.default.createElement(
-                        'button',
-                        { className: 'dropdown__button button button--flat button--wide',
-                          onClick: this.toggleMoreDropdown },
-                        _react2.default.createElement(
-                          'i',
-                          { className: 'material-icons' },
-                          'more_horiz'
-                        ),
-                        intl.messages['more']
-                      ),
-                      _react2.default.createElement(
-                        'ul',
-                        { className: 'dropdown__menu dropdown__menu--right' },
-                        _react2.default.createElement(
-                          'li',
-                          { className: 'dropdown__menu__item', onClick: function onClick() {
-                              return _this2.onEditGroupClick(group.id);
-                            } },
-                          _react2.default.createElement(
-                            'i',
-                            { className: 'material-icons' },
-                            'mode_edit'
-                          ),
-                          intl.messages['editGroup']
-                        ),
-                        group.members.length < MAX_GROUP_CALL_SIZE ? _react2.default.createElement(
-                          'li',
-                          { className: 'dropdown__menu__item', onClick: function onClick() {
-                              return _this2.onAddMemberClick(group);
-                            } },
-                          _react2.default.createElement(
-                            'i',
-                            { className: 'material-icons' },
-                            'person_add'
-                          ),
-                          intl.messages['addPeople']
-                        ) : null,
-                        _react2.default.createElement(
-                          'li',
-                          { className: 'dropdown__menu__item',
-                            onClick: function onClick() {
-                              return _this2.onLeaveGroupClick(group.id);
-                            } },
-                          intl.messages['leaveGroup']
-                        ),
-                        _react2.default.createElement(
-                          'li',
-                          { className: 'dropdown__menu__item',
-                            onClick: function onClick() {
-                              return _this2.onClearGroupClick(group.id);
-                            } },
-                          intl.messages['clearGroup']
-                        ),
-                        _react2.default.createElement(
-                          'li',
-                          { className: 'dropdown__menu__item',
-                            onClick: function onClick() {
-                              return _this2.onDeleteGroupClick(group.id);
-                            } },
-                          intl.messages['deleteGroup']
-                        )
-                      )
-                    )
-                  )
-                )
-              ),
-              _react2.default.createElement(
-                'li',
-                { className: 'profile__list__item group_profile__media no-p hide' },
-                _react2.default.createElement(
-                  _Fold2.default,
-                  { icon: 'attach_file', iconClassName: 'icon--gray', title: intl.messages['sharedMedia'] },
-                  _react2.default.createElement(
-                    'ul',
-                    null,
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        'a',
-                        null,
-                        '230 Shared Photos and Videos'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        'a',
-                        null,
-                        '49 Shared Links'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        'a',
-                        null,
-                        '49 Shared Files'
-                      )
-                    )
-                  )
-                )
-              ),
-              _react2.default.createElement(
-                'li',
-                { className: 'profile__list__item group_profile__notifications no-p' },
-                _react2.default.createElement(
-                  'label',
-                  { htmlFor: 'notifications' },
-                  _react2.default.createElement(
-                    'i',
-                    { className: 'material-icons icon icon--squash' },
-                    'notifications_none'
-                  ),
-                  intl.messages['notifications'],
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'switch pull-right' },
-                    _react2.default.createElement('input', { checked: isNotificationsEnabled,
-                      id: 'notifications',
-                      onChange: this.onNotificationChange,
-                      type: 'checkbox' }),
-                    _react2.default.createElement('label', { htmlFor: 'notifications' })
-                  )
-                )
-              ),
-              _react2.default.createElement(
-                'li',
-                { className: 'profile__list__item group_profile__members no-p' },
-                _react2.default.createElement(
-                  _Fold2.default,
-                  { iconElement: iconElement,
-                    title: message },
-                  _react2.default.createElement(_GroupProfileMembers2.default, { groupId: group.id, members: group.members })
-                )
-              ),
-              token
-            )
+            intl.messages['integrationTokenHint']
+          ),
+          _react2.default.createElement(
+            'a',
+            { href: 'https://actor.readme.io/docs/simple-integration', target: '_blank' },
+            intl.messages['integrationTokenHelp']
           )
-        );
-      } else {
-        return _react2.default.createElement(
-          'div',
-          { className: 'activity__body group_profile' },
+        ),
+        _react2.default.createElement('textarea', { className: 'textarea', onClick: this.selectToken, readOnly: true, row: '3', value: integrationToken })
+      )
+    ) : null;
+
+    if (isMember) {
+      return _react2.default.createElement(
+        'div',
+        { className: 'activity__body group_profile' },
+        _react2.default.createElement(
+          _Scrollbar2.default,
+          null,
           _react2.default.createElement(
             'ul',
             { className: 'profile__list' },
             _react2.default.createElement(
               'li',
               { className: 'profile__list__item group_profile__meta' },
-              groupMeta
-            )
+              groupMeta,
+              _react2.default.createElement(
+                'footer',
+                { className: 'row' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'col-xs' },
+                  group.members.length < MAX_GROUP_CALL_SIZE ? _react2.default.createElement(
+                    'button',
+                    { className: 'button button--green button--wide', onClick: this.makeCall },
+                    _react2.default.createElement(
+                      'i',
+                      { className: 'material-icons' },
+                      'phone'
+                    ),
+                    intl.messages['button.call']
+                  ) : _react2.default.createElement(
+                    'button',
+                    { className: 'button button--flat button--wide',
+                      onClick: function onClick() {
+                        return _this2.onAddMemberClick(group);
+                      } },
+                    _react2.default.createElement(
+                      'i',
+                      { className: 'material-icons' },
+                      'person_add'
+                    ),
+                    intl.messages['addPeople']
+                  )
+                ),
+                _react2.default.createElement('div', { style: { width: 10 } }),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'col-xs' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: dropdownClassNames },
+                    _react2.default.createElement(
+                      'button',
+                      { className: 'dropdown__button button button--flat button--wide',
+                        onClick: this.toggleMoreDropdown },
+                      _react2.default.createElement(
+                        'i',
+                        { className: 'material-icons' },
+                        'more_horiz'
+                      ),
+                      intl.messages['more']
+                    ),
+                    _react2.default.createElement(
+                      'ul',
+                      { className: 'dropdown__menu dropdown__menu--right' },
+                      _react2.default.createElement(
+                        'li',
+                        { className: 'dropdown__menu__item', onClick: function onClick() {
+                            return _this2.onEditGroupClick(group.id);
+                          } },
+                        _react2.default.createElement(
+                          'i',
+                          { className: 'material-icons' },
+                          'mode_edit'
+                        ),
+                        intl.messages['editGroup']
+                      ),
+                      group.members.length < MAX_GROUP_CALL_SIZE ? _react2.default.createElement(
+                        'li',
+                        { className: 'dropdown__menu__item', onClick: function onClick() {
+                            return _this2.onAddMemberClick(group);
+                          } },
+                        _react2.default.createElement(
+                          'i',
+                          { className: 'material-icons' },
+                          'person_add'
+                        ),
+                        intl.messages['addPeople']
+                      ) : null,
+                      _react2.default.createElement(
+                        'li',
+                        { className: 'dropdown__menu__item',
+                          onClick: function onClick() {
+                            return _this2.onLeaveGroupClick(group.id);
+                          } },
+                        intl.messages['leaveGroup']
+                      ),
+                      _react2.default.createElement(
+                        'li',
+                        { className: 'dropdown__menu__item',
+                          onClick: function onClick() {
+                            return _this2.onClearGroupClick(group.id);
+                          } },
+                        intl.messages['clearGroup']
+                      ),
+                      _react2.default.createElement(
+                        'li',
+                        { className: 'dropdown__menu__item',
+                          onClick: function onClick() {
+                            return _this2.onDeleteGroupClick(group.id);
+                          } },
+                        intl.messages['deleteGroup']
+                      )
+                    )
+                  )
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              { className: 'profile__list__item group_profile__media no-p hide' },
+              _react2.default.createElement(
+                _Fold2.default,
+                { icon: 'attach_file', iconClassName: 'icon--gray', title: intl.messages['sharedMedia'] },
+                _react2.default.createElement(
+                  'ul',
+                  null,
+                  _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      'a',
+                      null,
+                      '230 Shared Photos and Videos'
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      'a',
+                      null,
+                      '49 Shared Links'
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'li',
+                    null,
+                    _react2.default.createElement(
+                      'a',
+                      null,
+                      '49 Shared Files'
+                    )
+                  )
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              { className: 'profile__list__item group_profile__notifications no-p' },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'notifications' },
+                _react2.default.createElement(
+                  'i',
+                  { className: 'material-icons icon icon--squash' },
+                  'notifications_none'
+                ),
+                intl.messages['notifications'],
+                _react2.default.createElement(
+                  'div',
+                  { className: 'switch pull-right' },
+                  _react2.default.createElement('input', { checked: isNotificationsEnabled,
+                    id: 'notifications',
+                    onChange: this.onNotificationChange,
+                    type: 'checkbox' }),
+                  _react2.default.createElement('label', { htmlFor: 'notifications' })
+                )
+              )
+            ),
+            _react2.default.createElement(
+              'li',
+              { className: 'profile__list__item group_profile__members no-p' },
+              _react2.default.createElement(
+                _Fold2.default,
+                { iconElement: iconElement,
+                  title: message },
+                _react2.default.createElement(_GroupProfileMembers2.default, { groupId: group.id, members: group.members })
+              )
+            ),
+            token
           )
-        );
-      }
+        )
+      );
+    } else {
+      return _react2.default.createElement(
+        'div',
+        { className: 'activity__body group_profile' },
+        _react2.default.createElement(
+          'ul',
+          { className: 'profile__list' },
+          _react2.default.createElement(
+            'li',
+            { className: 'profile__list__item group_profile__meta' },
+            groupMeta
+          )
+        )
+      );
     }
-  }]);
+  };
 
   return GroupProfile;
 })(_react.Component);

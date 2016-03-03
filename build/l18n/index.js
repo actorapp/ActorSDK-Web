@@ -1,8 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 exports.extendL18n = extendL18n;
 exports.getIntlData = getIntlData;
 

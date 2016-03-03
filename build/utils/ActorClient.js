@@ -1,13 +1,14 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
+
+var _requestSms$requestCo;
+
 /*
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
  */
 
-exports.default = {
+exports.default = (_requestSms$requestCo = {
 
   // Auth
 
@@ -118,11 +119,11 @@ exports.default = {
   unbindEventBus: function unbindEventBus(callback) {
     window.messenger.unbindEventBus(callback);
   },
-  bindCall: function bindCall(id, callback) {
-    window.messenger.bindCall(id, callback);
+  bindCall: function bindCall(callId, callback) {
+    window.messenger.bindCall(callId, callback);
   },
-  unbindCall: function unbindCall(id, callback) {
-    window.messenger.unbindCall(id, callback);
+  unbindCall: function unbindCall(callId, callback) {
+    window.messenger.unbindCall(callId, callback);
   },
   makeCall: function makeCall(userId) {
     return window.messenger.doCall(userId);
@@ -130,264 +131,172 @@ exports.default = {
   makeGroupCall: function makeGroupCall(groupId) {
     return window.messenger.doGroupCall(groupId);
   },
-  answerCall: function answerCall(id) {
-    window.messenger.answerCall(id);
+  answerCall: function answerCall(callId) {
+    window.messenger.answerCall(callId);
   },
-  endCall: function endCall(id) {
-    window.messenger.endCall(id);
+  endCall: function endCall(callId) {
+    window.messenger.endCall(callId);
   },
-  getUser: function getUser(uid) {
-    return window.messenger.getUser(uid);
-  },
-  getUid: function getUid() {
-    return window.messenger.getUid();
-  },
-  getGroup: function getGroup(gid) {
-    return window.messenger.getGroup(gid);
-  },
-  getInviteUrl: function getInviteUrl(gid) {
-    return window.messenger.getInviteLink(gid);
-  },
-  sendTextMessage: function sendTextMessage(peer, text) {
-    window.messenger.sendMessage(peer, text);
-  },
-  sendFileMessage: function sendFileMessage(peer, file) {
-    window.messenger.sendFile(peer, file);
-  },
-  sendPhotoMessage: function sendPhotoMessage(peer, photo) {
-    window.messenger.sendPhoto(peer, photo);
-  },
-  sendClipboardPhotoMessage: function sendClipboardPhotoMessage(peer, photo) {
-    window.messenger.sendClipboardPhoto(peer, photo);
-  },
-  onMessageShown: function onMessageShown(peer, message) {
-    window.messenger.onMessageShown(peer, message);
-  },
-  onChatEnd: function onChatEnd(peer) {
-    window.messenger.onChatEnd(peer);
-  },
-  onDialogsEnd: function onDialogsEnd() {
-    window.messenger.onDialogsEnd();
-  },
-  onConversationOpen: function onConversationOpen(peer) {
-    window.messenger.onConversationOpen(peer);
-  },
-  onConversationClosed: function onConversationClosed(peer) {
-    window.messenger.onConversationClosed(peer);
-  },
-  onTyping: function onTyping(peer) {
-    window.messenger.onTyping(peer);
-  },
-  onAppHidden: function onAppHidden() {
-    window.messenger.onAppHidden();
-  },
-  onAppVisible: function onAppVisible() {
-    window.messenger.onAppVisible();
-  },
-  editMyName: function editMyName(string) {
-    window.messenger.editMyName(string);
-  },
-  addContact: function addContact(uid) {
-    window.messenger.addContact(uid);
-  },
-  removeContact: function removeContact(uid) {
-    window.messenger.removeContact(uid);
-  },
-
-  // Groups
-
-  joinGroupViaLink: function joinGroupViaLink(url) {
-    return window.messenger.joinGroupViaLink(url);
-  },
-  leaveGroup: function leaveGroup(gid) {
-    return window.messenger.leaveGroup(gid);
-  },
-  createGroup: function createGroup(title, avatar, userIds) {
-    return window.messenger.createGroup(title, avatar, userIds);
-  },
-  kickMember: function kickMember(gid, uid) {
-    return window.messenger.kickMember(gid, uid);
-  },
-  inviteMember: function inviteMember(gid, uid) {
-    return window.messenger.inviteMember(gid, uid);
-  },
-  getIntegrationToken: function getIntegrationToken(gid) {
-    return window.messenger.getIntegrationToken(gid);
-  },
-  loadDraft: function loadDraft(peer) {
-    return window.messenger.loadDraft(peer);
-  },
-  saveDraft: function saveDraft(peer, draft) {
-    if (draft !== null) {
-      window.messenger.saveDraft(peer, draft);
-    }
-  },
-  getUserPeer: function getUserPeer(uid) {
-    return window.messenger.getUserPeer(uid);
-  },
-  getGroupPeer: function getGroupPeer(gid) {
-    return window.messenger.getGroupPeer(gid);
-  },
-  hideChat: function hideChat(peer) {
-    return window.messenger.hideChat(peer);
-  },
-
-  // Mentions
-
-  findMentions: function findMentions(gid) {
-    var query = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
-
-    return window.messenger.findMentions(gid, query);
-  },
-
-  // Nickname
-
-  editMyNick: function editMyNick(string) {
-    window.messenger.editMyNick(string);
-  },
-  deleteChat: function deleteChat(peer) {
-    return window.messenger.deleteChat(peer);
-  },
-  clearChat: function clearChat(peer) {
-    return window.messenger.clearChat(peer);
-  },
-  editMyAbout: function editMyAbout(about) {
-    return window.messenger.editMyAbout(about);
-  },
-  editGroupTitle: function editGroupTitle(gid, title) {
-    return window.messenger.editGroupTitle(gid, title);
-  },
-  editGroupAbout: function editGroupAbout(gid, about) {
-    return window.messenger.editGroupAbout(gid, about);
-  },
-  renderMarkdown: function renderMarkdown(markdownText) {
-    return window.messenger.renderMarkdown(markdownText);
-  },
-
-  // Settings
-
-  changeNotificationsEnabled: function changeNotificationsEnabled(peer, isEnabled) {
-    window.messenger.changeNotificationsEnabled(peer, isEnabled);
-  },
-  isNotificationsEnabled: function isNotificationsEnabled(peer) {
-    return window.messenger.isNotificationsEnabled(peer);
-  },
-  isSendByEnterEnabled: function isSendByEnterEnabled() {
-    return window.messenger.isSendByEnterEnabled();
-  },
-  changeSendByEnter: function changeSendByEnter(isEnabled) {
-    window.messenger.changeSendByEnter(isEnabled);
-  },
-  isGroupsNotificationsEnabled: function isGroupsNotificationsEnabled() {
-    return window.messenger.isGroupsNotificationsEnabled();
-  },
-  changeGroupNotificationsEnabled: function changeGroupNotificationsEnabled(isEnabled) {
-    window.messenger.changeGroupNotificationsEnabled(isEnabled);
-  },
-  isOnlyMentionNotifications: function isOnlyMentionNotifications() {
-    return window.messenger.isOnlyMentionNotifications();
-  },
-  changeIsOnlyMentionNotifications: function changeIsOnlyMentionNotifications(isEnabled) {
-    window.messenger.changeIsOnlyMentionNotifications(isEnabled);
-  },
-  isSoundEffectsEnabled: function isSoundEffectsEnabled() {
-    return window.messenger.isSoundEffectsEnabled();
-  },
-  changeSoundEffectsEnabled: function changeSoundEffectsEnabled(isEnabled) {
-    window.messenger.changeSoundEffectsEnabled(isEnabled);
-  },
-  isShowNotificationsTextEnabled: function isShowNotificationsTextEnabled() {
-    return window.messenger.isShowNotificationsTextEnabled();
-  },
-  changeIsShowNotificationTextEnabled: function changeIsShowNotificationTextEnabled(isEnabled) {
-    window.messenger.changeIsShowNotificationTextEnabled(isEnabled);
-  },
-  loadSessions: function loadSessions() {
-    return window.messenger.loadSessions();
-  },
-  terminateSession: function terminateSession(id) {
-    return window.messenger.terminateSession(id);
-  },
-  terminateAllSessions: function terminateAllSessions() {
-    return window.messenger.terminateAllSessions();
-  },
-  changeMyAvatar: function changeMyAvatar(avatar) {
-    window.messenger.changeMyAvatar(avatar);
-  },
-  changeGroupAvatar: function changeGroupAvatar(gid, avatar) {
-    window.messenger.changeGroupAvatar(gid, avatar);
-  },
-  removeMyAvatar: function removeMyAvatar() {
-    window.messenger.removeMyAvatar();
-  },
-  removeGroupAvatar: function removeGroupAvatar(gid) {
-    window.messenger.removeGroupAvatar(gid);
-  },
-
-  // Search
-
-  findGroups: function findGroups(query) {
-    return window.messenger.findGroups(query);
-  },
-  findUsers: function findUsers(phone) {
-    return window.messenger.findUsers(phone.toString());
-  },
-
-  // Messages
-
-  deleteMessage: function deleteMessage(peer, rid) {
-    return window.messenger.deleteMessage(peer, rid);
-  },
-  addLike: function addLike(peer, rid) {
-    return window.messenger.addLike(peer, rid);
-  },
-  removeLike: function removeLike(peer, rid) {
-    return window.messenger.removeLike(peer, rid);
-  },
-  sendVoiceMessage: function sendVoiceMessage(peer, duration, voice) {
-    window.messenger.sendVoiceMessage(peer, duration, voice);
-  },
-
-  // Search
-
-  bindSearch: function bindSearch(callback) {
-    window.messenger.bindSearch(callback);
-  },
-  unbindSearch: function unbindSearch(callback) {
-    window.messenger.unbindSearch(callback);
-  },
-  findAllText: function findAllText(peer, query) {
-    return window.messenger.findAllText(peer, query);
-  },
-  findAllDocs: function findAllDocs(peer) {
-    return window.messenger.findAllDocs(peer);
-  },
-  findAllLinks: function findAllLinks(peer) {
-    return window.messenger.findAllLinks(peer);
-  },
-  findAllPhotos: function findAllPhotos(peer) {
-    return window.messenger.findAllPhotos(peer);
-  },
-  handleLinkClick: function handleLinkClick(event) {
-    messenger.handleLinkClick(event);
-  },
-  isElectron: function isElectron() {
-    return window.messenger.isElectron();
-  },
-  favoriteChat: function favoriteChat(peer) {
-    return window.messenger.favoriteChat(peer);
-  },
-  unfavoriteChat: function unfavoriteChat(peer) {
-    return window.messenger.unfavoriteChat(peer);
-  },
-  archiveChat: function archiveChat(peer) {
-    return window.messenger.archiveChat(peer);
-  },
-  loadArchivedDialogs: function loadArchivedDialogs() {
-    return window.messenger.loadArchivedDialogs();
-  },
-  loadMoreArchivedDialogs: function loadMoreArchivedDialogs() {
-    return window.messenger.loadMoreArchivedDialogs();
+  toggleCallMute: function toggleCallMute(callId) {
+    window.messenger.toggleCallMute(callId);
   }
-};
+}, _requestSms$requestCo['toggleCallMute'] = function toggleCallMute(id) {
+  window.messenger.toggleCallMute(id);
+}, _requestSms$requestCo.getUser = function getUser(uid) {
+  return window.messenger.getUser(uid);
+}, _requestSms$requestCo.getUid = function getUid() {
+  return window.messenger.getUid();
+}, _requestSms$requestCo.getGroup = function getGroup(gid) {
+  return window.messenger.getGroup(gid);
+}, _requestSms$requestCo.getInviteUrl = function getInviteUrl(gid) {
+  return window.messenger.getInviteLink(gid);
+}, _requestSms$requestCo.sendTextMessage = function sendTextMessage(peer, text) {
+  window.messenger.sendMessage(peer, text);
+}, _requestSms$requestCo.sendFileMessage = function sendFileMessage(peer, file) {
+  window.messenger.sendFile(peer, file);
+}, _requestSms$requestCo.sendPhotoMessage = function sendPhotoMessage(peer, photo) {
+  window.messenger.sendPhoto(peer, photo);
+}, _requestSms$requestCo.sendClipboardPhotoMessage = function sendClipboardPhotoMessage(peer, photo) {
+  window.messenger.sendClipboardPhoto(peer, photo);
+}, _requestSms$requestCo.onMessageShown = function onMessageShown(peer, message) {
+  window.messenger.onMessageShown(peer, message);
+}, _requestSms$requestCo.onChatEnd = function onChatEnd(peer) {
+  window.messenger.onChatEnd(peer);
+}, _requestSms$requestCo.onDialogsEnd = function onDialogsEnd() {
+  window.messenger.onDialogsEnd();
+}, _requestSms$requestCo.onConversationOpen = function onConversationOpen(peer) {
+  window.messenger.onConversationOpen(peer);
+}, _requestSms$requestCo.onConversationClosed = function onConversationClosed(peer) {
+  window.messenger.onConversationClosed(peer);
+}, _requestSms$requestCo.onTyping = function onTyping(peer) {
+  window.messenger.onTyping(peer);
+}, _requestSms$requestCo.onAppHidden = function onAppHidden() {
+  window.messenger.onAppHidden();
+}, _requestSms$requestCo.onAppVisible = function onAppVisible() {
+  window.messenger.onAppVisible();
+}, _requestSms$requestCo.editMyName = function editMyName(string) {
+  window.messenger.editMyName(string);
+}, _requestSms$requestCo.addContact = function addContact(uid) {
+  window.messenger.addContact(uid);
+}, _requestSms$requestCo.removeContact = function removeContact(uid) {
+  window.messenger.removeContact(uid);
+}, _requestSms$requestCo.joinGroupViaLink = function joinGroupViaLink(url) {
+  return window.messenger.joinGroupViaLink(url);
+}, _requestSms$requestCo.leaveGroup = function leaveGroup(gid) {
+  return window.messenger.leaveGroup(gid);
+}, _requestSms$requestCo.createGroup = function createGroup(title, avatar, userIds) {
+  return window.messenger.createGroup(title, avatar, userIds);
+}, _requestSms$requestCo.kickMember = function kickMember(gid, uid) {
+  return window.messenger.kickMember(gid, uid);
+}, _requestSms$requestCo.inviteMember = function inviteMember(gid, uid) {
+  return window.messenger.inviteMember(gid, uid);
+}, _requestSms$requestCo.getIntegrationToken = function getIntegrationToken(gid) {
+  return window.messenger.getIntegrationToken(gid);
+}, _requestSms$requestCo.loadDraft = function loadDraft(peer) {
+  return window.messenger.loadDraft(peer);
+}, _requestSms$requestCo.saveDraft = function saveDraft(peer, draft) {
+  if (draft !== null) {
+    window.messenger.saveDraft(peer, draft);
+  }
+}, _requestSms$requestCo.getUserPeer = function getUserPeer(uid) {
+  return window.messenger.getUserPeer(uid);
+}, _requestSms$requestCo.getGroupPeer = function getGroupPeer(gid) {
+  return window.messenger.getGroupPeer(gid);
+}, _requestSms$requestCo.hideChat = function hideChat(peer) {
+  return window.messenger.hideChat(peer);
+}, _requestSms$requestCo.findMentions = function findMentions(gid) {
+  var query = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+
+  return window.messenger.findMentions(gid, query);
+}, _requestSms$requestCo.editMyNick = function editMyNick(string) {
+  window.messenger.editMyNick(string);
+}, _requestSms$requestCo.deleteChat = function deleteChat(peer) {
+  return window.messenger.deleteChat(peer);
+}, _requestSms$requestCo.clearChat = function clearChat(peer) {
+  return window.messenger.clearChat(peer);
+}, _requestSms$requestCo.editMyAbout = function editMyAbout(about) {
+  return window.messenger.editMyAbout(about);
+}, _requestSms$requestCo.editGroupTitle = function editGroupTitle(gid, title) {
+  return window.messenger.editGroupTitle(gid, title);
+}, _requestSms$requestCo.editGroupAbout = function editGroupAbout(gid, about) {
+  return window.messenger.editGroupAbout(gid, about);
+}, _requestSms$requestCo.renderMarkdown = function renderMarkdown(markdownText) {
+  return window.messenger.renderMarkdown(markdownText);
+}, _requestSms$requestCo.changeNotificationsEnabled = function changeNotificationsEnabled(peer, isEnabled) {
+  window.messenger.changeNotificationsEnabled(peer, isEnabled);
+}, _requestSms$requestCo.isNotificationsEnabled = function isNotificationsEnabled(peer) {
+  return window.messenger.isNotificationsEnabled(peer);
+}, _requestSms$requestCo.isSendByEnterEnabled = function isSendByEnterEnabled() {
+  return window.messenger.isSendByEnterEnabled();
+}, _requestSms$requestCo.changeSendByEnter = function changeSendByEnter(isEnabled) {
+  window.messenger.changeSendByEnter(isEnabled);
+}, _requestSms$requestCo.isGroupsNotificationsEnabled = function isGroupsNotificationsEnabled() {
+  return window.messenger.isGroupsNotificationsEnabled();
+}, _requestSms$requestCo.changeGroupNotificationsEnabled = function changeGroupNotificationsEnabled(isEnabled) {
+  window.messenger.changeGroupNotificationsEnabled(isEnabled);
+}, _requestSms$requestCo.isOnlyMentionNotifications = function isOnlyMentionNotifications() {
+  return window.messenger.isOnlyMentionNotifications();
+}, _requestSms$requestCo.changeIsOnlyMentionNotifications = function changeIsOnlyMentionNotifications(isEnabled) {
+  window.messenger.changeIsOnlyMentionNotifications(isEnabled);
+}, _requestSms$requestCo.isSoundEffectsEnabled = function isSoundEffectsEnabled() {
+  return window.messenger.isSoundEffectsEnabled();
+}, _requestSms$requestCo.changeSoundEffectsEnabled = function changeSoundEffectsEnabled(isEnabled) {
+  window.messenger.changeSoundEffectsEnabled(isEnabled);
+}, _requestSms$requestCo.isShowNotificationsTextEnabled = function isShowNotificationsTextEnabled() {
+  return window.messenger.isShowNotificationsTextEnabled();
+}, _requestSms$requestCo.changeIsShowNotificationTextEnabled = function changeIsShowNotificationTextEnabled(isEnabled) {
+  window.messenger.changeIsShowNotificationTextEnabled(isEnabled);
+}, _requestSms$requestCo.loadSessions = function loadSessions() {
+  return window.messenger.loadSessions();
+}, _requestSms$requestCo.terminateSession = function terminateSession(id) {
+  return window.messenger.terminateSession(id);
+}, _requestSms$requestCo.terminateAllSessions = function terminateAllSessions() {
+  return window.messenger.terminateAllSessions();
+}, _requestSms$requestCo.changeMyAvatar = function changeMyAvatar(avatar) {
+  window.messenger.changeMyAvatar(avatar);
+}, _requestSms$requestCo.changeGroupAvatar = function changeGroupAvatar(gid, avatar) {
+  window.messenger.changeGroupAvatar(gid, avatar);
+}, _requestSms$requestCo.removeMyAvatar = function removeMyAvatar() {
+  window.messenger.removeMyAvatar();
+}, _requestSms$requestCo.removeGroupAvatar = function removeGroupAvatar(gid) {
+  window.messenger.removeGroupAvatar(gid);
+}, _requestSms$requestCo.findGroups = function findGroups(query) {
+  return window.messenger.findGroups(query);
+}, _requestSms$requestCo.findUsers = function findUsers(phone) {
+  return window.messenger.findUsers(phone.toString());
+}, _requestSms$requestCo.deleteMessage = function deleteMessage(peer, rid) {
+  return window.messenger.deleteMessage(peer, rid);
+}, _requestSms$requestCo.addLike = function addLike(peer, rid) {
+  return window.messenger.addLike(peer, rid);
+}, _requestSms$requestCo.removeLike = function removeLike(peer, rid) {
+  return window.messenger.removeLike(peer, rid);
+}, _requestSms$requestCo.sendVoiceMessage = function sendVoiceMessage(peer, duration, voice) {
+  window.messenger.sendVoiceMessage(peer, duration, voice);
+}, _requestSms$requestCo.bindSearch = function bindSearch(callback) {
+  window.messenger.bindSearch(callback);
+}, _requestSms$requestCo.unbindSearch = function unbindSearch(callback) {
+  window.messenger.unbindSearch(callback);
+}, _requestSms$requestCo.findAllText = function findAllText(peer, query) {
+  return window.messenger.findAllText(peer, query);
+}, _requestSms$requestCo.findAllDocs = function findAllDocs(peer) {
+  return window.messenger.findAllDocs(peer);
+}, _requestSms$requestCo.findAllLinks = function findAllLinks(peer) {
+  return window.messenger.findAllLinks(peer);
+}, _requestSms$requestCo.findAllPhotos = function findAllPhotos(peer) {
+  return window.messenger.findAllPhotos(peer);
+}, _requestSms$requestCo.handleLinkClick = function handleLinkClick(event) {
+  messenger.handleLinkClick(event);
+}, _requestSms$requestCo.isElectron = function isElectron() {
+  return window.messenger.isElectron();
+}, _requestSms$requestCo.favoriteChat = function favoriteChat(peer) {
+  return window.messenger.favoriteChat(peer);
+}, _requestSms$requestCo.unfavoriteChat = function unfavoriteChat(peer) {
+  return window.messenger.unfavoriteChat(peer);
+}, _requestSms$requestCo.archiveChat = function archiveChat(peer) {
+  return window.messenger.archiveChat(peer);
+}, _requestSms$requestCo.loadArchivedDialogs = function loadArchivedDialogs() {
+  return window.messenger.loadArchivedDialogs();
+}, _requestSms$requestCo.loadMoreArchivedDialogs = function loadMoreArchivedDialogs() {
+  return window.messenger.loadMoreArchivedDialogs();
+}, _requestSms$requestCo);
 //# sourceMappingURL=ActorClient.js.map

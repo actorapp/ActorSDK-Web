@@ -1,12 +1,8 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 exports.default = confirm;
 
@@ -46,7 +42,7 @@ var Confirm = (function (_Component) {
   function Confirm(props) {
     _classCallCheck(this, Confirm);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Confirm).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onKeyDown = function (event) {
       if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
@@ -65,66 +61,61 @@ var Confirm = (function (_Component) {
     return _this;
   }
 
-  _createClass(Confirm, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      _ComposeActionCreators2.default.toggleAutoFocus(false);
-      (0, _reactDom.findDOMNode)(this.refs.confirm).focus();
-      document.addEventListener('keydown', this.onKeyDown, false);
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _ComposeActionCreators2.default.toggleAutoFocus(true);
-      document.removeEventListener('keydown', this.onKeyDown, false);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var message = _props.message;
-      var description = _props.description;
-      var abortLabel = _props.abortLabel;
-      var confirmLabel = _props.confirmLabel;
+  Confirm.prototype.componentDidMount = function componentDidMount() {
+    _ComposeActionCreators2.default.toggleAutoFocus(false);
+    (0, _reactDom.findDOMNode)(this.refs.confirm).focus();
+    document.addEventListener('keydown', this.onKeyDown, false);
+  };
 
-      return _react2.default.createElement(
-        _reactIntl.IntlProvider,
-        this.intlData,
+  Confirm.prototype.componentWillUnmount = function componentWillUnmount() {
+    _ComposeActionCreators2.default.toggleAutoFocus(true);
+    document.removeEventListener('keydown', this.onKeyDown, false);
+  };
+
+  Confirm.prototype.render = function render() {
+    var _props = this.props;
+    var message = _props.message;
+    var description = _props.description;
+    var abortLabel = _props.abortLabel;
+    var confirmLabel = _props.confirmLabel;
+
+    return _react2.default.createElement(
+      _reactIntl.IntlProvider,
+      this.intlData,
+      _react2.default.createElement(
+        'div',
+        { className: 'modal modal--confirm' },
         _react2.default.createElement(
+          'header',
+          { className: 'modal__header' },
+          _react2.default.createElement(
+            'h4',
+            { className: 'modal__header__title' },
+            message
+          )
+        ),
+        description ? _react2.default.createElement(
           'div',
-          { className: 'modal modal--confirm' },
+          { className: 'modal__body' },
+          description
+        ) : null,
+        _react2.default.createElement(
+          'footer',
+          { className: 'modal__footer text-right' },
           _react2.default.createElement(
-            'header',
-            { className: 'modal__header' },
-            _react2.default.createElement(
-              'h4',
-              { className: 'modal__header__title' },
-              message
-            )
+            'button',
+            { className: 'button', onClick: this.reject },
+            abortLabel || _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.cancel' })
           ),
-          description ? _react2.default.createElement(
-            'div',
-            { className: 'modal__body' },
-            description
-          ) : null,
           _react2.default.createElement(
-            'footer',
-            { className: 'modal__footer text-right' },
-            _react2.default.createElement(
-              'button',
-              { className: 'button', onClick: this.reject },
-              abortLabel || _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.cancel' })
-            ),
-            _react2.default.createElement(
-              'button',
-              { className: 'button button--lightblue', onClick: this.resolve, ref: 'confirm' },
-              confirmLabel || _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.ok' })
-            )
+            'button',
+            { className: 'button button--lightblue', onClick: this.resolve, ref: 'confirm' },
+            confirmLabel || _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.ok' })
           )
         )
-      );
-    }
-  }]);
+      )
+    );
+  };
 
   return Confirm;
 })(_react.Component);

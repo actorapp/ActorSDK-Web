@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -36,7 +32,7 @@ var Group = (function (_Component) {
   function Group(props) {
     _classCallCheck(this, Group);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Group).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleClick = function () {
       var _this$props = _this.props;
@@ -55,64 +51,61 @@ var Group = (function (_Component) {
     return _this;
   }
 
-  _createClass(Group, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var group = _props.group;
-      var isSelected = _props.isSelected;
+  Group.prototype.render = function render() {
+    var _props = this.props;
+    var group = _props.group;
+    var isSelected = _props.isSelected;
 
-      var resultClassName = (0, _classnames2.default)('group__list__item row', {
-        'group__list__item--active': isSelected
-      });
+    var resultClassName = (0, _classnames2.default)('group__list__item row', {
+      'group__list__item--active': isSelected
+    });
 
-      return _react2.default.createElement(
-        'li',
-        { className: resultClassName,
-          onClick: this.handleClick,
-          onMouseOver: this.handleMouseOver },
+    return _react2.default.createElement(
+      'li',
+      { className: resultClassName,
+        onClick: this.handleClick,
+        onMouseOver: this.handleMouseOver },
+      _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(_AvatarItem2.default, { image: group.peerInfo.avatar,
+          placeholder: group.peerInfo.placeholder,
+          size: 'medium',
+          title: group.peerInfo.title }),
+        group.isPublic ? _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'public'
+        ) : null
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-xs' },
         _react2.default.createElement(
           'div',
-          null,
-          _react2.default.createElement(_AvatarItem2.default, { image: group.peerInfo.avatar,
-            placeholder: group.peerInfo.placeholder,
-            size: 'medium',
-            title: group.peerInfo.title }),
-          group.isPublic ? _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'public'
-          ) : null
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'col-xs' },
-          _react2.default.createElement(
-            'div',
-            { className: 'meta' },
-            _react2.default.createElement('span', { className: 'title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.peerInfo.title) } }),
-            group.isJoined ? _react2.default.createElement(
-              'span',
-              { className: 'join-status' },
-              'Joined'
-            ) : null,
-            group.description ? _react2.default.createElement('span', { className: 'description', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.description) } }) : null
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'additional' },
-          _react2.default.createElement(
-            'div',
-            { className: 'members' },
-            _react2.default.createElement('svg', { className: 'icon',
-              dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#members"/>' } }),
-            group.membersCount
-          )
+          { className: 'meta' },
+          _react2.default.createElement('span', { className: 'title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.peerInfo.title) } }),
+          group.isJoined ? _react2.default.createElement(
+            'span',
+            { className: 'join-status' },
+            'Joined'
+          ) : null,
+          group.description ? _react2.default.createElement('span', { className: 'description', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.description) } }) : null
         )
-      );
-    }
-  }]);
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'additional' },
+        _react2.default.createElement(
+          'div',
+          { className: 'members' },
+          _react2.default.createElement('svg', { className: 'icon',
+            dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#members"/>' } }),
+          group.membersCount
+        )
+      )
+    );
+  };
 
   return Group;
 })(_react.Component);

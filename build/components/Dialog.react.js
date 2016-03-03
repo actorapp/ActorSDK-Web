@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -30,6 +26,10 @@ var _ComposeSection = require('./dialog/ComposeSection.react');
 
 var _ComposeSection2 = _interopRequireDefault(_ComposeSection);
 
+var _DialogFooter = require('./dialog/DialogFooter.react');
+
+var _DialogFooter2 = _interopRequireDefault(_DialogFooter);
+
 var _Toolbar = require('./Toolbar.react');
 
 var _Toolbar2 = _interopRequireDefault(_Toolbar);
@@ -37,6 +37,10 @@ var _Toolbar2 = _interopRequireDefault(_Toolbar);
 var _Activity = require('./Activity.react');
 
 var _Activity2 = _interopRequireDefault(_Activity);
+
+var _Call = require('./Call.react');
+
+var _Call2 = _interopRequireDefault(_Call);
 
 var _ConnectionState = require('./common/ConnectionState.react');
 
@@ -98,15 +102,14 @@ var DialogSection = (function (_Component) {
   function DialogSection(props) {
     _classCallCheck(this, DialogSection);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DialogSection).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.fixScrollTimeout = function () {
       setTimeout(_this.fixScroll, 50);
     };
 
     _this.fixScroll = function () {
-      var scrollNode = (0, _reactDom.findDOMNode)(_this.refs.messagesSection.refs.messagesScroll.refs.scroll);
-      var node = scrollNode.getElementsByClassName('ss-scrollarea')[0];
+      var node = _this.getScrollArea();
       if (node) {
         node.scrollTop = node.scrollHeight - lastScrolledFromBottom - node.offsetHeight;
       }
@@ -128,8 +131,7 @@ var DialogSection = (function (_Component) {
       var messagesToRender = _this$state.messagesToRender;
 
       if (peer) {
-        var scrollNode = (0, _reactDom.findDOMNode)(_this.refs.messagesSection.refs.messagesScroll.refs.scroll);
-        var node = scrollNode.getElementsByClassName('ss-scrollarea')[0];
+        var node = _this.getScrollArea();
         var scrollTop = node.scrollTop;
         lastScrolledFromBottom = node.scrollHeight - scrollTop - node.offsetHeight; // was node.scrollHeight - scrollTop
 
@@ -158,124 +160,114 @@ var DialogSection = (function (_Component) {
     return _this;
   }
 
-  _createClass(DialogSection, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      var peer = _PeerUtils2.default.stringToPeer(this.props.params.id);
-      _DialogActionCreators2.default.selectDialogPeer(peer);
+  DialogSection.prototype.componentWillMount = function componentWillMount() {
+    var peer = _PeerUtils2.default.stringToPeer(this.props.params.id);
+    _DialogActionCreators2.default.selectDialogPeer(peer);
+  };
+
+  DialogSection.prototype.componentDidMount = function componentDidMount() {
+    var peer = _PeerUtils2.default.stringToPeer(this.props.params.id);
+    if (peer) {
+      this.fixScroll();
+      this.loadMessagesByScroll();
     }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var peer = _PeerUtils2.default.stringToPeer(this.props.params.id);
+  };
+
+  DialogSection.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    var params = nextProps.params;
+
+    if (this.props.params.id !== params.id) {
+      var peer = _PeerUtils2.default.stringToPeer(params.id);
+      _DialogActionCreators2.default.selectDialogPeer(peer);
       if (peer) {
         this.fixScroll();
         this.loadMessagesByScroll();
       }
     }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      var params = nextProps.params;
+  };
 
-      if (this.props.params.id !== params.id) {
-        var peer = _PeerUtils2.default.stringToPeer(params.id);
-        _DialogActionCreators2.default.selectDialogPeer(peer);
-        if (peer) {
-          this.fixScroll();
-          this.loadMessagesByScroll();
-        }
-      }
+  DialogSection.prototype.componentDidUpdate = function componentDidUpdate() {
+    this.fixScroll();
+  };
+
+  DialogSection.prototype.componentWillUnmount = function componentWillUnmount() {
+    _DialogActionCreators2.default.selectDialogPeer(null);
+  };
+
+  DialogSection.prototype.getScrollArea = function getScrollArea() {
+    var scrollNode = (0, _reactDom.findDOMNode)(this.refs.messagesSection.refs.messagesScroll.refs.scroll);
+    return scrollNode.getElementsByClassName('ss-scrollarea')[0];
+  };
+
+  DialogSection.prototype.getComponents = function getComponents() {
+    var dialog = this.context.delegate.components.dialog;
+
+    if (dialog && !(0, _lodash.isFunction)(dialog)) {
+      var activity = dialog.activity || [_Activity2.default, _Call2.default];
+
+      return {
+        ToolbarSection: dialog.toolbar || _Toolbar2.default,
+        MessagesSection: (0, _lodash.isFunction)(dialog.messages) ? dialog.messages : _MessagesSection2.default,
+        TypingSection: dialog.typing || _TypingSection2.default,
+        ComposeSection: dialog.compose || _ComposeSection2.default,
+        activity: (0, _lodash.map)(activity, function (Activity, index) {
+          return _react2.default.createElement(Activity, { key: index });
+        })
+      };
     }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      this.fixScroll();
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _DialogActionCreators2.default.selectDialogPeer(null);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state = this.state;
-      var peer = _state.peer;
-      var isMember = _state.isMember;
-      var messagesToRender = _state.messagesToRender;
-      var overlayToRender = _state.overlayToRender;
-      var delegate = this.context.delegate;
 
-      var activity = [],
-          ToolbarSection = undefined,
-          TypingSection = undefined,
-          ComposeSection = undefined,
-          MessagesSection = undefined;
+    return {
+      ToolbarSection: _Toolbar2.default,
+      MessagesSection: _MessagesSection2.default,
+      TypingSection: _TypingSection2.default,
+      ComposeSection: _ComposeSection2.default,
+      activity: [_react2.default.createElement(_Activity2.default, { key: 1 }), _react2.default.createElement(_Call2.default, { key: 2 })]
+    };
+  };
 
-      if (delegate.components.dialog !== null && typeof delegate.components.dialog !== 'function') {
-        ToolbarSection = delegate.components.dialog.toolbar || _Toolbar2.default;
-        MessagesSection = typeof delegate.components.dialog.messages == 'function' ? delegate.components.dialog.messages : _MessagesSection2.default;
-        TypingSection = delegate.components.dialog.typing || _TypingSection2.default;
-        ComposeSection = delegate.components.dialog.compose || _ComposeSection2.default;
+  DialogSection.prototype.render = function render() {
+    var _state = this.state;
+    var peer = _state.peer;
+    var isMember = _state.isMember;
+    var messagesToRender = _state.messagesToRender;
+    var overlayToRender = _state.overlayToRender;
 
-        if (delegate.components.dialog.activity) {
-          (0, _lodash.forEach)(delegate.components.dialog.activity, function (Activity, index) {
-            return activity.push(_react2.default.createElement(Activity, { key: index }));
-          });
-        } else {
-          activity.push(_react2.default.createElement(_Activity2.default, { key: 1 }));
-        }
-      } else {
-        ToolbarSection = _Toolbar2.default;
-        MessagesSection = _MessagesSection2.default;
-        TypingSection = _TypingSection2.default;
-        ComposeSection = _ComposeSection2.default;
-        activity.push(_react2.default.createElement(_Activity2.default, { key: 1 }));
-      }
+    var _getComponents = this.getComponents();
 
-      var mainScreen = peer ? _react2.default.createElement(
-        'section',
-        { className: 'dialog' },
-        _react2.default.createElement(_ConnectionState2.default, null),
+    var ToolbarSection = _getComponents.ToolbarSection;
+    var MessagesSection = _getComponents.MessagesSection;
+    var TypingSection = _getComponents.TypingSection;
+    var ComposeSection = _getComponents.ComposeSection;
+    var activity = _getComponents.activity;
+
+    return _react2.default.createElement(
+      'section',
+      { className: 'main' },
+      _react2.default.createElement(ToolbarSection, null),
+      _react2.default.createElement(
+        'div',
+        { className: 'flexrow' },
         _react2.default.createElement(
-          'div',
-          { className: 'messages' },
-          _react2.default.createElement(MessagesSection, { messages: messagesToRender,
-            overlay: overlayToRender,
-            peer: peer,
-            ref: 'messagesSection',
-            onScroll: this.loadMessagesByScroll })
-        ),
-        isMember ? _react2.default.createElement(
-          'footer',
-          { className: 'dialog__footer' },
-          _react2.default.createElement(TypingSection, null),
-          _react2.default.createElement(ComposeSection, null)
-        ) : _react2.default.createElement(
-          'footer',
-          { className: 'dialog__footer dialog__footer--disabled row center-xs middle-xs ' },
+          'section',
+          { className: 'dialog' },
+          _react2.default.createElement(_ConnectionState2.default, null),
           _react2.default.createElement(
-            'h3',
-            null,
-            'You are not a member'
-          )
-        )
-      ) : null;
-
-      return _react2.default.createElement(
-        'section',
-        { className: 'main' },
-        _react2.default.createElement(ToolbarSection, null),
-        _react2.default.createElement(
-          'div',
-          { className: 'flexrow' },
-          mainScreen,
-          activity
-        )
-      );
-    }
-  }]);
+            'div',
+            { className: 'messages' },
+            _react2.default.createElement(MessagesSection, {
+              messages: messagesToRender,
+              overlay: overlayToRender,
+              peer: peer,
+              ref: 'messagesSection',
+              onScroll: this.loadMessagesByScroll
+            })
+          ),
+          _react2.default.createElement(_DialogFooter2.default, { isMember: isMember, components: { TypingSection: TypingSection, ComposeSection: ComposeSection } })
+        ),
+        activity
+      )
+    );
+  };
 
   return DialogSection;
 })(_react.Component);

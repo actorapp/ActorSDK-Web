@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -36,7 +32,7 @@ var GroupStore = (function (_Store) {
   function GroupStore(dispatcher) {
     _classCallCheck(this, GroupStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(GroupStore).call(this, dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
   }
 
   /**
@@ -46,56 +42,50 @@ var GroupStore = (function (_Store) {
    * @returns {object} Group information
    */
 
-  _createClass(GroupStore, [{
-    key: 'getGroup',
-    value: function getGroup(gid) {
-      return _ActorClient2.default.getGroup(gid);
+  GroupStore.prototype.getGroup = function getGroup(gid) {
+    return _ActorClient2.default.getGroup(gid);
+  };
+
+  /**
+   * Get group integration token
+   *
+   * @returns {string|null}
+   */
+
+  GroupStore.prototype.getToken = function getToken() {
+    return _integrationToken;
+  };
+
+  GroupStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+
+      case _ActorAppConstants.ActionTypes.GROUP_GET_TOKEN:
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.GROUP_GET_TOKEN_SUCCESS:
+        _integrationToken = action.response;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.GROUP_GET_TOKEN_ERROR:
+        _integrationToken = null;
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.GROUP_CLEAR:
+      case _ActorAppConstants.ActionTypes.GROUP_CLEAR_SUCCESS:
+      case _ActorAppConstants.ActionTypes.GROUP_CLEAR_ERROR:
+
+      case _ActorAppConstants.ActionTypes.GROUP_LEAVE:
+      case _ActorAppConstants.ActionTypes.GROUP_LEAVE_SUCCESS:
+      case _ActorAppConstants.ActionTypes.GROUP_LEAVE_ERROR:
+
+      case _ActorAppConstants.ActionTypes.GROUP_DELETE:
+      case _ActorAppConstants.ActionTypes.GROUP_DELETE_SUCCESS:
+      case _ActorAppConstants.ActionTypes.GROUP_DELETE_ERROR:
+        this.__emitChange();
+        break;
     }
-
-    /**
-     * Get group integration token
-     *
-     * @returns {string|null}
-     */
-
-  }, {
-    key: 'getToken',
-    value: function getToken() {
-      return _integrationToken;
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-
-        case _ActorAppConstants.ActionTypes.GROUP_GET_TOKEN:
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.GROUP_GET_TOKEN_SUCCESS:
-          _integrationToken = action.response;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.GROUP_GET_TOKEN_ERROR:
-          _integrationToken = null;
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.GROUP_CLEAR:
-        case _ActorAppConstants.ActionTypes.GROUP_CLEAR_SUCCESS:
-        case _ActorAppConstants.ActionTypes.GROUP_CLEAR_ERROR:
-
-        case _ActorAppConstants.ActionTypes.GROUP_LEAVE:
-        case _ActorAppConstants.ActionTypes.GROUP_LEAVE_SUCCESS:
-        case _ActorAppConstants.ActionTypes.GROUP_LEAVE_ERROR:
-
-        case _ActorAppConstants.ActionTypes.GROUP_DELETE:
-        case _ActorAppConstants.ActionTypes.GROUP_DELETE_SUCCESS:
-        case _ActorAppConstants.ActionTypes.GROUP_DELETE_ERROR:
-          this.__emitChange();
-          break;
-      }
-    }
-  }]);
+  };
 
   return GroupStore;
 })(_utils.Store);

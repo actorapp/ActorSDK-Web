@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -30,7 +26,7 @@ var Fold = (function (_Component) {
   function Fold(props) {
     _classCallCheck(this, Fold);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Fold).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onClick = function () {
       return _this.setState({ isOpen: !_this.state.isOpen });
@@ -42,55 +38,52 @@ var Fold = (function (_Component) {
     return _this;
   }
 
-  _createClass(Fold, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var icon = _props.icon;
-      var iconClassName = _props.iconClassName;
-      var title = _props.title;
-      var iconElement = _props.iconElement;
+  Fold.prototype.render = function render() {
+    var _props = this.props;
+    var icon = _props.icon;
+    var iconClassName = _props.iconClassName;
+    var title = _props.title;
+    var iconElement = _props.iconElement;
 
-      var titleIconClassName = (0, _classnames2.default)('material-icons icon', iconClassName);
-      var className = (0, _classnames2.default)({
-        'fold': true,
-        'fold--open': this.state.isOpen
-      });
+    var titleIconClassName = (0, _classnames2.default)('material-icons icon', iconClassName);
+    var className = (0, _classnames2.default)({
+      'fold': true,
+      'fold--open': this.state.isOpen
+    });
 
-      var foldIcon = undefined;
-      if (icon) {
-        foldIcon = _react2.default.createElement(
-          'i',
-          { className: titleIconClassName },
-          icon
-        );
-      }
-      if (iconElement) {
-        foldIcon = iconElement;
-      }
-
-      return _react2.default.createElement(
-        'div',
-        { className: className },
-        _react2.default.createElement(
-          'div',
-          { className: 'fold__title', onClick: this.onClick },
-          foldIcon,
-          title,
-          _react2.default.createElement(
-            'i',
-            { className: 'fold__indicator material-icons pull-right' },
-            'arrow_drop_down'
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'fold__content' },
-          this.props.children
-        )
+    var foldIcon = undefined;
+    if (icon) {
+      foldIcon = _react2.default.createElement(
+        'i',
+        { className: titleIconClassName },
+        icon
       );
     }
-  }]);
+    if (iconElement) {
+      foldIcon = iconElement;
+    }
+
+    return _react2.default.createElement(
+      'div',
+      { className: className },
+      _react2.default.createElement(
+        'div',
+        { className: 'fold__title', onClick: this.onClick },
+        foldIcon,
+        title,
+        _react2.default.createElement(
+          'i',
+          { className: 'fold__indicator material-icons pull-right' },
+          'arrow_drop_down'
+        )
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'fold__content' },
+        this.props.children
+      )
+    );
+  };
 
   return Fold;
 })(_react.Component);

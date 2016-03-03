@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -39,7 +35,7 @@ var Photo = (function (_Component) {
   function Photo(props) {
     _classCallCheck(this, Photo);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Photo).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.openLightBox = function () {
       return _ImageUtils.lightbox.open(_this.props.content.fileUrl, 'message');
@@ -66,73 +62,70 @@ var Photo = (function (_Component) {
     return _this;
   }
 
-  _createClass(Photo, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var content = _props.content;
-      var className = _props.className;
-      var loadedClassName = _props.loadedClassName;
-      var isImageLoaded = this.state.isImageLoaded;
+  Photo.prototype.render = function render() {
+    var _props = this.props;
+    var content = _props.content;
+    var className = _props.className;
+    var loadedClassName = _props.loadedClassName;
+    var isImageLoaded = this.state.isImageLoaded;
 
-      var MAX_WIDTH = 300;
-      var MAX_HEIGHT = 400;
-      var width = content.w;
-      var height = content.h;
+    var MAX_WIDTH = 300;
+    var MAX_HEIGHT = 400;
+    var width = content.w;
+    var height = content.h;
 
-      if (width > height) {
-        if (width > MAX_WIDTH) {
-          height *= MAX_WIDTH / width;
-          width = MAX_WIDTH;
-        }
-      } else {
-        if (height > MAX_HEIGHT) {
-          width *= MAX_HEIGHT / height;
-          height = MAX_HEIGHT;
-        }
+    if (width > height) {
+      if (width > MAX_WIDTH) {
+        height *= MAX_WIDTH / width;
+        width = MAX_WIDTH;
       }
-
-      var original = null,
-          preview = null,
-          preloader = null;
-
-      if (content.fileUrl) {
-        original = _react2.default.createElement('img', { className: 'photo photo--original',
-          height: content.h,
-          onClick: this.openLightBox,
-          onLoad: this.onLoad,
-          src: content.fileUrl,
-          width: content.w });
+    } else {
+      if (height > MAX_HEIGHT) {
+        width *= MAX_HEIGHT / height;
+        height = MAX_HEIGHT;
       }
-
-      if (!this.isCached()) {
-        preview = _react2.default.createElement('img', { className: 'photo photo--preview', src: content.preview });
-
-        if (content.isUploading === true || isImageLoaded === false) {
-          preloader = _react2.default.createElement(
-            'div',
-            { className: 'preloader' },
-            _react2.default.createElement('div', null),
-            _react2.default.createElement('div', null),
-            _react2.default.createElement('div', null),
-            _react2.default.createElement('div', null),
-            _react2.default.createElement('div', null)
-          );
-        }
-      }
-
-      var imageClassName = isImageLoaded ? (0, _classnames2.default)(className, loadedClassName) : className;
-
-      return _react2.default.createElement(
-        'div',
-        { className: imageClassName, style: { width: width, height: height } },
-        preview,
-        original,
-        preloader,
-        _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: '<filter id="blur-effect"><feGaussianBlur stdDeviation="3"/></filter>' } })
-      );
     }
-  }]);
+
+    var original = null,
+        preview = null,
+        preloader = null;
+
+    if (content.fileUrl) {
+      original = _react2.default.createElement('img', { className: 'photo photo--original',
+        height: content.h,
+        onClick: this.openLightBox,
+        onLoad: this.onLoad,
+        src: content.fileUrl,
+        width: content.w });
+    }
+
+    if (!this.isCached()) {
+      preview = _react2.default.createElement('img', { className: 'photo photo--preview', src: content.preview });
+
+      if (content.isUploading === true || isImageLoaded === false) {
+        preloader = _react2.default.createElement(
+          'div',
+          { className: 'preloader' },
+          _react2.default.createElement('div', null),
+          _react2.default.createElement('div', null),
+          _react2.default.createElement('div', null),
+          _react2.default.createElement('div', null),
+          _react2.default.createElement('div', null)
+        );
+      }
+    }
+
+    var imageClassName = isImageLoaded ? (0, _classnames2.default)(className, loadedClassName) : className;
+
+    return _react2.default.createElement(
+      'div',
+      { className: imageClassName, style: { width: width, height: height } },
+      preview,
+      original,
+      preloader,
+      _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: '<filter id="blur-effect"><feGaussianBlur stdDeviation="3"/></filter>' } })
+    );
+  };
 
   return Photo;
 })(_react.Component);

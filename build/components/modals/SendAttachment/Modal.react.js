@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -54,7 +50,7 @@ var SendAttachment = (function (_Component) {
   function SendAttachment(props) {
     _classCallCheck(this, SendAttachment);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SendAttachment).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleClose = function () {
       return _AttachmentsActionCreators2.default.hide();
@@ -95,113 +91,106 @@ var SendAttachment = (function (_Component) {
     return _this;
   }
 
-  _createClass(SendAttachment, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      document.addEventListener('keydown', this.handleKeyDown, false);
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      (0, _reactDom.findDOMNode)(this.refs.send).focus();
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      document.removeEventListener('keydown', this.handleKeyDown, false);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state = this.state;
-      var isOpen = _state.isOpen;
-      var attachments = _state.attachments;
-      var selectedIndex = _state.selectedIndex;
-      var intl = this.context.intl;
+  SendAttachment.calculateState = function calculateState() {
+    return {
+      isOpen: _AttachmentStore2.default.isOpen(),
+      attachments: _AttachmentStore2.default.getAllAttachments(),
+      selectedIndex: _AttachmentStore2.default.getSelectedIndex()
+    };
+  };
 
-      var isSingleFile = attachments.length > 1;
-      var modalStyle = {
-        content: {
-          position: null,
-          top: null,
-          left: null,
-          right: null,
-          bottom: null,
-          border: null,
-          background: null,
-          overflow: null,
-          outline: null,
-          padding: null,
-          borderRadius: null,
-          width: 700
-        }
-      };
+  SendAttachment.prototype.componentWillMount = function componentWillMount() {
+    document.addEventListener('keydown', this.handleKeyDown, false);
+  };
 
-      return _react2.default.createElement(
-        _reactModal2.default,
-        { className: 'modal-new modal-new--attachments',
-          closeTimeoutMS: 150,
-          isOpen: isOpen,
-          style: modalStyle },
+  SendAttachment.prototype.componentDidMount = function componentDidMount() {
+    (0, _reactDom.findDOMNode)(this.refs.send).focus();
+  };
+
+  SendAttachment.prototype.componentWillUnmount = function componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown, false);
+  };
+
+  SendAttachment.prototype.render = function render() {
+    var _state = this.state;
+    var isOpen = _state.isOpen;
+    var attachments = _state.attachments;
+    var selectedIndex = _state.selectedIndex;
+    var intl = this.context.intl;
+
+    var isSingleFile = attachments.length > 1;
+    var modalStyle = {
+      content: {
+        position: null,
+        top: null,
+        left: null,
+        right: null,
+        bottom: null,
+        border: null,
+        background: null,
+        overflow: null,
+        outline: null,
+        padding: null,
+        borderRadius: null,
+        width: 700
+      }
+    };
+
+    return _react2.default.createElement(
+      _reactModal2.default,
+      { className: 'modal-new modal-new--attachments',
+        closeTimeoutMS: 150,
+        isOpen: isOpen,
+        style: modalStyle },
+      _react2.default.createElement(
+        'header',
+        { className: 'modal-new__header' },
         _react2.default.createElement(
-          'header',
-          { className: 'modal-new__header' },
+          'h3',
+          { className: 'modal-new__header__title' },
+          intl.messages['modal.attachments.title']
+        ),
+        isSingleFile ? _react2.default.createElement(
+          'button',
+          { className: 'button button--lightblue pull-right',
+            onClick: this.handleSendAll },
+          intl.messages['button.sendAll']
+        ) : null
+      ),
+      _react2.default.createElement(
+        'section',
+        { className: 'modal-new__body' },
+        _react2.default.createElement(_Attachment2.default, { attachment: attachments[selectedIndex] })
+      ),
+      _react2.default.createElement(
+        'footer',
+        { className: 'modal-new__footer row' },
+        _react2.default.createElement(
+          'div',
+          { className: 'col-xs' },
+          isSingleFile ? _react2.default.createElement(_Pagination2.default, { current: selectedIndex,
+            total: attachments.length - 1,
+            onChange: this.handleSelect }) : null
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'col-xs text-right' },
           _react2.default.createElement(
-            'h3',
-            { className: 'modal-new__header__title' },
-            intl.messages['modal.attachments.title']
-          ),
-          isSingleFile ? _react2.default.createElement(
             'button',
-            { className: 'button button--lightblue pull-right',
-              onClick: this.handleSendAll },
-            intl.messages['button.sendAll']
-          ) : null
-        ),
-        _react2.default.createElement(
-          'section',
-          { className: 'modal-new__body' },
-          _react2.default.createElement(_Attachment2.default, { attachment: attachments[selectedIndex] })
-        ),
-        _react2.default.createElement(
-          'footer',
-          { className: 'modal-new__footer row' },
-          _react2.default.createElement(
-            'div',
-            { className: 'col-xs' },
-            isSingleFile ? _react2.default.createElement(_Pagination2.default, { current: selectedIndex,
-              total: attachments.length - 1,
-              onChange: this.handleSelect }) : null
+            { className: 'button',
+              onClick: this.handleCancel },
+            intl.messages['button.cancel']
           ),
           _react2.default.createElement(
-            'div',
-            { className: 'col-xs text-right' },
-            _react2.default.createElement(
-              'button',
-              { className: 'button',
-                onClick: this.handleCancel },
-              intl.messages['button.cancel']
-            ),
-            _react2.default.createElement(
-              'button',
-              { className: 'button button--rised', ref: 'send',
-                onClick: this.handleSend },
-              intl.messages['button.send']
-            )
+            'button',
+            { className: 'button button--rised', ref: 'send',
+              onClick: this.handleSend },
+            intl.messages['button.send']
           )
         )
-      );
-    }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        isOpen: _AttachmentStore2.default.isOpen(),
-        attachments: _AttachmentStore2.default.getAllAttachments(),
-        selectedIndex: _AttachmentStore2.default.getSelectedIndex()
-      };
-    }
-  }]);
+      )
+    );
+  };
 
   return SendAttachment;
 })(_react.Component);

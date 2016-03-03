@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -44,44 +40,40 @@ var SidebarSection = (function (_Component) {
   function SidebarSection(props) {
     _classCallCheck(this, SidebarSection);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(SidebarSection).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(SidebarSection, [{
-    key: 'render',
-    value: function render() {
-      var delegate = this.context.delegate;
-      var dialogs = this.state.dialogs;
+  SidebarSection.calculateState = function calculateState() {
+    return {
+      dialogs: _DialogStore2.default.getDialogs()
+    };
+  };
 
-      var HeaderSection = undefined,
-          Recent = undefined,
-          FooterSection = undefined;
-      if (delegate.components.sidebar !== null && typeof delegate.components.sidebar !== 'function') {
-        HeaderSection = delegate.components.sidebar.header || _HeaderSection2.default;
-        Recent = delegate.components.sidebar.recent || _Recent2.default;
-        FooterSection = delegate.components.sidebar.footer || _QuickSearchButton2.default;
-      } else {
-        HeaderSection = _HeaderSection2.default;
-        Recent = _Recent2.default;
-        FooterSection = _QuickSearchButton2.default;
-      }
+  SidebarSection.prototype.render = function render() {
+    var delegate = this.context.delegate;
+    var dialogs = this.state.dialogs;
 
-      return _react2.default.createElement(
-        'aside',
-        { className: 'sidebar' },
-        _react2.default.createElement(HeaderSection, null),
-        _react2.default.createElement(Recent, { dialogs: dialogs }),
-        _react2.default.createElement(FooterSection, null)
-      );
+    var HeaderSection = undefined,
+        Recent = undefined,
+        FooterSection = undefined;
+    if (delegate.components.sidebar !== null && typeof delegate.components.sidebar !== 'function') {
+      HeaderSection = delegate.components.sidebar.header || _HeaderSection2.default;
+      Recent = delegate.components.sidebar.recent || _Recent2.default;
+      FooterSection = delegate.components.sidebar.footer || _QuickSearchButton2.default;
+    } else {
+      HeaderSection = _HeaderSection2.default;
+      Recent = _Recent2.default;
+      FooterSection = _QuickSearchButton2.default;
     }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        dialogs: _DialogStore2.default.getDialogs()
-      };
-    }
-  }]);
+
+    return _react2.default.createElement(
+      'aside',
+      { className: 'sidebar' },
+      _react2.default.createElement(HeaderSection, null),
+      _react2.default.createElement(Recent, { dialogs: dialogs }),
+      _react2.default.createElement(FooterSection, null)
+    );
+  };
 
   return SidebarSection;
 })(_react.Component);

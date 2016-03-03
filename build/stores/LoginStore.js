@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -52,7 +48,7 @@ var LoginStore = (function (_Store) {
 
     // TODO: do not use intlData here. save error codes and send them to ui.
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LoginStore).call(this, dispatcher));
+    var _this = _possibleConstructorReturn(this, _Store.call(this, dispatcher));
 
     _this.getStep = function () {
       return step;
@@ -110,115 +106,112 @@ var LoginStore = (function (_Store) {
     return _this;
   }
 
-  _createClass(LoginStore, [{
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
+  LoginStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
 
-        case _ActorAppConstants.ActionTypes.AUTH_CHANGE_LOGIN:
-          login = action.login;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.AUTH_CHANGE_CODE:
-          code = action.code;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.AUTH_CHANGE_NAME:
-          name = action.name;
-          this.__emitChange();
-          break;
+      case _ActorAppConstants.ActionTypes.AUTH_CHANGE_LOGIN:
+        login = action.login;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.AUTH_CHANGE_CODE:
+        code = action.code;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.AUTH_CHANGE_NAME:
+        name = action.name;
+        this.__emitChange();
+        break;
 
-        case _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST:
-          isCodeRequested = true;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_SUCCESS:
-          step = _ActorAppConstants.AuthSteps.CODE_WAIT;
-          errors.login = null;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_FAILURE:
-          switch (action.error) {
-            case 'PHONE_NUMBER_INVALID':
-              errors.login = this.intl.messages['login.errors.numberInvalid'];
-              break;
-            case 'CODE_WAIT':
-              errors.login = this.intl.messages['login.errors.codeWait'];
-              break;
-            default:
-              errors.login = action.error;
-          }
-          isCodeRequested = false;
-          this.__emitChange();
-          break;
+      case _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST:
+        isCodeRequested = true;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_SUCCESS:
+        step = _ActorAppConstants.AuthSteps.CODE_WAIT;
+        errors.login = null;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_FAILURE:
+        switch (action.error) {
+          case 'PHONE_NUMBER_INVALID':
+            errors.login = this.intl.messages['login.errors.numberInvalid'];
+            break;
+          case 'CODE_WAIT':
+            errors.login = this.intl.messages['login.errors.codeWait'];
+            break;
+          default:
+            errors.login = action.error;
+        }
+        isCodeRequested = false;
+        this.__emitChange();
+        break;
 
-        case _ActorAppConstants.ActionTypes.AUTH_CODE_SEND:
-          isCodeSended = true;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.AUTH_CODE_SEND_SUCCESS:
-          errors.code = null;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.AUTH_CODE_SEND_FAILURE:
-          switch (action.error) {
-            case 'PHONE_CODE_INVALID':
-            case 'EMAIL_CODE_INVALID':
-              errors.code = this.intl.messages['login.errors.codeInvalid'];
-              break;
-            case 'PHONE_CODE_EXPIRED':
-              errors.code = this.intl.messages['login.errors.codeExpired'];
-              break;
-            default:
-              errors.code = action.error;
-          }
-          isCodeSended = false;
-          this.__emitChange();
-          break;
+      case _ActorAppConstants.ActionTypes.AUTH_CODE_SEND:
+        isCodeSended = true;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.AUTH_CODE_SEND_SUCCESS:
+        errors.code = null;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.AUTH_CODE_SEND_FAILURE:
+        switch (action.error) {
+          case 'PHONE_CODE_INVALID':
+          case 'EMAIL_CODE_INVALID':
+            errors.code = this.intl.messages['login.errors.codeInvalid'];
+            break;
+          case 'PHONE_CODE_EXPIRED':
+            errors.code = this.intl.messages['login.errors.codeExpired'];
+            break;
+          default:
+            errors.code = action.error;
+        }
+        isCodeSended = false;
+        this.__emitChange();
+        break;
 
-        case _ActorAppConstants.ActionTypes.AUTH_SIGNUP_START:
-          step = _ActorAppConstants.AuthSteps.NAME_WAIT;
-          this.__emitChange();
-          break;
+      case _ActorAppConstants.ActionTypes.AUTH_SIGNUP_START:
+        step = _ActorAppConstants.AuthSteps.NAME_WAIT;
+        this.__emitChange();
+        break;
 
-        case _ActorAppConstants.ActionTypes.AUTH_SIGNUP:
-          isSignupStarted = true;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.AUTH_SIGNUP_SUCCESS:
-          errors.signup = null;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.AUTH_SIGNUP_FAILURE:
-          switch (action.error) {
-            case 'NAME_INVALID':
-              errors.signup = this.intl.messages['login.errors.nameInvalid'];
-              break;
-            default:
-              errors.signup = action.error;
-          }
-          isSignupStarted = false;
-          this.__emitChange();
-          break;
+      case _ActorAppConstants.ActionTypes.AUTH_SIGNUP:
+        isSignupStarted = true;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.AUTH_SIGNUP_SUCCESS:
+        errors.signup = null;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.AUTH_SIGNUP_FAILURE:
+        switch (action.error) {
+          case 'NAME_INVALID':
+            errors.signup = this.intl.messages['login.errors.nameInvalid'];
+            break;
+          default:
+            errors.signup = action.error;
+        }
+        isSignupStarted = false;
+        this.__emitChange();
+        break;
 
-        case _ActorAppConstants.ActionTypes.AUTH_RESTART:
-          this.resetStore();
-          this.__emitChange();
-          break;
+      case _ActorAppConstants.ActionTypes.AUTH_RESTART:
+        this.resetStore();
+        this.__emitChange();
+        break;
 
-        case _ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_IN:
-          myUid = _ActorClient2.default.getUid();
-          var user = _ActorClient2.default.getUser(myUid);
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_OUT:
-          localStorage.clear();
-          location.reload();
-          break;
-        default:
-      }
+      case _ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_IN:
+        myUid = _ActorClient2.default.getUid();
+        var user = _ActorClient2.default.getUser(myUid);
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_OUT:
+        localStorage.clear();
+        location.reload();
+        break;
+      default:
     }
-  }]);
+  };
 
   return LoginStore;
 })(_utils.Store);

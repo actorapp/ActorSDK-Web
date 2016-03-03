@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -44,90 +40,81 @@ var GroupStore = (function (_Store) {
   function GroupStore(dispatcher) {
     _classCallCheck(this, GroupStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(GroupStore).call(this, dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
   }
 
   /**
    * @returns {boolean}
    */
 
-  _createClass(GroupStore, [{
-    key: 'isOpen',
-    value: function isOpen() {
-      return _isOpen;
+  GroupStore.prototype.isOpen = function isOpen() {
+    return _isOpen;
+  };
+
+  /**
+   * @returns {Array}
+   */
+
+  GroupStore.prototype.getList = function getList() {
+    return _list;
+  };
+
+  /**
+   * @returns {Array}
+   */
+
+  GroupStore.prototype.getResults = function getResults() {
+    return _results;
+  };
+
+  GroupStore.prototype.handleSearchQuery = function handleSearchQuery(query) {
+    var results = [];
+
+    if (query === '') {
+      results = _list;
+    } else {
+      (0, _lodash.forEach)(_list, function (result) {
+        var title = result.peerInfo.title.toLowerCase();
+        if (title.includes(query.toLowerCase())) {
+          results.push(result);
+        }
+      });
     }
 
-    /**
-     * @returns {Array}
-     */
+    _results = results;
+  };
 
-  }, {
-    key: 'getList',
-    value: function getList() {
-      return _list;
+  GroupStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.GROUP_LIST_SHOW:
+        _isOpen = true;
+        this.handleSearchQuery('');
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.GROUP_LIST_HIDE:
+        _isOpen = false;
+        _results = [];
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.GROUP_LIST_LOAD_SUCCESS:
+        _list = action.response;
+        this.handleSearchQuery('');
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.GROUP_LIST_LOAD_ERROR:
+        console.error(action.error);
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.GROUP_LIST_SEARCH:
+        this.handleSearchQuery(action.query);
+        this.__emitChange();
+        break;
+
+      default:
     }
-
-    /**
-     * @returns {Array}
-     */
-
-  }, {
-    key: 'getResults',
-    value: function getResults() {
-      return _results;
-    }
-  }, {
-    key: 'handleSearchQuery',
-    value: function handleSearchQuery(query) {
-      var results = [];
-
-      if (query === '') {
-        results = _list;
-      } else {
-        (0, _lodash.forEach)(_list, function (result) {
-          var title = result.peerInfo.title.toLowerCase();
-          if (title.includes(query.toLowerCase())) {
-            results.push(result);
-          }
-        });
-      }
-
-      _results = results;
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.GROUP_LIST_SHOW:
-          _isOpen = true;
-          this.handleSearchQuery('');
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.GROUP_LIST_HIDE:
-          _isOpen = false;
-          _results = [];
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.GROUP_LIST_LOAD_SUCCESS:
-          _list = action.response;
-          this.handleSearchQuery('');
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.GROUP_LIST_LOAD_ERROR:
-          console.error(action.error);
-          this.__emitChange();
-          break;
-
-        case _ActorAppConstants.ActionTypes.GROUP_LIST_SEARCH:
-          this.handleSearchQuery(action.query);
-          this.__emitChange();
-          break;
-
-        default:
-      }
-    }
-  }]);
+  };
 
   return GroupStore;
 })(_utils.Store);

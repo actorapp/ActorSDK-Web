@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -40,7 +36,7 @@ var QuickSearchButton = (function (_Component) {
   function QuickSearchButton(props) {
     _classCallCheck(this, QuickSearchButton);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(QuickSearchButton).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.openQuickSearch = function () {
       return _QuickSearchActionCreators2.default.show();
@@ -49,40 +45,36 @@ var QuickSearchButton = (function (_Component) {
     return _this;
   }
 
-  _createClass(QuickSearchButton, [{
-    key: 'render',
-    value: function render() {
-      var isQuickSearchOpen = this.state.isQuickSearchOpen;
-      var intl = this.context.intl;
+  QuickSearchButton.calculateState = function calculateState() {
+    return {
+      isQuickSearchOpen: _QuickSearchStore2.default.isOpen()
+    };
+  };
 
-      return _react2.default.createElement(
-        'footer',
-        { className: 'sidebar__quick-search' },
+  QuickSearchButton.prototype.render = function render() {
+    var isQuickSearchOpen = this.state.isQuickSearchOpen;
+    var intl = this.context.intl;
+
+    return _react2.default.createElement(
+      'footer',
+      { className: 'sidebar__quick-search' },
+      _react2.default.createElement(
+        'a',
+        { onClick: this.openQuickSearch },
         _react2.default.createElement(
-          'a',
-          { onClick: this.openQuickSearch },
+          'div',
+          { className: 'icon-holder' },
           _react2.default.createElement(
-            'div',
-            { className: 'icon-holder' },
-            _react2.default.createElement(
-              'i',
-              { className: 'material-icons' },
-              'search'
-            )
-          ),
-          intl.messages['button.quickSearch']
+            'i',
+            { className: 'material-icons' },
+            'search'
+          )
         ),
-        isQuickSearchOpen ? _react2.default.createElement(_QuickSearch2.default, null) : null
-      );
-    }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        isQuickSearchOpen: _QuickSearchStore2.default.isOpen()
-      };
-    }
-  }]);
+        intl.messages['button.quickSearch']
+      ),
+      isQuickSearchOpen ? _react2.default.createElement(_QuickSearch2.default, null) : null
+    );
+  };
 
   return QuickSearchButton;
 })(_react.Component);

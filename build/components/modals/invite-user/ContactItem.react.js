@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -62,7 +58,7 @@ var ContactItem = (function (_Component) {
   function ContactItem(props) {
     _classCallCheck(this, ContactItem);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ContactItem).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onSelect = function () {
       var _this$props = _this.props;
@@ -89,90 +85,86 @@ var ContactItem = (function (_Component) {
     return _this;
   }
 
-  _createClass(ContactItem, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      var contact = this.props.contact;
+  ContactItem.prototype.componentWillUnmount = function componentWillUnmount() {
+    var contact = this.props.contact;
 
-      _InviteUserStore2.default.resetInviteUserState(contact.uid);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var contact = _props.contact;
-      var isMember = _props.isMember;
-      var inviteUserState = this.state.inviteUserState;
+    _InviteUserStore2.default.resetInviteUserState(contact.uid);
+  };
 
-      var contactClassName = (0, _classnames2.default)('contacts__list__item row', {
-        'contacts__list__item--member': isMember
-      });
+  ContactItem.prototype.render = function render() {
+    var _props = this.props;
+    var contact = _props.contact;
+    var isMember = _props.isMember;
+    var inviteUserState = this.state.inviteUserState;
 
-      var controls = isMember ? _react2.default.createElement(
-        'i',
-        { className: 'material-icons' },
-        'check'
-      ) : _react2.default.createElement(
-        _Stateful2.default.Root,
-        { currentState: inviteUserState },
+    var contactClassName = (0, _classnames2.default)('contacts__list__item row', {
+      'contacts__list__item--member': isMember
+    });
+
+    var controls = isMember ? _react2.default.createElement(
+      'i',
+      { className: 'material-icons' },
+      'check'
+    ) : _react2.default.createElement(
+      _Stateful2.default.Root,
+      { currentState: inviteUserState },
+      _react2.default.createElement(
+        _Stateful2.default.Pending,
+        null,
         _react2.default.createElement(
-          _Stateful2.default.Pending,
-          null,
-          _react2.default.createElement(
-            'a',
-            { className: 'material-icons', onClick: this.onSelect },
-            'person_add'
-          )
-        ),
-        _react2.default.createElement(
-          _Stateful2.default.Processing,
-          null,
-          _react2.default.createElement(
-            'i',
-            { className: 'material-icons spin' },
-            'autorenew'
-          )
-        ),
-        _react2.default.createElement(
-          _Stateful2.default.Success,
-          null,
-          _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'check'
-          )
-        ),
-        _react2.default.createElement(
-          _Stateful2.default.Failure,
-          null,
-          _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'warning'
-          )
+          'a',
+          { className: 'material-icons', onClick: this.onSelect },
+          'person_add'
         )
-      );
-
-      return _react2.default.createElement(
-        'li',
-        { className: contactClassName },
-        _react2.default.createElement(_AvatarItem2.default, { image: contact.avatar,
-          placeholder: contact.placeholder,
-          size: 'small',
-          title: contact.name }),
+      ),
+      _react2.default.createElement(
+        _Stateful2.default.Processing,
+        null,
         _react2.default.createElement(
-          'div',
-          { className: 'col-xs' },
-          _react2.default.createElement('span', { className: 'title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(contact.name) } })
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'controls' },
-          controls
+          'i',
+          { className: 'material-icons spin' },
+          'autorenew'
         )
-      );
-    }
-  }]);
+      ),
+      _react2.default.createElement(
+        _Stateful2.default.Success,
+        null,
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'check'
+        )
+      ),
+      _react2.default.createElement(
+        _Stateful2.default.Failure,
+        null,
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'warning'
+        )
+      )
+    );
+
+    return _react2.default.createElement(
+      'li',
+      { className: contactClassName },
+      _react2.default.createElement(_AvatarItem2.default, { image: contact.avatar,
+        placeholder: contact.placeholder,
+        size: 'small',
+        title: contact.name }),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-xs' },
+        _react2.default.createElement('span', { className: 'title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(contact.name) } })
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'controls' },
+        controls
+      )
+    );
+  };
 
   return ContactItem;
 })(_react.Component);

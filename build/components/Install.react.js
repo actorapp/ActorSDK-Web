@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -34,31 +30,28 @@ var Install = (function (_Component) {
   function Install(props) {
     _classCallCheck(this, Install);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Install).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     var SharedActor = _SharedContainer2.default.get();
     _this.appName = SharedActor.appName ? SharedActor.appName : _ActorAppConstants.appName;
     return _this;
   }
 
-  _createClass(Install, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'section',
-        { className: 'mobile-placeholder col-xs row center-xs middle-xs' },
-        _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement('img', { alt: this.appName + ' messenger',
-            className: 'logo',
-            src: 'assets/images/logo.png',
-            srcSet: 'assets/images/logo@2x.png 2x' }),
-          _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'main.install', values: { appName: this.appName } })
-        )
-      );
-    }
-  }]);
+  Install.prototype.render = function render() {
+    return _react2.default.createElement(
+      'section',
+      { className: 'mobile-placeholder col-xs row center-xs middle-xs' },
+      _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement('img', { alt: this.appName + ' messenger',
+          className: 'logo',
+          src: 'assets/images/logo.png',
+          srcSet: 'assets/images/logo@2x.png 2x' }),
+        _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'main.install', values: { appName: this.appName } })
+      )
+    );
+  };
 
   return Install;
 })(_react.Component);

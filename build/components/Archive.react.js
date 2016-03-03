@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -58,7 +54,7 @@ var Archive = (function (_Component) {
   function Archive(props) {
     _classCallCheck(this, Archive);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Archive).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.loadArchiveByScroll = (0, _lodash.debounce)(function () {
       var _this$state = _this.state;
@@ -78,141 +74,135 @@ var Archive = (function (_Component) {
     return _this;
   }
 
-  _createClass(Archive, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      _ArchiveActionCreators2.default.loadArchivedDialogs();
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      var _state = this.state;
-      var isInitialLoadingComplete = _state.isInitialLoadingComplete;
-      var isAllLoaded = _state.isAllLoaded;
-      var isLoading = _state.isLoading;
+  Archive.calculateState = function calculateState() {
+    return {
+      isLoading: _ArchiveStore2.default.isArchiveLoading(),
+      isInitialLoadingComplete: _ArchiveStore2.default.isInitialLoadingComplete(),
+      isAllLoaded: _ArchiveStore2.default.isAllLoaded(),
+      dialogs: _ArchiveStore2.default.getDialogs()
+    };
+  };
 
-      if (isInitialLoadingComplete && !isAllLoaded && !isLoading) {
-        var scrollNode = (0, _reactDom.findDOMNode)(this.refs.archiveScroll);
-        var scrollContent = scrollNode.getElementsByClassName('ss-content')[0];
-        if (scrollContent.scrollHeight < scrollNode.scrollHeight) {
-          setTimeout(function () {
-            _ArchiveActionCreators2.default.loadMoreArchivedDialogs();
-          }, 0);
-        }
+  Archive.prototype.componentWillMount = function componentWillMount() {
+    _ArchiveActionCreators2.default.loadArchivedDialogs();
+  };
+
+  Archive.prototype.componentDidUpdate = function componentDidUpdate() {
+    var _state = this.state;
+    var isInitialLoadingComplete = _state.isInitialLoadingComplete;
+    var isAllLoaded = _state.isAllLoaded;
+    var isLoading = _state.isLoading;
+
+    if (isInitialLoadingComplete && !isAllLoaded && !isLoading) {
+      var scrollNode = (0, _reactDom.findDOMNode)(this.refs.archiveScroll);
+      var scrollContent = scrollNode.getElementsByClassName('ss-content')[0];
+      if (scrollContent.scrollHeight < scrollNode.scrollHeight) {
+        setTimeout(function () {
+          _ArchiveActionCreators2.default.loadMoreArchivedDialogs();
+        }, 0);
       }
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state2 = this.state;
-      var isLoading = _state2.isLoading;
-      var dialogs = _state2.dialogs;
-      var isAllLoaded = _state2.isAllLoaded;
+  };
 
-      var archiveClassname = (0, _classnames2.default)('archive-section', {
-        'archive-section--loading': isLoading
-      });
+  Archive.prototype.render = function render() {
+    var _state2 = this.state;
+    var isLoading = _state2.isLoading;
+    var dialogs = _state2.dialogs;
+    var isAllLoaded = _state2.isAllLoaded;
 
-      var dialogsList = (0, _lodash.map)(dialogs, function (dialog, index) {
-        var counter = dialog.counter;
-        var peer = dialog.peer;
+    var archiveClassname = (0, _classnames2.default)('archive-section', {
+      'archive-section--loading': isLoading
+    });
 
-        return _react2.default.createElement(
-          'div',
-          { className: 'archive-section__list__item col-xs-12 col-sm-6 col-md-4 col-lg-3', key: index },
-          _react2.default.createElement(
-            _reactRouter.Link,
-            { to: '/im/' + peer.peer.key, className: 'archive-item row' },
-            _react2.default.createElement(
-              'div',
-              { className: 'archive-item__avatar' },
-              _react2.default.createElement(_AvatarItem2.default, { image: peer.avatar,
-                placeholder: peer.placeholder,
-                size: 'medium',
-                title: peer.title }),
-              counter !== 0 ? _react2.default.createElement(
-                'div',
-                { className: 'archive-item__counter' },
-                counter
-              ) : null
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'col-xs' },
-              _react2.default.createElement(
-                'h4',
-                { className: 'archive-item__title' },
-                peer.title
-              )
-            )
-          )
-        );
-      });
+    var dialogsList = (0, _lodash.map)(dialogs, function (dialog, index) {
+      var counter = dialog.counter;
+      var peer = dialog.peer;
 
       return _react2.default.createElement(
-        'section',
-        { className: 'main' },
+        'div',
+        { className: 'archive-section__list__item col-xs-12 col-sm-6 col-md-4 col-lg-3', key: index },
         _react2.default.createElement(
-          'header',
-          { className: 'toolbar row' },
+          _reactRouter.Link,
+          { to: '/im/' + peer.peer.key, className: 'archive-item row' },
           _react2.default.createElement(
-            'h3',
-            null,
-            'Archive'
-          )
-        ),
-        _react2.default.createElement(_ConnectionState2.default, null),
-        _react2.default.createElement(
-          'div',
-          { className: 'flexrow' },
+            'div',
+            { className: 'archive-item__avatar' },
+            _react2.default.createElement(_AvatarItem2.default, { image: peer.avatar,
+              placeholder: peer.placeholder,
+              size: 'medium',
+              title: peer.title }),
+            counter !== 0 ? _react2.default.createElement(
+              'div',
+              { className: 'archive-item__counter' },
+              counter
+            ) : null
+          ),
           _react2.default.createElement(
-            'section',
-            { className: archiveClassname },
+            'div',
+            { className: 'col-xs' },
             _react2.default.createElement(
-              _Scrollbar2.default,
-              { ref: 'archiveScroll', onScroll: this.loadArchiveByScroll },
-              _react2.default.createElement(
-                'div',
-                { className: 'archive-section__list row' },
-                dialogs.length !== 0 ? dialogsList : !isLoading ? _react2.default.createElement(
-                  'div',
-                  { className: 'archive-section__list__item archive-section__list__item--empty col-xs-12' },
-                  _react2.default.createElement(
-                    'h3',
-                    null,
-                    'No dialogs in archive'
-                  )
-                ) : null,
-                isLoading ? _react2.default.createElement(
-                  'div',
-                  { className: 'archive-section__list__item archive-section__list__item--loading col-xs-12 col-sm-6 col-md-4 col-lg-3' },
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'preloader' },
-                    _react2.default.createElement('div', null),
-                    _react2.default.createElement('div', null),
-                    _react2.default.createElement('div', null),
-                    _react2.default.createElement('div', null),
-                    _react2.default.createElement('div', null)
-                  )
-                ) : null
-              )
+              'h4',
+              { className: 'archive-item__title' },
+              peer.title
             )
           )
         )
       );
-    }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        isLoading: _ArchiveStore2.default.isArchiveLoading(),
-        isInitialLoadingComplete: _ArchiveStore2.default.isInitialLoadingComplete(),
-        isAllLoaded: _ArchiveStore2.default.isAllLoaded(),
-        dialogs: _ArchiveStore2.default.getDialogs()
-      };
-    }
-  }]);
+    });
+
+    return _react2.default.createElement(
+      'section',
+      { className: 'main' },
+      _react2.default.createElement(
+        'header',
+        { className: 'toolbar row' },
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Archive'
+        )
+      ),
+      _react2.default.createElement(_ConnectionState2.default, null),
+      _react2.default.createElement(
+        'div',
+        { className: 'flexrow' },
+        _react2.default.createElement(
+          'section',
+          { className: archiveClassname },
+          _react2.default.createElement(
+            _Scrollbar2.default,
+            { ref: 'archiveScroll', onScroll: this.loadArchiveByScroll },
+            _react2.default.createElement(
+              'div',
+              { className: 'archive-section__list row' },
+              dialogs.length !== 0 ? dialogsList : !isLoading ? _react2.default.createElement(
+                'div',
+                { className: 'archive-section__list__item archive-section__list__item--empty col-xs-12' },
+                _react2.default.createElement(
+                  'h3',
+                  null,
+                  'No dialogs in archive'
+                )
+              ) : null,
+              isLoading ? _react2.default.createElement(
+                'div',
+                { className: 'archive-section__list__item archive-section__list__item--loading col-xs-12 col-sm-6 col-md-4 col-lg-3' },
+                _react2.default.createElement(
+                  'div',
+                  { className: 'preloader' },
+                  _react2.default.createElement('div', null),
+                  _react2.default.createElement('div', null),
+                  _react2.default.createElement('div', null),
+                  _react2.default.createElement('div', null),
+                  _react2.default.createElement('div', null)
+                )
+              ) : null
+            )
+          )
+        )
+      )
+    );
+  };
 
   return Archive;
 })(_react.Component);

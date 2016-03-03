@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -51,7 +47,7 @@ var MentionDropdown = (function (_Component) {
   function MentionDropdown(props) {
     _classCallCheck(this, MentionDropdown);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MentionDropdown).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _initialiseProps.call(_this);
 
@@ -64,162 +60,154 @@ var MentionDropdown = (function (_Component) {
     return _this;
   }
 
-  _createClass(MentionDropdown, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
+  MentionDropdown.prototype.componentWillUnmount = function componentWillUnmount() {
+    this.cleanListeners();
+  };
+
+  MentionDropdown.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
+    if (nextState.isOpen && !this.state.isOpen) {
+      this.setListeners();
+    } else if (!nextState.isOpen && this.state.isOpen) {
       this.cleanListeners();
     }
-  }, {
-    key: 'componentWillUpdate',
-    value: function componentWillUpdate(nextProps, nextState) {
-      if (nextState.isOpen && !this.state.isOpen) {
-        this.setListeners();
-      } else if (!nextState.isOpen && this.state.isOpen) {
-        this.cleanListeners();
-      }
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(props) {
-      var mentions = props.mentions;
+  };
 
-      this.setState({
-        isOpen: mentions && mentions.length > 0,
-        selectedIndex: 0
-      });
-    }
-  }, {
-    key: 'setListeners',
-    value: function setListeners() {
-      document.addEventListener('keydown', this.onKeyDown, false);
-      document.addEventListener('click', this.closeMentions, false);
-    }
-  }, {
-    key: 'cleanListeners',
-    value: function cleanListeners() {
-      document.removeEventListener('keydown', this.onKeyDown, false);
-      document.removeEventListener('click', this.closeMentions, false);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
+  MentionDropdown.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
+    var mentions = props.mentions;
 
-      var _props = this.props;
-      var className = _props.className;
-      var mentions = _props.mentions;
-      var _state = this.state;
-      var isOpen = _state.isOpen;
-      var selectedIndex = _state.selectedIndex;
+    this.setState({
+      isOpen: mentions && mentions.length > 0,
+      selectedIndex: 0
+    });
+  };
 
-      var mentionClassName = (0, _classnames2.default)('mention', {
-        'mention--opened': isOpen
-      }, className);
-      var mentionsElements = (0, _lodash.map)(mentions, function (mention, index) {
-        var itemClassName = (0, _classnames2.default)('mention__list__item', {
-          'mention__list__item--active': selectedIndex === index
-        });
+  MentionDropdown.prototype.setListeners = function setListeners() {
+    document.addEventListener('keydown', this.onKeyDown, false);
+    document.addEventListener('click', this.closeMentions, false);
+  };
 
-        var title = mention.isNick ? [_react2.default.createElement(
-          'span',
-          { className: 'nickname' },
-          mention.mentionText
-        ), _react2.default.createElement(
-          'span',
-          { className: 'name' },
-          mention.secondText
-        )] : _react2.default.createElement(
-          'span',
-          { className: 'name' },
-          mention.mentionText
-        );
+  MentionDropdown.prototype.cleanListeners = function cleanListeners() {
+    document.removeEventListener('keydown', this.onKeyDown, false);
+    document.removeEventListener('click', this.closeMentions, false);
+  };
 
-        return _react2.default.createElement(
-          'li',
-          { className: itemClassName,
-            key: index,
-            onClick: function onClick() {
-              return _this2.onSelect(mention);
-            },
-            onMouseOver: function onMouseOver() {
-              return _this2.setState({ selectedIndex: index });
-            } },
-          _react2.default.createElement(_AvatarItem2.default, { image: mention.peer.avatar,
-            placeholder: mention.peer.placeholder,
-            size: 'tiny',
-            title: mention.peer.title }),
-          _react2.default.createElement(
-            'div',
-            { className: 'title' },
-            title
-          )
-        );
+  MentionDropdown.prototype.render = function render() {
+    var _this2 = this;
+
+    var _props = this.props;
+    var className = _props.className;
+    var mentions = _props.mentions;
+    var _state = this.state;
+    var isOpen = _state.isOpen;
+    var selectedIndex = _state.selectedIndex;
+
+    var mentionClassName = (0, _classnames2.default)('mention', {
+      'mention--opened': isOpen
+    }, className);
+    var mentionsElements = (0, _lodash.map)(mentions, function (mention, index) {
+      var itemClassName = (0, _classnames2.default)('mention__list__item', {
+        'mention__list__item--active': selectedIndex === index
       });
 
-      if (isOpen) {
-        return _react2.default.createElement(
+      var title = mention.isNick ? [_react2.default.createElement(
+        'span',
+        { className: 'nickname' },
+        mention.mentionText
+      ), _react2.default.createElement(
+        'span',
+        { className: 'name' },
+        mention.secondText
+      )] : _react2.default.createElement(
+        'span',
+        { className: 'name' },
+        mention.mentionText
+      );
+
+      return _react2.default.createElement(
+        'li',
+        { className: itemClassName,
+          key: index,
+          onClick: function onClick() {
+            return _this2.onSelect(mention);
+          },
+          onMouseOver: function onMouseOver() {
+            return _this2.setState({ selectedIndex: index });
+          } },
+        _react2.default.createElement(_AvatarItem2.default, { image: mention.peer.avatar,
+          placeholder: mention.peer.placeholder,
+          size: 'tiny',
+          title: mention.peer.title }),
+        _react2.default.createElement(
           'div',
-          { className: mentionClassName },
+          { className: 'title' },
+          title
+        )
+      );
+    });
+
+    if (isOpen) {
+      return _react2.default.createElement(
+        'div',
+        { className: mentionClassName },
+        _react2.default.createElement(
+          'div',
+          { className: 'mention__wrapper' },
           _react2.default.createElement(
-            'div',
-            { className: 'mention__wrapper' },
+            'header',
+            { className: 'mention__header' },
             _react2.default.createElement(
-              'header',
-              { className: 'mention__header' },
+              'div',
+              { className: 'pull-left' },
               _react2.default.createElement(
-                'div',
-                { className: 'pull-left' },
-                _react2.default.createElement(
-                  'strong',
-                  null,
-                  'tab'
-                ),
-                '  or  ',
-                _react2.default.createElement(
-                  'strong',
-                  null,
-                  '↑'
-                ),
-                _react2.default.createElement(
-                  'strong',
-                  null,
-                  '↓'
-                ),
-                '  to navigate'
+                'strong',
+                null,
+                'tab'
+              ),
+              '  or  ',
+              _react2.default.createElement(
+                'strong',
+                null,
+                '↑'
               ),
               _react2.default.createElement(
-                'div',
-                { className: 'pull-left' },
-                _react2.default.createElement(
-                  'strong',
-                  null,
-                  '↵'
-                ),
-                '  to select'
+                'strong',
+                null,
+                '↓'
               ),
-              _react2.default.createElement(
-                'div',
-                { className: 'pull-right' },
-                _react2.default.createElement(
-                  'strong',
-                  null,
-                  'esc'
-                ),
-                '  to close'
-              )
+              '  to navigate'
             ),
             _react2.default.createElement(
-              'ul',
-              { className: 'mention__list', ref: 'mentionList' },
-              mentionsElements
+              'div',
+              { className: 'pull-left' },
+              _react2.default.createElement(
+                'strong',
+                null,
+                '↵'
+              ),
+              '  to select'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'pull-right' },
+              _react2.default.createElement(
+                'strong',
+                null,
+                'esc'
+              ),
+              '  to close'
             )
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'mention__list', ref: 'mentionList' },
+            mentionsElements
           )
-        );
-      } else {
-        return null;
-      }
+        )
+      );
+    } else {
+      return null;
     }
-  }]);
+  };
 
   return MentionDropdown;
 })(_react.Component);

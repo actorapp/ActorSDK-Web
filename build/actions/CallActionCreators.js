@@ -1,8 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
@@ -65,13 +63,17 @@ exports.default = {
   setCall: function setCall(call) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_CHANGED, { call: call });
   },
-  answerCall: function answerCall(id) {
-    _ActorClient2.default.answerCall(id);
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_ANSWER, { id: id });
+  answerCall: function answerCall(callId) {
+    _ActorClient2.default.answerCall(callId);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_ANSWER, { callId: callId });
   },
-  endCall: function endCall(id) {
-    _ActorClient2.default.endCall(id);
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_END, { id: id });
+  endCall: function endCall(callId) {
+    _ActorClient2.default.endCall(callId);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_END, { callId: callId });
+  },
+  toggleCallMute: function toggleCallMute(callId) {
+    _ActorClient2.default.toggleCallMute(callId);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_MUTE_TOGGLE, { callId: callId });
   }
 };
 //# sourceMappingURL=CallActionCreators.js.map

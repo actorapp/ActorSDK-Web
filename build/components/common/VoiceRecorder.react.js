@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -37,7 +33,7 @@ var VoiceRecorder = (function (_Component) {
   function VoiceRecorder(props) {
     _classCallCheck(this, VoiceRecorder);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VoiceRecorder).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleStartRecord = function () {
       _this.recorder.initStream();
@@ -77,44 +73,41 @@ var VoiceRecorder = (function (_Component) {
     return _this;
   }
 
-  _createClass(VoiceRecorder, [{
-    key: 'render',
-    value: function render() {
-      if (isRecordingSupported) {
-        var _state = this.state;
-        var isRecording = _state.isRecording;
-        var duration = _state.duration;
+  VoiceRecorder.prototype.render = function render() {
+    if (isRecordingSupported) {
+      var _state = this.state;
+      var isRecording = _state.isRecording;
+      var duration = _state.duration;
 
-        var voiceRecorderClassName = (0, _classnames2.default)('voice-recorder', {
-          'voice-recorder--recording': isRecording
-        });
+      var voiceRecorderClassName = (0, _classnames2.default)('voice-recorder', {
+        'voice-recorder--recording': isRecording
+      });
 
-        return _react2.default.createElement(
+      return _react2.default.createElement(
+        'div',
+        { className: voiceRecorderClassName },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons icon',
+            onMouseDown: this.handleStartRecord,
+            onMouseUp: this.handleStopRecord },
+          'mic'
+        ),
+        _react2.default.createElement(
           'div',
-          { className: voiceRecorderClassName },
-          _react2.default.createElement(
-            'i',
-            { className: 'material-icons icon',
-              onMouseDown: this.handleStartRecord,
-              onMouseUp: this.handleStopRecord },
-            'mic'
-          ),
+          { className: 'duration' },
           _react2.default.createElement(
             'div',
-            { className: 'duration' },
-            _react2.default.createElement(
-              'div',
-              { className: 'fill row middle-xs center-xs' },
-              'Voice message duration:  ',
-              duration
-            )
+            { className: 'fill row middle-xs center-xs' },
+            'Voice message duration:  ',
+            duration
           )
-        );
-      } else {
-        return null;
-      }
+        )
+      );
+    } else {
+      return null;
     }
-  }]);
+  };
 
   return VoiceRecorder;
 })(_react.Component);

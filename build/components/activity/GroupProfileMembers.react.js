@@ -1,12 +1,8 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _lodash = require('lodash');
 
@@ -42,27 +38,24 @@ var GroupProfileMembers = (function (_Component) {
   function GroupProfileMembers(props) {
     _classCallCheck(this, GroupProfileMembers);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(GroupProfileMembers).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(GroupProfileMembers, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var groupId = _props.groupId;
-      var members = _props.members;
+  GroupProfileMembers.prototype.render = function render() {
+    var _props = this.props;
+    var groupId = _props.groupId;
+    var members = _props.members;
 
-      var membersList = (0, _lodash.map)(members, function (member, index) {
-        return _react2.default.createElement(_GroupMember2.default, _extends({}, member, { gid: groupId, key: index }));
-      });
+    var membersList = (0, _lodash.map)(members, function (member, index) {
+      return _react2.default.createElement(_GroupMember2.default, _extends({}, member, { gid: groupId, key: index }));
+    });
 
-      return _react2.default.createElement(
-        'ul',
-        { className: 'group_profile__members__list' },
-        membersList
-      );
-    }
-  }]);
+    return _react2.default.createElement(
+      'ul',
+      { className: 'group_profile__members__list' },
+      membersList
+    );
+  };
 
   return GroupProfileMembers;
 })(_react.Component);

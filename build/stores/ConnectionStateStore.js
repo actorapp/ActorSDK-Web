@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -36,30 +32,26 @@ var ConnectionStateStore = (function (_Store) {
   function ConnectionStateStore(dispatcher) {
     _classCallCheck(this, ConnectionStateStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(ConnectionStateStore).call(this, dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
   }
 
   /**
    * @returns {string} Connection state
    */
 
-  _createClass(ConnectionStateStore, [{
-    key: 'getState',
-    value: function getState() {
-      return _state;
+  ConnectionStateStore.prototype.getState = function getState() {
+    return _state;
+  };
+
+  ConnectionStateStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.CONNECTION_STATE_CHANGED:
+        _state = action.state;
+        this.__emitChange();
+        break;
+      default:
     }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.CONNECTION_STATE_CHANGED:
-          _state = action.state;
-          this.__emitChange();
-          break;
-        default:
-      }
-    }
-  }]);
+  };
 
   return ConnectionStateStore;
 })(_utils.Store);

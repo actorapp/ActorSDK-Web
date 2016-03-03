@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -32,42 +28,39 @@ var EmptyScreen = (function (_Component) {
   function EmptyScreen(props) {
     _classCallCheck(this, EmptyScreen);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(EmptyScreen).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(EmptyScreen, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'section',
-        { className: 'main' },
+  EmptyScreen.prototype.render = function render() {
+    return _react2.default.createElement(
+      'section',
+      { className: 'main' },
+      _react2.default.createElement(
+        'div',
+        { className: 'flexrow' },
         _react2.default.createElement(
-          'div',
-          { className: 'flexrow' },
+          'section',
+          { className: 'dialog dialog--empty row center-xs middle-xs' },
+          _react2.default.createElement(_ConnectionState2.default, null),
           _react2.default.createElement(
-            'section',
-            { className: 'dialog dialog--empty row center-xs middle-xs' },
-            _react2.default.createElement(_ConnectionState2.default, null),
+            'div',
+            { className: 'advice' },
             _react2.default.createElement(
               'div',
-              { className: 'advice' },
-              _react2.default.createElement(
-                'div',
-                { className: 'logo' },
-                _react2.default.createElement('svg', { className: 'icon icon--gray',
-                  dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#star"/>' } })
-              ),
-              _react2.default.createElement(
-                'h2',
-                null,
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'main.empty' })
-              )
+              { className: 'logo' },
+              _react2.default.createElement('svg', { className: 'icon icon--gray',
+                dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#star"/>' } })
+            ),
+            _react2.default.createElement(
+              'h2',
+              null,
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'main.empty' })
             )
           )
         )
-      );
-    }
-  }]);
+      )
+    );
+  };
 
   return EmptyScreen;
 })(_react.Component);

@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -34,25 +30,21 @@ var NotificationsStore = (function (_Store) {
   function NotificationsStore() {
     _classCallCheck(this, NotificationsStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(NotificationsStore).apply(this, arguments));
+    return _possibleConstructorReturn(this, _Store.apply(this, arguments));
   }
 
-  _createClass(NotificationsStore, [{
-    key: 'isNotificationsEnabled',
-    value: function isNotificationsEnabled(peer) {
-      return _ActorClient2.default.isNotificationsEnabled(peer);
+  NotificationsStore.prototype.isNotificationsEnabled = function isNotificationsEnabled(peer) {
+    return _ActorClient2.default.isNotificationsEnabled(peer);
+  };
+
+  NotificationsStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.NOTIFICATION_CHANGE:
+        this.__emitChange();
+        break;
+      default:
     }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.NOTIFICATION_CHANGE:
-          this.__emitChange();
-          break;
-        default:
-      }
-    }
-  }]);
+  };
 
   return NotificationsStore;
 })(_utils.Store);

@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -40,82 +36,73 @@ var MyProfileStore = (function (_Store) {
   function MyProfileStore(Dispatcher) {
     _classCallCheck(this, MyProfileStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(MyProfileStore).call(this, Dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, Dispatcher));
   }
 
-  _createClass(MyProfileStore, [{
-    key: 'isModalOpen',
-    value: function isModalOpen() {
-      return _isModalOpen;
-    }
-  }, {
-    key: 'getName',
-    value: function getName() {
-      return _name;
-    }
-  }, {
-    key: 'getNick',
-    value: function getNick() {
-      return _nick;
-    }
-  }, {
-    key: 'getAbout',
-    value: function getAbout() {
-      return _about;
-    }
-  }, {
-    key: 'getProfile',
-    value: function getProfile() {
-      return _profile;
-    }
-  }, {
-    key: 'setProfile',
-    value: function setProfile(profile) {
-      _profile = profile;
-      _name = profile.name;
-      _nick = profile.nick;
-      _about = profile.about;
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.MY_PROFILE_MODAL_SHOW:
-          _isModalOpen = true;
+  MyProfileStore.prototype.isModalOpen = function isModalOpen() {
+    return _isModalOpen;
+  };
+
+  MyProfileStore.prototype.getName = function getName() {
+    return _name;
+  };
+
+  MyProfileStore.prototype.getNick = function getNick() {
+    return _nick;
+  };
+
+  MyProfileStore.prototype.getAbout = function getAbout() {
+    return _about;
+  };
+
+  MyProfileStore.prototype.getProfile = function getProfile() {
+    return _profile;
+  };
+
+  MyProfileStore.prototype.setProfile = function setProfile(profile) {
+    _profile = profile;
+    _name = profile.name;
+    _nick = profile.nick;
+    _about = profile.about;
+  };
+
+  MyProfileStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.MY_PROFILE_MODAL_SHOW:
+        _isModalOpen = true;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.MY_PROFILE_MODAL_HIDE:
+        _isModalOpen = false;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.MY_PROFILE_CHANGED:
+        this.setProfile(action.profile);
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.MY_PROFILE_SAVE_NAME:
+        if (_name !== action.name) {
+          _name = action.name;
+          _ActorClient2.default.editMyName(_name);
           this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.MY_PROFILE_MODAL_HIDE:
-          _isModalOpen = false;
+        }
+        break;
+      case _ActorAppConstants.ActionTypes.MY_PROFILE_SAVE_NICKNAME:
+        if (_nick !== action.nick) {
+          _nick = action.nick;
+          _ActorClient2.default.editMyNick(_nick);
           this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.MY_PROFILE_CHANGED:
-          this.setProfile(action.profile);
+        }
+        break;
+      case _ActorAppConstants.ActionTypes.MY_PROFILE_EDIT_ABOUT_SUCCESS:
+        if (_about !== action.about) {
+          _about = action.about;
           this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.MY_PROFILE_SAVE_NAME:
-          if (_name !== action.name) {
-            _name = action.name;
-            _ActorClient2.default.editMyName(_name);
-            this.__emitChange();
-          }
-          break;
-        case _ActorAppConstants.ActionTypes.MY_PROFILE_SAVE_NICKNAME:
-          if (_nick !== action.nick) {
-            _nick = action.nick;
-            _ActorClient2.default.editMyNick(_nick);
-            this.__emitChange();
-          }
-          break;
-        case _ActorAppConstants.ActionTypes.MY_PROFILE_EDIT_ABOUT_SUCCESS:
-          if (_about !== action.about) {
-            _about = action.about;
-            this.__emitChange();
-          }
-          break;
-        default:
-      }
+        }
+        break;
+      default:
     }
-  }]);
+  };
 
   return MyProfileStore;
 })(_utils.Store);

@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -34,25 +30,22 @@ var Loading = (function (_Component) {
   function Loading(props) {
     _classCallCheck(this, Loading);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Loading).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(Loading, [{
-    key: 'render',
-    value: function render() {
-      var intl = this.context.intl;
+  Loading.prototype.render = function render() {
+    var intl = this.context.intl;
 
-      return _react2.default.createElement(
-        'li',
-        { className: 'message message--loading' },
-        _react2.default.createElement(
-          'div',
-          { className: 'message__body col-xs text-center' },
-          intl.messages['message.loading']
-        )
-      );
-    }
-  }]);
+    return _react2.default.createElement(
+      'li',
+      { className: 'message message--loading' },
+      _react2.default.createElement(
+        'div',
+        { className: 'message__body col-xs text-center' },
+        intl.messages['message.loading']
+      )
+    );
+  };
 
   return Loading;
 })(_react.Component);

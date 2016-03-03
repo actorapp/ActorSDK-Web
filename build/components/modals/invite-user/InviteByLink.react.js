@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -66,7 +62,7 @@ var InviteByLink = (function (_Component) {
   function InviteByLink(props) {
     _classCallCheck(this, InviteByLink);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(InviteByLink).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onChange = function () {
       return _this.setState(getStateFromStores());
@@ -100,102 +96,97 @@ var InviteByLink = (function (_Component) {
     return _this;
   }
 
-  _createClass(InviteByLink, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      _InviteUserStore2.default.removeChangeListener(this.onChange);
+  InviteByLink.prototype.componentWillUnmount = function componentWillUnmount() {
+    _InviteUserStore2.default.removeChangeListener(this.onChange);
+  };
+
+  InviteByLink.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
+    if (nextState.isOpen && !this.state.isOpen) {
+      document.addEventListener('keydown', this.onKeyDown, false);
+    } else if (this.state.isOpen && !nextState.isOpen) {
+      document.removeEventListener('keydown', this.onKeyDown, false);
     }
-  }, {
-    key: 'componentWillUpdate',
-    value: function componentWillUpdate(nextProps, nextState) {
-      if (nextState.isOpen && !this.state.isOpen) {
-        document.addEventListener('keydown', this.onKeyDown, false);
-      } else if (this.state.isOpen && !nextState.isOpen) {
-        document.removeEventListener('keydown', this.onKeyDown, false);
+  };
+
+  InviteByLink.prototype.render = function render() {
+    var _state = this.state;
+    var group = _state.group;
+    var inviteUrl = _state.inviteUrl;
+    var isOpen = _state.isOpen;
+    var intl = this.context.intl;
+
+    var groupName = group !== null ? _react2.default.createElement('b', { dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.name) } }) : null;
+
+    var modalStyle = {
+      content: {
+        position: null,
+        top: null,
+        left: null,
+        right: null,
+        bottom: null,
+        border: null,
+        background: null,
+        overflow: null,
+        outline: null,
+        padding: null,
+        borderRadius: null,
+        width: 440
       }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state = this.state;
-      var group = _state.group;
-      var inviteUrl = _state.inviteUrl;
-      var isOpen = _state.isOpen;
-      var intl = this.context.intl;
+    };
 
-      var groupName = group !== null ? _react2.default.createElement('b', { dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.name) } }) : null;
-
-      var modalStyle = {
-        content: {
-          position: null,
-          top: null,
-          left: null,
-          right: null,
-          bottom: null,
-          border: null,
-          background: null,
-          overflow: null,
-          outline: null,
-          padding: null,
-          borderRadius: null,
-          width: 440
-        }
-      };
-
-      if (isOpen) {
-        return _react2.default.createElement(
-          _reactModal2.default,
-          { className: 'modal-new modal-new--invite-by-link',
-            closeTimeoutMS: 150,
-            isOpen: isOpen,
-            style: modalStyle },
+    if (isOpen) {
+      return _react2.default.createElement(
+        _reactModal2.default,
+        { className: 'modal-new modal-new--invite-by-link',
+          closeTimeoutMS: 150,
+          isOpen: isOpen,
+          style: modalStyle },
+        _react2.default.createElement(
+          'header',
+          { className: 'modal-new__header' },
+          _react2.default.createElement('svg', { className: 'modal-new__header__icon icon icon--blue',
+            dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#back"/>' },
+            onClick: this.onBackClick }),
           _react2.default.createElement(
-            'header',
-            { className: 'modal-new__header' },
-            _react2.default.createElement('svg', { className: 'modal-new__header__icon icon icon--blue',
-              dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#back"/>' },
-              onClick: this.onBackClick }),
-            _react2.default.createElement(
-              'h3',
-              { className: 'modal-new__header__title' },
-              intl.messages['inviteByLinkModalTitle']
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'pull-right' },
-              _react2.default.createElement(
-                'button',
-                { className: 'button button--lightblue', onClick: this.onClose },
-                intl.messages['button.done']
-              )
-            )
+            'h3',
+            { className: 'modal-new__header__title' },
+            intl.messages['inviteByLinkModalTitle']
           ),
           _react2.default.createElement(
             'div',
-            { className: 'modal-new__body' },
-            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'inviteByLinkModalDescription', values: { groupName: groupName } }),
-            _react2.default.createElement('textarea', { className: 'textarea', onClick: this.onInviteLinkClick, readOnly: true, row: '3', value: inviteUrl })
-          ),
-          _react2.default.createElement(
-            'footer',
-            { className: 'modal-new__footer' },
+            { className: 'pull-right' },
             _react2.default.createElement(
               'button',
-              { className: 'button button--rised pull-left hide' },
-              intl.messages['inviteByLinkModalRevokeButton']
-            ),
-            _react2.default.createElement(
-              'button',
-              { className: 'button button--rised pull-right hide' },
-              intl.messages['inviteByLinkModalCopyButton']
+              { className: 'button button--lightblue', onClick: this.onClose },
+              intl.messages['button.done']
             )
           )
-        );
-      } else {
-        return null;
-      }
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'modal-new__body' },
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'inviteByLinkModalDescription', values: { groupName: groupName } }),
+          _react2.default.createElement('textarea', { className: 'textarea', onClick: this.onInviteLinkClick, readOnly: true, row: '3', value: inviteUrl })
+        ),
+        _react2.default.createElement(
+          'footer',
+          { className: 'modal-new__footer' },
+          _react2.default.createElement(
+            'button',
+            { className: 'button button--rised pull-left hide' },
+            intl.messages['inviteByLinkModalRevokeButton']
+          ),
+          _react2.default.createElement(
+            'button',
+            { className: 'button button--rised pull-right hide' },
+            intl.messages['inviteByLinkModalCopyButton']
+          )
+        )
+      );
+    } else {
+      return null;
     }
-  }]);
+  };
 
   return InviteByLink;
 })(_react.Component);

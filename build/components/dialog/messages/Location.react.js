@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -36,7 +32,7 @@ var Location = (function (_Component) {
   function Location(props) {
     _classCallCheck(this, Location);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Location).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleMapClick = function (event) {
       var content = _this.props.content;
@@ -53,26 +49,23 @@ var Location = (function (_Component) {
     return _this;
   }
 
-  _createClass(Location, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var content = _props.content;
-      var className = _props.className;
+  Location.prototype.render = function render() {
+    var _props = this.props;
+    var content = _props.content;
+    var className = _props.className;
 
-      var imageSrc = 'https://maps.googleapis.com/maps/api/staticmap?center=' + content.latitude + ',' + content.longitude + '&zoom=15&size=' + MAP_SIZE + '&scale=2&maptype=roadmap&markers=color:red%7C' + content.latitude + ',' + content.longitude;
+    var imageSrc = 'https://maps.googleapis.com/maps/api/staticmap?center=' + content.latitude + ',' + content.longitude + '&zoom=15&size=' + MAP_SIZE + '&scale=2&maptype=roadmap&markers=color:red%7C' + content.latitude + ',' + content.longitude;
 
-      return _react2.default.createElement(
+    return _react2.default.createElement(
+      'div',
+      { className: className },
+      _react2.default.createElement(
         'div',
-        { className: className },
-        _react2.default.createElement(
-          'div',
-          { className: 'location', onClick: this.handleMapClick },
-          _react2.default.createElement('img', { src: imageSrc, alt: 'Location' })
-        )
-      );
-    }
-  }]);
+        { className: 'location', onClick: this.handleMapClick },
+        _react2.default.createElement('img', { src: imageSrc, alt: 'Location' })
+      )
+    );
+  };
 
   return Location;
 })(_react.Component);

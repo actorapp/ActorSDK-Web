@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -32,30 +28,26 @@ var VisibilityStore = (function (_Store) {
   function VisibilityStore(Dispatcher) {
     _classCallCheck(this, VisibilityStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(VisibilityStore).call(this, Dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, Dispatcher));
   }
 
-  _createClass(VisibilityStore, [{
-    key: 'isAppVisible',
-    value: function isAppVisible() {
-      return isVisible;
+  VisibilityStore.prototype.isAppVisible = function isAppVisible() {
+    return isVisible;
+  };
+
+  VisibilityStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.APP_VISIBLE:
+        isVisible = true;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.APP_HIDDEN:
+        isVisible = false;
+        this.__emitChange();
+        break;
+      default:
     }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.APP_VISIBLE:
-          isVisible = true;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.APP_HIDDEN:
-          isVisible = false;
-          this.__emitChange();
-          break;
-        default:
-      }
-    }
-  }]);
+  };
 
   return VisibilityStore;
 })(_utils.Store);

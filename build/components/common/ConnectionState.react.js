@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -44,37 +40,33 @@ var ConnectionState = (function (_Component) {
   function ConnectionState(props) {
     _classCallCheck(this, ConnectionState);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ConnectionState).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     var SharedActor = _SharedContainer2.default.get();
     _this.appName = SharedActor.appName ? SharedActor.appName : _ActorAppConstants.appName;
     return _this;
   }
 
-  _createClass(ConnectionState, [{
-    key: 'render',
-    value: function render() {
-      var connectionState = this.state.connectionState;
+  ConnectionState.calculateState = function calculateState() {
+    return {
+      connectionState: _ConnectionStateStore2.default.getState()
+    };
+  };
 
-      var className = (0, _classnames2.default)('connection-state', {
-        'connection-state--online': connectionState === _ActorAppConstants.ConnectionStates.ONLINE,
-        'connection-state--connection': connectionState === _ActorAppConstants.ConnectionStates.CONNECTING
-      });
+  ConnectionState.prototype.render = function render() {
+    var connectionState = this.state.connectionState;
 
-      return _react2.default.createElement(
-        'div',
-        { className: className },
-        connectionState !== _ActorAppConstants.ConnectionStates.UPDATING ? _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'connectionState.' + connectionState, values: { appName: this.appName } }) : null
-      );
-    }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        connectionState: _ConnectionStateStore2.default.getState()
-      };
-    }
-  }]);
+    var className = (0, _classnames2.default)('connection-state', {
+      'connection-state--online': connectionState === _ActorAppConstants.ConnectionStates.ONLINE,
+      'connection-state--connection': connectionState === _ActorAppConstants.ConnectionStates.CONNECTING
+    });
+
+    return _react2.default.createElement(
+      'div',
+      { className: className },
+      connectionState !== _ActorAppConstants.ConnectionStates.UPDATING ? _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'connectionState.' + connectionState, values: { appName: this.appName } }) : null
+    );
+  };
 
   return ConnectionState;
 })(_react.Component);

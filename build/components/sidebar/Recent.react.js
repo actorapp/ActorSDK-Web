@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -62,7 +58,7 @@ var Recent = (function (_Component) {
   function Recent(props) {
     _classCallCheck(this, Recent);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Recent).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleCreateGroup = function () {
       return _CreateGroupActionCreators2.default.open();
@@ -145,156 +141,152 @@ var Recent = (function (_Component) {
     return _this;
   }
 
-  _createClass(Recent, [{
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate(prevProps) {
-      if (prevProps !== this.props) {
-        this.checkInvisibleCounters();
-      }
+  Recent.prototype.componentDidUpdate = function componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this.checkInvisibleCounters();
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
+  };
 
-      var dialogs = this.props.dialogs;
-      var _state = this.state;
-      var haveUnreadAbove = _state.haveUnreadAbove;
-      var haveUnreadBelow = _state.haveUnreadBelow;
-      var intl = this.context.intl;
+  Recent.prototype.render = function render() {
+    var _this2 = this;
 
-      var recentGroups = (0, _lodash.map)(dialogs, function (dialogGroup, index) {
-        var isEmpty = dialogGroup.shorts.length === 0;
-        var groupTitle = undefined;
+    var dialogs = this.props.dialogs;
+    var _state = this.state;
+    var haveUnreadAbove = _state.haveUnreadAbove;
+    var haveUnreadBelow = _state.haveUnreadBelow;
+    var intl = this.context.intl;
 
-        switch (dialogGroup.key) {
-          case 'groups':
-            groupTitle = _react2.default.createElement(
-              'li',
-              { className: 'sidebar__list__title' },
-              _react2.default.createElement(
-                'a',
-                { onClick: _this2.handleGroupListClick },
-                intl.messages['sidebar.recents.' + dialogGroup.key]
-              ),
-              _react2.default.createElement(
-                'i',
-                { className: 'material-icons sidebar__list__title__icon pull-right',
-                  onClick: _this2.handleCreateGroup },
-                'add_circle_outline'
-              )
-            );
-            break;
-          case 'privates':
-            groupTitle = _react2.default.createElement(
-              'li',
-              { className: 'sidebar__list__title' },
-              _react2.default.createElement(
-                'a',
-                { onClick: _this2.handlePrivateListClick },
-                intl.messages['sidebar.recents.' + dialogGroup.key]
-              ),
-              _react2.default.createElement(
-                'i',
-                { className: 'material-icons sidebar__list__title__icon pull-right',
-                  onClick: _this2.handleCreatePrivate },
-                'add_circle_outline'
-              )
-            );
-            break;
-          default:
-            groupTitle = _react2.default.createElement(
-              'li',
-              { className: 'sidebar__list__title' },
+    var recentGroups = (0, _lodash.map)(dialogs, function (dialogGroup, index) {
+      var isEmpty = dialogGroup.shorts.length === 0;
+      var groupTitle = undefined;
+
+      switch (dialogGroup.key) {
+        case 'groups':
+          groupTitle = _react2.default.createElement(
+            'li',
+            { className: 'sidebar__list__title' },
+            _react2.default.createElement(
+              'a',
+              { onClick: _this2.handleGroupListClick },
               intl.messages['sidebar.recents.' + dialogGroup.key]
-            );
-        }
+            ),
+            _react2.default.createElement(
+              'i',
+              { className: 'material-icons sidebar__list__title__icon pull-right',
+                onClick: _this2.handleCreateGroup },
+              'add_circle_outline'
+            )
+          );
+          break;
+        case 'privates':
+          groupTitle = _react2.default.createElement(
+            'li',
+            { className: 'sidebar__list__title' },
+            _react2.default.createElement(
+              'a',
+              { onClick: _this2.handlePrivateListClick },
+              intl.messages['sidebar.recents.' + dialogGroup.key]
+            ),
+            _react2.default.createElement(
+              'i',
+              { className: 'material-icons sidebar__list__title__icon pull-right',
+                onClick: _this2.handleCreatePrivate },
+              'add_circle_outline'
+            )
+          );
+          break;
+        default:
+          groupTitle = _react2.default.createElement(
+            'li',
+            { className: 'sidebar__list__title' },
+            intl.messages['sidebar.recents.' + dialogGroup.key]
+          );
+      }
 
-        var groupList = (0, _lodash.map)(dialogGroup.shorts, function (dialog, index) {
-          return _react2.default.createElement(_RecentItem2.default, { dialog: dialog,
-            key: index,
-            type: dialogGroup.key });
-        });
-
-        var groupClassname = (0, _classnames2.default)('sidebar__list sidebar__list--' + dialogGroup.key, {
-          'sidebar__list--empty': isEmpty
-        });
-
-        var getEmptyMessage = function getEmptyMessage() {
-          switch (dialogGroup.key) {
-            case 'groups':
-              return _react2.default.createElement(
-                'li',
-                { className: 'sidebar__list__item sidebar__list__item--empty' },
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.group.empty' }),
-                _react2.default.createElement('div', { className: 'stem' })
-              );
-            case 'privates':
-              return _react2.default.createElement(
-                'li',
-                { className: 'sidebar__list__item sidebar__list__item--empty' },
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.private.empty' }),
-                _react2.default.createElement(
-                  'button',
-                  { className: 'button button--outline button--wide hide' },
-                  _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.invite' })
-                )
-              );
-            default:
-              return null;
-          }
-        };
-
-        return _react2.default.createElement(
-          'ul',
-          { className: groupClassname, key: index },
-          groupTitle,
-          isEmpty ? getEmptyMessage() : groupList
-        );
+      var groupList = (0, _lodash.map)(dialogGroup.shorts, function (dialog, index) {
+        return _react2.default.createElement(_RecentItem2.default, { dialog: dialog,
+          key: index,
+          type: dialogGroup.key });
       });
 
-      return _react2.default.createElement(
-        'section',
-        { className: 'sidebar__recent' },
-        haveUnreadAbove ? _react2.default.createElement(
-          'div',
-          { className: 'sidebar__recent__unread sidebar__recent__unread--above', onClick: this.scrollToFirstHiddenAbove },
-          _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'keyboard_arrow_up'
-          )
-        ) : null,
-        _react2.default.createElement(
-          _Scrollbar2.default,
-          { ref: 'container', onScroll: this.handleRecentScroll },
-          _react2.default.createElement(
-            'div',
-            null,
-            recentGroups,
-            _react2.default.createElement(
-              'footer',
-              null,
+      var groupClassname = (0, _classnames2.default)('sidebar__list sidebar__list--' + dialogGroup.key, {
+        'sidebar__list--empty': isEmpty
+      });
+
+      var getEmptyMessage = function getEmptyMessage() {
+        switch (dialogGroup.key) {
+          case 'groups':
+            return _react2.default.createElement(
+              'li',
+              { className: 'sidebar__list__item sidebar__list__item--empty' },
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.group.empty' }),
+              _react2.default.createElement('div', { className: 'stem' })
+            );
+          case 'privates':
+            return _react2.default.createElement(
+              'li',
+              { className: 'sidebar__list__item sidebar__list__item--empty' },
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.private.empty' }),
               _react2.default.createElement(
-                _reactRouter.Link,
-                { to: '/im/archive', className: 'button button--rised button--wide' },
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.archive' })
+                'button',
+                { className: 'button button--outline button--wide hide' },
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.invite' })
               )
+            );
+          default:
+            return null;
+        }
+      };
+
+      return _react2.default.createElement(
+        'ul',
+        { className: groupClassname, key: index },
+        groupTitle,
+        isEmpty ? getEmptyMessage() : groupList
+      );
+    });
+
+    return _react2.default.createElement(
+      'section',
+      { className: 'sidebar__recent' },
+      haveUnreadAbove ? _react2.default.createElement(
+        'div',
+        { className: 'sidebar__recent__unread sidebar__recent__unread--above', onClick: this.scrollToFirstHiddenAbove },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'keyboard_arrow_up'
+        )
+      ) : null,
+      _react2.default.createElement(
+        _Scrollbar2.default,
+        { ref: 'container', onScroll: this.handleRecentScroll },
+        _react2.default.createElement(
+          'div',
+          null,
+          recentGroups,
+          _react2.default.createElement(
+            'footer',
+            null,
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/im/archive', className: 'button button--rised button--wide' },
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.archive' })
             )
           )
-        ),
-        haveUnreadBelow ? _react2.default.createElement(
-          'div',
-          { className: 'sidebar__recent__unread sidebar__recent__unread--below', onClick: this.scrollToLastHiddenBelow },
-          _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'keyboard_arrow_down'
-          )
-        ) : null
-      );
-    }
-  }]);
+        )
+      ),
+      haveUnreadBelow ? _react2.default.createElement(
+        'div',
+        { className: 'sidebar__recent__unread sidebar__recent__unread--below', onClick: this.scrollToLastHiddenBelow },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'keyboard_arrow_down'
+        )
+      ) : null
+    );
+  };
 
   return Recent;
 })(_react.Component);

@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -58,7 +54,7 @@ var ModalsWrapper = (function (_Component) {
   function ModalsWrapper(props) {
     _classCallCheck(this, ModalsWrapper);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ModalsWrapper).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleKeyDown = function (event) {
       switch (event.keyCode) {
@@ -100,58 +96,52 @@ var ModalsWrapper = (function (_Component) {
     return _this;
   }
 
-  _createClass(ModalsWrapper, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      document.addEventListener('keydown', this.handleKeyDown, false);
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      document.removeEventListener('keydown', this.handleKeyDown, false);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state = this.state;
-      var isPeoplesOpen = _state.isPeoplesOpen;
-      var isGroupsOpen = _state.isGroupsOpen;
-      var intl = this.context.intl;
+  ModalsWrapper.calculateState = function calculateState() {
+    return {
+      isPeoplesOpen: _PeopleStore2.default.isOpen(),
+      isGroupsOpen: _GroupListStore2.default.isOpen()
+    };
+  };
 
-      var wrapperClassName = (0, _classnames2.default)('modal-wrapper', {
-        'modal-wrapper--opened': isPeoplesOpen || isGroupsOpen
-      });
+  ModalsWrapper.prototype.componentWillMount = function componentWillMount() {
+    document.addEventListener('keydown', this.handleKeyDown, false);
+  };
 
-      return _react2.default.createElement(
+  ModalsWrapper.prototype.componentWillUnmount = function componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyDown, false);
+  };
+
+  ModalsWrapper.prototype.render = function render() {
+    var _state = this.state;
+    var isPeoplesOpen = _state.isPeoplesOpen;
+    var isGroupsOpen = _state.isGroupsOpen;
+    var intl = this.context.intl;
+
+    var wrapperClassName = (0, _classnames2.default)('modal-wrapper', {
+      'modal-wrapper--opened': isPeoplesOpen || isGroupsOpen
+    });
+
+    return _react2.default.createElement(
+      'div',
+      { className: wrapperClassName },
+      _react2.default.createElement(
         'div',
-        { className: wrapperClassName },
+        { className: 'modal-wrapper__close', onClick: this.handleClose },
+        _react2.default.createElement(
+          'i',
+          { className: 'close_icon material-icons' },
+          'close'
+        ),
         _react2.default.createElement(
           'div',
-          { className: 'modal-wrapper__close', onClick: this.handleClose },
-          _react2.default.createElement(
-            'i',
-            { className: 'close_icon material-icons' },
-            'close'
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: 'text' },
-            intl.messages['button.close']
-          )
-        ),
-        isPeoplesOpen ? _react2.default.createElement(_PeopleList2.default, null) : null,
-        isGroupsOpen ? _react2.default.createElement(_GroupList2.default, null) : null
-      );
-    }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        isPeoplesOpen: _PeopleStore2.default.isOpen(),
-        isGroupsOpen: _GroupListStore2.default.isOpen()
-      };
-    }
-  }]);
+          { className: 'text' },
+          intl.messages['button.close']
+        )
+      ),
+      isPeoplesOpen ? _react2.default.createElement(_PeopleList2.default, null) : null,
+      isGroupsOpen ? _react2.default.createElement(_GroupList2.default, null) : null
+    );
+  };
 
   return ModalsWrapper;
 })(_react.Component);

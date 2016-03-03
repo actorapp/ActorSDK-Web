@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -46,32 +42,29 @@ var Root = (function (_Component) {
   function Root(props) {
     _classCallCheck(this, Root);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Root).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(Root, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var currentState = _props.currentState;
-      var className = _props.className;
-      var children = _props.children;
+  Root.prototype.render = function render() {
+    var _props = this.props;
+    var currentState = _props.currentState;
+    var className = _props.className;
+    var children = _props.children;
 
-      var equalsState = function equalsState(state, type) {
-        return state === _ActorAppConstants.AsyncActionStates.PENDING && type === _Pending2.default || state === _ActorAppConstants.AsyncActionStates.PROCESSING && type === _Processing2.default || state === _ActorAppConstants.AsyncActionStates.SUCCESS && type === _Success2.default || state === _ActorAppConstants.AsyncActionStates.FAILURE && type === _Failure2.default;
-      };
+    var equalsState = function equalsState(state, type) {
+      return state === _ActorAppConstants.AsyncActionStates.PENDING && type === _Pending2.default || state === _ActorAppConstants.AsyncActionStates.PROCESSING && type === _Processing2.default || state === _ActorAppConstants.AsyncActionStates.SUCCESS && type === _Success2.default || state === _ActorAppConstants.AsyncActionStates.FAILURE && type === _Failure2.default;
+    };
 
-      var currentStateChild = (0, _lodash.find)(children, function (child) {
-        if (equalsState(currentState, child.type)) return child;
-      });
+    var currentStateChild = (0, _lodash.find)(children, function (child) {
+      if (equalsState(currentState, child.type)) return child;
+    });
 
-      return _react2.default.createElement(
-        'div',
-        { className: className },
-        currentStateChild
-      );
-    }
-  }]);
+    return _react2.default.createElement(
+      'div',
+      { className: className },
+      currentStateChild
+    );
+  };
 
   return Root;
 })(_react.Component);

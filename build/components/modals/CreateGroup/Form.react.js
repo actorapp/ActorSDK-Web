@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -54,7 +50,7 @@ var CreateGroupForm = (function (_Component) {
   function CreateGroupForm(props) {
     _classCallCheck(this, CreateGroupForm);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CreateGroupForm).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onContactToggle = function (contact, isSelected) {
       var selectedUserIds = _this.state.selectedUserIds;
@@ -96,114 +92,108 @@ var CreateGroupForm = (function (_Component) {
     return _this;
   }
 
-  _createClass(CreateGroupForm, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      if (this.state.step === _ActorAppConstants.CreateGroupSteps.NAME_INPUT) {
-        this.refs.groupName.focus();
-      }
+  CreateGroupForm.getStores = function getStores() {
+    return [_PeopleStore2.default, _CreateGroupStore2.default];
+  };
+
+  CreateGroupForm.calculateState = function calculateState() {
+    return {
+      step: _CreateGroupStore2.default.getCurrentStep(),
+      name: _CreateGroupStore2.default.getGroupName(),
+      selectedUserIds: _CreateGroupStore2.default.getSelectedUserIds(),
+      contacts: _PeopleStore2.default.getList()
+    };
+  };
+
+  CreateGroupForm.prototype.componentDidMount = function componentDidMount() {
+    if (this.state.step === _ActorAppConstants.CreateGroupSteps.NAME_INPUT) {
+      this.refs.groupName.focus();
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
+  };
 
-      var _state = this.state;
-      var step = _state.step;
-      var name = _state.name;
-      var selectedUserIds = _state.selectedUserIds;
-      var contacts = _state.contacts;
-      var intl = this.context.intl;
+  CreateGroupForm.prototype.render = function render() {
+    var _this2 = this;
 
-      var stepForm = undefined;
+    var _state = this.state;
+    var step = _state.step;
+    var name = _state.name;
+    var selectedUserIds = _state.selectedUserIds;
+    var contacts = _state.contacts;
+    var intl = this.context.intl;
 
-      switch (step) {
-        case _ActorAppConstants.CreateGroupSteps.NAME_INPUT:
-          stepForm = _react2.default.createElement(
-            'form',
-            { className: 'group-name' },
+    var stepForm = undefined;
+
+    switch (step) {
+      case _ActorAppConstants.CreateGroupSteps.NAME_INPUT:
+        stepForm = _react2.default.createElement(
+          'form',
+          { className: 'group-name' },
+          _react2.default.createElement(
+            'div',
+            { className: 'modal-new__body' },
+            _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
+              floatingLabel: intl.messages['modal.createGroup.groupName'],
+              ref: 'groupName',
+              onChange: this.handleNameChange,
+              value: name })
+          ),
+          _react2.default.createElement(
+            'footer',
+            { className: 'modal-new__footer text-right' },
             _react2.default.createElement(
-              'div',
-              { className: 'modal-new__body' },
-              _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
-                floatingLabel: intl.messages['modal.createGroup.groupName'],
-                ref: 'groupName',
-                onChange: this.handleNameChange,
-                value: name })
-            ),
-            _react2.default.createElement(
-              'footer',
-              { className: 'modal-new__footer text-right' },
-              _react2.default.createElement(
-                'button',
-                { className: 'button button--lightblue',
-                  onClick: this.handleNameSubmit },
-                intl.messages['button.addMembers']
-              )
+              'button',
+              { className: 'button button--lightblue',
+                onClick: this.handleNameSubmit },
+              intl.messages['button.addMembers']
             )
-          );
-          break;
+          )
+        );
+        break;
 
-        case _ActorAppConstants.CreateGroupSteps.CONTACTS_SELECTION:
-        case _ActorAppConstants.CreateGroupSteps.CREATION_STARTED:
-          var contactList = (0, _lodash.map)(contacts, function (contact, i) {
-            return _react2.default.createElement(_ContactItem2.default, { contact: contact, key: i, onToggle: _this2.onContactToggle });
-          });
-          stepForm = _react2.default.createElement(
-            'form',
-            { className: 'group-members' },
+      case _ActorAppConstants.CreateGroupSteps.CONTACTS_SELECTION:
+      case _ActorAppConstants.CreateGroupSteps.CREATION_STARTED:
+        var contactList = (0, _lodash.map)(contacts, function (contact, i) {
+          return _react2.default.createElement(_ContactItem2.default, { contact: contact, key: i, onToggle: _this2.onContactToggle });
+        });
+        stepForm = _react2.default.createElement(
+          'form',
+          { className: 'group-members' },
+          _react2.default.createElement(
+            'div',
+            { className: 'count' },
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'members', values: { numMembers: selectedUserIds.size } })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'modal-new__body' },
             _react2.default.createElement(
-              'div',
-              { className: 'count' },
-              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'members', values: { numMembers: selectedUserIds.size } })
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'modal-new__body' },
-              _react2.default.createElement(
-                'ul',
-                { className: 'contacts__list' },
-                contactList
-              )
-            ),
-            _react2.default.createElement(
-              'footer',
-              { className: 'modal-new__footer text-right' },
-              step === _ActorAppConstants.CreateGroupSteps.CREATION_STARTED ? _react2.default.createElement(
-                'button',
-                { className: 'button button--lightblue',
-                  disabled: true },
-                intl.messages['button.createGroup']
-              ) : _react2.default.createElement(
-                'button',
-                { className: 'button button--lightblue',
-                  onClick: this.handleCreateGroup },
-                intl.messages['button.createGroup']
-              )
+              'ul',
+              { className: 'contacts__list' },
+              contactList
             )
-          );
-          break;
-        default:
-      }
+          ),
+          _react2.default.createElement(
+            'footer',
+            { className: 'modal-new__footer text-right' },
+            step === _ActorAppConstants.CreateGroupSteps.CREATION_STARTED ? _react2.default.createElement(
+              'button',
+              { className: 'button button--lightblue',
+                disabled: true },
+              intl.messages['button.createGroup']
+            ) : _react2.default.createElement(
+              'button',
+              { className: 'button button--lightblue',
+                onClick: this.handleCreateGroup },
+              intl.messages['button.createGroup']
+            )
+          )
+        );
+        break;
+      default:
+    }
 
-      return stepForm;
-    }
-  }], [{
-    key: 'getStores',
-    value: function getStores() {
-      return [_PeopleStore2.default, _CreateGroupStore2.default];
-    }
-  }, {
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        step: _CreateGroupStore2.default.getCurrentStep(),
-        name: _CreateGroupStore2.default.getGroupName(),
-        selectedUserIds: _CreateGroupStore2.default.getSelectedUserIds(),
-        contacts: _PeopleStore2.default.getList()
-      };
-    }
-  }]);
+    return stepForm;
+  };
 
   return CreateGroupForm;
 })(_react.Component);

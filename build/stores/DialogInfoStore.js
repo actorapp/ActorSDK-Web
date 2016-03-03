@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -36,34 +32,30 @@ var DialogInfoStore = (function (_Store) {
   function DialogInfoStore() {
     _classCallCheck(this, DialogInfoStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(DialogInfoStore).apply(this, arguments));
+    return _possibleConstructorReturn(this, _Store.apply(this, arguments));
   }
 
-  _createClass(DialogInfoStore, [{
-    key: 'getInfo',
-    value: function getInfo() {
-      return _info;
+  DialogInfoStore.prototype.getInfo = function getInfo() {
+    return _info;
+  };
+
+  DialogInfoStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
+        if (action.peer.type === _ActorAppConstants.PeerTypes.GROUP) {
+          _info = _ActorClient2.default.getGroup(action.peer.id);
+        } else if (action.peer.type === _ActorAppConstants.PeerTypes.USER) {
+          _info = _ActorClient2.default.getUser(action.peer.id);
+        }
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.DIALOG_INFO_CHANGED:
+        _info = action.info;
+        this.__emitChange();
+        break;
+      default:
     }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-          if (action.peer.type === _ActorAppConstants.PeerTypes.GROUP) {
-            _info = _ActorClient2.default.getGroup(action.peer.id);
-          } else if (action.peer.type === _ActorAppConstants.PeerTypes.USER) {
-            _info = _ActorClient2.default.getUser(action.peer.id);
-          }
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.DIALOG_INFO_CHANGED:
-          _info = action.info;
-          this.__emitChange();
-          break;
-        default:
-      }
-    }
-  }]);
+  };
 
   return DialogInfoStore;
 })(_utils.Store);

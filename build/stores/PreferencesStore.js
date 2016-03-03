@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -39,111 +35,98 @@ var PreferencesStore = (function (_Store) {
   function PreferencesStore(Dispatcher) {
     _classCallCheck(this, PreferencesStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(PreferencesStore).call(this, Dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, Dispatcher));
   }
 
-  _createClass(PreferencesStore, [{
-    key: 'isOpen',
-    value: function isOpen() {
-      return _isOpen;
-    }
-  }, {
-    key: 'isSendByEnterEnabled',
-    value: function isSendByEnterEnabled() {
-      return _ActorClient2.default.isSendByEnterEnabled();
-    }
-  }, {
-    key: 'isGroupsNotificationsEnabled',
-    value: function isGroupsNotificationsEnabled() {
-      return _ActorClient2.default.isGroupsNotificationsEnabled();
-    }
-  }, {
-    key: 'isOnlyMentionNotifications',
-    value: function isOnlyMentionNotifications() {
-      return _ActorClient2.default.isOnlyMentionNotifications();
-    }
-  }, {
-    key: 'isSoundEffectsEnabled',
-    value: function isSoundEffectsEnabled() {
-      return _ActorClient2.default.isSoundEffectsEnabled();
-    }
-  }, {
-    key: 'isShowNotificationsTextEnabled',
-    value: function isShowNotificationsTextEnabled() {
-      return _ActorClient2.default.isShowNotificationsTextEnabled();
-    }
-  }, {
-    key: 'getSessions',
-    value: function getSessions() {
-      return _sessions;
-    }
-  }, {
-    key: 'getCurrentTab',
-    value: function getCurrentTab() {
-      return _currentTab;
-    }
-  }, {
-    key: 'getTerminateSessionState',
-    value: function getTerminateSessionState(id) {
-      return _terminateSessionState[id] || _ActorAppConstants.AsyncActionStates.PENDING;
-    }
-  }, {
-    key: 'savePreferences',
-    value: function savePreferences(newPreferences) {
-      var isSendByEnterEnabled = newPreferences.isSendByEnterEnabled;
-      var isSoundEffectsEnabled = newPreferences.isSoundEffectsEnabled;
-      var isGroupsNotificationsEnabled = newPreferences.isGroupsNotificationsEnabled;
-      var isOnlyMentionNotifications = newPreferences.isOnlyMentionNotifications;
-      var isShowNotificationsTextEnabled = newPreferences.isShowNotificationsTextEnabled;
+  PreferencesStore.prototype.isOpen = function isOpen() {
+    return _isOpen;
+  };
 
-      _ActorClient2.default.changeSendByEnter(isSendByEnterEnabled);
-      _ActorClient2.default.changeSoundEffectsEnabled(isSoundEffectsEnabled);
-      _ActorClient2.default.changeGroupNotificationsEnabled(isGroupsNotificationsEnabled);
-      _ActorClient2.default.changeIsOnlyMentionNotifications(isOnlyMentionNotifications);
-      _ActorClient2.default.changeIsShowNotificationTextEnabled(isShowNotificationsTextEnabled);
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.PREFERENCES_MODAL_SHOW:
-          _isOpen = true;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.PREFERENCES_MODAL_HIDE:
-          _isOpen = false;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.PREFERENCES_SAVE:
-          this.savePreferences(action.preferences);
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_LOAD_SUCCESS:
-          _sessions = action.response;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.PREFERENCES_CHANGE_TAB:
-          _currentTab = action.tab;
-          this.__emitChange();
-          break;
+  PreferencesStore.prototype.isSendByEnterEnabled = function isSendByEnterEnabled() {
+    return _ActorClient2.default.isSendByEnterEnabled();
+  };
 
-        case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE:
-          _terminateSessionState[action.id] = _ActorAppConstants.AsyncActionStates.PROCESSING;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE_SUCCESS:
-          delete _terminateSessionState[action.id];
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE_ERROR:
-          _terminateSessionState[action.id] = _ActorAppConstants.AsyncActionStates.FAILURE;
-          this.__emitChange();
-          break;
+  PreferencesStore.prototype.isGroupsNotificationsEnabled = function isGroupsNotificationsEnabled() {
+    return _ActorClient2.default.isGroupsNotificationsEnabled();
+  };
 
-        default:
-      }
+  PreferencesStore.prototype.isOnlyMentionNotifications = function isOnlyMentionNotifications() {
+    return _ActorClient2.default.isOnlyMentionNotifications();
+  };
+
+  PreferencesStore.prototype.isSoundEffectsEnabled = function isSoundEffectsEnabled() {
+    return _ActorClient2.default.isSoundEffectsEnabled();
+  };
+
+  PreferencesStore.prototype.isShowNotificationsTextEnabled = function isShowNotificationsTextEnabled() {
+    return _ActorClient2.default.isShowNotificationsTextEnabled();
+  };
+
+  PreferencesStore.prototype.getSessions = function getSessions() {
+    return _sessions;
+  };
+
+  PreferencesStore.prototype.getCurrentTab = function getCurrentTab() {
+    return _currentTab;
+  };
+
+  PreferencesStore.prototype.getTerminateSessionState = function getTerminateSessionState(id) {
+    return _terminateSessionState[id] || _ActorAppConstants.AsyncActionStates.PENDING;
+  };
+
+  PreferencesStore.prototype.savePreferences = function savePreferences(newPreferences) {
+    var isSendByEnterEnabled = newPreferences.isSendByEnterEnabled;
+    var isSoundEffectsEnabled = newPreferences.isSoundEffectsEnabled;
+    var isGroupsNotificationsEnabled = newPreferences.isGroupsNotificationsEnabled;
+    var isOnlyMentionNotifications = newPreferences.isOnlyMentionNotifications;
+    var isShowNotificationsTextEnabled = newPreferences.isShowNotificationsTextEnabled;
+
+    _ActorClient2.default.changeSendByEnter(isSendByEnterEnabled);
+    _ActorClient2.default.changeSoundEffectsEnabled(isSoundEffectsEnabled);
+    _ActorClient2.default.changeGroupNotificationsEnabled(isGroupsNotificationsEnabled);
+    _ActorClient2.default.changeIsOnlyMentionNotifications(isOnlyMentionNotifications);
+    _ActorClient2.default.changeIsShowNotificationTextEnabled(isShowNotificationsTextEnabled);
+  };
+
+  PreferencesStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.PREFERENCES_MODAL_SHOW:
+        _isOpen = true;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.PREFERENCES_MODAL_HIDE:
+        _isOpen = false;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.PREFERENCES_SAVE:
+        this.savePreferences(action.preferences);
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_LOAD_SUCCESS:
+        _sessions = action.response;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.PREFERENCES_CHANGE_TAB:
+        _currentTab = action.tab;
+        this.__emitChange();
+        break;
+
+      case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE:
+        _terminateSessionState[action.id] = _ActorAppConstants.AsyncActionStates.PROCESSING;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE_SUCCESS:
+        delete _terminateSessionState[action.id];
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE_ERROR:
+        _terminateSessionState[action.id] = _ActorAppConstants.AsyncActionStates.FAILURE;
+        this.__emitChange();
+        break;
+
+      default:
     }
-  }]);
+  };
 
   return PreferencesStore;
 })(_utils.Store);

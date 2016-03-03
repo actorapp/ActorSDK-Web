@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -48,7 +44,7 @@ var CropAvatarModal = (function (_Component) {
   function CropAvatarModal(props) {
     _classCallCheck(this, CropAvatarModal);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(CropAvatarModal).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onClose = function () {
       return _CropAvatarActionCreators2.default.hide();
@@ -273,148 +269,142 @@ var CropAvatarModal = (function (_Component) {
     return _this;
   }
 
-  _createClass(CropAvatarModal, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var originalImage = (0, _reactDom.findDOMNode)(this.refs.originalImage);
-      document.addEventListener('keydown', this.onKeyDown, false);
-      window.addEventListener('resize', this.storeScaledSizes, false);
-      originalImage.addEventListener('load', this.storeScaledSizes, false);
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      document.removeEventListener('keydown', this.onKeyDown, false);
-      window.removeEventListener('resize', this.storeScaledSizes, false);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state = this.state;
-      var isOpen = _state.isOpen;
-      var pictureSource = _state.pictureSource;
-      var cropPosition = _state.cropPosition;
-      var cropSize = _state.cropSize;
-      var scaledWidth = _state.scaledWidth;
-      var scaledHeight = _state.scaledHeight;
-      var maxImageHeight = _state.maxImageHeight;
-      var intl = this.context.intl;
+  CropAvatarModal.calculateState = function calculateState() {
+    return {
+      isOpen: _CropAvatarStore2.default.isOpen(),
+      pictureSource: _CropAvatarStore2.default.getPictureSource(),
+      cropPosition: {
+        x: 0,
+        y: 0
+      },
+      cropSize: 200,
+      scaledWidth: 0,
+      scaledHeight: 0,
+      naturalWidth: 0,
+      naturalHeight: 0,
+      maxImageHeight: document.body.clientHeight * .9 - 64 // 64 is modal header height.
+    };
+  };
 
-      var modalStyle = {
-        content: {
-          position: null,
-          top: null,
-          left: null,
-          right: null,
-          bottom: null,
-          border: null,
-          background: null,
-          overflow: null,
-          outline: null,
-          padding: null,
-          borderRadius: null
-        }
-      };
+  CropAvatarModal.prototype.componentDidMount = function componentDidMount() {
+    var originalImage = (0, _reactDom.findDOMNode)(this.refs.originalImage);
+    document.addEventListener('keydown', this.onKeyDown, false);
+    window.addEventListener('resize', this.storeScaledSizes, false);
+    originalImage.addEventListener('load', this.storeScaledSizes, false);
+  };
 
-      if (isOpen) {
-        return _react2.default.createElement(
-          _reactModal2.default,
-          { className: 'modal-new modal-new--profile-picture',
-            closeTimeoutMS: 150,
-            isOpen: isOpen,
-            style: modalStyle },
+  CropAvatarModal.prototype.componentWillUnmount = function componentWillUnmount() {
+    document.removeEventListener('keydown', this.onKeyDown, false);
+    window.removeEventListener('resize', this.storeScaledSizes, false);
+  };
+
+  CropAvatarModal.prototype.render = function render() {
+    var _state = this.state;
+    var isOpen = _state.isOpen;
+    var pictureSource = _state.pictureSource;
+    var cropPosition = _state.cropPosition;
+    var cropSize = _state.cropSize;
+    var scaledWidth = _state.scaledWidth;
+    var scaledHeight = _state.scaledHeight;
+    var maxImageHeight = _state.maxImageHeight;
+    var intl = this.context.intl;
+
+    var modalStyle = {
+      content: {
+        position: null,
+        top: null,
+        left: null,
+        right: null,
+        bottom: null,
+        border: null,
+        background: null,
+        overflow: null,
+        outline: null,
+        padding: null,
+        borderRadius: null
+      }
+    };
+
+    if (isOpen) {
+      return _react2.default.createElement(
+        _reactModal2.default,
+        { className: 'modal-new modal-new--profile-picture',
+          closeTimeoutMS: 150,
+          isOpen: isOpen,
+          style: modalStyle },
+        _react2.default.createElement(
+          'div',
+          { className: 'modal-new__header' },
           _react2.default.createElement(
-            'div',
-            { className: 'modal-new__header' },
-            _react2.default.createElement(
-              'i',
-              { className: 'modal-new__header__icon material-icons' },
-              'crop'
-            ),
-            _react2.default.createElement(
-              'h3',
-              { className: 'modal-new__header__title' },
-              intl.messages['modal.crop.title']
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'pull-right' },
-              _react2.default.createElement(
-                'button',
-                { className: 'button button--lightblue', onClick: this.onCrop },
-                intl.messages['button.done']
-              )
-            )
+            'i',
+            { className: 'modal-new__header__icon material-icons' },
+            'crop'
+          ),
+          _react2.default.createElement(
+            'h3',
+            { className: 'modal-new__header__title' },
+            intl.messages['modal.crop.title']
           ),
           _react2.default.createElement(
             'div',
-            { className: 'modal-new__body' },
+            { className: 'pull-right' },
             _react2.default.createElement(
-              'div',
-              { className: 'crop-wrapper',
-                ref: 'wrapper',
-                onTouchEnd: this.removeListeners,
-                onMouseUp: this.removeListeners },
-              _react2.default.createElement(
-                'div',
-                { className: 'crop-wrapper__scale',
-                  style: { width: cropSize, height: cropSize, left: cropPosition.x, top: cropPosition.y } },
-                _react2.default.createElement('div', { className: 'crop-wrapper__scale__handler crop-wrapper__scale__handler--top',
-                  onMouseDown: this.onStartResizeTop,
-                  onTouchStart: this.onStartResizeTop }),
-                _react2.default.createElement('div', { className: 'crop-wrapper__scale__handler crop-wrapper__scale__handler--right',
-                  onMouseDown: this.onStartResizeRight,
-                  onTouchStart: this.onStartResizeRight }),
-                _react2.default.createElement('div', { className: 'crop-wrapper__scale__handler crop-wrapper__scale__handler--bottom',
-                  onMouseDown: this.onStartResizeBottom,
-                  onTouchStart: this.onStartResizeBottom }),
-                _react2.default.createElement('div', { className: 'crop-wrapper__scale__handler crop-wrapper__scale__handler--left',
-                  onMouseDown: this.onStartResizeLeft,
-                  onTouchStart: this.onStartResizeLeft })
-              ),
-              _react2.default.createElement(
-                'div',
-                { className: 'crop-wrapper__overlay',
-                  onMouseDown: this.onStartMoving,
-                  onTouchStart: this.onStartMoving,
-                  style: { width: cropSize, height: cropSize, left: cropPosition.x, top: cropPosition.y } },
-                _react2.default.createElement('img', { className: 'crop-wrapper__image-crop',
-                  draggable: 'false',
-                  ref: 'cropImage',
-                  src: pictureSource,
-                  style: { left: -cropPosition.x, top: -cropPosition.y, width: scaledWidth, height: scaledHeight } })
-              ),
-              _react2.default.createElement('img', { className: 'crop-wrapper__image-original',
-                draggable: 'false',
-                ref: 'originalImage',
-                src: pictureSource,
-                style: { maxHeight: maxImageHeight } })
+              'button',
+              { className: 'button button--lightblue', onClick: this.onCrop },
+              intl.messages['button.done']
             )
           )
-        );
-      } else {
-        return null;
-      }
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'modal-new__body' },
+          _react2.default.createElement(
+            'div',
+            { className: 'crop-wrapper',
+              ref: 'wrapper',
+              onTouchEnd: this.removeListeners,
+              onMouseUp: this.removeListeners },
+            _react2.default.createElement(
+              'div',
+              { className: 'crop-wrapper__scale',
+                style: { width: cropSize, height: cropSize, left: cropPosition.x, top: cropPosition.y } },
+              _react2.default.createElement('div', { className: 'crop-wrapper__scale__handler crop-wrapper__scale__handler--top',
+                onMouseDown: this.onStartResizeTop,
+                onTouchStart: this.onStartResizeTop }),
+              _react2.default.createElement('div', { className: 'crop-wrapper__scale__handler crop-wrapper__scale__handler--right',
+                onMouseDown: this.onStartResizeRight,
+                onTouchStart: this.onStartResizeRight }),
+              _react2.default.createElement('div', { className: 'crop-wrapper__scale__handler crop-wrapper__scale__handler--bottom',
+                onMouseDown: this.onStartResizeBottom,
+                onTouchStart: this.onStartResizeBottom }),
+              _react2.default.createElement('div', { className: 'crop-wrapper__scale__handler crop-wrapper__scale__handler--left',
+                onMouseDown: this.onStartResizeLeft,
+                onTouchStart: this.onStartResizeLeft })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'crop-wrapper__overlay',
+                onMouseDown: this.onStartMoving,
+                onTouchStart: this.onStartMoving,
+                style: { width: cropSize, height: cropSize, left: cropPosition.x, top: cropPosition.y } },
+              _react2.default.createElement('img', { className: 'crop-wrapper__image-crop',
+                draggable: 'false',
+                ref: 'cropImage',
+                src: pictureSource,
+                style: { left: -cropPosition.x, top: -cropPosition.y, width: scaledWidth, height: scaledHeight } })
+            ),
+            _react2.default.createElement('img', { className: 'crop-wrapper__image-original',
+              draggable: 'false',
+              ref: 'originalImage',
+              src: pictureSource,
+              style: { maxHeight: maxImageHeight } })
+          )
+        )
+      );
+    } else {
+      return null;
     }
-  }], [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        isOpen: _CropAvatarStore2.default.isOpen(),
-        pictureSource: _CropAvatarStore2.default.getPictureSource(),
-        cropPosition: {
-          x: 0,
-          y: 0
-        },
-        cropSize: 200,
-        scaledWidth: 0,
-        scaledHeight: 0,
-        naturalWidth: 0,
-        naturalHeight: 0,
-        maxImageHeight: document.body.clientHeight * .9 - 64 // 64 is modal header height.
-      };
-    }
-  }]);
+  };
 
   return CropAvatarModal;
 })(_react.Component);

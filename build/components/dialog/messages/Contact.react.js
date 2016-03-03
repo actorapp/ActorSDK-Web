@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -36,98 +32,95 @@ var Contact = (function (_Component) {
   function Contact(props) {
     _classCallCheck(this, Contact);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Contact).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(Contact, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var name = _props.name;
-      var photo64 = _props.photo64;
-      var emails = _props.emails;
-      var pones = _props.pones;
-      var className = _props.className;
+  Contact.prototype.render = function render() {
+    var _props = this.props;
+    var name = _props.name;
+    var photo64 = _props.photo64;
+    var emails = _props.emails;
+    var pones = _props.pones;
+    var className = _props.className;
 
-      var contactClassName = (0, _classnames2.default)(className, 'row');
-      var isContactEmpty = emails.length === 0 && pones.length === 0;
+    var contactClassName = (0, _classnames2.default)(className, 'row');
+    var isContactEmpty = emails.length === 0 && pones.length === 0;
 
-      var contactAvatar = photo64 ? _react2.default.createElement(
-        'div',
-        { className: 'contact__avatar' },
-        _react2.default.createElement('img', { src: 'data:image/jpeg;base64,' + photo64, alt: name })
-      ) : null;
+    var contactAvatar = photo64 ? _react2.default.createElement(
+      'div',
+      { className: 'contact__avatar' },
+      _react2.default.createElement('img', { src: 'data:image/jpeg;base64,' + photo64, alt: name })
+    ) : null;
 
-      var emaislList = [],
-          phonesList = [];
-      if (emails.length > 0) {
-        emaislList = (0, _lodash.map)(emails, function (email, index) {
-          return _react2.default.createElement(
-            'li',
-            { className: 'contact__emails__item', key: index },
-            _react2.default.createElement(
-              'a',
-              { href: 'mailto:' + email },
-              email
-            )
-          );
-        });
-      }
-      // TODO: `pones` must be renamed to `phones` in library
-      if (pones.length > 0) {
-        phonesList = (0, _lodash.map)(pones, function (phone, index) {
-          return _react2.default.createElement(
-            'li',
-            { className: 'contact__phones__item', key: index },
-            _react2.default.createElement(
-              'a',
-              { href: 'tel:' + phone },
-              phone
-            )
-          );
-        });
-      }
-
-      return _react2.default.createElement(
-        'div',
-        { className: contactClassName },
-        isContactEmpty ? _react2.default.createElement(
-          'div',
-          { className: 'contact contact--empty row' },
+    var emaislList = [],
+        phonesList = [];
+    if (emails.length > 0) {
+      emaislList = (0, _lodash.map)(emails, function (email, index) {
+        return _react2.default.createElement(
+          'li',
+          { className: 'contact__emails__item', key: index },
           _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'error'
-          ),
-          'Empty contact'
-        ) : _react2.default.createElement(
+            'a',
+            { href: 'mailto:' + email },
+            email
+          )
+        );
+      });
+    }
+    // TODO: `pones` must be renamed to `phones` in library
+    if (pones.length > 0) {
+      phonesList = (0, _lodash.map)(pones, function (phone, index) {
+        return _react2.default.createElement(
+          'li',
+          { className: 'contact__phones__item', key: index },
+          _react2.default.createElement(
+            'a',
+            { href: 'tel:' + phone },
+            phone
+          )
+        );
+      });
+    }
+
+    return _react2.default.createElement(
+      'div',
+      { className: contactClassName },
+      isContactEmpty ? _react2.default.createElement(
+        'div',
+        { className: 'contact contact--empty row' },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'error'
+        ),
+        'Empty contact'
+      ) : _react2.default.createElement(
+        'div',
+        { className: 'contact row' },
+        contactAvatar,
+        _react2.default.createElement(
           'div',
-          { className: 'contact row' },
-          contactAvatar,
+          { className: 'contact__body col-xs' },
           _react2.default.createElement(
             'div',
-            { className: 'contact__body col-xs' },
-            _react2.default.createElement(
-              'div',
-              { className: 'contact__name' },
-              name
-            ),
-            emaislList.length > 0 ? _react2.default.createElement(
-              'ul',
-              { className: 'contact__emails' },
-              emaislList
-            ) : null,
-            phonesList.length > 0 ? _react2.default.createElement(
-              'ul',
-              { className: 'contact__phones' },
-              phonesList
-            ) : null
-          )
-        ),
-        _react2.default.createElement('div', { className: 'col-xs' })
-      );
-    }
-  }]);
+            { className: 'contact__name' },
+            name
+          ),
+          emaislList.length > 0 ? _react2.default.createElement(
+            'ul',
+            { className: 'contact__emails' },
+            emaislList
+          ) : null,
+          phonesList.length > 0 ? _react2.default.createElement(
+            'ul',
+            { className: 'contact__phones' },
+            phonesList
+          ) : null
+        )
+      ),
+      _react2.default.createElement('div', { className: 'col-xs' })
+    );
+  };
 
   return Contact;
 })(_react.Component);

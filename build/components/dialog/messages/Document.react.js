@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -34,83 +30,80 @@ var Document = (function (_Component) {
   function Document(props) {
     _classCallCheck(this, Document);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Document).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(Document, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var content = _props.content;
-      var className = _props.className;
-      var intl = this.context.intl;
+  Document.prototype.render = function render() {
+    var _props = this.props;
+    var content = _props.content;
+    var className = _props.className;
+    var intl = this.context.intl;
 
-      var documentClassName = (0, _classnames2.default)(className, 'row');
+    var documentClassName = (0, _classnames2.default)(className, 'row');
 
-      return _react2.default.createElement(
+    return _react2.default.createElement(
+      'div',
+      { className: documentClassName },
+      _react2.default.createElement(
         'div',
-        { className: documentClassName },
+        { className: 'document row' },
+        content.isUploading ? _react2.default.createElement(
+          'div',
+          { className: 'document__icon' },
+          _react2.default.createElement(
+            'i',
+            { className: 'material-icons' },
+            'attach_file'
+          )
+        ) : _react2.default.createElement(
+          'a',
+          { className: 'document__icon', href: content.fileUrl },
+          _react2.default.createElement(
+            'i',
+            { className: 'material-icons' },
+            'attach_file'
+          )
+        ),
         _react2.default.createElement(
           'div',
-          { className: 'document row' },
-          content.isUploading ? _react2.default.createElement(
+          { className: 'col-xs' },
+          _react2.default.createElement(
+            'span',
+            { className: 'document__filename' },
+            content.fileName
+          ),
+          _react2.default.createElement(
             'div',
-            { className: 'document__icon' },
+            { className: 'document__meta' },
             _react2.default.createElement(
-              'i',
-              { className: 'material-icons' },
-              'attach_file'
-            )
-          ) : _react2.default.createElement(
-            'a',
-            { className: 'document__icon', href: content.fileUrl },
+              'span',
+              { className: 'document__meta__size' },
+              content.fileSize
+            ),
             _react2.default.createElement(
-              'i',
-              { className: 'material-icons' },
-              'attach_file'
+              'span',
+              { className: 'document__meta__ext' },
+              content.fileExtension
             )
           ),
           _react2.default.createElement(
             'div',
-            { className: 'col-xs' },
-            _react2.default.createElement(
+            { className: 'document__actions' },
+            content.isUploading ? _react2.default.createElement(
               'span',
-              { className: 'document__filename' },
-              content.fileName
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'document__meta' },
-              _react2.default.createElement(
-                'span',
-                { className: 'document__meta__size' },
-                content.fileSize
-              ),
-              _react2.default.createElement(
-                'span',
-                { className: 'document__meta__ext' },
-                content.fileExtension
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'document__actions' },
-              content.isUploading ? _react2.default.createElement(
-                'span',
-                null,
-                intl.messages['message.uploading']
-              ) : _react2.default.createElement(
-                'a',
-                { href: content.fileUrl },
-                intl.messages['message.download']
-              )
+              null,
+              intl.messages['message.uploading']
+            ) : _react2.default.createElement(
+              'a',
+              { href: content.fileUrl },
+              intl.messages['message.download']
             )
           )
-        ),
-        _react2.default.createElement('div', { className: 'col-xs' })
-      );
-    }
-  }]);
+        )
+      ),
+      _react2.default.createElement('div', { className: 'col-xs' })
+    );
+  };
 
   return Document;
 })(_react.Component);

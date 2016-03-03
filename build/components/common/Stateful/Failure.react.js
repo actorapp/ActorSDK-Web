@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -26,15 +22,12 @@ var Failure = (function (_Component) {
   function Failure(props) {
     _classCallCheck(this, Failure);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Failure).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(Failure, [{
-    key: 'render',
-    value: function render() {
-      return this.props.children;
-    }
-  }]);
+  Failure.prototype.render = function render() {
+    return this.props.children;
+  };
 
   return Failure;
 })(_react.Component);

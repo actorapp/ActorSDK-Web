@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -58,7 +54,7 @@ var MessageActions = (function (_Component) {
   function MessageActions(props) {
     _classCallCheck(this, MessageActions);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MessageActions).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleDocumentClick = function (event) {
       var dropdown = (0, _reactDom.findDOMNode)(_this.refs.dropdown);
@@ -111,103 +107,99 @@ var MessageActions = (function (_Component) {
     return _this;
   }
 
-  _createClass(MessageActions, [{
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      var hideOnScroll = this.props.hideOnScroll;
+  MessageActions.prototype.componentWillUnmount = function componentWillUnmount() {
+    var hideOnScroll = this.props.hideOnScroll;
 
-      document.removeEventListener('click', this.handleDocumentClick, true);
+    document.removeEventListener('click', this.handleDocumentClick, true);
 
-      if (hideOnScroll) {
-        document.removeEventListener('scroll', this.handleDropdownClose, true);
-      }
+    if (hideOnScroll) {
+      document.removeEventListener('scroll', this.handleDropdownClose, true);
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var message = _props.message;
-      var targetRect = _props.targetRect;
-      var intl = this.context.intl;
+  };
 
-      var isThisMyMessage = _UserStore2.default.getMyId() === message.sender.peer.id;
+  MessageActions.prototype.render = function render() {
+    var _props = this.props;
+    var message = _props.message;
+    var targetRect = _props.targetRect;
+    var intl = this.context.intl;
 
-      var dropdownStyles = {
-        top: targetRect.top,
-        left: targetRect.left
-      };
+    var isThisMyMessage = _UserStore2.default.getMyId() === message.sender.peer.id;
 
-      var dropdownMenuStyles = {
-        minWidth: 120,
-        right: 2,
-        top: -4
-      };
+    var dropdownStyles = {
+      top: targetRect.top,
+      left: targetRect.left
+    };
 
-      return _react2.default.createElement(
-        'div',
-        { className: 'dropdown dropdown--opened dropdown--small', style: dropdownStyles },
+    var dropdownMenuStyles = {
+      minWidth: 120,
+      right: 2,
+      top: -4
+    };
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'dropdown dropdown--opened dropdown--small', style: dropdownStyles },
+      _react2.default.createElement(
+        'ul',
+        { className: 'dropdown__menu dropdown__menu--right', ref: 'dropdown', style: dropdownMenuStyles },
         _react2.default.createElement(
-          'ul',
-          { className: 'dropdown__menu dropdown__menu--right', ref: 'dropdown', style: dropdownMenuStyles },
+          'li',
+          { className: 'dropdown__menu__item hide' },
           _react2.default.createElement(
-            'li',
-            { className: 'dropdown__menu__item hide' },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons' },
-              'star_rate'
-            ),
-            ' ',
-            intl.messages['message.pin']
+            'i',
+            { className: 'icon material-icons' },
+            'star_rate'
           ),
-          !isThisMyMessage ? _react2.default.createElement(
-            'li',
-            { className: 'dropdown__menu__item', onClick: this.handleReply },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons' },
-              'reply'
-            ),
-            ' ',
-            intl.messages['message.reply']
-          ) : null,
-          message.content.content === _ActorAppConstants.MessageContentTypes.TEXT ? _react2.default.createElement(
-            'li',
-            { className: 'dropdown__menu__item', onClick: this.handleQuote },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons' },
-              'format_quote'
-            ),
-            ' ',
-            intl.messages['message.quote']
-          ) : null,
+          ' ',
+          intl.messages['message.pin']
+        ),
+        !isThisMyMessage ? _react2.default.createElement(
+          'li',
+          { className: 'dropdown__menu__item', onClick: this.handleReply },
           _react2.default.createElement(
-            'li',
-            { className: 'dropdown__menu__item hide' },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons' },
-              'forward'
-            ),
-            ' ',
-            intl.messages['message.forward']
+            'i',
+            { className: 'icon material-icons' },
+            'reply'
           ),
+          ' ',
+          intl.messages['message.reply']
+        ) : null,
+        message.content.content === _ActorAppConstants.MessageContentTypes.TEXT ? _react2.default.createElement(
+          'li',
+          { className: 'dropdown__menu__item', onClick: this.handleQuote },
           _react2.default.createElement(
-            'li',
-            { className: 'dropdown__menu__item', onClick: this.handleDelete },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons' },
-              'delete'
-            ),
-            ' ',
-            intl.messages['message.delete']
-          )
+            'i',
+            { className: 'icon material-icons' },
+            'format_quote'
+          ),
+          ' ',
+          intl.messages['message.quote']
+        ) : null,
+        _react2.default.createElement(
+          'li',
+          { className: 'dropdown__menu__item hide' },
+          _react2.default.createElement(
+            'i',
+            { className: 'icon material-icons' },
+            'forward'
+          ),
+          ' ',
+          intl.messages['message.forward']
+        ),
+        _react2.default.createElement(
+          'li',
+          { className: 'dropdown__menu__item', onClick: this.handleDelete },
+          _react2.default.createElement(
+            'i',
+            { className: 'icon material-icons' },
+            'delete'
+          ),
+          ' ',
+          intl.messages['message.delete']
         )
-      );
-    }
-  }]);
+      )
+    );
+  };
 
   return MessageActions;
 })(_react.Component);

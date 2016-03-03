@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -28,66 +24,63 @@ var State = (function (_Component) {
   function State(props) {
     _classCallCheck(this, State);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(State).call(this, props));
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
-  _createClass(State, [{
-    key: 'render',
-    value: function render() {
-      var message = this.props.message;
+  State.prototype.render = function render() {
+    var message = this.props.message;
 
-      if (message.content.content === _ActorAppConstants.MessageContentTypes.SERVICE) {
-        return null;
-      } else {
-        var icon = null;
+    if (message.content.content === _ActorAppConstants.MessageContentTypes.SERVICE) {
+      return null;
+    } else {
+      var icon = null;
 
-        switch (message.state) {
-          case 'pending':
-            icon = _react2.default.createElement(
-              'i',
-              { className: 'status status--pending material-icons' },
-              'access_time'
-            );
-            break;
-          case 'sent':
-            icon = _react2.default.createElement(
-              'i',
-              { className: 'status status--sent material-icons' },
-              'done'
-            );
-            break;
-          case 'received':
-            icon = _react2.default.createElement(
-              'i',
-              { className: 'status status--received material-icons' },
-              'done_all'
-            );
-            break;
-          case 'read':
-            icon = _react2.default.createElement(
-              'i',
-              { className: 'status status--read material-icons' },
-              'done_all'
-            );
-            break;
-          case 'error':
-            icon = _react2.default.createElement(
-              'i',
-              { className: 'status status--error material-icons' },
-              'report_problem'
-            );
-            break;
-          default:
-        }
-
-        return _react2.default.createElement(
-          'div',
-          { className: 'message__status' },
-          icon
-        );
+      switch (message.state) {
+        case 'pending':
+          icon = _react2.default.createElement(
+            'i',
+            { className: 'status status--pending material-icons' },
+            'access_time'
+          );
+          break;
+        case 'sent':
+          icon = _react2.default.createElement(
+            'i',
+            { className: 'status status--sent material-icons' },
+            'done'
+          );
+          break;
+        case 'received':
+          icon = _react2.default.createElement(
+            'i',
+            { className: 'status status--received material-icons' },
+            'done_all'
+          );
+          break;
+        case 'read':
+          icon = _react2.default.createElement(
+            'i',
+            { className: 'status status--read material-icons' },
+            'done_all'
+          );
+          break;
+        case 'error':
+          icon = _react2.default.createElement(
+            'i',
+            { className: 'status status--error material-icons' },
+            'report_problem'
+          );
+          break;
+        default:
       }
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'message__status' },
+        icon
+      );
     }
-  }]);
+  };
 
   return State;
 })(_react.Component);

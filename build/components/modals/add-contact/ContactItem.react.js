@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -40,7 +36,7 @@ var ContactItem = (function (_Component) {
   function ContactItem(props) {
     _classCallCheck(this, ContactItem);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ContactItem).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleClick = function (event) {
       var _this$props = _this.props;
@@ -55,106 +51,103 @@ var ContactItem = (function (_Component) {
     return _this;
   }
 
-  _createClass(ContactItem, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var name = _props.name;
-      var avatar = _props.avatar;
-      var about = _props.about;
-      var placeholder = _props.placeholder;
-      var nick = _props.nick;
-      var emails = _props.emails;
-      var phones = _props.phones;
-      var isBot = _props.isBot;
-      var isContact = _props.isContact;
+  ContactItem.prototype.render = function render() {
+    var _props = this.props;
+    var name = _props.name;
+    var avatar = _props.avatar;
+    var about = _props.about;
+    var placeholder = _props.placeholder;
+    var nick = _props.nick;
+    var emails = _props.emails;
+    var phones = _props.phones;
+    var isBot = _props.isBot;
+    var isContact = _props.isContact;
 
-      return _react2.default.createElement(
-        'li',
-        { className: 'add-contact__results__item contact' },
+    return _react2.default.createElement(
+      'li',
+      { className: 'add-contact__results__item contact' },
+      _react2.default.createElement(
+        'div',
+        { className: 'row' },
+        _react2.default.createElement(_AvatarItem2.default, { image: avatar,
+          placeholder: placeholder,
+          size: 'large',
+          title: name }),
         _react2.default.createElement(
           'div',
-          { className: 'row' },
-          _react2.default.createElement(_AvatarItem2.default, { image: avatar,
-            placeholder: placeholder,
-            size: 'large',
-            title: name }),
+          { className: 'col-xs' },
           _react2.default.createElement(
             'div',
-            { className: 'col-xs' },
-            _react2.default.createElement(
-              'div',
-              { className: 'name' },
-              _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(name) } }),
-              isBot ? _react2.default.createElement(
-                'small',
-                null,
-                'BOT'
-              ) : null
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'nick' },
-              nick
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'meta' },
-          about ? _react2.default.createElement(
-            'div',
-            { className: 'about' },
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              'about'
-            ),
-            about
-          ) : null,
-          emails[0] ? _react2.default.createElement(
-            'div',
-            { className: 'email' },
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              'email:'
-            ),
-            _react2.default.createElement(
-              'a',
-              { href: 'mailto:' + emails[0].email },
-              emails[0].email
-            )
-          ) : null,
-          phones[0] ? _react2.default.createElement(
-            'div',
-            { className: 'email' },
-            _react2.default.createElement(
-              'div',
-              { className: 'title' },
-              'phone:'
-            ),
-            _react2.default.createElement(
-              'a',
-              { href: 'tel:' + phones[0].email },
-              phones[0].number
-            )
-          ) : null
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'controls' },
+            { className: 'name' },
+            _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(name) } }),
+            isBot ? _react2.default.createElement(
+              'small',
+              null,
+              'BOT'
+            ) : null
+          ),
           _react2.default.createElement(
-            'button',
-            { className: 'button button--rised', onClick: this.handleClick },
-
-            /* TODO: Need to translate */
-            isContact ? 'Open conversation' : 'Add to contacts'
+            'div',
+            { className: 'nick' },
+            nick
           )
         )
-      );
-    }
-  }]);
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'meta' },
+        about ? _react2.default.createElement(
+          'div',
+          { className: 'about' },
+          _react2.default.createElement(
+            'div',
+            { className: 'title' },
+            'about'
+          ),
+          about
+        ) : null,
+        emails[0] ? _react2.default.createElement(
+          'div',
+          { className: 'email' },
+          _react2.default.createElement(
+            'div',
+            { className: 'title' },
+            'email:'
+          ),
+          _react2.default.createElement(
+            'a',
+            { href: 'mailto:' + emails[0].email },
+            emails[0].email
+          )
+        ) : null,
+        phones[0] ? _react2.default.createElement(
+          'div',
+          { className: 'email' },
+          _react2.default.createElement(
+            'div',
+            { className: 'title' },
+            'phone:'
+          ),
+          _react2.default.createElement(
+            'a',
+            { href: 'tel:' + phones[0].email },
+            phones[0].number
+          )
+        ) : null
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'controls' },
+        _react2.default.createElement(
+          'button',
+          { className: 'button button--rised', onClick: this.handleClick },
+
+          /* TODO: Need to translate */
+          isContact ? 'Open conversation' : 'Add to contacts'
+        )
+      )
+    );
+  };
 
   return ContactItem;
 })(_react.Component);

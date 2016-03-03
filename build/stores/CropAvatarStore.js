@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _utils = require('flux/utils');
 
@@ -33,37 +29,32 @@ var CropAvatarStore = (function (_Store) {
   function CropAvatarStore(Dispatcher) {
     _classCallCheck(this, CropAvatarStore);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(CropAvatarStore).call(this, Dispatcher));
+    return _possibleConstructorReturn(this, _Store.call(this, Dispatcher));
   }
 
-  _createClass(CropAvatarStore, [{
-    key: 'isOpen',
-    value: function isOpen() {
-      return _isOpen;
+  CropAvatarStore.prototype.isOpen = function isOpen() {
+    return _isOpen;
+  };
+
+  CropAvatarStore.prototype.getPictureSource = function getPictureSource() {
+    return _pictureSource;
+  };
+
+  CropAvatarStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.CROP_AVATAR_MODAL_SHOW:
+        _isOpen = true;
+        _pictureSource = action.source;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.CROP_AVATAR_MODAL_HIDE:
+        _isOpen = false;
+        _pictureSource = null;
+        this.__emitChange();
+        break;
+      default:
     }
-  }, {
-    key: 'getPictureSource',
-    value: function getPictureSource() {
-      return _pictureSource;
-    }
-  }, {
-    key: '__onDispatch',
-    value: function __onDispatch(action) {
-      switch (action.type) {
-        case _ActorAppConstants.ActionTypes.CROP_AVATAR_MODAL_SHOW:
-          _isOpen = true;
-          _pictureSource = action.source;
-          this.__emitChange();
-          break;
-        case _ActorAppConstants.ActionTypes.CROP_AVATAR_MODAL_HIDE:
-          _isOpen = false;
-          _pictureSource = null;
-          this.__emitChange();
-          break;
-        default:
-      }
-    }
-  }]);
+  };
 
   return CropAvatarStore;
 })(_utils.Store);

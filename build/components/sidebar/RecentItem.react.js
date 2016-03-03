@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -70,8 +66,6 @@ var RecentItem = (function (_Component) {
   _inherits(RecentItem, _Component);
 
   function RecentItem() {
-    var _Object$getPrototypeO;
-
     var _temp, _this, _ret;
 
     _classCallCheck(this, RecentItem);
@@ -80,7 +74,7 @@ var RecentItem = (function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(RecentItem)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.onContextMenu = function (event) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onContextMenu = function (event) {
       event.preventDefault();
       var peer = _this.props.dialog.peer.peer;
 
@@ -92,95 +86,90 @@ var RecentItem = (function (_Component) {
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
-  _createClass(RecentItem, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var dialog = _props.dialog;
-      var type = _props.type;
-      var archiveChatState = this.state.archiveChatState;
+  RecentItem.getStores = function getStores() {
+    return [_ArchiveStore2.default];
+  };
 
-      var toPeer = _PeerUtils2.default.peerToString(dialog.peer.peer);
+  RecentItem.calculateState = function calculateState(prevState, nextProps) {
+    return {
+      archiveChatState: _ArchiveStore2.default.getArchiveChatState(nextProps.dialog.peer.peer.id)
+    };
+  };
 
-      var recentClassName = (0, _classnames2.default)('sidebar__list__item', 'row', {
-        'sidebar__list__item--unread': dialog.counter > 0
-      });
+  RecentItem.prototype.render = function render() {
+    var _props = this.props;
+    var dialog = _props.dialog;
+    var type = _props.type;
+    var archiveChatState = this.state.archiveChatState;
 
-      return _react2.default.createElement(
-        'li',
-        { onContextMenu: this.onContextMenu },
+    var toPeer = _PeerUtils2.default.peerToString(dialog.peer.peer);
+
+    var recentClassName = (0, _classnames2.default)('sidebar__list__item', 'row', {
+      'sidebar__list__item--unread': dialog.counter > 0
+    });
+
+    return _react2.default.createElement(
+      'li',
+      { onContextMenu: this.onContextMenu },
+      _react2.default.createElement(
+        _reactRouter.Link,
+        { to: '/im/' + toPeer, className: recentClassName, activeClassName: 'sidebar__list__item--active' },
+        _react2.default.createElement(_AvatarItem2.default, { image: dialog.peer.avatar,
+          placeholder: dialog.peer.placeholder,
+          size: 'tiny',
+          title: dialog.peer.title }),
+        _react2.default.createElement('div', { className: 'title col-xs', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(dialog.peer.title) } }),
+        dialog.counter > 0 ? _react2.default.createElement(
+          'span',
+          { className: 'counter' },
+          dialog.counter
+        ) : null,
         _react2.default.createElement(
-          _reactRouter.Link,
-          { to: '/im/' + toPeer, className: recentClassName, activeClassName: 'sidebar__list__item--active' },
-          _react2.default.createElement(_AvatarItem2.default, { image: dialog.peer.avatar,
-            placeholder: dialog.peer.placeholder,
-            size: 'tiny',
-            title: dialog.peer.title }),
-          _react2.default.createElement('div', { className: 'title col-xs', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(dialog.peer.title) } }),
-          dialog.counter > 0 ? _react2.default.createElement(
-            'span',
-            { className: 'counter' },
-            dialog.counter
-          ) : null,
+          _Stateful2.default.Root,
+          { currentState: archiveChatState },
           _react2.default.createElement(
-            _Stateful2.default.Root,
-            { currentState: archiveChatState },
+            _Stateful2.default.Processing,
+            null,
             _react2.default.createElement(
-              _Stateful2.default.Processing,
-              null,
+              'div',
+              { className: 'archive archive--in-progress' },
               _react2.default.createElement(
-                'div',
-                { className: 'archive archive--in-progress' },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'icon material-icons spin' },
-                  'autorenew'
-                )
+                'i',
+                { className: 'icon material-icons spin' },
+                'autorenew'
               )
-            ),
+            )
+          ),
+          _react2.default.createElement(
+            _Stateful2.default.Success,
+            null,
             _react2.default.createElement(
-              _Stateful2.default.Success,
-              null,
+              'div',
+              { className: 'archive archive--in-progress' },
               _react2.default.createElement(
-                'div',
-                { className: 'archive archive--in-progress' },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'icon material-icons' },
-                  'check'
-                )
+                'i',
+                { className: 'icon material-icons' },
+                'check'
               )
-            ),
+            )
+          ),
+          _react2.default.createElement(
+            _Stateful2.default.Failure,
+            null,
             _react2.default.createElement(
-              _Stateful2.default.Failure,
-              null,
+              'div',
+              { className: 'archive archive--failure' },
               _react2.default.createElement(
-                'div',
-                { className: 'archive archive--failure' },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'icon material-icons' },
-                  'warning'
-                )
+                'i',
+                { className: 'icon material-icons' },
+                'warning'
               )
             )
           )
         )
-      );
-    }
-  }], [{
-    key: 'getStores',
-    value: function getStores() {
-      return [_ArchiveStore2.default];
-    }
-  }, {
-    key: 'calculateState',
-    value: function calculateState(prevState, nextProps) {
-      return {
-        archiveChatState: _ArchiveStore2.default.getArchiveChatState(nextProps.dialog.peer.peer.id)
-      };
-    }
-  }]);
+      )
+    );
+  };
 
   return RecentItem;
 })(_react.Component);

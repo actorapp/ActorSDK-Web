@@ -1,8 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 exports.escapeWithEmoji = exports.preloadEmojiSheet = exports.emojiRegexp = exports.getEmojiCategories = exports.emoji = undefined;
 
 var _lodash = require('lodash');
@@ -55,64 +53,56 @@ exports.emoji = _jsEmoji2.default;
 var getEmojiCategories = exports.getEmojiCategories = function getEmojiCategories() {
   var emojiCategories = [];
 
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+  for (var _iterator = _emoji_categories2.default.EmojiDataArray, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+    var _ref;
 
-  try {
-    for (var _iterator = _emoji_categories2.default.EmojiDataArray[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var category = _step.value;
-
-      var title = category.CVDataTitle.replace(/^(.*)-/, '');
-      var data = category.CVCategoryData.Data.split(',');
-      var icon = '';
-
-      switch (title) {
-        case 'People':
-          icon = ':grinning:';
-          break;
-        case 'Nature':
-          icon = ':evergreen_tree:';
-          break;
-        case 'Foods':
-          icon = ':hamburger:';
-          break;
-        case 'Celebration':
-          icon = ':gift:';
-          break;
-        case 'Activity':
-          icon = ':football:';
-          break;
-        case 'Places':
-          icon = ':airplane:';
-          break;
-        case 'Objects':
-          icon = ':bulb:';
-          break;
-        case 'Flags':
-          icon = ':flag-ru:';
-          break;
-        case 'Symbols':
-          icon = ':peace_symbol:';
-          break;
-        default:
-      }
-
-      emojiCategories.push({ title: title, icon: icon, data: data });
+    if (_isArray) {
+      if (_i >= _iterator.length) break;
+      _ref = _iterator[_i++];
+    } else {
+      _i = _iterator.next();
+      if (_i.done) break;
+      _ref = _i.value;
     }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
+
+    var category = _ref;
+
+    var title = category.CVDataTitle.replace(/^(.*)-/, '');
+    var data = category.CVCategoryData.Data.split(',');
+    var icon = '';
+
+    switch (title) {
+      case 'People':
+        icon = ':grinning:';
+        break;
+      case 'Nature':
+        icon = ':evergreen_tree:';
+        break;
+      case 'Foods':
+        icon = ':hamburger:';
+        break;
+      case 'Celebration':
+        icon = ':gift:';
+        break;
+      case 'Activity':
+        icon = ':football:';
+        break;
+      case 'Places':
+        icon = ':airplane:';
+        break;
+      case 'Objects':
+        icon = ':bulb:';
+        break;
+      case 'Flags':
+        icon = ':flag-ru:';
+        break;
+      case 'Symbols':
+        icon = ':peace_symbol:';
+        break;
+      default:
     }
+
+    emojiCategories.push({ title: title, icon: icon, data: data });
   }
 
   return emojiCategories;

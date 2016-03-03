@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _react = require('react');
 
@@ -30,7 +26,7 @@ var AvatarItem = (function (_Component) {
   function AvatarItem(props) {
     _classCallCheck(this, AvatarItem);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AvatarItem).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleClick = function (event) {
       var onClick = _this.props.onClick;
@@ -41,50 +37,47 @@ var AvatarItem = (function (_Component) {
     return _this;
   }
 
-  _createClass(AvatarItem, [{
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var title = _props.title;
-      var className = _props.className;
-      var image = _props.image;
-      var size = _props.size;
-      var placeholder = _props.placeholder;
+  AvatarItem.prototype.render = function render() {
+    var _props = this.props;
+    var title = _props.title;
+    var className = _props.className;
+    var image = _props.image;
+    var size = _props.size;
+    var placeholder = _props.placeholder;
 
-      var placeholderClassName = (0, _classnames2.default)('avatar__placeholder', 'avatar__placeholder--' + placeholder);
-      var avatarClassName = (0, _classnames2.default)('avatar', {
-        'avatar--tiny': size === 'tiny',
-        'avatar--small': size === 'small',
-        'avatar--medium': size === 'medium',
-        'avatar--large': size === 'large',
-        'avatar--big': size === 'big',
-        'avatar--huge': size === 'huge',
-        'avatar--without-shadow': !image
-      }, className);
+    var placeholderClassName = (0, _classnames2.default)('avatar__placeholder', 'avatar__placeholder--' + placeholder);
+    var avatarClassName = (0, _classnames2.default)('avatar', {
+      'avatar--tiny': size === 'tiny',
+      'avatar--small': size === 'small',
+      'avatar--medium': size === 'medium',
+      'avatar--large': size === 'large',
+      'avatar--big': size === 'big',
+      'avatar--huge': size === 'huge',
+      'avatar--without-shadow': !image
+    }, className);
 
-      var avatar = image ? _react2.default.createElement('img', { alt: title, className: 'avatar__image', src: image }) : null;
+    var avatar = image ? _react2.default.createElement('img', { alt: title, className: 'avatar__image', src: image }) : null;
 
-      var emojiFirstChar = /([\uE000-\uF8FF]|\uD83C|\uD83D)/g;
+    var emojiFirstChar = /([\uE000-\uF8FF]|\uD83C|\uD83D)/g;
 
-      var placeholderChar = undefined;
-      if (title.length == 0) {
-        placeholderChar = '#';
-      } else {
-        placeholderChar = title[0].match(emojiFirstChar) ? '#' : title[0];
-      }
-
-      return _react2.default.createElement(
-        'div',
-        { className: avatarClassName, onClick: this.handleClick },
-        avatar,
-        _react2.default.createElement(
-          'span',
-          { className: placeholderClassName },
-          placeholderChar
-        )
-      );
+    var placeholderChar = undefined;
+    if (title.length == 0) {
+      placeholderChar = '#';
+    } else {
+      placeholderChar = title[0].match(emojiFirstChar) ? '#' : title[0];
     }
-  }]);
+
+    return _react2.default.createElement(
+      'div',
+      { className: avatarClassName, onClick: this.handleClick },
+      avatar,
+      _react2.default.createElement(
+        'span',
+        { className: placeholderClassName },
+        placeholderChar
+      )
+    );
+  };
 
   return AvatarItem;
 })(_react.Component);

@@ -1,12 +1,8 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _react = require('react');
 
@@ -38,7 +34,7 @@ var Scrollbar = (function (_Component) {
   function Scrollbar(props) {
     _classCallCheck(this, Scrollbar);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Scrollbar).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleScroll = function (event) {
       var onScroll = _this.props.onScroll;
@@ -55,29 +51,25 @@ var Scrollbar = (function (_Component) {
     return _this;
   }
 
-  _createClass(Scrollbar, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var scrollNode = (0, _reactDom.findDOMNode)(this.refs.scroll);
-      this.scrollbar.initElement(scrollNode);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _props = this.props;
-      var children = _props.children;
-      var className = _props.className;
-      var style = _props.style;
+  Scrollbar.prototype.componentDidMount = function componentDidMount() {
+    var scrollNode = (0, _reactDom.findDOMNode)(this.refs.scroll);
+    this.scrollbar.initElement(scrollNode);
+  };
 
-      var wrapperClassName = (0, _classnames2.default)('scroll-wrapper', className);
+  Scrollbar.prototype.render = function render() {
+    var _props = this.props;
+    var children = _props.children;
+    var className = _props.className;
+    var style = _props.style;
 
-      return _react2.default.createElement(
-        'div',
-        { className: wrapperClassName, ref: 'scroll', onScroll: this.handleScroll, style: _extends({}, style) },
-        children
-      );
-    }
-  }]);
+    var wrapperClassName = (0, _classnames2.default)('scroll-wrapper', className);
+
+    return _react2.default.createElement(
+      'div',
+      { className: wrapperClassName, ref: 'scroll', onScroll: this.handleScroll, style: _extends({}, style) },
+      children
+    );
+  };
 
   return Scrollbar;
 })(_react.Component);

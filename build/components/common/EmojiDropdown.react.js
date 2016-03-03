@@ -1,10 +1,6 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+exports.__esModule = true;
 
 var _lodash = require('lodash');
 
@@ -56,19 +52,16 @@ var CLOSE_TIMEOUT = 550;
 var EmojiDropdown = (function (_Component) {
   _inherits(EmojiDropdown, _Component);
 
-  _createClass(EmojiDropdown, null, [{
-    key: 'calculateState',
-    value: function calculateState() {
-      return {
-        isOpen: _EmojiStore2.default.isOpen()
-      };
-    }
-  }]);
+  EmojiDropdown.calculateState = function calculateState() {
+    return {
+      isOpen: _EmojiStore2.default.isOpen()
+    };
+  };
 
   function EmojiDropdown(props) {
     _classCallCheck(this, EmojiDropdown);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(EmojiDropdown).call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onKeyDown = function () {
       if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
@@ -177,78 +170,74 @@ var EmojiDropdown = (function (_Component) {
     return _this;
   }
 
-  _createClass(EmojiDropdown, [{
-    key: 'componentWillUpdate',
-    value: function componentWillUpdate(nextProps, nextState) {
-      var isOpen = nextState.isOpen;
+  EmojiDropdown.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
+    var isOpen = nextState.isOpen;
 
-      var emojiDropdown = (0, _reactDom.findDOMNode)(this.refs.emojiDropdown);
+    var emojiDropdown = (0, _reactDom.findDOMNode)(this.refs.emojiDropdown);
 
-      if (isOpen) {
-        emojiDropdown.addEventListener('mouseenter', this.handleEmojiMouseEnter, false);
-        emojiDropdown.addEventListener('mouseleave', this.handleEmojiMouseLeave, false);
-        document.addEventListener('click', this.onDocumentClick, false);
-        document.addEventListener('keydown', this.onKeyDown, false);
-      } else {
-        emojiDropdown.removeEventListener('mouseenter', this.handleEmojiMouseEnter, false);
-        emojiDropdown.removeEventListener('mouseleave', this.handleEmojiMouseLeave, false);
-        document.removeEventListener('click', this.onDocumentClick, false);
-        document.removeEventListener('keydown', this.onKeyDown, false);
-      }
+    if (isOpen) {
+      emojiDropdown.addEventListener('mouseenter', this.handleEmojiMouseEnter, false);
+      emojiDropdown.addEventListener('mouseleave', this.handleEmojiMouseLeave, false);
+      document.addEventListener('click', this.onDocumentClick, false);
+      document.addEventListener('keydown', this.onKeyDown, false);
+    } else {
+      emojiDropdown.removeEventListener('mouseenter', this.handleEmojiMouseEnter, false);
+      emojiDropdown.removeEventListener('mouseleave', this.handleEmojiMouseLeave, false);
+      document.removeEventListener('click', this.onDocumentClick, false);
+      document.removeEventListener('keydown', this.onKeyDown, false);
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _state = this.state;
-      var isOpen = _state.isOpen;
-      var dropdownTitle = _state.dropdownTitle;
+  };
 
-      var isEmojiOpenedBefore = localStorage.getItem('isEmojiOpenedBefore') === 'true' || false;
+  EmojiDropdown.prototype.render = function render() {
+    var _state = this.state;
+    var isOpen = _state.isOpen;
+    var dropdownTitle = _state.dropdownTitle;
 
-      var emojiDropdownClassName = (0, _classnames2.default)('emoji-dropdown', {
-        'emoji-dropdown--opened': isOpen
-      });
-      var emojiOpenerClassName = (0, _classnames2.default)('emoji-opener material-icons', {
-        'emoji-opener--active': isOpen,
-        'emoji-opener--with-dot': !isEmojiOpenedBefore
-      });
+    var isEmojiOpenedBefore = localStorage.getItem('isEmojiOpenedBefore') === 'true' || false;
 
-      return _react2.default.createElement(
+    var emojiDropdownClassName = (0, _classnames2.default)('emoji-dropdown', {
+      'emoji-dropdown--opened': isOpen
+    });
+    var emojiOpenerClassName = (0, _classnames2.default)('emoji-opener material-icons', {
+      'emoji-opener--active': isOpen,
+      'emoji-opener--with-dot': !isEmojiOpenedBefore
+    });
+
+    return _react2.default.createElement(
+      'div',
+      { className: emojiDropdownClassName },
+      _react2.default.createElement(
+        'i',
+        { className: emojiOpenerClassName,
+          onMouseEnter: this.handleEmojiOpenerMouseEnter,
+          onMouseLeave: this.handleEmojiMouseLeave },
+        'insert_emoticon'
+      ),
+      _react2.default.createElement(
         'div',
-        { className: emojiDropdownClassName },
+        { className: 'emoji-dropdown__wrapper', ref: 'emojiDropdown' },
         _react2.default.createElement(
-          'i',
-          { className: emojiOpenerClassName,
-            onMouseEnter: this.handleEmojiOpenerMouseEnter,
-            onMouseLeave: this.handleEmojiMouseLeave },
-          'insert_emoticon'
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'emoji-dropdown__wrapper', ref: 'emojiDropdown' },
+          'header',
+          { className: 'emoji-dropdown__header' },
           _react2.default.createElement(
-            'header',
-            { className: 'emoji-dropdown__header' },
-            _react2.default.createElement(
-              'p',
-              { className: 'emoji-dropdown__header__title' },
-              dropdownTitle || 'Emoji'
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'emoji-dropdown__header__tabs pull-right' },
-              emojiTabs
-            )
+            'p',
+            { className: 'emoji-dropdown__header__title' },
+            dropdownTitle || 'Emoji'
           ),
           _react2.default.createElement(
             'div',
-            { className: 'emoji-dropdown__body', id: 'emojiContainer' },
-            emojis
+            { className: 'emoji-dropdown__header__tabs pull-right' },
+            emojiTabs
           )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'emoji-dropdown__body', id: 'emojiContainer' },
+          emojis
         )
-      );
-    }
-  }]);
+      )
+    );
+  };
 
   return EmojiDropdown;
 })(_react.Component);

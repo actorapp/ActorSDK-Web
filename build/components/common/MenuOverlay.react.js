@@ -38,7 +38,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var MenuOverlay = (function (_Component) {
+var MenuOverlay = function (_Component) {
   _inherits(MenuOverlay, _Component);
 
   MenuOverlay.calculateState = function calculateState() {
@@ -89,7 +89,7 @@ var MenuOverlay = (function (_Component) {
   };
 
   return MenuOverlay;
-})(_react.Component);
+}(_react.Component);
 
 MenuOverlay.getStores = function () {
   return [_DropdownStore2.default, _DialogStore2.default];

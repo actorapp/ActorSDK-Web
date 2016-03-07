@@ -54,7 +54,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var RecentContextMenu = (function (_Component) {
+var RecentContextMenu = function (_Component) {
   _inherits(RecentContextMenu, _Component);
 
   function RecentContextMenu(props) {
@@ -198,7 +198,7 @@ var RecentContextMenu = (function (_Component) {
   };
 
   return RecentContextMenu;
-})(_react.Component);
+}(_react.Component);
 
 RecentContextMenu.propTypes = {
   peer: _react.PropTypes.object.isRequired,
@@ -208,6 +208,7 @@ RecentContextMenu.propTypes = {
 RecentContextMenu.contextTypes = {
   intl: _react.PropTypes.object
 };
+
 
 _reactMixin2.default.onClass(RecentContextMenu, _reactAddonsPureRenderMixin2.default);
 

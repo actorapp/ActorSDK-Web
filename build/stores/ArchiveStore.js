@@ -20,7 +20,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var ArchiveStore = (function (_Store) {
+var ArchiveStore = function (_Store) {
   _inherits(ArchiveStore, _Store);
 
   function ArchiveStore(dispatcher) {
@@ -106,7 +106,7 @@ var ArchiveStore = (function (_Store) {
   };
 
   return ArchiveStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new ArchiveStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=ArchiveStore.js.map

@@ -48,7 +48,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var ModalsWrapper = (function (_Component) {
+var ModalsWrapper = function (_Component) {
   _inherits(ModalsWrapper, _Component);
 
   function ModalsWrapper(props) {
@@ -85,6 +85,7 @@ var ModalsWrapper = (function (_Component) {
       var isPeoplesOpen = _this$state.isPeoplesOpen;
       var isGroupsOpen = _this$state.isGroupsOpen;
 
+
       if (isPeoplesOpen) {
         _ContactActionCreators2.default.close();
       }
@@ -117,6 +118,7 @@ var ModalsWrapper = (function (_Component) {
     var isGroupsOpen = _state.isGroupsOpen;
     var intl = this.context.intl;
 
+
     var wrapperClassName = (0, _classnames2.default)('modal-wrapper', {
       'modal-wrapper--opened': isPeoplesOpen || isGroupsOpen
     });
@@ -144,7 +146,7 @@ var ModalsWrapper = (function (_Component) {
   };
 
   return ModalsWrapper;
-})(_react.Component);
+}(_react.Component);
 
 ModalsWrapper.getStores = function () {
   return [_PeopleStore2.default, _GroupListStore2.default];

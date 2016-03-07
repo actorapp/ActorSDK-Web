@@ -20,7 +20,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Fold = (function (_Component) {
+var Fold = function (_Component) {
   _inherits(Fold, _Component);
 
   function Fold(props) {
@@ -51,7 +51,7 @@ var Fold = (function (_Component) {
       'fold--open': this.state.isOpen
     });
 
-    var foldIcon = undefined;
+    var foldIcon = void 0;
     if (icon) {
       foldIcon = _react2.default.createElement(
         'i',
@@ -86,7 +86,7 @@ var Fold = (function (_Component) {
   };
 
   return Fold;
-})(_react.Component);
+}(_react.Component);
 
 Fold.propTypes = {
   children: _react.PropTypes.oneOfType([_react.PropTypes.arrayOf(_react.PropTypes.node), _react.PropTypes.node]),

@@ -24,7 +24,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Attachment = (function (_Component) {
+var Attachment = function (_Component) {
   _inherits(Attachment, _Component);
 
   function Attachment(props) {
@@ -44,6 +44,7 @@ var Attachment = (function (_Component) {
   Attachment.prototype.render = function render() {
     var attachment = this.props.attachment;
     var intl = this.context.intl;
+
 
     return _react2.default.createElement(
       'div',
@@ -142,7 +143,7 @@ var Attachment = (function (_Component) {
   };
 
   return Attachment;
-})(_react.Component);
+}(_react.Component);
 
 Attachment.propTypes = {
   attachment: _react.PropTypes.object.isRequired

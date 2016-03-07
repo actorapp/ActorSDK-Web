@@ -22,7 +22,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var TextField = (function (_Component) {
+var TextField = function (_Component) {
   _inherits(TextField, _Component);
 
   function TextField(props) {
@@ -78,6 +78,7 @@ var TextField = (function (_Component) {
     var isFocused = _state.isFocused;
     var inputId = _state.inputId;
 
+
     var inputClassName = (0, _classnames2.default)('input input__material', className, {
       'input__material--focus': isFocused,
       'input__material--filled': value && value.length > 0,
@@ -114,7 +115,7 @@ var TextField = (function (_Component) {
   };
 
   return TextField;
-})(_react.Component);
+}(_react.Component);
 
 TextField.propTypes = {
   className: _react.PropTypes.string,

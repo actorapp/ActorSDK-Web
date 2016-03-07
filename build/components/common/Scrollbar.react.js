@@ -28,7 +28,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Scrollbar = (function (_Component) {
+var Scrollbar = function (_Component) {
   _inherits(Scrollbar, _Component);
 
   function Scrollbar(props) {
@@ -72,7 +72,7 @@ var Scrollbar = (function (_Component) {
   };
 
   return Scrollbar;
-})(_react.Component);
+}(_react.Component);
 
 Scrollbar.propTypes = {
   children: _react.PropTypes.oneOfType([_react.PropTypes.element, _react.PropTypes.array]),

@@ -34,7 +34,7 @@ var _isOpen = false,
  * Class representing a store for searchable people list.
  */
 
-var PeopleStore = (function (_Store) {
+var PeopleStore = function (_Store) {
   _inherits(PeopleStore, _Store);
 
   function PeopleStore(dispatcher) {
@@ -47,6 +47,7 @@ var PeopleStore = (function (_Store) {
    * @returns {boolean}
    */
 
+
   PeopleStore.prototype.isOpen = function isOpen() {
     return _isOpen;
   };
@@ -55,6 +56,7 @@ var PeopleStore = (function (_Store) {
    * @returns {Array}
    */
 
+
   PeopleStore.prototype.getList = function getList() {
     return _list;
   };
@@ -62,6 +64,7 @@ var PeopleStore = (function (_Store) {
   /**
    * @returns {Array}
    */
+
 
   PeopleStore.prototype.getResults = function getResults() {
     return _results;
@@ -121,7 +124,7 @@ var PeopleStore = (function (_Store) {
   };
 
   return PeopleStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new PeopleStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=PeopleStore.js.map

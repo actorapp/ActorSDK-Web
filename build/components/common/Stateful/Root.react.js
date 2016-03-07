@@ -36,7 +36,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Root = (function (_Component) {
+var Root = function (_Component) {
   _inherits(Root, _Component);
 
   function Root(props) {
@@ -50,6 +50,7 @@ var Root = (function (_Component) {
     var currentState = _props.currentState;
     var className = _props.className;
     var children = _props.children;
+
 
     var equalsState = function equalsState(state, type) {
       return state === _ActorAppConstants.AsyncActionStates.PENDING && type === _Pending2.default || state === _ActorAppConstants.AsyncActionStates.PROCESSING && type === _Processing2.default || state === _ActorAppConstants.AsyncActionStates.SUCCESS && type === _Success2.default || state === _ActorAppConstants.AsyncActionStates.FAILURE && type === _Failure2.default;
@@ -67,7 +68,7 @@ var Root = (function (_Component) {
   };
 
   return Root;
-})(_react.Component);
+}(_react.Component);
 
 Root.propTypes = {
   className: _react.PropTypes.string,

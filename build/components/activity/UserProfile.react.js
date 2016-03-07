@@ -60,6 +60,10 @@ var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
+var _ContactDetails = require('../common/ContactDetails.react');
+
+var _ContactDetails2 = _interopRequireDefault(_ContactDetails);
+
 var _ToggleNotifications = require('../common/ToggleNotifications.react');
 
 var _ToggleNotifications2 = _interopRequireDefault(_ToggleNotifications);
@@ -87,7 +91,7 @@ var getStateFromStores = function getStateFromStores(uid) {
   };
 };
 
-var UserProfile = (function (_Component) {
+var UserProfile = function (_Component) {
   _inherits(UserProfile, _Component);
 
   UserProfile.getStores = function getStores() {
@@ -123,6 +127,7 @@ var UserProfile = (function (_Component) {
 
     _this.toggleActionsDropdown = function () {
       var isActionsDropdownOpen = _this.state.isActionsDropdownOpen;
+
 
       if (!isActionsDropdownOpen) {
         _this.setState({ isActionsDropdownOpen: true });
@@ -181,71 +186,10 @@ var UserProfile = (function (_Component) {
     var isActionsDropdownOpen = _state.isActionsDropdownOpen;
     var message = _state.message;
 
+
     var dropdownClassNames = (0, _classnames2.default)('dropdown', {
       'dropdown--opened': isActionsDropdownOpen
     });
-
-    var nickname = user.nick ? _react2.default.createElement(
-      'li',
-      null,
-      _react2.default.createElement('svg', { className: 'icon icon--pink',
-        dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#username"/>' } }),
-      _react2.default.createElement(
-        'span',
-        { className: 'title' },
-        user.nick
-      ),
-      _react2.default.createElement(
-        'span',
-        { className: 'description' },
-        intl.messages['profile.nickname']
-      )
-    ) : null;
-
-    var email = user.emails[0] ? _react2.default.createElement(
-      'li',
-      null,
-      _react2.default.createElement('svg', { className: 'icon icon--blue',
-        dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#envelope"/>' } }),
-      _react2.default.createElement(
-        'span',
-        { className: 'title' },
-        _react2.default.createElement(
-          'a',
-          { href: 'mailto:' + user.emails[0].email },
-          user.emails[0].email
-        )
-      ),
-      _react2.default.createElement(
-        'span',
-        { className: 'description' },
-        intl.messages['profile.email']
-      )
-    ) : null;
-
-    var phone = user.phones[0] ? _react2.default.createElement(
-      'li',
-      null,
-      _react2.default.createElement(
-        'i',
-        { className: 'material-icons icon icon--green' },
-        'call'
-      ),
-      _react2.default.createElement(
-        'span',
-        { className: 'title' },
-        _react2.default.createElement(
-          'a',
-          { href: 'tel:+' + user.phones[0].number },
-          '+' + user.phones[0].number
-        )
-      ),
-      _react2.default.createElement(
-        'span',
-        { className: 'description' },
-        intl.messages['profile.phone']
-      )
-    ) : null;
 
     return _react2.default.createElement(
       'div',
@@ -341,13 +285,7 @@ var UserProfile = (function (_Component) {
         _react2.default.createElement(
           'li',
           { className: 'profile__list__item user_profile__contact_info no-p' },
-          _react2.default.createElement(
-            'ul',
-            { className: 'user_profile__contact_info__list' },
-            phone,
-            email,
-            nickname
-          )
+          _react2.default.createElement(_ContactDetails2.default, { peerInfo: user })
         ),
         _react2.default.createElement(
           'li',
@@ -398,7 +336,7 @@ var UserProfile = (function (_Component) {
   };
 
   return UserProfile;
-})(_react.Component);
+}(_react.Component);
 
 UserProfile.propTypes = {
   user: _react.PropTypes.object.isRequired

@@ -22,7 +22,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var isVisible = false;
 
-var VisibilityStore = (function (_Store) {
+var VisibilityStore = function (_Store) {
   _inherits(VisibilityStore, _Store);
 
   function VisibilityStore(Dispatcher) {
@@ -50,7 +50,7 @@ var VisibilityStore = (function (_Store) {
   };
 
   return VisibilityStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new VisibilityStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=VisibilityStore.js.map

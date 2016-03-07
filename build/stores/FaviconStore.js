@@ -27,7 +27,7 @@ var FaviconPath = {
 
 var _iconPath = FaviconPath.DEFAULT;
 
-var FaviconStore = (function (_Store) {
+var FaviconStore = function (_Store) {
   _inherits(FaviconStore, _Store);
 
   function FaviconStore(dispatcher) {
@@ -55,7 +55,7 @@ var FaviconStore = (function (_Store) {
   };
 
   return FaviconStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new FaviconStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=FaviconStore.js.map

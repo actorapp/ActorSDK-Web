@@ -50,7 +50,7 @@ var memoizedProcessText = (0, _memoizee2.default)(processText, {
  * @param {string} className Component class name
  */
 
-var Text = (function (_Component) {
+var Text = function (_Component) {
   _inherits(Text, _Component);
 
   function Text(props) {
@@ -64,6 +64,7 @@ var Text = (function (_Component) {
     var text = _props.text;
     var className = _props.className;
 
+
     return _react2.default.createElement(
       'div',
       { className: className },
@@ -72,7 +73,7 @@ var Text = (function (_Component) {
   };
 
   return Text;
-})(_react.Component);
+}(_react.Component);
 
 Text.propTypes = {
   text: _react.PropTypes.string.isRequired,

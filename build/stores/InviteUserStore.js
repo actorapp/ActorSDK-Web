@@ -30,7 +30,7 @@ var _isInviteModalOpen = false,
     _inviteUrl = null,
     _inviteUserState = [];
 
-var InviteUserStore = (function (_EventEmitter) {
+var InviteUserStore = function (_EventEmitter) {
   _inherits(InviteUserStore, _EventEmitter);
 
   function InviteUserStore() {
@@ -76,7 +76,7 @@ var InviteUserStore = (function (_EventEmitter) {
   };
 
   return InviteUserStore;
-})(_events.EventEmitter);
+}(_events.EventEmitter);
 
 var InviteUserStoreInstance = new InviteUserStore();
 

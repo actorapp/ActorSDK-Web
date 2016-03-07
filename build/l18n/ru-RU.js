@@ -279,12 +279,22 @@ exports.default = {
       outgoing: 'Исходящий вызов',
       incoming: 'Входящий вызов',
       mute: 'Отключить звук',
+      unmute: 'Включить звук',
       answer: 'Ответить',
       decline: 'Отменить',
       end: 'Завершить вызов',
       addUser: 'Добавить пользователя',
       fullScreen: 'Полный экран',
       video: 'Видео'
+    },
+
+    toolbar: {
+      callState: {
+        calling: 'звоню',
+        connecting: 'соединение',
+        in_progress: 'Звонок: {time}',
+        ended: 'завершен'
+      }
     }
   }
 };

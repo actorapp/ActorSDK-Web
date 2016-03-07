@@ -29,7 +29,7 @@ var cache = [];
  * @todo move cache to store;
  */
 
-var Photo = (function (_Component) {
+var Photo = function (_Component) {
   _inherits(Photo, _Component);
 
   function Photo(props) {
@@ -68,6 +68,7 @@ var Photo = (function (_Component) {
     var className = _props.className;
     var loadedClassName = _props.loadedClassName;
     var isImageLoaded = this.state.isImageLoaded;
+
 
     var MAX_WIDTH = 300;
     var MAX_HEIGHT = 400;
@@ -128,7 +129,7 @@ var Photo = (function (_Component) {
   };
 
   return Photo;
-})(_react.Component);
+}(_react.Component);
 
 Photo.propTypes = {
   content: _react.PropTypes.object.isRequired,

@@ -16,7 +16,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Pagination = (function (_Component) {
+var Pagination = function (_Component) {
   _inherits(Pagination, _Component);
 
   function Pagination(props) {
@@ -29,6 +29,7 @@ var Pagination = (function (_Component) {
       var current = _this$props.current;
       var onChange = _this$props.onChange;
 
+
       if (current !== 0) {
         onChange(current - 1);
       }
@@ -39,6 +40,7 @@ var Pagination = (function (_Component) {
       var current = _this$props2.current;
       var total = _this$props2.total;
       var onChange = _this$props2.onChange;
+
 
       if (current !== total) {
         onChange(current + 1);
@@ -66,6 +68,7 @@ var Pagination = (function (_Component) {
     var _props = this.props;
     var current = _props.current;
     var total = _props.total;
+
 
     return _react2.default.createElement(
       "div",
@@ -115,7 +118,7 @@ var Pagination = (function (_Component) {
   };
 
   return Pagination;
-})(_react.Component);
+}(_react.Component);
 
 Pagination.propTypes = {
   current: _react.PropTypes.number.isRequired,

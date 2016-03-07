@@ -62,7 +62,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var RecentItem = (function (_Component) {
+var RecentItem = function (_Component) {
   _inherits(RecentItem, _Component);
 
   function RecentItem() {
@@ -172,7 +172,7 @@ var RecentItem = (function (_Component) {
   };
 
   return RecentItem;
-})(_react.Component);
+}(_react.Component);
 
 RecentItem.propTypes = {
   dialog: _react.PropTypes.object.isRequired,

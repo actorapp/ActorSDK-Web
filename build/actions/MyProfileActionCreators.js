@@ -33,6 +33,7 @@ exports.default = {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MY_PROFILE_CHANGED, { profile: profile });
   },
 
+
   // TODO: use dispatchAsync
   saveName: function saveName(name) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MY_PROFILE_SAVE_NAME, { name: name });

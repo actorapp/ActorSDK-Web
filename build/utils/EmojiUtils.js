@@ -5,11 +5,11 @@ exports.escapeWithEmoji = exports.preloadEmojiSheet = exports.emojiRegexp = expo
 
 var _lodash = require('lodash');
 
-var _jsEmoji = require('js-emoji');
+var _actorEmoji = require('actor-emoji');
 
-var _jsEmoji2 = _interopRequireDefault(_jsEmoji);
+var _actorEmoji2 = _interopRequireDefault(_actorEmoji);
 
-var _emoji_categories = require('emoji-data/emoji_categories.json');
+var _emoji_categories = require('actor-emoji/emoji_categories');
 
 var _emoji_categories2 = _interopRequireDefault(_emoji_categories);
 
@@ -21,12 +21,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
  */
 
-_jsEmoji2.default.include_title = true;
-_jsEmoji2.default.include_text = true;
-_jsEmoji2.default.use_sheet = true;
-_jsEmoji2.default.colons_mode = false;
-_jsEmoji2.default.img_set = 'apple';
-_jsEmoji2.default.img_sets = {
+_actorEmoji2.default.include_title = true;
+_actorEmoji2.default.include_text = true;
+_actorEmoji2.default.use_sheet = true;
+_actorEmoji2.default.colons_mode = false;
+_actorEmoji2.default.img_set = 'apple';
+_actorEmoji2.default.img_sets = {
   'apple': {
     // 'path': Path.toEmoji + '/img-apple-64/',
     'sheet': _ActorAppConstants.Path.toEmoji + '/sheet_apple_64.png',
@@ -49,7 +49,7 @@ _jsEmoji2.default.img_sets = {
   }
 };
 
-exports.emoji = _jsEmoji2.default;
+exports.emoji = _actorEmoji2.default;
 var getEmojiCategories = exports.getEmojiCategories = function getEmojiCategories() {
   var emojiCategories = [];
 
@@ -111,17 +111,17 @@ var getEmojiCategories = exports.getEmojiCategories = function getEmojiCategorie
 var emojiRegexp = exports.emojiRegexp = /([\uE000-\uF8FF]|\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDDFF])/g;
 
 var preloadEmojiSheet = exports.preloadEmojiSheet = function preloadEmojiSheet() {
-  return new Image().src = _jsEmoji2.default.img_sets[_jsEmoji2.default.img_set].sheet;
+  return new Image().src = _actorEmoji2.default.img_sets[_actorEmoji2.default.img_set].sheet;
 };
 
 var escapeWithEmoji = exports.escapeWithEmoji = function escapeWithEmoji(text) {
-  _jsEmoji2.default.include_title = false;
-  _jsEmoji2.default.include_text = false;
-  return _jsEmoji2.default.replace_unified((0, _lodash.escape)(text));
+  _actorEmoji2.default.include_title = false;
+  _actorEmoji2.default.include_text = false;
+  return _actorEmoji2.default.replace_unified((0, _lodash.escape)(text));
 };
 
 exports.default = {
-  emoji: _jsEmoji2.default,
+  emoji: _actorEmoji2.default,
   emojiRegexp: emojiRegexp,
   getEmojiCategories: getEmojiCategories,
   preloadEmojiSheet: preloadEmojiSheet,

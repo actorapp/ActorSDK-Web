@@ -34,7 +34,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var PeopleItem = (function (_Component) {
+var PeopleItem = function (_Component) {
   _inherits(PeopleItem, _Component);
 
   function PeopleItem(props) {
@@ -86,7 +86,7 @@ var PeopleItem = (function (_Component) {
   };
 
   return PeopleItem;
-})(_react.Component);
+}(_react.Component);
 
 PeopleItem.propTypes = {
   contact: _react.PropTypes.object.isRequired,
@@ -94,6 +94,7 @@ PeopleItem.propTypes = {
   onClick: _react.PropTypes.func.isRequired,
   onMouseOver: _react.PropTypes.func.isRequired
 };
+
 
 _reactMixin2.default.onClass(PeopleItem, _reactAddonsPureRenderMixin2.default);
 

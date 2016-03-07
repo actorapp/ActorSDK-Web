@@ -116,9 +116,13 @@ class DialogSection extends Component {
   };
 
   onChange = () => {
-    lastScrolledFromBottom = 0;
-    renderMessagesCount = initialRenderMessagesCount;
-    this.setState(getStateFromStores());
+    const nextState = getStateFromStores();
+    if (nextState.peer !== this.state.peer || nextState.messages.length !== this.state.messages.length) {
+      lastScrolledFromBottom = 0;
+      renderMessagesCount = initialRenderMessagesCount;
+    }
+
+    this.setState(nextState);
   };
 
   onMessagesChange = debounce(() => {
@@ -198,6 +202,7 @@ class DialogSection extends Component {
             <ConnectionState/>
             <div className="messages">
               <MessagesSection
+                isMember={isMember}
                 messages={messagesToRender}
                 overlay={overlayToRender}
                 peer={peer}

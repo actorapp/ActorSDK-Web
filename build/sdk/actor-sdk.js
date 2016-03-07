@@ -134,7 +134,7 @@ window.jsAppLoaded = function () {
  * @param {object} options - Object contains custom components, actions and localisation strings.
  */
 
-var ActorSDK = (function () {
+var ActorSDK = function () {
   function ActorSDK() {
     var _this = this;
 
@@ -258,7 +258,7 @@ var ActorSDK = (function () {
   };
 
   return ActorSDK;
-})();
+}();
 
 exports.default = ActorSDK;
 //# sourceMappingURL=actor-sdk.js.map

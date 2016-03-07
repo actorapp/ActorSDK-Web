@@ -42,7 +42,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var CallModal = (function (_Component) {
+var CallModal = function (_Component) {
   _inherits(CallModal, _Component);
 
   function CallModal(props) {
@@ -132,7 +132,7 @@ var CallModal = (function (_Component) {
       )
     ) : null;
 
-    var modalFooter = undefined;
+    var modalFooter = void 0;
     switch (callState) {
       case _ActorAppConstants.CallStates.CALLING:
         modalFooter = _react2.default.createElement(
@@ -214,7 +214,7 @@ var CallModal = (function (_Component) {
   };
 
   return CallModal;
-})(_react.Component);
+}(_react.Component);
 
 CallModal.getStores = function () {
   return [_CallStore2.default];

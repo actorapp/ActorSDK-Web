@@ -41,6 +41,7 @@ var CreateGroupActionCreators = {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_CREATE_SET_NAME, { name: name });
   },
 
+
   //setGroupAvatar(avatar) {
   //  dispatch(ActionTypes.GROUP_CREATE_SET_AVATAR, { avatar });
   //},

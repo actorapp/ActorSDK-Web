@@ -26,7 +26,7 @@ var cache = {};
  * Class that represents a component for display sticker message content
  */
 
-var Sticker = (function (_Component) {
+var Sticker = function (_Component) {
   _inherits(Sticker, _Component);
 
   function Sticker(props) {
@@ -109,7 +109,7 @@ var Sticker = (function (_Component) {
   };
 
   return Sticker;
-})(_react.Component);
+}(_react.Component);
 
 Sticker.propTypes = {
   className: _react.PropTypes.string,

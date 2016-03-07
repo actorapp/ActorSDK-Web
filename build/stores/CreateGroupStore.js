@@ -33,7 +33,7 @@ var _modalOpen = false,
     _groupName = '',
     _selectedUserIds = new _immutable2.default.Set();
 
-var CreateGroupStore = (function (_Store) {
+var CreateGroupStore = function (_Store) {
   _inherits(CreateGroupStore, _Store);
 
   function CreateGroupStore(dispatcher) {
@@ -109,7 +109,7 @@ var CreateGroupStore = (function (_Store) {
   };
 
   return CreateGroupStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new CreateGroupStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=CreateGroupStore.js.map

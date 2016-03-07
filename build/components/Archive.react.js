@@ -48,7 +48,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Archive = (function (_Component) {
+var Archive = function (_Component) {
   _inherits(Archive, _Component);
 
   function Archive(props) {
@@ -117,6 +117,7 @@ var Archive = (function (_Component) {
     var dialogsList = (0, _lodash.map)(dialogs, function (dialog, index) {
       var counter = dialog.counter;
       var peer = dialog.peer;
+
 
       return _react2.default.createElement(
         'div',
@@ -205,7 +206,7 @@ var Archive = (function (_Component) {
   };
 
   return Archive;
-})(_react.Component);
+}(_react.Component);
 
 Archive.getStores = function () {
   return [_ArchiveStore2.default];

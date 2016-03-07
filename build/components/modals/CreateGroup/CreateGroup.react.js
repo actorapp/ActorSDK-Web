@@ -36,7 +36,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var CreateGroup = (function (_Component) {
+var CreateGroup = function (_Component) {
   _inherits(CreateGroup, _Component);
 
   function CreateGroup(props) {
@@ -75,6 +75,7 @@ var CreateGroup = (function (_Component) {
   CreateGroup.prototype.render = function render() {
     var isOpen = this.state.isOpen;
     var intl = this.context.intl;
+
 
     var modalStyle = {
       content: {
@@ -119,7 +120,7 @@ var CreateGroup = (function (_Component) {
   };
 
   return CreateGroup;
-})(_react.Component);
+}(_react.Component);
 
 CreateGroup.getStores = function () {
   return [_CreateGroupStore2.default];

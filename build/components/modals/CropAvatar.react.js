@@ -38,7 +38,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var minCropSize = 100;
 
-var CropAvatarModal = (function (_Component) {
+var CropAvatarModal = function (_Component) {
   _inherits(CropAvatarModal, _Component);
 
   function CropAvatarModal(props) {
@@ -59,6 +59,7 @@ var CropAvatarModal = (function (_Component) {
 
     _this.onStartMoving = function (event) {
       var cropPosition = _this.state.cropPosition;
+
 
       event.preventDefault();
 
@@ -166,8 +167,8 @@ var CropAvatarModal = (function (_Component) {
       var axisCoord = direction === 'RIGHT' || direction === 'LEFT' ? event.pageX : event.pageY;
       var resizeValue = resizeLastCoord - axisCoord;
 
-      var resizeCropPosition = undefined,
-          resizedCropSize = undefined;
+      var resizeCropPosition = void 0,
+          resizedCropSize = void 0;
       switch (direction) {
         case 'TOP':
           resizedCropSize = cropSize + resizeValue;
@@ -407,7 +408,7 @@ var CropAvatarModal = (function (_Component) {
   };
 
   return CropAvatarModal;
-})(_react.Component);
+}(_react.Component);
 
 CropAvatarModal.propTypes = {
   onCropFinish: _react.PropTypes.func.isRequired

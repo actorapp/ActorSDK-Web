@@ -54,7 +54,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var GroupList = (function (_Component) {
+var GroupList = function (_Component) {
   _inherits(GroupList, _Component);
 
   function GroupList(props) {
@@ -198,6 +198,7 @@ var GroupList = (function (_Component) {
     var list = _state.list;
     var intl = this.context.intl;
 
+
     var groupList = (0, _lodash.map)(results, function (result, index) {
       return _react2.default.createElement(_Group2.default, { group: result, key: index,
         isSelected: selectedIndex === index,
@@ -252,7 +253,7 @@ var GroupList = (function (_Component) {
   };
 
   return GroupList;
-})(_react.Component);
+}(_react.Component);
 
 GroupList.contextTypes = {
   intl: _react.PropTypes.object

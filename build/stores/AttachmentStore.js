@@ -34,7 +34,7 @@ var blobToFile = function blobToFile(blob, fileName) {
   return blob;
 };
 
-var AttachmentStore = (function (_Store) {
+var AttachmentStore = function (_Store) {
   _inherits(AttachmentStore, _Store);
 
   function AttachmentStore(dispatcher) {
@@ -123,7 +123,7 @@ var AttachmentStore = (function (_Store) {
   };
 
   return AttachmentStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new AttachmentStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=AttachmentStore.js.map

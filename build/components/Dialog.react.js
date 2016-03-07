@@ -96,7 +96,7 @@ var getStateFromStores = function getStateFromStores() {
   };
 };
 
-var DialogSection = (function (_Component) {
+var DialogSection = function (_Component) {
   _inherits(DialogSection, _Component);
 
   function DialogSection(props) {
@@ -116,9 +116,13 @@ var DialogSection = (function (_Component) {
     };
 
     _this.onChange = function () {
-      lastScrolledFromBottom = 0;
-      renderMessagesCount = initialRenderMessagesCount;
-      _this.setState(getStateFromStores());
+      var nextState = getStateFromStores();
+      if (nextState.peer !== _this.state.peer || nextState.messages.length !== _this.state.messages.length) {
+        lastScrolledFromBottom = 0;
+        renderMessagesCount = initialRenderMessagesCount;
+      }
+
+      _this.setState(nextState);
     };
 
     _this.onMessagesChange = (0, _lodash.debounce)(function () {
@@ -129,6 +133,7 @@ var DialogSection = (function (_Component) {
       var peer = _this$state.peer;
       var messages = _this$state.messages;
       var messagesToRender = _this$state.messagesToRender;
+
 
       if (peer) {
         var node = _this.getScrollArea();
@@ -151,6 +156,7 @@ var DialogSection = (function (_Component) {
         }
       }
     }, 5, { maxWait: 30 });
+
 
     _this.state = getStateFromStores();
 
@@ -240,6 +246,7 @@ var DialogSection = (function (_Component) {
     var ComposeSection = _getComponents.ComposeSection;
     var activity = _getComponents.activity;
 
+
     return _react2.default.createElement(
       'section',
       { className: 'main' },
@@ -255,6 +262,7 @@ var DialogSection = (function (_Component) {
             'div',
             { className: 'messages' },
             _react2.default.createElement(MessagesSection, {
+              isMember: isMember,
               messages: messagesToRender,
               overlay: overlayToRender,
               peer: peer,
@@ -270,7 +278,7 @@ var DialogSection = (function (_Component) {
   };
 
   return DialogSection;
-})(_react.Component);
+}(_react.Component);
 
 DialogSection.contextTypes = {
   delegate: _react.PropTypes.object

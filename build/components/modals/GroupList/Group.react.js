@@ -26,7 +26,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Group = (function (_Component) {
+var Group = function (_Component) {
   _inherits(Group, _Component);
 
   function Group(props) {
@@ -108,7 +108,7 @@ var Group = (function (_Component) {
   };
 
   return Group;
-})(_react.Component);
+}(_react.Component);
 
 Group.propTypes = {
   group: _react.PropTypes.object.isRequired,

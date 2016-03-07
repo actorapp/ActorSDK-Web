@@ -18,7 +18,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var FullScreenButton = (function (_Component) {
+var FullScreenButton = function (_Component) {
   _inherits(FullScreenButton, _Component);
 
   function FullScreenButton() {
@@ -41,7 +41,7 @@ var FullScreenButton = (function (_Component) {
   };
 
   return FullScreenButton;
-})(_react.Component);
+}(_react.Component);
 
 FullScreenButton.propTypes = {
   onClick: _react.PropTypes.func.isRequired

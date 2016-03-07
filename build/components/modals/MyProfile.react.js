@@ -58,7 +58,7 @@ var currentName = '',
     currentNick = '',
     currentAbout = '';
 
-var MyProfile = (function (_Component) {
+var MyProfile = function (_Component) {
   _inherits(MyProfile, _Component);
 
   function MyProfile(props) {
@@ -112,6 +112,7 @@ var MyProfile = (function (_Component) {
       var name = _this$state2.name;
       var about = _this$state2.about;
 
+
       if (name !== currentName) _MyProfileActionCreators2.default.saveName(name);
       if (nick !== currentNick) _MyProfileActionCreators2.default.saveNickname(nick);
       if (about !== currentAbout) _MyProfileActionCreators2.default.editMyAbout(about);
@@ -164,6 +165,7 @@ var MyProfile = (function (_Component) {
     var name = _state.name;
     var nick = _state.nick;
     var about = _state.about;
+
 
     currentName = name;
     currentNick = nick;
@@ -351,7 +353,7 @@ var MyProfile = (function (_Component) {
   };
 
   return MyProfile;
-})(_react.Component);
+}(_react.Component);
 
 MyProfile.getStores = function () {
   return [_MyProfileStore2.default, _CropAvatarStore2.default];

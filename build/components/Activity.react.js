@@ -44,7 +44,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var ActivitySection = (function (_Component) {
+var ActivitySection = function (_Component) {
   _inherits(ActivitySection, _Component);
 
   function ActivitySection(props) {
@@ -107,7 +107,7 @@ var ActivitySection = (function (_Component) {
   };
 
   return ActivitySection;
-})(_react.Component);
+}(_react.Component);
 
 ActivitySection.getStores = function () {
   return [_DialogStore2.default, _DialogInfoStore2.default, _ActivityStore2.default];

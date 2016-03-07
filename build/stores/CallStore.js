@@ -22,12 +22,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var _isOpen = false;
 var _isOutgoing = false;
-var _id = undefined,
-    _members = undefined,
-    _peer = undefined,
-    _state = undefined;
+var _isMuted = false;
+var _id = void 0,
+    _members = void 0,
+    _peer = void 0,
+    _state = void 0;
 
-var CallStore = (function (_Store) {
+var CallStore = function (_Store) {
   _inherits(CallStore, _Store);
 
   function CallStore(dispatcher) {
@@ -42,6 +43,10 @@ var CallStore = (function (_Store) {
 
   CallStore.prototype.isOutgoing = function isOutgoing() {
     return _isOutgoing;
+  };
+
+  CallStore.prototype.isMuted = function isMuted() {
+    return _isMuted;
   };
 
   CallStore.prototype.getId = function getId() {
@@ -77,11 +82,17 @@ var CallStore = (function (_Store) {
         var peer = _action$call.peer;
         var state = _action$call.state;
         var isOutgoing = _action$call.isOutgoing;
+        var isMuted = _action$call.isMuted;
 
         _isOutgoing = isOutgoing;
         _members = members;
         _peer = peer;
         _state = state;
+        // _isMuted = isMuted;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.CALL_MUTE_TOGGLE:
+        _isMuted = !_isMuted;
         this.__emitChange();
         break;
       case _ActorAppConstants.ActionTypes.CALL:
@@ -92,7 +103,7 @@ var CallStore = (function (_Store) {
   };
 
   return CallStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new CallStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=CallStore.js.map

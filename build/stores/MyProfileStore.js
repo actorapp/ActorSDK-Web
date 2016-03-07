@@ -30,7 +30,7 @@ var _profile = null,
     _about = null,
     _isModalOpen = false;
 
-var MyProfileStore = (function (_Store) {
+var MyProfileStore = function (_Store) {
   _inherits(MyProfileStore, _Store);
 
   function MyProfileStore(Dispatcher) {
@@ -105,7 +105,7 @@ var MyProfileStore = (function (_Store) {
   };
 
   return MyProfileStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new MyProfileStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=MyProfileStore.js.map

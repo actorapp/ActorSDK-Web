@@ -96,7 +96,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var ComposeSection = (function (_Component) {
+var ComposeSection = function (_Component) {
   _inherits(ComposeSection, _Component);
 
   ComposeSection.calculateState = function calculateState(prevState) {
@@ -131,6 +131,7 @@ var ComposeSection = (function (_Component) {
       var text = event.target.value;
       var peer = _this.state.peer;
 
+
       if (text.length >= 3) {
         _this.setState({ isMarkdownHintShow: true });
       } else {
@@ -144,6 +145,7 @@ var ComposeSection = (function (_Component) {
       var _this$state = _this.state;
       var mentions = _this$state.mentions;
       var sendByEnter = _this$state.sendByEnter;
+
 
       var send = function send() {
         event.preventDefault();
@@ -168,6 +170,7 @@ var ComposeSection = (function (_Component) {
       var _this$state2 = _this.state;
       var peer = _this$state2.peer;
       var text = _this$state2.text;
+
 
       if (text.trim().length !== 0) {
         _MessageActionCreators2.default.sendTextMessage(peer, text);
@@ -204,6 +207,7 @@ var ComposeSection = (function (_Component) {
       var _this$state3 = _this.state;
       var peer = _this$state3.peer;
       var text = _this$state3.text;
+
 
       _ComposeActionCreators2.default.insertMention(peer, text, _this.getCaretPosition(), mention);
       _this.setFocus();
@@ -283,6 +287,7 @@ var ComposeSection = (function (_Component) {
 
   ComposeSection.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
     var isAutoFocusEnabled = this.state.isAutoFocusEnabled;
+
 
     if (isAutoFocusEnabled) {
       if (prevState.isAutoFocusEnabled !== true) {
@@ -400,7 +405,7 @@ var ComposeSection = (function (_Component) {
   };
 
   return ComposeSection;
-})(_react.Component);
+}(_react.Component);
 
 ComposeSection.getStores = function () {
   return [_DialogStore2.default, _GroupStore2.default, _PreferencesStore2.default, _AttachmentStore2.default, _ComposeStore2.default];

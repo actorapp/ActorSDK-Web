@@ -58,7 +58,7 @@ var hasMember = function hasMember(group, userId) {
   });
 };
 
-var InviteUser = (function (_Component) {
+var InviteUser = function (_Component) {
   _inherits(InviteUser, _Component);
 
   function InviteUser(props) {
@@ -84,6 +84,7 @@ var InviteUser = (function (_Component) {
 
     _this.onInviteUrlByClick = function () {
       var group = _this.state.group;
+
 
       _InviteUserByLinkActions2.default.show(group);
       _InviteUserActions2.default.hide();
@@ -126,6 +127,7 @@ var InviteUser = (function (_Component) {
     var search = _state.search;
     var isOpen = _state.isOpen;
     var intl = this.context.intl;
+
 
     var contactList = [];
 
@@ -239,7 +241,7 @@ var InviteUser = (function (_Component) {
   };
 
   return InviteUser;
-})(_react.Component);
+}(_react.Component);
 
 InviteUser.contextTypes = {
   intl: _react.PropTypes.object

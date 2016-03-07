@@ -50,7 +50,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var GroupMember = (function (_Component) {
+var GroupMember = function (_Component) {
   _inherits(GroupMember, _Component);
 
   function GroupMember(props) {
@@ -65,6 +65,7 @@ var GroupMember = (function (_Component) {
     _this.onKick = function (gid, uid) {
       var peerInfo = _this.props.peerInfo;
       var intl = _this.context.intl;
+
 
       (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.kick', values: { name: peerInfo.title } })).then(function () {
         return _KickUserActionCreators2.default.kickMember(gid, uid);
@@ -102,7 +103,7 @@ var GroupMember = (function (_Component) {
 
     var myId = _ActorClient2.default.getUid();
 
-    var controls = undefined;
+    var controls = void 0;
     if (canKick && peerInfo.peer.id !== myId) {
       controls = _react2.default.createElement(
         'div',
@@ -175,7 +176,7 @@ var GroupMember = (function (_Component) {
   };
 
   return GroupMember;
-})(_react.Component);
+}(_react.Component);
 
 GroupMember.propTypes = {
   peerInfo: _react.PropTypes.object.isRequired,

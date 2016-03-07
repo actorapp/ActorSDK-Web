@@ -26,7 +26,7 @@ var _isOpen = false,
     _list = [],
     _results = [];
 
-var QuickSearchStore = (function (_Store) {
+var QuickSearchStore = function (_Store) {
   _inherits(QuickSearchStore, _Store);
 
   function QuickSearchStore(dispatcher) {
@@ -86,7 +86,7 @@ var QuickSearchStore = (function (_Store) {
   };
 
   return QuickSearchStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new QuickSearchStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=QuickSearchStore.js.map

@@ -16,6 +16,10 @@ var _reactIntl = require('react-intl');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
+var _PeerUtils = require('../utils/PeerUtils');
+
+var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
+
 var _CallActionCreators = require('../actions/CallActionCreators');
 
 var _CallActionCreators2 = _interopRequireDefault(_CallActionCreators);
@@ -24,6 +28,10 @@ var _CallStore = require('../stores/CallStore');
 
 var _CallStore2 = _interopRequireDefault(_CallStore);
 
+var _DialogStore = require('../stores/DialogStore');
+
+var _DialogStore2 = _interopRequireDefault(_DialogStore);
+
 var _UserStore = require('../stores/UserStore');
 
 var _UserStore2 = _interopRequireDefault(_UserStore);
@@ -31,6 +39,10 @@ var _UserStore2 = _interopRequireDefault(_UserStore);
 var _GroupStore = require('../stores/GroupStore');
 
 var _GroupStore2 = _interopRequireDefault(_GroupStore);
+
+var _CallDraggable = require('./call/CallDraggable.react');
+
+var _CallDraggable2 = _interopRequireDefault(_CallDraggable);
 
 var _CallHeader = require('./call/CallHeader.react');
 
@@ -44,6 +56,10 @@ var _CallControls = require('./call/CallControls.react');
 
 var _CallControls2 = _interopRequireDefault(_CallControls);
 
+var _ContactDetails = require('./common/ContactDetails.react');
+
+var _ContactDetails2 = _interopRequireDefault(_ContactDetails);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -54,11 +70,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Call = (function (_Component) {
+var Call = function (_Component) {
   _inherits(Call, _Component);
 
-  Call.calculatePeerInfo = function calculatePeerInfo() {
-    var peer = _CallStore2.default.getPeer();
+  Call.calculatePeerInfo = function calculatePeerInfo(peer) {
     if (peer) {
       if (peer.type === _ActorAppConstants.PeerTypes.USER) {
         return _UserStore2.default.getUser(peer.id);
@@ -73,14 +88,19 @@ var Call = (function (_Component) {
   };
 
   Call.calculateState = function calculateState() {
+    var dialogPeer = _DialogStore2.default.getCurrentPeer();
+    var callPeer = _CallStore2.default.getPeer();
+
     return {
       isOpen: _CallStore2.default.isOpen(),
       isOutgoing: _CallStore2.default.isOutgoing(),
+      isMuted: _CallStore2.default.isMuted(),
       callId: _CallStore2.default.getId(),
       callMembers: _CallStore2.default.getMembers(),
       callPeer: _CallStore2.default.getPeer(),
       callState: _CallStore2.default.getState(),
-      peerInfo: Call.calculatePeerInfo()
+      peerInfo: Call.calculatePeerInfo(callPeer),
+      isSameDialog: _PeerUtils2.default.equals(dialogPeer, callPeer)
     };
   };
 
@@ -93,6 +113,9 @@ var Call = (function (_Component) {
     _this.onEnd = _this.onEnd.bind(_this);
     _this.onMuteToggle = _this.onMuteToggle.bind(_this);
     _this.onClose = _this.onClose.bind(_this);
+    _this.onFullscreen = _this.onFullscreen.bind(_this);
+    _this.onUserAdd = _this.onUserAdd.bind(_this);
+    _this.onVideo = _this.onVideo.bind(_this);
     return _this;
   }
 
@@ -101,6 +124,7 @@ var Call = (function (_Component) {
   };
 
   Call.prototype.onEnd = function onEnd() {
+    console.log(this.state.callId);
     _CallActionCreators2.default.endCall(this.state.callId);
   };
 
@@ -124,58 +148,81 @@ var Call = (function (_Component) {
     console.debug('onVideo');
   };
 
-  Call.prototype.renderContent = function renderContent() {
+  Call.prototype.renderContactInfo = function renderContactInfo() {
+    var peerInfo = this.state.peerInfo;
+
+    if (!peerInfo) return null;
+
+    return _react2.default.createElement(_ContactDetails2.default, { peerInfo: peerInfo });
+  };
+
+  Call.prototype.render = function render() {
     var _state = this.state;
     var isOpen = _state.isOpen;
     var callState = _state.callState;
     var peerInfo = _state.peerInfo;
     var isOutgoing = _state.isOutgoing;
+    var isMuted = _state.isMuted;
+    var isSameDialog = _state.isSameDialog;
 
     if (!isOpen) {
       return null;
     }
 
+    if (!this.state.isSameDialog) {
+      return _react2.default.createElement(_CallDraggable2.default, {
+        peerInfo: peerInfo,
+        callState: callState,
+        isOutgoing: isOutgoing,
+        isMuted: isMuted,
+        onEnd: this.onEnd,
+        onAnswer: this.onAnswer,
+        onMuteToggle: this.onMuteToggle,
+        onFullscreen: this.onFullscreen,
+        onUserAdd: this.onUserAdd,
+        onVideo: this.onVideo,
+        onClose: this.onClose
+      });
+    }
+
     return _react2.default.createElement(
-      'div',
-      { className: 'activity__body' },
+      'section',
+      { className: 'activity activity--shown' },
       _react2.default.createElement(
-        'section',
-        { className: 'call' },
-        _react2.default.createElement(_CallHeader2.default, { isOutgoing: isOutgoing }),
-        _react2.default.createElement(_CallBody2.default, { peerInfo: peerInfo, callState: callState }),
-        _react2.default.createElement(_CallControls2.default, {
-          callState: callState,
-          isOutgoing: isOutgoing,
-          onEnd: this.onEnd,
-          onAnswer: this.onAnswer,
-          onMuteToggle: this.onMuteToggle,
-          onFullscreen: this.onFullscreen,
-          onUserAdd: this.onUserAdd,
-          onVideo: this.onVideo,
-          onClose: this.onClose
-        })
+        'div',
+        { className: 'activity__body call__container' },
+        _react2.default.createElement(
+          'section',
+          { className: 'call' },
+          _react2.default.createElement(_CallBody2.default, { peerInfo: peerInfo, callState: callState }),
+          _react2.default.createElement(_CallControls2.default, {
+            callState: callState,
+            isOutgoing: isOutgoing,
+            isMuted: isMuted,
+            onEnd: this.onEnd,
+            onAnswer: this.onAnswer,
+            onMuteToggle: this.onMuteToggle,
+            onFullscreen: this.onFullscreen,
+            onUserAdd: this.onUserAdd,
+            onVideo: this.onVideo,
+            onClose: this.onClose
+          })
+        ),
+        _react2.default.createElement(
+          'section',
+          { className: 'call__info' },
+          this.renderContactInfo()
+        )
       )
     );
   };
 
-  Call.prototype.render = function render() {
-    var className = (0, _classnames2.default)('activity', {
-      'activity--shown': this.state.isOpen
-    });
-
-    return _react2.default.createElement(
-      'section',
-      { className: className },
-      this.renderContent()
-    );
-  };
-
   return Call;
-})(_react.Component);
+}(_react.Component);
 
 Call.getStores = function () {
-  return [_CallStore2.default];
+  return [_CallStore2.default, _DialogStore2.default];
 };
 
-exports.default = _utils.Container.create(Call, { pure: false });
+exports.default = _utils.Container.create(Call);
 //# sourceMappingURL=Call.react.js.map

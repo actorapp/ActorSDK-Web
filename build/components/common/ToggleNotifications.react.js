@@ -22,7 +22,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var ToggleNotifications = (function (_Component) {
+var ToggleNotifications = function (_Component) {
   _inherits(ToggleNotifications, _Component);
 
   function ToggleNotifications() {
@@ -35,6 +35,7 @@ var ToggleNotifications = (function (_Component) {
     var _props = this.props;
     var isNotificationsEnabled = _props.isNotificationsEnabled;
     var onNotificationChange = _props.onNotificationChange;
+
 
     return _react2.default.createElement(
       'label',
@@ -58,7 +59,7 @@ var ToggleNotifications = (function (_Component) {
   };
 
   return ToggleNotifications;
-})(_react.Component);
+}(_react.Component);
 
 ToggleNotifications.propTypes = {
   isNotificationsEnabled: _react.PropTypes.bool.isRequired,

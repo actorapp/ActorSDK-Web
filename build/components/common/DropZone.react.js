@@ -24,7 +24,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var targetCollection = [];
 
-var DropZone = (function (_Component) {
+var DropZone = function (_Component) {
   _inherits(DropZone, _Component);
 
   function DropZone(props) {
@@ -105,6 +105,7 @@ var DropZone = (function (_Component) {
     var isActive = _state.isActive;
     var isHovered = _state.isHovered;
 
+
     var dropzoneClassName = (0, _classnames2.default)('dropzone', {
       'dropzone--hover': isHovered
     });
@@ -124,7 +125,7 @@ var DropZone = (function (_Component) {
   };
 
   return DropZone;
-})(_react.Component);
+}(_react.Component);
 
 DropZone.propTypes = {
   children: _react.PropTypes.node,

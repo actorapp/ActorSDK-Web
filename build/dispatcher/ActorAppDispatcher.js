@@ -72,6 +72,7 @@ function dispatchAsync(promise, types) {
   var success = types.success;
   var failure = types.failure;
 
+
   dispatch(request, action);
   return promise.then(function (response) {
     return dispatch(success, _extends({}, action, { response: response }));

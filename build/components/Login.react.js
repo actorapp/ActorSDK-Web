@@ -42,7 +42,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Login = (function (_Component) {
+var Login = function (_Component) {
   _inherits(Login, _Component);
 
   function Login(props) {
@@ -88,6 +88,7 @@ var Login = (function (_Component) {
     _this.handleFocus = function () {
       var step = _this.state.step;
 
+
       switch (step) {
         case _ActorAppConstants.AuthSteps.LOGIN_WAIT:
           _this.refs.login.focus();
@@ -130,7 +131,9 @@ var Login = (function (_Component) {
 
   // From change handlers
 
+
   // Form submit handlers
+
 
   Login.prototype.render = function render() {
     var _state = this.state;
@@ -143,6 +146,7 @@ var Login = (function (_Component) {
     var isCodeSended = _state.isCodeSended;
     var isSignupStarted = _state.isSignupStarted;
     var intl = this.context.intl;
+
 
     var requestFormClassName = (0, _classnames2.default)('login-new__forms__form', 'login-new__forms__form--request', {
       'login-new__forms__form--active': step === _ActorAppConstants.AuthSteps.LOGIN_WAIT,
@@ -317,7 +321,7 @@ var Login = (function (_Component) {
   };
 
   return Login;
-})(_react.Component);
+}(_react.Component);
 
 Login.getStores = function () {
   return [_LoginStore2.default];

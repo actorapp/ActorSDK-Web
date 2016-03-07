@@ -26,7 +26,7 @@ var _typing = null;
  * Class representing a store for typing info.
  */
 
-var TypingStore = (function (_Store) {
+var TypingStore = function (_Store) {
   _inherits(TypingStore, _Store);
 
   function TypingStore() {
@@ -54,7 +54,7 @@ var TypingStore = (function (_Store) {
   };
 
   return TypingStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new TypingStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=TypingStore.js.map

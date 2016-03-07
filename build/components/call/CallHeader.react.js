@@ -18,7 +18,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var CallHeader = (function (_Component) {
+var CallHeader = function (_Component) {
   _inherits(CallHeader, _Component);
 
   function CallHeader() {
@@ -48,7 +48,7 @@ var CallHeader = (function (_Component) {
   };
 
   return CallHeader;
-})(_react.Component);
+}(_react.Component);
 
 CallHeader.propTypes = {
   isOutgoing: _react.PropTypes.bool.isRequired

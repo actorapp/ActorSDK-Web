@@ -16,7 +16,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Pending = (function (_Component) {
+var Pending = function (_Component) {
   _inherits(Pending, _Component);
 
   function Pending(props) {
@@ -30,7 +30,7 @@ var Pending = (function (_Component) {
   };
 
   return Pending;
-})(_react.Component);
+}(_react.Component);
 
 Pending.propTypes = {
   children: _react.PropTypes.node

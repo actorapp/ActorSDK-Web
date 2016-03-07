@@ -58,7 +58,7 @@ var flushDelayed = function flushDelayed() {
 
 var flushDelayedDebounced = (0, _lodash.debounce)(flushDelayed, 30, { maxWait: 100 });
 
-var MessagesSection = (function (_Component) {
+var MessagesSection = function (_Component) {
   _inherits(MessagesSection, _Component);
 
   function MessagesSection() {
@@ -80,6 +80,7 @@ var MessagesSection = (function (_Component) {
       }
     }, _this.onMessageVisibilityChange = function (message, isVisible) {
       var peer = _this.props.peer;
+
 
       if (isVisible) {
         _delayed.push({ peer: peer, message: message });
@@ -131,11 +132,11 @@ var MessagesSection = (function (_Component) {
     var peer = _props.peer;
     var overlay = _props.overlay;
     var messages = _props.messages;
+    var isMember = _props.isMember;
     var _state = this.state;
     var selectedMessages = _state.selectedMessages;
     var isAllMessagesLoaded = _state.isAllMessagesLoaded;
 
-    var isMember = _DialogStore2.default.isMember();
 
     var components = this.getComponents();
 
@@ -157,12 +158,13 @@ var MessagesSection = (function (_Component) {
   };
 
   return MessagesSection;
-})(_react.Component);
+}(_react.Component);
 
 MessagesSection.propTypes = {
   messages: _react.PropTypes.array.isRequired,
   overlay: _react.PropTypes.array.isRequired,
   peer: _react.PropTypes.object.isRequired,
+  isMember: _react.PropTypes.bool.isRequired,
   onScroll: _react.PropTypes.func.isRequired
 };
 MessagesSection.contextTypes = {

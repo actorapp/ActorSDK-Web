@@ -44,7 +44,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var CreateGroupForm = (function (_Component) {
+var CreateGroupForm = function (_Component) {
   _inherits(CreateGroupForm, _Component);
 
   function CreateGroupForm(props) {
@@ -54,6 +54,7 @@ var CreateGroupForm = (function (_Component) {
 
     _this.onContactToggle = function (contact, isSelected) {
       var selectedUserIds = _this.state.selectedUserIds;
+
 
       if (isSelected) {
         _CreateGroupActionCreators2.default.setSelectedUserIds(selectedUserIds.add(contact.uid));
@@ -84,6 +85,7 @@ var CreateGroupForm = (function (_Component) {
       var _this$state = _this.state;
       var name = _this$state.name;
       var selectedUserIds = _this$state.selectedUserIds;
+
 
       event.preventDefault();
       _CreateGroupActionCreators2.default.createGroup(name, null, selectedUserIds.toJS());
@@ -121,7 +123,7 @@ var CreateGroupForm = (function (_Component) {
     var contacts = _state.contacts;
     var intl = this.context.intl;
 
-    var stepForm = undefined;
+    var stepForm = void 0;
 
     switch (step) {
       case _ActorAppConstants.CreateGroupSteps.NAME_INPUT:
@@ -196,7 +198,7 @@ var CreateGroupForm = (function (_Component) {
   };
 
   return CreateGroupForm;
-})(_react.Component);
+}(_react.Component);
 
 CreateGroupForm.contextTypes = {
   intl: _react.PropTypes.object

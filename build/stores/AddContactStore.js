@@ -25,7 +25,7 @@ var _isOpen = false,
     _isSearching = false,
     _results = [];
 
-var AddContactStore = (function (_Store) {
+var AddContactStore = function (_Store) {
   _inherits(AddContactStore, _Store);
 
   function AddContactStore(Dispatcher) {
@@ -95,7 +95,7 @@ var AddContactStore = (function (_Store) {
   };
 
   return AddContactStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new AddContactStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=AddContactStore.js.map

@@ -22,7 +22,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var EmptyScreen = (function (_Component) {
+var EmptyScreen = function (_Component) {
   _inherits(EmptyScreen, _Component);
 
   function EmptyScreen(props) {
@@ -63,7 +63,7 @@ var EmptyScreen = (function (_Component) {
   };
 
   return EmptyScreen;
-})(_react.Component);
+}(_react.Component);
 
 exports.default = EmptyScreen;
 //# sourceMappingURL=Empty.react.js.map

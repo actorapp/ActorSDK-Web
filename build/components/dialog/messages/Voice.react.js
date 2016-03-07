@@ -28,7 +28,7 @@ var cache = [];
  * Class that represents a component for display voice message content
  */
 
-var Voice = (function (_Component) {
+var Voice = function (_Component) {
   _inherits(Voice, _Component);
 
   function Voice(props) {
@@ -87,6 +87,7 @@ var Voice = (function (_Component) {
   Voice.prototype.componentDidMount = function componentDidMount() {
     var content = this.props.content;
 
+
     if (content.fileUrl) {
       this.createAudioElement(content.fileUrl);
     }
@@ -94,6 +95,7 @@ var Voice = (function (_Component) {
 
   Voice.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
     var content = this.props.content;
+
 
     if (content.fileUrl && !this.isCached()) {
       this.createAudioElement(content.fileUrl);
@@ -206,7 +208,7 @@ var Voice = (function (_Component) {
   };
 
   return Voice;
-})(_react.Component);
+}(_react.Component);
 
 Voice.propTypes = {
   content: _react.PropTypes.object.isRequired,

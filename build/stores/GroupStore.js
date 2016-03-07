@@ -26,7 +26,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var _integrationToken = null;
 
-var GroupStore = (function (_Store) {
+var GroupStore = function (_Store) {
   _inherits(GroupStore, _Store);
 
   function GroupStore(dispatcher) {
@@ -42,6 +42,7 @@ var GroupStore = (function (_Store) {
    * @returns {object} Group information
    */
 
+
   GroupStore.prototype.getGroup = function getGroup(gid) {
     return _ActorClient2.default.getGroup(gid);
   };
@@ -51,6 +52,7 @@ var GroupStore = (function (_Store) {
    *
    * @returns {string|null}
    */
+
 
   GroupStore.prototype.getToken = function getToken() {
     return _integrationToken;
@@ -88,7 +90,7 @@ var GroupStore = (function (_Store) {
   };
 
   return GroupStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new GroupStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=GroupStore.js.map

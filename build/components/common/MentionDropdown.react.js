@@ -41,7 +41,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var DROPDOWN_ITEM_HEIGHT = 38;
 var scrollIndex = 0;
 
-var MentionDropdown = (function (_Component) {
+var MentionDropdown = function (_Component) {
   _inherits(MentionDropdown, _Component);
 
   function MentionDropdown(props) {
@@ -52,6 +52,7 @@ var MentionDropdown = (function (_Component) {
     _initialiseProps.call(_this);
 
     var mentions = props.mentions;
+
 
     _this.state = {
       isOpen: mentions && mentions.length > 0,
@@ -100,6 +101,7 @@ var MentionDropdown = (function (_Component) {
     var _state = this.state;
     var isOpen = _state.isOpen;
     var selectedIndex = _state.selectedIndex;
+
 
     var mentionClassName = (0, _classnames2.default)('mention', {
       'mention--opened': isOpen
@@ -210,7 +212,7 @@ var MentionDropdown = (function (_Component) {
   };
 
   return MentionDropdown;
-})(_react.Component);
+}(_react.Component);
 
 MentionDropdown.propTypes = {
   mentions: _react.PropTypes.array,

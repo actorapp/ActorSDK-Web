@@ -16,7 +16,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Failure = (function (_Component) {
+var Failure = function (_Component) {
   _inherits(Failure, _Component);
 
   function Failure(props) {
@@ -30,7 +30,7 @@ var Failure = (function (_Component) {
   };
 
   return Failure;
-})(_react.Component);
+}(_react.Component);
 
 Failure.propTypes = {
   children: _react.PropTypes.node

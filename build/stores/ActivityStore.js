@@ -22,7 +22,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var _isOpen = false;
 
-var ActivityStore = (function (_Store) {
+var ActivityStore = function (_Store) {
   _inherits(ActivityStore, _Store);
 
   function ActivityStore(dispatcher) {
@@ -51,7 +51,7 @@ var ActivityStore = (function (_Store) {
   };
 
   return ActivityStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new ActivityStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=ActivityStore.js.map

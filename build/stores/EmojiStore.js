@@ -22,7 +22,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var _isOpen = false;
 
-var EmojiStore = (function (_Store) {
+var EmojiStore = function (_Store) {
   _inherits(EmojiStore, _Store);
 
   function EmojiStore(dispatcher) {
@@ -50,7 +50,7 @@ var EmojiStore = (function (_Store) {
   };
 
   return EmojiStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new EmojiStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=EmojiStore.js.map

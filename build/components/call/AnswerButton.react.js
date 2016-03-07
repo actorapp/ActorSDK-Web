@@ -8,6 +8,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactIntl = require('react-intl');
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18,7 +22,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var AnswerButton = (function (_Component) {
+var AnswerButton = function (_Component) {
   _inherits(AnswerButton, _Component);
 
   function AnswerButton() {
@@ -28,18 +32,29 @@ var AnswerButton = (function (_Component) {
   }
 
   AnswerButton.prototype.render = function render() {
+    var className = (0, _classnames2.default)('button', {
+      'button--rised button--wide': !this.props.small,
+      'button--square col-xs': this.props.small
+    });
+
     return _react2.default.createElement(
       'button',
-      { className: 'button button--rised button--wide', onClick: this.props.onClick },
+      { className: className, onClick: this.props.onClick },
+      _react2.default.createElement(
+        'i',
+        { className: 'material-icons', key: 'icon' },
+        'call'
+      ),
       _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'call.answer' })
     );
   };
 
   return AnswerButton;
-})(_react.Component);
+}(_react.Component);
 
 AnswerButton.propTypes = {
-  onClick: _react.PropTypes.func.isRequired
+  onClick: _react.PropTypes.func.isRequired,
+  small: _react.PropTypes.bool
 };
 exports.default = AnswerButton;
 //# sourceMappingURL=AnswerButton.react.js.map

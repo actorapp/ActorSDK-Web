@@ -26,7 +26,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var MessagesList = (function (_Component) {
+var MessagesList = function (_Component) {
   _inherits(MessagesList, _Component);
 
   function MessagesList() {
@@ -41,6 +41,7 @@ var MessagesList = (function (_Component) {
     var isMember = _props.isMember;
     var isAllMessagesLoaded = _props.isAllMessagesLoaded;
 
+
     if (isMember && isAllMessagesLoaded) {
       return _react2.default.createElement(_Welcome2.default, { peer: peer });
     }
@@ -52,6 +53,7 @@ var MessagesList = (function (_Component) {
     var _props2 = this.props;
     var isAllMessagesLoaded = _props2.isAllMessagesLoaded;
     var messages = _props2.messages;
+
 
     if (!isAllMessagesLoaded && messages.length >= 30) {
       return _react2.default.createElement(_Loading2.default, null);
@@ -71,6 +73,7 @@ var MessagesList = (function (_Component) {
     var components = _props3.components;
     var MessageItem = this.props.components.MessageItem;
 
+
     var result = [];
     (0, _lodash.forEach)(messages, function (message, index) {
       var overlayItem = overlay[index];
@@ -88,7 +91,7 @@ var MessagesList = (function (_Component) {
         overlay: overlay[index],
         isSelected: selectedMessages.has(message.rid),
         onSelect: _this2.props.onSelect,
-        onVisibilityChange: _this2.props.onMessageVisibilityChange,
+        onVisibilityChange: _this2.props.onVisibilityChange,
         peer: peer
       }));
     });
@@ -107,7 +110,7 @@ var MessagesList = (function (_Component) {
   };
 
   return MessagesList;
-})(_react.Component);
+}(_react.Component);
 
 MessagesList.propTypes = {
   messages: _react.PropTypes.array.isRequired,
@@ -120,7 +123,7 @@ MessagesList.propTypes = {
     MessageItem: _react.PropTypes.func.isRequired
   }).isRequired,
   onSelect: _react.PropTypes.func.isRequired,
-  onMessageVisibilityChange: _react.PropTypes.func.isRequired
+  onVisibilityChange: _react.PropTypes.func.isRequired
 };
 exports.default = MessagesList;
 //# sourceMappingURL=MessagesList.react.js.map

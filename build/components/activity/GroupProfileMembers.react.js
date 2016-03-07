@@ -32,7 +32,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var GroupProfileMembers = (function (_Component) {
+var GroupProfileMembers = function (_Component) {
   _inherits(GroupProfileMembers, _Component);
 
   function GroupProfileMembers(props) {
@@ -46,6 +46,7 @@ var GroupProfileMembers = (function (_Component) {
     var groupId = _props.groupId;
     var members = _props.members;
 
+
     var membersList = (0, _lodash.map)(members, function (member, index) {
       return _react2.default.createElement(_GroupMember2.default, _extends({}, member, { gid: groupId, key: index }));
     });
@@ -58,12 +59,13 @@ var GroupProfileMembers = (function (_Component) {
   };
 
   return GroupProfileMembers;
-})(_react.Component);
+}(_react.Component);
 
 GroupProfileMembers.propTypes = {
   groupId: _react.PropTypes.number,
   members: _react.PropTypes.array.isRequired
 };
+
 
 _reactMixin2.default.onClass(GroupProfileMembers, _reactAddonsPureRenderMixin2.default);
 

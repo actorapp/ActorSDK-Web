@@ -22,7 +22,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var ContactItem = (function (_Component) {
+var ContactItem = function (_Component) {
   _inherits(ContactItem, _Component);
 
   function ContactItem(props) {
@@ -35,6 +35,7 @@ var ContactItem = (function (_Component) {
       var contact = _this$props.contact;
       var onToggle = _this$props.onToggle;
       var isSelected = _this.state.isSelected;
+
 
       _this.setState({ isSelected: !isSelected });
 
@@ -50,6 +51,7 @@ var ContactItem = (function (_Component) {
   ContactItem.prototype.render = function render() {
     var contact = this.props.contact;
     var isSelected = this.state.isSelected;
+
 
     var icon = isSelected ? 'check_box' : 'check_box_outline_blank';
 
@@ -78,7 +80,7 @@ var ContactItem = (function (_Component) {
   };
 
   return ContactItem;
-})(_react.Component);
+}(_react.Component);
 
 ContactItem.propTypes = {
   contact: _react.PropTypes.object,

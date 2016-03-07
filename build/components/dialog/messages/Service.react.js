@@ -22,7 +22,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * @param {String} className Component class name
  */
 
-var Service = (function (_Component) {
+var Service = function (_Component) {
   _inherits(Service, _Component);
 
   function Service(props) {
@@ -36,6 +36,7 @@ var Service = (function (_Component) {
     var text = _props.text;
     var className = _props.className;
 
+
     return _react2.default.createElement(
       "div",
       { className: className },
@@ -48,7 +49,7 @@ var Service = (function (_Component) {
   };
 
   return Service;
-})(_react.Component);
+}(_react.Component);
 
 Service.propTypes = {
   text: _react.PropTypes.string.isRequired,

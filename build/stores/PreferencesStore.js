@@ -29,7 +29,7 @@ var _isOpen = false,
     _currentTab = 'GENERAL',
     _terminateSessionState = [];
 
-var PreferencesStore = (function (_Store) {
+var PreferencesStore = function (_Store) {
   _inherits(PreferencesStore, _Store);
 
   function PreferencesStore(Dispatcher) {
@@ -81,6 +81,7 @@ var PreferencesStore = (function (_Store) {
     var isOnlyMentionNotifications = newPreferences.isOnlyMentionNotifications;
     var isShowNotificationsTextEnabled = newPreferences.isShowNotificationsTextEnabled;
 
+
     _ActorClient2.default.changeSendByEnter(isSendByEnterEnabled);
     _ActorClient2.default.changeSoundEffectsEnabled(isSoundEffectsEnabled);
     _ActorClient2.default.changeGroupNotificationsEnabled(isGroupsNotificationsEnabled);
@@ -129,7 +130,7 @@ var PreferencesStore = (function (_Store) {
   };
 
   return PreferencesStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new PreferencesStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=PreferencesStore.js.map

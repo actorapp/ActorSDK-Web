@@ -52,7 +52,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var PeopleList = (function (_Component) {
+var PeopleList = function (_Component) {
   _inherits(PeopleList, _Component);
 
   function PeopleList(props) {
@@ -195,6 +195,7 @@ var PeopleList = (function (_Component) {
     var list = _state.list;
     var intl = this.context.intl;
 
+
     var peopleList = (0, _lodash.map)(results, function (result, index) {
       return _react2.default.createElement(_PeopleItem2.default, { contact: result, key: index,
         onClick: _this2.handleContactSelect,
@@ -248,7 +249,7 @@ var PeopleList = (function (_Component) {
   };
 
   return PeopleList;
-})(_react.Component);
+}(_react.Component);
 
 PeopleList.contextTypes = {
   intl: _react.PropTypes.object

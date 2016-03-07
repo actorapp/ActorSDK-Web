@@ -16,7 +16,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Processing = (function (_Component) {
+var Processing = function (_Component) {
   _inherits(Processing, _Component);
 
   function Processing(props) {
@@ -30,7 +30,7 @@ var Processing = (function (_Component) {
   };
 
   return Processing;
-})(_react.Component);
+}(_react.Component);
 
 Processing.propTypes = {
   children: _react.PropTypes.node

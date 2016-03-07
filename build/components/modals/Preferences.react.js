@@ -42,7 +42,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var PreferencesModal = (function (_Component) {
+var PreferencesModal = function (_Component) {
   _inherits(PreferencesModal, _Component);
 
   function PreferencesModal(props) {
@@ -61,6 +61,7 @@ var PreferencesModal = (function (_Component) {
       var isGroupsNotificationsEnabled = _this$state.isGroupsNotificationsEnabled;
       var isOnlyMentionNotifications = _this$state.isOnlyMentionNotifications;
       var isShowNotificationsTextEnabled = _this$state.isShowNotificationsTextEnabled;
+
 
       _PreferencesActionCreators2.default.save({
         isSendByEnterEnabled: isSendByEnterEnabled,
@@ -144,6 +145,7 @@ var PreferencesModal = (function (_Component) {
     var isShowNotificationsTextEnabled = _state.isShowNotificationsTextEnabled;
     var sessions = _state.sessions;
     var intl = this.context.intl;
+
 
     var sessionList = (0, _lodash.map)(sessions, function (session) {
       return _react2.default.createElement(_Session2.default, session);
@@ -490,7 +492,7 @@ var PreferencesModal = (function (_Component) {
   };
 
   return PreferencesModal;
-})(_react.Component);
+}(_react.Component);
 
 PreferencesModal.contextTypes = {
   intl: _react.PropTypes.object

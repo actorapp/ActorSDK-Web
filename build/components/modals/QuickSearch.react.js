@@ -69,7 +69,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var RESULT_ITEM_HEIGHT = 44;
 var scrollIndex = 0;
 
-var QuickSearch = (function (_Component) {
+var QuickSearch = function (_Component) {
   _inherits(QuickSearch, _Component);
 
   function QuickSearch(props) {
@@ -211,6 +211,7 @@ var QuickSearch = (function (_Component) {
     var selectedIndex = _state.selectedIndex;
     var query = _state.query;
     var intl = this.context.intl;
+
 
     var resultsList = (0, _lodash.map)(results, function (result, index) {
       var resultClassName = (0, _classnames2.default)('results__item row', {
@@ -357,7 +358,7 @@ var QuickSearch = (function (_Component) {
   };
 
   return QuickSearch;
-})(_react.Component);
+}(_react.Component);
 
 QuickSearch.getStores = function () {
   return [_QuickSearchStore2.default];

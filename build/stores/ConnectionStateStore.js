@@ -26,7 +26,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var _state = 'updating';
 
-var ConnectionStateStore = (function (_Store) {
+var ConnectionStateStore = function (_Store) {
   _inherits(ConnectionStateStore, _Store);
 
   function ConnectionStateStore(dispatcher) {
@@ -38,6 +38,7 @@ var ConnectionStateStore = (function (_Store) {
   /**
    * @returns {string} Connection state
    */
+
 
   ConnectionStateStore.prototype.getState = function getState() {
     return _state;
@@ -54,7 +55,7 @@ var ConnectionStateStore = (function (_Store) {
   };
 
   return ConnectionStateStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new ConnectionStateStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=ConnectionStateStore.js.map

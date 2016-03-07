@@ -30,7 +30,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var ContactItem = (function (_Component) {
+var ContactItem = function (_Component) {
   _inherits(ContactItem, _Component);
 
   function ContactItem(props) {
@@ -62,6 +62,7 @@ var ContactItem = (function (_Component) {
     var phones = _props.phones;
     var isBot = _props.isBot;
     var isContact = _props.isContact;
+
 
     return _react2.default.createElement(
       'li',
@@ -150,7 +151,7 @@ var ContactItem = (function (_Component) {
   };
 
   return ContactItem;
-})(_react.Component);
+}(_react.Component);
 
 ContactItem.propTypes = {
   id: _react.PropTypes.number.isRequired,
@@ -168,6 +169,7 @@ ContactItem.propTypes = {
 
   onSelect: _react2.default.PropTypes.func
 };
+
 
 _reactMixin2.default.onClass(ContactItem, _reactAddonsPureRenderMixin2.default);
 

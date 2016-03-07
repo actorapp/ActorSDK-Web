@@ -52,7 +52,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Recent = (function (_Component) {
+var Recent = function (_Component) {
   _inherits(Recent, _Component);
 
   function Recent(props) {
@@ -156,9 +156,10 @@ var Recent = (function (_Component) {
     var haveUnreadBelow = _state.haveUnreadBelow;
     var intl = this.context.intl;
 
+
     var recentGroups = (0, _lodash.map)(dialogs, function (dialogGroup, index) {
       var isEmpty = dialogGroup.shorts.length === 0;
-      var groupTitle = undefined;
+      var groupTitle = void 0;
 
       switch (dialogGroup.key) {
         case 'groups':
@@ -289,7 +290,7 @@ var Recent = (function (_Component) {
   };
 
   return Recent;
-})(_react.Component);
+}(_react.Component);
 
 Recent.contextTypes = {
   intl: _react.PropTypes.object

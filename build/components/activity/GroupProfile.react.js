@@ -111,7 +111,7 @@ var getStateFromStores = function getStateFromStores(gid) {
   };
 };
 
-var GroupProfile = (function (_Component) {
+var GroupProfile = function (_Component) {
   _inherits(GroupProfile, _Component);
 
   GroupProfile.getStores = function getStores() {
@@ -151,6 +151,7 @@ var GroupProfile = (function (_Component) {
 
     _this.toggleMoreDropdown = function () {
       var isMoreDropdownOpen = _this.state.isMoreDropdownOpen;
+
 
       if (!isMoreDropdownOpen) {
         _this.setState({ isMoreDropdownOpen: true });
@@ -213,6 +214,7 @@ var GroupProfile = (function (_Component) {
     var isMoreDropdownOpen = _state.isMoreDropdownOpen;
     var message = _state.message;
     var intl = this.context.intl;
+
 
     var myId = _UserStore2.default.getMyId();
     var admin = _UserStore2.default.getUser(group.adminId);
@@ -461,7 +463,7 @@ var GroupProfile = (function (_Component) {
   };
 
   return GroupProfile;
-})(_react.Component);
+}(_react.Component);
 
 GroupProfile.propTypes = {
   group: _react.PropTypes.object.isRequired

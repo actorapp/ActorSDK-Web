@@ -30,7 +30,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var SessionItem = (function (_Component) {
+var SessionItem = function (_Component) {
   _inherits(SessionItem, _Component);
 
   function SessionItem(props) {
@@ -50,6 +50,7 @@ var SessionItem = (function (_Component) {
     var authTime = _props.authTime;
     var terminateSessionState = this.state.terminateSessionState;
     var intl = this.context.intl;
+
 
     var currentDevice = holder === 'THIS_DEVICE' ? _react2.default.createElement(
       'small',
@@ -122,7 +123,7 @@ var SessionItem = (function (_Component) {
   };
 
   return SessionItem;
-})(_react.Component);
+}(_react.Component);
 
 SessionItem.getStores = function () {
   return [_PreferencesStore2.default];

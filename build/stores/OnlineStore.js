@@ -30,7 +30,7 @@ var message = '',
     _isOnline = false,
     _isNotMember = false;
 
-var OnlineStore = (function (_Store) {
+var OnlineStore = function (_Store) {
   _inherits(OnlineStore, _Store);
 
   function OnlineStore(dispatcher) {
@@ -78,7 +78,7 @@ var OnlineStore = (function (_Store) {
   };
 
   return OnlineStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new OnlineStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=OnlineStore.js.map

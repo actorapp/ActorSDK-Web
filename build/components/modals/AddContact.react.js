@@ -46,7 +46,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var AddContact = (function (_Component) {
+var AddContact = function (_Component) {
   _inherits(AddContact, _Component);
 
   function AddContact(props) {
@@ -206,7 +206,7 @@ var AddContact = (function (_Component) {
   };
 
   return AddContact;
-})(_react.Component);
+}(_react.Component);
 
 AddContact.getStores = function () {
   return [_AddContactStore2.default];

@@ -24,7 +24,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Deactivated = (function (_Component) {
+var Deactivated = function (_Component) {
   _inherits(Deactivated, _Component);
 
   function Deactivated(props) {
@@ -59,7 +59,7 @@ var Deactivated = (function (_Component) {
   };
 
   return Deactivated;
-})(_react.Component);
+}(_react.Component);
 
 exports.default = Deactivated;
 //# sourceMappingURL=Deactivated.react.js.map

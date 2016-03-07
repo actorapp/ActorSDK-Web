@@ -22,7 +22,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Favicon = (function (_Component) {
+var Favicon = function (_Component) {
   _inherits(Favicon, _Component);
 
   function Favicon(props) {
@@ -55,7 +55,7 @@ var Favicon = (function (_Component) {
   };
 
   return Favicon;
-})(_react.Component);
+}(_react.Component);
 
 Favicon.getStores = function () {
   return [_FaviconStore2.default];

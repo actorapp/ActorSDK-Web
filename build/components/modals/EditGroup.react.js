@@ -54,7 +54,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var EditGroup = (function (_Component) {
+var EditGroup = function (_Component) {
   _inherits(EditGroup, _Component);
 
   function EditGroup(props) {
@@ -168,6 +168,7 @@ var EditGroup = (function (_Component) {
     var about = _state.about;
     var isAdmin = _state.isAdmin;
     var intl = this.context.intl;
+
 
     var cropAvatar = isCropModalOpen ? _react2.default.createElement(_CropAvatar2.default, { onCropFinish: this.changeGroupAvatar }) : null;
     var modalStyle = {
@@ -283,7 +284,7 @@ var EditGroup = (function (_Component) {
   };
 
   return EditGroup;
-})(_react.Component);
+}(_react.Component);
 
 EditGroup.contextTypes = {
   intl: _react.PropTypes.object

@@ -27,7 +27,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var isRecordingSupported = _opusRecorder2.default.isRecordingSupported() ? true : false;
 console.debug('isRecordingSupported', isRecordingSupported);
 
-var VoiceRecorder = (function (_Component) {
+var VoiceRecorder = function (_Component) {
   _inherits(VoiceRecorder, _Component);
 
   function VoiceRecorder(props) {
@@ -47,6 +47,7 @@ var VoiceRecorder = (function (_Component) {
     _this.handleSendRecord = function (event) {
       var onFinish = _this.props.onFinish;
       var duration = _this.state.duration;
+
 
       onFinish && onFinish(duration * 1000, event.detail); //Duration must be in ms
     };
@@ -79,6 +80,7 @@ var VoiceRecorder = (function (_Component) {
       var isRecording = _state.isRecording;
       var duration = _state.duration;
 
+
       var voiceRecorderClassName = (0, _classnames2.default)('voice-recorder', {
         'voice-recorder--recording': isRecording
       });
@@ -110,7 +112,7 @@ var VoiceRecorder = (function (_Component) {
   };
 
   return VoiceRecorder;
-})(_react.Component);
+}(_react.Component);
 
 VoiceRecorder.propTypes = {
   onFinish: _react.PropTypes.func.isRequired

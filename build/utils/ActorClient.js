@@ -36,6 +36,7 @@ exports.default = (_requestSms$requestCo = {
     return window.messenger.isLoggedIn();
   },
 
+
   // Bindings
 
   bindDialogs: function bindDialogs(callback) {

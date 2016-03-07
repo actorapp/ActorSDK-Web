@@ -24,7 +24,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Loading = (function (_Component) {
+var Loading = function (_Component) {
   _inherits(Loading, _Component);
 
   function Loading(props) {
@@ -35,6 +35,7 @@ var Loading = (function (_Component) {
 
   Loading.prototype.render = function render() {
     var intl = this.context.intl;
+
 
     return _react2.default.createElement(
       'li',
@@ -48,11 +49,12 @@ var Loading = (function (_Component) {
   };
 
   return Loading;
-})(_react.Component);
+}(_react.Component);
 
 Loading.contextTypes = {
   intl: _react.PropTypes.object
 };
+
 
 _reactMixin2.default.onClass(Loading, _reactAddonsPureRenderMixin2.default);
 

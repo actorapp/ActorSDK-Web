@@ -40,7 +40,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Welcome = (function (_Component) {
+var Welcome = function (_Component) {
   _inherits(Welcome, _Component);
 
   function Welcome(props) {
@@ -53,7 +53,8 @@ var Welcome = (function (_Component) {
     var peer = this.props.peer;
     var intl = this.context.intl;
 
-    var welcomeText = undefined;
+
+    var welcomeText = void 0;
     switch (peer.type) {
       case _ActorAppConstants.PeerTypes.USER:
         var user = _UserStore2.default.getUser(peer.id);
@@ -103,7 +104,7 @@ var Welcome = (function (_Component) {
   };
 
   return Welcome;
-})(_react.Component);
+}(_react.Component);
 
 Welcome.propTypes = {
   peer: _react.PropTypes.object.isRequired
@@ -111,6 +112,7 @@ Welcome.propTypes = {
 Welcome.contextTypes = {
   intl: _react.PropTypes.object
 };
+
 
 _reactMixin2.default.onClass(Welcome, _reactAddonsPureRenderMixin2.default);
 

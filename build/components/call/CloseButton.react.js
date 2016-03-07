@@ -18,7 +18,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var CloseButton = (function (_Component) {
+var CloseButton = function (_Component) {
   _inherits(CloseButton, _Component);
 
   function CloseButton() {
@@ -36,7 +36,7 @@ var CloseButton = (function (_Component) {
   };
 
   return CloseButton;
-})(_react.Component);
+}(_react.Component);
 
 CloseButton.propTypes = {
   onClick: _react.PropTypes.func.isRequired

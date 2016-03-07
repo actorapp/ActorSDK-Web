@@ -55,7 +55,7 @@ function getColor(color) {
  * @param {Boolean} isShort Display short version of field
  */
 
-var Field = (function (_Component) {
+var Field = function (_Component) {
   _inherits(Field, _Component);
 
   function Field(props) {
@@ -69,6 +69,7 @@ var Field = (function (_Component) {
     var title = _props.title;
     var value = _props.value;
     var isShort = _props.isShort;
+
 
     var fieldClassName = (0, _classnames2.default)('field', {
       'field--short': isShort,
@@ -93,7 +94,7 @@ var Field = (function (_Component) {
   };
 
   return Field;
-})(_react.Component);
+}(_react.Component);
 
 /**
  * Class that represents component for display modern text message attachments
@@ -104,13 +105,14 @@ var Field = (function (_Component) {
  * @param {String} titleUrl Attachment title url
  */
 
+
 Field.propTypes = {
   title: _react.PropTypes.string,
   value: _react.PropTypes.string,
   isShort: _react.PropTypes.bool
 };
 
-var Attach = (function (_Component2) {
+var Attach = function (_Component2) {
   _inherits(Attach, _Component2);
 
   function Attach(props) {
@@ -126,6 +128,7 @@ var Attach = (function (_Component2) {
     var title = _props2.title;
     var text = _props2.text;
     var fields = _props2.fields;
+
 
     var attachmentClassName = (0, _classnames2.default)('attachment', {
       'attachment--paragraph': paragraphStyle.showParagraph
@@ -162,7 +165,7 @@ var Attach = (function (_Component2) {
   };
 
   return Attach;
-})(_react.Component);
+}(_react.Component);
 
 /**
  * Class that represents component for display modern text messages content
@@ -172,6 +175,7 @@ var Attach = (function (_Component2) {
  * @param {String} className Component class name
  */
 
+
 Attach.propTypes = {
   paragraphStyle: _react.PropTypes.object,
   text: _react.PropTypes.string,
@@ -180,7 +184,7 @@ Attach.propTypes = {
   fields: _react.PropTypes.array
 };
 
-var TextModern = (function (_Component3) {
+var TextModern = function (_Component3) {
   _inherits(TextModern, _Component3);
 
   function TextModern(props) {
@@ -226,7 +230,7 @@ var TextModern = (function (_Component3) {
   };
 
   return TextModern;
-})(_react.Component);
+}(_react.Component);
 
 TextModern.propTypes = {
   attaches: _react.PropTypes.array,

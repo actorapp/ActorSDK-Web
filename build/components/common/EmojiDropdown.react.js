@@ -46,10 +46,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var emojiTabs = [];
 var emojis = [];
-var closeTimer = undefined;
+var closeTimer = void 0;
 var CLOSE_TIMEOUT = 550;
 
-var EmojiDropdown = (function (_Component) {
+var EmojiDropdown = function (_Component) {
   _inherits(EmojiDropdown, _Component);
 
   EmojiDropdown.calculateState = function calculateState() {
@@ -240,7 +240,7 @@ var EmojiDropdown = (function (_Component) {
   };
 
   return EmojiDropdown;
-})(_react.Component);
+}(_react.Component);
 
 EmojiDropdown.propTypes = {
   onSelect: _react.PropTypes.func.isRequired

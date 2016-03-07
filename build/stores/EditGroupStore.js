@@ -29,7 +29,7 @@ var _isOpen = false,
     _about = '',
     _group = {};
 
-var EditGroupStore = (function (_Store) {
+var EditGroupStore = function (_Store) {
   _inherits(EditGroupStore, _Store);
 
   function EditGroupStore(Dispatcher) {
@@ -86,7 +86,7 @@ var EditGroupStore = (function (_Store) {
   };
 
   return EditGroupStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new EditGroupStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=EditGroupStore.js.map

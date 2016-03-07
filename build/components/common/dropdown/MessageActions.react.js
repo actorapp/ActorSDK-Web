@@ -48,7 +48,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var MessageActions = (function (_Component) {
+var MessageActions = function (_Component) {
   _inherits(MessageActions, _Component);
 
   function MessageActions(props) {
@@ -122,6 +122,7 @@ var MessageActions = (function (_Component) {
     var message = _props.message;
     var targetRect = _props.targetRect;
     var intl = this.context.intl;
+
 
     var isThisMyMessage = _UserStore2.default.getMyId() === message.sender.peer.id;
 
@@ -202,7 +203,7 @@ var MessageActions = (function (_Component) {
   };
 
   return MessageActions;
-})(_react.Component);
+}(_react.Component);
 
 MessageActions.propTypes = {
   peer: _react.PropTypes.object.isRequired,
@@ -213,6 +214,7 @@ MessageActions.propTypes = {
 MessageActions.contextTypes = {
   intl: _react.PropTypes.object
 };
+
 
 _reactMixin2.default.onClass(MessageActions, _reactAddonsPureRenderMixin2.default);
 

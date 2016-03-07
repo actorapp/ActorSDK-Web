@@ -100,7 +100,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 // Default message content components
 
-var MessageItem = (function (_Component) {
+
+var MessageItem = function (_Component) {
   _inherits(MessageItem, _Component);
 
   function MessageItem() {
@@ -116,6 +117,7 @@ var MessageItem = (function (_Component) {
       var _this$props = _this.props;
       var message = _this$props.message;
       var peer = _this$props.peer;
+
 
       if (_PeerUtils2.default.equals(peer, message.sender.peer)) {
         _ActivityActionCreators2.default.show();
@@ -158,15 +160,15 @@ var MessageItem = (function (_Component) {
 
     var isShortMessage = overlay.useShort;
 
-    var Service = undefined,
-        Text = undefined,
-        Modern = undefined,
-        Photo = undefined,
-        Document = undefined,
-        Voice = undefined,
-        Contact = undefined,
-        Location = undefined,
-        Sticker = undefined;
+    var Service = void 0,
+        Text = void 0,
+        Modern = void 0,
+        Photo = void 0,
+        Document = void 0,
+        Voice = void 0,
+        Contact = void 0,
+        Location = void 0,
+        Sticker = void 0;
     if (delegate.components.dialog && delegate.components.dialog.messages && delegate.components.dialog.messages.message !== null && typeof delegate.components.messages.message !== 'function') {
       Service = delegate.components.dialog.messages.service || _Service2.default;
       Text = delegate.components.dialog.messages.text || _Text2.default;
@@ -320,7 +322,7 @@ var MessageItem = (function (_Component) {
   };
 
   return MessageItem;
-})(_react.Component);
+}(_react.Component);
 
 MessageItem.getStores = function () {
   return [_DropdownStore2.default];

@@ -34,7 +34,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var ConnectionState = (function (_Component) {
+var ConnectionState = function (_Component) {
   _inherits(ConnectionState, _Component);
 
   function ConnectionState(props) {
@@ -56,6 +56,7 @@ var ConnectionState = (function (_Component) {
   ConnectionState.prototype.render = function render() {
     var connectionState = this.state.connectionState;
 
+
     var className = (0, _classnames2.default)('connection-state', {
       'connection-state--online': connectionState === _ActorAppConstants.ConnectionStates.ONLINE,
       'connection-state--connection': connectionState === _ActorAppConstants.ConnectionStates.CONNECTING
@@ -69,7 +70,7 @@ var ConnectionState = (function (_Component) {
   };
 
   return ConnectionState;
-})(_react.Component);
+}(_react.Component);
 
 ConnectionState.getStores = function () {
   return [_ConnectionStateStore2.default];

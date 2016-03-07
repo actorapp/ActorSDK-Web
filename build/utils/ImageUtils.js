@@ -13,6 +13,7 @@ var lightbox = new _jsonlylightbox2.default(); /*
                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                 */
 
+
 var dataURItoBlob = function dataURItoBlob(dataURI) {
   var byteString = atob(dataURI.split(',')[1]);
   var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];

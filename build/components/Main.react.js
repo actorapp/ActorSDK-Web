@@ -56,7 +56,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Main = (function (_Component) {
+var Main = function (_Component) {
   _inherits(Main, _Component);
 
   function Main(props) {
@@ -96,6 +96,7 @@ var Main = (function (_Component) {
   Main.prototype.render = function render() {
     var delegate = this.context.delegate;
 
+
     var Sidebar = typeof delegate.components.sidebar == 'function' ? delegate.components.sidebar : _Sidebar2.default;
 
     return _react2.default.createElement(
@@ -113,7 +114,7 @@ var Main = (function (_Component) {
   };
 
   return Main;
-})(_react.Component);
+}(_react.Component);
 
 Main.propTypes = {
   params: _react.PropTypes.object,

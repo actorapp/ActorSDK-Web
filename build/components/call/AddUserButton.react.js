@@ -18,7 +18,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var AddUserButton = (function (_Component) {
+var AddUserButton = function (_Component) {
   _inherits(AddUserButton, _Component);
 
   function AddUserButton() {
@@ -41,7 +41,7 @@ var AddUserButton = (function (_Component) {
   };
 
   return AddUserButton;
-})(_react.Component);
+}(_react.Component);
 
 AddUserButton.propTypes = {
   onClick: _react.PropTypes.func.isRequired

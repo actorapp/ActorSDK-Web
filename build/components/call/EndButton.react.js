@@ -8,6 +8,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactIntl = require('react-intl');
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18,7 +22,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var EndButton = (function (_Component) {
+var EndButton = function (_Component) {
   _inherits(EndButton, _Component);
 
   function EndButton() {
@@ -28,9 +32,14 @@ var EndButton = (function (_Component) {
   }
 
   EndButton.prototype.render = function render() {
+    var className = (0, _classnames2.default)('button', {
+      'button--rised button--pink button--wide': !this.props.small,
+      'button--square col-xs': this.props.small
+    });
+
     return _react2.default.createElement(
       'button',
-      { className: 'button button--rised button--pink button--wide', onClick: this.props.onClick },
+      { className: className, onClick: this.props.onClick },
       _react2.default.createElement(
         'i',
         { className: 'material-icons', key: 'icon' },
@@ -41,10 +50,11 @@ var EndButton = (function (_Component) {
   };
 
   return EndButton;
-})(_react.Component);
+}(_react.Component);
 
 EndButton.propTypes = {
-  onClick: _react.PropTypes.func.isRequired
+  onClick: _react.PropTypes.func.isRequired,
+  small: _react.PropTypes.bool
 };
 exports.default = EndButton;
 //# sourceMappingURL=EndButton.react.js.map

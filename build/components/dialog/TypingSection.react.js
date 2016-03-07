@@ -26,7 +26,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Typing = (function (_Component) {
+var Typing = function (_Component) {
   _inherits(Typing, _Component);
 
   Typing.calculateState = function calculateState() {
@@ -49,6 +49,7 @@ var Typing = (function (_Component) {
     var _state = this.state;
     var show = _state.show;
     var typing = _state.typing;
+
 
     var typingClassName = (0, _classnames2.default)('typing', {
       'typing--hidden': !show
@@ -73,7 +74,7 @@ var Typing = (function (_Component) {
   };
 
   return Typing;
-})(_react.Component);
+}(_react.Component);
 
 Typing.getStores = function () {
   return [_TypingStore2.default];

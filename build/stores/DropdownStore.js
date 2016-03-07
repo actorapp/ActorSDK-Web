@@ -28,7 +28,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var DropdownStore = (function (_Store) {
+var DropdownStore = function (_Store) {
   _inherits(DropdownStore, _Store);
 
   function DropdownStore(dispatcher) {
@@ -103,7 +103,7 @@ var DropdownStore = (function (_Store) {
   };
 
   return DropdownStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new DropdownStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=DropdownStore.js.map

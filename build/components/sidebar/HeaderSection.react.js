@@ -98,7 +98,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var HeaderSection = (function (_Component) {
+var HeaderSection = function (_Component) {
   _inherits(HeaderSection, _Component);
 
   function HeaderSection(props) {
@@ -108,6 +108,7 @@ var HeaderSection = (function (_Component) {
 
     _this.toggleHeaderMenu = function () {
       var isOpened = _this.state.isOpened;
+
 
       if (!isOpened) {
         _this.setState({ isOpened: true });
@@ -200,6 +201,7 @@ var HeaderSection = (function (_Component) {
     var isAddContactsOpen = _state.isAddContactsOpen;
     var isPreferencesOpen = _state.isPreferencesOpen;
     var intl = this.context.intl;
+
 
     if (profile) {
       var headerClass = (0, _classnames2.default)('sidebar__header', 'sidebar__header--clickable', {
@@ -333,7 +335,7 @@ var HeaderSection = (function (_Component) {
   };
 
   return HeaderSection;
-})(_react.Component);
+}(_react.Component);
 
 HeaderSection.getStores = function () {
   return [_MyProfileStore2.default, _CreateGroupStore2.default, _AddContactStore2.default, _PreferencesStore2.default];

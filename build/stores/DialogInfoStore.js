@@ -26,7 +26,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var _info = null;
 
-var DialogInfoStore = (function (_Store) {
+var DialogInfoStore = function (_Store) {
   _inherits(DialogInfoStore, _Store);
 
   function DialogInfoStore() {
@@ -58,7 +58,7 @@ var DialogInfoStore = (function (_Store) {
   };
 
   return DialogInfoStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new DialogInfoStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=DialogInfoStore.js.map

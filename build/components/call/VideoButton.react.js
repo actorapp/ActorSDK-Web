@@ -18,7 +18,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var VideoButton = (function (_Component) {
+var VideoButton = function (_Component) {
   _inherits(VideoButton, _Component);
 
   function VideoButton() {
@@ -41,7 +41,7 @@ var VideoButton = (function (_Component) {
   };
 
   return VideoButton;
-})(_react.Component);
+}(_react.Component);
 
 VideoButton.propTypes = {
   onClick: _react.PropTypes.func.isRequired

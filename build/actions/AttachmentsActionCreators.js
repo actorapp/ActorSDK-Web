@@ -58,6 +58,7 @@ exports.default = {
     _ComposeActionCreators2.default.toggleAutoFocus(true);
   },
 
+
   sendAll: function sendAll(attachments) {
     var currentPeer = _DialogStore2.default.getCurrentPeer();
 

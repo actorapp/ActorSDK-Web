@@ -16,7 +16,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   peerToString: function peerToString(peer) {
-    var str = undefined;
+    var str = void 0;
 
     switch (peer.type) {
       case _ActorAppConstants.PeerTypes.USER:

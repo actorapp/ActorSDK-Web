@@ -20,6 +20,7 @@ var UserStore = {
     return _ActorClient2.default.getUser(uid);
   },
 
+
   /**
    * Get current user id
    *
@@ -28,6 +29,7 @@ var UserStore = {
   getMyId: function getMyId() {
     return _ActorClient2.default.getUid();
   },
+
 
   /**
    * Returns true if user is in contact

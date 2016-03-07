@@ -26,7 +26,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * Class that represents a component for display contact message content
  */
 
-var Contact = (function (_Component) {
+var Contact = function (_Component) {
   _inherits(Contact, _Component);
 
   function Contact(props) {
@@ -123,7 +123,7 @@ var Contact = (function (_Component) {
   };
 
   return Contact;
-})(_react.Component);
+}(_react.Component);
 
 Contact.propTypes = {
   name: _react.PropTypes.string.isRequired,

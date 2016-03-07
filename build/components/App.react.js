@@ -24,7 +24,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * Root react component
  */
 
-var App = (function (_Component) {
+var App = function (_Component) {
   _inherits(App, _Component);
 
   App.prototype.getChildContext = function getChildContext() {
@@ -51,7 +51,7 @@ var App = (function (_Component) {
   };
 
   return App;
-})(_react.Component);
+}(_react.Component);
 
 App.propTypes = {
   delegate: _react.PropTypes.object,

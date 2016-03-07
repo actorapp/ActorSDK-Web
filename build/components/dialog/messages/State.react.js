@@ -18,7 +18,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var State = (function (_Component) {
+var State = function (_Component) {
   _inherits(State, _Component);
 
   function State(props) {
@@ -29,6 +29,7 @@ var State = (function (_Component) {
 
   State.prototype.render = function render() {
     var message = this.props.message;
+
 
     if (message.content.content === _ActorAppConstants.MessageContentTypes.SERVICE) {
       return null;
@@ -83,7 +84,7 @@ var State = (function (_Component) {
   };
 
   return State;
-})(_react.Component);
+}(_react.Component);
 
 State.propTypes = {
   message: _react.PropTypes.object.isRequired

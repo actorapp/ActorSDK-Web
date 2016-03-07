@@ -285,12 +285,22 @@ export default {
       outgoing: 'Outgoing call',
       incoming: 'Incoming call',
       mute: 'Mute',
+      unmute: 'Unmute',
       answer: 'Answer',
       decline: 'Decline',
       end: 'End call',
       addUser: 'Add user',
       fullScreen: 'Fullscreen',
       video: 'Video'
+    },
+
+    toolbar: {
+      callState: {
+        calling: 'calling',
+        connecting: 'connecting',
+        in_progress: 'On call: {time}',
+        ended: 'ended'
+      }
     }
   }
 };

@@ -28,7 +28,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var MessageReactions = (function (_Component) {
+var MessageReactions = function (_Component) {
   _inherits(MessageReactions, _Component);
 
   function MessageReactions(props) {
@@ -69,7 +69,7 @@ var MessageReactions = (function (_Component) {
 
     var hasReactions = message.reactions.length > 0;
 
-    var counter = undefined;
+    var counter = void 0;
     var icon = _react2.default.createElement(
       'i',
       { className: 'icon material-icons', onClick: this.handleAddLike },
@@ -118,7 +118,7 @@ var MessageReactions = (function (_Component) {
   };
 
   return MessageReactions;
-})(_react.Component);
+}(_react.Component);
 
 MessageReactions.propTypes = {
   peer: _react.PropTypes.object.isRequired,

@@ -20,7 +20,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var KickUserStore = (function (_Store) {
+var KickUserStore = function (_Store) {
   _inherits(KickUserStore, _Store);
 
   function KickUserStore(dispatcher) {
@@ -59,7 +59,7 @@ var KickUserStore = (function (_Store) {
   };
 
   return KickUserStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new KickUserStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=KickUserStore.js.map

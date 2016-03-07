@@ -31,6 +31,7 @@ class MessagesSection extends Component {
     messages: PropTypes.array.isRequired,
     overlay: PropTypes.array.isRequired,
     peer: PropTypes.object.isRequired,
+    isMember: PropTypes.bool.isRequired,
     onScroll: PropTypes.func.isRequired
   };
 
@@ -91,9 +92,8 @@ class MessagesSection extends Component {
   }
 
   render() {
-    const { peer, overlay, messages } = this.props;
+    const { peer, overlay, messages, isMember } = this.props;
     const { selectedMessages, isAllMessagesLoaded } = this.state;
-    const isMember = DialogStore.isMember();
 
     const components = this.getComponents();
 

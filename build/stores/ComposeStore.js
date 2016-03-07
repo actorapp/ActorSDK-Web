@@ -63,7 +63,7 @@ var text = '';
 var mentions = null;
 var _isAutoFocusEnabled = true;
 
-var ComposeStore = (function (_Store) {
+var ComposeStore = function (_Store) {
   _inherits(ComposeStore, _Store);
 
   function ComposeStore(dispatcher) {
@@ -174,7 +174,7 @@ var ComposeStore = (function (_Store) {
   };
 
   return ComposeStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new ComposeStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=ComposeStore.js.map

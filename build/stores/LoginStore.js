@@ -40,7 +40,7 @@ var step = _ActorAppConstants.AuthSteps.LOGIN_WAIT,
     isSignupStarted = false,
     myUid = null;
 
-var LoginStore = (function (_Store) {
+var LoginStore = function (_Store) {
   _inherits(LoginStore, _Store);
 
   function LoginStore(dispatcher) {
@@ -214,7 +214,7 @@ var LoginStore = (function (_Store) {
   };
 
   return LoginStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new LoginStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=LoginStore.js.map

@@ -24,7 +24,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var NotificationsStore = (function (_Store) {
+var NotificationsStore = function (_Store) {
   _inherits(NotificationsStore, _Store);
 
   function NotificationsStore() {
@@ -47,7 +47,7 @@ var NotificationsStore = (function (_Store) {
   };
 
   return NotificationsStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new NotificationsStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=NotificationsStore.js.map

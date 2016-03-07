@@ -18,7 +18,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var MuteButton = (function (_Component) {
+var MuteButton = function (_Component) {
   _inherits(MuteButton, _Component);
 
   function MuteButton() {
@@ -27,24 +27,31 @@ var MuteButton = (function (_Component) {
     return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
+  MuteButton.prototype.renderText = function renderText() {
+    return this.props.value ? _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'call.unmute' }) : _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'call.mute' });
+  };
+
   MuteButton.prototype.render = function render() {
+    var glyph = this.props.value ? 'mic_off' : 'mic';
+
     return _react2.default.createElement(
       'button',
-      { className: 'button button--square col-xs', onClick: this.props.onClick },
+      { className: 'button button--square col-xs', onClick: this.props.onToggle },
       _react2.default.createElement(
         'i',
         { className: 'material-icons' },
-        'mic_off'
+        glyph
       ),
-      _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'call.mute' })
+      this.renderText()
     );
   };
 
   return MuteButton;
-})(_react.Component);
+}(_react.Component);
 
 MuteButton.propTypes = {
-  onClick: _react.PropTypes.func.isRequired
+  value: _react.PropTypes.bool.isRequired,
+  onToggle: _react.PropTypes.func.isRequired
 };
 exports.default = MuteButton;
 //# sourceMappingURL=MuteButton.react.js.map

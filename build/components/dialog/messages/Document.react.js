@@ -24,7 +24,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * Class that represents a component for display document message content
  */
 
-var Document = (function (_Component) {
+var Document = function (_Component) {
   _inherits(Document, _Component);
 
   function Document(props) {
@@ -38,6 +38,7 @@ var Document = (function (_Component) {
     var content = _props.content;
     var className = _props.className;
     var intl = this.context.intl;
+
 
     var documentClassName = (0, _classnames2.default)(className, 'row');
 
@@ -106,7 +107,7 @@ var Document = (function (_Component) {
   };
 
   return Document;
-})(_react.Component);
+}(_react.Component);
 
 Document.propTypes = {
   content: _react.PropTypes.object.isRequired,

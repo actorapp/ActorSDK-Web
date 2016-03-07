@@ -26,7 +26,7 @@ var MAP_SIZE = '300x100';
  * Class that represent a component for display location messages content
  */
 
-var Location = (function (_Component) {
+var Location = function (_Component) {
   _inherits(Location, _Component);
 
   function Location(props) {
@@ -68,7 +68,7 @@ var Location = (function (_Component) {
   };
 
   return Location;
-})(_react.Component);
+}(_react.Component);
 
 Location.propTypes = {
   content: _react.PropTypes.object.isRequired,

@@ -20,7 +20,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var AvatarItem = (function (_Component) {
+var AvatarItem = function (_Component) {
   _inherits(AvatarItem, _Component);
 
   function AvatarItem(props) {
@@ -45,6 +45,7 @@ var AvatarItem = (function (_Component) {
     var size = _props.size;
     var placeholder = _props.placeholder;
 
+
     var placeholderClassName = (0, _classnames2.default)('avatar__placeholder', 'avatar__placeholder--' + placeholder);
     var avatarClassName = (0, _classnames2.default)('avatar', {
       'avatar--tiny': size === 'tiny',
@@ -60,7 +61,7 @@ var AvatarItem = (function (_Component) {
 
     var emojiFirstChar = /([\uE000-\uF8FF]|\uD83C|\uD83D)/g;
 
-    var placeholderChar = undefined;
+    var placeholderChar = void 0;
     if (title.length == 0) {
       placeholderChar = '#';
     } else {
@@ -80,7 +81,7 @@ var AvatarItem = (function (_Component) {
   };
 
   return AvatarItem;
-})(_react.Component);
+}(_react.Component);
 
 AvatarItem.propTypes = {
   className: _react.PropTypes.string,

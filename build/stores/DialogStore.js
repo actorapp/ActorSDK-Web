@@ -26,7 +26,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var DialogStore = (function (_Store) {
+var DialogStore = function (_Store) {
   _inherits(DialogStore, _Store);
 
   function DialogStore(dispatcher) {
@@ -55,10 +55,10 @@ var DialogStore = (function (_Store) {
   DialogStore.prototype.isMember = function isMember() {
     if (this.currentPeer !== null && this.currentPeer.type === _ActorAppConstants.PeerTypes.GROUP) {
       var group = _ActorClient2.default.getGroup(this.currentPeer.id);
-      return group.members.length !== 0;
-    } else {
-      return true;
+      return group && group.members.length !== 0;
     }
+
+    return true;
   };
 
   DialogStore.prototype.isFavorite = function isFavorite(id) {
@@ -91,7 +91,7 @@ var DialogStore = (function (_Store) {
   };
 
   return DialogStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new DialogStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=DialogStore.js.map

@@ -12,11 +12,9 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _ActorAppConstants = require('../../constants/ActorAppConstants');
+var _CallAvatar = require('./CallAvatar.react');
 
-var _AvatarItem = require('../common/AvatarItem.react');
-
-var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
+var _CallAvatar2 = _interopRequireDefault(_CallAvatar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,7 +26,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var CallBody = (function (_Component) {
+var CallBody = function (_Component) {
   _inherits(CallBody, _Component);
 
   function CallBody() {
@@ -38,50 +36,38 @@ var CallBody = (function (_Component) {
   }
 
   CallBody.prototype.render = function render() {
-    var peerInfo = this.props.peerInfo;
+    var _props = this.props;
+    var small = _props.small;
+    var peerInfo = _props.peerInfo;
+    var callState = _props.callState;
 
     if (!peerInfo) {
       return null;
     }
 
-    var avatarRingsClassName = (0, _classnames2.default)('call__avatar__rings', {
-      'call__avatar__rings--animated': this.props.callState === _ActorAppConstants.CallStates.CALLING || this.props.callState === _ActorAppConstants.CallStates.CONNECTING
+    var titleClassName = (0, _classnames2.default)('call__title', {
+      'call__title--small': small
     });
 
     return _react2.default.createElement(
       'div',
       { className: 'call__body' },
-      _react2.default.createElement(
-        'div',
-        { className: 'call__avatar' },
-        _react2.default.createElement(_AvatarItem2.default, {
-          size: 'big',
-          image: peerInfo.avatar,
-          title: peerInfo.name,
-          placeholder: peerInfo.placeholder
-        }),
-        _react2.default.createElement(
-          'div',
-          { className: avatarRingsClassName },
-          _react2.default.createElement('div', null),
-          _react2.default.createElement('div', null),
-          _react2.default.createElement('div', null)
-        )
-      ),
+      _react2.default.createElement(_CallAvatar2.default, { peerInfo: peerInfo, callState: callState, small: small }),
       _react2.default.createElement(
         'h3',
-        { className: 'call__title' },
+        { className: titleClassName },
         peerInfo.name
       )
     );
   };
 
   return CallBody;
-})(_react.Component);
+}(_react.Component);
 
 CallBody.propTypes = {
-  peerInfo: _react2.default.PropTypes.object,
-  callState: _react.PropTypes.oneOf([_ActorAppConstants.CallStates.CALLING, _ActorAppConstants.CallStates.IN_PROGRESS, _ActorAppConstants.CallStates.CONNECTING, _ActorAppConstants.CallStates.ENDED])
+  small: _react.PropTypes.bool,
+  peerInfo: _react.PropTypes.object,
+  callState: _react.PropTypes.string.isRequired
 };
 exports.default = CallBody;
 //# sourceMappingURL=CallBody.react.js.map

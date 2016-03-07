@@ -30,7 +30,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var QuickSearchButton = (function (_Component) {
+var QuickSearchButton = function (_Component) {
   _inherits(QuickSearchButton, _Component);
 
   function QuickSearchButton(props) {
@@ -55,6 +55,7 @@ var QuickSearchButton = (function (_Component) {
     var isQuickSearchOpen = this.state.isQuickSearchOpen;
     var intl = this.context.intl;
 
+
     return _react2.default.createElement(
       'footer',
       { className: 'sidebar__quick-search' },
@@ -77,7 +78,7 @@ var QuickSearchButton = (function (_Component) {
   };
 
   return QuickSearchButton;
-})(_react.Component);
+}(_react.Component);
 
 QuickSearchButton.getStores = function () {
   return [_QuickSearchStore2.default];

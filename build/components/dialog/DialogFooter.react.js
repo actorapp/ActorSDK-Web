@@ -16,7 +16,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var DialogFooter = (function (_Component) {
+var DialogFooter = function (_Component) {
   _inherits(DialogFooter, _Component);
 
   function DialogFooter() {
@@ -42,6 +42,7 @@ var DialogFooter = (function (_Component) {
     var TypingSection = _props$components.TypingSection;
     var ComposeSection = _props$components.ComposeSection;
 
+
     return _react2.default.createElement(
       "footer",
       { className: "dialog__footer" },
@@ -51,7 +52,7 @@ var DialogFooter = (function (_Component) {
   };
 
   return DialogFooter;
-})(_react.Component);
+}(_react.Component);
 
 DialogFooter.propTypes = {
   isMember: _react.PropTypes.bool.isRequired,

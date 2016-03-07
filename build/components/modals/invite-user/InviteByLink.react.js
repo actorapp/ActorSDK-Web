@@ -56,7 +56,7 @@ var getStateFromStores = function getStateFromStores() {
   };
 };
 
-var InviteByLink = (function (_Component) {
+var InviteByLink = function (_Component) {
   _inherits(InviteByLink, _Component);
 
   function InviteByLink(props) {
@@ -78,6 +78,7 @@ var InviteByLink = (function (_Component) {
 
     _this.onBackClick = function () {
       var group = _this.state.group;
+
 
       _this.onClose();
       _InviteUserActions2.default.show(group);
@@ -114,6 +115,7 @@ var InviteByLink = (function (_Component) {
     var inviteUrl = _state.inviteUrl;
     var isOpen = _state.isOpen;
     var intl = this.context.intl;
+
 
     var groupName = group !== null ? _react2.default.createElement('b', { dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.name) } }) : null;
 
@@ -189,11 +191,12 @@ var InviteByLink = (function (_Component) {
   };
 
   return InviteByLink;
-})(_react.Component);
+}(_react.Component);
 
 InviteByLink.contextTypes = {
   intl: _react.PropTypes.object
 };
+
 
 _reactMixin2.default.onClass(InviteByLink, _reactAddonsPureRenderMixin2.default);
 

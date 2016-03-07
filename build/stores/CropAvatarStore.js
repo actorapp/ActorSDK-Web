@@ -23,7 +23,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var _isOpen = false,
     _pictureSource = null;
 
-var CropAvatarStore = (function (_Store) {
+var CropAvatarStore = function (_Store) {
   _inherits(CropAvatarStore, _Store);
 
   function CropAvatarStore(Dispatcher) {
@@ -57,7 +57,7 @@ var CropAvatarStore = (function (_Store) {
   };
 
   return CropAvatarStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new CropAvatarStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=CropAvatarStore.js.map

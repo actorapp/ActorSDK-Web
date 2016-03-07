@@ -33,7 +33,7 @@ var _selectedMessages = new _immutable2.default.Set();
  * Class representing a store for messages.
  */
 
-var MessageStore = (function (_Store) {
+var MessageStore = function (_Store) {
   _inherits(MessageStore, _Store);
 
   function MessageStore(dispatcher) {
@@ -46,6 +46,7 @@ var MessageStore = (function (_Store) {
    * @returns {Array} All messages stored for currently bound conversation
    */
 
+
   MessageStore.prototype.getAll = function getAll() {
     return _messages;
   };
@@ -53,6 +54,7 @@ var MessageStore = (function (_Store) {
   /**
    * @returns {Array} Meesages overlay
    */
+
 
   MessageStore.prototype.getOverlay = function getOverlay() {
     return _overlay;
@@ -65,6 +67,7 @@ var MessageStore = (function (_Store) {
   /**
    * @returns {Array} Selected messages
    */
+
 
   MessageStore.prototype.getSelected = function getSelected() {
     return _selectedMessages;
@@ -94,7 +97,7 @@ var MessageStore = (function (_Store) {
   };
 
   return MessageStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new MessageStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=MessageStore.js.map

@@ -34,7 +34,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var SidebarSection = (function (_Component) {
+var SidebarSection = function (_Component) {
   _inherits(SidebarSection, _Component);
 
   function SidebarSection(props) {
@@ -53,9 +53,10 @@ var SidebarSection = (function (_Component) {
     var delegate = this.context.delegate;
     var dialogs = this.state.dialogs;
 
-    var HeaderSection = undefined,
-        Recent = undefined,
-        FooterSection = undefined;
+
+    var HeaderSection = void 0,
+        Recent = void 0,
+        FooterSection = void 0;
     if (delegate.components.sidebar !== null && typeof delegate.components.sidebar !== 'function') {
       HeaderSection = delegate.components.sidebar.header || _HeaderSection2.default;
       Recent = delegate.components.sidebar.recent || _Recent2.default;
@@ -76,7 +77,7 @@ var SidebarSection = (function (_Component) {
   };
 
   return SidebarSection;
-})(_react.Component);
+}(_react.Component);
 
 SidebarSection.getStores = function () {
   return [_DialogStore2.default];

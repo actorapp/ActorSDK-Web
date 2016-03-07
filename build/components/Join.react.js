@@ -20,7 +20,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Join = (function (_Component) {
+var Join = function (_Component) {
   _inherits(Join, _Component);
 
   function Join(props) {
@@ -37,7 +37,7 @@ var Join = (function (_Component) {
   };
 
   return Join;
-})(_react.Component);
+}(_react.Component);
 
 Join.propTypes = {
   params: _react.PropTypes.object

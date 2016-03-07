@@ -36,7 +36,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Confirm = (function (_Component) {
+var Confirm = function (_Component) {
   _inherits(Confirm, _Component);
 
   function Confirm(props) {
@@ -79,6 +79,7 @@ var Confirm = (function (_Component) {
     var abortLabel = _props.abortLabel;
     var confirmLabel = _props.confirmLabel;
 
+
     return _react2.default.createElement(
       _reactIntl.IntlProvider,
       this.intlData,
@@ -118,7 +119,7 @@ var Confirm = (function (_Component) {
   };
 
   return Confirm;
-})(_react.Component);
+}(_react.Component);
 
 Confirm.propTypes = {
   message: _react.PropTypes.oneOfType([_react.PropTypes.arrayOf(_react.PropTypes.node), _react.PropTypes.node]).isRequired,

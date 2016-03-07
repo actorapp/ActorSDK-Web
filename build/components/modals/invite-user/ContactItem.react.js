@@ -47,12 +47,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var getStateFromStore = function getStateFromStore(props) {
   var contact = props.contact;
 
+
   return {
     inviteUserState: _InviteUserStore2.default.getInviteUserState(contact.uid)
   };
 };
 
-var ContactItem = (function (_Component) {
+var ContactItem = function (_Component) {
   _inherits(ContactItem, _Component);
 
   function ContactItem(props) {
@@ -64,6 +65,7 @@ var ContactItem = (function (_Component) {
       var _this$props = _this.props;
       var contact = _this$props.contact;
       var onSelect = _this$props.onSelect;
+
 
       _InviteUserStore2.default.addChangeListener(_this.onChange);
       onSelect(contact);
@@ -96,6 +98,7 @@ var ContactItem = (function (_Component) {
     var contact = _props.contact;
     var isMember = _props.isMember;
     var inviteUserState = this.state.inviteUserState;
+
 
     var contactClassName = (0, _classnames2.default)('contacts__list__item row', {
       'contacts__list__item--member': isMember
@@ -167,13 +170,14 @@ var ContactItem = (function (_Component) {
   };
 
   return ContactItem;
-})(_react.Component);
+}(_react.Component);
 
 ContactItem.propTypes = {
   contact: _react.PropTypes.object,
   onSelect: _react.PropTypes.func,
   isMember: _react.PropTypes.bool
 };
+
 
 _reactMixin2.default.onClass(ContactItem, _reactAddonsPureRenderMixin2.default);
 

@@ -34,7 +34,7 @@ var _isOpen = false,
  * Class representing a store for searchable group list.
  */
 
-var GroupStore = (function (_Store) {
+var GroupStore = function (_Store) {
   _inherits(GroupStore, _Store);
 
   function GroupStore(dispatcher) {
@@ -47,6 +47,7 @@ var GroupStore = (function (_Store) {
    * @returns {boolean}
    */
 
+
   GroupStore.prototype.isOpen = function isOpen() {
     return _isOpen;
   };
@@ -55,6 +56,7 @@ var GroupStore = (function (_Store) {
    * @returns {Array}
    */
 
+
   GroupStore.prototype.getList = function getList() {
     return _list;
   };
@@ -62,6 +64,7 @@ var GroupStore = (function (_Store) {
   /**
    * @returns {Array}
    */
+
 
   GroupStore.prototype.getResults = function getResults() {
     return _results;
@@ -117,7 +120,7 @@ var GroupStore = (function (_Store) {
   };
 
   return GroupStore;
-})(_utils.Store);
+}(_utils.Store);
 
 exports.default = new GroupStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=GroupListStore.js.map

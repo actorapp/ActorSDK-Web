@@ -27,10 +27,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Loading = function (_Component) {
   _inherits(Loading, _Component);
 
-  function Loading(props) {
+  function Loading() {
     _classCallCheck(this, Loading);
 
-    return _possibleConstructorReturn(this, _Component.call(this, props));
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
   Loading.prototype.render = function render() {

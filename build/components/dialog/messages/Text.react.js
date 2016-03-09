@@ -6,9 +6,11 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _memoizee = require('memoizee');
+var _reactDom = require('react-dom');
 
-var _memoizee2 = _interopRequireDefault(_memoizee);
+var _highlight = require('highlight.js');
+
+var _highlight2 = _interopRequireDefault(_highlight);
 
 var _ActorClient = require('../../../utils/ActorClient');
 
@@ -26,38 +28,35 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var processText = function processText(text) {
-  var markedText = _ActorClient2.default.renderMarkdown(text);
-  var emojifiedText = markedText;
+function processText(text) {
+  var processedText = text;
+  processedText = _ActorClient2.default.renderMarkdown(processedText);
+  processedText = (0, _EmojiUtils.processEmojiText)(processedText);
 
-  _EmojiUtils.emoji.include_title = true;
-  _EmojiUtils.emoji.include_text = true;
-  _EmojiUtils.emoji.change_replace_mode('css');
-  emojifiedText = _EmojiUtils.emoji.replace_colons(emojifiedText);
-  emojifiedText = _EmojiUtils.emoji.replace_unified(emojifiedText);
-  return emojifiedText;
-};
-
-var memoizedProcessText = (0, _memoizee2.default)(processText, {
-  length: 1,
-  maxAge: 60 * 60 * 1000,
-  max: 10000
-});
-
-/**
- * Class that represents a component for display text message content
- * @param {string} text Message text
- * @param {string} className Component class name
- */
+  return processedText;
+}
 
 var Text = function (_Component) {
   _inherits(Text, _Component);
 
-  function Text(props) {
+  function Text() {
     _classCallCheck(this, Text);
 
-    return _possibleConstructorReturn(this, _Component.call(this, props));
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
+
+  Text.prototype.componentDidMount = function componentDidMount() {
+    var _this2 = this;
+
+    requestAnimationFrame(function () {
+      var node = (0, _reactDom.findDOMNode)(_this2);
+      var codeBlocks = node.getElementsByTagName('pre');
+      for (var i = 0; i < codeBlocks.length; i++) {
+        var codeBlock = codeBlocks[i];
+        _highlight2.default.highlightBlock(codeBlock.firstChild);
+      }
+    });
+  };
 
   Text.prototype.render = function render() {
     var _props = this.props;
@@ -68,7 +67,7 @@ var Text = function (_Component) {
     return _react2.default.createElement(
       'div',
       { className: className },
-      _react2.default.createElement('div', { className: 'text', dangerouslySetInnerHTML: { __html: memoizedProcessText(text) } })
+      _react2.default.createElement('div', { className: 'text', dangerouslySetInnerHTML: { __html: processText(text) } })
     );
   };
 

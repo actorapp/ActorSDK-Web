@@ -16,44 +16,40 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   peerToString: function peerToString(peer) {
-    var str = void 0;
-
     switch (peer.type) {
       case _ActorAppConstants.PeerTypes.USER:
-        str = 'u' + peer.id;
-        break;
+        return _ActorAppConstants.PeerTypePrefixes.USER + peer.id;
       case _ActorAppConstants.PeerTypes.GROUP:
-        str = 'g' + peer.id;
-        break;
+        return _ActorAppConstants.PeerTypePrefixes.GROUP + peer.id;
       default:
-        throw 'Unknown peer type' + peer.type + ' ' + peer.id;
+        throw new Error('Unknown peer type: ' + peer.type + ' ' + peer.id);
     }
-
-    return str;
   },
-
   stringToPeer: function stringToPeer(str) {
-    var peer = null;
-
-    if (str) {
-      var peerId = parseInt(str.substring(1));
-
-      if (peerId > 0) {
-        switch (str.substring(0, 1)) {
-          case 'u':
-            peer = _ActorClient2.default.getUserPeer(peerId);
-            break;
-          case 'g':
-            peer = _ActorClient2.default.getGroupPeer(peerId);
-            break;
-          default:
-        }
+    var peerId = parseInt(str.substring(1), 10);
+    switch (str.substring(0, 1)) {
+      case _ActorAppConstants.PeerTypePrefixes.USER:
+        return _ActorClient2.default.getUserPeer(peerId);
+      case _ActorAppConstants.PeerTypePrefixes.GROUP:
+        return _ActorClient2.default.getGroupPeer(peerId);
+      default:
+        throw new Error('Unknown peer type: ' + str);
+    }
+  },
+  hasPeer: function hasPeer(peer) {
+    try {
+      switch (peer.type) {
+        case _ActorAppConstants.PeerTypes.USER:
+          return _ActorClient2.default.getUser(peer.id);
+        case _ActorAppConstants.PeerTypes.GROUP:
+          return _ActorClient2.default.getGroup(peer.id);
       }
+    } catch (e) {
+      console.error(e);
     }
 
-    return peer;
+    return false;
   },
-
   equals: function equals(peer1, peer2) {
     return _lodash2.default.isPlainObject(peer1) && !_lodash2.default.isPlainObject(peer2) || !_lodash2.default.isPlainObject(peer1) && _lodash2.default.isPlainObject(peer2) || peer1.type === peer2.type && peer1.id === peer2.id;
   }

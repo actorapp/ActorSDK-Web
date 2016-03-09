@@ -242,9 +242,23 @@ export const ConnectionStates = {
   UPDATING: 'updating'
 };
 
+export const MessageStates = {
+  PENDING: 'pending',
+  SENT: 'sent',
+  RECEIVED: 'received',
+  READ: 'read',
+  ERROR: 'error',
+  UNKNOWN: 'unknown'
+};
+
 export const PeerTypes = {
   USER: 'user',
   GROUP: 'group'
+};
+
+export const PeerTypePrefixes = {
+  USER: 'u',
+  GROUP: 'g'
 };
 
 export const ActivityTypes = keymirror({

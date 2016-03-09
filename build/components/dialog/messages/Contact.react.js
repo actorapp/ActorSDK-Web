@@ -29,10 +29,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Contact = function (_Component) {
   _inherits(Contact, _Component);
 
-  function Contact(props) {
+  function Contact() {
     _classCallCheck(this, Contact);
 
-    return _possibleConstructorReturn(this, _Component.call(this, props));
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
   Contact.prototype.render = function render() {

@@ -190,10 +190,10 @@ var Call = function (_Component) {
       { className: 'activity activity--shown' },
       _react2.default.createElement(
         'div',
-        { className: 'activity__body call__container' },
+        { className: 'activity__body call' },
         _react2.default.createElement(
           'section',
-          { className: 'call' },
+          { className: 'call__container' },
           _react2.default.createElement(_CallBody2.default, { peerInfo: peerInfo, callState: callState }),
           _react2.default.createElement(_CallControls2.default, {
             callState: callState,

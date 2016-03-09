@@ -187,10 +187,10 @@ Attach.propTypes = {
 var TextModern = function (_Component3) {
   _inherits(TextModern, _Component3);
 
-  function TextModern(props) {
+  function TextModern() {
     _classCallCheck(this, TextModern);
 
-    return _possibleConstructorReturn(this, _Component3.call(this, props));
+    return _possibleConstructorReturn(this, _Component3.apply(this, arguments));
   }
 
   TextModern.prototype.render = function render() {

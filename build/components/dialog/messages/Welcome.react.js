@@ -43,10 +43,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Welcome = function (_Component) {
   _inherits(Welcome, _Component);
 
-  function Welcome(props) {
+  function Welcome() {
     _classCallCheck(this, Welcome);
 
-    return _possibleConstructorReturn(this, _Component.call(this, props));
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
   Welcome.prototype.render = function render() {

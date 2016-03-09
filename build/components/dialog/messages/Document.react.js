@@ -27,10 +27,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Document = function (_Component) {
   _inherits(Document, _Component);
 
-  function Document(props) {
+  function Document() {
     _classCallCheck(this, Document);
 
-    return _possibleConstructorReturn(this, _Component.call(this, props));
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
   Document.prototype.render = function render() {

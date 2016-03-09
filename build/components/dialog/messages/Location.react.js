@@ -29,12 +29,16 @@ var MAP_SIZE = '300x100';
 var Location = function (_Component) {
   _inherits(Location, _Component);
 
-  function Location(props) {
+  function Location() {
+    var _temp, _this, _ret;
+
     _classCallCheck(this, Location);
 
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.handleMapClick = function (event) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.handleMapClick = function (event) {
       var content = _this.props.content;
 
       var linkToMap = 'https://maps.google.com/maps?q=loc:' + content.latitude + ',' + content.longitude;
@@ -44,9 +48,7 @@ var Location = function (_Component) {
       } else {
         window.open(linkToMap);
       }
-    };
-
-    return _this;
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   Location.prototype.render = function render() {

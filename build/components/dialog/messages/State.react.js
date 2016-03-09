@@ -21,11 +21,52 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var State = function (_Component) {
   _inherits(State, _Component);
 
-  function State(props) {
+  function State() {
     _classCallCheck(this, State);
 
-    return _possibleConstructorReturn(this, _Component.call(this, props));
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
+
+  State.prototype.renderState = function renderState() {
+    var state = this.props.message.state;
+
+
+    switch (state) {
+      case _ActorAppConstants.MessageStates.PENDING:
+        return _react2.default.createElement(
+          'i',
+          { className: 'status status--pending material-icons' },
+          'access_time'
+        );
+      case _ActorAppConstants.MessageStates.SENT:
+        return _react2.default.createElement(
+          'i',
+          { className: 'status status--sent material-icons' },
+          'done'
+        );
+      case _ActorAppConstants.MessageStates.RECEIVED:
+        return _react2.default.createElement(
+          'i',
+          { className: 'status status--received material-icons' },
+          'done_all'
+        );
+      case _ActorAppConstants.MessageStates.READ:
+        return _react2.default.createElement(
+          'i',
+          { className: 'status status--read material-icons' },
+          'done_all'
+        );
+      case _ActorAppConstants.MessageStates.ERROR:
+        return _react2.default.createElement(
+          'i',
+          { className: 'status status--error material-icons' },
+          'report_problem'
+        );
+      case _ActorAppConstants.MessageStates.UNKNOWN:
+      default:
+        return null;
+    }
+  };
 
   State.prototype.render = function render() {
     var message = this.props.message;
@@ -33,61 +74,27 @@ var State = function (_Component) {
 
     if (message.content.content === _ActorAppConstants.MessageContentTypes.SERVICE) {
       return null;
-    } else {
-      var icon = null;
-
-      switch (message.state) {
-        case 'pending':
-          icon = _react2.default.createElement(
-            'i',
-            { className: 'status status--pending material-icons' },
-            'access_time'
-          );
-          break;
-        case 'sent':
-          icon = _react2.default.createElement(
-            'i',
-            { className: 'status status--sent material-icons' },
-            'done'
-          );
-          break;
-        case 'received':
-          icon = _react2.default.createElement(
-            'i',
-            { className: 'status status--received material-icons' },
-            'done_all'
-          );
-          break;
-        case 'read':
-          icon = _react2.default.createElement(
-            'i',
-            { className: 'status status--read material-icons' },
-            'done_all'
-          );
-          break;
-        case 'error':
-          icon = _react2.default.createElement(
-            'i',
-            { className: 'status status--error material-icons' },
-            'report_problem'
-          );
-          break;
-        default:
-      }
-
-      return _react2.default.createElement(
-        'div',
-        { className: 'message__status' },
-        icon
-      );
     }
+
+    var state = this.renderState();
+    if (!state) {
+      return null;
+    }
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'message__status' },
+      state
+    );
   };
 
   return State;
 }(_react.Component);
 
 State.propTypes = {
-  message: _react.PropTypes.object.isRequired
+  message: _react.PropTypes.shape({
+    state: _react.PropTypes.oneOf([_ActorAppConstants.MessageStates.PENDING, _ActorAppConstants.MessageStates.SENT, _ActorAppConstants.MessageStates.RECEIVED, _ActorAppConstants.MessageStates.READ, _ActorAppConstants.MessageStates.ERROR, _ActorAppConstants.MessageStates.UNKNOWN]).isRequired
+  }).isRequired
 };
 exports.default = State;
 //# sourceMappingURL=State.react.js.map

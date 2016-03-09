@@ -22,6 +22,10 @@ var _SharedContainer = require('../utils/SharedContainer');
 
 var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
 
+var _PeerUtils = require('../utils/PeerUtils');
+
+var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
+
 var _actorSdkDelegate = require('./actor-sdk-delegate');
 
 var _actorSdkDelegate2 = _interopRequireDefault(_actorSdkDelegate);
@@ -176,6 +180,14 @@ var ActorSDK = function () {
         }
       };
 
+      function checkPeer(nextState, replaceState) {
+        var peer = _PeerUtils2.default.stringToPeer(nextState.params.id);
+        if (!_PeerUtils2.default.hasPeer(peer)) {
+          console.error('Invalig peer', nextState);
+          replaceState('/im');
+        }
+      }
+
       /**
        * Method for pulling props to router components
        *
@@ -204,7 +216,7 @@ var ActorSDK = function () {
               _reactRouter.Route,
               { path: 'im', component: _Main2.default, onEnter: requireAuth },
               _react2.default.createElement(_reactRouter.Route, { path: 'archive', component: Archive }),
-              _react2.default.createElement(_reactRouter.Route, { path: ':id', component: Dialog }),
+              _react2.default.createElement(_reactRouter.Route, { path: ':id', component: Dialog, onEnter: checkPeer }),
               _react2.default.createElement(_reactRouter.IndexRoute, { component: Empty })
             ),
             _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'im' })

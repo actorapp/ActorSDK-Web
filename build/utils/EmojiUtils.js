@@ -2,6 +2,7 @@
 
 exports.__esModule = true;
 exports.escapeWithEmoji = exports.preloadEmojiSheet = exports.emojiRegexp = exports.getEmojiCategories = exports.emoji = undefined;
+exports.processEmojiText = processEmojiText;
 
 var _lodash = require('lodash');
 
@@ -119,6 +120,18 @@ var escapeWithEmoji = exports.escapeWithEmoji = function escapeWithEmoji(text) {
   _actorEmoji2.default.include_text = false;
   return _actorEmoji2.default.replace_unified((0, _lodash.escape)(text));
 };
+
+function processEmojiText(text) {
+  _actorEmoji2.default.include_title = true;
+  _actorEmoji2.default.include_text = true;
+  _actorEmoji2.default.change_replace_mode('css');
+
+  var emojifiedText = text;
+  emojifiedText = _actorEmoji2.default.replace_colons(text);
+  emojifiedText = _actorEmoji2.default.replace_unified(emojifiedText);
+
+  return emojifiedText;
+}
 
 exports.default = {
   emoji: _actorEmoji2.default,

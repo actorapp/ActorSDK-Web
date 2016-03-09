@@ -1,7 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
-exports.helpPhone = exports.twitter = exports.homePage = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypes = exports.ConnectionStates = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
+exports.helpPhone = exports.twitter = exports.homePage = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypePrefixes = exports.PeerTypes = exports.MessageStates = exports.ConnectionStates = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
 
 var _keymirror = require('keymirror');
 
@@ -249,9 +249,23 @@ var ConnectionStates = exports.ConnectionStates = {
   UPDATING: 'updating'
 };
 
+var MessageStates = exports.MessageStates = {
+  PENDING: 'pending',
+  SENT: 'sent',
+  RECEIVED: 'received',
+  READ: 'read',
+  ERROR: 'error',
+  UNKNOWN: 'unknown'
+};
+
 var PeerTypes = exports.PeerTypes = {
   USER: 'user',
   GROUP: 'group'
+};
+
+var PeerTypePrefixes = exports.PeerTypePrefixes = {
+  USER: 'u',
+  GROUP: 'g'
 };
 
 var ActivityTypes = exports.ActivityTypes = (0, _keymirror2.default)({

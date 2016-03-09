@@ -149,21 +149,27 @@ var Call = function (_Component) {
   };
 
   Call.prototype.renderContactInfo = function renderContactInfo() {
-    var peerInfo = this.state.peerInfo;
+    var _state = this.state;
+    var callPeer = _state.callPeer;
+    var peerInfo = _state.peerInfo;
 
-    if (!peerInfo) return null;
+    if (!peerInfo || callPeer.type === _ActorAppConstants.PeerTypes.GROUP) return null;
 
-    return _react2.default.createElement(_ContactDetails2.default, { peerInfo: peerInfo });
+    return _react2.default.createElement(
+      'section',
+      { className: 'call__info' },
+      _react2.default.createElement(_ContactDetails2.default, { peerInfo: peerInfo })
+    );
   };
 
   Call.prototype.render = function render() {
-    var _state = this.state;
-    var isOpen = _state.isOpen;
-    var callState = _state.callState;
-    var peerInfo = _state.peerInfo;
-    var isOutgoing = _state.isOutgoing;
-    var isMuted = _state.isMuted;
-    var isSameDialog = _state.isSameDialog;
+    var _state2 = this.state;
+    var isOpen = _state2.isOpen;
+    var callState = _state2.callState;
+    var peerInfo = _state2.peerInfo;
+    var isOutgoing = _state2.isOutgoing;
+    var isMuted = _state2.isMuted;
+    var isSameDialog = _state2.isSameDialog;
 
     if (!isOpen) {
       return null;
@@ -208,11 +214,7 @@ var Call = function (_Component) {
             onClose: this.onClose
           })
         ),
-        _react2.default.createElement(
-          'section',
-          { className: 'call__info' },
-          this.renderContactInfo()
-        )
+        this.renderContactInfo()
       )
     );
   };

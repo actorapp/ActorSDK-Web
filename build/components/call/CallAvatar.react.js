@@ -84,7 +84,7 @@ CallAvatar.propTypes = {
   small: _react.PropTypes.bool,
   peerInfo: _react.PropTypes.shape({
     name: _react.PropTypes.string.isRequired,
-    avatar: _react.PropTypes.string.isRequired,
+    avatar: _react.PropTypes.string,
     placeholder: _react.PropTypes.string.isRequired
   }).isRequired,
   callState: _react.PropTypes.oneOf([_ActorAppConstants.CallStates.CALLING, _ActorAppConstants.CallStates.IN_PROGRESS, _ActorAppConstants.CallStates.CONNECTING, _ActorAppConstants.CallStates.ENDED]).isRequired

@@ -38,15 +38,21 @@ var _GroupProfileActionCreators = require('./GroupProfileActionCreators');
 
 var _GroupProfileActionCreators2 = _interopRequireDefault(_GroupProfileActionCreators);
 
+var _DraftActionCreators = require('./DraftActionCreators');
+
+var _DraftActionCreators2 = _interopRequireDefault(_DraftActionCreators);
+
 var _DialogStore = require('../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var messagesBinding = null; /*
-                             * Copyright (C) 2015 Actor LLC. <https://actor.im>
-                             */
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
+var messagesBinding = null;
 
 var DialogActionCreators = {
   setDialogs: function setDialogs(dialogs) {
@@ -57,7 +63,8 @@ var DialogActionCreators = {
 
     // Unbind from previous peer
     if (currentPeer !== null) {
-      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.UNBIND_DIALOG_PEER);
+      _DraftActionCreators2.default.saveDraft(currentPeer);
+      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.UNBIND_DIALOG_PEER, { peer: currentPeer });
 
       this.onConversationClosed(currentPeer);
       messagesBinding && messagesBinding.unbind();
@@ -78,10 +85,12 @@ var DialogActionCreators = {
 
     if (peer !== null) {
       (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.BIND_DIALOG_PEER, { peer: peer });
+      _DraftActionCreators2.default.loadDraft(peer);
 
       this.onConversationOpen(peer);
       messagesBinding = _ActorClient2.default.bindMessages(peer, _MessageActionCreators2.default.setMessages);
       _ActorClient2.default.bindTyping(peer, _TypingActionCreators2.default.setTyping);
+
       switch (peer.type) {
         case _ActorAppConstants.PeerTypes.USER:
           _ActorClient2.default.bindUser(peer.id, _DialogInfoActionCreators2.default.setDialogInfo);

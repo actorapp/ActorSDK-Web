@@ -2,15 +2,7 @@
 
 exports.__esModule = true;
 
-var _events = require('events');
-
-var _objectAssign = require('object-assign');
-
-var _objectAssign2 = _interopRequireDefault(_objectAssign);
-
-var _ActorClient = require('../utils/ActorClient');
-
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
+var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
@@ -24,56 +16,48 @@ var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var DRAFT_LOAD_EVENT = 'draft_load';
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-var _draft = null;
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var DraftStore = (0, _objectAssign2.default)({}, _events.EventEmitter.prototype, {
-  emitLoadDraft: function emitLoadDraft() {
-    this.emit(DRAFT_LOAD_EVENT);
-  },
-  addLoadDraftListener: function addLoadDraftListener(callback) {
-    this.on(DRAFT_LOAD_EVENT, callback);
-  },
-  removeLoadDraftListener: function removeLoadDraftListener(callback) {
-    this.removeListener(DRAFT_LOAD_EVENT, callback);
-  },
-  getDraft: function getDraft() {
-    return _draft;
+var DraftStore = function (_Store) {
+  _inherits(DraftStore, _Store);
+
+  function DraftStore(dispatcher) {
+    _classCallCheck(this, DraftStore);
+
+    var _this = _possibleConstructorReturn(this, _Store.call(this, dispatcher));
+
+    _this._draft = null;
+    return _this;
   }
-});
 
-DraftStore.dispatchToken = _ActorAppDispatcher2.default.register(function (action) {
-  switch (action.type) {
-    case _ActorAppConstants.ActionTypes.DRAFT_LOAD:
-      _draft = _ActorClient2.default.loadDraft(action.peer);
-      DraftStore.emitLoadDraft();
-      break;
+  DraftStore.prototype.getDraft = function getDraft() {
+    return this._draft;
+  };
 
-    case _ActorAppConstants.ActionTypes.DRAFT_SAVE:
-      _draft = action.draft;
-      if (action.saveNow) {
-        var peer = _DialogStore2.default.getCurrentPeer();
-        _ActorClient2.default.saveDraft(peer, _draft);
-      }
-      break;
+  DraftStore.prototype.__onDispatch = function __onDispatch(action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.DRAFT_LOAD:
+        this._draft = action.draft;
+        this.__emitChange();
+        break;
 
-    case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-      if (_draft !== null) {
-        var lastPeer = _DialogStore2.default.getLastPeer();
-        _ActorClient2.default.saveDraft(lastPeer, _draft);
-      }
-      _draft = _ActorClient2.default.loadDraft(action.peer);
-      DraftStore.emitLoadDraft();
-      break;
+      case _ActorAppConstants.ActionTypes.DRAFT_CHANGE:
+        this._draft = action.draft;
+        this.__emitChange();
+        break;
 
-    default:
-  }
-});
+      default:
+    }
+  };
 
-exports.default = DraftStore;
+  return DraftStore;
+}(_utils.Store);
+
+exports.default = new DraftStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=DraftStore.js.map

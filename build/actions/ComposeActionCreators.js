@@ -41,7 +41,7 @@ exports.default = {
       _ActorClient2.default.onTyping(peer);
     }
 
-    _DraftActionCreators2.default.saveDraft(text);
+    _DraftActionCreators2.default.changeDraft(text);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.COMPOSE_TYPING, { peer: peer, text: text, caretPosition: caretPosition });
   },
   toggleAutoFocus: function toggleAutoFocus(isEnable) {

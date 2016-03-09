@@ -106,8 +106,7 @@ var ComposeStore = function (_Store) {
       _this.__emitChange();
     };
 
-    _this.onSelectDialogPeer = function () {
-      //waitFor([DraftStore.dispatchToken]);
+    _this.onDraftLoad = function () {
       text = _DraftStore2.default.getDraft();
       _this.__emitChange();
     };
@@ -154,8 +153,8 @@ var ComposeStore = function (_Store) {
       case _ActorAppConstants.ActionTypes.COMPOSE_CLEAN:
         this.onComposeClean();
         break;
-      case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-        this.onSelectDialogPeer();
+      case _ActorAppConstants.ActionTypes.DRAFT_LOAD:
+        this.onDraftLoad();
         break;
       case _ActorAppConstants.ActionTypes.EMOJI_INSERT:
         this.onEmojiInsert(action);

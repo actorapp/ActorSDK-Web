@@ -8,22 +8,32 @@ var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var DraftActionCreators = {
+var _ActorClient = require('../utils/ActorClient');
+
+var _ActorClient2 = _interopRequireDefault(_ActorClient);
+
+var _DraftStore = require('../stores/DraftStore');
+
+var _DraftStore2 = _interopRequireDefault(_DraftStore);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
   loadDraft: function loadDraft(peer) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DRAFT_LOAD, {
-      peer: peer
-    });
+    var draft = _ActorClient2.default.loadDraft(peer);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DRAFT_LOAD, { draft: draft });
+  },
+  saveDraft: function saveDraft(peer) {
+    var draft = _DraftStore2.default.getDraft();
+    _ActorClient2.default.saveDraft(peer, draft);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DRAFT_SAVE, { draft: draft });
   },
 
 
-  saveDraft: (0, _lodash.debounce)(function (draft) {
-    var saveNow = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
-
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DRAFT_SAVE, { draft: draft, saveNow: saveNow });
+  changeDraft: (0, _lodash.debounce)(function (draft) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DRAFT_CHANGE, { draft: draft });
   }, 300, { trailing: true })
 }; /*
     * Copyright (C) 2015 Actor LLC. <https://actor.im>
     */
-
-exports.default = DraftActionCreators;
 //# sourceMappingURL=DraftActionCreators.js.map

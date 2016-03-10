@@ -22,7 +22,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   cleanText: function cleanText() {
-    _DraftActionCreators2.default.saveDraft('', true);
+    _DraftActionCreators2.default.changeDraft('');
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.COMPOSE_CLEAN);
   },
   insertMention: function insertMention(peer, text, caretPosition, mention) {

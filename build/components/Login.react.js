@@ -67,7 +67,7 @@ var Login = function (_Component) {
 
     _this.onRequestCode = function (event) {
       event.preventDefault();
-      _LoginActionCreators2.default.requestSms(_this.state.login);
+      _LoginActionCreators2.default.requestCode(_this.state.login);
     };
 
     _this.onSendCode = function (event) {
@@ -250,7 +250,7 @@ var Login = function (_Component) {
             _react2.default.createElement(_TextField2.default, { className: 'login-new__forms__form__input input__material--wide',
               disabled: isCodeRequested || step !== _ActorAppConstants.AuthSteps.LOGIN_WAIT,
               errorText: errors.login,
-              floatingLabel: intl.messages['login.phone'],
+              floatingLabel: intl.messages['login.phone_or_email'],
               onChange: this.onLoginChange,
               ref: 'login',
               value: login }),

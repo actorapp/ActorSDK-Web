@@ -1,6 +1,6 @@
 {
   "name": "actor-sdk",
-  "version": "1.0.170",
+  "version": "1.0.171",
   "description": "Actor SDK for building messaging web apps on top of Actor platform",
   "homepage": "https://actor.im/",
   "license": "Apache-2.0",
@@ -47,8 +47,8 @@
     "publish"
   ],
   "dependencies": {
-    "actor-js": "latest",
     "actor-emoji": "latest",
+    "actor-js": "latest",
     "assign-deep": "0.4.3",
     "babel-polyfill": "6.2.0",
     "classnames": "2.2.3",
@@ -76,6 +76,7 @@
     "react-router": "2.0.0",
     "react-scroll": "github:actorapp/react-scroll#develop",
     "react-visibility-sensor": "3.0.0",
+    "setimmediate": "^1.0.4",
     "simple-scrollbar": "github:actorapp/simple-scrollbar"
   },
   "devDependencies": {

@@ -6,6 +6,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 require('babel-polyfill');
 
+require('setimmediate');
+
 var _polyfills = require('../utils/polyfills');
 
 var _polyfills2 = _interopRequireDefault(_polyfills);

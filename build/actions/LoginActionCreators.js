@@ -62,6 +62,21 @@ var LoginActionCreators = {
   changeName: function changeName(name) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_CHANGE_NAME, { name: name });
   },
+  requestCode: function requestCode(phone) {
+    var isEmail = /@/.test(phone);
+    var promise = void 0;
+    if (/@/.test(phone)) {
+      promise = _ActorClient2.default.requestCodeEmail(phone);
+    } else {
+      promise = _ActorClient2.default.requestSms(phone);
+    }
+
+    (0, _ActorAppDispatcher.dispatchAsync)(promise, {
+      request: _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST,
+      success: _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_SUCCESS,
+      failure: _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_FAILURE
+    }, { phone: phone });
+  },
   requestSms: function requestSms(phone) {
     (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.requestSms(phone), {
       request: _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST,

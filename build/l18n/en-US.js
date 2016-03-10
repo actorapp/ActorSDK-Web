@@ -10,6 +10,7 @@ exports.default = {
       'wrong': 'Wrong?',
       'phone': 'Phone number',
       'email': 'Email address',
+      'phone_or_email': 'Phone number or Email address',
       'authCode': 'Auth code',
       'yourName': 'Your name',
       'errors': {

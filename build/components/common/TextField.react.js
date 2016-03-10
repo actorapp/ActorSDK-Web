@@ -33,9 +33,14 @@ var TextField = function (_Component) {
     _this.focus = function () {
       var ref = _this.props.ref;
 
-      setTimeout(function () {
-        (0, _reactDom.findDOMNode)(ref ? ref : _this.refs.input).focus();
-      }, 0);
+      var input = _this.props.ref || _this.refs.input;
+      if (!input) {
+        return;
+      }
+
+      setImmediate(function () {
+        (0, _reactDom.findDOMNode)(input).focus();
+      });
     };
 
     _this.handleChange = function (event) {

@@ -183,7 +183,8 @@ exports.default = {
     'profile': {
       'email': 'correo electrónico',
       'phone': 'móvil',
-      'nickname': 'nick usuario'
+      'nickname': 'nick usuario',
+      'about': 'estado'
     },
     'createdBy': 'сreado por',
     'addPeople': 'Añadir personas',

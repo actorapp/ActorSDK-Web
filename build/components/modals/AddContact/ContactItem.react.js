@@ -159,12 +159,12 @@ var ContactItem = function (_Component) {
 ContactItem.propTypes = {
   id: _react.PropTypes.number.isRequired,
   name: _react.PropTypes.string.isRequired,
-  nick: _react.PropTypes.string.isRequired,
-  avatar: _react.PropTypes.string.isRequired,
-  about: _react.PropTypes.string.isRequired,
+  nick: _react.PropTypes.string,
+  avatar: _react.PropTypes.string,
+  about: _react.PropTypes.string,
   placeholder: _react.PropTypes.string.isRequired,
-  emails: _react.PropTypes.array.isRequired,
-  phones: _react.PropTypes.array.isRequired,
+  emails: _react.PropTypes.array,
+  phones: _react.PropTypes.array,
 
   isBot: _react.PropTypes.bool.isRequired,
   isContact: _react.PropTypes.bool.isRequired,

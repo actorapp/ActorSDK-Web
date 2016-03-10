@@ -18,6 +18,8 @@ var _AvatarItem = require('../../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
+var _reactIntl = require('react-intl');
+
 var _EmojiUtils = require('../../../utils/EmojiUtils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -103,7 +105,8 @@ var ContactItem = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'title' },
-            'about'
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'profile.about' }),
+            ':'
           ),
           about
         ) : null,
@@ -113,7 +116,8 @@ var ContactItem = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'title' },
-            'email:'
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'profile.email' }),
+            ':'
           ),
           _react2.default.createElement(
             'a',
@@ -123,11 +127,12 @@ var ContactItem = function (_Component) {
         ) : null,
         phones[0] ? _react2.default.createElement(
           'div',
-          { className: 'email' },
+          { className: 'phone' },
           _react2.default.createElement(
             'div',
             { className: 'title' },
-            'phone:'
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'profile.phone' }),
+            ':'
           ),
           _react2.default.createElement(
             'a',
@@ -142,9 +147,7 @@ var ContactItem = function (_Component) {
         _react2.default.createElement(
           'button',
           { className: 'button button--rised', onClick: this.handleClick },
-
-          /* TODO: Need to translate */
-          isContact ? 'Open conversation' : 'Add to contacts'
+          isContact ? _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.quickSearch.openDialog' }) : _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'addToContacts' })
         )
       )
     );

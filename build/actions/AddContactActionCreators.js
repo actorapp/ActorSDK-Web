@@ -14,19 +14,19 @@ var _ContactActionCreators = require('./ContactActionCreators');
 
 var _ContactActionCreators2 = _interopRequireDefault(_ContactActionCreators);
 
-var _DialogActionCreators = require('./DialogActionCreators');
-
-var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
-
 var _ComposeActionCreators = require('../actions/ComposeActionCreators');
 
 var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _history = require('../utils/history');
 
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
+var _history2 = _interopRequireDefault(_history);
+
+var _PeerUtils = require('../utils/PeerUtils');
+
+var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
   open: function open() {
@@ -49,7 +49,9 @@ exports.default = {
     if (!isContact) {
       _ContactActionCreators2.default.addContact(uid);
     }
-    _DialogActionCreators2.default.selectDialogPeer(peer);
+    _history2.default.push('/im/' + _PeerUtils2.default.peerToString(peer));
   }
-};
+}; /*
+    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+    */
 //# sourceMappingURL=AddContactActionCreators.js.map

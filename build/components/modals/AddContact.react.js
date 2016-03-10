@@ -32,7 +32,7 @@ var _TextField = require('../common/TextField.react');
 
 var _TextField2 = _interopRequireDefault(_TextField);
 
-var _ContactItem = require('./add-contact/ContactItem.react');
+var _ContactItem = require('./AddContact/ContactItem.react');
 
 var _ContactItem2 = _interopRequireDefault(_ContactItem);
 
@@ -129,7 +129,7 @@ var AddContact = function (_Component) {
     if (resultContacts.length === 0 && !isQueryEmpty) {
       resultContacts.push(_react2.default.createElement(
         'li',
-        { className: 'add-contact__results__item add-contact__results__item--not-found' },
+        { className: 'add-contact__results__item add-contact__results__item--not-found', key: 'not-found' },
         intl.messages['modal.addContact.notFound']
       ));
     }

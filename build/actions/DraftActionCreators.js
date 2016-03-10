@@ -28,12 +28,10 @@ exports.default = {
     _ActorClient2.default.saveDraft(peer, draft);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DRAFT_SAVE, { draft: draft });
   },
-
-
-  changeDraft: (0, _lodash.debounce)(function (draft) {
+  changeDraft: function changeDraft(draft) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DRAFT_CHANGE, { draft: draft });
-  }, 300, { trailing: true })
+  }
 }; /*
-    * Copyright (C) 2015 Actor LLC. <https://actor.im>
+    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
     */
 //# sourceMappingURL=DraftActionCreators.js.map

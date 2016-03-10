@@ -187,7 +187,8 @@ exports.default = {
     'profile': {
       'email': 'email',
       'phone': 'телефон',
-      'nickname': 'ник'
+      'nickname': 'ник',
+      'about': 'о себе'
     },
     'createdBy': 'создал',
     'addPeople': 'Пригласить',

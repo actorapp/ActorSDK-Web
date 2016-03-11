@@ -50,7 +50,7 @@ var CallDraggable = function (_Component) {
       null,
       _react2.default.createElement(
         'section',
-        { className: 'call__draggable', style: { position: 'absolute', bottom: '100px', right: '100px' } },
+        { className: 'call__draggable', style: { position: 'absolute', top: 60, right: 60 } },
         _react2.default.createElement(_CallBody2.default, { peerInfo: peerInfo, callState: callState, small: true }),
         _react2.default.createElement(_CallControls2.default, {
           callState: callState,

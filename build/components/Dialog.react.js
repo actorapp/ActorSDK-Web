@@ -42,6 +42,10 @@ var _Call = require('./Call.react');
 
 var _Call2 = _interopRequireDefault(_Call);
 
+var _LoggerSection = require('./dev/LoggerSection.react');
+
+var _LoggerSection2 = _interopRequireDefault(_LoggerSection);
+
 var _ConnectionState = require('./common/ConnectionState.react');
 
 var _ConnectionState2 = _interopRequireDefault(_ConnectionState);
@@ -206,12 +210,16 @@ var DialogSection = function (_Component) {
   };
 
   DialogSection.prototype.getComponents = function getComponents() {
-    var dialog = this.context.delegate.components.dialog;
+    var _context$delegate$com = this.context.delegate.components;
+    var dialog = _context$delegate$com.dialog;
+    var logger = _context$delegate$com.logger;
 
+    var LoggerSection = logger || _LoggerSection2.default;
     if (dialog && !(0, _lodash.isFunction)(dialog)) {
-      var activity = dialog.activity || [_Activity2.default, _Call2.default];
+      var activity = dialog.activity || [_Activity2.default, _Call2.default, LoggerSection];
 
       return {
+        LoggerSection: LoggerSection,
         ToolbarSection: dialog.toolbar || _Toolbar2.default,
         MessagesSection: (0, _lodash.isFunction)(dialog.messages) ? dialog.messages : _MessagesSection2.default,
         TypingSection: dialog.typing || _TypingSection2.default,
@@ -223,11 +231,12 @@ var DialogSection = function (_Component) {
     }
 
     return {
+      LoggerSection: LoggerSection,
       ToolbarSection: _Toolbar2.default,
       MessagesSection: _MessagesSection2.default,
       TypingSection: _TypingSection2.default,
       ComposeSection: _ComposeSection2.default,
-      activity: [_react2.default.createElement(_Activity2.default, { key: 1 }), _react2.default.createElement(_Call2.default, { key: 2 })]
+      activity: [_react2.default.createElement(_Activity2.default, { key: 1 }), _react2.default.createElement(_Call2.default, { key: 2 }), _react2.default.createElement(LoggerSection, { key: 3 })]
     };
   };
 

@@ -18,11 +18,17 @@ var _reactModal = require('react-modal');
 
 var _reactModal2 = _interopRequireDefault(_reactModal);
 
+var _SharedContainer = require('../../utils/SharedContainer');
+
+var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
+
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _PreferencesActionCreators = require('../../actions/PreferencesActionCreators');
 
 var _PreferencesActionCreators2 = _interopRequireDefault(_PreferencesActionCreators);
+
+var _LoggerActionCreators = require('../../actions/LoggerActionCreators');
 
 var _PreferencesStore = require('../../stores/PreferencesStore');
 
@@ -108,6 +114,11 @@ var PreferencesModal = function (_Component) {
       return _PreferencesActionCreators2.default.changeTab(tab);
     };
 
+    var SharedActor = _SharedContainer2.default.get();
+    _this.appName = SharedActor.appName ? SharedActor.appName : _ActorAppConstants.appName;
+    _this.loggerToggleCount = 0;
+
+    _this.onAppDetailClick = _this.onAppDetailClick.bind(_this);
     return _this;
   }
 
@@ -130,6 +141,14 @@ var PreferencesModal = function (_Component) {
 
   PreferencesModal.prototype.componentWillUnmount = function componentWillUnmount() {
     document.removeEventListener('keydown', this.onKeyDown, false);
+  };
+
+  PreferencesModal.prototype.onAppDetailClick = function onAppDetailClick() {
+    this.loggerToggleCount++;
+    if (this.loggerToggleCount >= 15) {
+      (0, _LoggerActionCreators.loggerToggle)();
+      this.loggerToggleCount = 0;
+    }
   };
 
   PreferencesModal.prototype.render = function render() {
@@ -248,6 +267,16 @@ var PreferencesModal = function (_Component) {
                   return _this2.changeTab('SECURITY');
                 } },
               intl.messages['preferencesSecurityTab']
+            ),
+            _react2.default.createElement(
+              'footer',
+              { className: 'preferences__tabs__footer' },
+              _react2.default.createElement(
+                'a',
+                { className: 'preferences__tabs__tab', onClick: this.onAppDetailClick },
+                this.appName,
+                ' v1.0.123'
+              )
             )
           ),
           _react2.default.createElement(
@@ -495,7 +524,7 @@ var PreferencesModal = function (_Component) {
 }(_react.Component);
 
 PreferencesModal.contextTypes = {
-  intl: _react.PropTypes.object
+  intl: _react.PropTypes.object.isRequired
 };
 
 PreferencesModal.getStores = function () {

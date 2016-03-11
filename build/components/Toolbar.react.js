@@ -28,6 +28,10 @@ var _FavoriteActionCreators = require('../actions/FavoriteActionCreators');
 
 var _FavoriteActionCreators2 = _interopRequireDefault(_FavoriteActionCreators);
 
+var _CallActionCreators = require('../actions/CallActionCreators');
+
+var _CallActionCreators2 = _interopRequireDefault(_CallActionCreators);
+
 var _AvatarItem = require('./common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -94,6 +98,8 @@ var ToolbarSection = function (_Component) {
       } else {
         _ActivityActionCreators2.default.hide();
       }
+    }, _this.handleInCallClick = function () {
+      return _CallActionCreators2.default.toggleFloating();
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -121,6 +127,7 @@ var ToolbarSection = function (_Component) {
       isCalling: isCalling,
       isSamePeer: _PeerUtils2.default.equals(thisPeer, callPeer),
       state: _CallStore2.default.getState(),
+      isFloating: _CallStore2.default.isFloating(),
       time: '00:00'
     };
   };
@@ -137,12 +144,45 @@ var ToolbarSection = function (_Component) {
     return message;
   };
 
-  ToolbarSection.prototype.render = function render() {
+  ToolbarSection.prototype.renderInfoButton = function renderInfoButton() {
     var _state2 = this.state;
-    var dialogInfo = _state2.dialogInfo;
-    var isActivityOpen = _state2.isActivityOpen;
-    var isFavorite = _state2.isFavorite;
     var call = _state2.call;
+    var isActivityOpen = _state2.isActivityOpen;
+
+
+    var activityButtonClassName = (0, _classnames2.default)('button button--icon', {
+      'active': isActivityOpen || call.isCalling && !call.isFloating
+    });
+
+    if (call.isCalling) {
+      return _react2.default.createElement(
+        'button',
+        { className: activityButtonClassName, onClick: this.handleInCallClick },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'info'
+        )
+      );
+    }
+
+    return _react2.default.createElement(
+      'button',
+      { className: activityButtonClassName, onClick: this.onClick },
+      _react2.default.createElement(
+        'i',
+        { className: 'material-icons' },
+        'info'
+      )
+    );
+  };
+
+  ToolbarSection.prototype.render = function render() {
+    var _state3 = this.state;
+    var dialogInfo = _state3.dialogInfo;
+    var isActivityOpen = _state3.isActivityOpen;
+    var isFavorite = _state3.isFavorite;
+    var call = _state3.call;
 
 
     if (!dialogInfo) {
@@ -153,10 +193,6 @@ var ToolbarSection = function (_Component) {
 
     var headerClassName = (0, _classnames2.default)('toolbar row', {
       toolbar__calling: call.isCalling && call.isSamePeer
-    });
-
-    var infoButtonClassName = (0, _classnames2.default)('button button--icon', {
-      'active': isActivityOpen
     });
 
     var favoriteClassName = (0, _classnames2.default)('toolbar__peer__favorite', {
@@ -195,24 +231,7 @@ var ToolbarSection = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'toolbar__controls__buttons pull-right' },
-          _react2.default.createElement(
-            'button',
-            { className: infoButtonClassName, onClick: this.onClick },
-            _react2.default.createElement(
-              'i',
-              { className: 'material-icons' },
-              'info'
-            )
-          ),
-          _react2.default.createElement(
-            'button',
-            { className: 'button button--icon hide' },
-            _react2.default.createElement(
-              'i',
-              { className: 'material-icons' },
-              'more_vert'
-            )
-          )
+          this.renderInfoButton()
         )
       )
     );

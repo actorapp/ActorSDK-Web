@@ -74,6 +74,9 @@ exports.default = {
   toggleCallMute: function toggleCallMute(callId) {
     _ActorClient2.default.toggleCallMute(callId);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_MUTE_TOGGLE, { callId: callId });
+  },
+  toggleFloating: function toggleFloating() {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_FLOAT_TOGGLE);
   }
 };
 //# sourceMappingURL=CallActionCreators.js.map

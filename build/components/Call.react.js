@@ -100,7 +100,8 @@ var Call = function (_Component) {
       callPeer: _CallStore2.default.getPeer(),
       callState: _CallStore2.default.getState(),
       peerInfo: Call.calculatePeerInfo(callPeer),
-      isSameDialog: _PeerUtils2.default.equals(dialogPeer, callPeer)
+      isSameDialog: _PeerUtils2.default.equals(dialogPeer, callPeer),
+      isFloating: _CallStore2.default.isFloating()
     };
   };
 
@@ -170,12 +171,13 @@ var Call = function (_Component) {
     var isOutgoing = _state2.isOutgoing;
     var isMuted = _state2.isMuted;
     var isSameDialog = _state2.isSameDialog;
+    var isFloating = _state2.isFloating;
 
     if (!isOpen) {
       return null;
     }
 
-    if (!this.state.isSameDialog) {
+    if (!isSameDialog || isFloating) {
       return _react2.default.createElement(_CallDraggable2.default, {
         peerInfo: peerInfo,
         callState: callState,

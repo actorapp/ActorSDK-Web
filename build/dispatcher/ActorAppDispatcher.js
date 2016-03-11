@@ -11,6 +11,8 @@ exports.dispatchAsync = dispatchAsync;
 
 var _flux = require('flux');
 
+var _ActorAppConstants = require('../constants/ActorAppConstants');
+
 var flux = new _flux.Dispatcher();
 
 function register(callback) {
@@ -44,10 +46,12 @@ function dispatch(type) {
     // All data that flows into our application comes in form of actions.
     // Actions are just plain JavaScript objects describing “what happened”.
     // Think of them as newspapers.
-    if (action.error) {
-      console.error(type, action);
-    } else {
-      console.info(type, action);
+    if (type !== _ActorAppConstants.ActionTypes.LOGGER_APPEND) {
+      if (action.error) {
+        console.error(type, action);
+      } else {
+        console.info(type, action);
+      }
     }
   }
 

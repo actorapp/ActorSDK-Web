@@ -1,7 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
-exports.helpPhone = exports.twitter = exports.homePage = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypePrefixes = exports.PeerTypes = exports.MessageStates = exports.ConnectionStates = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
+exports.helpPhone = exports.twitter = exports.homePage = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.LoggerTypes = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypePrefixes = exports.PeerTypes = exports.MessageStates = exports.ConnectionStates = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
 
 var _keymirror = require('keymirror');
 
@@ -206,6 +206,7 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   CALL_ANSWER: null,
   CALL_END: null,
   CALL_MUTE_TOGGLE: null,
+  CALL_FLOAT_TOGGLE: null,
 
   ARCHIVE_ADD: null,
   ARCHIVE_ADD_SUCCESS: null,
@@ -225,7 +226,10 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   FAVORITE_REMOVE_ERROR: null,
 
   RECENT_CONTEXT_MENU_SHOW: null,
-  RECENT_CONTEXT_MENU_HIDE: null
+  RECENT_CONTEXT_MENU_HIDE: null,
+
+  LOGGER_APPEND: null,
+  LOGGER_TOGGLE: null
 });
 
 var EventTypes = exports.EventTypes = {
@@ -310,6 +314,13 @@ var AsyncActionStates = exports.AsyncActionStates = {
   PROCESSING: 1,
   SUCCESS: 2,
   FAILURE: 3
+};
+
+var LoggerTypes = exports.LoggerTypes = {
+  INFO: 'i',
+  ERROR: 'e',
+  WARNING: 'w',
+  DEBUG: 'd'
 };
 
 var Path = exports.Path = {

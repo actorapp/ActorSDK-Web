@@ -23,6 +23,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var _isOpen = false;
 var _isOutgoing = false;
 var _isMuted = false;
+var _isFloating = false;
 var _id = void 0,
     _members = void 0,
     _peer = void 0,
@@ -47,6 +48,10 @@ var CallStore = function (_Store) {
 
   CallStore.prototype.isMuted = function isMuted() {
     return _isMuted;
+  };
+
+  CallStore.prototype.isFloating = function isFloating() {
+    return _isFloating;
   };
 
   CallStore.prototype.getId = function getId() {
@@ -74,6 +79,7 @@ var CallStore = function (_Store) {
         break;
       case _ActorAppConstants.ActionTypes.CALL_MODAL_HIDE:
         _isOpen = false;
+        _isFloating = false;
         this.__emitChange();
         break;
       case _ActorAppConstants.ActionTypes.CALL_CHANGED:
@@ -93,6 +99,10 @@ var CallStore = function (_Store) {
         break;
       case _ActorAppConstants.ActionTypes.CALL_MUTE_TOGGLE:
         _isMuted = !_isMuted;
+        this.__emitChange();
+        break;
+      case _ActorAppConstants.ActionTypes.CALL_FLOAT_TOGGLE:
+        _isFloating = !_isFloating;
         this.__emitChange();
         break;
       case _ActorAppConstants.ActionTypes.CALL:

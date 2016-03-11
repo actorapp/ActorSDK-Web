@@ -161,7 +161,7 @@ var ActorSDK = function () {
 
       if (window.location.hash !== '#/deactivated') {
         if (_crosstab2.default.supported) _crosstab2.default.broadcast(ACTOR_INIT_EVENT, {});
-        window.messenger = _actorJs2.default.create(_this.endpoints);
+        window.messenger = _actorJs2.default.create({ endpoints: _this.endpoints });
       }
 
       var Login = typeof _this.delegate.components.login == 'function' ? _this.delegate.components.login : _Login2.default;

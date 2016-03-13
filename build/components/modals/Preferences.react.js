@@ -145,7 +145,7 @@ var PreferencesModal = function (_Component) {
 
   PreferencesModal.prototype.onAppDetailClick = function onAppDetailClick() {
     this.loggerToggleCount++;
-    if (this.loggerToggleCount >= 15) {
+    if (this.loggerToggleCount >= 4) {
       (0, _LoggerActionCreators.loggerToggle)();
       this.loggerToggleCount = 0;
     }
@@ -272,8 +272,8 @@ var PreferencesModal = function (_Component) {
               'footer',
               { className: 'preferences__tabs__footer' },
               _react2.default.createElement(
-                'a',
-                { className: 'preferences__tabs__tab', onClick: this.onAppDetailClick },
+                'span',
+                { onClick: this.onAppDetailClick },
                 this.appName,
                 ' v1.0.123'
               )

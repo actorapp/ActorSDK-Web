@@ -138,9 +138,9 @@ function confirm(message) {
 
   function cleanup() {
     (0, _reactDom.unmountComponentAtNode)(wrapper);
-    setTimeout(function () {
+    setImmediate(function () {
       return wrapper.remove();
-    }, 0);
+    });
   }
 
   // Unmount component and remove it from DOM

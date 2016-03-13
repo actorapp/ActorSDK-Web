@@ -46,16 +46,16 @@ var Text = function (_Component) {
   }
 
   Text.prototype.componentDidMount = function componentDidMount() {
-    var _this2 = this;
-
-    requestAnimationFrame(function () {
-      var node = (0, _reactDom.findDOMNode)(_this2);
-      var codeBlocks = node.getElementsByTagName('pre');
-      for (var i = 0; i < codeBlocks.length; i++) {
-        var codeBlock = codeBlocks[i];
-        _highlight2.default.highlightBlock(codeBlock.firstChild);
+    /*
+    requestAnimationFrame(() => {
+      const node = findDOMNode(this);
+      const codeBlocks = node.getElementsByTagName('pre');
+      for (let i = 0; i < codeBlocks.length; i++) {
+        const codeBlock = codeBlocks[i];
+        hljs.highlightBlock(codeBlock.firstChild);
       }
     });
+    */
   };
 
   Text.prototype.render = function render() {

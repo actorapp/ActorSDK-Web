@@ -78,9 +78,9 @@ var QuickSearch = function (_Component) {
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.setFocus = function () {
-      setTimeout(function () {
+      setImmediate(function () {
         (0, _reactDom.findDOMNode)(_this.refs.query).focus();
-      }, 0);
+      });
     };
 
     _this.handleClose = function () {

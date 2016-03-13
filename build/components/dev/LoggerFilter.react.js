@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 exports.__esModule = true;
 
-var _react = require('react');
+var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -26,7 +26,7 @@ var LoggerFilter = function (_Component) {
   }
 
   LoggerFilter.prototype.render = function render() {
-    return _react2.default.createElement('form', null);
+    return _react2.default.createElement("form", { className: "logger__filter" });
   };
 
   return LoggerFilter;

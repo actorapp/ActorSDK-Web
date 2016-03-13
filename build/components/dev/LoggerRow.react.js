@@ -38,11 +38,11 @@ var LoggerRow = function (_Component) {
     var message = _props.message;
 
 
-    var className = (0, _classnames2.default)('logger__row', {
-      'logger__row--info': type === _ActorAppConstants.LoggerTypes.INFO,
-      'logger__row--error': type === _ActorAppConstants.LoggerTypes.ERROR,
-      'logger__row--warning': type === _ActorAppConstants.LoggerTypes.WARNING,
-      'logger__row--debug': type === _ActorAppConstants.LoggerTypes.DEBUG
+    var className = (0, _classnames2.default)('logger__container__row log-entry', {
+      'log-entry--info': type === _ActorAppConstants.LoggerTypes.INFO,
+      'log-entry--error': type === _ActorAppConstants.LoggerTypes.ERROR,
+      'log-entry--warning': type === _ActorAppConstants.LoggerTypes.WARNING,
+      'log-entry--debug': type === _ActorAppConstants.LoggerTypes.DEBUG
     });
 
     return _react2.default.createElement(
@@ -50,12 +50,12 @@ var LoggerRow = function (_Component) {
       { className: className },
       _react2.default.createElement(
         'span',
-        { className: 'logger__row__tag' },
+        { className: 'log-entry__tag' },
         tag
       ),
       _react2.default.createElement(
         'span',
-        { className: 'logger__row__message' },
+        { className: 'log-entry__message' },
         message
       )
     );

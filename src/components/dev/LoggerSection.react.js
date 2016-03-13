@@ -7,7 +7,9 @@ import { Container } from 'flux/utils';
 import classNames from 'classnames';
 
 import LoggerStore from '../../stores/LoggerStore';
+import {loggerToggle} from '../../actions/LoggerActionCreators';
 
+import Scrollbar from '../common/Scrollbar.react';
 import LoggerFilter from './LoggerFilter.react';
 import LoggerRow from './LoggerRow.react';
 
@@ -18,25 +20,43 @@ class LoggerSection extends Component {
     return LoggerStore.getState();
   }
 
+  onClose() {
+    loggerToggle();
+  }
+
   renderLogs() {
-    return this.state.logs.map((data, index) => (
-      <LoggerRow {...data} key={index} />
-    ));
+    const result = [];
+
+    const { logs } = this.state;
+    for (let i = logs.length - 1; i >= 0; i--) {
+      result.push(
+        <LoggerRow {...logs[i]} key={i} />
+      );
+    }
+
+    return result;
   }
 
   renderBody() {
     return (
-      <div className="activity__body logger">
-        <LoggerFilter />
-        <div className="logger__row__container">
-          {this.renderLogs()}
+      <div className="activity__body logger__body">
+        <div className="logger__controls">
+          <button className="button button--icon" type="button" onClick={this.onClose}>
+            <i className="material-icons">close</i>
+          </button>
         </div>
+        <LoggerFilter />
+        <Scrollbar>
+          <div className="logger__container">
+            {this.renderLogs()}
+          </div>
+        </Scrollbar>
       </div>
     );
   }
 
   render() {
-    const className = classNames('activity', {
+    const className = classNames('activity logger', {
       'activity--shown': this.state.isOpen
     });
 

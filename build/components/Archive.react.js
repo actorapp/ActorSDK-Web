@@ -97,9 +97,9 @@ var Archive = function (_Component) {
       var scrollNode = (0, _reactDom.findDOMNode)(this.refs.archiveScroll);
       var scrollContent = scrollNode.getElementsByClassName('ss-content')[0];
       if (scrollContent.scrollHeight < scrollNode.scrollHeight) {
-        setTimeout(function () {
+        setImmediate(function () {
           _ArchiveActionCreators2.default.loadMoreArchivedDialogs();
-        }, 0);
+        });
       }
     }
   };

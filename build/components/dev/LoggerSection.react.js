@@ -18,6 +18,12 @@ var _LoggerStore = require('../../stores/LoggerStore');
 
 var _LoggerStore2 = _interopRequireDefault(_LoggerStore);
 
+var _LoggerActionCreators = require('../../actions/LoggerActionCreators');
+
+var _Scrollbar = require('../common/Scrollbar.react');
+
+var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
+
 var _LoggerFilter = require('./LoggerFilter.react');
 
 var _LoggerFilter2 = _interopRequireDefault(_LoggerFilter);
@@ -49,27 +55,54 @@ var LoggerSection = function (_Component) {
     return _LoggerStore2.default.getState();
   };
 
+  LoggerSection.prototype.onClose = function onClose() {
+    (0, _LoggerActionCreators.loggerToggle)();
+  };
+
   LoggerSection.prototype.renderLogs = function renderLogs() {
-    return this.state.logs.map(function (data, index) {
-      return _react2.default.createElement(_LoggerRow2.default, _extends({}, data, { key: index }));
-    });
+    var result = [];
+
+    var logs = this.state.logs;
+
+    for (var i = logs.length - 1; i >= 0; i--) {
+      result.push(_react2.default.createElement(_LoggerRow2.default, _extends({}, logs[i], { key: i })));
+    }
+
+    return result;
   };
 
   LoggerSection.prototype.renderBody = function renderBody() {
     return _react2.default.createElement(
       'div',
-      { className: 'activity__body logger' },
-      _react2.default.createElement(_LoggerFilter2.default, null),
+      { className: 'activity__body logger__body' },
       _react2.default.createElement(
         'div',
-        { className: 'logger__row__container' },
-        this.renderLogs()
+        { className: 'logger__controls' },
+        _react2.default.createElement(
+          'button',
+          { className: 'button button--icon', type: 'button', onClick: this.onClose },
+          _react2.default.createElement(
+            'i',
+            { className: 'material-icons' },
+            'close'
+          )
+        )
+      ),
+      _react2.default.createElement(_LoggerFilter2.default, null),
+      _react2.default.createElement(
+        _Scrollbar2.default,
+        null,
+        _react2.default.createElement(
+          'div',
+          { className: 'logger__container' },
+          this.renderLogs()
+        )
       )
     );
   };
 
   LoggerSection.prototype.render = function render() {
-    var className = (0, _classnames2.default)('activity', {
+    var className = (0, _classnames2.default)('activity logger', {
       'activity--shown': this.state.isOpen
     });
 

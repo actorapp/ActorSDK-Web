@@ -74,13 +74,13 @@ var ContactItem = function (_Component) {
     _this.onChange = function () {
       _this.setState(getStateFromStore(_this.props));
 
-      setTimeout(function () {
+      setImmediate(function () {
         var inviteUserState = _this.state.inviteUserState;
 
         if (inviteUserState === _ActorAppConstants.AsyncActionStates.SUCCESS || inviteUserState === _ActorAppConstants.AsyncActionStates.FAILURE) {
           _InviteUserStore2.default.removeChangeListener(_this.onChange);
         }
-      }, 0);
+      });
     };
 
     _this.state = getStateFromStore(props);

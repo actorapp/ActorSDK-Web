@@ -91,9 +91,9 @@ var ActivitySection = function (_Component) {
       return null;
     }
 
-    setTimeout(function () {
+    setImmediate(function () {
       window.dispatchEvent(new Event('resize'));
-    }, 0);
+    });
 
     var activityClassName = (0, _classnames2.default)('activity', {
       'activity--shown': isOpen

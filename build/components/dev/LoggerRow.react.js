@@ -6,8 +6,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -27,20 +25,21 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var LoggerRow = function (_Component) {
   _inherits(LoggerRow, _Component);
 
-  function LoggerRow(props) {
+  function LoggerRow() {
     _classCallCheck(this, LoggerRow);
 
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
-
-    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
-    return _this;
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
+  LoggerRow.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
+    return nextProps.data !== this.props.data;
+  };
+
   LoggerRow.prototype.render = function render() {
-    var _props = this.props;
-    var tag = _props.tag;
-    var type = _props.type;
-    var message = _props.message;
+    var _props$data = this.props.data;
+    var tag = _props$data.tag;
+    var type = _props$data.type;
+    var message = _props$data.message;
 
 
     var className = (0, _classnames2.default)('logger__container__row log-entry', {
@@ -70,9 +69,11 @@ var LoggerRow = function (_Component) {
 }(_react.Component);
 
 LoggerRow.propTypes = {
-  tag: _react.PropTypes.string.isRequired,
-  type: _react.PropTypes.oneOf([_ActorAppConstants.LoggerTypes.INFO, _ActorAppConstants.LoggerTypes.ERROR, _ActorAppConstants.LoggerTypes.WARNING, _ActorAppConstants.LoggerTypes.DEBUG]).isRequired,
-  message: _react.PropTypes.string.isRequired
+  data: _react.PropTypes.shape({
+    tag: _react.PropTypes.string.isRequired,
+    type: _react.PropTypes.oneOf([_ActorAppConstants.LoggerTypes.INFO, _ActorAppConstants.LoggerTypes.ERROR, _ActorAppConstants.LoggerTypes.WARNING, _ActorAppConstants.LoggerTypes.DEBUG]).isRequired,
+    message: _react.PropTypes.string.isRequired
+  }).isRequired
 };
 exports.default = LoggerRow;
 //# sourceMappingURL=LoggerRow.react.js.map

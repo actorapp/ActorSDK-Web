@@ -2,8 +2,6 @@
 
 exports.__esModule = true;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -55,6 +53,14 @@ var LoggerSection = function (_Component) {
     return _LoggerStore2.default.getState();
   };
 
+  LoggerSection.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
+    if (!nextState.isOpen) {
+      return false;
+    }
+
+    return this.state.logs.length !== nextState.logs.length;
+  };
+
   LoggerSection.prototype.onClose = function onClose() {
     (0, _LoggerActionCreators.loggerToggle)();
   };
@@ -65,7 +71,7 @@ var LoggerSection = function (_Component) {
     var logs = this.state.logs;
 
     for (var i = logs.length - 1; i >= 0; i--) {
-      result.push(_react2.default.createElement(_LoggerRow2.default, _extends({}, logs[i], { key: i })));
+      result.push(_react2.default.createElement(_LoggerRow2.default, { data: logs[i], key: i }));
     }
 
     return result;

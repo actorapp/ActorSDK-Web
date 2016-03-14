@@ -45,6 +45,7 @@ var SidebarSection = function (_Component) {
 
   SidebarSection.calculateState = function calculateState() {
     return {
+      currentPeer: _DialogStore2.default.getCurrentPeer(),
       dialogs: _DialogStore2.default.getDialogs()
     };
   };
@@ -86,5 +87,5 @@ SidebarSection.getStores = function () {
 SidebarSection.contextTypes = {
   delegate: _react.PropTypes.object
 };
-exports.default = _utils.Container.create(SidebarSection, { pure: false });
+exports.default = _utils.Container.create(SidebarSection);
 //# sourceMappingURL=Sidebar.react.js.map

@@ -6,6 +6,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactAddonsShallowCompare = require('react-addons-shallow-compare');
+
+var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
+
 var _utils = require('flux/utils');
 
 var _classnames = require('classnames');
@@ -61,15 +65,25 @@ var ActivitySection = function (_Component) {
     };
   };
 
+  ActivitySection.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
+    if (!nextState.isOpen) {
+      return false;
+    }
+
+    return (0, _reactAddonsShallowCompare2.default)(this, nextProps, nextState);
+  };
+
+  ActivitySection.prototype.componentDidUpdate = function componentDidUpdate() {
+    setImmediate(function () {
+      window.dispatchEvent(new Event('resize'));
+    });
+  };
+
   ActivitySection.prototype.renderBody = function renderBody() {
     var _state = this.state;
-    var isOpen = _state.isOpen;
     var peer = _state.peer;
     var info = _state.info;
 
-    if (!isOpen) {
-      return null;
-    }
 
     switch (peer.type) {
       case _ActorAppConstants.PeerTypes.USER:
@@ -87,21 +101,13 @@ var ActivitySection = function (_Component) {
     var info = _state2.info;
     var isOpen = _state2.isOpen;
 
-    if (peer === null) {
-      return null;
+    if (!isOpen || !peer) {
+      return _react2.default.createElement('section', { className: 'activity' });
     }
-
-    setImmediate(function () {
-      window.dispatchEvent(new Event('resize'));
-    });
-
-    var activityClassName = (0, _classnames2.default)('activity', {
-      'activity--shown': isOpen
-    });
 
     return _react2.default.createElement(
       'section',
-      { className: activityClassName },
+      { className: 'activity activity--shown' },
       this.renderBody()
     );
   };
@@ -113,5 +119,5 @@ ActivitySection.getStores = function () {
   return [_DialogStore2.default, _DialogInfoStore2.default, _ActivityStore2.default];
 };
 
-exports.default = _utils.Container.create(ActivitySection, { pure: false });
+exports.default = _utils.Container.create(ActivitySection);
 //# sourceMappingURL=Activity.react.js.map

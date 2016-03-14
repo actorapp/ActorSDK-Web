@@ -6,6 +6,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactAddonsShallowCompare = require('react-addons-shallow-compare');
+
+var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -120,6 +124,14 @@ var Call = function (_Component) {
     return _this;
   }
 
+  Call.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
+    if (!nextState.isOpen) {
+      return false;
+    }
+
+    return (0, _reactAddonsShallowCompare2.default)(this, nextProps, nextState);
+  };
+
   Call.prototype.onAnswer = function onAnswer() {
     _CallActionCreators2.default.answerCall(this.state.callId);
   };
@@ -174,7 +186,7 @@ var Call = function (_Component) {
     var isFloating = _state2.isFloating;
 
     if (!isOpen) {
-      return null;
+      return _react2.default.createElement('section', { className: 'activity' });
     }
 
     if (!isSameDialog || isFloating) {

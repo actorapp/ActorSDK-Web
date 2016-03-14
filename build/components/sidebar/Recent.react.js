@@ -18,6 +18,10 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _PeerUtils = require('../../utils/PeerUtils');
+
+var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
+
 var _CreateGroupActionCreators = require('../../actions/CreateGroupActionCreators');
 
 var _CreateGroupActionCreators2 = _interopRequireDefault(_CreateGroupActionCreators);
@@ -141,8 +145,8 @@ var Recent = function (_Component) {
     return _this;
   }
 
-  Recent.prototype.componentDidUpdate = function componentDidUpdate(prevProps) {
-    if (prevProps !== this.props) {
+  Recent.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    if (nextProps.dialogs !== this.props.dialogs) {
       this.checkInvisibleCounters();
     }
   };
@@ -150,7 +154,10 @@ var Recent = function (_Component) {
   Recent.prototype.render = function render() {
     var _this2 = this;
 
-    var dialogs = this.props.dialogs;
+    var _props = this.props;
+    var dialogs = _props.dialogs;
+    var archive = _props.archive;
+    var currentPeer = _props.currentPeer;
     var _state = this.state;
     var haveUnreadAbove = _state.haveUnreadAbove;
     var haveUnreadBelow = _state.haveUnreadBelow;
@@ -205,9 +212,15 @@ var Recent = function (_Component) {
       }
 
       var groupList = (0, _lodash.map)(dialogGroup.shorts, function (dialog, index) {
-        return _react2.default.createElement(_RecentItem2.default, { dialog: dialog,
-          key: index,
-          type: dialogGroup.key });
+        var peer = dialog.peer.peer;
+        var peerKey = _PeerUtils2.default.peerToString(peer);
+
+        return _react2.default.createElement(_RecentItem2.default, {
+          dialog: dialog,
+          archiveState: archive[peerKey],
+          isActive: _PeerUtils2.default.equals(peer, currentPeer),
+          key: peerKey
+        });
       });
 
       var groupClassname = (0, _classnames2.default)('sidebar__list sidebar__list--' + dialogGroup.key, {
@@ -296,7 +309,9 @@ Recent.contextTypes = {
   intl: _react.PropTypes.object
 };
 Recent.propTypes = {
-  dialogs: _react.PropTypes.array.isRequired
+  currentPeer: _react.PropTypes.object,
+  dialogs: _react.PropTypes.array.isRequired,
+  archive: _react.PropTypes.object.isRequired
 };
 exports.default = Recent;
 //# sourceMappingURL=Recent.react.js.map

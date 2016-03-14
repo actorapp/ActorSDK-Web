@@ -10,6 +10,10 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
+var _PeerUtils = require('../utils/PeerUtils');
+
+var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30,7 +34,7 @@ var ArchiveStore = function (_Store) {
 
     _this.isLoading = true;
     _this.dialogs = [];
-    _this.archiveChatState = [];
+    _this.archiveChatState = {};
     _this._isAllLoaded = false;
     _this._isInitialLoadingComplete = false;
     return _this;
@@ -52,26 +56,24 @@ var ArchiveStore = function (_Store) {
     return this.dialogs;
   };
 
-  ArchiveStore.prototype.getArchiveChatState = function getArchiveChatState(id) {
-    return this.archiveChatState[id] || _ActorAppConstants.AsyncActionStates.PENDING;
-  };
-
-  ArchiveStore.prototype.resetArchiveChatState = function resetArchiveChatState(id) {
-    delete this.archiveChatState[id];
+  ArchiveStore.prototype.getArchiveChatState = function getArchiveChatState() {
+    return this.archiveChatState;
   };
 
   ArchiveStore.prototype.__onDispatch = function __onDispatch(action) {
+    var peerKey = action.peer ? _PeerUtils2.default.peerToString(action.peer) : null;
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.ARCHIVE_ADD:
-        this.archiveChatState[action.peer.id] = _ActorAppConstants.AsyncActionStates.PROCESSING;
+        this.archiveChatState[peerKey] = _ActorAppConstants.AsyncActionStates.PROCESSING;
         this.__emitChange();
         break;
       case _ActorAppConstants.ActionTypes.ARCHIVE_ADD_SUCCESS:
-        this.resetArchiveChatState(action.peer.id);
+        delete this.archiveChatState[peerKey];
         this.__emitChange();
         break;
       case _ActorAppConstants.ActionTypes.ARCHIVE_ADD_ERROR:
-        this.archiveChatState[action.peer.id] = _ActorAppConstants.AsyncActionStates.FAILURE;
+        var key = _PeerUtils2.default.peerToString(action.peer);
+        this.archiveChatState[peerKey] = _ActorAppConstants.AsyncActionStates.FAILURE;
         this.__emitChange();
         break;
 

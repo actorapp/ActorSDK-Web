@@ -24,6 +24,10 @@ var _DialogStore = require('../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
+var _ArchiveStore = require('../stores/ArchiveStore');
+
+var _ArchiveStore2 = _interopRequireDefault(_ArchiveStore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -37,22 +41,26 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var SidebarSection = function (_Component) {
   _inherits(SidebarSection, _Component);
 
-  function SidebarSection(props) {
+  function SidebarSection() {
     _classCallCheck(this, SidebarSection);
 
-    return _possibleConstructorReturn(this, _Component.call(this, props));
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
   SidebarSection.calculateState = function calculateState() {
     return {
       currentPeer: _DialogStore2.default.getCurrentPeer(),
-      dialogs: _DialogStore2.default.getDialogs()
+      dialogs: _DialogStore2.default.getDialogs(),
+      archive: _ArchiveStore2.default.getArchiveChatState()
     };
   };
 
   SidebarSection.prototype.render = function render() {
     var delegate = this.context.delegate;
-    var dialogs = this.state.dialogs;
+    var _state = this.state;
+    var currentPeer = _state.currentPeer;
+    var dialogs = _state.dialogs;
+    var archive = _state.archive;
 
 
     var HeaderSection = void 0,
@@ -72,7 +80,7 @@ var SidebarSection = function (_Component) {
       'aside',
       { className: 'sidebar' },
       _react2.default.createElement(HeaderSection, null),
-      _react2.default.createElement(Recent, { dialogs: dialogs }),
+      _react2.default.createElement(Recent, { currentPeer: currentPeer, dialogs: dialogs, archive: archive }),
       _react2.default.createElement(FooterSection, null)
     );
   };
@@ -81,7 +89,7 @@ var SidebarSection = function (_Component) {
 }(_react.Component);
 
 SidebarSection.getStores = function () {
-  return [_DialogStore2.default];
+  return [_DialogStore2.default, _ArchiveStore2.default];
 };
 
 SidebarSection.contextTypes = {

@@ -144,21 +144,20 @@ var MessageItem = function (_Component) {
   };
 
   MessageItem.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
-    return this.props.message !== nextProps.message || this.props.isShortMessage != nextProps.isShortMessage;
+    return this.props.message !== nextProps.message || this.props.isShort !== nextProps.isShort;
   };
 
   MessageItem.prototype.render = function render() {
     var _props = this.props;
     var message = _props.message;
-    var overlay = _props.overlay;
     var peer = _props.peer;
+    var isShort = _props.isShort;
     var isSelected = _props.isSelected;
     var isHighlighted = this.state.isHighlighted;
     var _context = this.context;
     var delegate = _context.delegate;
     var isExperimental = _context.isExperimental;
 
-    var isShortMessage = overlay.useShort;
 
     var Service = void 0,
         Text = void 0,
@@ -198,7 +197,7 @@ var MessageItem = function (_Component) {
     var messageSender = (0, _EmojiUtils.escapeWithEmoji)(message.sender.title);
 
     var messageClassName = (0, _classnames2.default)('message row', {
-      'message--same-sender': isShortMessage,
+      'message--same-sender': isShort,
       'message--active': isHighlighted,
       'message--selected': isSelected
     });
@@ -206,7 +205,7 @@ var MessageItem = function (_Component) {
       'message__actions__menu--opened': isHighlighted
     });
 
-    if (isShortMessage) {
+    if (isShort) {
       leftBlock = _react2.default.createElement(
         'div',
         { className: 'message__info text-right' },
@@ -331,8 +330,7 @@ MessageItem.getStores = function () {
 MessageItem.propTypes = {
   peer: _react.PropTypes.object.isRequired,
   message: _react.PropTypes.object.isRequired,
-  overlay: _react.PropTypes.object.isRequired,
-  isShortMessage: _react.PropTypes.bool,
+  isShort: _react.PropTypes.bool.isRequired,
   isSelected: _react.PropTypes.bool,
   onSelect: _react.PropTypes.func
 };

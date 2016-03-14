@@ -28,6 +28,8 @@ var _confirm2 = _interopRequireDefault(_confirm);
 
 var _reactRouter = require('react-router');
 
+var _ActorAppConstants = require('../../constants/ActorAppConstants');
+
 var _DialogActionCreators = require('../../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
@@ -86,19 +88,14 @@ var RecentItem = function (_Component) {
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
-  RecentItem.getStores = function getStores() {
-    return [_ArchiveStore2.default];
-  };
-
-  RecentItem.calculateState = function calculateState(prevState, nextProps) {
-    return {
-      archiveChatState: _ArchiveStore2.default.getArchiveChatState(nextProps.dialog.peer.peer.id)
-    };
+  RecentItem.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
+    return nextProps.dialog !== this.props.dialog || nextProps.isActive !== this.props.isActive || nextProps.archiveState !== this.props.archiveState;
   };
 
   RecentItem.prototype.render = function render() {
-    var dialog = this.props.dialog;
-    var archiveChatState = this.state.archiveChatState;
+    var _props = this.props;
+    var dialog = _props.dialog;
+    var archiveState = _props.archiveState;
 
     var toPeer = _PeerUtils2.default.peerToString(dialog.peer.peer);
 
@@ -123,7 +120,7 @@ var RecentItem = function (_Component) {
           dialog.counter
         ) : null,
         _react2.default.createElement(_Stateful2.default, {
-          currentState: archiveChatState,
+          currentState: archiveState,
           processing: _react2.default.createElement(
             'div',
             { className: 'archive archive--in-progress' },
@@ -160,11 +157,15 @@ var RecentItem = function (_Component) {
 }(_react.Component);
 
 RecentItem.propTypes = {
+  isActive: _react.PropTypes.bool.isRequired,
   dialog: _react.PropTypes.object.isRequired,
-  type: _react.PropTypes.string
+  archiveState: _react.PropTypes.number.isRequired
+};
+RecentItem.defaultProps = {
+  archiveState: _ActorAppConstants.AsyncActionStates.PENDING
 };
 RecentItem.contextTypes = {
   intl: _react.PropTypes.object
 };
-exports.default = _utils.Container.create(RecentItem, { pure: false, withProps: true });
+exports.default = RecentItem;
 //# sourceMappingURL=RecentItem.react.js.map

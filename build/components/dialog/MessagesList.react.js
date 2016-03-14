@@ -88,7 +88,7 @@ var MessagesList = function (_Component) {
       result.push(_react2.default.createElement(MessageItem, {
         key: message.sortKey,
         message: message,
-        overlay: overlay[index],
+        isShort: overlayItem.useShort,
         isSelected: selectedMessages.has(message.rid),
         onSelect: _this2.props.onSelect,
         onVisibilityChange: _this2.props.onVisibilityChange,

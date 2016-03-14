@@ -6,6 +6,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -25,10 +27,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var LoggerRow = function (_Component) {
   _inherits(LoggerRow, _Component);
 
-  function LoggerRow() {
+  function LoggerRow(props) {
     _classCallCheck(this, LoggerRow);
 
-    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+
+    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
+    return _this;
   }
 
   LoggerRow.prototype.render = function render() {

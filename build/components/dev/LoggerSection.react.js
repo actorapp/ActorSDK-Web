@@ -71,45 +71,41 @@ var LoggerSection = function (_Component) {
     return result;
   };
 
-  LoggerSection.prototype.renderBody = function renderBody() {
-    return _react2.default.createElement(
-      'div',
-      { className: 'activity__body logger__body' },
-      _react2.default.createElement(
-        'div',
-        { className: 'logger__controls' },
-        _react2.default.createElement(
-          'button',
-          { className: 'button button--icon', type: 'button', onClick: this.onClose },
-          _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'close'
-          )
-        )
-      ),
-      _react2.default.createElement(_LoggerFilter2.default, null),
-      _react2.default.createElement(
-        _Scrollbar2.default,
-        null,
-        _react2.default.createElement(
-          'div',
-          { className: 'logger__container' },
-          this.renderLogs()
-        )
-      )
-    );
-  };
-
   LoggerSection.prototype.render = function render() {
-    var className = (0, _classnames2.default)('activity logger', {
-      'activity--shown': this.state.isOpen
-    });
+    if (!this.state.isOpen) {
+      return _react2.default.createElement('section', { className: 'activity logger' });
+    }
 
     return _react2.default.createElement(
       'section',
-      { className: className },
-      this.renderBody()
+      { className: 'activity logger activity--shown' },
+      _react2.default.createElement(
+        'div',
+        { className: 'activity__body logger__body' },
+        _react2.default.createElement(
+          'div',
+          { className: 'logger__controls' },
+          _react2.default.createElement(
+            'button',
+            { className: 'button button--icon', type: 'button', onClick: this.onClose },
+            _react2.default.createElement(
+              'i',
+              { className: 'material-icons' },
+              'close'
+            )
+          )
+        ),
+        _react2.default.createElement(_LoggerFilter2.default, null),
+        _react2.default.createElement(
+          _Scrollbar2.default,
+          null,
+          _react2.default.createElement(
+            'div',
+            { className: 'logger__container' },
+            this.renderLogs()
+          )
+        )
+      )
     );
   };
 

@@ -28,7 +28,7 @@ var _AvatarItem = require('../../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
-var _Stateful = require('../../common/Stateful');
+var _Stateful = require('../../common/Stateful.react');
 
 var _Stateful2 = _interopRequireDefault(_Stateful);
 
@@ -93,61 +93,51 @@ var ContactItem = function (_Component) {
     _InviteUserStore2.default.resetInviteUserState(contact.uid);
   };
 
+  ContactItem.prototype.getControls = function getControls() {
+    var isMember = this.props.isMember;
+
+    if (isMember) return _react2.default.createElement(
+      'i',
+      { className: 'material-icons' },
+      'check'
+    );
+
+    var inviteUserState = this.state.inviteUserState;
+
+    return _react2.default.createElement(_Stateful2.default, {
+      currentState: inviteUserState,
+      pending: _react2.default.createElement(
+        'a',
+        { className: 'material-icons', onClick: this.onSelect },
+        'person_add'
+      ),
+      processing: _react2.default.createElement(
+        'i',
+        { className: 'material-icons spin' },
+        'autorenew'
+      ),
+      success: _react2.default.createElement(
+        'i',
+        { className: 'material-icons' },
+        'check'
+      ),
+      failure: _react2.default.createElement(
+        'i',
+        { className: 'material-icons' },
+        'warning'
+      )
+    });
+  };
+
   ContactItem.prototype.render = function render() {
     var _props = this.props;
     var contact = _props.contact;
     var isMember = _props.isMember;
-    var inviteUserState = this.state.inviteUserState;
 
 
     var contactClassName = (0, _classnames2.default)('contacts__list__item row', {
       'contacts__list__item--member': isMember
     });
-
-    var controls = isMember ? _react2.default.createElement(
-      'i',
-      { className: 'material-icons' },
-      'check'
-    ) : _react2.default.createElement(
-      _Stateful2.default.Root,
-      { currentState: inviteUserState },
-      _react2.default.createElement(
-        _Stateful2.default.Pending,
-        null,
-        _react2.default.createElement(
-          'a',
-          { className: 'material-icons', onClick: this.onSelect },
-          'person_add'
-        )
-      ),
-      _react2.default.createElement(
-        _Stateful2.default.Processing,
-        null,
-        _react2.default.createElement(
-          'i',
-          { className: 'material-icons spin' },
-          'autorenew'
-        )
-      ),
-      _react2.default.createElement(
-        _Stateful2.default.Success,
-        null,
-        _react2.default.createElement(
-          'i',
-          { className: 'material-icons' },
-          'check'
-        )
-      ),
-      _react2.default.createElement(
-        _Stateful2.default.Failure,
-        null,
-        _react2.default.createElement(
-          'i',
-          { className: 'material-icons' },
-          'warning'
-        )
-      )
-    );
 
     return _react2.default.createElement(
       'li',
@@ -164,7 +154,7 @@ var ContactItem = function (_Component) {
       _react2.default.createElement(
         'div',
         { className: 'controls' },
-        controls
+        this.getControls()
       )
     );
   };

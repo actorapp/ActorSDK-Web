@@ -122,10 +122,13 @@ var ToolbarSection = function (_Component) {
     }
 
     var callPeer = _CallStore2.default.getPeer();
+    var isSamePeer = _PeerUtils2.default.equals(thisPeer, callPeer);
+    if (!isSamePeer) {
+      return { isCalling: false };
+    }
 
     return {
       isCalling: isCalling,
-      isSamePeer: _PeerUtils2.default.equals(thisPeer, callPeer),
       state: _CallStore2.default.getState(),
       isFloating: _CallStore2.default.isFloating(),
       time: '00:00'
@@ -192,7 +195,7 @@ var ToolbarSection = function (_Component) {
     var message = this.getMessage();
 
     var headerClassName = (0, _classnames2.default)('toolbar row', {
-      toolbar__calling: call.isCalling && call.isSamePeer
+      toolbar__calling: call.isCalling
     });
 
     var favoriteClassName = (0, _classnames2.default)('toolbar__peer__favorite', {

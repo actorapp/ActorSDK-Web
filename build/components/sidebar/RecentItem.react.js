@@ -48,7 +48,7 @@ var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
-var _Stateful = require('../common/Stateful');
+var _Stateful = require('../common/Stateful.react');
 
 var _Stateful2 = _interopRequireDefault(_Stateful);
 
@@ -97,9 +97,7 @@ var RecentItem = function (_Component) {
   };
 
   RecentItem.prototype.render = function render() {
-    var _props = this.props;
-    var dialog = _props.dialog;
-    var type = _props.type;
+    var dialog = this.props.dialog;
     var archiveChatState = this.state.archiveChatState;
 
     var toPeer = _PeerUtils2.default.peerToString(dialog.peer.peer);
@@ -124,49 +122,36 @@ var RecentItem = function (_Component) {
           { className: 'counter' },
           dialog.counter
         ) : null,
-        _react2.default.createElement(
-          _Stateful2.default.Root,
-          { currentState: archiveChatState },
-          _react2.default.createElement(
-            _Stateful2.default.Processing,
-            null,
+        _react2.default.createElement(_Stateful2.default, {
+          currentState: archiveChatState,
+          processing: _react2.default.createElement(
+            'div',
+            { className: 'archive archive--in-progress' },
             _react2.default.createElement(
-              'div',
-              { className: 'archive archive--in-progress' },
-              _react2.default.createElement(
-                'i',
-                { className: 'icon material-icons spin' },
-                'autorenew'
-              )
+              'i',
+              { className: 'icon material-icons spin' },
+              'autorenew'
             )
           ),
-          _react2.default.createElement(
-            _Stateful2.default.Success,
-            null,
+          success: _react2.default.createElement(
+            'div',
+            { className: 'archive archive--in-progress' },
             _react2.default.createElement(
-              'div',
-              { className: 'archive archive--in-progress' },
-              _react2.default.createElement(
-                'i',
-                { className: 'icon material-icons' },
-                'check'
-              )
+              'i',
+              { className: 'icon material-icons' },
+              'check'
             )
           ),
-          _react2.default.createElement(
-            _Stateful2.default.Failure,
-            null,
+          failure: _react2.default.createElement(
+            'div',
+            { className: 'archive archive--failure' },
             _react2.default.createElement(
-              'div',
-              { className: 'archive archive--failure' },
-              _react2.default.createElement(
-                'i',
-                { className: 'icon material-icons' },
-                'warning'
-              )
+              'i',
+              { className: 'icon material-icons' },
+              'warning'
             )
           )
-        )
+        })
       )
     );
   };

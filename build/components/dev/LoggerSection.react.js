@@ -50,15 +50,17 @@ var LoggerSection = function (_Component) {
   }
 
   LoggerSection.calculateState = function calculateState() {
-    return _LoggerStore2.default.getState();
-  };
-
-  LoggerSection.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
-    if (!nextState.isOpen) {
-      return false;
+    var isOpen = _LoggerStore2.default.isOpen();
+    if (!isOpen) {
+      return { isOpen: false };
     }
 
-    return this.state.logs.length !== nextState.logs.length;
+    var logs = _LoggerStore2.default.getLogs();
+    return {
+      isOpen: isOpen,
+      logs: logs,
+      length: logs.length
+    };
   };
 
   LoggerSection.prototype.onClose = function onClose() {

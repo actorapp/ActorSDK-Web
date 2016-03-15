@@ -2,8 +2,6 @@
 
 exports.__esModule = true;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
@@ -22,39 +20,42 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var LoggerStore = function (_ReduceStore) {
-  _inherits(LoggerStore, _ReduceStore);
+var LoggerStore = function (_Store) {
+  _inherits(LoggerStore, _Store);
 
-  function LoggerStore() {
+  function LoggerStore(dispatcher) {
     _classCallCheck(this, LoggerStore);
 
-    return _possibleConstructorReturn(this, _ReduceStore.apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, _Store.call(this, dispatcher));
+
+    _this._logs = [];
+    _this._isOpen = false;
+    return _this;
   }
 
-  LoggerStore.prototype.getInitialState = function getInitialState() {
-    return {
-      logs: [],
-      isOpen: false
-    };
+  LoggerStore.prototype.isOpen = function isOpen() {
+    return this._isOpen;
   };
 
-  LoggerStore.prototype.reduce = function reduce(state, action) {
+  LoggerStore.prototype.getLogs = function getLogs() {
+    return this._logs;
+  };
+
+  LoggerStore.prototype.__onDispatch = function __onDispatch(action) {
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.LOGGER_TOGGLE:
-        return _extends({}, state, {
-          isOpen: !state.isOpen
-        });
+        this._isOpen = !this._isOpen;
+        this.__emitChange();
+        break;
       case _ActorAppConstants.ActionTypes.LOGGER_APPEND:
-        return _extends({}, state, {
-          logs: [].concat(state.logs, [action.payload])
-        });
-      default:
-        return state;
+        this._logs.push(action.payload);
+        this.__emitChange();
+        break;
     }
   };
 
   return LoggerStore;
-}(_utils.ReduceStore);
+}(_utils.Store);
 
 exports.default = new LoggerStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=LoggerStore.js.map

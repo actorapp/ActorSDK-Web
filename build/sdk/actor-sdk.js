@@ -165,7 +165,7 @@ var ActorSDK = function () {
         if (_crosstab2.default.supported) _crosstab2.default.broadcast(ACTOR_INIT_EVENT, {});
         window.messenger = _actorJs2.default.create({
           endpoints: _this.endpoints,
-          logHandler: _LoggerActionCreators.loggerAppend
+          logHandler: localStorage.debug ? _LoggerActionCreators.loggerAppend : function () {}
         });
       }
 

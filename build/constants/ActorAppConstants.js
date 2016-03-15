@@ -68,6 +68,7 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   MESSAGE_LIKE_ADD: null,
   MESSAGE_LIKE_REMOVE: null,
   MESSAGES_SET_SELECTED: null,
+  MESSAGES_LOAD_MORE: null,
 
   ACTIVITY_SHOW: null,
   ACTIVITY_HIDE: null,

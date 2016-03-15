@@ -36,7 +36,7 @@ var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
-var _Stateful = require('../common/Stateful');
+var _Stateful = require('../common/Stateful.react');
 
 var _Stateful2 = _interopRequireDefault(_Stateful);
 
@@ -64,7 +64,6 @@ var GroupMember = function (_Component) {
 
     _this.onKick = function (gid, uid) {
       var peerInfo = _this.props.peerInfo;
-      var intl = _this.context.intl;
 
 
       (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.kick', values: { name: peerInfo.title } })).then(function () {
@@ -91,7 +90,7 @@ var GroupMember = function (_Component) {
     _KickUserStore2.default.resetKickUserState(peerInfo.peer.id);
   };
 
-  GroupMember.prototype.render = function render() {
+  GroupMember.prototype.renderControls = function renderControls() {
     var _this2 = this;
 
     var _props = this.props;
@@ -99,61 +98,43 @@ var GroupMember = function (_Component) {
     var canKick = _props.canKick;
     var gid = _props.gid;
     var kickUserState = this.state.kickUserState;
-    var intl = this.context.intl;
 
     var myId = _ActorClient2.default.getUid();
 
-    var controls = void 0;
-    if (canKick && peerInfo.peer.id !== myId) {
-      controls = _react2.default.createElement(
-        'div',
-        { className: 'controls pull-right' },
-        _react2.default.createElement(
-          _Stateful2.default.Root,
-          { currentState: kickUserState },
-          _react2.default.createElement(
-            _Stateful2.default.Pending,
-            null,
-            _react2.default.createElement(
-              'a',
-              { onClick: function onClick() {
-                  return _this2.onKick(gid, peerInfo.peer.id);
-                } },
-              intl.messages['kick']
-            )
-          ),
-          _react2.default.createElement(
-            _Stateful2.default.Processing,
-            null,
-            _react2.default.createElement(
-              'i',
-              { className: 'material-icons spin' },
-              'autorenew'
-            )
-          ),
-          _react2.default.createElement(
-            _Stateful2.default.Success,
-            null,
-            _react2.default.createElement(
-              'i',
-              { className: 'material-icons' },
-              'check'
-            )
-          ),
-          _react2.default.createElement(
-            _Stateful2.default.Failure,
-            null,
-            _react2.default.createElement(
-              'i',
-              { className: 'material-icons' },
-              'warning'
-            )
-          )
-        )
-      );
-    } else {
-      controls = null;
-    }
+    if (!canKick || peerInfo.peer.id === myId) return _react2.default.createElement('div', null);
+
+    return _react2.default.createElement(_Stateful2.default, {
+      currentState: kickUserState,
+      pending: _react2.default.createElement(
+        'a',
+        { onClick: function onClick() {
+            return _this2.onKick(gid, peerInfo.peer.id);
+          } },
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'kick' })
+      ),
+      processing: _react2.default.createElement(
+        'i',
+        { className: 'material-icons spin' },
+        'autorenew'
+      ),
+      success: _react2.default.createElement(
+        'i',
+        { className: 'material-icons' },
+        'check'
+      ),
+      failure: _react2.default.createElement(
+        'i',
+        { className: 'material-icons' },
+        'warning'
+      )
+    });
+  };
+
+  GroupMember.prototype.render = function render() {
+    var _this3 = this;
+
+    var peerInfo = this.props.peerInfo;
+
 
     return _react2.default.createElement(
       'li',
@@ -161,17 +142,21 @@ var GroupMember = function (_Component) {
       _react2.default.createElement(
         'a',
         { onClick: function onClick() {
-            return _this2.onClick(peerInfo.peer.id);
+            return _this3.onClick(peerInfo.peer.id);
           } },
         _react2.default.createElement(_AvatarItem2.default, { image: peerInfo.avatar,
           placeholder: peerInfo.placeholder,
           title: peerInfo.title })
       ),
       _react2.default.createElement('a', { onClick: function onClick() {
-          return _this2.onClick(peerInfo.peer.id);
+          return _this3.onClick(peerInfo.peer.id);
         },
         dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(peerInfo.title) } }),
-      controls
+      _react2.default.createElement(
+        'div',
+        { className: 'controls pull-right' },
+        this.renderControls()
+      )
     );
   };
 
@@ -182,9 +167,6 @@ GroupMember.propTypes = {
   peerInfo: _react.PropTypes.object.isRequired,
   canKick: _react.PropTypes.bool.isRequired,
   gid: _react.PropTypes.number.isRequired
-};
-GroupMember.contextTypes = {
-  intl: _react.PropTypes.object
 };
 exports.default = _utils.Container.create(GroupMember, { pure: false, withProps: true });
 //# sourceMappingURL=GroupMember.react.js.map

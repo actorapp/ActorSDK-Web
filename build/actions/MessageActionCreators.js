@@ -39,6 +39,9 @@ exports.default = {
     _ActorClient2.default.sendPhotoMessage(peer, photo);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_SEND_PHOTO, { peer: peer, photo: photo });
   },
+
+
+  // Deprecated
   sendClipboardPhotoMessage: function sendClipboardPhotoMessage(peer, photo) {
     _ActorClient2.default.sendClipboardPhotoMessage(peer, photo);
   },

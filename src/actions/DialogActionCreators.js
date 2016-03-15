@@ -16,6 +16,7 @@ import GroupProfileActionCreators from './GroupProfileActionCreators';
 import DraftActionCreators from './DraftActionCreators';
 
 import DialogStore from '../stores/DialogStore';
+import MessageStore from '../stores/MessageStore';
 
 let messagesBinding = null;
 
@@ -143,6 +144,14 @@ const DialogActionCreators = {
       success: ActionTypes.GROUP_HIDE_SUCCESS,
       failure: ActionTypes.GROUP_HIDE_ERROR
     }, { peer });
+  },
+
+  loadMoreMessages(peer) {
+    if (MessageStore.isAllRendered()) {
+      this.onChatEnd(peer);
+    } else {
+      dispatch(ActionTypes.MESSAGES_LOAD_MORE);
+    }
   }
 };
 

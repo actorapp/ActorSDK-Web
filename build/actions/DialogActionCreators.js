@@ -46,13 +46,15 @@ var _DialogStore = require('../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
+var _MessageStore = require('../stores/MessageStore');
+
+var _MessageStore2 = _interopRequireDefault(_MessageStore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
-
-var messagesBinding = null;
+var messagesBinding = null; /*
+                             * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                             */
 
 var DialogActionCreators = {
   setDialogs: function setDialogs(dialogs) {
@@ -171,6 +173,13 @@ var DialogActionCreators = {
       success: _ActorAppConstants.ActionTypes.GROUP_HIDE_SUCCESS,
       failure: _ActorAppConstants.ActionTypes.GROUP_HIDE_ERROR
     }, { peer: peer });
+  },
+  loadMoreMessages: function loadMoreMessages(peer) {
+    if (_MessageStore2.default.isAllRendered()) {
+      this.onChatEnd(peer);
+    } else {
+      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_LOAD_MORE);
+    }
   }
 };
 

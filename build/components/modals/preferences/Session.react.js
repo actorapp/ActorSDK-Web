@@ -16,7 +16,7 @@ var _PreferencesStore = require('../../../stores/PreferencesStore');
 
 var _PreferencesStore2 = _interopRequireDefault(_PreferencesStore);
 
-var _Stateful = require('../../common/Stateful');
+var _Stateful = require('../../common/Stateful.react');
 
 var _Stateful2 = _interopRequireDefault(_Stateful);
 
@@ -79,46 +79,29 @@ var SessionItem = function (_Component) {
         ' ',
         authTime.toString()
       ),
-      _react2.default.createElement(
-        _Stateful2.default.Root,
-        { currentState: terminateSessionState },
-        _react2.default.createElement(
-          _Stateful2.default.Pending,
-          null,
-          _react2.default.createElement(
-            'a',
-            { className: 'session-list__session__terminate link--blue', onClick: this.onTerminate },
-            intl.messages['preferencesSessionsTerminate']
-          )
+      _react2.default.createElement(_Stateful2.default, {
+        currentState: terminateSessionState,
+        pending: _react2.default.createElement(
+          'a',
+          { className: 'session-list__session__terminate link--blue', onClick: this.onTerminate },
+          intl.messages['preferencesSessionsTerminate']
         ),
-        _react2.default.createElement(
-          _Stateful2.default.Processing,
-          null,
-          _react2.default.createElement(
-            'i',
-            { className: 'session-list__session__terminate material-icons spin' },
-            'autorenew'
-          )
+        processing: _react2.default.createElement(
+          'i',
+          { className: 'session-list__session__terminate material-icons spin' },
+          'autorenew'
         ),
-        _react2.default.createElement(
-          _Stateful2.default.Success,
-          null,
-          _react2.default.createElement(
-            'i',
-            { className: 'session-list__session__terminate material-icons' },
-            'check'
-          )
+        success: _react2.default.createElement(
+          'i',
+          { className: 'session-list__session__terminate material-icons' },
+          'check'
         ),
-        _react2.default.createElement(
-          _Stateful2.default.Failure,
-          null,
-          _react2.default.createElement(
-            'i',
-            { className: 'session-list__session__terminate material-icons' },
-            'warning'
-          )
+        failure: _react2.default.createElement(
+          'i',
+          { className: 'session-list__session__terminate material-icons' },
+          'warning'
         )
-      )
+      })
     );
   };
 

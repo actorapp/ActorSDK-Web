@@ -10,8 +10,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _reactDom = require('react-dom');
-
 var _PeerUtils = require('../utils/PeerUtils');
 
 var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
@@ -78,11 +76,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-// On which scrollTop value start loading older messages
-var loadMessagesScrollTop = 100;
-
-var lastScrolledFromBottom = 0;
-
 var DialogSection = function (_Component) {
   _inherits(DialogSection, _Component);
 
@@ -105,42 +98,27 @@ var DialogSection = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _initialiseProps.call(_this);
-
     var peer = _PeerUtils2.default.stringToPeer(props.params.id);
     _DialogActionCreators2.default.selectDialogPeer(peer);
+
+    _this.onLoadMoreMessages = _this.onLoadMoreMessages.bind(_this);
     return _this;
   }
 
   DialogSection.prototype.componentDidMount = function componentDidMount() {
-    var peer = this.state.peer;
-
-    if (peer) {
-      this.fixScroll();
-      this.loadMessagesByScroll();
-    }
+    this.onLoadMoreMessages();
   };
 
   DialogSection.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
     var params = nextProps.params;
 
-    if (this.props.params.id !== params.id) {
-      var peer = _PeerUtils2.default.stringToPeer(params.id);
-      _DialogActionCreators2.default.selectDialogPeer(peer);
-      lastScrolledFromBottom = 0;
-      if (peer) {
-        this.fixScroll();
-        this.loadMessagesByScroll();
-      }
+    if (this.props.params.id === params.id) {
+      return;
     }
-  };
 
-  DialogSection.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
-    if (prevState.isActivityOpen !== this.state.isActivityOpen) {
-      this.fixScrollTimeout();
-    } else {
-      this.fixScroll();
-    }
+    var peer = _PeerUtils2.default.stringToPeer(params.id);
+    _DialogActionCreators2.default.selectDialogPeer(peer);
+    this.onLoadMoreMessages();
   };
 
   DialogSection.prototype.componentWillUnmount = function componentWillUnmount() {
@@ -148,9 +126,12 @@ var DialogSection = function (_Component) {
     _DialogActionCreators2.default.selectDialogPeer(null);
   };
 
-  DialogSection.prototype.getScrollArea = function getScrollArea() {
-    var scrollNode = (0, _reactDom.findDOMNode)(this.refs.messagesSection.refs.messagesScroll.refs.scroll);
-    return scrollNode.getElementsByClassName('ss-scrollarea')[0];
+  DialogSection.prototype.onLoadMoreMessages = function onLoadMoreMessages() {
+    var peer = this.state.peer;
+
+    if (peer) {
+      _DialogActionCreators2.default.loadMoreMessages(peer);
+    }
   };
 
   DialogSection.prototype.getComponents = function getComponents() {
@@ -211,18 +192,13 @@ var DialogSection = function (_Component) {
           'section',
           { className: 'dialog' },
           _react2.default.createElement(_ConnectionState2.default, null),
-          _react2.default.createElement(
-            'div',
-            { className: 'messages' },
-            _react2.default.createElement(MessagesSection, {
-              isMember: isMember,
-              messages: messages,
-              overlay: overlay,
-              peer: peer,
-              ref: 'messagesSection',
-              onScroll: this.loadMessagesByScroll
-            })
-          ),
+          _react2.default.createElement(MessagesSection, {
+            peer: peer,
+            messages: messages,
+            overlay: overlay,
+            isMember: isMember,
+            onLoadMore: this.onLoadMoreMessages
+          }),
           _react2.default.createElement(_DialogFooter2.default, { isMember: isMember, components: { TypingSection: TypingSection, ComposeSection: ComposeSection } })
         ),
         activity
@@ -239,33 +215,5 @@ DialogSection.contextTypes = {
 DialogSection.propTypes = {
   params: _react.PropTypes.object
 };
-
-var _initialiseProps = function _initialiseProps() {
-  var _this2 = this;
-
-  this.fixScroll = function () {
-    var node = _this2.getScrollArea();
-    if (node) {
-      node.scrollTop = node.scrollHeight - lastScrolledFromBottom - node.offsetHeight;
-    }
-  };
-
-  this.fixScrollTimeout = function () {
-    setTimeout(_this2.fixScroll, 50);
-  };
-
-  this.loadMessagesByScroll = (0, _lodash.debounce)(function () {
-    var peer = _this2.state.peer;
-
-
-    if (peer) {
-      var node = _this2.getScrollArea();
-      lastScrolledFromBottom = node.scrollHeight - node.scrollTop - node.offsetHeight;
-
-      if (node.scrollTop < loadMessagesScrollTop) _DialogActionCreators2.default.loadMoreMessages(peer);
-    }
-  }, 5, { maxWait: 30 });
-};
-
 exports.default = _utils.Container.create(DialogSection);
 //# sourceMappingURL=Dialog.react.js.map

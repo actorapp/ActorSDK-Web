@@ -16,6 +16,10 @@ var _Welcome = require('./messages/Welcome.react');
 
 var _Welcome2 = _interopRequireDefault(_Welcome);
 
+var _MessagesScroller = require('./MessagesScroller.react');
+
+var _MessagesScroller2 = _interopRequireDefault(_MessagesScroller);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -101,11 +105,15 @@ var MessagesList = function (_Component) {
 
   MessagesList.prototype.render = function render() {
     return _react2.default.createElement(
-      'ul',
-      { className: 'messages__list' },
-      this.renderWelcome(),
-      this.renderLoading(),
-      this.renderMessages()
+      _MessagesScroller2.default,
+      { className: 'messages', peer: this.props.peer, onLoadMore: this.props.onLoadMore },
+      _react2.default.createElement(
+        'div',
+        { className: 'messages__list' },
+        this.renderWelcome(),
+        this.renderLoading(),
+        this.renderMessages()
+      )
     );
   };
 
@@ -123,7 +131,8 @@ MessagesList.propTypes = {
     MessageItem: _react.PropTypes.func.isRequired
   }).isRequired,
   onSelect: _react.PropTypes.func.isRequired,
-  onVisibilityChange: _react.PropTypes.func.isRequired
+  onVisibilityChange: _react.PropTypes.func.isRequired,
+  onLoadMore: _react.PropTypes.func.isRequired
 };
 exports.default = MessagesList;
 //# sourceMappingURL=MessagesList.react.js.map

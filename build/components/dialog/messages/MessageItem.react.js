@@ -288,7 +288,7 @@ var MessageItem = function (_Component) {
     }
 
     return _react2.default.createElement(
-      'li',
+      'div',
       { className: messageClassName },
       leftBlock,
       _react2.default.createElement(

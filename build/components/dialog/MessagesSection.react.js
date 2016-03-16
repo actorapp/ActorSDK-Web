@@ -10,10 +10,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _Scrollbar = require('../common/Scrollbar.react');
-
-var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
-
 var _MessageActionCreators = require('../../actions/MessageActionCreators');
 
 var _MessageActionCreators2 = _interopRequireDefault(_MessageActionCreators);
@@ -140,21 +136,18 @@ var MessagesSection = function (_Component) {
 
     var components = this.getComponents();
 
-    return _react2.default.createElement(
-      _Scrollbar2.default,
-      { onScroll: this.props.onScroll, ref: 'messagesScroll' },
-      _react2.default.createElement(_MessagesList2.default, {
-        peer: peer,
-        overlay: overlay,
-        messages: messages,
-        selectedMessages: selectedMessages,
-        isMember: isMember,
-        isAllMessagesLoaded: isAllMessagesLoaded,
-        components: components,
-        onSelect: this.onMessageSelect,
-        onVisibilityChange: this.onMessageVisibilityChange
-      })
-    );
+    return _react2.default.createElement(_MessagesList2.default, {
+      peer: peer,
+      overlay: overlay,
+      messages: messages,
+      selectedMessages: selectedMessages,
+      isMember: isMember,
+      isAllMessagesLoaded: isAllMessagesLoaded,
+      components: components,
+      onSelect: this.onMessageSelect,
+      onVisibilityChange: this.onMessageVisibilityChange,
+      onLoadMore: this.props.onLoadMore
+    });
   };
 
   return MessagesSection;
@@ -165,7 +158,7 @@ MessagesSection.propTypes = {
   overlay: _react.PropTypes.array.isRequired,
   peer: _react.PropTypes.object.isRequired,
   isMember: _react.PropTypes.bool.isRequired,
-  onScroll: _react.PropTypes.func.isRequired
+  onLoadMore: _react.PropTypes.func.isRequired
 };
 MessagesSection.contextTypes = {
   delegate: _react.PropTypes.object

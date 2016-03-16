@@ -61,11 +61,17 @@ var MessagesScroller = function (_Component) {
   };
 
   MessagesScroller.prototype.componentDidUpdate = function componentDidUpdate() {
-    if (this.node.scrollHeight > this._scrollHeight) {
-      this.node.scrollTop = this._scrollTop + (this.node.scrollHeight - this._scrollHeight);
-    } else if (this._shouldScrollBottom) {
-      this.scrollToBottom();
-    }
+    var _this2 = this;
+
+    setImmediate(function () {
+      if (_this2.node.scrollHeight > _this2._scrollHeight) {
+        _this2.node.scrollTop = _this2._scrollTop + (_this2.node.scrollHeight - _this2._scrollHeight);
+      } else if (_this2.node.scrollTop === 0) {
+        _this2.props.onLoadMore();
+      } else if (_this2._shouldScrollBottom) {
+        _this2.scrollToBottom();
+      }
+    });
   };
 
   MessagesScroller.prototype.scrollToBottom = function scrollToBottom() {
@@ -81,7 +87,7 @@ var MessagesScroller = function (_Component) {
     var scrollTop = target.scrollTop;
     var offsetHeight = target.offsetHeight;
 
-    if (scrollTop < offsetHeight) {
+    if (scrollTop <= offsetHeight) {
       this.props.onLoadMore();
     }
   };

@@ -38,6 +38,8 @@ var _pace = require('pace');
 
 var _pace2 = _interopRequireDefault(_pace);
 
+var _lodash = require('lodash');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -165,7 +167,7 @@ var ActorSDK = function () {
         if (_crosstab2.default.supported) _crosstab2.default.broadcast(ACTOR_INIT_EVENT, {});
         window.messenger = _actorJs2.default.create({
           endpoints: _this.endpoints,
-          logHandler: localStorage.debug ? _LoggerActionCreators.loggerAppend : function () {}
+          logHandler: _this.logHandler
         });
       }
 
@@ -242,6 +244,7 @@ var ActorSDK = function () {
     };
 
     this.endpoints = options.endpoints && options.endpoints.length > 0 ? options.endpoints : _ActorAppConstants.endpoints;
+    this.logHandler = (0, _lodash.isFunction)(options.logHandler) ? options.logHandler : this.createLogHandler();
     this.isExperimental = options.isExperimental ? options.isExperimental : false;
     this.forceLocale = options.forceLocale ? options.forceLocale : null;
     this.rootElement = options.rootElement ? options.rootElement : _ActorAppConstants.rootElement;
@@ -257,6 +260,14 @@ var ActorSDK = function () {
 
     _SharedContainer2.default.set(this);
   }
+
+  ActorSDK.prototype.createLogHandler = function createLogHandler() {
+    if (localStorage.debug) {
+      return _LoggerActionCreators.loggerAppend;
+    }
+
+    return function () {};
+  };
 
   /**
    * Start application

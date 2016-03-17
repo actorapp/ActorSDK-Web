@@ -52,8 +52,8 @@ var MessagesScroller = function (_Component) {
       var offsetHeight = _node.offsetHeight;
       var scrollHeight = _node.scrollHeight;
 
-      this._scrollHeight = scrollHeight;
       this._scrollTop = scrollTop;
+      this._scrollHeight = scrollHeight;
       this._shouldScrollBottom = scrollTop + offsetHeight === scrollHeight;
     } else {
       this._shouldScrollBottom = true;
@@ -63,15 +63,29 @@ var MessagesScroller = function (_Component) {
   MessagesScroller.prototype.componentDidUpdate = function componentDidUpdate() {
     var _this2 = this;
 
-    setImmediate(function () {
-      if (_this2.node.scrollHeight > _this2._scrollHeight) {
-        _this2.node.scrollTop = _this2._scrollTop + (_this2.node.scrollHeight - _this2._scrollHeight);
-      } else if (_this2.node.scrollTop === 0) {
+    var scrollHeight = this.node.scrollHeight;
+    // check if container become bigger
+
+    if (scrollHeight > this._scrollHeight) {
+      requestAnimationFrame(function () {
+        _this2.node.scrollTop = _this2._scrollTop + (scrollHeight - _this2._scrollHeight);
+      });
+      return;
+    }
+
+    var scrollTop = this.node.scrollTop;
+    // check if scroll on top on container
+
+    if (scrollTop === 0) {
+      setImmediate(function () {
         _this2.props.onLoadMore();
-      } else if (_this2._shouldScrollBottom) {
-        _this2.scrollToBottom();
-      }
-    });
+      });
+      return;
+    }
+
+    if (this._shouldScrollBottom) {
+      this.scrollToBottom();
+    }
   };
 
   MessagesScroller.prototype.scrollToBottom = function scrollToBottom() {
@@ -82,12 +96,10 @@ var MessagesScroller = function (_Component) {
     this.node = node;
   };
 
-  MessagesScroller.prototype.onScroll = function onScroll(_ref) {
-    var target = _ref.target;
-    var scrollTop = target.scrollTop;
-    var offsetHeight = target.offsetHeight;
+  MessagesScroller.prototype.onScroll = function onScroll(event) {
+    var scrollTop = event.target.scrollTop;
 
-    if (scrollTop <= offsetHeight) {
+    if (scrollTop <= MAX_LOAD_HEIGHT) {
       this.props.onLoadMore();
     }
   };

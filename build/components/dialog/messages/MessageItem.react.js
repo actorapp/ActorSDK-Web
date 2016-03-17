@@ -137,6 +137,10 @@ var MessageItem = function (_Component) {
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
+  MessageItem.getStores = function getStores() {
+    return [_DropdownStore2.default];
+  };
+
   MessageItem.calculateState = function calculateState(prevState, props) {
     return {
       isHighlighted: props && props.message ? _DropdownStore2.default.isMessageDropdownOpen(props.message.rid) : false
@@ -322,10 +326,6 @@ var MessageItem = function (_Component) {
 
   return MessageItem;
 }(_react.Component);
-
-MessageItem.getStores = function () {
-  return [_DropdownStore2.default];
-};
 
 MessageItem.propTypes = {
   peer: _react.PropTypes.object.isRequired,

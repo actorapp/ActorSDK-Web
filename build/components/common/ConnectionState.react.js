@@ -47,6 +47,10 @@ var ConnectionState = function (_Component) {
     return _this;
   }
 
+  ConnectionState.getStores = function getStores() {
+    return [_ConnectionStateStore2.default];
+  };
+
   ConnectionState.calculateState = function calculateState() {
     return {
       connectionState: _ConnectionStateStore2.default.getState()
@@ -71,10 +75,6 @@ var ConnectionState = function (_Component) {
 
   return ConnectionState;
 }(_react.Component);
-
-ConnectionState.getStores = function () {
-  return [_ConnectionStateStore2.default];
-};
 
 exports.default = _utils.Container.create(ConnectionState, { pure: false });
 //# sourceMappingURL=ConnectionState.react.js.map

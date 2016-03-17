@@ -77,6 +77,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Call = function (_Component) {
   _inherits(Call, _Component);
 
+  Call.getStores = function getStores() {
+    return [_CallStore2.default, _DialogStore2.default];
+  };
+
   Call.calculatePeerInfo = function calculatePeerInfo(peer) {
     if (peer) {
       if (peer.type === _ActorAppConstants.PeerTypes.USER) {
@@ -235,10 +239,6 @@ var Call = function (_Component) {
 
   return Call;
 }(_react.Component);
-
-Call.getStores = function () {
-  return [_CallStore2.default, _DialogStore2.default];
-};
 
 exports.default = _utils.Container.create(Call);
 //# sourceMappingURL=Call.react.js.map

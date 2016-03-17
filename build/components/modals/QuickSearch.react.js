@@ -183,6 +183,10 @@ var QuickSearch = function (_Component) {
     return _this;
   }
 
+  QuickSearch.getStores = function getStores() {
+    return [_QuickSearchStore2.default];
+  };
+
   QuickSearch.calculateState = function calculateState() {
     return {
       isOpen: _QuickSearchStore2.default.isOpen(),
@@ -359,10 +363,6 @@ var QuickSearch = function (_Component) {
 
   return QuickSearch;
 }(_react.Component);
-
-QuickSearch.getStores = function () {
-  return [_QuickSearchStore2.default];
-};
 
 QuickSearch.contextTypes = {
   intl: _react.PropTypes.object

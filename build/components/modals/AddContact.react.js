@@ -90,6 +90,10 @@ var AddContact = function (_Component) {
     return _this;
   }
 
+  AddContact.getStores = function getStores() {
+    return [_AddContactStore2.default];
+  };
+
   AddContact.calculateState = function calculateState() {
     return {
       isOpen: _AddContactStore2.default.isOpen(),
@@ -207,10 +211,6 @@ var AddContact = function (_Component) {
 
   return AddContact;
 }(_react.Component);
-
-AddContact.getStores = function () {
-  return [_AddContactStore2.default];
-};
 
 AddContact.contextTypes = {
   intl: _react.PropTypes.object

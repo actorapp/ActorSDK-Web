@@ -49,6 +49,10 @@ var LoggerSection = function (_Component) {
     return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
+  LoggerSection.getStores = function getStores() {
+    return [_LoggerStore2.default];
+  };
+
   LoggerSection.calculateState = function calculateState() {
     var isOpen = _LoggerStore2.default.isOpen();
     if (!isOpen) {
@@ -119,10 +123,6 @@ var LoggerSection = function (_Component) {
 
   return LoggerSection;
 }(_react.Component);
-
-LoggerSection.getStores = function () {
-  return [_LoggerStore2.default];
-};
 
 exports.default = _utils.Container.create(LoggerSection);
 //# sourceMappingURL=LoggerSection.react.js.map

@@ -108,6 +108,10 @@ var Login = function (_Component) {
     return _this;
   }
 
+  Login.getStores = function getStores() {
+    return [_LoginStore2.default];
+  };
+
   Login.calculateState = function calculateState() {
     return {
       login: _LoginStore2.default.getLogin(),
@@ -322,10 +326,6 @@ var Login = function (_Component) {
 
   return Login;
 }(_react.Component);
-
-Login.getStores = function () {
-  return [_LoginStore2.default];
-};
 
 Login.contextTypes = {
   intl: _react.PropTypes.object

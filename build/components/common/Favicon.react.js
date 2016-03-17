@@ -31,6 +31,10 @@ var Favicon = function (_Component) {
     return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
+  Favicon.getStores = function getStores() {
+    return [_FaviconStore2.default];
+  };
+
   Favicon.calculateState = function calculateState() {
     return {
       iconPath: _FaviconStore2.default.getFaviconPath()
@@ -56,10 +60,6 @@ var Favicon = function (_Component) {
 
   return Favicon;
 }(_react.Component);
-
-Favicon.getStores = function () {
-  return [_FaviconStore2.default];
-};
 
 exports.default = _utils.Container.create(Favicon);
 //# sourceMappingURL=Favicon.react.js.map

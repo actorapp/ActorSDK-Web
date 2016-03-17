@@ -168,6 +168,10 @@ var PeopleList = function (_Component) {
     return _this;
   }
 
+  PeopleList.getStores = function getStores() {
+    return [_PeopleStore2.default];
+  };
+
   PeopleList.calculateState = function calculateState() {
     return {
       list: _PeopleStore2.default.getList(),
@@ -254,10 +258,5 @@ var PeopleList = function (_Component) {
 PeopleList.contextTypes = {
   intl: _react.PropTypes.object
 };
-
-PeopleList.getStores = function () {
-  return [_PeopleStore2.default];
-};
-
 exports.default = _utils.Container.create(PeopleList, { pure: false });
 //# sourceMappingURL=PeopleList.react.js.map

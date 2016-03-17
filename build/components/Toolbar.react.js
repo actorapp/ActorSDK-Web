@@ -103,6 +103,10 @@ var ToolbarSection = function (_Component) {
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
+  ToolbarSection.getStores = function getStores() {
+    return [_DialogInfoStore2.default, _ActivityStore2.default, _OnlineStore2.default, _DialogStore2.default, _CallStore2.default];
+  };
+
   ToolbarSection.calculateState = function calculateState() {
     var thisPeer = _DialogStore2.default.getCurrentPeer();
     return {
@@ -242,10 +246,6 @@ var ToolbarSection = function (_Component) {
 
   return ToolbarSection;
 }(_react.Component);
-
-ToolbarSection.getStores = function () {
-  return [_DialogInfoStore2.default, _ActivityStore2.default, _OnlineStore2.default, _DialogStore2.default, _CallStore2.default];
-};
 
 ToolbarSection.contextTypes = {
   isExperimental: _react.PropTypes.bool

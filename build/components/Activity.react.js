@@ -57,6 +57,10 @@ var ActivitySection = function (_Component) {
     return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
+  ActivitySection.getStores = function getStores() {
+    return [_DialogStore2.default, _DialogInfoStore2.default, _ActivityStore2.default];
+  };
+
   ActivitySection.calculateState = function calculateState() {
     return {
       peer: _DialogStore2.default.getCurrentPeer(),
@@ -114,10 +118,6 @@ var ActivitySection = function (_Component) {
 
   return ActivitySection;
 }(_react.Component);
-
-ActivitySection.getStores = function () {
-  return [_DialogStore2.default, _DialogInfoStore2.default, _ActivityStore2.default];
-};
 
 exports.default = _utils.Container.create(ActivitySection);
 //# sourceMappingURL=Activity.react.js.map

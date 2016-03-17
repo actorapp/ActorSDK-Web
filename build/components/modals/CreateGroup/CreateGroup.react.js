@@ -58,6 +58,10 @@ var CreateGroup = function (_Component) {
     return _this;
   }
 
+  CreateGroup.getStores = function getStores() {
+    return [_CreateGroupStore2.default];
+  };
+
   CreateGroup.calculateState = function calculateState() {
     return {
       isOpen: _CreateGroupStore2.default.isModalOpen()
@@ -121,10 +125,6 @@ var CreateGroup = function (_Component) {
 
   return CreateGroup;
 }(_react.Component);
-
-CreateGroup.getStores = function () {
-  return [_CreateGroupStore2.default];
-};
 
 CreateGroup.contextTypes = {
   intl: _react.PropTypes.object

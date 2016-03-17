@@ -91,6 +91,10 @@ var SendAttachment = function (_Component) {
     return _this;
   }
 
+  SendAttachment.getStores = function getStores() {
+    return [_AttachmentStore2.default];
+  };
+
   SendAttachment.calculateState = function calculateState() {
     return {
       isOpen: _AttachmentStore2.default.isOpen(),
@@ -194,10 +198,6 @@ var SendAttachment = function (_Component) {
 
   return SendAttachment;
 }(_react.Component);
-
-SendAttachment.getStores = function () {
-  return [_AttachmentStore2.default];
-};
 
 SendAttachment.contextTypes = {
   intl: _react.PropTypes.object

@@ -29,6 +29,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Typing = function (_Component) {
   _inherits(Typing, _Component);
 
+  Typing.getStores = function getStores() {
+    return [_TypingStore2.default];
+  };
+
   Typing.calculateState = function calculateState() {
     var typing = _TypingStore2.default.getTyping();
     return typing === null ? { show: false } : { typing: typing, show: true };
@@ -75,10 +79,6 @@ var Typing = function (_Component) {
 
   return Typing;
 }(_react.Component);
-
-Typing.getStores = function () {
-  return [_TypingStore2.default];
-};
 
 exports.default = _utils.Container.create(Typing);
 //# sourceMappingURL=TypingSection.react.js.map

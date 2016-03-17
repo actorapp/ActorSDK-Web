@@ -171,6 +171,10 @@ var GroupList = function (_Component) {
     return _this;
   }
 
+  GroupList.getStores = function getStores() {
+    return [_GroupListStore2.default];
+  };
+
   GroupList.calculateState = function calculateState() {
     return {
       list: _GroupListStore2.default.getList(),
@@ -258,10 +262,5 @@ var GroupList = function (_Component) {
 GroupList.contextTypes = {
   intl: _react.PropTypes.object
 };
-
-GroupList.getStores = function () {
-  return [_GroupListStore2.default];
-};
-
 exports.default = _utils.Container.create(GroupList, { pure: false });
 //# sourceMappingURL=GroupList.react.js.map

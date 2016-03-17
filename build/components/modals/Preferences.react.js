@@ -122,6 +122,10 @@ var PreferencesModal = function (_Component) {
     return _this;
   }
 
+  PreferencesModal.getStores = function getStores() {
+    return [_PreferencesStore2.default];
+  };
+
   PreferencesModal.calculateState = function calculateState() {
     return {
       isOpen: _PreferencesStore2.default.isOpen(),
@@ -526,10 +530,5 @@ var PreferencesModal = function (_Component) {
 PreferencesModal.contextTypes = {
   intl: _react.PropTypes.object.isRequired
 };
-
-PreferencesModal.getStores = function () {
-  return [_PreferencesStore2.default];
-};
-
 exports.default = _utils.Container.create(PreferencesModal);
 //# sourceMappingURL=Preferences.react.js.map

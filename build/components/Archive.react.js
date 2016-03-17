@@ -74,6 +74,10 @@ var Archive = function (_Component) {
     return _this;
   }
 
+  Archive.getStores = function getStores() {
+    return [_ArchiveStore2.default];
+  };
+
   Archive.calculateState = function calculateState() {
     return {
       isLoading: _ArchiveStore2.default.isArchiveLoading(),
@@ -207,10 +211,6 @@ var Archive = function (_Component) {
 
   return Archive;
 }(_react.Component);
-
-Archive.getStores = function () {
-  return [_ArchiveStore2.default];
-};
 
 Archive.contextTypes = {
   intl: _react.PropTypes.object

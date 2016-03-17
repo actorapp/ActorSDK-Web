@@ -66,6 +66,10 @@ var _LoginActionCreators2 = _interopRequireDefault(_LoginActionCreators);
 
 var _LoggerActionCreators = require('../actions/LoggerActionCreators');
 
+var _defaultLogHandler = require('../utils/defaultLogHandler');
+
+var _defaultLogHandler2 = _interopRequireDefault(_defaultLogHandler);
+
 var _LoginStore = require('../stores/LoginStore');
 
 var _LoginStore2 = _interopRequireDefault(_LoginStore);
@@ -266,7 +270,7 @@ var ActorSDK = function () {
       return _LoggerActionCreators.loggerAppend;
     }
 
-    return function () {};
+    return _defaultLogHandler2.default;
   };
 
   /**

@@ -270,6 +270,10 @@ var CropAvatarModal = function (_Component) {
     return _this;
   }
 
+  CropAvatarModal.getStores = function getStores() {
+    return [_CropAvatarStore2.default];
+  };
+
   CropAvatarModal.calculateState = function calculateState() {
     return {
       isOpen: _CropAvatarStore2.default.isOpen(),
@@ -413,11 +417,6 @@ var CropAvatarModal = function (_Component) {
 CropAvatarModal.propTypes = {
   onCropFinish: _react.PropTypes.func.isRequired
 };
-
-CropAvatarModal.getStores = function () {
-  return [_CropAvatarStore2.default];
-};
-
 CropAvatarModal.contextTypes = {
   intl: _react.PropTypes.object
 };

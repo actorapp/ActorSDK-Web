@@ -47,6 +47,10 @@ var SidebarSection = function (_Component) {
     return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
+  SidebarSection.getStores = function getStores() {
+    return [_DialogStore2.default, _ArchiveStore2.default];
+  };
+
   SidebarSection.calculateState = function calculateState() {
     return {
       currentPeer: _DialogStore2.default.getCurrentPeer(),
@@ -87,10 +91,6 @@ var SidebarSection = function (_Component) {
 
   return SidebarSection;
 }(_react.Component);
-
-SidebarSection.getStores = function () {
-  return [_DialogStore2.default, _ArchiveStore2.default];
-};
 
 SidebarSection.contextTypes = {
   delegate: _react.PropTypes.object

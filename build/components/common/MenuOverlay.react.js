@@ -41,6 +41,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MenuOverlay = function (_Component) {
   _inherits(MenuOverlay, _Component);
 
+  MenuOverlay.getStores = function getStores() {
+    return [_DropdownStore2.default, _DialogStore2.default];
+  };
+
   MenuOverlay.calculateState = function calculateState() {
     var message = _DropdownStore2.default.getMessage();
 
@@ -90,10 +94,6 @@ var MenuOverlay = function (_Component) {
 
   return MenuOverlay;
 }(_react.Component);
-
-MenuOverlay.getStores = function () {
-  return [_DropdownStore2.default, _DialogStore2.default];
-};
 
 exports.default = _utils.Container.create(MenuOverlay, { pure: false });
 //# sourceMappingURL=MenuOverlay.react.js.map

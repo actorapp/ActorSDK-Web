@@ -136,6 +136,10 @@ var EditGroup = function (_Component) {
     return _this;
   }
 
+  EditGroup.getStores = function getStores() {
+    return [_EditGroupStore2.default, _CropAvatarStore2.default];
+  };
+
   EditGroup.calculateState = function calculateState() {
     return {
       isOpen: _EditGroupStore2.default.isOpen(),
@@ -289,10 +293,5 @@ var EditGroup = function (_Component) {
 EditGroup.contextTypes = {
   intl: _react.PropTypes.object
 };
-
-EditGroup.getStores = function () {
-  return [_EditGroupStore2.default, _CropAvatarStore2.default];
-};
-
 exports.default = _utils.Container.create(EditGroup, { pure: false });
 //# sourceMappingURL=EditGroup.react.js.map

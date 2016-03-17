@@ -164,10 +164,7 @@ var HeaderSection = function (_Component) {
     _this.setLogout = function () {
       var intl = _this.context.intl;
 
-      (0, _confirm2.default)(intl.messages['modal.confirm.logout'], {
-        abortLabel: intl.messages['button.cancel'],
-        confirmLabel: intl.messages['button.ok']
-      }).then(function () {
+      (0, _confirm2.default)(intl.messages['modal.confirm.logout']).then(function () {
         return _LoginActionCreators2.default.setLoggedOut();
       }, function () {});
     };
@@ -177,6 +174,10 @@ var HeaderSection = function (_Component) {
     _this.homePage = SharedActor.homePage ? SharedActor.homePage : _ActorAppConstants.homePage;
     return _this;
   }
+
+  HeaderSection.getStores = function getStores() {
+    return [_MyProfileStore2.default, _CreateGroupStore2.default, _AddContactStore2.default, _PreferencesStore2.default];
+  };
 
   HeaderSection.calculateState = function calculateState() {
     return {
@@ -336,10 +337,6 @@ var HeaderSection = function (_Component) {
 
   return HeaderSection;
 }(_react.Component);
-
-HeaderSection.getStores = function () {
-  return [_MyProfileStore2.default, _CreateGroupStore2.default, _AddContactStore2.default, _PreferencesStore2.default];
-};
 
 HeaderSection.contextTypes = {
   intl: _react.PropTypes.object

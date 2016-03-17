@@ -43,6 +43,10 @@ var SessionItem = function (_Component) {
     return _this;
   }
 
+  SessionItem.getStores = function getStores() {
+    return [_PreferencesStore2.default];
+  };
+
   SessionItem.prototype.render = function render() {
     var _props = this.props;
     var appTitle = _props.appTitle;
@@ -107,10 +111,6 @@ var SessionItem = function (_Component) {
 
   return SessionItem;
 }(_react.Component);
-
-SessionItem.getStores = function () {
-  return [_PreferencesStore2.default];
-};
 
 SessionItem.calculateState = function (prevState, props) {
   return {

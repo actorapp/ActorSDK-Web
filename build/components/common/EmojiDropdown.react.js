@@ -52,6 +52,10 @@ var CLOSE_TIMEOUT = 550;
 var EmojiDropdown = function (_Component) {
   _inherits(EmojiDropdown, _Component);
 
+  EmojiDropdown.getStores = function getStores() {
+    return [_EmojiStore2.default];
+  };
+
   EmojiDropdown.calculateState = function calculateState() {
     return {
       isOpen: _EmojiStore2.default.isOpen()
@@ -245,10 +249,5 @@ var EmojiDropdown = function (_Component) {
 EmojiDropdown.propTypes = {
   onSelect: _react.PropTypes.func.isRequired
 };
-
-EmojiDropdown.getStores = function () {
-  return [_EmojiStore2.default];
-};
-
 exports.default = _utils.Container.create(EmojiDropdown, { pure: false, withProps: true });
 //# sourceMappingURL=EmojiDropdown.react.js.map

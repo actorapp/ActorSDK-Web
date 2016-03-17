@@ -149,6 +149,10 @@ var MyProfile = function (_Component) {
     return _this;
   }
 
+  MyProfile.getStores = function getStores() {
+    return [_MyProfileStore2.default, _CropAvatarStore2.default];
+  };
+
   MyProfile.calculateState = function calculateState() {
     return {
       profile: _MyProfileStore2.default.getProfile(),
@@ -354,10 +358,6 @@ var MyProfile = function (_Component) {
 
   return MyProfile;
 }(_react.Component);
-
-MyProfile.getStores = function () {
-  return [_MyProfileStore2.default, _CropAvatarStore2.default];
-};
 
 MyProfile.contextTypes = {
   intl: _react.PropTypes.object

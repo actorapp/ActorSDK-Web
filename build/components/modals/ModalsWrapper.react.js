@@ -97,6 +97,10 @@ var ModalsWrapper = function (_Component) {
     return _this;
   }
 
+  ModalsWrapper.getStores = function getStores() {
+    return [_PeopleStore2.default, _GroupListStore2.default];
+  };
+
   ModalsWrapper.calculateState = function calculateState() {
     return {
       isPeoplesOpen: _PeopleStore2.default.isOpen(),
@@ -147,10 +151,6 @@ var ModalsWrapper = function (_Component) {
 
   return ModalsWrapper;
 }(_react.Component);
-
-ModalsWrapper.getStores = function () {
-  return [_PeopleStore2.default, _GroupListStore2.default];
-};
 
 ModalsWrapper.contextTypes = {
   intl: _react.PropTypes.object

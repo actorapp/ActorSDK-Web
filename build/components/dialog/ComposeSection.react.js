@@ -99,6 +99,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ComposeSection = function (_Component) {
   _inherits(ComposeSection, _Component);
 
+  ComposeSection.getStores = function getStores() {
+    return [_DialogStore2.default, _GroupStore2.default, _PreferencesStore2.default, _AttachmentStore2.default, _ComposeStore2.default];
+  };
+
   ComposeSection.calculateState = function calculateState(prevState) {
     return {
       peer: _DialogStore2.default.getCurrentPeer(),
@@ -406,10 +410,6 @@ var ComposeSection = function (_Component) {
 
   return ComposeSection;
 }(_react.Component);
-
-ComposeSection.getStores = function () {
-  return [_DialogStore2.default, _GroupStore2.default, _PreferencesStore2.default, _AttachmentStore2.default, _ComposeStore2.default];
-};
 
 ComposeSection.contextTypes = {
   intl: _react.PropTypes.object

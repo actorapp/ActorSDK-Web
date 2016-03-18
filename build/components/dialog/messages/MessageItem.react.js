@@ -317,11 +317,7 @@ var MessageItem = function (_Component) {
         isExperimental ? _react2.default.createElement(
           'div',
           { className: 'message__actions__selector', onClick: this.toggleMessageSelection },
-          _react2.default.createElement(
-            'i',
-            { className: 'icon material-icons' },
-            'check'
-          )
+          _react2.default.createElement('i', { className: 'icon material-icons icon-check' })
         ) : null
       )
     );

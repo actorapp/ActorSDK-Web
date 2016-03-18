@@ -40,35 +40,15 @@ var State = function (_Component) {
 
     switch (state) {
       case _ActorAppConstants.MessageStates.PENDING:
-        return _react2.default.createElement(
-          'i',
-          { className: 'status status--pending material-icons' },
-          'access_time'
-        );
+        return _react2.default.createElement('i', { className: 'status status--pending material-icons icon-access_time' });
       case _ActorAppConstants.MessageStates.SENT:
-        return _react2.default.createElement(
-          'i',
-          { className: 'status status--sent material-icons' },
-          'done'
-        );
+        return _react2.default.createElement('i', { className: 'status status--sent material-icons icon-done' });
       case _ActorAppConstants.MessageStates.RECEIVED:
-        return _react2.default.createElement(
-          'i',
-          { className: 'status status--received material-icons' },
-          'done_all'
-        );
+        return _react2.default.createElement('i', { className: 'status status--received material-icons icon-done_all' });
       case _ActorAppConstants.MessageStates.READ:
-        return _react2.default.createElement(
-          'i',
-          { className: 'status status--read material-icons' },
-          'done_all'
-        );
+        return _react2.default.createElement('i', { className: 'status status--read material-icons icon-done_all' });
       case _ActorAppConstants.MessageStates.ERROR:
-        return _react2.default.createElement(
-          'i',
-          { className: 'status status--error material-icons' },
-          'report_problem'
-        );
+        return _react2.default.createElement('i', { className: 'status status--error material-icons icon-report_problem' });
       case _ActorAppConstants.MessageStates.UNKNOWN:
       default:
         return null;

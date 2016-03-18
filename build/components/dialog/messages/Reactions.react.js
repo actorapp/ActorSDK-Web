@@ -78,11 +78,7 @@ var MessageReactions = function (_Component) {
     var hasReactions = message.reactions.length > 0;
 
     var counter = void 0;
-    var icon = _react2.default.createElement(
-      'i',
-      { className: 'icon material-icons', onClick: this.handleAddLike },
-      'favorite'
-    );
+    var icon = _react2.default.createElement('i', { className: 'icon icon-favorite material-icons', onClick: this.handleAddLike });
     var reactionsClassName = 'message__actions__like';
 
     if (hasReactions) {
@@ -95,11 +91,7 @@ var MessageReactions = function (_Component) {
       });
 
       if (amILikeThat) {
-        icon = _react2.default.createElement(
-          'i',
-          { className: 'icon material-icons', onClick: this.handleRemoveLike },
-          'favorite'
-        );
+        icon = _react2.default.createElement('i', { className: 'icon icon-favorite material-icons', onClick: this.handleRemoveLike });
       }
 
       if (message.reactions[0].uids.length > 0) {

@@ -2,6 +2,18 @@
 
 exports.__esModule = true;
 
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
 var _lodash = require('lodash');
 
 var _react = require('react');
@@ -74,13 +86,9 @@ var _Fold2 = _interopRequireDefault(_Fold);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var getStateFromStores = function getStateFromStores(uid) {
   var thisPeer = uid ? _UserStore2.default.getUser(uid) : null;
@@ -92,7 +100,7 @@ var getStateFromStores = function getStateFromStores(uid) {
 };
 
 var UserProfile = function (_Component) {
-  _inherits(UserProfile, _Component);
+  (0, _inherits3.default)(UserProfile, _Component);
 
   UserProfile.getStores = function getStores() {
     return [_NotificationsStore2.default, _OnlineStore2.default];
@@ -103,9 +111,9 @@ var UserProfile = function (_Component) {
   };
 
   function UserProfile(props) {
-    _classCallCheck(this, UserProfile);
+    (0, _classCallCheck3.default)(this, UserProfile);
 
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
 
     _this.addToContacts = function () {
       return _ContactActionCreators2.default.addContact(_this.props.user.id);

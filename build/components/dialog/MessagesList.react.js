@@ -2,11 +2,23 @@
 
 exports.__esModule = true;
 
-var _lodash = require('lodash');
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
 var _Loading = require('./messages/Loading.react');
 
@@ -22,21 +34,16 @@ var _MessagesScroller2 = _interopRequireDefault(_MessagesScroller);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
 var MessagesList = function (_Component) {
-  _inherits(MessagesList, _Component);
+  (0, _inherits3.default)(MessagesList, _Component);
 
-  function MessagesList() {
-    _classCallCheck(this, MessagesList);
+  function MessagesList(props) {
+    (0, _classCallCheck3.default)(this, MessagesList);
 
-    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
+
+    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
+    return _this;
   }
 
   MessagesList.prototype.renderWelcome = function renderWelcome() {
@@ -67,46 +74,51 @@ var MessagesList = function (_Component) {
   };
 
   MessagesList.prototype.renderMessages = function renderMessages() {
-    var _this2 = this;
-
     var _props3 = this.props;
-    var messages = _props3.messages;
-    var selectedMessages = _props3.selectedMessages;
     var peer = _props3.peer;
+    var messages = _props3.messages;
     var overlay = _props3.overlay;
+    var count = _props3.count;
+    var selectedMessages = _props3.selectedMessages;
     var components = _props3.components;
     var MessageItem = this.props.components.MessageItem;
 
 
     var result = [];
-    (0, _lodash.forEach)(messages, function (message, index) {
+    for (var index = messages.length - count; index < messages.length; index++) {
       var overlayItem = overlay[index];
       if (overlayItem && overlayItem.dateDivider) {
         result.push(_react2.default.createElement(
-          'li',
+          'div',
           { className: 'date-divider', key: 'o' + index },
           overlayItem.dateDivider
         ));
       }
 
+      var message = messages[index];
       result.push(_react2.default.createElement(MessageItem, {
         key: message.sortKey,
         message: message,
         isShort: overlayItem.useShort,
         isSelected: selectedMessages.has(message.rid),
-        onSelect: _this2.props.onSelect,
-        onVisibilityChange: _this2.props.onVisibilityChange,
+        onSelect: this.props.onSelect,
+        onVisibilityChange: this.props.onVisibilityChange,
         peer: peer
       }));
-    });
+    }
 
     return result;
   };
 
   MessagesList.prototype.render = function render() {
+    var _props4 = this.props;
+    var peer = _props4.peer;
+    var onLoadMore = _props4.onLoadMore;
+
+
     return _react2.default.createElement(
       _MessagesScroller2.default,
-      { className: 'messages', peer: this.props.peer, onLoadMore: this.props.onLoadMore },
+      { className: 'messages', peer: peer, onLoadMore: onLoadMore },
       _react2.default.createElement(
         'div',
         { className: 'messages__list' },
@@ -118,13 +130,16 @@ var MessagesList = function (_Component) {
   };
 
   return MessagesList;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 MessagesList.propTypes = {
-  messages: _react.PropTypes.array.isRequired,
-  selectedMessages: _react.PropTypes.object.isRequired,
   peer: _react.PropTypes.object.isRequired,
+  messages: _react.PropTypes.array.isRequired,
   overlay: _react.PropTypes.array.isRequired,
+  count: _react.PropTypes.number.isRequired,
+  selectedMessages: _react.PropTypes.object.isRequired,
   isMember: _react.PropTypes.bool.isRequired,
   isAllMessagesLoaded: _react.PropTypes.bool.isRequired,
   components: _react.PropTypes.shape({

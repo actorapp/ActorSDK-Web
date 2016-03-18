@@ -2,7 +2,13 @@
 
 exports.__esModule = true;
 
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
 var _requestSms$requestCo;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
@@ -13,22 +19,22 @@ exports.default = (_requestSms$requestCo = {
   // Auth
 
   requestSms: function requestSms(phone) {
-    return new Promise(function (resolve, reject) {
+    return new _promise2.default(function (resolve, reject) {
       window.messenger.requestSms(phone.trim(), resolve, reject);
     });
   },
   requestCodeEmail: function requestCodeEmail(email) {
-    return new Promise(function (resolve, reject) {
+    return new _promise2.default(function (resolve, reject) {
       window.messenger.requestCodeEmail(email.trim(), resolve, reject);
     });
   },
   sendCode: function sendCode(code) {
-    return new Promise(function (resolve, reject) {
+    return new _promise2.default(function (resolve, reject) {
       window.messenger.sendCode(code, resolve, reject);
     });
   },
   signUp: function signUp(name) {
-    return new Promise(function (resolve, reject) {
+    return new _promise2.default(function (resolve, reject) {
       window.messenger.signUp(name, resolve, reject);
     });
   },

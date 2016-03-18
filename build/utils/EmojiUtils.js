@@ -2,6 +2,11 @@
 
 exports.__esModule = true;
 exports.escapeWithEmoji = exports.preloadEmojiSheet = exports.emojiRegexp = exports.getEmojiCategories = exports.emoji = undefined;
+
+var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+
+var _getIterator3 = _interopRequireDefault(_getIterator2);
+
 exports.processEmojiText = processEmojiText;
 
 var _lodash = require('lodash');
@@ -54,7 +59,7 @@ exports.emoji = _actorEmoji2.default;
 var getEmojiCategories = exports.getEmojiCategories = function getEmojiCategories() {
   var emojiCategories = [];
 
-  for (var _iterator = _emoji_categories2.default.EmojiDataArray, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+  for (var _iterator = _emoji_categories2.default.EmojiDataArray, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : (0, _getIterator3.default)(_iterator);;) {
     var _ref;
 
     if (_isArray) {

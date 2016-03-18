@@ -2,7 +2,21 @@
 
 exports.__esModule = true;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _lodash = require('lodash');
 
@@ -38,21 +52,17 @@ var _ContactItem2 = _interopRequireDefault(_ContactItem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var AddContact = function (_Component) {
-  _inherits(AddContact, _Component);
+  (0, _inherits3.default)(AddContact, _Component);
 
   function AddContact(props) {
-    _classCallCheck(this, AddContact);
+    (0, _classCallCheck3.default)(this, AddContact);
 
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
 
     _this.handleClose = function () {
       return _AddContactActionCreators2.default.close();
@@ -127,7 +137,7 @@ var AddContact = function (_Component) {
     var isQueryEmpty = !query || query.length === '';
 
     var resultContacts = (0, _lodash.map)(results, function (result, index) {
-      return _react2.default.createElement(_ContactItem2.default, _extends({ key: index }, result, { onSelect: _this2.handleSelect }));
+      return _react2.default.createElement(_ContactItem2.default, (0, _extends3.default)({ key: index }, result, { onSelect: _this2.handleSelect }));
     });
 
     if (resultContacts.length === 0 && !isQueryEmpty) {

@@ -2,6 +2,18 @@
 
 exports.__esModule = true;
 
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
 var _lodash = require('lodash');
 
 var _react = require('react');
@@ -36,15 +48,10 @@ var _MessagesList2 = _interopRequireDefault(_MessagesList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _delayed = []; /*
+                    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                    */
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-var _delayed = [];
 var flushDelayed = function flushDelayed() {
   (0, _lodash.forEach)(_delayed, function (p) {
     return _MessageActionCreators2.default.setMessageShown(p.peer, p.message);
@@ -55,18 +62,18 @@ var flushDelayed = function flushDelayed() {
 var flushDelayedDebounced = (0, _lodash.debounce)(flushDelayed, 30, { maxWait: 100 });
 
 var MessagesSection = function (_Component) {
-  _inherits(MessagesSection, _Component);
+  (0, _inherits3.default)(MessagesSection, _Component);
 
   function MessagesSection() {
     var _temp, _this, _ret;
 
-    _classCallCheck(this, MessagesSection);
+    (0, _classCallCheck3.default)(this, MessagesSection);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onMessageSelect = function (rid) {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onMessageSelect = function (rid) {
       var selectedMessages = _this.state.selectedMessages;
 
       if (selectedMessages.has(rid)) {
@@ -84,7 +91,7 @@ var MessagesSection = function (_Component) {
           flushDelayedDebounced();
         }
       }
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   MessagesSection.getStores = function getStores() {
@@ -128,6 +135,7 @@ var MessagesSection = function (_Component) {
     var peer = _props.peer;
     var overlay = _props.overlay;
     var messages = _props.messages;
+    var count = _props.count;
     var isMember = _props.isMember;
     var _state = this.state;
     var selectedMessages = _state.selectedMessages;
@@ -140,6 +148,7 @@ var MessagesSection = function (_Component) {
       peer: peer,
       overlay: overlay,
       messages: messages,
+      count: count,
       selectedMessages: selectedMessages,
       isMember: isMember,
       isAllMessagesLoaded: isAllMessagesLoaded,
@@ -154,9 +163,10 @@ var MessagesSection = function (_Component) {
 }(_react.Component);
 
 MessagesSection.propTypes = {
+  peer: _react.PropTypes.object.isRequired,
   messages: _react.PropTypes.array.isRequired,
   overlay: _react.PropTypes.array.isRequired,
-  peer: _react.PropTypes.object.isRequired,
+  count: _react.PropTypes.number.isRequired,
   isMember: _react.PropTypes.bool.isRequired,
   onLoadMore: _react.PropTypes.func.isRequired
 };

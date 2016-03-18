@@ -105,6 +105,8 @@ var DialogActionCreators = {
           break;
         default:
       }
+
+      DialogActionCreators.loadMoreMessages(peer);
     }
   },
   selectDialogPeerUser: function selectDialogPeerUser(uid) {

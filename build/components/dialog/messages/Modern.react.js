@@ -2,7 +2,21 @@
 
 exports.__esModule = true;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _lodash = require('lodash');
 
@@ -16,14 +30,6 @@ var _classnames2 = _interopRequireDefault(_classnames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
 var ColorTypes = {
   HEX: 'hex',
   NAMED: 'named'
@@ -33,6 +39,10 @@ var ColorTypes = {
  * @param color
  * @returns {string | null} Color value
  */
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
+
 function getColor(color) {
   if (color) {
     switch (color.type) {
@@ -56,12 +66,11 @@ function getColor(color) {
  */
 
 var Field = function (_Component) {
-  _inherits(Field, _Component);
+  (0, _inherits3.default)(Field, _Component);
 
   function Field(props) {
-    _classCallCheck(this, Field);
-
-    return _possibleConstructorReturn(this, _Component.call(this, props));
+    (0, _classCallCheck3.default)(this, Field);
+    return (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
   }
 
   Field.prototype.render = function render() {
@@ -113,12 +122,11 @@ Field.propTypes = {
 };
 
 var Attach = function (_Component2) {
-  _inherits(Attach, _Component2);
+  (0, _inherits3.default)(Attach, _Component2);
 
   function Attach(props) {
-    _classCallCheck(this, Attach);
-
-    return _possibleConstructorReturn(this, _Component2.call(this, props));
+    (0, _classCallCheck3.default)(this, Attach);
+    return (0, _possibleConstructorReturn3.default)(this, _Component2.call(this, props));
   }
 
   Attach.prototype.render = function render() {
@@ -140,7 +148,7 @@ var Attach = function (_Component2) {
     };
 
     var attachmentFields = (0, _lodash.map)(fields, function (field, index) {
-      return _react2.default.createElement(Field, _extends({ key: index }, field));
+      return _react2.default.createElement(Field, (0, _extends3.default)({ key: index }, field));
     });
 
     return _react2.default.createElement(
@@ -185,12 +193,11 @@ Attach.propTypes = {
 };
 
 var TextModern = function (_Component3) {
-  _inherits(TextModern, _Component3);
+  (0, _inherits3.default)(TextModern, _Component3);
 
   function TextModern() {
-    _classCallCheck(this, TextModern);
-
-    return _possibleConstructorReturn(this, _Component3.apply(this, arguments));
+    (0, _classCallCheck3.default)(this, TextModern);
+    return (0, _possibleConstructorReturn3.default)(this, _Component3.apply(this, arguments));
   }
 
   TextModern.prototype.render = function render() {
@@ -210,7 +217,7 @@ var TextModern = function (_Component3) {
     };
 
     var modernAttachments = (0, _lodash.map)(attaches, function (attachment, index) {
-      return _react2.default.createElement(Attach, _extends({ key: index }, attachment));
+      return _react2.default.createElement(Attach, (0, _extends3.default)({ key: index }, attachment));
     });
 
     return _react2.default.createElement(

@@ -2,7 +2,11 @@
 
 exports.__esModule = true;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*
  * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
@@ -20,8 +24,7 @@ var ActorSDKDelegate = function ActorSDKDelegate() {
   var components = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
   var actions = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
   var l18n = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-  _classCallCheck(this, ActorSDKDelegate);
+  (0, _classCallCheck3.default)(this, ActorSDKDelegate);
 
   this.components = {
     login: components.login || null,

@@ -2,7 +2,13 @@
 
 exports.__esModule = true;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
 
 exports.register = register;
 exports.waitFor = waitFor;
@@ -12,6 +18,8 @@ exports.dispatchAsync = dispatchAsync;
 var _flux = require('flux');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var flux = new _flux.Dispatcher();
 
@@ -55,10 +63,10 @@ function dispatch(type) {
     }
   }
 
-  flux.dispatch(_extends({ type: type }, action));
+  flux.dispatch((0, _extends3.default)({ type: type }, action));
 
   // Return response or error for chaining async actions
-  return new Promise(function (resolve, reject) {
+  return new _promise2.default(function (resolve, reject) {
     if (action.error) {
       reject(action.error);
     } else {
@@ -79,9 +87,9 @@ function dispatchAsync(promise, types) {
 
   dispatch(request, action);
   return promise.then(function (response) {
-    return dispatch(success, _extends({}, action, { response: response }));
+    return dispatch(success, (0, _extends3.default)({}, action, { response: response }));
   }, function (error) {
-    return dispatch(failure, _extends({}, action, { error: error }));
+    return dispatch(failure, (0, _extends3.default)({}, action, { error: error }));
   }).catch(console.error.bind(console));
 }
 

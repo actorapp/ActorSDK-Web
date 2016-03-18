@@ -2,7 +2,21 @@
 
 exports.__esModule = true;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _lodash = require('lodash');
 
@@ -90,30 +104,19 @@ var _StickerReact2 = _interopRequireDefault(_StickerReact);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-// Default message content components
-
-
 var MessageItem = function (_Component) {
-  _inherits(MessageItem, _Component);
+  (0, _inherits3.default)(MessageItem, _Component);
 
   function MessageItem() {
     var _temp, _this, _ret;
 
-    _classCallCheck(this, MessageItem);
+    (0, _classCallCheck3.default)(this, MessageItem);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onClick = function () {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onClick = function () {
       var _this$props = _this.props;
       var message = _this$props.message;
       var peer = _this$props.peer;
@@ -134,7 +137,7 @@ var MessageItem = function (_Component) {
       var onSelect = _this$props2.onSelect;
 
       onSelect && onSelect(message.rid);
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   MessageItem.getStores = function getStores() {
@@ -261,10 +264,10 @@ var MessageItem = function (_Component) {
 
     switch (message.content.content) {
       case _ActorAppConstants.MessageContentTypes.SERVICE:
-        messageContent = _react2.default.createElement(Service, _extends({}, message.content, { className: 'message__content message__content--service' }));
+        messageContent = _react2.default.createElement(Service, (0, _extends3.default)({}, message.content, { className: 'message__content message__content--service' }));
         break;
       case _ActorAppConstants.MessageContentTypes.TEXT:
-        messageContent = _react2.default.createElement(Text, _extends({}, message.content, { className: 'message__content message__content--text' }));
+        messageContent = _react2.default.createElement(Text, (0, _extends3.default)({}, message.content, { className: 'message__content message__content--text' }));
         break;
       case _ActorAppConstants.MessageContentTypes.PHOTO:
         messageContent = _react2.default.createElement(Photo, { content: message.content, className: 'message__content message__content--photo',
@@ -277,16 +280,16 @@ var MessageItem = function (_Component) {
         messageContent = _react2.default.createElement(Voice, { content: message.content, className: 'message__content message__content--voice' });
         break;
       case _ActorAppConstants.MessageContentTypes.CONTACT:
-        messageContent = _react2.default.createElement(Contact, _extends({}, message.content, { className: 'message__content message__content--contact' }));
+        messageContent = _react2.default.createElement(Contact, (0, _extends3.default)({}, message.content, { className: 'message__content message__content--contact' }));
         break;
       case _ActorAppConstants.MessageContentTypes.LOCATION:
         messageContent = _react2.default.createElement(Location, { content: message.content, className: 'message__content message__content--location' });
         break;
       case _ActorAppConstants.MessageContentTypes.TEXT_MODERN:
-        messageContent = _react2.default.createElement(Modern, _extends({}, message.content, { className: 'message__content message__content--modern' }));
+        messageContent = _react2.default.createElement(Modern, (0, _extends3.default)({}, message.content, { className: 'message__content message__content--modern' }));
         break;
       case _ActorAppConstants.MessageContentTypes.STICKER:
-        messageContent = _react2.default.createElement(Sticker, _extends({}, message.content, { className: 'message__content message__content--sticker' }));
+        messageContent = _react2.default.createElement(Sticker, (0, _extends3.default)({}, message.content, { className: 'message__content message__content--sticker' }));
         break;
       default:
     }
@@ -326,6 +329,11 @@ var MessageItem = function (_Component) {
 
   return MessageItem;
 }(_react.Component);
+
+// Default message content components
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 MessageItem.propTypes = {
   peer: _react.PropTypes.object.isRequired,

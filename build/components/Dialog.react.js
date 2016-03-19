@@ -30,14 +30,6 @@ var _MessagesSection = require('./dialog/MessagesSection.react');
 
 var _MessagesSection2 = _interopRequireDefault(_MessagesSection);
 
-var _TypingSection = require('./dialog/TypingSection.react');
-
-var _TypingSection2 = _interopRequireDefault(_TypingSection);
-
-var _ComposeSection = require('./dialog/ComposeSection.react');
-
-var _ComposeSection2 = _interopRequireDefault(_ComposeSection);
-
 var _DialogFooter = require('./dialog/DialogFooter.react');
 
 var _DialogFooter2 = _interopRequireDefault(_DialogFooter);
@@ -144,11 +136,8 @@ var DialogSection = function (_Component) {
       var activity = dialog.activity || [_Activity2.default, _Call2.default, LoggerSection];
 
       return {
-        LoggerSection: LoggerSection,
         ToolbarSection: dialog.toolbar || _Toolbar2.default,
         MessagesSection: (0, _lodash.isFunction)(dialog.messages) ? dialog.messages : _MessagesSection2.default,
-        TypingSection: dialog.typing || _TypingSection2.default,
-        ComposeSection: dialog.compose || _ComposeSection2.default,
         activity: (0, _lodash.map)(activity, function (Activity, index) {
           return _react2.default.createElement(Activity, { key: index });
         })
@@ -156,11 +145,8 @@ var DialogSection = function (_Component) {
     }
 
     return {
-      LoggerSection: LoggerSection,
       ToolbarSection: _Toolbar2.default,
       MessagesSection: _MessagesSection2.default,
-      TypingSection: _TypingSection2.default,
-      ComposeSection: _ComposeSection2.default,
       activity: [_react2.default.createElement(_Activity2.default, { key: 1 }), _react2.default.createElement(_Call2.default, { key: 2 }), _react2.default.createElement(LoggerSection, { key: 3 })]
     };
   };
@@ -177,8 +163,6 @@ var DialogSection = function (_Component) {
 
     var ToolbarSection = _getComponents.ToolbarSection;
     var MessagesSection = _getComponents.MessagesSection;
-    var TypingSection = _getComponents.TypingSection;
-    var ComposeSection = _getComponents.ComposeSection;
     var activity = _getComponents.activity;
 
 
@@ -201,7 +185,7 @@ var DialogSection = function (_Component) {
             isMember: isMember,
             onLoadMore: this.onLoadMoreMessages
           }),
-          _react2.default.createElement(_DialogFooter2.default, { isMember: isMember, components: { TypingSection: TypingSection, ComposeSection: ComposeSection } })
+          _react2.default.createElement(_DialogFooter2.default, { isMember: isMember })
         ),
         activity
       )

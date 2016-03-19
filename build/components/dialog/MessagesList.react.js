@@ -14,6 +14,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _lodash = require('lodash');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -32,15 +34,31 @@ var _MessagesScroller = require('./MessagesScroller.react');
 
 var _MessagesScroller2 = _interopRequireDefault(_MessagesScroller);
 
+var _MessageItem = require('./messages/MessageItem.react');
+
+var _MessageItem2 = _interopRequireDefault(_MessageItem);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MessagesList = function (_Component) {
   (0, _inherits3.default)(MessagesList, _Component);
 
-  function MessagesList(props) {
+  function MessagesList(props, context) {
     (0, _classCallCheck3.default)(this, MessagesList);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
+    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props, context));
+
+    var dialog = context.delegate.components.dialog;
+
+    if (dialog && dialog.messages && (0, _lodash.isFunction)(dialog.messages.message)) {
+      _this.components = {
+        MessageItem: dialog.messages.message
+      };
+    } else {
+      _this.components = {
+        MessageItem: _MessageItem2.default
+      };
+    }
 
     _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
@@ -80,8 +98,7 @@ var MessagesList = function (_Component) {
     var overlay = _props3.overlay;
     var count = _props3.count;
     var selectedMessages = _props3.selectedMessages;
-    var components = _props3.components;
-    var MessageItem = this.props.components.MessageItem;
+    var MessageItem = this.components.MessageItem;
 
 
     var result = [];
@@ -134,6 +151,9 @@ var MessagesList = function (_Component) {
                       * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                       */
 
+MessagesList.contextTypes = {
+  delegate: _react.PropTypes.object.isRequired
+};
 MessagesList.propTypes = {
   peer: _react.PropTypes.object.isRequired,
   messages: _react.PropTypes.array.isRequired,
@@ -142,9 +162,6 @@ MessagesList.propTypes = {
   selectedMessages: _react.PropTypes.object.isRequired,
   isMember: _react.PropTypes.bool.isRequired,
   isAllMessagesLoaded: _react.PropTypes.bool.isRequired,
-  components: _react.PropTypes.shape({
-    MessageItem: _react.PropTypes.func.isRequired
-  }).isRequired,
   onSelect: _react.PropTypes.func.isRequired,
   onVisibilityChange: _react.PropTypes.func.isRequired,
   onLoadMore: _react.PropTypes.func.isRequired

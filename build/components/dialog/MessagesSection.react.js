@@ -38,20 +38,17 @@ var _MessageStore = require('../../stores/MessageStore');
 
 var _MessageStore2 = _interopRequireDefault(_MessageStore);
 
-var _MessageItem = require('./messages/MessageItem.react');
-
-var _MessageItem2 = _interopRequireDefault(_MessageItem);
-
 var _MessagesList = require('./MessagesList.react');
 
 var _MessagesList2 = _interopRequireDefault(_MessagesList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _delayed = []; /*
-                    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                    */
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
+var _delayed = [];
 var flushDelayed = function flushDelayed() {
   (0, _lodash.forEach)(_delayed, function (p) {
     return _MessageActionCreators2.default.setMessageShown(p.peer, p.message);
@@ -114,22 +111,6 @@ var MessagesSection = function (_Component) {
     }
   };
 
-  MessagesSection.prototype.getComponents = function getComponents() {
-    var _context$delegate$com = this.context.delegate.components;
-    var dialog = _context$delegate$com.dialog;
-    var messages = _context$delegate$com.messages;
-
-    if (dialog && dialog.messages && (0, _lodash.isFunction)(dialog.messages.message)) {
-      return {
-        MessageItem: dialog.messages.message
-      };
-    }
-
-    return {
-      MessageItem: _MessageItem2.default
-    };
-  };
-
   MessagesSection.prototype.render = function render() {
     var _props = this.props;
     var peer = _props.peer;
@@ -142,8 +123,6 @@ var MessagesSection = function (_Component) {
     var isAllMessagesLoaded = _state.isAllMessagesLoaded;
 
 
-    var components = this.getComponents();
-
     return _react2.default.createElement(_MessagesList2.default, {
       peer: peer,
       overlay: overlay,
@@ -152,7 +131,6 @@ var MessagesSection = function (_Component) {
       selectedMessages: selectedMessages,
       isMember: isMember,
       isAllMessagesLoaded: isAllMessagesLoaded,
-      components: components,
       onSelect: this.onMessageSelect,
       onVisibilityChange: this.onMessageVisibilityChange,
       onLoadMore: this.props.onLoadMore
@@ -169,9 +147,6 @@ MessagesSection.propTypes = {
   count: _react.PropTypes.number.isRequired,
   isMember: _react.PropTypes.bool.isRequired,
   onLoadMore: _react.PropTypes.func.isRequired
-};
-MessagesSection.contextTypes = {
-  delegate: _react.PropTypes.object
 };
 exports.default = _utils.Container.create(MessagesSection, { pure: false, withProps: true });
 //# sourceMappingURL=MessagesSection.react.js.map

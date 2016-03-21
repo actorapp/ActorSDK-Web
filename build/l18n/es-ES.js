@@ -53,7 +53,9 @@ exports.default = {
       'addMembers': 'Añadir miembros',
       'quickSearch': 'Búsqueda rápida',
       'close': 'Cerca',
-      'save': 'Guardar'
+      'save': 'Guardar',
+      'call': 'Llamada',
+      'archive': 'Todos'
     },
 
     // Messages
@@ -89,7 +91,7 @@ exports.default = {
 
     // Compose
     'compose': {
-      'attach': 'Acoplamiento',
+      'attach': 'Adjuntar',
       'sendFile': 'Enviar archivo',
       'sendPhoto': 'Enviar foto',
       'send': 'Enviar',
@@ -241,6 +243,14 @@ exports.default = {
     'preferencesSessionsAuthTime': 'Fecha de acceso',
     'preferencesSessionsTerminate': 'Eliminar',
     'preferencesSessionsTerminateAll': 'Terminar todas las sesiones',
+
+    // Sidebar
+    'sidebar': {
+      'recents': {
+        'groups': 'Grupos',
+        'privates': 'Mensajes directos'
+      }
+    },
 
     'main': {
       'empty': 'Seleccione diálogo o iniciar uno nuevo.',

@@ -47,7 +47,7 @@ var DialogFooter = function (_Component) {
     if (dialog && !(0, _lodash.isFunction)(dialog)) {
       _this.components = {
         TypingSection: dialog.typing || _TypingSection2.default,
-        ComposeSection: dialog.compose || _TypingSection2.default
+        ComposeSection: dialog.compose || _ComposeSection2.default
       };
     } else {
       _this.components = {

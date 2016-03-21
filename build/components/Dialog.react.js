@@ -62,30 +62,27 @@ var _DialogStore = require('../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
-var _MessageStore = require('../stores/MessageStore');
-
-var _MessageStore2 = _interopRequireDefault(_MessageStore);
-
 var _DialogActionCreators = require('../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
+
 var DialogSection = function (_Component) {
   (0, _inherits3.default)(DialogSection, _Component);
 
   DialogSection.getStores = function getStores() {
-    return [_ActivityStore2.default, _MessageStore2.default, _DialogStore2.default];
+    return [_ActivityStore2.default, _DialogStore2.default];
   };
 
   DialogSection.calculateState = function calculateState() {
     return {
       peer: _DialogStore2.default.getCurrentPeer(),
       isMember: _DialogStore2.default.isMember(),
-      messages: _MessageStore2.default.getMessages(),
-      overlay: _MessageStore2.default.getOverlay(),
-      messagesCount: _MessageStore2.default.getRenderMessagesCount(),
       isActivityOpen: _ActivityStore2.default.isOpen()
     };
   };
@@ -97,8 +94,6 @@ var DialogSection = function (_Component) {
 
     var peer = _PeerUtils2.default.stringToPeer(props.params.id);
     _DialogActionCreators2.default.selectDialogPeer(peer);
-
-    _this.onLoadMoreMessages = _this.onLoadMoreMessages.bind(_this);
     return _this;
   }
 
@@ -116,14 +111,6 @@ var DialogSection = function (_Component) {
   DialogSection.prototype.componentWillUnmount = function componentWillUnmount() {
     // Unbind from current peer
     _DialogActionCreators2.default.selectDialogPeer(null);
-  };
-
-  DialogSection.prototype.onLoadMoreMessages = function onLoadMoreMessages() {
-    var peer = this.state.peer;
-
-    if (peer) {
-      _DialogActionCreators2.default.loadMoreMessages(peer);
-    }
   };
 
   DialogSection.prototype.getComponents = function getComponents() {
@@ -177,14 +164,7 @@ var DialogSection = function (_Component) {
           'section',
           { className: 'dialog' },
           _react2.default.createElement(_ConnectionState2.default, null),
-          _react2.default.createElement(MessagesSection, {
-            peer: peer,
-            messages: messages,
-            overlay: overlay,
-            count: messagesCount,
-            isMember: isMember,
-            onLoadMore: this.onLoadMoreMessages
-          }),
+          _react2.default.createElement(MessagesSection, { peer: peer, isMember: isMember }),
           _react2.default.createElement(_DialogFooter2.default, { isMember: isMember })
         ),
         activity
@@ -193,9 +173,7 @@ var DialogSection = function (_Component) {
   };
 
   return DialogSection;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 DialogSection.contextTypes = {
   delegate: _react.PropTypes.object

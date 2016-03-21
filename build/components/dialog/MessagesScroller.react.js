@@ -106,8 +106,8 @@ var MessagesScroller = function (_Component) {
     this.node = node;
   };
 
-  MessagesScroller.prototype.onScroll = function onScroll(event) {
-    var scrollTop = event.target.scrollTop;
+  MessagesScroller.prototype.onScroll = function onScroll() {
+    var scrollTop = this.node.scrollTop;
 
     if (scrollTop <= MAX_LOAD_HEIGHT) {
       this.props.onLoadMore();

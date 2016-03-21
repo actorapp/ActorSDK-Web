@@ -10,6 +10,8 @@ var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
+require('babel-polyfill');
+
 require('setimmediate');
 
 var _polyfills = require('../utils/polyfills');
@@ -122,13 +124,13 @@ var _l18n = require('../l18n');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var ACTOR_INIT_EVENT = 'INIT';
+
+// Init app loading progressbar
 /*
  * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
  */
 
-var ACTOR_INIT_EVENT = 'INIT';
-
-// Init app loading progressbar
 _pace2.default.start({
   ajax: false,
   restartOnRequestAfter: false,

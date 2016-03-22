@@ -22,10 +22,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _PeerUtils = require('../utils/PeerUtils');
-
-var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
-
 var _MessagesSection = require('./dialog/MessagesSection.react');
 
 var _MessagesSection2 = _interopRequireDefault(_MessagesSection);
@@ -62,10 +58,6 @@ var _DialogStore = require('../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
-var _DialogActionCreators = require('../actions/DialogActionCreators');
-
-var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*
@@ -74,6 +66,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var DialogSection = function (_Component) {
   (0, _inherits3.default)(DialogSection, _Component);
+
+  function DialogSection() {
+    (0, _classCallCheck3.default)(this, DialogSection);
+    return (0, _possibleConstructorReturn3.default)(this, _Component.apply(this, arguments));
+  }
 
   DialogSection.getStores = function getStores() {
     return [_ActivityStore2.default, _DialogStore2.default];
@@ -85,32 +82,6 @@ var DialogSection = function (_Component) {
       isMember: _DialogStore2.default.isMember(),
       isActivityOpen: _ActivityStore2.default.isOpen()
     };
-  };
-
-  function DialogSection(props) {
-    (0, _classCallCheck3.default)(this, DialogSection);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
-
-    var peer = _PeerUtils2.default.stringToPeer(props.params.id);
-    _DialogActionCreators2.default.selectDialogPeer(peer);
-    return _this;
-  }
-
-  DialogSection.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-    var params = nextProps.params;
-
-    if (this.props.params.id === params.id) {
-      return;
-    }
-
-    var peer = _PeerUtils2.default.stringToPeer(params.id);
-    _DialogActionCreators2.default.selectDialogPeer(peer);
-  };
-
-  DialogSection.prototype.componentWillUnmount = function componentWillUnmount() {
-    // Unbind from current peer
-    _DialogActionCreators2.default.selectDialogPeer(null);
   };
 
   DialogSection.prototype.getComponents = function getComponents() {
@@ -177,9 +148,6 @@ var DialogSection = function (_Component) {
 
 DialogSection.contextTypes = {
   delegate: _react.PropTypes.object
-};
-DialogSection.propTypes = {
-  params: _react.PropTypes.object
 };
 exports.default = _utils.Container.create(DialogSection);
 //# sourceMappingURL=Dialog.react.js.map

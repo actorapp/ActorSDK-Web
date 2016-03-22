@@ -58,6 +58,10 @@ var _history = require('../utils/history');
 
 var _history2 = _interopRequireDefault(_history);
 
+var _RouterHooks = require('../utils/RouterHooks');
+
+var _RouterHooks2 = _interopRequireDefault(_RouterHooks);
+
 var _reactIntl = require('react-intl');
 
 var _crosstab = require('crosstab');
@@ -124,13 +128,13 @@ var _l18n = require('../l18n');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ACTOR_INIT_EVENT = 'INIT';
-
-// Init app loading progressbar
 /*
  * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
  */
 
+var ACTOR_INIT_EVENT = 'INIT';
+
+// Init app loading progressbar
 _pace2.default.start({
   ajax: false,
   restartOnRequestAfter: false,
@@ -189,23 +193,6 @@ var ActorSDK = function () {
       var Dialog = typeof _this.delegate.components.dialog == 'function' ? _this.delegate.components.dialog : _Dialog2.default;
       var intlData = (0, _l18n.getIntlData)(_this.forceLocale);
 
-      var requireAuth = function requireAuth(nextState, replaceState) {
-        if (!_LoginStore2.default.isLoggedIn()) {
-          replaceState({
-            pathname: '/auth',
-            state: { nextPathname: nextState.location.pathname }
-          });
-        }
-      };
-
-      function checkPeer(nextState, replaceState) {
-        var peer = _PeerUtils2.default.stringToPeer(nextState.params.id);
-        if (!_PeerUtils2.default.hasPeer(peer)) {
-          console.error('Invalig peer', nextState);
-          replaceState('/im');
-        }
-      }
-
       /**
        * Method for pulling props to router components
        *
@@ -229,12 +216,17 @@ var ActorSDK = function () {
             _react2.default.createElement(_reactRouter.Route, { path: 'auth', component: Login }),
             _react2.default.createElement(_reactRouter.Route, { path: 'deactivated', component: Deactivated }),
             _react2.default.createElement(_reactRouter.Route, { path: 'install', component: Install }),
-            _react2.default.createElement(_reactRouter.Route, { path: 'join/:token', component: Join, onEnter: requireAuth }),
+            _react2.default.createElement(_reactRouter.Route, { path: 'join/:token', component: Join, onEnter: _RouterHooks2.default.requireAuth }),
             _react2.default.createElement(
               _reactRouter.Route,
-              { path: 'im', component: _Main2.default, onEnter: requireAuth },
+              { path: 'im', component: _Main2.default, onEnter: _RouterHooks2.default.requireAuth },
               _react2.default.createElement(_reactRouter.Route, { path: 'archive', component: Archive }),
-              _react2.default.createElement(_reactRouter.Route, { path: ':id', component: Dialog, onEnter: checkPeer }),
+              _react2.default.createElement(_reactRouter.Route, {
+                path: ':id',
+                component: Dialog,
+                onEnter: _RouterHooks2.default.onDialogEnter,
+                onLeave: _RouterHooks2.default.onDialogLeave
+              }),
               _react2.default.createElement(_reactRouter.IndexRoute, { component: Empty })
             ),
             _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'im' })

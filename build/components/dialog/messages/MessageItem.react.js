@@ -54,6 +54,10 @@ var _DropdownStore = require('../../../stores/DropdownStore');
 
 var _DropdownStore2 = _interopRequireDefault(_DropdownStore);
 
+var _SvgIcon = require('../../common/SvgIcon.react');
+
+var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
+
 var _AvatarItem = require('../../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -103,6 +107,10 @@ var _StickerReact = require('./Sticker.react.js');
 var _StickerReact2 = _interopRequireDefault(_StickerReact);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var MessageItem = function (_Component) {
   (0, _inherits3.default)(MessageItem, _Component);
@@ -311,8 +319,7 @@ var MessageItem = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: messageActionsMenuClassName, onClick: this.showActions },
-          _react2.default.createElement('svg', { className: 'icon icon--dropdown',
-            dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#cog"/>' } })
+          _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--dropdown', glyph: 'cog' })
         ),
         isExperimental ? _react2.default.createElement(
           'div',
@@ -327,9 +334,7 @@ var MessageItem = function (_Component) {
 }(_react.Component);
 
 // Default message content components
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
+
 
 MessageItem.propTypes = {
   peer: _react.PropTypes.object.isRequired,

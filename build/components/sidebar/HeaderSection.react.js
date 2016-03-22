@@ -80,6 +80,10 @@ var _PreferencesStore = require('../../stores/PreferencesStore');
 
 var _PreferencesStore2 = _interopRequireDefault(_PreferencesStore);
 
+var _SvgIcon = require('../common/SvgIcon.react');
+
+var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
+
 var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -101,6 +105,10 @@ var _Preferences = require('../modals/Preferences.react');
 var _Preferences2 = _interopRequireDefault(_Preferences);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var HeaderSection = function (_Component) {
   (0, _inherits3.default)(HeaderSection, _Component);
@@ -300,9 +308,7 @@ var HeaderSection = function (_Component) {
                 _react2.default.createElement(
                   'a',
                   { href: 'https://twitter.com/' + this.twitter, onClick: this.openTwitter },
-                  _react2.default.createElement('svg', { className: 'icon icon--dropdown',
-                    style: { marginLeft: -34 },
-                    dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#twitter"/>' } }),
+                  _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--dropdown sidebar__header__twitter', glyph: 'twitter' }),
                   intl.messages['menu.twitter']
                 )
               ),
@@ -340,9 +346,7 @@ var HeaderSection = function (_Component) {
   };
 
   return HeaderSection;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 HeaderSection.contextTypes = {
   intl: _react.PropTypes.object

@@ -38,6 +38,10 @@ var _EmojiUtils = require('../../../utils/EmojiUtils');
 
 var _ActorAppConstants = require('../../../constants/ActorAppConstants');
 
+var _SvgIcon = require('../../common/SvgIcon.react');
+
+var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
+
 var _InviteUserByLinkActions = require('../../../actions/InviteUserByLinkActions');
 
 var _InviteUserByLinkActions2 = _interopRequireDefault(_InviteUserByLinkActions);
@@ -52,15 +56,17 @@ var _InviteUserStore2 = _interopRequireDefault(_InviteUserStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+; /*
+   * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+   */
+
 var getStateFromStores = function getStateFromStores() {
   return {
     isOpen: _InviteUserStore2.default.isInviteWithLinkModalOpen(),
     group: _InviteUserStore2.default.getGroup(),
     inviteUrl: _InviteUserStore2.default.getInviteUrl()
   };
-}; /*
-    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-    */
+};
 
 var InviteByLink = function (_Component) {
   (0, _inherits3.default)(InviteByLink, _Component);
@@ -152,9 +158,11 @@ var InviteByLink = function (_Component) {
         _react2.default.createElement(
           'header',
           { className: 'modal-new__header' },
-          _react2.default.createElement('svg', { className: 'modal-new__header__icon icon icon--blue',
-            dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#back"/>' },
-            onClick: this.onBackClick }),
+          _react2.default.createElement(_SvgIcon2.default, {
+            className: 'modal-new__header__icon icon icon--blue',
+            glyph: 'back',
+            onClick: this.onBackClick
+          }),
           _react2.default.createElement(
             'h3',
             { className: 'modal-new__header__title' },

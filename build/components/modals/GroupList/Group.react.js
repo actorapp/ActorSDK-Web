@@ -22,6 +22,10 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _SvgIcon = require('../../common/SvgIcon.react');
+
+var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
+
 var _AvatarItem = require('../../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -29,10 +33,6 @@ var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 var _EmojiUtils = require('../../../utils/EmojiUtils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
 
 var Group = function (_Component) {
   (0, _inherits3.default)(Group, _Component);
@@ -107,8 +107,7 @@ var Group = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'members' },
-          _react2.default.createElement('svg', { className: 'icon',
-            dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#members"/>' } }),
+          _react2.default.createElement(_SvgIcon2.default, { glyph: 'members' }),
           group.membersCount
         )
       )
@@ -116,7 +115,9 @@ var Group = function (_Component) {
   };
 
   return Group;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 Group.propTypes = {
   group: _react.PropTypes.object.isRequired,

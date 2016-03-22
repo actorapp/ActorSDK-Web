@@ -84,6 +84,10 @@ var _OnlineStore = require('../../stores/OnlineStore');
 
 var _OnlineStore2 = _interopRequireDefault(_OnlineStore);
 
+var _SvgIcon = require('../common/SvgIcon.react');
+
+var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
+
 var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -102,11 +106,9 @@ var _ToggleNotifications2 = _interopRequireDefault(_ToggleNotifications);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
-
-var MAX_GROUP_CALL_SIZE = 25;
+var MAX_GROUP_CALL_SIZE = 25; /*
+                               * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                               */
 
 var getStateFromStores = function getStateFromStores(gid) {
   var thisPeer = gid ? _GroupStore2.default.getGroup(gid) : null;
@@ -232,8 +234,7 @@ var GroupProfile = function (_Component) {
       'dropdown--opened': isMoreDropdownOpen
     });
 
-    var iconElement = _react2.default.createElement('svg', { className: 'icon icon--green',
-      dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#members"/>' } });
+    var iconElement = _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--green', glyph: 'members' });
 
     var groupMeta = [_react2.default.createElement(
       'header',

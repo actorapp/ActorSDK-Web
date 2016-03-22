@@ -28,6 +28,10 @@ var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
 var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
+var _SvgIcon = require('../../common/SvgIcon.react');
+
+var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
+
 var _ActorAppConstants = require('../../../constants/ActorAppConstants');
 
 var _InviteUserActions = require('../../../actions/InviteUserActions');
@@ -43,10 +47,6 @@ var _GroupStore = require('../../../stores/GroupStore');
 var _GroupStore2 = _interopRequireDefault(_GroupStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
 
 var Welcome = function (_Component) {
   (0, _inherits3.default)(Welcome, _Component);
@@ -98,8 +98,7 @@ var Welcome = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'welcome-avatar' },
-          _react2.default.createElement('svg', { className: 'icon icon--gray',
-            dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#star"/>' } })
+          _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--gray', glyph: 'star' })
         )
       ),
       _react2.default.createElement(
@@ -111,7 +110,9 @@ var Welcome = function (_Component) {
   };
 
   return Welcome;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 Welcome.propTypes = {
   peer: _react.PropTypes.object.isRequired

@@ -20,11 +20,19 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactIntl = require('react-intl');
 
+var _SvgIcon = require('./common/SvgIcon.react');
+
+var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
+
 var _ConnectionState = require('./common/ConnectionState.react');
 
 var _ConnectionState2 = _interopRequireDefault(_ConnectionState);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var EmptyScreen = function (_Component) {
   (0, _inherits3.default)(EmptyScreen, _Component);
@@ -51,8 +59,7 @@ var EmptyScreen = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'logo' },
-              _react2.default.createElement('svg', { className: 'icon icon--gray',
-                dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#star"/>' } })
+              _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--gray', glyph: 'star' })
             ),
             _react2.default.createElement(
               'h2',
@@ -66,9 +73,7 @@ var EmptyScreen = function (_Component) {
   };
 
   return EmptyScreen;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 exports.default = EmptyScreen;
 //# sourceMappingURL=Empty.react.js.map

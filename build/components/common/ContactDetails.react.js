@@ -20,11 +20,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactIntl = require('react-intl');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _SvgIcon = require('../common/SvgIcon.react');
 
-/*
-* Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-*/
+var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ContactDetails = function (_Component) {
   (0, _inherits3.default)(ContactDetails, _Component);
@@ -40,8 +40,7 @@ var ContactDetails = function (_Component) {
     return peerInfo.nick ? _react2.default.createElement(
       'li',
       null,
-      _react2.default.createElement('svg', { className: 'icon icon--pink',
-        dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#username"/>' } }),
+      _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--pink', glyph: 'username' }),
       _react2.default.createElement(
         'span',
         { className: 'title' },
@@ -89,8 +88,7 @@ var ContactDetails = function (_Component) {
     return peerInfo.emails[0] ? _react2.default.createElement(
       'li',
       null,
-      _react2.default.createElement('svg', { className: 'icon icon--blue',
-        dangerouslySetInnerHTML: { __html: '<use xlink:href="assets/images/icons.svg#envelope"/>' } }),
+      _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--blue', glyph: 'envelope' }),
       _react2.default.createElement(
         'span',
         { className: 'title' },
@@ -120,7 +118,9 @@ var ContactDetails = function (_Component) {
   };
 
   return ContactDetails;
-}(_react.Component);
+}(_react.Component); /*
+                     * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                     */
 
 ContactDetails.propTypes = {
   peerInfo: _react2.default.PropTypes.object.isRequired

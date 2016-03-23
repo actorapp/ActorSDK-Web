@@ -70,13 +70,16 @@ var Main = function (_Component) {
   function Main(props) {
     (0, _classCallCheck3.default)(this, Main);
 
+
+    // Preload emoji spritesheet
+
     var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
 
     _this.onVisibilityChange = function () {
-      if (!document.hidden) {
-        _VisibilityActionCreators2.default.createAppVisible();
-      } else {
+      if (document.hidden) {
         _VisibilityActionCreators2.default.createAppHidden();
+      } else {
+        _VisibilityActionCreators2.default.createAppVisible();
       }
     };
 
@@ -89,17 +92,20 @@ var Main = function (_Component) {
       }
     };
 
-    document.addEventListener('visibilitychange', _this.onVisibilityChange);
-    document.addEventListener('keydown', _this.onKeyDown, false);
-
-    // Preload emoji spritesheet
     (0, _EmojiUtils.preloadEmojiSheet)();
-
-    if (!document.hidden) {
-      _VisibilityActionCreators2.default.createAppVisible();
-    }
     return _this;
   }
+
+  Main.prototype.componentDidMount = function componentDidMount() {
+    this.onVisibilityChange();
+    document.addEventListener('visibilitychange', this.onVisibilityChange);
+    document.addEventListener('keydown', this.onKeyDown, false);
+  };
+
+  Main.prototype.componentWillUnmount = function componentWillUnmount() {
+    document.removeEventListener('visibilitychange', this.onVisibilityChange);
+    document.removeEventListener('keydown', this.onKeyDown, false);
+  };
 
   Main.prototype.render = function render() {
     var delegate = this.context.delegate;

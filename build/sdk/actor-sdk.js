@@ -14,9 +14,7 @@ require('babel-polyfill');
 
 require('setimmediate');
 
-var _polyfills = require('../utils/polyfills');
-
-var _polyfills2 = _interopRequireDefault(_polyfills);
+require('intl');
 
 var _actorJs = require('actor-js');
 
@@ -275,17 +273,11 @@ var ActorSDK = function () {
    */
 
   ActorSDK.prototype.startApp = function startApp() {
-    var _this2 = this;
-
-    var start = function start() {
-      if (window.isJsAppLoaded) {
-        _this2._starter();
-      } else {
-        window.jsAppLoaded = _this2._starter;
-      }
-    };
-
-    (0, _polyfills2.default)(start);
+    if (window.isJsAppLoaded) {
+      this._starter();
+    } else {
+      window.jsAppLoaded = this._starter;
+    }
   };
 
   return ActorSDK;

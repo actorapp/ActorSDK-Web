@@ -45,6 +45,11 @@ var icons = {
     * Copyright (C) 2016 Actor LLC. <https://actor.im>
     */
 
+var defaultViewBox = '0 0 24 24';
+var viewBoxes = {
+  star: '0 0 300 300'
+};
+
 var SvgIcon = function (_Component) {
   (0, _inherits3.default)(SvgIcon, _Component);
 
@@ -59,10 +64,11 @@ var SvgIcon = function (_Component) {
     var props = (0, _objectWithoutProperties3.default)(_props, ["glyph"]);
 
     var path = icons[glyph];
+    var viewBox = viewBoxes[glyph] || defaultViewBox;
 
     return _react2.default.createElement(
       "svg",
-      (0, _extends3.default)({}, props, { viewBox: "0 0 24 24" }),
+      (0, _extends3.default)({}, props, { viewBox: viewBox }),
       path
     );
   };

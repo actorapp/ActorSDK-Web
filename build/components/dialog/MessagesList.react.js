@@ -64,45 +64,37 @@ var MessagesList = function (_Component) {
     return _this;
   }
 
-  MessagesList.prototype.renderWelcome = function renderWelcome() {
+  MessagesList.prototype.renderHeader = function renderHeader() {
     var _props = this.props;
     var peer = _props.peer;
     var isMember = _props.isMember;
+    var messages = _props.messages;
     var isAllMessagesLoaded = _props.isAllMessagesLoaded;
 
 
-    if (isMember && isAllMessagesLoaded) {
-      return _react2.default.createElement(_Welcome2.default, { peer: peer });
+    if (!isMember) {
+      return null;
     }
-
-    return null;
-  };
-
-  MessagesList.prototype.renderLoading = function renderLoading() {
-    var _props2 = this.props;
-    var isAllMessagesLoaded = _props2.isAllMessagesLoaded;
-    var messages = _props2.messages;
-
 
     if (!isAllMessagesLoaded && messages.length >= 30) {
-      return _react2.default.createElement(_Loading2.default, null);
+      return _react2.default.createElement(_Loading2.default, { key: 'header' });
     }
 
-    return null;
+    return _react2.default.createElement(_Welcome2.default, { peer: peer, key: 'header' });
   };
 
   MessagesList.prototype.renderMessages = function renderMessages() {
-    var _props3 = this.props;
-    var peer = _props3.peer;
-    var messages = _props3.messages;
-    var overlay = _props3.overlay;
-    var count = _props3.count;
-    var selectedMessages = _props3.selectedMessages;
+    var _props2 = this.props;
+    var peer = _props2.peer;
+    var messages = _props2.messages;
+    var overlay = _props2.overlay;
+    var count = _props2.count;
+    var selectedMessages = _props2.selectedMessages;
     var MessageItem = this.components.MessageItem;
 
 
     var result = [];
-    for (var index = messages.length - count; index < messages.length; index++) {
+    for (var index = Math.max(messages.length - count, 0); index < messages.length; index++) {
       var overlayItem = overlay[index];
       if (overlayItem && overlayItem.dateDivider) {
         result.push(_react2.default.createElement(
@@ -128,9 +120,9 @@ var MessagesList = function (_Component) {
   };
 
   MessagesList.prototype.render = function render() {
-    var _props4 = this.props;
-    var peer = _props4.peer;
-    var onLoadMore = _props4.onLoadMore;
+    var _props3 = this.props;
+    var peer = _props3.peer;
+    var onLoadMore = _props3.onLoadMore;
 
 
     return _react2.default.createElement(
@@ -139,8 +131,7 @@ var MessagesList = function (_Component) {
       _react2.default.createElement(
         'div',
         { className: 'messages__list' },
-        this.renderWelcome(),
-        this.renderLoading(),
+        this.renderHeader(),
         this.renderMessages()
       )
     );

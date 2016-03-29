@@ -107,7 +107,7 @@ var MessagesList = function (_Component) {
       if (overlayItem && overlayItem.dateDivider) {
         result.push(_react2.default.createElement(
           'div',
-          { className: 'date-divider', key: 'o' + index },
+          { className: 'date-divider', key: overlayItem.dateDivider },
           overlayItem.dateDivider
         ));
       }

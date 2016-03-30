@@ -50,6 +50,10 @@ var _AddContactActionCreators = require('../../actions/AddContactActionCreators'
 
 var _AddContactActionCreators2 = _interopRequireDefault(_AddContactActionCreators);
 
+var _rcTooltip = require('rc-tooltip');
+
+var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
+
 var _Scrollbar = require('../common/Scrollbar.react');
 
 var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
@@ -59,6 +63,10 @@ var _RecentItem = require('./RecentItem.react');
 var _RecentItem2 = _interopRequireDefault(_RecentItem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var Recent = function (_Component) {
   (0, _inherits3.default)(Recent, _Component);
@@ -183,10 +191,14 @@ var Recent = function (_Component) {
               intl.messages['sidebar.recents.' + dialogGroup.key]
             ),
             _react2.default.createElement(
-              'i',
-              { className: 'material-icons sidebar__list__title__icon pull-right',
-                onClick: _this2.handleCreateGroup },
-              'add_circle_outline'
+              _rcTooltip2.default,
+              { placement: 'top', mouseEnterDelay: 0.5, overlay: 'Create group' },
+              _react2.default.createElement(
+                'i',
+                { className: 'material-icons sidebar__list__title__icon pull-right',
+                  onClick: _this2.handleCreateGroup },
+                'add_circle_outline'
+              )
             )
           );
           break;
@@ -200,10 +212,14 @@ var Recent = function (_Component) {
               intl.messages['sidebar.recents.' + dialogGroup.key]
             ),
             _react2.default.createElement(
-              'i',
-              { className: 'material-icons sidebar__list__title__icon pull-right',
-                onClick: _this2.handleCreatePrivate },
-              'add_circle_outline'
+              _rcTooltip2.default,
+              { placement: 'top', mouseEnterDelay: 0.5, overlay: 'Add contact' },
+              _react2.default.createElement(
+                'i',
+                { className: 'material-icons sidebar__list__title__icon pull-right',
+                  onClick: _this2.handleCreatePrivate },
+                'add_circle_outline'
+              )
             )
           );
           break;
@@ -307,9 +323,7 @@ var Recent = function (_Component) {
   };
 
   return Recent;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 Recent.contextTypes = {
   intl: _react.PropTypes.object

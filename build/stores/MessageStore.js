@@ -106,7 +106,7 @@ var MessageStore = function (_Store) {
   MessageStore.prototype.__onDispatch = function __onDispatch(action) {
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.BIND_DIALOG_PEER:
-        this._renderMessagesCount = 0;
+        this._renderMessagesCount = initialRenderMessagesCount;
         this._messages = [];
         this._overlay = [];
         this._selectedMessages = new _immutable2.default.Set();
@@ -116,6 +116,7 @@ var MessageStore = function (_Store) {
       case _ActorAppConstants.ActionTypes.MESSAGES_CHANGED:
         this._messages = action.messages;
         this._overlay = action.overlay;
+        this._renderMessagesCount = Math.min(action.messages.length, this._renderMessagesCount);
         this._isLoaded = action.isLoaded;
         this.__emitChange();
         break;

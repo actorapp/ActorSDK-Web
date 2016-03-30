@@ -94,7 +94,7 @@ var MessagesList = function (_Component) {
 
 
     var result = [];
-    for (var index = Math.max(messages.length - count, 0); index < messages.length; index++) {
+    for (var index = messages.length - count; index < messages.length; index++) {
       var overlayItem = overlay[index];
       if (overlayItem && overlayItem.dateDivider) {
         result.push(_react2.default.createElement(

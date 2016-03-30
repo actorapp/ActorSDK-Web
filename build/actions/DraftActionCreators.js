@@ -12,11 +12,19 @@ var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
+var _DialogStore = require('../stores/DialogStore');
+
+var _DialogStore2 = _interopRequireDefault(_DialogStore);
+
 var _DraftStore = require('../stores/DraftStore');
 
 var _DraftStore2 = _interopRequireDefault(_DraftStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 exports.default = {
   loadDraft: function loadDraft(peer) {
@@ -31,7 +39,5 @@ exports.default = {
   changeDraft: function changeDraft(draft) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DRAFT_CHANGE, { draft: draft });
   }
-}; /*
-    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-    */
+};
 //# sourceMappingURL=DraftActionCreators.js.map

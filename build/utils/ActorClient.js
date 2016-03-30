@@ -51,100 +51,103 @@ var ActorClient = function () {
 
   // Bindings
 
-  ActorClient.prototype.bindDialogs = function bindDialogs(callback) {
-    window.messenger.bindDialogs(callback);
-  };
-
-  ActorClient.prototype.unbindDialogs = function unbindDialogs(callback) {
-    window.messenger.unbindDialogs(callback);
-  };
-
   ActorClient.prototype.bindGroupDialogs = function bindGroupDialogs(callback) {
     window.messenger.bindGroupDialogs(callback);
-  };
-
-  ActorClient.prototype.unbindGroupDialogs = function unbindGroupDialogs(callback) {
-    window.messenger.unbindGroupDialogs(callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindGroupDialogs(callback);
+      }
+    };
   };
 
   ActorClient.prototype.bindChat = function bindChat(peer, callback) {
     window.messenger.bindChat(peer, callback);
-  };
-
-  ActorClient.prototype.unbindChat = function unbindChat(peer, callback) {
-    window.messenger.unbindChat(peer, callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindChat(peer, callback);
+      }
+    };
   };
 
   ActorClient.prototype.bindGroup = function bindGroup(gid, callback) {
     window.messenger.bindGroup(gid, callback);
-  };
-
-  ActorClient.prototype.unbindGroup = function unbindGroup(gid, callback) {
-    window.messenger.unbindGroup(gid, callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindGroup(gid, callback);
+      }
+    };
   };
 
   ActorClient.prototype.bindUser = function bindUser(uid, callback) {
     window.messenger.bindUser(uid, callback);
-  };
-
-  ActorClient.prototype.unbindUser = function unbindUser(uid, callback) {
-    window.messenger.unbindUser(uid, callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindUser(uid, callback);
+      }
+    };
   };
 
   ActorClient.prototype.bindTyping = function bindTyping(peer, callback) {
     window.messenger.bindTyping(peer, callback);
-  };
-
-  ActorClient.prototype.unbindTyping = function unbindTyping(peer, callback) {
-    window.messenger.unbindTyping(peer, callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindTyping(peer, callback);
+      }
+    };
   };
 
   ActorClient.prototype.bindContacts = function bindContacts(peer, callback) {
     window.messenger.bindContacts(peer, callback);
-  };
-
-  ActorClient.prototype.unbindContacts = function unbindContacts(peer, callback) {
-    window.messenger.unbindContacts(peer, callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindContacts(peer, callback);
+      }
+    };
   };
 
   ActorClient.prototype.bindConnectState = function bindConnectState(callback) {
     window.messenger.bindConnectState(callback);
-  };
-
-  ActorClient.prototype.unbindConnectState = function unbindConnectState(callback) {
-    window.messenger.unbindConnectState(callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindConnectState(callback);
+      }
+    };
   };
 
   ActorClient.prototype.bindGlobalCounter = function bindGlobalCounter(callback) {
     window.messenger.bindGlobalCounter(callback);
-  };
-
-  ActorClient.prototype.unbindGlobalCounter = function unbindGlobalCounter(callback) {
-    window.messenger.unbindGlobalCounter(callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindGlobalCounter(callback);
+      }
+    };
   };
 
   ActorClient.prototype.bindTempGlobalCounter = function bindTempGlobalCounter(callback) {
     window.messenger.bindTempGlobalCounter(callback);
-  };
-
-  ActorClient.prototype.unbindTempGlobalCounter = function unbindTempGlobalCounter(callback) {
-    window.messenger.unbindTempGlobalCounter(callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindTempGlobalCounter(callback);
+      }
+    };
   };
 
   ActorClient.prototype.bindUserOnline = function bindUserOnline(uid, callback) {
     window.messenger.bindUserOnline(uid, callback);
-  };
-
-  ActorClient.prototype.unbindUserOnline = function unbindUserOnline(uid, callback) {
-    window.messenger.unbindUserOnline(uid, callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindUserOnline(uid, callback);
+      }
+    };
   };
 
   ActorClient.prototype.bindGroupOnline = function bindGroupOnline(gid, callback) {
     window.messenger.bindGroupOnline(gid, callback);
-  };
-
-  ActorClient.prototype.unbindGroupOnline = function unbindGroupOnline(gid, callback) {
-    window.messenger.unbindGroupOnline(gid, callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindGroupOnline(gid, callback);
+      }
+    };
   };
 
   ActorClient.prototype.bindMessages = function bindMessages(peer, callback) {
@@ -153,18 +156,20 @@ var ActorClient = function () {
 
   ActorClient.prototype.bindEventBus = function bindEventBus(callback) {
     window.messenger.bindEventBus(callback);
-  };
-
-  ActorClient.prototype.unbindEventBus = function unbindEventBus(callback) {
-    window.messenger.unbindEventBus(callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindEventBus(callback);
+      }
+    };
   };
 
   ActorClient.prototype.bindCall = function bindCall(callId, callback) {
     window.messenger.bindCall(callId, callback);
-  };
-
-  ActorClient.prototype.unbindCall = function unbindCall(callId, callback) {
-    window.messenger.unbindCall(callId, callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindCall(callId, callback);
+      }
+    };
   };
 
   ActorClient.prototype.makeCall = function makeCall(userId) {
@@ -185,10 +190,6 @@ var ActorClient = function () {
 
   ActorClient.prototype.toggleCallMute = function toggleCallMute(callId) {
     window.messenger.toggleCallMute(callId);
-  };
-
-  ActorClient.prototype.toggleCallMute = function toggleCallMute(id) {
-    window.messenger.toggleCallMute(id);
   };
 
   ActorClient.prototype.getUser = function getUser(uid) {
@@ -463,10 +464,11 @@ var ActorClient = function () {
 
   ActorClient.prototype.bindSearch = function bindSearch(callback) {
     window.messenger.bindSearch(callback);
-  };
-
-  ActorClient.prototype.unbindSearch = function unbindSearch(callback) {
-    window.messenger.unbindSearch(callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindSearch(callback);
+      }
+    };
   };
 
   ActorClient.prototype.findAllText = function findAllText(peer, query) {

@@ -2,6 +2,18 @@
 
 exports.__esModule = true;
 
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
@@ -21,6 +33,10 @@ var _DelegateContainer2 = _interopRequireDefault(_DelegateContainer);
 var _LocationContainer = require('../utils/LocationContainer');
 
 var _LocationContainer2 = _interopRequireDefault(_LocationContainer);
+
+var _ActionCreators2 = require('./ActionCreators');
+
+var _ActionCreators3 = _interopRequireDefault(_ActionCreators2);
 
 var _MyProfileActionCreators = require('./MyProfileActionCreators');
 
@@ -48,22 +64,35 @@ var _EventBusActionCreators2 = _interopRequireDefault(_EventBusActionCreators);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
+var LoginActionCreators = function (_ActionCreators) {
+  (0, _inherits3.default)(LoginActionCreators, _ActionCreators);
 
-var LoginActionCreators = {
-  changeLogin: function changeLogin(login) {
+  function LoginActionCreators() {
+    (0, _classCallCheck3.default)(this, LoginActionCreators);
+    return (0, _possibleConstructorReturn3.default)(this, _ActionCreators.apply(this, arguments));
+  }
+
+  LoginActionCreators.prototype.changeLogin = function changeLogin(login) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_CHANGE_LOGIN, { login: login });
-  },
-  changeCode: function changeCode(code) {
+  };
+
+  LoginActionCreators.prototype.changeCode = function changeCode(code) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_CHANGE_CODE, { code: code });
-  },
-  changeName: function changeName(name) {
+  };
+
+  LoginActionCreators.prototype.changeName = function changeName(name) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_CHANGE_NAME, { name: name });
-  },
-  requestCode: function requestCode(phone) {
-    var isEmail = /@/.test(phone);
+  };
+
+  LoginActionCreators.prototype.startSignup = function startSignup() {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SIGNUP_START);
+  };
+
+  LoginActionCreators.prototype.restartAuth = function restartAuth() {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_RESTART);
+  };
+
+  LoginActionCreators.prototype.requestCode = function requestCode(phone) {
     var promise = void 0;
     if (/@/.test(phone)) {
       promise = _ActorClient2.default.requestCodeEmail(phone);
@@ -76,45 +105,41 @@ var LoginActionCreators = {
       success: _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_SUCCESS,
       failure: _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_FAILURE
     }, { phone: phone });
-  },
-  requestSms: function requestSms(phone) {
+  };
+
+  LoginActionCreators.prototype.requestSms = function requestSms(phone) {
     (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.requestSms(phone), {
       request: _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST,
       success: _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_SUCCESS,
       failure: _ActorAppConstants.ActionTypes.AUTH_CODE_REQUEST_FAILURE
     }, { phone: phone });
-  },
-  sendCode: function sendCode(code) {
-    var _this = this;
+  };
 
-    var sendCodePromise = function sendCodePromise() {
-      return (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.sendCode(code), {
-        request: _ActorAppConstants.ActionTypes.AUTH_CODE_SEND,
-        success: _ActorAppConstants.ActionTypes.AUTH_CODE_SEND_SUCCESS,
-        failure: _ActorAppConstants.ActionTypes.AUTH_CODE_SEND_FAILURE
-      }, { code: code });
-    };
+  LoginActionCreators.prototype.sendCode = function sendCode(code) {
+    var _this2 = this;
 
-    var handleState = function handleState(state) {
+    (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.sendCode(code), {
+      request: _ActorAppConstants.ActionTypes.AUTH_CODE_SEND,
+      success: _ActorAppConstants.ActionTypes.AUTH_CODE_SEND_SUCCESS,
+      failure: _ActorAppConstants.ActionTypes.AUTH_CODE_SEND_FAILURE
+    }, {
+      code: code
+    }).then(function (state) {
       switch (state) {
         case 'signup':
-          _this.startSignup();
+          _this2.startSignup();
           break;
         case 'logged_in':
-          _this.setLoggedIn({ redirect: true });
+          _this2.setLoggedIn({ redirect: true });
           break;
         default:
           console.error('Unsupported state', state);
       }
-    };
+    });
+  };
 
-    sendCodePromise().then(handleState);
-  },
-  startSignup: function startSignup() {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SIGNUP_START);
-  },
-  sendSignup: function sendSignup(name) {
-    var _this2 = this;
+  LoginActionCreators.prototype.sendSignup = function sendSignup(name) {
+    var _this3 = this;
 
     var signUpPromise = function signUpPromise() {
       return (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.signUp(name), {
@@ -125,60 +150,49 @@ var LoginActionCreators = {
     };
 
     var setLoggedIn = function setLoggedIn() {
-      return _this2.setLoggedIn({ redirect: true });
+      return _this3.setLoggedIn({ redirect: true });
     };
 
     signUpPromise().then(setLoggedIn);
-  },
-  setLoggedIn: function setLoggedIn() {
+  };
+
+  LoginActionCreators.prototype.setLoggedIn = function setLoggedIn() {
     var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
 
     var delegate = _DelegateContainer2.default.get();
 
     if (delegate.actions.setLoggedIn) {
-      delegate.actions.setLoggedIn(opts);
-    } else {
-      if (opts.redirect) {
-        var location = _LocationContainer2.default.get();
-        var nextPathname = location.state ? location.state.nextPathname : null;
-
-        if (nextPathname) {
-          _history2.default.replace(nextPathname);
-        } else {
-          _history2.default.replace('/');
-        }
-      }
-
-      _ActorClient2.default.bindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged);
-      // ActorClient.bindDialogs(DialogActionCreators.setDialogs);
-      _ActorClient2.default.bindGroupDialogs(_DialogActionCreators2.default.setDialogs);
-      _ActorClient2.default.bindContacts(_ContactActionCreators2.default.setContacts);
-      _ActorClient2.default.bindSearch(_QuickSearchActionCreators2.default.setQuickSearchList);
-      _ActorClient2.default.bindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon);
-      _ActorClient2.default.bindEventBus(_EventBusActionCreators2.default.broadcastEvent);
-      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_IN);
+      return delegate.actions.setLoggedIn(opts);
     }
-  },
-  setLoggedOut: function setLoggedOut() {
+
+    if (opts.redirect) {
+      var location = _LocationContainer2.default.get();
+      var nextPathname = location.state ? location.state.nextPathname : '/';
+
+      _history2.default.replace(nextPathname);
+    }
+
+    this.setBindings('main', [_ActorClient2.default.bindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged), _ActorClient2.default.bindGroupDialogs(_DialogActionCreators2.default.setDialogs), _ActorClient2.default.bindContacts(_ContactActionCreators2.default.setContacts), _ActorClient2.default.bindSearch(_QuickSearchActionCreators2.default.setQuickSearchList), _ActorClient2.default.bindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon), _ActorClient2.default.bindEventBus(_EventBusActionCreators2.default.broadcastEvent)]);
+
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_IN);
+  };
+
+  LoginActionCreators.prototype.setLoggedOut = function setLoggedOut() {
     var delegate = _DelegateContainer2.default.get();
 
     if (delegate.actions.setLoggedOut) {
-      delegate.actions.setLoggedOut();
-    } else {
-      _ActorClient2.default.unbindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged);
-      _ActorClient2.default.unbindDialogs(_DialogActionCreators2.default.setDialogs);
-      // ActorClient.unbindContacts(ContactActionCreators.setContacts);
-      _ActorClient2.default.unbindGroupDialogs(_DialogActionCreators2.default.setDialogs);
-      _ActorClient2.default.unbindSearch(_QuickSearchActionCreators2.default.setQuickSearchList);
-      _ActorClient2.default.unbindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon);
-      _ActorClient2.default.unbindEventBus(_EventBusActionCreators2.default.broadcastEvent);
-      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_OUT);
+      return delegate.actions.setLoggedOut();
     }
-  },
-  restartAuth: function restartAuth() {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_RESTART);
-  }
-};
 
-exports.default = LoginActionCreators;
+    this.removeBindings('main');
+
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_OUT);
+  };
+
+  return LoginActionCreators;
+}(_ActionCreators3.default); /*
+                              * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                              */
+
+exports.default = new LoginActionCreators();
 //# sourceMappingURL=LoginActionCreators.js.map

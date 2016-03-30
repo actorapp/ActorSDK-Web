@@ -2,6 +2,18 @@
 
 exports.__esModule = true;
 
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
@@ -14,69 +26,83 @@ var _CallStore = require('../stores/CallStore');
 
 var _CallStore2 = _interopRequireDefault(_CallStore);
 
+var _ActionCreators2 = require('./ActionCreators');
+
+var _ActionCreators3 = _interopRequireDefault(_ActionCreators2);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
+var CallActionCreators = function (_ActionCreators) {
+  (0, _inherits3.default)(CallActionCreators, _ActionCreators);
 
-var HIDE_MODAL_AFTER = 3000;
+  function CallActionCreators() {
+    (0, _classCallCheck3.default)(this, CallActionCreators);
+    return (0, _possibleConstructorReturn3.default)(this, _ActionCreators.apply(this, arguments));
+  }
 
-exports.default = {
-  hide: function hide() {
+  CallActionCreators.prototype.hide = function hide() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_MODAL_HIDE);
-  },
-  handleCall: function handleCall(event) {
-    var _this = this;
+  };
 
+  CallActionCreators.prototype.handleCall = function handleCall(event) {
     var id = event.id;
     var type = event.type;
 
     switch (type) {
       case _ActorAppConstants.CallTypes.STARTED:
-        _ActorClient2.default.bindCall(id, this.setCall);
+        this.setBindings('call', [_ActorClient2.default.bindCall(id, this.setCall)]);
         (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_MODAL_OPEN, { id: id });
         break;
       case _ActorAppConstants.CallTypes.ENDED:
-        setTimeout(function () {
-          _ActorClient2.default.unbindCall(id, _this.setCall);
-          if (_CallStore2.default.isOpen()) (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_MODAL_HIDE);
-        }, HIDE_MODAL_AFTER);
+        this.removeBindings('call');
+        (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_MODAL_HIDE);
         break;
-      default:
     }
-  },
-  makeCall: function makeCall(peerId) {
+  };
+
+  CallActionCreators.prototype.makeCall = function makeCall(peerId) {
     (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.makeCall(peerId), {
       request: _ActorAppConstants.ActionTypes.CALL,
       success: _ActorAppConstants.ActionTypes.CALL_SUCCESS,
       failure: _ActorAppConstants.ActionTypes.CALL_ERROR
     }, { peerId: peerId });
-  },
-  makeGroupCall: function makeGroupCall(peerId) {
+  };
+
+  CallActionCreators.prototype.makeGroupCall = function makeGroupCall(peerId) {
     (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.makeGroupCall(peerId), {
       request: _ActorAppConstants.ActionTypes.CALL,
       success: _ActorAppConstants.ActionTypes.CALL_SUCCESS,
       failure: _ActorAppConstants.ActionTypes.CALL_ERROR
     }, { peerId: peerId });
-  },
-  setCall: function setCall(call) {
+  };
+
+  CallActionCreators.prototype.setCall = function setCall(call) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_CHANGED, { call: call });
-  },
-  answerCall: function answerCall(callId) {
+  };
+
+  CallActionCreators.prototype.answerCall = function answerCall(callId) {
     _ActorClient2.default.answerCall(callId);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_ANSWER, { callId: callId });
-  },
-  endCall: function endCall(callId) {
+  };
+
+  CallActionCreators.prototype.endCall = function endCall(callId) {
     _ActorClient2.default.endCall(callId);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_END, { callId: callId });
-  },
-  toggleCallMute: function toggleCallMute(callId) {
+  };
+
+  CallActionCreators.prototype.toggleCallMute = function toggleCallMute(callId) {
     _ActorClient2.default.toggleCallMute(callId);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_MUTE_TOGGLE, { callId: callId });
-  },
-  toggleFloating: function toggleFloating() {
+  };
+
+  CallActionCreators.prototype.toggleFloating = function toggleFloating() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_FLOAT_TOGGLE);
-  }
-};
+  };
+
+  return CallActionCreators;
+}(_ActionCreators3.default); /*
+                              * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                              */
+
+exports.default = new CallActionCreators();
 //# sourceMappingURL=CallActionCreators.js.map

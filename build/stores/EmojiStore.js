@@ -2,6 +2,10 @@
 
 exports.__esModule = true;
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -24,38 +28,44 @@ var _ActorAppConstants = require('../constants/ActorAppConstants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _isOpen = false; /*
-                      * Copyright (C) 2015 Actor LLC. <https://actor.im>
-                      */
+var EmojiStore = function (_ReduceStore) {
+  (0, _inherits3.default)(EmojiStore, _ReduceStore);
 
-var EmojiStore = function (_Store) {
-  (0, _inherits3.default)(EmojiStore, _Store);
-
-  function EmojiStore(dispatcher) {
+  function EmojiStore() {
     (0, _classCallCheck3.default)(this, EmojiStore);
-    return (0, _possibleConstructorReturn3.default)(this, _Store.call(this, dispatcher));
+    return (0, _possibleConstructorReturn3.default)(this, _ReduceStore.apply(this, arguments));
   }
 
-  EmojiStore.prototype.isOpen = function isOpen() {
-    return _isOpen;
+  EmojiStore.prototype.getInitialState = function getInitialState() {
+    return {
+      isOpen: true,
+      stickers: []
+    };
   };
 
-  EmojiStore.prototype.__onDispatch = function __onDispatch(action) {
+  EmojiStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.EMOJI_SHOW:
-        _isOpen = true;
-        this.__emitChange();
-        break;
+        return (0, _extends3.default)({}, state, {
+          isOpen: true
+        });
       case _ActorAppConstants.ActionTypes.EMOJI_CLOSE:
-        _isOpen = false;
-        this.__emitChange();
-        break;
+        return (0, _extends3.default)({}, state, {
+          isOpen: false
+        });
+      case _ActorAppConstants.ActionTypes.STICKERS_SET:
+        return (0, _extends3.default)({}, state, {
+          stickers: action.stickers
+        });
       default:
+        return state;
     }
   };
 
   return EmojiStore;
-}(_utils.Store);
+}(_utils.ReduceStore); /*
+                        * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                        */
 
 exports.default = new EmojiStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=EmojiStore.js.map

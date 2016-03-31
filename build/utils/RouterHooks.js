@@ -26,18 +26,6 @@ var RouterHooks = {
         }
       });
     }
-  },
-  onDialogEnter: function onDialogEnter(nextState, replaceState) {
-    var peer = _PeerUtils2.default.stringToPeer(nextState.params.id);
-    if (!_PeerUtils2.default.hasPeer(peer)) {
-      console.error('Invalig peer', nextState);
-      replaceState('/im');
-    } else {
-      _DialogActionCreators2.default.selectDialogPeer(peer);
-    }
-  },
-  onDialogLeave: function onDialogLeave() {
-    _DialogActionCreators2.default.selectDialogPeer(null);
   }
 };
 

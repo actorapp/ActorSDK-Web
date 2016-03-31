@@ -60,6 +60,8 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   EMOJI_SHOW: null,
   EMOJI_CLOSE: null,
 
+  STICKERS_SET: null,
+
   MESSAGE_SEND_TEXT: null,
   MESSAGE_SEND_FILE: null,
   MESSAGE_SEND_PHOTO: null,

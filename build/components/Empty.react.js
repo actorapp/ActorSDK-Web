@@ -37,9 +37,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var EmptyScreen = function (_Component) {
   (0, _inherits3.default)(EmptyScreen, _Component);
 
-  function EmptyScreen(props) {
+  function EmptyScreen() {
     (0, _classCallCheck3.default)(this, EmptyScreen);
-    return (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
+    return (0, _possibleConstructorReturn3.default)(this, _Component.apply(this, arguments));
   }
 
   EmptyScreen.prototype.render = function render() {

@@ -219,12 +219,7 @@ var ActorSDK = function () {
               _reactRouter.Route,
               { path: 'im', component: _Main2.default, onEnter: _RouterHooks2.default.requireAuth },
               _react2.default.createElement(_reactRouter.Route, { path: 'archive', component: Archive }),
-              _react2.default.createElement(_reactRouter.Route, {
-                path: ':id',
-                component: Dialog,
-                onEnter: _RouterHooks2.default.onDialogEnter,
-                onLeave: _RouterHooks2.default.onDialogLeave
-              }),
+              _react2.default.createElement(_reactRouter.Route, { path: ':id', component: Dialog }),
               _react2.default.createElement(_reactRouter.IndexRoute, { component: Empty })
             ),
             _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'im' })

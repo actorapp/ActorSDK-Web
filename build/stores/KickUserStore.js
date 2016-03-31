@@ -32,7 +32,7 @@ var KickUserStore = function (_Store) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, _Store.call(this, dispatcher));
 
-    _this.kickUserState = [];
+    _this.kickUserState = {};
     return _this;
   }
 

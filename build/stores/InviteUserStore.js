@@ -2,6 +2,10 @@
 
 exports.__esModule = true;
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -14,9 +18,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _events = require('events');
+var _utils = require('flux/utils');
+
+var _immutable = require('immutable');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
+
+var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
@@ -26,114 +34,101 @@ var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
-
-var CHANGE_EVENT = 'change';
-
-var _isInviteModalOpen = false,
-    _isInviteByLinkModalOpen = false,
-    _group = null,
-    _inviteUrl = null,
-    _inviteUserState = [];
-
-var InviteUserStore = function (_EventEmitter) {
-  (0, _inherits3.default)(InviteUserStore, _EventEmitter);
+var InviteUserStore = function (_ReduceStore) {
+  (0, _inherits3.default)(InviteUserStore, _ReduceStore);
 
   function InviteUserStore() {
     (0, _classCallCheck3.default)(this, InviteUserStore);
-    return (0, _possibleConstructorReturn3.default)(this, _EventEmitter.apply(this, arguments));
+    return (0, _possibleConstructorReturn3.default)(this, _ReduceStore.apply(this, arguments));
   }
 
-  InviteUserStore.prototype.emitChange = function emitChange() {
-    this.emit(CHANGE_EVENT);
+  InviteUserStore.prototype.getInitialState = function getInitialState() {
+    return {
+      isOpen: false,
+      isInviteByLinkOpen: false,
+      group: null,
+      inviteUrl: null,
+      users: new _immutable.Map()
+    };
   };
 
-  InviteUserStore.prototype.addChangeListener = function addChangeListener(callback) {
-    this.on(CHANGE_EVENT, callback);
-  };
+  InviteUserStore.prototype.reduce = function reduce(state, action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.DIALOG_INFO_CHANGED:
+        return (0, _extends3.default)({}, state, {
+          group: action.info
+        });
+      case _ActorAppConstants.ActionTypes.INVITE_USER_MODAL_SHOW:
+        return (0, _extends3.default)({}, state, {
+          isOpen: true,
+          group: action.group
+        });
+      case _ActorAppConstants.ActionTypes.INVITE_USER_MODAL_HIDE:
+        return (0, _extends3.default)({}, state, {
+          isOpen: false,
+          users: state.users.clear()
+        });
+      case _ActorAppConstants.ActionTypes.INVITE_USER_BY_LINK_MODAL_SHOW:
+        return (0, _extends3.default)({}, state, {
+          isInviteByLinkOpen: true,
+          group: action.group,
+          inviteUrl: action.url
+        });
+      case _ActorAppConstants.ActionTypes.INVITE_USER_BY_LINK_MODAL_HIDE:
+        return (0, _extends3.default)({}, state, {
+          isInviteByLinkOpen: false
+        });
 
-  InviteUserStore.prototype.removeChangeListener = function removeChangeListener(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
+      // Invite user
+      case _ActorAppConstants.ActionTypes.INVITE_USER:
+        return (0, _extends3.default)({}, state, {
+          users: state.users.set(action.uid, _ActorAppConstants.AsyncActionStates.PROCESSING)
+        });
+      case _ActorAppConstants.ActionTypes.INVITE_USER_SUCCESS:
+        return (0, _extends3.default)({}, state, {
+          users: state.users.set(action.uid, _ActorAppConstants.AsyncActionStates.SUCCESS)
+        });
+      case _ActorAppConstants.ActionTypes.INVITE_USER_ERROR:
+        return (0, _extends3.default)({}, state, {
+          users: state.users.set(action.uid, _ActorAppConstants.AsyncActionStates.FAILURE)
+        });
+      case _ActorAppConstants.ActionTypes.INVITE_USER_RESET:
+        return (0, _extends3.default)({}, state, {
+          users: state.users.delete(action.uid)
+        });
+      default:
+        return state;
+    }
   };
 
   InviteUserStore.prototype.isModalOpen = function isModalOpen() {
-    return _isInviteModalOpen;
+    return this.getState().isOpen;
   };
 
   InviteUserStore.prototype.isInviteWithLinkModalOpen = function isInviteWithLinkModalOpen() {
-    return _isInviteByLinkModalOpen;
+    return this.getState().isInviteByLinkOpen;
   };
 
   InviteUserStore.prototype.getGroup = function getGroup() {
-    return _group;
+    return this.getState().group;
   };
 
   InviteUserStore.prototype.getInviteUrl = function getInviteUrl() {
-    return _inviteUrl;
+    return this.getState().inviteUrl;
   };
 
   InviteUserStore.prototype.getInviteUserState = function getInviteUserState(uid) {
-    return _inviteUserState[uid] || _ActorAppConstants.AsyncActionStates.PENDING;
-  };
+    var _getState = this.getState();
 
-  InviteUserStore.prototype.resetInviteUserState = function resetInviteUserState(uid) {
-    delete _inviteUserState[uid];
+    var users = _getState.users;
+
+    return users.get(uid) || _ActorAppConstants.AsyncActionStates.PENDING;
   };
 
   return InviteUserStore;
-}(_events.EventEmitter);
+}(_utils.ReduceStore); /*
+                        * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                        */
 
-var InviteUserStoreInstance = new InviteUserStore();
-
-InviteUserStoreInstance.dispatchToken = (0, _ActorAppDispatcher.register)(function (action) {
-  switch (action.type) {
-    case _ActorAppConstants.ActionTypes.DIALOG_INFO_CHANGED:
-      _group = action.info;
-      InviteUserStoreInstance.emitChange();
-      break;
-
-    case _ActorAppConstants.ActionTypes.INVITE_USER_MODAL_SHOW:
-      _isInviteModalOpen = true;
-      _group = action.group;
-      InviteUserStoreInstance.emitChange();
-      break;
-    case _ActorAppConstants.ActionTypes.INVITE_USER_MODAL_HIDE:
-      _inviteUserState = [];
-      _isInviteModalOpen = false;
-      InviteUserStoreInstance.emitChange();
-      break;
-
-    case _ActorAppConstants.ActionTypes.INVITE_USER_BY_LINK_MODAL_SHOW:
-      _isInviteByLinkModalOpen = true;
-      _group = action.group;
-      _ActorClient2.default.getInviteUrl(_group.id).then(function (url) {
-        _inviteUrl = url;
-        InviteUserStoreInstance.emitChange();
-      });
-      InviteUserStoreInstance.emitChange();
-      break;
-    case _ActorAppConstants.ActionTypes.INVITE_USER_BY_LINK_MODAL_HIDE:
-      _isInviteByLinkModalOpen = false;
-      InviteUserStoreInstance.emitChange();
-      break;
-
-    // Invite user
-    case _ActorAppConstants.ActionTypes.INVITE_USER:
-      _inviteUserState[action.uid] = _ActorAppConstants.AsyncActionStates.PROCESSING;
-      InviteUserStoreInstance.emitChange();
-      break;
-    case _ActorAppConstants.ActionTypes.INVITE_USER_SUCCESS:
-      _inviteUserState[action.uid] = _ActorAppConstants.AsyncActionStates.SUCCESS;
-      InviteUserStoreInstance.emitChange();
-      break;
-    case _ActorAppConstants.ActionTypes.INVITE_USER_ERROR:
-      _inviteUserState[action.uid] = _ActorAppConstants.AsyncActionStates.FAILURE;
-      InviteUserStoreInstance.emitChange();
-      break;
-  }
-});
-
-exports.default = InviteUserStoreInstance;
+exports.default = new InviteUserStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=InviteUserStore.js.map

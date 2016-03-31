@@ -46,12 +46,17 @@ var _EmojiStore2 = _interopRequireDefault(_EmojiStore);
 
 var _reactScroll = require('react-scroll');
 
+var _Sticker = require('../emoji_stickers/Sticker.react');
+
+var _Sticker2 = _interopRequireDefault(_Sticker);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var emojiTabs = []; /*
-                     * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                     */
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
+var emojiTabs = [];
 var emojis = [];
 var closeTimer = void 0;
 var CLOSE_TIMEOUT = 550;
@@ -64,9 +69,7 @@ var EmojiDropdown = function (_Component) {
   };
 
   EmojiDropdown.calculateState = function calculateState() {
-    return {
-      isOpen: _EmojiStore2.default.isOpen()
-    };
+    return _EmojiStore2.default.getState();
   };
 
   function EmojiDropdown(props) {
@@ -92,7 +95,7 @@ var EmojiDropdown = function (_Component) {
     _this.onDocumentClick = function (event) {
       event.stopPropagation();
       event.preventDefault();
-      if (!event.target.className.includes('emoji-dropdown__header__tabs__tab')) {
+      if (!event.target.className.includes('emojis__header__tabs__tab')) {
         var emojiDropdown = (0, _reactDom.findDOMNode)(_this.refs.emojiDropdown);
         var emojiRect = emojiDropdown.getBoundingClientRect();
         var coords = {
@@ -150,8 +153,8 @@ var EmojiDropdown = function (_Component) {
           },
           containerId: 'emojiContainer',
           onMouseEnter: _this.handleEmojiTabMouseEnter,
-          className: 'emoji-dropdown__header__tabs__tab',
-          activeClass: 'emoji-dropdown__header__tabs__tab--active' },
+          className: 'emojis__header__tabs__tab',
+          activeClass: 'emojis__header__tabs__tab--active' },
         _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: categoryIcon } })
       ));
 
@@ -178,6 +181,9 @@ var EmojiDropdown = function (_Component) {
         currentCategoryEmojis
       ));
     });
+
+    _this.handleEmojisTabMouseEnter = _this.handleEmojisTabMouseEnter.bind(_this);
+    _this.handleStickerTabMouseEnter = _this.handleStickerTabMouseEnter.bind(_this);
     return _this;
   }
 
@@ -199,10 +205,34 @@ var EmojiDropdown = function (_Component) {
     }
   };
 
+  EmojiDropdown.prototype.handleEmojisTabMouseEnter = function handleEmojisTabMouseEnter() {
+    this.setState({ isStickersOpen: false });
+  };
+
+  EmojiDropdown.prototype.handleStickerTabMouseEnter = function handleStickerTabMouseEnter() {
+    this.setState({ isStickersOpen: true });
+  };
+
+  EmojiDropdown.prototype.renderStickers = function renderStickers() {
+    var stickers = this.state.stickers;
+    var onStickerSelect = this.props.onStickerSelect;
+
+    if (stickers.length === 0) return null;
+
+    return stickers.map(function (sticker, index) {
+      return _react2.default.createElement(_Sticker2.default, {
+        sticker: sticker,
+        onClick: onStickerSelect,
+        key: index
+      });
+    });
+  };
+
   EmojiDropdown.prototype.render = function render() {
     var _state = this.state;
     var isOpen = _state.isOpen;
     var dropdownTitle = _state.dropdownTitle;
+    var isStickersOpen = _state.isStickersOpen;
 
     var isEmojiOpenedBefore = localStorage.getItem('isEmojiOpenedBefore') === 'true' || false;
 
@@ -212,6 +242,20 @@ var EmojiDropdown = function (_Component) {
     var emojiOpenerClassName = (0, _classnames2.default)('emoji-opener material-icons', {
       'emoji-opener--active': isOpen,
       'emoji-opener--with-dot': !isEmojiOpenedBefore
+    });
+
+    var emojiTabClassName = (0, _classnames2.default)('emoji-dropdown__footer__tab', {
+      'emoji-dropdown__footer__tab--active': !isStickersOpen
+    });
+    var stickerTabClassName = (0, _classnames2.default)('emoji-dropdown__footer__tab', {
+      'emoji-dropdown__footer__tab--active': isStickersOpen
+    });
+
+    var emojisClassName = (0, _classnames2.default)('emojis', {
+      'hide': isStickersOpen
+    });
+    var stickersClassName = (0, _classnames2.default)('stickers', {
+      'hide': !isStickersOpen
     });
 
     return _react2.default.createElement(
@@ -228,23 +272,52 @@ var EmojiDropdown = function (_Component) {
         'div',
         { className: 'emoji-dropdown__wrapper', ref: 'emojiDropdown' },
         _react2.default.createElement(
-          'header',
-          { className: 'emoji-dropdown__header' },
+          'div',
+          { className: 'emoji-dropdown__body' },
           _react2.default.createElement(
-            'p',
-            { className: 'emoji-dropdown__header__title' },
-            dropdownTitle || 'Emoji'
+            'div',
+            { className: emojisClassName },
+            _react2.default.createElement(
+              'header',
+              { className: 'emojis__header' },
+              _react2.default.createElement(
+                'p',
+                { className: 'emojis__header__title' },
+                dropdownTitle || 'Emoji'
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'emojis__header__tabs pull-right' },
+                emojiTabs
+              )
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'emojis__body', id: 'emojiContainer' },
+              emojis
+            )
           ),
           _react2.default.createElement(
             'div',
-            { className: 'emoji-dropdown__header__tabs pull-right' },
-            emojiTabs
+            { className: stickersClassName },
+            this.renderStickers()
           )
         ),
         _react2.default.createElement(
-          'div',
-          { className: 'emoji-dropdown__body', id: 'emojiContainer' },
-          emojis
+          'footer',
+          { className: 'emoji-dropdown__footer' },
+          _react2.default.createElement(
+            'div',
+            { className: emojiTabClassName,
+              onClick: this.handleEmojisTabMouseEnter },
+            'Emojis'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: stickerTabClassName,
+              onClick: this.handleStickerTabMouseEnter },
+            'Stickers'
+          )
         )
       )
     );
@@ -254,7 +327,8 @@ var EmojiDropdown = function (_Component) {
 }(_react.Component);
 
 EmojiDropdown.propTypes = {
-  onSelect: _react.PropTypes.func.isRequired
+  onSelect: _react.PropTypes.func.isRequired,
+  onStickerSelect: _react.PropTypes.func.isRequired
 };
-exports.default = _utils.Container.create(EmojiDropdown, { pure: false, withProps: true });
+exports.default = _utils.Container.create(EmojiDropdown);
 //# sourceMappingURL=EmojiDropdown.react.js.map

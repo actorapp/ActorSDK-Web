@@ -62,7 +62,15 @@ var _EventBusActionCreators = require('./EventBusActionCreators');
 
 var _EventBusActionCreators2 = _interopRequireDefault(_EventBusActionCreators);
 
+var _StickersActionCreators = require('./StickersActionCreators');
+
+var _StickersActionCreators2 = _interopRequireDefault(_StickersActionCreators);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var LoginActionCreators = function (_ActionCreators) {
   (0, _inherits3.default)(LoginActionCreators, _ActionCreators);
@@ -172,7 +180,7 @@ var LoginActionCreators = function (_ActionCreators) {
       _history2.default.replace(nextPathname);
     }
 
-    this.setBindings('main', [_ActorClient2.default.bindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged), _ActorClient2.default.bindGroupDialogs(_DialogActionCreators2.default.setDialogs), _ActorClient2.default.bindContacts(_ContactActionCreators2.default.setContacts), _ActorClient2.default.bindSearch(_QuickSearchActionCreators2.default.setQuickSearchList), _ActorClient2.default.bindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon), _ActorClient2.default.bindEventBus(_EventBusActionCreators2.default.broadcastEvent)]);
+    this.setBindings('main', [_ActorClient2.default.bindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged), _ActorClient2.default.bindGroupDialogs(_DialogActionCreators2.default.setDialogs), _ActorClient2.default.bindContacts(_ContactActionCreators2.default.setContacts), _ActorClient2.default.bindSearch(_QuickSearchActionCreators2.default.setQuickSearchList), _ActorClient2.default.bindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon), _ActorClient2.default.bindEventBus(_EventBusActionCreators2.default.broadcastEvent), _ActorClient2.default.bindStickers(_StickersActionCreators2.default.setStickers)]);
 
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_IN);
   };
@@ -190,9 +198,7 @@ var LoginActionCreators = function (_ActionCreators) {
   };
 
   return LoginActionCreators;
-}(_ActionCreators3.default); /*
-                              * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                              */
+}(_ActionCreators3.default);
 
 exports.default = new LoginActionCreators();
 //# sourceMappingURL=LoginActionCreators.js.map

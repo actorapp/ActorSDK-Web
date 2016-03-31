@@ -165,6 +165,15 @@ var ActorClient = function () {
     return ActorClient.createBindings('bindCall', 'unbindCall', callId, callback);
   };
 
+  ActorClient.prototype.bindStickers = function bindStickers(callback) {
+    window.messenger.bindStickers(callback);
+    return {
+      unbind: function unbind() {
+        window.messenger.unbindStickers(callback);
+      }
+    };
+  };
+
   ActorClient.prototype.makeCall = function makeCall(userId) {
     return window.messenger.doCall(userId);
   };
@@ -501,6 +510,10 @@ var ActorClient = function () {
 
   ActorClient.prototype.loadMoreArchivedDialogs = function loadMoreArchivedDialogs() {
     return window.messenger.loadMoreArchivedDialogs();
+  };
+
+  ActorClient.prototype.sendSticker = function sendSticker(peer, sticker) {
+    window.messenger.sendSticker(peer, sticker);
   };
 
   return ActorClient;

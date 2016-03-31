@@ -54,6 +54,10 @@ var _EmojiActionCreators = require('../../actions/EmojiActionCreators');
 
 var _EmojiActionCreators2 = _interopRequireDefault(_EmojiActionCreators);
 
+var _StickersActionCreators = require('../../actions/StickersActionCreators');
+
+var _StickersActionCreators2 = _interopRequireDefault(_StickersActionCreators);
+
 var _GroupStore = require('../../stores/GroupStore');
 
 var _GroupStore2 = _interopRequireDefault(_GroupStore);
@@ -99,6 +103,10 @@ var _SendAttachment = require('../modals/SendAttachment');
 var _SendAttachment2 = _interopRequireDefault(_SendAttachment);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var ComposeSection = function (_Component) {
   (0, _inherits3.default)(ComposeSection, _Component);
@@ -236,6 +244,13 @@ var ComposeSection = function (_Component) {
       _this.setFocus();
     };
 
+    _this.handleStickerSelect = function (sticker) {
+      var peer = _this.state.peer;
+
+      _StickersActionCreators2.default.sendSticker(peer, sticker);
+      _this.setFocus();
+    };
+
     _this.setFocus = function () {
       (0, _reactDom.findDOMNode)(_this.refs.area).focus();
     };
@@ -338,7 +353,7 @@ var ComposeSection = function (_Component) {
       _react2.default.createElement(_MentionDropdown2.default, { mentions: mentions,
         onSelect: this.onMentionSelect,
         onClose: this.onMentionClose }),
-      _react2.default.createElement(_EmojiDropdown2.default, { onSelect: this.handleEmojiSelect }),
+      _react2.default.createElement(_EmojiDropdown2.default, { onSelect: this.handleEmojiSelect, onStickerSelect: this.handleStickerSelect }),
       _react2.default.createElement(_VoiceRecorder2.default, { onFinish: this.sendVoiceRecord }),
       _react2.default.createElement(
         'div',
@@ -413,9 +428,9 @@ var ComposeSection = function (_Component) {
   };
 
   return ComposeSection;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
+// import EmojiDropdown from '../emoji_stickers/Dropdown.react';
+
 
 ComposeSection.contextTypes = {
   intl: _react.PropTypes.object

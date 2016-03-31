@@ -24,15 +24,9 @@ var _reactModal = require('react-modal');
 
 var _reactModal2 = _interopRequireDefault(_reactModal);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
 var _reactIntl = require('react-intl');
+
+var _utils = require('flux/utils');
 
 var _EmojiUtils = require('../../../utils/EmojiUtils');
 
@@ -56,61 +50,52 @@ var _InviteUserStore2 = _interopRequireDefault(_InviteUserStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-; /*
-   * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-   */
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
-var getStateFromStores = function getStateFromStores() {
-  return {
-    isOpen: _InviteUserStore2.default.isInviteWithLinkModalOpen(),
-    group: _InviteUserStore2.default.getGroup(),
-    inviteUrl: _InviteUserStore2.default.getInviteUrl()
-  };
-};
+;
 
 var InviteByLink = function (_Component) {
   (0, _inherits3.default)(InviteByLink, _Component);
 
-  function InviteByLink(props) {
+  function InviteByLink() {
+    var _temp, _this, _ret;
+
     (0, _classCallCheck3.default)(this, InviteByLink);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.onChange = function () {
-      return _this.setState(getStateFromStores());
-    };
-
-    _this.onClose = function () {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onClose = function () {
       return _InviteUserByLinkActions2.default.hide();
-    };
-
-    _this.onInviteLinkClick = function (event) {
+    }, _this.onInviteLinkClick = function (event) {
       return event.target.select();
-    };
-
-    _this.onBackClick = function () {
+    }, _this.onBackClick = function () {
       var group = _this.state.group;
 
 
       _this.onClose();
       _InviteUserActions2.default.show(group);
-    };
-
-    _this.onKeyDown = function (event) {
+    }, _this.onKeyDown = function (event) {
       if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
         event.preventDefault();
         _this.onClose();
       }
-    };
-
-    _this.state = getStateFromStores();
-
-    _InviteUserStore2.default.addChangeListener(_this.onChange);
-    return _this;
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
-  InviteByLink.prototype.componentWillUnmount = function componentWillUnmount() {
-    _InviteUserStore2.default.removeChangeListener(this.onChange);
+  InviteByLink.getStores = function getStores() {
+    return [_InviteUserStore2.default];
+  };
+
+  InviteByLink.calculateState = function calculateState() {
+    return {
+      isOpen: _InviteUserStore2.default.isInviteWithLinkModalOpen(),
+      group: _InviteUserStore2.default.getGroup(),
+      inviteUrl: _InviteUserStore2.default.getInviteUrl()
+    };
   };
 
   InviteByLink.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
@@ -210,9 +195,5 @@ var InviteByLink = function (_Component) {
 InviteByLink.contextTypes = {
   intl: _react.PropTypes.object
 };
-
-
-_reactMixin2.default.onClass(InviteByLink, _reactAddonsPureRenderMixin2.default);
-
-exports.default = InviteByLink;
+exports.default = _utils.Container.create(InviteByLink);
 //# sourceMappingURL=InviteByLink.react.js.map

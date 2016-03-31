@@ -297,6 +297,19 @@ exports.default = {
         in_progress: 'Звонок: {time}',
         ended: 'завершен'
       }
+    },
+
+    tooltip: {
+      toolbar: {
+        info: 'Информация о текущей беседе',
+        favorite: 'Добавить/удалить в избранное'
+      },
+      recent: {
+        groupList: 'Список групповых диалогов',
+        privateList: 'Список приватных диалогов',
+        addContact: 'Добавить новый контакт',
+        createGroup: 'Создать группу'
+      }
     }
   }
 };

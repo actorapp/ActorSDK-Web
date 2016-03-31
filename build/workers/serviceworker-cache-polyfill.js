@@ -31,9 +31,6 @@ if (!Cache.prototype.addAll) {
     return _promise2.default.resolve().then(function () {
       if (arguments.length < 1) throw new TypeError();
 
-      // Simulate sequence<(Request or USVString)> binding:
-      var sequence = [];
-
       requests = requests.map(function (request) {
         if (request instanceof Request) {
           return request;

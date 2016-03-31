@@ -18,8 +18,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactIntl = require('react-intl');
-
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -32,6 +30,10 @@ var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/*
+* Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+*/
+
 var CallAvatar = function (_Component) {
   (0, _inherits3.default)(CallAvatar, _Component);
 
@@ -41,30 +43,32 @@ var CallAvatar = function (_Component) {
   }
 
   CallAvatar.prototype.renderAnimation = function renderAnimation() {
-    switch (this.props.callState) {
-      case _ActorAppConstants.CallStates.CALLING:
-      case _ActorAppConstants.CallStates.CONNECTING:
-        var className = (0, _classnames2.default)('call__avatar__rings', {
-          'call__avatar__rings--small': this.props.small
-        });
+    var _props = this.props;
+    var callState = _props.callState;
+    var small = _props.small;
 
-        return _react2.default.createElement(
-          'div',
-          { className: className },
-          _react2.default.createElement('div', null),
-          _react2.default.createElement('div', null),
-          _react2.default.createElement('div', null)
-        );
-        break;
-      default:
-        return null;
+
+    if (callState !== _ActorAppConstants.CallStates.CALLING && callState !== _ActorAppConstants.CallStates.CONNECTING) {
+      return null;
     }
+
+    var className = (0, _classnames2.default)('call__avatar__rings', {
+      'call__avatar__rings--small': small
+    });
+
+    return _react2.default.createElement(
+      'div',
+      { className: className },
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null)
+    );
   };
 
   CallAvatar.prototype.render = function render() {
-    var _props = this.props;
-    var peerInfo = _props.peerInfo;
-    var small = _props.small;
+    var _props2 = this.props;
+    var peerInfo = _props2.peerInfo;
+    var small = _props2.small;
 
 
     return _react2.default.createElement(
@@ -81,9 +85,7 @@ var CallAvatar = function (_Component) {
   };
 
   return CallAvatar;
-}(_react.Component); /*
-                     * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                     */
+}(_react.Component);
 
 CallAvatar.propTypes = {
   small: _react.PropTypes.bool,

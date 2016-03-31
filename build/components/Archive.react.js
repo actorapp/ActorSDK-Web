@@ -120,7 +120,6 @@ var Archive = function (_Component) {
     var _state2 = this.state;
     var isLoading = _state2.isLoading;
     var dialogs = _state2.dialogs;
-    var isAllLoaded = _state2.isAllLoaded;
 
     var archiveClassname = (0, _classnames2.default)('archive-section', {
       'archive-section--loading': isLoading

@@ -50,7 +50,7 @@ var Voice = function (_Component) {
       return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
     };
 
-    _this.handleTimeUpdate = function (event) {
+    _this.handleTimeUpdate = function () {
       _this.setState({
         currentTime: _this.audio.currentTime,
         duration: _this.audio.duration
@@ -100,7 +100,7 @@ var Voice = function (_Component) {
     }
   };
 
-  Voice.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
+  Voice.prototype.componentDidUpdate = function componentDidUpdate() {
     var content = this.props.content;
 
 

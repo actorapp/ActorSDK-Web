@@ -18,8 +18,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _lodash = require('lodash');
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -55,6 +53,10 @@ var _TextField = require('../../common/TextField.react');
 var _TextField2 = _interopRequireDefault(_TextField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var CreateGroupForm = function (_Component) {
   (0, _inherits3.default)(CreateGroupForm, _Component);
@@ -270,9 +272,7 @@ var CreateGroupForm = function (_Component) {
   };
 
   return CreateGroupForm;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 CreateGroupForm.contextTypes = {
   intl: _react.PropTypes.object

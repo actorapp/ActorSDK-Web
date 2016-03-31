@@ -111,27 +111,14 @@ var MentionDropdown = function (_Component) {
     var selectedIndex = _state.selectedIndex;
 
 
-    var mentionClassName = (0, _classnames2.default)('mention', {
-      'mention--opened': isOpen
-    }, className);
+    if (!isOpen) {
+      return _react2.default.createElement('div', { className: 'mention' });
+    }
+
     var mentionsElements = (0, _lodash.map)(mentions, function (mention, index) {
       var itemClassName = (0, _classnames2.default)('mention__list__item', {
         'mention__list__item--active': selectedIndex === index
       });
-
-      var title = mention.isNick ? [_react2.default.createElement(
-        'span',
-        { className: 'nickname' },
-        mention.mentionText
-      ), _react2.default.createElement(
-        'span',
-        { className: 'name' },
-        mention.secondText
-      )] : _react2.default.createElement(
-        'span',
-        { className: 'name' },
-        mention.mentionText
-      );
 
       return _react2.default.createElement(
         'li',
@@ -150,73 +137,80 @@ var MentionDropdown = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'title' },
-          title
+          mention.isNick && _react2.default.createElement(
+            'span',
+            { className: 'nickname' },
+            mention.mentionText
+          ),
+          _react2.default.createElement(
+            'span',
+            { className: 'name' },
+            mention.mentionText
+          )
         )
       );
     });
 
-    if (isOpen) {
-      return _react2.default.createElement(
+    var mentionClassName = (0, _classnames2.default)('mention mention--opened', className);
+
+    return _react2.default.createElement(
+      'div',
+      { className: mentionClassName },
+      _react2.default.createElement(
         'div',
-        { className: mentionClassName },
+        { className: 'mention__wrapper' },
         _react2.default.createElement(
-          'div',
-          { className: 'mention__wrapper' },
+          'header',
+          { className: 'mention__header' },
           _react2.default.createElement(
-            'header',
-            { className: 'mention__header' },
+            'div',
+            { className: 'pull-left' },
             _react2.default.createElement(
-              'div',
-              { className: 'pull-left' },
-              _react2.default.createElement(
-                'strong',
-                null,
-                'tab'
-              ),
-              '  or  ',
-              _react2.default.createElement(
-                'strong',
-                null,
-                '↑'
-              ),
-              _react2.default.createElement(
-                'strong',
-                null,
-                '↓'
-              ),
-              '  to navigate'
+              'strong',
+              null,
+              'tab'
+            ),
+            '  or  ',
+            _react2.default.createElement(
+              'strong',
+              null,
+              '↑'
             ),
             _react2.default.createElement(
-              'div',
-              { className: 'pull-left' },
-              _react2.default.createElement(
-                'strong',
-                null,
-                '↵'
-              ),
-              '  to select'
+              'strong',
+              null,
+              '↓'
             ),
-            _react2.default.createElement(
-              'div',
-              { className: 'pull-right' },
-              _react2.default.createElement(
-                'strong',
-                null,
-                'esc'
-              ),
-              '  to close'
-            )
+            '  to navigate'
           ),
           _react2.default.createElement(
-            'ul',
-            { className: 'mention__list', ref: 'mentionList' },
-            mentionsElements
+            'div',
+            { className: 'pull-left' },
+            _react2.default.createElement(
+              'strong',
+              null,
+              '↵'
+            ),
+            '  to select'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'pull-right' },
+            _react2.default.createElement(
+              'strong',
+              null,
+              'esc'
+            ),
+            '  to close'
           )
+        ),
+        _react2.default.createElement(
+          'ul',
+          { className: 'mention__list', ref: 'mentionList' },
+          mentionsElements
         )
-      );
-    } else {
-      return null;
-    }
+      )
+    );
   };
 
   return MentionDropdown;

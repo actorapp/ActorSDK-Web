@@ -34,10 +34,6 @@ var _VisibilityStore = require('../../stores/VisibilityStore');
 
 var _VisibilityStore2 = _interopRequireDefault(_VisibilityStore);
 
-var _DialogStore = require('../../stores/DialogStore');
-
-var _DialogStore2 = _interopRequireDefault(_DialogStore);
-
 var _MessageStore = require('../../stores/MessageStore');
 
 var _MessageStore2 = _interopRequireDefault(_MessageStore);
@@ -48,10 +44,11 @@ var _MessagesList2 = _interopRequireDefault(_MessagesList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _delayed = []; /*
-                    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                    */
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
+var _delayed = [];
 var flushDelayed = function flushDelayed() {
   (0, _lodash.forEach)(_delayed, function (p) {
     return _MessageActionCreators2.default.setMessageShown(p.peer, p.message);

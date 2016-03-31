@@ -18,8 +18,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactIntl = require('react-intl');
-
 var _reactDraggable = require('react-draggable');
 
 var _reactDraggable2 = _interopRequireDefault(_reactDraggable);
@@ -33,6 +31,10 @@ var _CallControls = require('./CallControls.react');
 var _CallControls2 = _interopRequireDefault(_CallControls);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+* Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+*/
 
 var CallDraggable = function (_Component) {
   (0, _inherits3.default)(CallDraggable, _Component);
@@ -73,9 +75,7 @@ var CallDraggable = function (_Component) {
   };
 
   return CallDraggable;
-}(_react.Component); /*
-                     * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                     */
+}(_react.Component);
 
 CallDraggable.propTypes = {
   peerInfo: _react2.default.PropTypes.object,

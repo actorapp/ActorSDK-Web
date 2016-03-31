@@ -485,7 +485,7 @@ var ActorClient = function () {
   };
 
   ActorClient.prototype.handleLinkClick = function handleLinkClick(event) {
-    messenger.handleLinkClick(event);
+    window.messenger.handleLinkClick(event);
   };
 
   ActorClient.prototype.isElectron = function isElectron() {

@@ -2,8 +2,6 @@
 
 exports.__esModule = true;
 
-var _lodash = require('lodash');
-
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
@@ -11,10 +9,6 @@ var _ActorAppConstants = require('../constants/ActorAppConstants');
 var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
-var _DialogStore = require('../stores/DialogStore');
-
-var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
 var _DraftStore = require('../stores/DraftStore');
 

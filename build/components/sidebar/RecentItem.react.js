@@ -18,15 +18,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require('react-dom');
-
-var _utils = require('flux/utils');
-
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
-
-var _reactIntl = require('react-intl');
 
 var _PeerUtils = require('../../utils/PeerUtils');
 
@@ -34,29 +28,13 @@ var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
 
 var _EmojiUtils = require('../../utils/EmojiUtils');
 
-var _confirm = require('../../utils/confirm');
-
-var _confirm2 = _interopRequireDefault(_confirm);
-
 var _reactRouter = require('react-router');
 
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
-var _DialogActionCreators = require('../../actions/DialogActionCreators');
-
-var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
-
 var _DropdownActionCreators = require('../../actions/DropdownActionCreators');
 
 var _DropdownActionCreators2 = _interopRequireDefault(_DropdownActionCreators);
-
-var _UserStore = require('../../stores/UserStore');
-
-var _UserStore2 = _interopRequireDefault(_UserStore);
-
-var _ArchiveStore = require('../../stores/ArchiveStore');
-
-var _ArchiveStore2 = _interopRequireDefault(_ArchiveStore);
 
 var _AvatarItem = require('../common/AvatarItem.react');
 
@@ -67,10 +45,6 @@ var _Stateful = require('../common/Stateful.react');
 var _Stateful2 = _interopRequireDefault(_Stateful);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
 
 var RecentItem = function (_Component) {
   (0, _inherits3.default)(RecentItem, _Component);
@@ -162,7 +136,9 @@ var RecentItem = function (_Component) {
   };
 
   return RecentItem;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 RecentItem.propTypes = {
   isActive: _react.PropTypes.bool.isRequired,

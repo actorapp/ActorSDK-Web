@@ -209,7 +209,6 @@ var LoginStore = function (_Store) {
 
       case _ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_IN:
         myUid = _ActorClient2.default.getUid();
-        var user = _ActorClient2.default.getUser(myUid);
         this.__emitChange();
         break;
       case _ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_OUT:

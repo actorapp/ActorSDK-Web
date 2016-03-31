@@ -8,5 +8,5 @@ exports.default = isInside;
 
 function isInside(coords, rect) {
   return coords.x > rect.left && coords.y > rect.top && coords.x < rect.left + rect.width && coords.y < rect.top + rect.height;
-};
+}
 //# sourceMappingURL=isInside.js.map

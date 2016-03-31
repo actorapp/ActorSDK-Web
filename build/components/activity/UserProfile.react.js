@@ -14,8 +14,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _lodash = require('lodash');
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -86,10 +84,6 @@ var _Fold2 = _interopRequireDefault(_Fold);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
-
 var getStateFromStores = function getStateFromStores(uid) {
   var thisPeer = uid ? _UserStore2.default.getUser(uid) : null;
   return {
@@ -97,7 +91,9 @@ var getStateFromStores = function getStateFromStores(uid) {
     isNotificationsEnabled: thisPeer ? _NotificationsStore2.default.isNotificationsEnabled(thisPeer) : true,
     message: _OnlineStore2.default.getMessage()
   };
-};
+}; /*
+    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+    */
 
 var UserProfile = function (_Component) {
   (0, _inherits3.default)(UserProfile, _Component);

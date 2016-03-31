@@ -264,7 +264,7 @@ export default {
         'addPeople': 'add people',
         'favourites': 'Favorites',
         'groups': 'Groups',
-        'privates': 'Direct Messages',
+        'privates': 'Direct Messages'
       },
       'group': {
         'empty': 'Create your first group conversation'
@@ -303,6 +303,19 @@ export default {
         connecting: 'connecting',
         in_progress: 'On call: {time}',
         ended: 'ended'
+      }
+    },
+
+    tooltip: {
+      toolbar: {
+        info: 'Information about current conversation',
+        favorite: 'Toggle favorite'
+      },
+      recent: {
+        groupList: 'List of group conversations',
+        privateList: 'List of private conversation',
+        addContact: 'Add new contact',
+        createGroup: 'Create group'
       }
     }
   }

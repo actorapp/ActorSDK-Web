@@ -22,21 +22,15 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _ActorClient = require('../utils/ActorClient');
-
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
 
 var message = '',
     online = 0,
     total = 0,
     _isOnline = false,
-    _isNotMember = false;
+    _isNotMember = false; /*
+                           * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                           */
 
 var OnlineStore = function (_Store) {
   (0, _inherits3.default)(OnlineStore, _Store);

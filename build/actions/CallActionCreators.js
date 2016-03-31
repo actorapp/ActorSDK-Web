@@ -22,15 +22,15 @@ var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
-var _CallStore = require('../stores/CallStore');
-
-var _CallStore2 = _interopRequireDefault(_CallStore);
-
 var _ActionCreators2 = require('./ActionCreators');
 
 var _ActionCreators3 = _interopRequireDefault(_ActionCreators2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var CallActionCreators = function (_ActionCreators) {
   (0, _inherits3.default)(CallActionCreators, _ActionCreators);
@@ -100,9 +100,7 @@ var CallActionCreators = function (_ActionCreators) {
   };
 
   return CallActionCreators;
-}(_ActionCreators3.default); /*
-                              * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                              */
+}(_ActionCreators3.default);
 
 exports.default = new CallActionCreators();
 //# sourceMappingURL=CallActionCreators.js.map

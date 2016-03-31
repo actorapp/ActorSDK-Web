@@ -60,10 +60,6 @@ var _QuickSearchActionCreators = require('../../actions/QuickSearchActionCreator
 
 var _QuickSearchActionCreators2 = _interopRequireDefault(_QuickSearchActionCreators);
 
-var _DialogActionCreators = require('../../actions/DialogActionCreators');
-
-var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
-
 var _QuickSearchStore = require('../../stores/QuickSearchStore');
 
 var _QuickSearchStore2 = _interopRequireDefault(_QuickSearchStore);
@@ -74,11 +70,10 @@ var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
+var RESULT_ITEM_HEIGHT = 44; /*
+                              * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                              */
 
-var RESULT_ITEM_HEIGHT = 44;
 var scrollIndex = 0;
 
 var QuickSearch = function (_Component) {

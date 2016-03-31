@@ -18,8 +18,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require('react-dom');
-
 var _ActorClient = require('../../../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
@@ -28,18 +26,15 @@ var _EmojiUtils = require('../../../utils/EmojiUtils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import hljs from 'highlight.js';
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
-
 function processText(text) {
   var processedText = text;
   processedText = _ActorClient2.default.renderMarkdown(processedText);
   processedText = (0, _EmojiUtils.processEmojiText)(processedText);
 
   return processedText;
-}
+} /*
+   * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+   */
 
 var Text = function (_Component) {
   (0, _inherits3.default)(Text, _Component);
@@ -48,19 +43,6 @@ var Text = function (_Component) {
     (0, _classCallCheck3.default)(this, Text);
     return (0, _possibleConstructorReturn3.default)(this, _Component.apply(this, arguments));
   }
-
-  Text.prototype.componentDidMount = function componentDidMount() {
-    /*
-    requestAnimationFrame(() => {
-      const node = findDOMNode(this);
-      const codeBlocks = node.getElementsByTagName('pre');
-      for (let i = 0; i < codeBlocks.length; i++) {
-        const codeBlock = codeBlocks[i];
-        hljs.highlightBlock(codeBlock.firstChild);
-      }
-    });
-    */
-  };
 
   Text.prototype.render = function render() {
     var _props = this.props;

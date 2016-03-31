@@ -28,11 +28,11 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _ActorClient = require('../utils/ActorClient');
-
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
 
 var InviteUserStore = function (_ReduceStore) {
   (0, _inherits3.default)(InviteUserStore, _ReduceStore);
@@ -126,9 +126,7 @@ var InviteUserStore = function (_ReduceStore) {
   };
 
   return InviteUserStore;
-}(_utils.ReduceStore); /*
-                        * Copyright (C) 2015 Actor LLC. <https://actor.im>
-                        */
+}(_utils.ReduceStore);
 
 exports.default = new InviteUserStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=InviteUserStore.js.map

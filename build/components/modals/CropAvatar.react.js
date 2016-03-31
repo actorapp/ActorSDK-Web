@@ -258,7 +258,7 @@ var CropAvatarModal = function (_Component) {
       _this.onClose();
     };
 
-    _this.storeScaledSizes = function (event) {
+    _this.storeScaledSizes = function () {
       var cropSize = _this.state.cropSize;
 
       var originalImage = (0, _reactDom.findDOMNode)(_this.refs.originalImage);

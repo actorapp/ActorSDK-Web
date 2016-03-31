@@ -22,14 +22,6 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _ActorClient = require('../utils/ActorClient');
-
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
-var _PeerUtils = require('../utils/PeerUtils');
-
-var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DropdownStore = function (_Store) {

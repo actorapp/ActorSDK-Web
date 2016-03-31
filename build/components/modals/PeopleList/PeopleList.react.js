@@ -24,14 +24,6 @@ var _reactDom = require('react-dom');
 
 var _utils = require('flux/utils');
 
-var _history = require('../../../utils/history');
-
-var _history2 = _interopRequireDefault(_history);
-
-var _PeerUtils = require('../../../utils/PeerUtils');
-
-var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
-
 var _Scrollbar = require('../../common/Scrollbar.react');
 
 var _Scrollbar2 = _interopRequireDefault(_Scrollbar);

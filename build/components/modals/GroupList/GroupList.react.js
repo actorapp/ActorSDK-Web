@@ -44,10 +44,6 @@ var _GroupListActionCreators = require('../../../actions/GroupListActionCreators
 
 var _GroupListActionCreators2 = _interopRequireDefault(_GroupListActionCreators);
 
-var _DialogActionCreators = require('../../../actions/DialogActionCreators');
-
-var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
-
 var _GroupListStore = require('../../../stores/GroupListStore');
 
 var _GroupListStore2 = _interopRequireDefault(_GroupListStore);
@@ -57,6 +53,10 @@ var _Group = require('./Group.react');
 var _Group2 = _interopRequireDefault(_Group);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var GroupList = function (_Component) {
   (0, _inherits3.default)(GroupList, _Component);
@@ -261,9 +261,7 @@ var GroupList = function (_Component) {
   };
 
   return GroupList;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 GroupList.contextTypes = {
   intl: _react.PropTypes.object

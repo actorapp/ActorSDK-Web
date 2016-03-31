@@ -80,7 +80,6 @@ var ArchiveStore = function (_Store) {
         this.__emitChange();
         break;
       case _ActorAppConstants.ActionTypes.ARCHIVE_ADD_ERROR:
-        var key = _PeerUtils2.default.peerToString(action.peer);
         this.archiveChatState[peerKey] = _ActorAppConstants.AsyncActionStates.FAILURE;
         this.__emitChange();
         break;

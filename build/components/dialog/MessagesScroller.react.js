@@ -22,8 +22,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require('react-dom');
-
 var _PeerUtils = require('../../utils/PeerUtils');
 
 var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
@@ -33,9 +31,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * On which scrollTop value start loading older messages
  */
-var MAX_LOAD_HEIGHT = 100; /*
-                            * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                            */
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
+
+var MAX_LOAD_HEIGHT = 100;
 
 var MessagesScroller = function (_Component) {
   (0, _inherits3.default)(MessagesScroller, _Component);

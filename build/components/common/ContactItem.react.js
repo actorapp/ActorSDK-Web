@@ -20,10 +20,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _AvatarItem = require('./AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -31,6 +27,10 @@ var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 var _EmojiUtils = require('../../utils/EmojiUtils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2016 Actor LLC. <https://actor.im>
+ */
 
 var ContactItem = function (_Component) {
   (0, _inherits3.default)(ContactItem, _Component);
@@ -46,7 +46,6 @@ var ContactItem = function (_Component) {
 
   ContactItem.prototype.render = function render() {
     var _props = this.props;
-    var uid = _props.uid;
     var name = _props.name;
     var placeholder = _props.placeholder;
     var avatar = _props.avatar;
@@ -80,9 +79,7 @@ var ContactItem = function (_Component) {
   };
 
   return ContactItem;
-}(_react.Component); /*
-                      * Copyright (C) 2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 ContactItem.propTypes = {
   uid: _react.PropTypes.number.isRequired,

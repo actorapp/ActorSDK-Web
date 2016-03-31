@@ -199,7 +199,6 @@ var InviteUser = function (_Component) {
   InviteUser.prototype.render = function render() {
     var _state2 = this.state;
     var isOpen = _state2.isOpen;
-    var group = _state2.group;
     var search = _state2.search;
     var intl = this.context.intl;
 

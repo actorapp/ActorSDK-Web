@@ -18,8 +18,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _lodash = require('lodash');
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -108,10 +106,6 @@ var _StickerReact2 = _interopRequireDefault(_StickerReact);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
-
 var MessageItem = function (_Component) {
   (0, _inherits3.default)(MessageItem, _Component);
 
@@ -158,7 +152,7 @@ var MessageItem = function (_Component) {
     };
   };
 
-  MessageItem.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
+  MessageItem.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
     return this.props.message !== nextProps.message || this.props.isShort !== nextProps.isShort;
   };
 
@@ -334,7 +328,9 @@ var MessageItem = function (_Component) {
 }(_react.Component);
 
 // Default message content components
-
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 MessageItem.propTypes = {
   peer: _react.PropTypes.object.isRequired,

@@ -18,8 +18,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactIntl = require('react-intl');
-
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _AnswerButton = require('./AnswerButton.react');
@@ -51,10 +49,6 @@ var _AddUserButton = require('./AddUserButton.react');
 var _AddUserButton2 = _interopRequireDefault(_AddUserButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
-* Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-*/
 
 var CallControls = function (_Component) {
   (0, _inherits3.default)(CallControls, _Component);
@@ -109,7 +103,7 @@ var CallControls = function (_Component) {
           secondaryControls
         )
       );
-    };
+    }
 
     return _react2.default.createElement(
       'div',
@@ -128,7 +122,9 @@ var CallControls = function (_Component) {
   };
 
   return CallControls;
-}(_react.Component);
+}(_react.Component); /*
+                     * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                     */
 
 CallControls.propTypes = {
   callState: _react.PropTypes.oneOf([_ActorAppConstants.CallStates.CALLING, _ActorAppConstants.CallStates.IN_PROGRESS, _ActorAppConstants.CallStates.CONNECTING, _ActorAppConstants.CallStates.ENDED]).isRequired,

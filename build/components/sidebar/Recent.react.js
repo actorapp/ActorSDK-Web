@@ -186,13 +186,25 @@ var Recent = function (_Component) {
             'li',
             { className: 'sidebar__list__title' },
             _react2.default.createElement(
-              'a',
-              { onClick: _this2.handleGroupListClick },
-              intl.messages['sidebar.recents.' + dialogGroup.key]
+              _rcTooltip2.default,
+              {
+                placement: 'right',
+                mouseEnterDelay: 0.5,
+                overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.recent.groupList' })
+              },
+              _react2.default.createElement(
+                'a',
+                { onClick: _this2.handleGroupListClick },
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.recents.' + dialogGroup.key })
+              )
             ),
             _react2.default.createElement(
               _rcTooltip2.default,
-              { placement: 'top', mouseEnterDelay: 0.5, overlay: 'Create group' },
+              {
+                placement: 'top',
+                mouseEnterDelay: 0.5,
+                overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.recent.createGroup' })
+              },
               _react2.default.createElement(
                 'i',
                 { className: 'material-icons sidebar__list__title__icon pull-right',
@@ -207,13 +219,25 @@ var Recent = function (_Component) {
             'li',
             { className: 'sidebar__list__title' },
             _react2.default.createElement(
-              'a',
-              { onClick: _this2.handlePrivateListClick },
-              intl.messages['sidebar.recents.' + dialogGroup.key]
+              _rcTooltip2.default,
+              {
+                placement: 'right',
+                mouseEnterDelay: 0.5,
+                overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.recent.privateList' })
+              },
+              _react2.default.createElement(
+                'a',
+                { onClick: _this2.handlePrivateListClick },
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.recents.' + dialogGroup.key })
+              )
             ),
             _react2.default.createElement(
               _rcTooltip2.default,
-              { placement: 'top', mouseEnterDelay: 0.5, overlay: 'Add contact' },
+              {
+                placement: 'top',
+                mouseEnterDelay: 0.5,
+                overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.recent.addContact' })
+              },
               _react2.default.createElement(
                 'i',
                 { className: 'material-icons sidebar__list__title__icon pull-right',
@@ -231,7 +255,7 @@ var Recent = function (_Component) {
           );
       }
 
-      var groupList = (0, _lodash.map)(dialogGroup.shorts, function (dialog, index) {
+      var groupList = (0, _lodash.map)(dialogGroup.shorts, function (dialog) {
         var peer = dialog.peer.peer;
         var peerKey = _PeerUtils2.default.peerToString(peer);
 

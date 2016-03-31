@@ -52,6 +52,10 @@ var _ToggleFavorite = require('./common/ToggleFavorite.react');
 
 var _ToggleFavorite2 = _interopRequireDefault(_ToggleFavorite);
 
+var _rcTooltip = require('rc-tooltip');
+
+var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
+
 var _DialogInfoStore = require('../stores/DialogInfoStore');
 
 var _DialogInfoStore2 = _interopRequireDefault(_DialogInfoStore);
@@ -73,10 +77,6 @@ var _CallStore = require('../stores/CallStore');
 var _CallStore2 = _interopRequireDefault(_CallStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
 
 var ToolbarSection = function (_Component) {
   (0, _inherits3.default)(ToolbarSection, _Component);
@@ -128,22 +128,18 @@ var ToolbarSection = function (_Component) {
   };
 
   ToolbarSection.calculateCallState = function calculateCallState(thisPeer) {
-    var isCalling = _CallStore2.default.isOpen();
-    if (!isCalling) {
-      return { isCalling: isCalling };
-    }
-
-    var callPeer = _CallStore2.default.getPeer();
-    var isSamePeer = _PeerUtils2.default.equals(thisPeer, callPeer);
-    if (!isSamePeer) {
-      return { isCalling: false };
+    var call = _CallStore2.default.getState();
+    if (!call.isOpen || !_PeerUtils2.default.equals(thisPeer, call.peer)) {
+      return {
+        isCalling: false
+      };
     }
 
     return {
-      isCalling: isCalling,
-      state: _CallStore2.default.getState(),
-      isFloating: _CallStore2.default.isFloating(),
-      time: '00:00'
+      time: '00:00',
+      isCalling: true,
+      state: call.state,
+      isFloating: call.isFloating
     };
   };
 
@@ -171,23 +167,39 @@ var ToolbarSection = function (_Component) {
 
     if (call.isCalling) {
       return _react2.default.createElement(
-        'button',
-        { className: activityButtonClassName, onClick: this.handleInCallClick },
+        _rcTooltip2.default,
+        {
+          placement: 'left',
+          mouseEnterDelay: 0.5,
+          overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.toolbar.info' })
+        },
         _react2.default.createElement(
-          'i',
-          { className: 'material-icons' },
-          'info'
+          'button',
+          { className: activityButtonClassName, onClick: this.handleInCallClick },
+          _react2.default.createElement(
+            'i',
+            { className: 'material-icons' },
+            'info'
+          )
         )
       );
     }
 
     return _react2.default.createElement(
-      'button',
-      { className: activityButtonClassName, onClick: this.onClick },
+      _rcTooltip2.default,
+      {
+        placement: 'left',
+        mouseEnterDelay: 0.5,
+        overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.toolbar.info' })
+      },
       _react2.default.createElement(
-        'i',
-        { className: 'material-icons' },
-        'info'
+        'button',
+        { className: activityButtonClassName, onClick: this.onClick },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'info'
+        )
       )
     );
   };
@@ -195,7 +207,6 @@ var ToolbarSection = function (_Component) {
   ToolbarSection.prototype.render = function render() {
     var _state3 = this.state;
     var dialogInfo = _state3.dialogInfo;
-    var isActivityOpen = _state3.isActivityOpen;
     var isFavorite = _state3.isFavorite;
     var call = _state3.call;
 
@@ -229,9 +240,17 @@ var ToolbarSection = function (_Component) {
           null,
           _react2.default.createElement('span', { className: 'toolbar__peer__title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(dialogInfo.name) } }),
           _react2.default.createElement(
-            'span',
-            { className: favoriteClassName },
-            _react2.default.createElement(_ToggleFavorite2.default, { value: isFavorite, onToggle: this.onFavoriteToggle })
+            _rcTooltip2.default,
+            {
+              placement: 'bottom',
+              mouseEnterDelay: 0.5,
+              overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.toolbar.favorite' })
+            },
+            _react2.default.createElement(
+              'span',
+              { className: favoriteClassName },
+              _react2.default.createElement(_ToggleFavorite2.default, { value: isFavorite, onToggle: this.onFavoriteToggle })
+            )
           )
         ),
         _react2.default.createElement(
@@ -253,7 +272,9 @@ var ToolbarSection = function (_Component) {
   };
 
   return ToolbarSection;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 ToolbarSection.contextTypes = {
   isExperimental: _react.PropTypes.bool

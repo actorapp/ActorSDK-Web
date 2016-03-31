@@ -18,15 +18,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _reactIntl = require('react-intl');
 
 var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
 var _SvgIcon = require('../../common/SvgIcon.react');
 
@@ -48,47 +42,74 @@ var _GroupStore2 = _interopRequireDefault(_GroupStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
+
 var Welcome = function (_Component) {
   (0, _inherits3.default)(Welcome, _Component);
 
-  function Welcome() {
+  function Welcome(props, context) {
     (0, _classCallCheck3.default)(this, Welcome);
-    return (0, _possibleConstructorReturn3.default)(this, _Component.apply(this, arguments));
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props, context));
+
+    _this.onInviteClick = _this.onInviteClick.bind(_this);
+    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
+    return _this;
   }
 
-  Welcome.prototype.render = function render() {
+  Welcome.prototype.onInviteClick = function onInviteClick() {
     var peer = this.props.peer;
+
+    var group = _GroupStore2.default.getGroup(peer.id);
+    _InviteUserActions2.default.show(group);
+  };
+
+  Welcome.prototype.renderUserText = function renderUserText(id) {
+    var user = _UserStore2.default.getUser(id);
+    return _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.private', values: { name: user.name } });
+  };
+
+  Welcome.prototype.renderGroupText = function renderGroupText(id) {
     var intl = this.context.intl;
 
+    var group = _GroupStore2.default.getGroup(id);
+    var myID = _UserStore2.default.getMyId();
+    var admin = _UserStore2.default.getUser(group.adminId);
+    var creator = group.adminId === myID ? intl.messages['message.welcome.group.you'] : admin.name;
 
-    var welcomeText = void 0;
+    return _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.group.main', values: { name: group.name, creator: creator } }),
+      _react2.default.createElement(
+        'p',
+        { key: 2 },
+        intl.messages['message.welcome.group.actions.start'],
+        _react2.default.createElement(
+          'a',
+          { onClick: this.onInviteClick },
+          intl.messages['message.welcome.group.actions.invite']
+        ),
+        intl.messages['message.welcome.group.actions.end']
+      )
+    );
+  };
+
+  Welcome.prototype.renderText = function renderText() {
+    var peer = this.props.peer;
+
+
     switch (peer.type) {
       case _ActorAppConstants.PeerTypes.USER:
-        var user = _UserStore2.default.getUser(peer.id);
-        welcomeText = _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.private', values: { name: user.name } });
-        break;
+        return this.renderUserText(peer.id);
       case _ActorAppConstants.PeerTypes.GROUP:
-        var group = _GroupStore2.default.getGroup(peer.id);
-        var myID = _UserStore2.default.getMyId();
-        var admin = _UserStore2.default.getUser(group.adminId);
-        var creator = group.adminId === myID ? intl.messages['message.welcome.group.you'] : admin.name;
-        welcomeText = [_react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.group.main', key: 1,
-          values: { name: group.name, creator: creator } }), _react2.default.createElement(
-          'p',
-          { key: 2 },
-          intl.messages['message.welcome.group.actions.start'],
-          _react2.default.createElement(
-            'a',
-            { onClick: function onClick() {
-                return _InviteUserActions2.default.show(group);
-              } },
-            intl.messages['message.welcome.group.actions.invite']
-          ),
-          intl.messages['message.welcome.group.actions.end']
-        )];
-        break;
+        return this.renderGroupText(peer.id);
     }
+  };
 
+  Welcome.prototype.render = function render() {
     return _react2.default.createElement(
       'div',
       { className: 'message message--welcome row' },
@@ -104,15 +125,13 @@ var Welcome = function (_Component) {
       _react2.default.createElement(
         'div',
         { className: 'message__body col-xs' },
-        welcomeText
+        this.renderText()
       )
     );
   };
 
   return Welcome;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 Welcome.propTypes = {
   peer: _react.PropTypes.object.isRequired
@@ -120,9 +139,5 @@ Welcome.propTypes = {
 Welcome.contextTypes = {
   intl: _react.PropTypes.object
 };
-
-
-_reactMixin2.default.onClass(Welcome, _reactAddonsPureRenderMixin2.default);
-
 exports.default = Welcome;
 //# sourceMappingURL=Welcome.react.js.map

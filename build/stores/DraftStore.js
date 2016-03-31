@@ -22,15 +22,7 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _DialogStore = require('./DialogStore');
-
-var _DialogStore2 = _interopRequireDefault(_DialogStore);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
 
 var DraftStore = function (_Store) {
   (0, _inherits3.default)(DraftStore, _Store);
@@ -65,7 +57,9 @@ var DraftStore = function (_Store) {
   };
 
   return DraftStore;
-}(_utils.Store);
+}(_utils.Store); /*
+                  * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                  */
 
 exports.default = new DraftStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=DraftStore.js.map

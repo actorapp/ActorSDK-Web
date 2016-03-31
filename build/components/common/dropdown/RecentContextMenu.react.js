@@ -84,28 +84,28 @@ var RecentContextMenu = function (_Component) {
       return _DropdownActionCreators2.default.hideRecentContext();
     };
 
-    _this.handleAddToArchive = function (event) {
+    _this.handleAddToArchive = function () {
       var peer = _this.props.peer;
 
       _ArchiveActionCreators2.default.archiveChat(peer);
       _this.handleClose();
     };
 
-    _this.handleFavorite = function (event) {
+    _this.handleFavorite = function () {
       var peer = _this.props.peer;
 
       _FavoriteActionCreators2.default.favoriteChat(peer);
       _this.handleClose();
     };
 
-    _this.handleUnfavorite = function (event) {
+    _this.handleUnfavorite = function () {
       var peer = _this.props.peer;
 
       _FavoriteActionCreators2.default.unfavoriteChat(peer);
       _this.handleClose();
     };
 
-    _this.handleDelete = function (event) {
+    _this.handleDelete = function () {
       var intl = _this.context.intl;
       var peer = _this.props.peer;
 

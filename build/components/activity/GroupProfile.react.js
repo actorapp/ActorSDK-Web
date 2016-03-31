@@ -14,13 +14,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _lodash = require('lodash');
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
-
-var _reactIntl = require('react-intl');
 
 var _classnames = require('classnames');
 

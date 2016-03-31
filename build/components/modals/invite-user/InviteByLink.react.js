@@ -14,8 +14,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _lodash = require('lodash');
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -53,8 +51,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /*
  * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
  */
-
-;
 
 var InviteByLink = function (_Component) {
   (0, _inherits3.default)(InviteByLink, _Component);

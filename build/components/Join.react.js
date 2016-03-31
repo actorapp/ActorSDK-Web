@@ -41,14 +41,16 @@ var Join = function (_Component) {
   }
 
   Join.prototype.render = function render() {
-    return null;
+    return _react2.default.createElement('div', null);
   };
 
   return Join;
 }(_react.Component);
 
 Join.propTypes = {
-  params: _react.PropTypes.object
+  params: _react.PropTypes.shape({
+    token: _react.PropTypes.string.isRequired
+  }).isRequired
 };
 exports.default = Join;
 //# sourceMappingURL=Join.react.js.map

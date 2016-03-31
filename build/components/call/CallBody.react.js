@@ -18,8 +18,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactIntl = require('react-intl');
-
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -29,10 +27,6 @@ var _CallAvatar = require('./CallAvatar.react');
 var _CallAvatar2 = _interopRequireDefault(_CallAvatar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
-* Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-*/
 
 var CallBody = function (_Component) {
   (0, _inherits3.default)(CallBody, _Component);
@@ -69,7 +63,9 @@ var CallBody = function (_Component) {
   };
 
   return CallBody;
-}(_react.Component);
+}(_react.Component); /*
+                     * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                     */
 
 CallBody.propTypes = {
   small: _react.PropTypes.bool,

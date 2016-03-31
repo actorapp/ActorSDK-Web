@@ -39,8 +39,6 @@ var TextField = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
 
     _this.focus = function () {
-      var ref = _this.props.ref;
-
       var input = _this.props.ref || _this.refs.input;
       if (!input) {
         return;

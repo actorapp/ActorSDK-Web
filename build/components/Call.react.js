@@ -22,13 +22,7 @@ var _reactAddonsShallowCompare = require('react-addons-shallow-compare');
 
 var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _utils = require('flux/utils');
-
-var _reactIntl = require('react-intl');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
@@ -60,10 +54,6 @@ var _CallDraggable = require('./call/CallDraggable.react');
 
 var _CallDraggable2 = _interopRequireDefault(_CallDraggable);
 
-var _CallHeader = require('./call/CallHeader.react');
-
-var _CallHeader2 = _interopRequireDefault(_CallHeader);
-
 var _CallBody = require('./call/CallBody.react');
 
 var _CallBody2 = _interopRequireDefault(_CallBody);
@@ -77,6 +67,10 @@ var _ContactDetails = require('./common/ContactDetails.react');
 var _ContactDetails2 = _interopRequireDefault(_ContactDetails);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var Call = function (_Component) {
   (0, _inherits3.default)(Call, _Component);
@@ -100,20 +94,13 @@ var Call = function (_Component) {
   };
 
   Call.calculateState = function calculateState() {
+    var call = _CallStore2.default.getState();
     var dialogPeer = _DialogStore2.default.getCurrentPeer();
-    var callPeer = _CallStore2.default.getPeer();
 
     return {
-      isOpen: _CallStore2.default.isOpen(),
-      isOutgoing: _CallStore2.default.isOutgoing(),
-      isMuted: _CallStore2.default.isMuted(),
-      callId: _CallStore2.default.getId(),
-      callMembers: _CallStore2.default.getMembers(),
-      callPeer: _CallStore2.default.getPeer(),
-      callState: _CallStore2.default.getState(),
-      peerInfo: Call.calculatePeerInfo(callPeer),
-      isSameDialog: _PeerUtils2.default.equals(dialogPeer, callPeer),
-      isFloating: _CallStore2.default.isFloating()
+      call: call,
+      peerInfo: Call.calculatePeerInfo(call.peer),
+      isSameDialog: _PeerUtils2.default.equals(dialogPeer, call.peer)
     };
   };
 
@@ -133,24 +120,19 @@ var Call = function (_Component) {
   }
 
   Call.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
-    if (!nextState.isOpen) {
-      return false;
-    }
-
     return (0, _reactAddonsShallowCompare2.default)(this, nextProps, nextState);
   };
 
   Call.prototype.onAnswer = function onAnswer() {
-    _CallActionCreators2.default.answerCall(this.state.callId);
+    _CallActionCreators2.default.answerCall(this.state.call.id);
   };
 
   Call.prototype.onEnd = function onEnd() {
-    console.log(this.state.callId);
-    _CallActionCreators2.default.endCall(this.state.callId);
+    _CallActionCreators2.default.endCall(this.state.call.id);
   };
 
   Call.prototype.onMuteToggle = function onMuteToggle() {
-    _CallActionCreators2.default.toggleCallMute(this.state.callId);
+    _CallActionCreators2.default.toggleCallMute(this.state.call.id);
   };
 
   Call.prototype.onClose = function onClose() {
@@ -171,10 +153,10 @@ var Call = function (_Component) {
 
   Call.prototype.renderContactInfo = function renderContactInfo() {
     var _state = this.state;
-    var callPeer = _state.callPeer;
+    var call = _state.call;
     var peerInfo = _state.peerInfo;
 
-    if (!peerInfo || callPeer.type === _ActorAppConstants.PeerTypes.GROUP) return null;
+    if (!peerInfo || call.peer.type === _ActorAppConstants.PeerTypes.GROUP) return null;
 
     return _react2.default.createElement(
       'section',
@@ -185,24 +167,20 @@ var Call = function (_Component) {
 
   Call.prototype.render = function render() {
     var _state2 = this.state;
-    var isOpen = _state2.isOpen;
-    var callState = _state2.callState;
+    var call = _state2.call;
     var peerInfo = _state2.peerInfo;
-    var isOutgoing = _state2.isOutgoing;
-    var isMuted = _state2.isMuted;
     var isSameDialog = _state2.isSameDialog;
-    var isFloating = _state2.isFloating;
 
-    if (!isOpen) {
+    if (!call.isOpen) {
       return _react2.default.createElement('section', { className: 'activity' });
     }
 
-    if (!isSameDialog || isFloating) {
+    if (!isSameDialog || call.isFloating) {
       return _react2.default.createElement(_CallDraggable2.default, {
         peerInfo: peerInfo,
-        callState: callState,
-        isOutgoing: isOutgoing,
-        isMuted: isMuted,
+        callState: call.state,
+        isOutgoing: call.isOutgoing,
+        isMuted: call.isMuted,
         onEnd: this.onEnd,
         onAnswer: this.onAnswer,
         onMuteToggle: this.onMuteToggle,
@@ -222,11 +200,11 @@ var Call = function (_Component) {
         _react2.default.createElement(
           'section',
           { className: 'call__container' },
-          _react2.default.createElement(_CallBody2.default, { peerInfo: peerInfo, callState: callState }),
+          _react2.default.createElement(_CallBody2.default, { peerInfo: peerInfo, callState: call.state }),
           _react2.default.createElement(_CallControls2.default, {
-            callState: callState,
-            isOutgoing: isOutgoing,
-            isMuted: isMuted,
+            callState: call.state,
+            isOutgoing: call.isOutgoing,
+            isMuted: call.isMuted,
             onEnd: this.onEnd,
             onAnswer: this.onAnswer,
             onMuteToggle: this.onMuteToggle,
@@ -242,9 +220,7 @@ var Call = function (_Component) {
   };
 
   return Call;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 exports.default = _utils.Container.create(Call);
 //# sourceMappingURL=Call.react.js.map

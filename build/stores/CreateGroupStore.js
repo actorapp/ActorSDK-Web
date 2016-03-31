@@ -18,10 +18,6 @@ var _immutable = require('immutable');
 
 var _immutable2 = _interopRequireDefault(_immutable);
 
-var _keymirror = require('keymirror');
-
-var _keymirror2 = _interopRequireDefault(_keymirror);
-
 var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
@@ -32,12 +28,14 @@ var _ActorAppConstants = require('../constants/ActorAppConstants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
+
 var _modalOpen = false,
     _currentStep = _ActorAppConstants.CreateGroupSteps.NAME_INPUT,
     _groupName = '',
-    _selectedUserIds = new _immutable2.default.Set(); /*
-                                                       * Copyright (C) 2015 Actor LLC. <https://actor.im>
-                                                       */
+    _selectedUserIds = new _immutable2.default.Set();
 
 var CreateGroupStore = function (_Store) {
   (0, _inherits3.default)(CreateGroupStore, _Store);

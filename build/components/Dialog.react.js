@@ -144,9 +144,6 @@ var DialogSection = function (_Component) {
     var _state = this.state;
     var peer = _state.peer;
     var isMember = _state.isMember;
-    var messages = _state.messages;
-    var overlay = _state.overlay;
-    var messagesCount = _state.messagesCount;
 
     if (!peer) {
       return _react2.default.createElement('section', { className: 'main' });

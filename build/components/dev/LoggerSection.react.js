@@ -20,10 +20,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _LoggerStore = require('../../stores/LoggerStore');
 
 var _LoggerStore2 = _interopRequireDefault(_LoggerStore);
@@ -43,10 +39,6 @@ var _LoggerRow = require('./LoggerRow.react');
 var _LoggerRow2 = _interopRequireDefault(_LoggerRow);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
 
 var LoggerSection = function (_Component) {
   (0, _inherits3.default)(LoggerSection, _Component);
@@ -129,7 +121,9 @@ var LoggerSection = function (_Component) {
   };
 
   return LoggerSection;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 exports.default = _utils.Container.create(LoggerSection);
 //# sourceMappingURL=LoggerSection.react.js.map

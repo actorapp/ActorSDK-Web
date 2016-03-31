@@ -60,7 +60,7 @@ var MessageReactions = function (_Component) {
     return _this;
   }
 
-  MessageReactions.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+  MessageReactions.prototype.componentWillReceiveProps = function componentWillReceiveProps() {
     if (this.state.isThisMyReaction) {
       this.setState({
         canAnimateHeart: false,

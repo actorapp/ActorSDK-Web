@@ -28,10 +28,6 @@ var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowComp
 
 var _utils = require('flux/utils');
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
 var _ActivityStore = require('../stores/ActivityStore');
@@ -55,10 +51,6 @@ var _GroupProfile = require('./activity/GroupProfile.react');
 var _GroupProfile2 = _interopRequireDefault(_GroupProfile);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
 
 var ActivitySection = function (_Component) {
   (0, _inherits3.default)(ActivitySection, _Component);
@@ -113,7 +105,6 @@ var ActivitySection = function (_Component) {
   ActivitySection.prototype.render = function render() {
     var _state2 = this.state;
     var peer = _state2.peer;
-    var info = _state2.info;
     var isOpen = _state2.isOpen;
 
     if (!isOpen || !peer) {
@@ -128,7 +119,9 @@ var ActivitySection = function (_Component) {
   };
 
   return ActivitySection;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 exports.default = _utils.Container.create(ActivitySection);
 //# sourceMappingURL=Activity.react.js.map

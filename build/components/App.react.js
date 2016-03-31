@@ -16,8 +16,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _react = require('react');
 
-var _react2 = _interopRequireDefault(_react);
-
 var _LocationContainer = require('../utils/LocationContainer');
 
 var _LocationContainer2 = _interopRequireDefault(_LocationContainer);

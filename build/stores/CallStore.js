@@ -2,6 +2,10 @@
 
 exports.__esModule = true;
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -24,102 +28,61 @@ var _ActorAppConstants = require('../constants/ActorAppConstants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _isOpen = false; /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+var CallStore = function (_ReduceStore) {
+  (0, _inherits3.default)(CallStore, _ReduceStore);
 
-var _isOutgoing = false;
-var _isMuted = false;
-var _isFloating = false;
-var _id = void 0,
-    _members = void 0,
-    _peer = void 0,
-    _state = void 0;
-
-var CallStore = function (_Store) {
-  (0, _inherits3.default)(CallStore, _Store);
-
-  function CallStore(dispatcher) {
+  function CallStore() {
     (0, _classCallCheck3.default)(this, CallStore);
-    return (0, _possibleConstructorReturn3.default)(this, _Store.call(this, dispatcher));
+    return (0, _possibleConstructorReturn3.default)(this, _ReduceStore.apply(this, arguments));
   }
 
-  CallStore.prototype.isOpen = function isOpen() {
-    return _isOpen;
+  CallStore.prototype.getInitialState = function getInitialState() {
+    return {
+      isOpen: false,
+      isFloating: false,
+      id: null,
+      peer: null,
+      state: null,
+      members: null,
+      isMuted: false,
+      isOutgoing: false
+    };
   };
 
-  CallStore.prototype.isOutgoing = function isOutgoing() {
-    return _isOutgoing;
-  };
-
-  CallStore.prototype.isMuted = function isMuted() {
-    return _isMuted;
-  };
-
-  CallStore.prototype.isFloating = function isFloating() {
-    return _isFloating;
-  };
-
-  CallStore.prototype.getId = function getId() {
-    return _id;
-  };
-
-  CallStore.prototype.getMembers = function getMembers() {
-    return _members;
-  };
-
-  CallStore.prototype.getPeer = function getPeer() {
-    return _peer;
-  };
-
-  CallStore.prototype.getState = function getState() {
-    return _state;
-  };
-
-  CallStore.prototype.__onDispatch = function __onDispatch(action) {
+  CallStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.CALL_MODAL_OPEN:
-        _isOpen = true;
-        _id = action.id;
-        this.__emitChange();
-        break;
+        return (0, _extends3.default)({}, state, {
+          isOpen: true,
+          id: action.id
+        });
       case _ActorAppConstants.ActionTypes.CALL_MODAL_HIDE:
-        _isOpen = false;
-        _isFloating = false;
-        this.__emitChange();
-        break;
+        return this.getInitialState();
       case _ActorAppConstants.ActionTypes.CALL_CHANGED:
-        var _action$call = action.call;
-        var members = _action$call.members;
-        var peer = _action$call.peer;
-        var state = _action$call.state;
-        var isOutgoing = _action$call.isOutgoing;
-        var isMuted = _action$call.isMuted;
-
-        _isOutgoing = isOutgoing;
-        _members = members;
-        _peer = peer;
-        _state = state;
-        // _isMuted = isMuted;
-        this.__emitChange();
-        break;
+        return (0, _extends3.default)({}, state, {
+          peer: action.call.peer,
+          state: action.call.state,
+          members: action.call.members,
+          // isMuted: action.call.isMuted,
+          isOutgoing: action.call.isOutgoing
+        });
       case _ActorAppConstants.ActionTypes.CALL_MUTE_TOGGLE:
-        _isMuted = !_isMuted;
-        this.__emitChange();
-        break;
+        return (0, _extends3.default)({}, state, {
+          isMuted: !state.isMuted
+        });
       case _ActorAppConstants.ActionTypes.CALL_FLOAT_TOGGLE:
-        _isFloating = !_isFloating;
-        this.__emitChange();
-        break;
-      case _ActorAppConstants.ActionTypes.CALL:
-        // console.debug('ActionTypes.CALL', action);
-        break;
+        return (0, _extends3.default)({}, state, {
+          isFloating: !state.isFloating
+        });
       default:
+        return state;
     }
   };
 
   return CallStore;
-}(_utils.Store);
+}(_utils.ReduceStore); /*
+                        * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                        */
 
 exports.default = new CallStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=CallStore.js.map

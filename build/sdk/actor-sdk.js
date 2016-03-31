@@ -28,10 +28,6 @@ var _SharedContainer = require('../utils/SharedContainer');
 
 var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
 
-var _PeerUtils = require('../utils/PeerUtils');
-
-var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
-
 var _actorSdkDelegate = require('./actor-sdk-delegate');
 
 var _actorSdkDelegate2 = _interopRequireDefault(_actorSdkDelegate);
@@ -126,13 +122,13 @@ var _l18n = require('../l18n');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var ACTOR_INIT_EVENT = 'INIT';
+
+// Init app loading progressbar
 /*
  * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
  */
 
-var ACTOR_INIT_EVENT = 'INIT';
-
-// Init app loading progressbar
 _pace2.default.start({
   ajax: false,
   restartOnRequestAfter: false,

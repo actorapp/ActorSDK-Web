@@ -14,8 +14,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _lodash = require('lodash');
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -47,10 +45,6 @@ var _Pagination = require('./Pagination.react');
 var _Pagination2 = _interopRequireDefault(_Pagination);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
 
 var SendAttachment = function (_Component) {
   (0, _inherits3.default)(SendAttachment, _Component);
@@ -205,7 +199,9 @@ var SendAttachment = function (_Component) {
   };
 
   return SendAttachment;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 SendAttachment.contextTypes = {
   intl: _react.PropTypes.object

@@ -30,8 +30,6 @@ var _reactModal = require('react-modal');
 
 var _reactModal2 = _interopRequireDefault(_reactModal);
 
-var _reactIntl = require('react-intl');
-
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _AddContactActionCreators = require('../../actions/AddContactActionCreators');
@@ -51,10 +49,6 @@ var _ContactItem = require('./AddContact/ContactItem.react');
 var _ContactItem2 = _interopRequireDefault(_ContactItem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
 
 var AddContact = function (_Component) {
   (0, _inherits3.default)(AddContact, _Component);
@@ -129,7 +123,6 @@ var AddContact = function (_Component) {
 
     var _state = this.state;
     var isOpen = _state.isOpen;
-    var isSearching = _state.isSearching;
     var query = _state.query;
     var results = _state.results;
     var intl = this.context.intl;
@@ -220,7 +213,9 @@ var AddContact = function (_Component) {
   };
 
   return AddContact;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 AddContact.contextTypes = {
   intl: _react.PropTypes.object

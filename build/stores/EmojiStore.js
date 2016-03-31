@@ -38,7 +38,7 @@ var EmojiStore = function (_ReduceStore) {
 
   EmojiStore.prototype.getInitialState = function getInitialState() {
     return {
-      isOpen: true,
+      isOpen: false,
       stickers: []
     };
   };

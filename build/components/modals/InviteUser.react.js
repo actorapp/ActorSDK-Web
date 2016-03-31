@@ -139,6 +139,7 @@ var InviteUser = function (_Component) {
     var _this2 = this;
 
     var intl = this.context.intl;
+    var group = this.state.group;
 
     var contacts = this.getContacts();
 
@@ -153,7 +154,6 @@ var InviteUser = function (_Component) {
     return contacts.map(function (contact, i) {
       var inviteUserState = _InviteUserStore2.default.getInviteUserState(contact.uid);
       var controls = void 0;
-      console.debug(contact.uid);
       if (hasMember(group, contact.uid)) {
         controls = _react2.default.createElement(
           'i',
@@ -200,6 +200,7 @@ var InviteUser = function (_Component) {
     var _state2 = this.state;
     var isOpen = _state2.isOpen;
     var group = _state2.group;
+    var search = _state2.search;
     var intl = this.context.intl;
 
 

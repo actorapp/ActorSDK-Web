@@ -20,8 +20,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _utils = require('flux/utils');
 
-var _immutable = require('immutable');
-
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
@@ -29,10 +27,6 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
 
 var InviteUserStore = function (_ReduceStore) {
   (0, _inherits3.default)(InviteUserStore, _ReduceStore);
@@ -48,7 +42,7 @@ var InviteUserStore = function (_ReduceStore) {
       isInviteByLinkOpen: false,
       group: null,
       inviteUrl: null,
-      users: new _immutable.Map()
+      users: {}
     };
   };
 
@@ -66,7 +60,7 @@ var InviteUserStore = function (_ReduceStore) {
       case _ActorAppConstants.ActionTypes.INVITE_USER_MODAL_HIDE:
         return (0, _extends3.default)({}, state, {
           isOpen: false,
-          users: state.users.clear()
+          users: {}
         });
       case _ActorAppConstants.ActionTypes.INVITE_USER_BY_LINK_MODAL_SHOW:
         return (0, _extends3.default)({}, state, {
@@ -81,21 +75,17 @@ var InviteUserStore = function (_ReduceStore) {
 
       // Invite user
       case _ActorAppConstants.ActionTypes.INVITE_USER:
-        return (0, _extends3.default)({}, state, {
-          users: state.users.set(action.uid, _ActorAppConstants.AsyncActionStates.PROCESSING)
-        });
+        state.users[action.uid] = _ActorAppConstants.AsyncActionStates.PROCESSING;
+        return (0, _extends3.default)({}, state);
       case _ActorAppConstants.ActionTypes.INVITE_USER_SUCCESS:
-        return (0, _extends3.default)({}, state, {
-          users: state.users.set(action.uid, _ActorAppConstants.AsyncActionStates.SUCCESS)
-        });
+        state.users[action.uid] = _ActorAppConstants.AsyncActionStates.SUCCESS;
+        return (0, _extends3.default)({}, state);
       case _ActorAppConstants.ActionTypes.INVITE_USER_ERROR:
-        return (0, _extends3.default)({}, state, {
-          users: state.users.set(action.uid, _ActorAppConstants.AsyncActionStates.FAILURE)
-        });
+        state.users[action.uid] = _ActorAppConstants.AsyncActionStates.FAILURE;
+        return (0, _extends3.default)({}, state);
       case _ActorAppConstants.ActionTypes.INVITE_USER_RESET:
-        return (0, _extends3.default)({}, state, {
-          users: state.users.delete(action.uid)
-        });
+        delete state.users[action.uid];
+        return (0, _extends3.default)({}, state);
       default:
         return state;
     }
@@ -117,16 +107,14 @@ var InviteUserStore = function (_ReduceStore) {
     return this.getState().inviteUrl;
   };
 
-  InviteUserStore.prototype.getInviteUserState = function getInviteUserState(uid) {
-    var _getState = this.getState();
-
-    var users = _getState.users;
-
-    return users.get(uid) || _ActorAppConstants.AsyncActionStates.PENDING;
+  InviteUserStore.prototype.getInviteUserState = function getInviteUserState() {
+    return this.getState().users;
   };
 
   return InviteUserStore;
-}(_utils.ReduceStore);
+}(_utils.ReduceStore); /*
+                        * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                        */
 
 exports.default = new InviteUserStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=InviteUserStore.js.map

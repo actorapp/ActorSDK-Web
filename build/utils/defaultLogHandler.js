@@ -13,7 +13,7 @@ function getMethod(type) {
     case _ActorAppConstants.LoggerTypes.WARNING:
       return 'warn';
     case _ActorAppConstants.LoggerTypes.DEBUG:
-      return 'debug';
+    // return 'debug';
     default:
       return 'log';
   }

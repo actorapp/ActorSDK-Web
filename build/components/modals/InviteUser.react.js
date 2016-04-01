@@ -18,8 +18,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _lodash = require('lodash');
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -35,6 +33,8 @@ var _fuzzaldrin = require('fuzzaldrin');
 var _fuzzaldrin2 = _interopRequireDefault(_fuzzaldrin);
 
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
+
+var _GroupUtils = require('../../utils/GroupUtils');
 
 var _InviteUserActions = require('../../actions/InviteUserActions');
 
@@ -65,12 +65,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /*
  * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
  */
-
-var hasMember = function hasMember(group, userId) {
-  return undefined !== (0, _lodash.find)(group.members, function (c) {
-    return c.peerInfo.peer.id === userId;
-  });
-};
 
 var InviteUser = function (_Component) {
   (0, _inherits3.default)(InviteUser, _Component);
@@ -104,16 +98,17 @@ var InviteUser = function (_Component) {
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
+  InviteUser.getStores = function getStores() {
+    return [_InviteUserStore2.default, _PeopleStore2.default];
+  };
+
   InviteUser.calculateState = function calculateState() {
     return {
       isOpen: _InviteUserStore2.default.isModalOpen(),
       contacts: _PeopleStore2.default.getList(),
-      group: _InviteUserStore2.default.getGroup()
+      group: _InviteUserStore2.default.getGroup(),
+      inviteUserState: _InviteUserStore2.default.getInviteUserState()
     };
-  };
-
-  InviteUser.getStores = function getStores() {
-    return [_InviteUserStore2.default, _PeopleStore2.default];
   };
 
   InviteUser.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
@@ -139,7 +134,9 @@ var InviteUser = function (_Component) {
     var _this2 = this;
 
     var intl = this.context.intl;
-    var group = this.state.group;
+    var _state2 = this.state;
+    var group = _state2.group;
+    var inviteUserState = _state2.inviteUserState;
 
     var contacts = this.getContacts();
 
@@ -152,17 +149,19 @@ var InviteUser = function (_Component) {
     }
 
     return contacts.map(function (contact, i) {
-      var inviteUserState = _InviteUserStore2.default.getInviteUserState(contact.uid);
-      var controls = void 0;
-      if (hasMember(group, contact.uid)) {
+      var controls = void 0,
+          contactClassName = void 0;
+      if ((0, _GroupUtils.hasMember)(group.id, contact.uid)) {
         controls = _react2.default.createElement(
           'i',
           { className: 'material-icons' },
           'check'
         );
+        contactClassName = 'contact--disabled';
       } else {
+        var currentState = inviteUserState[contact.uid] || _ActorAppConstants.AsyncActionStates.PENDING;
         controls = _react2.default.createElement(_Stateful2.default, {
-          currentState: inviteUserState,
+          currentState: currentState,
           pending: _react2.default.createElement(
             'a',
             { className: 'material-icons', onClick: function onClick() {
@@ -186,20 +185,21 @@ var InviteUser = function (_Component) {
             'warning'
           )
         });
+        contactClassName = currentState === _ActorAppConstants.AsyncActionStates.SUCCESS ? 'contact--disabled' : '';
       }
 
       return _react2.default.createElement(
         _ContactItem2.default,
-        (0, _extends3.default)({}, contact, { key: i }),
+        (0, _extends3.default)({}, contact, { className: contactClassName, key: i }),
         controls
       );
     });
   };
 
   InviteUser.prototype.render = function render() {
-    var _state2 = this.state;
-    var isOpen = _state2.isOpen;
-    var search = _state2.search;
+    var _state3 = this.state;
+    var isOpen = _state3.isOpen;
+    var search = _state3.search;
     var intl = this.context.intl;
 
 
@@ -299,5 +299,5 @@ var InviteUser = function (_Component) {
 InviteUser.contextTypes = {
   intl: _react.PropTypes.object
 };
-exports.default = _utils.Container.create(InviteUser);
+exports.default = _utils.Container.create(InviteUser, { pure: false });
 //# sourceMappingURL=InviteUser.react.js.map

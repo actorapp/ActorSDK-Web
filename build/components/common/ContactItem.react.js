@@ -20,6 +20,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _AvatarItem = require('./AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -27,10 +31,6 @@ var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 var _EmojiUtils = require('../../utils/EmojiUtils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2016 Actor LLC. <https://actor.im>
- */
 
 var ContactItem = function (_Component) {
   (0, _inherits3.default)(ContactItem, _Component);
@@ -50,11 +50,13 @@ var ContactItem = function (_Component) {
     var placeholder = _props.placeholder;
     var avatar = _props.avatar;
     var children = _props.children;
+    var className = _props.className;
 
+    var contactClassName = (0, _classnames2.default)('contact row middle-xs', className);
 
     return _react2.default.createElement(
       'div',
-      { className: 'contact row middle-xs' },
+      { className: contactClassName },
       _react2.default.createElement(
         'div',
         { className: 'contact__avatar' },
@@ -79,13 +81,17 @@ var ContactItem = function (_Component) {
   };
 
   return ContactItem;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2016 Actor LLC. <https://actor.im>
+                      */
 
 ContactItem.propTypes = {
   uid: _react.PropTypes.number.isRequired,
   name: _react.PropTypes.string.isRequired,
   placeholder: _react.PropTypes.string.isRequired,
   avatar: _react.PropTypes.string,
+
+  className: _react.PropTypes.string,
 
   children: _react.PropTypes.node
 };

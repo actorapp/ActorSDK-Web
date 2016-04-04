@@ -38,7 +38,7 @@ var _SharedContainer = require('../../utils/SharedContainer');
 
 var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
 
-var _ActorAppConstants = require('../../constants/ActorAppConstants');
+var _reactIntl = require('react-intl');
 
 var _MyProfileActionCreators = require('../../actions/MyProfileActionCreators');
 
@@ -155,24 +155,6 @@ var HeaderSection = function (_Component) {
       return _PreferencesActionCreators2.default.show();
     };
 
-    _this.openTwitter = function (event) {
-      event.preventDefault();
-      if (_ActorClient2.default.isElectron()) {
-        _ActorClient2.default.handleLinkClick(event);
-      } else {
-        window.open('https://twitter.com/' + _this.twitter, '_blank');
-      }
-    };
-
-    _this.openHomePage = function (event) {
-      event.preventDefault();
-      if (_ActorClient2.default.isElectron()) {
-        _ActorClient2.default.handleLinkClick(event);
-      } else {
-        window.open(_this.homePage, '_blank');
-      }
-    };
-
     _this.setLogout = function () {
       var intl = _this.context.intl;
 
@@ -181,9 +163,9 @@ var HeaderSection = function (_Component) {
       }, function () {});
     };
 
-    var SharedActor = _SharedContainer2.default.get();
-    _this.twitter = SharedActor.twitter ? SharedActor.twitter : _ActorAppConstants.twitter;
-    _this.homePage = SharedActor.homePage ? SharedActor.homePage : _ActorAppConstants.homePage;
+    _this.openTwitter = _this.openTwitter.bind(_this);
+    _this.openFacebook = _this.openFacebook.bind(_this);
+    _this.openHomePage = _this.openHomePage.bind(_this);
     return _this;
   }
 
@@ -205,6 +187,109 @@ var HeaderSection = function (_Component) {
     this.setState({ isOpened: false });
   };
 
+  HeaderSection.prototype.openTwitter = function openTwitter(event) {
+    var _SharedContainer$get = _SharedContainer2.default.get();
+
+    var twitter = _SharedContainer$get.twitter;
+
+
+    event.preventDefault();
+    if (_ActorClient2.default.isElectron()) {
+      _ActorClient2.default.handleLinkClick(event);
+    } else {
+      window.open('https://twitter.com/' + twitter, '_blank');
+    }
+  };
+
+  HeaderSection.prototype.openFacebook = function openFacebook(event) {
+    var _SharedContainer$get2 = _SharedContainer2.default.get();
+
+    var facebook = _SharedContainer$get2.facebook;
+
+
+    event.preventDefault();
+    if (_ActorClient2.default.isElectron()) {
+      _ActorClient2.default.handleLinkClick(event);
+    } else {
+      window.open('https://facebook.com/' + facebook, '_blank');
+    }
+  };
+
+  HeaderSection.prototype.openHomePage = function openHomePage(event) {
+    var _SharedContainer$get3 = _SharedContainer2.default.get();
+
+    var homePage = _SharedContainer$get3.homePage;
+
+
+    event.preventDefault();
+    if (_ActorClient2.default.isElectron()) {
+      _ActorClient2.default.handleLinkClick(event);
+    } else {
+      window.open(homePage, '_blank');
+    }
+  };
+
+  HeaderSection.prototype.renderTwitterLink = function renderTwitterLink() {
+    var _SharedContainer$get4 = _SharedContainer2.default.get();
+
+    var twitter = _SharedContainer$get4.twitter;
+
+    if (!twitter) return null;
+
+    return _react2.default.createElement(
+      'li',
+      { className: 'dropdown__menu__item' },
+      _react2.default.createElement(
+        'a',
+        { href: 'https://twitter.com/' + twitter, onClick: this.openTwitter },
+        _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--dropdown sidebar__header__twitter', glyph: 'twitter' }),
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.twitter' })
+      )
+    );
+  };
+
+  HeaderSection.prototype.renderFacebookLink = function renderFacebookLink() {
+    var _SharedContainer$get5 = _SharedContainer2.default.get();
+
+    var facebook = _SharedContainer$get5.facebook;
+
+    if (!facebook) return null;
+
+    return _react2.default.createElement(
+      'li',
+      { className: 'dropdown__menu__item' },
+      _react2.default.createElement(
+        'a',
+        { href: 'https://facebook.com/' + facebook, onClick: this.openFacebook },
+        _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--dropdown sidebar__header__facebook', glyph: 'facebook' }),
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.facebook' })
+      )
+    );
+  };
+
+  HeaderSection.prototype.renderHomeLink = function renderHomeLink() {
+    var _SharedContainer$get6 = _SharedContainer2.default.get();
+
+    var homePage = _SharedContainer$get6.homePage;
+
+    if (!homePage) return null;
+
+    return _react2.default.createElement(
+      'li',
+      { className: 'dropdown__menu__item' },
+      _react2.default.createElement(
+        'a',
+        { href: homePage, onClick: this.openHomePage },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'public'
+        ),
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.homePage' })
+      )
+    );
+  };
+
   HeaderSection.prototype.render = function render() {
     var _state = this.state;
     var profile = _state.profile;
@@ -213,7 +298,6 @@ var HeaderSection = function (_Component) {
     var isCreateGroupOpen = _state.isCreateGroupOpen;
     var isAddContactsOpen = _state.isAddContactsOpen;
     var isPreferencesOpen = _state.isPreferencesOpen;
-    var intl = this.context.intl;
 
 
     if (profile) {
@@ -259,7 +343,7 @@ var HeaderSection = function (_Component) {
                   { className: 'material-icons' },
                   'edit'
                 ),
-                intl.messages['menu.editProfile']
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.editProfile' })
               ),
               _react2.default.createElement(
                 'li',
@@ -269,7 +353,7 @@ var HeaderSection = function (_Component) {
                   { className: 'material-icons' },
                   'person_add'
                 ),
-                intl.messages['menu.addToContacts']
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.addToContacts' })
               ),
               _react2.default.createElement(
                 'li',
@@ -279,7 +363,7 @@ var HeaderSection = function (_Component) {
                   { className: 'material-icons' },
                   'group_add'
                 ),
-                intl.messages['menu.createGroup']
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.createGroup' })
               ),
               _react2.default.createElement('li', { className: 'dropdown__menu__separator' }),
               _react2.default.createElement(
@@ -290,7 +374,7 @@ var HeaderSection = function (_Component) {
                   { className: 'material-icons' },
                   'settings'
                 ),
-                intl.messages['menu.preferences']
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.preferences' })
               ),
               _react2.default.createElement(
                 'li',
@@ -300,37 +384,16 @@ var HeaderSection = function (_Component) {
                   { className: 'material-icons' },
                   'help'
                 ),
-                intl.messages['menu.helpAndFeedback']
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.helpAndFeedback' })
               ),
-              _react2.default.createElement(
-                'li',
-                { className: 'dropdown__menu__item' },
-                _react2.default.createElement(
-                  'a',
-                  { href: 'https://twitter.com/' + this.twitter, onClick: this.openTwitter },
-                  _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--dropdown sidebar__header__twitter', glyph: 'twitter' }),
-                  intl.messages['menu.twitter']
-                )
-              ),
-              _react2.default.createElement(
-                'li',
-                { className: 'dropdown__menu__item' },
-                _react2.default.createElement(
-                  'a',
-                  { href: this.homePage, onClick: this.openHomePage },
-                  _react2.default.createElement(
-                    'i',
-                    { className: 'material-icons' },
-                    'public'
-                  ),
-                  intl.messages['menu.homePage']
-                )
-              ),
+              this.renderTwitterLink(),
+              this.renderFacebookLink(),
+              this.renderHomeLink(),
               _react2.default.createElement('li', { className: 'dropdown__menu__separator' }),
               _react2.default.createElement(
                 'li',
                 { className: 'dropdown__menu__item', onClick: this.setLogout },
-                intl.messages['menu.signOut']
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.signOut' })
               )
             )
           )

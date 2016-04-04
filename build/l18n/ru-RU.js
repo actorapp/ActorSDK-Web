@@ -35,7 +35,8 @@ exports.default = {
       'twitter': 'Наш твиттер',
       'preferences': 'Настройки',
       'signOut': 'Выход',
-      'homePage': 'Домашняя страница'
+      'homePage': 'Домашняя страница',
+      'facebook': 'Ищите нас в Facebook'
     },
 
     // Buttons

@@ -1,7 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
-exports.helpPhone = exports.twitter = exports.homePage = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.LoggerTypes = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypePrefixes = exports.PeerTypes = exports.MessageStates = exports.ConnectionStates = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
+exports.helpPhone = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.LoggerTypes = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypePrefixes = exports.PeerTypes = exports.MessageStates = exports.ConnectionStates = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
 
 var _keymirror = require('keymirror');
 
@@ -335,8 +335,6 @@ var endpoints = exports.endpoints = ['wss://front1-ws-mtproto-api-rev2.actor.im'
 
 var appName = exports.appName = 'Actor';
 var rootElement = exports.rootElement = 'actor-web-app';
-var homePage = exports.homePage = 'https://actor.im';
-var twitter = exports.twitter = 'actorapp';
 var helpPhone = exports.helpPhone = '75551234567';
 
 exports.default = {
@@ -356,8 +354,6 @@ exports.default = {
   endpoints: endpoints,
   appName: appName,
   rootElement: rootElement,
-  homePage: homePage,
-  twitter: twitter,
   helpPhone: helpPhone
 };
 //# sourceMappingURL=ActorAppConstants.js.map

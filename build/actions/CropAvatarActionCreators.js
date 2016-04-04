@@ -19,7 +19,6 @@ exports.default = {
   },
   hide: function hide() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CROP_AVATAR_MODAL_HIDE);
-    _ComposeActionCreators2.default.toggleAutoFocus(true);
   }
 }; /*
     * Copyright (C) 2015 Actor LLC. <https://actor.im>

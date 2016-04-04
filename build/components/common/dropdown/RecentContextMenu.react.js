@@ -28,6 +28,8 @@ var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
 var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
+var _reactIntl = require('react-intl');
+
 var _isInside = require('../../../utils/isInside');
 
 var _isInside2 = _interopRequireDefault(_isInside);
@@ -57,6 +59,10 @@ var _DialogActionCreators = require('../../../actions/DialogActionCreators');
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var RecentContextMenu = function (_Component) {
   (0, _inherits3.default)(RecentContextMenu, _Component);
@@ -166,7 +172,8 @@ var RecentContextMenu = function (_Component) {
             { className: 'icon material-icons' },
             'star_border'
           ),
-          ' Unfavorite'
+          ' ',
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'context.favorite.remove' })
         ) : _react2.default.createElement(
           'li',
           { className: 'dropdown__menu__item', onClick: this.handleFavorite },
@@ -175,7 +182,8 @@ var RecentContextMenu = function (_Component) {
             { className: 'icon material-icons' },
             'star'
           ),
-          ' Favorite'
+          ' ',
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'context.favorite.add' })
         ),
         _react2.default.createElement(
           'li',
@@ -185,7 +193,8 @@ var RecentContextMenu = function (_Component) {
             { className: 'icon material-icons' },
             'archive'
           ),
-          ' Send to archive'
+          ' ',
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'context.archive' })
         ),
         _react2.default.createElement(
           'li',
@@ -195,16 +204,15 @@ var RecentContextMenu = function (_Component) {
             { className: 'icon material-icons' },
             'delete'
           ),
-          ' Delete'
+          ' ',
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'context.delete' })
         )
       )
     );
   };
 
   return RecentContextMenu;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 RecentContextMenu.propTypes = {
   peer: _react.PropTypes.object.isRequired,

@@ -14,8 +14,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _lodash = require('lodash');
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -26,9 +24,9 @@ var _classnames2 = _interopRequireDefault(_classnames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var targetCollection = []; /*
-                            * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                            */
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var DropZone = function (_Component) {
   (0, _inherits3.default)(DropZone, _Component);
@@ -38,72 +36,91 @@ var DropZone = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
 
-    _this.onWindowDragEnter = function (event) {
-      var onDragEnterCallback = _this.props.onDragEnterCallback;
-
-      event.preventDefault();
-
-      if (targetCollection.length === 0) {
-        _this.setState({ isActive: true });
-        onDragEnterCallback && onDragEnterCallback();
-      }
-
-      targetCollection = (0, _lodash.union)(targetCollection, [event.target]);
-    };
-
-    _this.onWindowDragOver = function (event) {
-      return event.preventDefault();
-    };
-
-    _this.onWindowDragLeave = function (event) {
-      var onDragLeaveCallback = _this.props.onDragLeaveCallback;
-
-      event.preventDefault();
-
-      targetCollection = (0, _lodash.without)(targetCollection, event.target);
-
-      if (targetCollection.length === 0) {
-        _this.setState({ isActive: false });
-        onDragLeaveCallback && onDragLeaveCallback();
-      }
-    };
-
-    _this.onDragEnter = function () {
-      return _this.setState({ isHovered: true });
-    };
-
-    _this.onDragLeave = function () {
-      return _this.setState({ isHovered: false });
-    };
-
-    _this.onDrop = function (event) {
-      var _this$props = _this.props;
-      var onDropCallback = _this$props.onDropCallback;
-      var onDropComplete = _this$props.onDropComplete;
-
-      _this.onDragLeave();
-      _this.onWindowDragLeave(event);
-      onDropCallback && onDropCallback();
-      onDropComplete(event.dataTransfer.files);
-    };
-
+    _this.dragging = false;
     _this.state = {
       isActive: false,
       isHovered: false
     };
 
-    window.addEventListener('dragenter', _this.onWindowDragEnter, false);
-    window.addEventListener('dragover', _this.onWindowDragOver, false);
-    window.addEventListener('dragleave', _this.onWindowDragLeave, false);
-    window.addEventListener('drop', _this.onWindowDragLeave, false);
+    _this.onWindowDragEnter = _this.onWindowDragEnter.bind(_this);
+    _this.onWindowDragOver = _this.onWindowDragOver.bind(_this);
+    _this.onWindowDragLeave = _this.onWindowDragLeave.bind(_this);
+
+    _this.onDrop = _this.onDrop.bind(_this);
+    _this.onDragEnter = _this.onDragEnter.bind(_this);
+    _this.onDragLeave = _this.onDragLeave.bind(_this);
     return _this;
   }
 
+  DropZone.prototype.componentDidMount = function componentDidMount() {
+    window.addEventListener('dragenter', this.onWindowDragEnter, false);
+    window.addEventListener('dragover', this.onWindowDragOver, false);
+    window.addEventListener('dragleave', this.onWindowDragLeave, false);
+  };
+
   DropZone.prototype.componentWillUnmount = function componentWillUnmount() {
-    window.removeEventListener('dragenter', this.onWindowDragEnter, false);
-    window.removeEventListener('dragover', this.onWindowDragOver, false);
-    window.removeEventListener('dragleave', this.onWindowDragLeave, false);
-    window.removeEventListener('drop', this.onWindowDragLeave, false);
+    window.addEventListener('dragenter', this.onWindowDragEnter, false);
+    window.addEventListener('dragover', this.onWindowDragOver, false);
+    window.addEventListener('dragleave', this.onWindowDragLeave, false);
+  };
+
+  DropZone.prototype.onWindowDragEnter = function onWindowDragEnter() {
+    this.dragging = true;
+    if (this.state.isActive) {
+      return;
+    }
+
+    this.setState({ isActive: true });
+  };
+
+  DropZone.prototype.onWindowDragOver = function onWindowDragOver() {
+    this.dragging = true;
+  };
+
+  DropZone.prototype.onWindowDragLeave = function onWindowDragLeave() {
+    var _this2 = this;
+
+    this.dragging = false;
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(function () {
+      if (!_this2.dragging) {
+        _this2.setState({ isActive: false });
+      }
+    }, 300);
+  };
+
+  DropZone.prototype.onDrop = function onDrop(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.onDragLeave();
+    this.props.onDropComplete(event.dataTransfer.files);
+  };
+
+  DropZone.prototype.onDragOver = function onDragOver(event) {
+    // Makes it possible to drag files from chrome's download bar
+    // http://stackoverflow.com/questions/19526430/drag-and-drop-file-uploads-from-chrome-downloads-bar
+    try {
+      var effect = event.dataTransfer.effectAllowed;
+      if (effect === 'move' || effect === 'linkMove') {
+        event.dataTransfer.dropEffect = 'move';
+      } else {
+        event.dataTransfer.dropEffect = 'copy';
+      }
+    } catch (e) {
+      // do nothing
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  DropZone.prototype.onDragEnter = function onDragEnter() {
+    this.setState({ isHovered: true });
+  };
+
+  DropZone.prototype.onDragLeave = function onDragLeave() {
+    this.setState({ isHovered: false });
   };
 
   DropZone.prototype.render = function render() {
@@ -112,36 +129,33 @@ var DropZone = function (_Component) {
     var isHovered = _state.isHovered;
 
 
-    var dropzoneClassName = (0, _classnames2.default)('dropzone', {
+    if (!isActive) {
+      return null;
+    }
+
+    var className = (0, _classnames2.default)('dropzone', {
       'dropzone--hover': isHovered
     });
 
-    if (isActive) {
-      return _react2.default.createElement(
-        'div',
-        { className: dropzoneClassName,
-          onDragEnter: this.onDragEnter,
-          onDragLeave: this.onDragLeave,
-          onDrop: this.onDrop },
-        this.props.children || 'Drop here'
-      );
-    } else {
-      return null;
-    }
+    return _react2.default.createElement(
+      'div',
+      {
+        className: className,
+        onDrop: this.onDrop,
+        onDragOver: this.onDragOver,
+        onDragEnter: this.onDragEnter,
+        onDragLeave: this.onDragLeave
+      },
+      this.props.children
+    );
   };
 
   return DropZone;
 }(_react.Component);
 
 DropZone.propTypes = {
-  children: _react.PropTypes.node,
-
-  onDropComplete: _react.PropTypes.func.isRequired,
-
-  // Callbacks
-  onDragEnterCallback: _react.PropTypes.func,
-  onDragLeaveCallback: _react.PropTypes.func,
-  onDropCallback: _react.PropTypes.func
+  children: _react.PropTypes.node.isRequired,
+  onDropComplete: _react.PropTypes.func.isRequired
 };
 exports.default = DropZone;
 //# sourceMappingURL=DropZone.react.js.map

@@ -310,6 +310,15 @@ exports.default = {
         addContact: 'Добавить новый контакт',
         createGroup: 'Создать группу'
       }
+    },
+
+    context: {
+      favorite: {
+        add: 'Добавить в избранное',
+        remove: 'Убрать из избранного'
+      },
+      archive: 'Отправить в архив',
+      delete: 'Удалить'
     }
   }
 };

@@ -310,7 +310,8 @@ exports.default = {
         privateList: 'Список приватных диалогов',
         addContact: 'Добавить новый контакт',
         createGroup: 'Создать группу'
-      }
+      },
+      quicksearch: 'Быстрый поиск по приложению.'
     },
 
     context: {

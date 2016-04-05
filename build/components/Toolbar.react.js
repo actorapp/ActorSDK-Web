@@ -170,7 +170,7 @@ var ToolbarSection = function (_Component) {
         _rcTooltip2.default,
         {
           placement: 'left',
-          mouseEnterDelay: 0.5,
+          mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
           overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.toolbar.info' })
         },
         _react2.default.createElement(
@@ -189,7 +189,7 @@ var ToolbarSection = function (_Component) {
       _rcTooltip2.default,
       {
         placement: 'left',
-        mouseEnterDelay: 0.5,
+        mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
         overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.toolbar.info' })
       },
       _react2.default.createElement(
@@ -243,7 +243,7 @@ var ToolbarSection = function (_Component) {
             _rcTooltip2.default,
             {
               placement: 'bottom',
-              mouseEnterDelay: 0.5,
+              mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
               overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.toolbar.favorite' })
             },
             _react2.default.createElement(

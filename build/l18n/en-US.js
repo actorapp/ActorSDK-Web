@@ -313,7 +313,8 @@ exports.default = {
         privateList: 'List of private conversation',
         addContact: 'Add new contact',
         createGroup: 'Create group'
-      }
+      },
+      quicksearch: 'A fastest way to find something'
     },
 
     context: {

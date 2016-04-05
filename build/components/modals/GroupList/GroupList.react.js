@@ -196,27 +196,64 @@ var GroupList = function (_Component) {
     document.removeEventListener('keydown', this.handleKeyDown, false);
   };
 
-  GroupList.prototype.render = function render() {
+  GroupList.prototype.renderSearchInput = function renderSearchInput() {
+    var query = this.state.query;
+    var intl = this.context.intl;
+
+
+    return _react2.default.createElement('input', { className: 'newmodal__search__input',
+      onChange: this.handleSearchChange,
+      placeholder: intl.messages['modal.groups.search'],
+      type: 'search',
+      ref: 'search',
+      value: query });
+  };
+
+  GroupList.prototype.renderLoading = function renderLoading() {
+    var list = this.state.list;
+
+
+    if (list.length !== 0) return null;
+
+    return _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.groups.loading' })
+    );
+  };
+
+  GroupList.prototype.renderList = function renderList() {
     var _this2 = this;
 
     var _state = this.state;
     var query = _state.query;
     var results = _state.results;
     var selectedIndex = _state.selectedIndex;
-    var list = _state.list;
-    var intl = this.context.intl;
 
 
-    var groupList = (0, _lodash.map)(results, function (result, index) {
-      return _react2.default.createElement(_Group2.default, { group: result, key: index,
+    if (results.length === 0) {
+      return _react2.default.createElement(
+        'li',
+        { className: 'group__list__item group__list__item--empty text-center' },
+        _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'modal.groups.notFound', values: { query: query } })
+      );
+    }
+
+    return results.map(function (result, index) {
+      return _react2.default.createElement(_Group2.default, {
+        group: result,
+        key: index,
         isSelected: selectedIndex === index,
         ref: selectedIndex === index ? 'selected' : null,
         onClick: _this2.handleGroupSelect,
         onMouseOver: function onMouseOver() {
           return _this2.setState({ selectedIndex: index });
-        } });
+        }
+      });
     });
+  };
 
+  GroupList.prototype.render = function render() {
     return _react2.default.createElement(
       'div',
       { className: 'newmodal newmodal__groups' },
@@ -226,35 +263,22 @@ var GroupList = function (_Component) {
         _react2.default.createElement(
           'h2',
           null,
-          intl.messages['modal.groups.title']
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.groups.title' })
         )
       ),
       _react2.default.createElement(
         'section',
         { className: 'newmodal__search' },
-        _react2.default.createElement('input', { className: 'newmodal__search__input',
-          onChange: this.handleSearchChange,
-          placeholder: intl.messages['modal.groups.search'],
-          type: 'search',
-          ref: 'search',
-          value: query })
+        this.renderSearchInput()
       ),
       _react2.default.createElement(
         _Scrollbar2.default,
         { ref: 'results' },
         _react2.default.createElement(
-          'ul',
+          'div',
           { className: 'newmodal__result group__list' },
-          list.length === 0 ? _react2.default.createElement(
-            'div',
-            null,
-            intl.messages['modal.groups.loading']
-          ) : results.length === 0 ? _react2.default.createElement(
-            'li',
-            { className: 'group__list__item group__list__item--empty text-center' },
-            _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'modal.groups.notFound',
-              values: { query: query } })
-          ) : groupList
+          this.renderLoading(),
+          this.renderList()
         )
       )
     );

@@ -189,7 +189,7 @@ var Recent = function (_Component) {
               _rcTooltip2.default,
               {
                 placement: 'right',
-                mouseEnterDelay: 0.5,
+                mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
                 overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.recent.groupList' })
               },
               _react2.default.createElement(
@@ -202,7 +202,7 @@ var Recent = function (_Component) {
               _rcTooltip2.default,
               {
                 placement: 'top',
-                mouseEnterDelay: 0.5,
+                mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
                 overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.recent.createGroup' })
               },
               _react2.default.createElement(
@@ -222,7 +222,7 @@ var Recent = function (_Component) {
               _rcTooltip2.default,
               {
                 placement: 'right',
-                mouseEnterDelay: 0.5,
+                mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
                 overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.recent.privateList' })
               },
               _react2.default.createElement(
@@ -235,7 +235,7 @@ var Recent = function (_Component) {
               _rcTooltip2.default,
               {
                 placement: 'top',
-                mouseEnterDelay: 0.5,
+                mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
                 overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.recent.addContact' })
               },
               _react2.default.createElement(

@@ -20,6 +20,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
+var _reactIntl = require('react-intl');
+
 var _QuickSearchActionCreators = require('../../actions/QuickSearchActionCreators');
 
 var _QuickSearchActionCreators2 = _interopRequireDefault(_QuickSearchActionCreators);
@@ -32,21 +34,27 @@ var _QuickSearch = require('../modals/QuickSearch.react');
 
 var _QuickSearch2 = _interopRequireDefault(_QuickSearch);
 
+var _rcTooltip = require('rc-tooltip');
+
+var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var QuickSearchButton = function (_Component) {
   (0, _inherits3.default)(QuickSearchButton, _Component);
 
-  function QuickSearchButton(props) {
+  function QuickSearchButton() {
+    var _temp, _this, _ret;
+
     (0, _classCallCheck3.default)(this, QuickSearchButton);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.openQuickSearch = function () {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.openQuickSearch = function () {
       return _QuickSearchActionCreators2.default.show();
-    };
-
-    return _this;
+    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
   QuickSearchButton.getStores = function getStores() {
@@ -61,25 +69,32 @@ var QuickSearchButton = function (_Component) {
 
   QuickSearchButton.prototype.render = function render() {
     var isQuickSearchOpen = this.state.isQuickSearchOpen;
-    var intl = this.context.intl;
 
 
     return _react2.default.createElement(
       'footer',
       { className: 'sidebar__quick-search' },
       _react2.default.createElement(
-        'a',
-        { onClick: this.openQuickSearch },
+        _rcTooltip2.default,
+        {
+          placement: 'top',
+          mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
+          overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.quicksearch' })
+        },
         _react2.default.createElement(
-          'div',
-          { className: 'icon-holder' },
+          'a',
+          { onClick: this.openQuickSearch },
           _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'search'
-          )
-        ),
-        intl.messages['button.quickSearch']
+            'div',
+            { className: 'icon-holder' },
+            _react2.default.createElement(
+              'i',
+              { className: 'material-icons' },
+              'search'
+            )
+          ),
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.quickSearch' })
+        )
       ),
       isQuickSearchOpen ? _react2.default.createElement(_QuickSearch2.default, null) : null
     );
@@ -90,8 +105,5 @@ var QuickSearchButton = function (_Component) {
                       * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                       */
 
-QuickSearchButton.contextTypes = {
-  intl: _react.PropTypes.object
-};
 exports.default = _utils.Container.create(QuickSearchButton, { pure: false });
 //# sourceMappingURL=QuickSearchButton.react.js.map

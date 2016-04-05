@@ -69,7 +69,7 @@ var Group = function (_Component) {
     });
 
     return _react2.default.createElement(
-      'li',
+      'div',
       { className: resultClassName,
         onClick: this.handleClick,
         onMouseOver: this.handleMouseOver },
@@ -107,7 +107,7 @@ var Group = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'members' },
-          _react2.default.createElement(_SvgIcon2.default, { glyph: 'members' }),
+          _react2.default.createElement(_SvgIcon2.default, { glyph: 'members', className: 'icon' }),
           group.membersCount
         )
       )

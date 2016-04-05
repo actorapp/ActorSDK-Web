@@ -143,10 +143,6 @@ var HeaderSection = function (_Component) {
       return _CreateGroupActionCreators2.default.open();
     };
 
-    _this.openHelpDialog = function () {
-      return _HelpActionCreators2.default.open();
-    };
-
     _this.openAddContactModal = function () {
       return _AddContactActionCreators2.default.open();
     };
@@ -163,6 +159,7 @@ var HeaderSection = function (_Component) {
       }, function () {});
     };
 
+    _this.openHelp = _this.openHelp.bind(_this);
     _this.openTwitter = _this.openTwitter.bind(_this);
     _this.openFacebook = _this.openFacebook.bind(_this);
     _this.openHomePage = _this.openHomePage.bind(_this);
@@ -185,6 +182,10 @@ var HeaderSection = function (_Component) {
 
   HeaderSection.prototype.componentWillMount = function componentWillMount() {
     this.setState({ isOpened: false });
+  };
+
+  HeaderSection.prototype.openHelp = function openHelp() {
+    _HelpActionCreators2.default.open();
   };
 
   HeaderSection.prototype.openTwitter = function openTwitter(event) {
@@ -290,6 +291,42 @@ var HeaderSection = function (_Component) {
     );
   };
 
+  HeaderSection.prototype.renderHelpLink = function renderHelpLink() {
+    var _SharedContainer$get7 = _SharedContainer2.default.get();
+
+    var helpPhone = _SharedContainer$get7.helpPhone;
+
+    if (!helpPhone) return null;
+
+    if (/@/.test(helpPhone)) {
+      return _react2.default.createElement(
+        'li',
+        { className: 'dropdown__menu__item' },
+        _react2.default.createElement(
+          'a',
+          { href: 'mailto:' + helpPhone },
+          _react2.default.createElement(
+            'i',
+            { className: 'material-icons' },
+            'help'
+          ),
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.helpAndFeedback' })
+        )
+      );
+    } else {
+      return _react2.default.createElement(
+        'li',
+        { className: 'dropdown__menu__item', onClick: this.openHelp },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'help'
+        ),
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.helpAndFeedback' })
+      );
+    }
+  };
+
   HeaderSection.prototype.render = function render() {
     var _state = this.state;
     var profile = _state.profile;
@@ -300,112 +337,101 @@ var HeaderSection = function (_Component) {
     var isPreferencesOpen = _state.isPreferencesOpen;
 
 
-    if (profile) {
-      var headerClass = (0, _classnames2.default)('sidebar__header', 'sidebar__header--clickable', {
-        'sidebar__header--opened': isOpened
-      });
-      var menuClass = (0, _classnames2.default)('dropdown', {
-        'dropdown--opened': isOpened
-      });
+    if (!profile) return null;
 
-      return _react2.default.createElement(
-        'header',
-        { className: headerClass },
+    var headerClass = (0, _classnames2.default)('sidebar__header', 'sidebar__header--clickable', {
+      'sidebar__header--opened': isOpened
+    });
+    var menuClass = (0, _classnames2.default)('dropdown', {
+      'dropdown--opened': isOpened
+    });
+
+    return _react2.default.createElement(
+      'header',
+      { className: headerClass },
+      _react2.default.createElement(
+        'div',
+        { className: 'sidebar__header__user row', onClick: this.toggleHeaderMenu },
+        _react2.default.createElement(_AvatarItem2.default, { image: profile.avatar,
+          placeholder: profile.placeholder,
+          size: 'tiny',
+          title: profile.name }),
+        _react2.default.createElement('span', { className: 'sidebar__header__user__name col-xs',
+          dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(profile.name) } }),
         _react2.default.createElement(
           'div',
-          { className: 'sidebar__header__user row', onClick: this.toggleHeaderMenu },
-          _react2.default.createElement(_AvatarItem2.default, { image: profile.avatar,
-            placeholder: profile.placeholder,
-            size: 'tiny',
-            title: profile.name }),
-          _react2.default.createElement('span', { className: 'sidebar__header__user__name col-xs',
-            dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(profile.name) } }),
+          { className: menuClass },
           _react2.default.createElement(
-            'div',
-            { className: menuClass },
+            'span',
+            { className: 'dropdown__button' },
             _react2.default.createElement(
-              'span',
-              { className: 'dropdown__button' },
+              'i',
+              { className: 'material-icons' },
+              'arrow_drop_down'
+            )
+          ),
+          _react2.default.createElement(
+            'ul',
+            { className: 'dropdown__menu dropdown__menu--right' },
+            _react2.default.createElement(
+              'li',
+              { className: 'dropdown__menu__item', onClick: this.openMyProfile },
               _react2.default.createElement(
                 'i',
                 { className: 'material-icons' },
-                'arrow_drop_down'
-              )
+                'edit'
+              ),
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.editProfile' })
             ),
             _react2.default.createElement(
-              'ul',
-              { className: 'dropdown__menu dropdown__menu--right' },
+              'li',
+              { className: 'dropdown__menu__item', onClick: this.openAddContactModal },
               _react2.default.createElement(
-                'li',
-                { className: 'dropdown__menu__item', onClick: this.openMyProfile },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'material-icons' },
-                  'edit'
-                ),
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.editProfile' })
+                'i',
+                { className: 'material-icons' },
+                'person_add'
               ),
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.addToContacts' })
+            ),
+            _react2.default.createElement(
+              'li',
+              { className: 'dropdown__menu__item', onClick: this.openCreateGroup },
               _react2.default.createElement(
-                'li',
-                { className: 'dropdown__menu__item', onClick: this.openAddContactModal },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'material-icons' },
-                  'person_add'
-                ),
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.addToContacts' })
+                'i',
+                { className: 'material-icons' },
+                'group_add'
               ),
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.createGroup' })
+            ),
+            _react2.default.createElement('li', { className: 'dropdown__menu__separator' }),
+            _react2.default.createElement(
+              'li',
+              { className: 'dropdown__menu__item', onClick: this.onSettingsOpen },
               _react2.default.createElement(
-                'li',
-                { className: 'dropdown__menu__item', onClick: this.openCreateGroup },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'material-icons' },
-                  'group_add'
-                ),
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.createGroup' })
+                'i',
+                { className: 'material-icons' },
+                'settings'
               ),
-              _react2.default.createElement('li', { className: 'dropdown__menu__separator' }),
-              _react2.default.createElement(
-                'li',
-                { className: 'dropdown__menu__item', onClick: this.onSettingsOpen },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'material-icons' },
-                  'settings'
-                ),
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.preferences' })
-              ),
-              _react2.default.createElement(
-                'li',
-                { className: 'dropdown__menu__item', onClick: this.openHelpDialog },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'material-icons' },
-                  'help'
-                ),
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.helpAndFeedback' })
-              ),
-              this.renderTwitterLink(),
-              this.renderFacebookLink(),
-              this.renderHomeLink(),
-              _react2.default.createElement('li', { className: 'dropdown__menu__separator' }),
-              _react2.default.createElement(
-                'li',
-                { className: 'dropdown__menu__item', onClick: this.setLogout },
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.signOut' })
-              )
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.preferences' })
+            ),
+            this.renderHelpLink(),
+            this.renderTwitterLink(),
+            this.renderFacebookLink(),
+            this.renderHomeLink(),
+            _react2.default.createElement('li', { className: 'dropdown__menu__separator' }),
+            _react2.default.createElement(
+              'li',
+              { className: 'dropdown__menu__item', onClick: this.setLogout },
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.signOut' })
             )
           )
-        ),
-        isMyProfileOpen ? _react2.default.createElement(_MyProfile2.default, null) : null,
-        isCreateGroupOpen ? _react2.default.createElement(_CreateGroup2.default, null) : null,
-        isAddContactsOpen ? _react2.default.createElement(_AddContact2.default, null) : null,
-        isPreferencesOpen ? _react2.default.createElement(_Preferences2.default, null) : null
-      );
-    } else {
-      return null;
-    }
+        )
+      ),
+      isMyProfileOpen ? _react2.default.createElement(_MyProfile2.default, null) : null,
+      isCreateGroupOpen ? _react2.default.createElement(_CreateGroup2.default, null) : null,
+      isAddContactsOpen ? _react2.default.createElement(_AddContact2.default, null) : null,
+      isPreferencesOpen ? _react2.default.createElement(_Preferences2.default, null) : null
+    );
   };
 
   return HeaderSection;

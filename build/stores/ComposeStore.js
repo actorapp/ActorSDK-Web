@@ -174,6 +174,11 @@ var ComposeStore = function (_Store) {
         this.__emitChange();
         break;
 
+      case _ActorAppConstants.ActionTypes.SEARCH_TOGGLE_FOCUS:
+        _isAutoFocusEnabled = !action.isEnable;
+        this.__emitChange();
+        break;
+
       default:
     }
   };

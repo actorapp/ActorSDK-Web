@@ -20,6 +20,28 @@ var _actorJs = require('actor-js');
 
 var _actorJs2 = _interopRequireDefault(_actorJs);
 
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactRouter = require('react-router');
+
+var _reactModal = require('react-modal');
+
+var _reactModal2 = _interopRequireDefault(_reactModal);
+
+var _pace = require('pace');
+
+var _pace2 = _interopRequireDefault(_pace);
+
+var _crosstab = require('crosstab');
+
+var _crosstab2 = _interopRequireDefault(_crosstab);
+
+var _lodash = require('lodash');
+
 var _DelegateContainer = require('../utils/DelegateContainer');
 
 var _DelegateContainer2 = _interopRequireDefault(_DelegateContainer);
@@ -34,20 +56,6 @@ var _actorSdkDelegate2 = _interopRequireDefault(_actorSdkDelegate);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _pace = require('pace');
-
-var _pace2 = _interopRequireDefault(_pace);
-
-var _lodash = require('lodash');
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactRouter = require('react-router');
-
 var _history = require('../utils/history');
 
 var _history2 = _interopRequireDefault(_history);
@@ -58,17 +66,11 @@ var _RouterHooks2 = _interopRequireDefault(_RouterHooks);
 
 var _reactIntl = require('react-intl');
 
-var _crosstab = require('crosstab');
-
-var _crosstab2 = _interopRequireDefault(_crosstab);
-
 var _ImageUtils = require('../utils/ImageUtils');
 
 var _LoginActionCreators = require('../actions/LoginActionCreators');
 
 var _LoginActionCreators2 = _interopRequireDefault(_LoginActionCreators);
-
-var _LoggerActionCreators = require('../actions/LoggerActionCreators');
 
 var _defaultLogHandler = require('../utils/defaultLogHandler');
 
@@ -114,21 +116,17 @@ var _Empty = require('../components/Empty.react');
 
 var _Empty2 = _interopRequireDefault(_Empty);
 
-var _reactModal = require('react-modal');
-
-var _reactModal2 = _interopRequireDefault(_reactModal);
-
 var _l18n = require('../l18n');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ACTOR_INIT_EVENT = 'INIT';
-
-// Init app loading progressbar
 /*
  * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
  */
 
+var ACTOR_INIT_EVENT = 'INIT';
+
+// Init app loading progressbar
 _pace2.default.start({
   ajax: false,
   restartOnRequestAfter: false,
@@ -233,17 +231,11 @@ var ActorSDK = function () {
       }
     };
 
-    this.endpoints = options.endpoints && options.endpoints.length > 0 ? options.endpoints : _ActorAppConstants.endpoints;
-    this.logHandler = (0, _lodash.isFunction)(options.logHandler) ? options.logHandler : this.createLogHandler();
-    this.isExperimental = options.isExperimental ? options.isExperimental : false;
-    this.forceLocale = options.forceLocale ? options.forceLocale : null;
-    this.rootElement = options.rootElement ? options.rootElement : _ActorAppConstants.rootElement;
-    this.homePage = options.homePage ? options.homePage : null;
-    this.twitter = options.twitter ? options.twitter : null;
-    this.facebook = options.facebook ? options.facebook : null;
-    this.helpPhone = options.helpPhone ? options.helpPhone : _ActorAppConstants.helpPhone;
-    this.appName = options.appName ? options.appName : _ActorAppConstants.appName;
-    this.delegate = options.delegate ? options.delegate : new _actorSdkDelegate2.default();
+    (0, _lodash.defaultsDeep)(this, options, ActorSDK.defaultOptions);
+
+    if (!this.delegate) {
+      this.delegate = new _actorSdkDelegate2.default();
+    }
 
     _DelegateContainer2.default.set(this.delegate);
 
@@ -251,14 +243,6 @@ var ActorSDK = function () {
 
     _SharedContainer2.default.set(this);
   }
-
-  ActorSDK.prototype.createLogHandler = function createLogHandler() {
-    if (localStorage.debug) {
-      return _LoggerActionCreators.loggerAppend;
-    }
-
-    return _defaultLogHandler2.default;
-  };
 
   /**
    * Start application
@@ -275,5 +259,22 @@ var ActorSDK = function () {
   return ActorSDK;
 }();
 
+ActorSDK.defaultOptions = {
+  endpoints: _ActorAppConstants.endpoints,
+  rootElement: _ActorAppConstants.rootElement,
+  appName: _ActorAppConstants.appName,
+  helpPhone: _ActorAppConstants.helpPhone,
+  homePage: null,
+  twitter: null,
+  facebook: null,
+  delegate: null,
+  forceLocale: null,
+  features: {
+    calls: true,
+    search: false
+  },
+  isExperimental: false,
+  logHandler: _defaultLogHandler2.default
+};
 exports.default = ActorSDK;
 //# sourceMappingURL=actor-sdk.js.map

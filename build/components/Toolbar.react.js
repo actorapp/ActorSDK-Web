@@ -18,19 +18,29 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactIntl = require('react-intl');
+
 var _utils = require('flux/utils');
 
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _reactIntl = require('react-intl');
+var _rcTooltip = require('rc-tooltip');
+
+var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
+
+var _lodash = require('lodash');
 
 var _EmojiUtils = require('../utils/EmojiUtils');
 
 var _PeerUtils = require('../utils/PeerUtils');
 
 var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
+
+var _CallActionCreators = require('../actions/CallActionCreators');
+
+var _CallActionCreators2 = _interopRequireDefault(_CallActionCreators);
 
 var _ActivityActionCreators = require('../actions/ActivityActionCreators');
 
@@ -40,21 +50,13 @@ var _FavoriteActionCreators = require('../actions/FavoriteActionCreators');
 
 var _FavoriteActionCreators2 = _interopRequireDefault(_FavoriteActionCreators);
 
-var _CallActionCreators = require('../actions/CallActionCreators');
+var _SearchMessagesActionCreators = require('../actions/SearchMessagesActionCreators');
 
-var _CallActionCreators2 = _interopRequireDefault(_CallActionCreators);
+var _SearchMessagesActionCreators2 = _interopRequireDefault(_SearchMessagesActionCreators);
 
-var _AvatarItem = require('./common/AvatarItem.react');
+var _SearchMessagesStore = require('../stores/SearchMessagesStore');
 
-var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
-
-var _ToggleFavorite = require('./common/ToggleFavorite.react');
-
-var _ToggleFavorite2 = _interopRequireDefault(_ToggleFavorite);
-
-var _rcTooltip = require('rc-tooltip');
-
-var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
+var _SearchMessagesStore2 = _interopRequireDefault(_SearchMessagesStore);
 
 var _DialogInfoStore = require('../stores/DialogInfoStore');
 
@@ -76,43 +78,25 @@ var _CallStore = require('../stores/CallStore');
 
 var _CallStore2 = _interopRequireDefault(_CallStore);
 
+var _AvatarItem = require('./common/AvatarItem.react');
+
+var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
+
+var _ToggleFavorite = require('./common/ToggleFavorite.react');
+
+var _ToggleFavorite2 = _interopRequireDefault(_ToggleFavorite);
+
+var _SearchInput = require('./search/SearchInput.react');
+
+var _SearchInput2 = _interopRequireDefault(_SearchInput);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ToolbarSection = function (_Component) {
   (0, _inherits3.default)(ToolbarSection, _Component);
 
-  function ToolbarSection() {
-    var _temp, _this, _ret;
-
-    (0, _classCallCheck3.default)(this, ToolbarSection);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onFavoriteToggle = function () {
-      var _this$state = _this.state;
-      var thisPeer = _this$state.thisPeer;
-      var isFavorite = _this$state.isFavorite;
-
-      if (isFavorite) {
-        _FavoriteActionCreators2.default.unfavoriteChat(thisPeer);
-      } else {
-        _FavoriteActionCreators2.default.favoriteChat(thisPeer);
-      }
-    }, _this.onClick = function () {
-      if (!_this.state.isActivityOpen) {
-        _ActivityActionCreators2.default.show();
-      } else {
-        _ActivityActionCreators2.default.hide();
-      }
-    }, _this.handleInCallClick = function () {
-      return _CallActionCreators2.default.toggleFloating();
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
-  }
-
   ToolbarSection.getStores = function getStores() {
-    return [_DialogInfoStore2.default, _ActivityStore2.default, _OnlineStore2.default, _DialogStore2.default, _CallStore2.default];
+    return [_DialogInfoStore2.default, _ActivityStore2.default, _OnlineStore2.default, _DialogStore2.default, _CallStore2.default, _SearchMessagesStore2.default];
   };
 
   ToolbarSection.calculateState = function calculateState() {
@@ -123,6 +107,7 @@ var ToolbarSection = function (_Component) {
       isActivityOpen: _ActivityStore2.default.isOpen(),
       message: _OnlineStore2.default.getMessage(),
       isFavorite: _DialogStore2.default.isFavorite(thisPeer.id),
+      search: _SearchMessagesStore2.default.getState(),
       call: ToolbarSection.calculateCallState(thisPeer)
     };
   };
@@ -143,6 +128,59 @@ var ToolbarSection = function (_Component) {
     };
   };
 
+  function ToolbarSection(props, context) {
+    (0, _classCallCheck3.default)(this, ToolbarSection);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props, context));
+
+    _this.onFavoriteToggle = function () {
+      var _this$state = _this.state;
+      var thisPeer = _this$state.thisPeer;
+      var isFavorite = _this$state.isFavorite;
+
+      if (isFavorite) {
+        _FavoriteActionCreators2.default.unfavoriteChat(thisPeer);
+      } else {
+        _FavoriteActionCreators2.default.favoriteChat(thisPeer);
+      }
+    };
+
+    _this.onClick = function () {
+      if (!_this.state.isActivityOpen) {
+        _ActivityActionCreators2.default.show();
+      } else {
+        _ActivityActionCreators2.default.hide();
+      }
+    };
+
+    _this.handleInCallClick = function () {
+      return _CallActionCreators2.default.toggleFloating();
+    };
+
+    _this.onSearch = (0, _lodash.debounce)(_this.onSearch.bind(_this), 300);
+    _this.onSearchChange = _this.onSearchChange.bind(_this);
+    _this.onSearchToggleOpen = _this.onSearchToggleOpen.bind(_this);
+    _this.onSearchToggleFocus = _this.onSearchToggleFocus.bind(_this);
+    return _this;
+  }
+
+  ToolbarSection.prototype.onSearch = function onSearch(query) {
+    _SearchMessagesActionCreators2.default.findAllText(query);
+  };
+
+  ToolbarSection.prototype.onSearchChange = function onSearchChange(query) {
+    _SearchMessagesActionCreators2.default.setQuery(query);
+    this.onSearch(query);
+  };
+
+  ToolbarSection.prototype.onSearchToggleOpen = function onSearchToggleOpen(isOpen) {
+    _SearchMessagesActionCreators2.default.toggleOpen(isOpen);
+  };
+
+  ToolbarSection.prototype.onSearchToggleFocus = function onSearchToggleFocus(isEnabled) {
+    _SearchMessagesActionCreators2.default.toggleFocus(isEnabled);
+  };
+
   ToolbarSection.prototype.getMessage = function getMessage() {
     var _state = this.state;
     var call = _state.call;
@@ -153,6 +191,27 @@ var ToolbarSection = function (_Component) {
     }
 
     return message;
+  };
+
+  ToolbarSection.prototype.renderSearch = function renderSearch() {
+    if (!this.context.delegate.features.search) {
+      return;
+    }
+
+    var _state$search = this.state.search;
+    var query = _state$search.query;
+    var isOpen = _state$search.isOpen;
+    var isFocused = _state$search.isFocused;
+
+    return _react2.default.createElement(_SearchInput2.default, {
+      className: 'toolbar__controls__search pull-left',
+      value: query,
+      isOpen: isOpen,
+      isFocused: isFocused,
+      onChange: this.onSearchChange,
+      onToggleOpen: this.onSearchToggleOpen,
+      onToggleFocus: this.onSearchToggleFocus
+    });
   };
 
   ToolbarSection.prototype.renderInfoButton = function renderInfoButton() {
@@ -262,6 +321,7 @@ var ToolbarSection = function (_Component) {
       _react2.default.createElement(
         'div',
         { className: 'toolbar__controls' },
+        this.renderSearch(),
         _react2.default.createElement(
           'div',
           { className: 'toolbar__controls__buttons pull-right' },
@@ -277,7 +337,7 @@ var ToolbarSection = function (_Component) {
                       */
 
 ToolbarSection.contextTypes = {
-  isExperimental: _react.PropTypes.bool
+  delegate: _react.PropTypes.object.isRequired
 };
 exports.default = _utils.Container.create(ToolbarSection, { pure: false });
 //# sourceMappingURL=Toolbar.react.js.map

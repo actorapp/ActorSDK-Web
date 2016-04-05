@@ -24,39 +24,42 @@ var _ActorAppConstants = require('../constants/ActorAppConstants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _isOpen = false; /*
-                      * Copyright (C) 2015 Actor LLC. <https://actor.im>
-                      */
+var ActivityStore = function (_ReduceStore) {
+  (0, _inherits3.default)(ActivityStore, _ReduceStore);
 
-var ActivityStore = function (_Store) {
-  (0, _inherits3.default)(ActivityStore, _Store);
-
-  function ActivityStore(dispatcher) {
+  function ActivityStore() {
     (0, _classCallCheck3.default)(this, ActivityStore);
-    return (0, _possibleConstructorReturn3.default)(this, _Store.call(this, dispatcher));
+    return (0, _possibleConstructorReturn3.default)(this, _ReduceStore.apply(this, arguments));
   }
 
-  ActivityStore.prototype.isOpen = function isOpen() {
-    return _isOpen;
+  ActivityStore.prototype.getInitialState = function getInitialState() {
+    return {
+      isOpen: false
+    };
   };
 
-  ActivityStore.prototype.__onDispatch = function __onDispatch(action) {
+  ActivityStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.CALL_MODAL_OPEN:
       case _ActorAppConstants.ActionTypes.ACTIVITY_HIDE:
-        _isOpen = false;
-        this.__emitChange();
-        break;
+        return this.getInitialState();
       case _ActorAppConstants.ActionTypes.ACTIVITY_SHOW:
-        _isOpen = true;
-        this.__emitChange();
-        break;
+        return {
+          isOpen: true
+        };
       default:
+        return state;
     }
   };
 
+  ActivityStore.prototype.isOpen = function isOpen() {
+    return this.getState().isOpen;
+  };
+
   return ActivityStore;
-}(_utils.Store);
+}(_utils.ReduceStore); /*
+                        * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                        */
 
 exports.default = new ActivityStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=ActivityStore.js.map

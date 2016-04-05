@@ -1,50 +1,62 @@
-"use strict";
+'use strict';
 
 exports.__esModule = true;
 
-var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _lodash = require('lodash');
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Class representing a delegate for overriding default app behaviour.
  *
- * @param {object} components - Object contains custom react components.
- * @param {object} actions - Object contains custom actions.
- * @param {object} l18n - Object contains custom translations.
+ * @param {object} options - Object contains options.
+ * @param {object} options.components - Object contains custom react components.
+ * @param {object} options.features - Object contains features flags.
+ * @param {object} options.actions - Object contains custom actions.
+ * @param {object} options.l18n - Object contains custom translations.
  */
 
 var ActorSDKDelegate = function ActorSDKDelegate() {
-  var components = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-  var actions = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-  var l18n = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+  var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
   (0, _classCallCheck3.default)(this, ActorSDKDelegate);
 
-  this.components = {
-    login: components.login || null,
-    install: components.install || null,
-    deactivated: components.deactivated || null,
-    join: components.join || null,
-    archive: components.archive || null,
-    empty: components.empty || null,
+  if (arguments.length === 3) {
+    console.error('Deprecation notice: ActorSDKDelegate constructor accept "options" parameter');
+    options = {
+      components: arguments[0],
+      actions: arguments[1],
+      l18n: arguments[2]
+    };
+  }
 
-    sidebar: components.sidebar || null,
-    dialog: components.dialog || null
-  };
+  (0, _lodash.defaultsDeep)(this, options, ActorSDKDelegate.defaultOptions);
+}; /*
+    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+    */
 
-  this.actions = {
-    setLoggedIn: actions.setLoggedIn || null,
-    setLoggedOut: actions.setLoggedOut || null
-  };
-
-  this.l18n = l18n;
+ActorSDKDelegate.defaultOptions = {
+  components: {
+    login: null,
+    install: null,
+    deactivated: null,
+    join: null,
+    archive: null,
+    empty: null,
+    sidebar: null
+  },
+  features: {
+    calls: true,
+    search: false
+  },
+  actions: {
+    setLoggedIn: null,
+    setLoggedOut: null
+  },
+  l18n: {}
 };
-
 exports.default = ActorSDKDelegate;
 //# sourceMappingURL=actor-sdk-delegate.js.map

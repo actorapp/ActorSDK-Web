@@ -42,13 +42,13 @@ var _Activity = require('./Activity.react');
 
 var _Activity2 = _interopRequireDefault(_Activity);
 
+var _SearchSection = require('./search/SearchSection.react');
+
+var _SearchSection2 = _interopRequireDefault(_SearchSection);
+
 var _Call = require('./Call.react');
 
 var _Call2 = _interopRequireDefault(_Call);
-
-var _LoggerSection = require('./dev/LoggerSection.react');
-
-var _LoggerSection2 = _interopRequireDefault(_LoggerSection);
 
 var _ConnectionState = require('./common/ConnectionState.react');
 
@@ -115,28 +115,44 @@ var DialogSection = function (_Component) {
     }
   };
 
+  DialogSection.prototype.getActivityComponents = function getActivityComponents() {
+    var _context$delegate = this.context.delegate;
+    var features = _context$delegate.features;
+    var dialog = _context$delegate.components.dialog;
+
+    if (dialog && dialog.activity) {
+      return dialog.activity;
+    }
+
+    var activity = [_Activity2.default];
+    if (features.call) {
+      activity.push(_Call2.default);
+    }
+
+    if (features.search) {
+      activity.push(_SearchSection2.default);
+    }
+
+    return activity;
+  };
+
   DialogSection.prototype.getComponents = function getComponents() {
-    var _context$delegate$com = this.context.delegate.components;
-    var dialog = _context$delegate$com.dialog;
-    var logger = _context$delegate$com.logger;
+    var dialog = this.context.delegate.components.dialog;
 
-    var LoggerSection = logger || _LoggerSection2.default;
+    var activity = this.getActivityComponents();
+
     if (dialog && !(0, _lodash.isFunction)(dialog)) {
-      var activity = dialog.activity || [_Activity2.default, _Call2.default, LoggerSection];
-
       return {
+        activity: activity,
         ToolbarSection: dialog.toolbar || _Toolbar2.default,
-        MessagesSection: (0, _lodash.isFunction)(dialog.messages) ? dialog.messages : _MessagesSection2.default,
-        activity: (0, _lodash.map)(activity, function (Activity, index) {
-          return _react2.default.createElement(Activity, { key: index });
-        })
+        MessagesSection: (0, _lodash.isFunction)(dialog.messages) ? dialog.messages : _MessagesSection2.default
       };
     }
 
     return {
+      activity: activity,
       ToolbarSection: _Toolbar2.default,
-      MessagesSection: _MessagesSection2.default,
-      activity: [_react2.default.createElement(_Activity2.default, { key: 1 }), _react2.default.createElement(_Call2.default, { key: 2 }), _react2.default.createElement(LoggerSection, { key: 3 })]
+      MessagesSection: _MessagesSection2.default
     };
   };
 
@@ -170,7 +186,9 @@ var DialogSection = function (_Component) {
           _react2.default.createElement(MessagesSection, { peer: peer, isMember: isMember }),
           _react2.default.createElement(_DialogFooter2.default, { isMember: isMember })
         ),
-        activity
+        activity.map(function (Activity, index) {
+          return _react2.default.createElement(Activity, { key: index });
+        })
       )
     );
   };

@@ -146,7 +146,11 @@ exports.default = {
     'preferencesSessionsCurrentSession': 'Sessão atual',
     'preferencesSessionsAuthTime': 'Tempo logado',
     'preferencesSessionsTerminate': 'Matar sessão',
-    'preferencesSessionsTerminateAll': 'Terminar todas seções'
+    'preferencesSessionsTerminateAll': 'Terminar todas seções',
+
+    search: {
+      'placeholder': 'Busca'
+    }
   }
 };
 //# sourceMappingURL=pt-BR.js.map

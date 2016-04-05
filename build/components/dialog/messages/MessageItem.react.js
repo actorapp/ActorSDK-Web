@@ -18,6 +18,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _lodash = require('lodash');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -106,6 +108,10 @@ var _StickerReact2 = _interopRequireDefault(_StickerReact);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
+
 var MessageItem = function (_Component) {
   (0, _inherits3.default)(MessageItem, _Component);
 
@@ -177,7 +183,7 @@ var MessageItem = function (_Component) {
         Contact = void 0,
         Location = void 0,
         Sticker = void 0;
-    if (delegate.components.dialog && delegate.components.dialog.messages && delegate.components.dialog.messages.message !== null && typeof delegate.components.messages.message !== 'function') {
+    if (delegate.components.dialog && delegate.components.dialog.messages && !(0, _lodash.isFunction)(delegate.components.dialog.messages.message)) {
       Service = delegate.components.dialog.messages.service || _Service2.default;
       Text = delegate.components.dialog.messages.text || _Text2.default;
       Modern = delegate.components.dialog.messages.modern || _ModernReact2.default;
@@ -328,9 +334,7 @@ var MessageItem = function (_Component) {
 }(_react.Component);
 
 // Default message content components
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
+
 
 MessageItem.propTypes = {
   peer: _react.PropTypes.object.isRequired,

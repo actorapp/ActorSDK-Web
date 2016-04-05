@@ -22,14 +22,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
-var _Loading = require('./messages/Loading.react');
-
-var _Loading2 = _interopRequireDefault(_Loading);
-
-var _Welcome = require('./messages/Welcome.react');
-
-var _Welcome2 = _interopRequireDefault(_Welcome);
-
 var _MessagesScroller = require('./MessagesScroller.react');
 
 var _MessagesScroller2 = _interopRequireDefault(_MessagesScroller);
@@ -37,6 +29,14 @@ var _MessagesScroller2 = _interopRequireDefault(_MessagesScroller);
 var _MessageItem = require('./messages/MessageItem.react');
 
 var _MessageItem2 = _interopRequireDefault(_MessageItem);
+
+var _Welcome = require('./messages/Welcome.react');
+
+var _Welcome2 = _interopRequireDefault(_Welcome);
+
+var _Loading = require('./messages/Loading.react');
+
+var _Loading2 = _interopRequireDefault(_Loading);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -50,13 +50,15 @@ var MessagesList = function (_Component) {
 
     var dialog = context.delegate.components.dialog;
 
-    if (dialog && dialog.messages && (0, _lodash.isFunction)(dialog.messages.message)) {
+    if (dialog && dialog.messages) {
       _this.components = {
-        MessageItem: dialog.messages.message
+        MessageItem: (0, _lodash.isFunction)(dialog.messages.message) ? dialog.messages.message : _MessageItem2.default,
+        Welcome: (0, _lodash.isFunction)(dialog.messages.welcome) ? dialog.messages.welcome : _Welcome2.default
       };
     } else {
       _this.components = {
-        MessageItem: _MessageItem2.default
+        MessageItem: _MessageItem2.default,
+        Welcome: _Welcome2.default
       };
     }
 
@@ -70,6 +72,7 @@ var MessagesList = function (_Component) {
     var isMember = _props.isMember;
     var messages = _props.messages;
     var isAllMessagesLoaded = _props.isAllMessagesLoaded;
+    var Welcome = this.components.Welcome;
 
 
     if (!isMember) {
@@ -80,7 +83,7 @@ var MessagesList = function (_Component) {
       return _react2.default.createElement(_Loading2.default, { key: 'header' });
     }
 
-    return _react2.default.createElement(_Welcome2.default, { peer: peer, key: 'header' });
+    return _react2.default.createElement(Welcome, { peer: peer, key: 'header' });
   };
 
   MessagesList.prototype.renderMessages = function renderMessages() {

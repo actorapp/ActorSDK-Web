@@ -40,7 +40,9 @@ var _crosstab = require('crosstab');
 
 var _crosstab2 = _interopRequireDefault(_crosstab);
 
-var _lodash = require('lodash');
+var _assignDeep = require('assign-deep');
+
+var _assignDeep2 = _interopRequireDefault(_assignDeep);
 
 var _DelegateContainer = require('../utils/DelegateContainer');
 
@@ -231,7 +233,7 @@ var ActorSDK = function () {
       }
     };
 
-    (0, _lodash.defaultsDeep)(this, options, ActorSDK.defaultOptions);
+    (0, _assignDeep2.default)(this, ActorSDK.defaultOptions, options);
 
     if (!this.delegate) {
       this.delegate = new _actorSdkDelegate2.default();

@@ -22,22 +22,27 @@ var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
+var _createTimer = require('../utils/createTimer');
+
+var _createTimer2 = _interopRequireDefault(_createTimer);
+
 var _ActionCreators2 = require('./ActionCreators');
 
 var _ActionCreators3 = _interopRequireDefault(_ActionCreators2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
-
 var CallActionCreators = function (_ActionCreators) {
   (0, _inherits3.default)(CallActionCreators, _ActionCreators);
 
   function CallActionCreators() {
     (0, _classCallCheck3.default)(this, CallActionCreators);
-    return (0, _possibleConstructorReturn3.default)(this, _ActionCreators.apply(this, arguments));
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, _ActionCreators.call(this));
+
+    _this.handleCall = _this.handleCall.bind(_this);
+    _this.setCall = _this.setCall.bind(_this);
+    return _this;
   }
 
   CallActionCreators.prototype.hide = function hide() {
@@ -54,6 +59,11 @@ var CallActionCreators = function (_ActionCreators) {
         (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_MODAL_OPEN, { id: id });
         break;
       case _ActorAppConstants.CallTypes.ENDED:
+        if (this.timer) {
+          this.timer.stop();
+          this.timer = null;
+        }
+
         this.removeBindings('call');
         (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_MODAL_HIDE);
         break;
@@ -77,7 +87,15 @@ var CallActionCreators = function (_ActionCreators) {
   };
 
   CallActionCreators.prototype.setCall = function setCall(call) {
+    if (call.state === _ActorAppConstants.CallStates.IN_PROGRESS && !this.timer) {
+      this.timer = (0, _createTimer2.default)(this.setCallTime);
+    }
+
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_CHANGED, { call: call });
+  };
+
+  CallActionCreators.prototype.setCallTime = function setCallTime(time) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_TIME_CHANGED, { time: time });
   };
 
   CallActionCreators.prototype.answerCall = function answerCall(callId) {
@@ -100,7 +118,9 @@ var CallActionCreators = function (_ActionCreators) {
   };
 
   return CallActionCreators;
-}(_ActionCreators3.default);
+}(_ActionCreators3.default); /*
+                              * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                              */
 
 exports.default = new CallActionCreators();
 //# sourceMappingURL=CallActionCreators.js.map

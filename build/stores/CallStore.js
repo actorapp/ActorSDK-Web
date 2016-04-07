@@ -60,11 +60,15 @@ var CallStore = function (_ReduceStore) {
         return this.getInitialState();
       case _ActorAppConstants.ActionTypes.CALL_CHANGED:
         return (0, _extends3.default)({}, state, {
+          time: '00:00',
           peer: action.call.peer,
           state: action.call.state,
           members: action.call.members,
-          // isMuted: action.call.isMuted,
           isOutgoing: action.call.isOutgoing
+        });
+      case _ActorAppConstants.ActionTypes.CALL_TIME_CHANGED:
+        return (0, _extends3.default)({}, state, {
+          time: action.time
         });
       case _ActorAppConstants.ActionTypes.CALL_MUTE_TOGGLE:
         return (0, _extends3.default)({}, state, {

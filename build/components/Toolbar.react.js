@@ -121,8 +121,8 @@ var ToolbarSection = function (_Component) {
     }
 
     return {
-      time: '00:00',
       isCalling: true,
+      time: call.time,
       state: call.state,
       isFloating: call.isFloating
     };

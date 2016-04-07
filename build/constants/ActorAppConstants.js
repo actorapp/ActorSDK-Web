@@ -206,6 +206,7 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   CALL_SUCCESS: null,
   CALL_ERROR: null,
   CALL_CHANGED: null,
+  CALL_TIME_CHANGED: null,
   CALL_ANSWER: null,
   CALL_END: null,
   CALL_MUTE_TOGGLE: null,

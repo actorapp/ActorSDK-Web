@@ -29,6 +29,9 @@ exports.default = {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.INVITE_USER_MODAL_HIDE);
     _ComposeActionCreators2.default.toggleAutoFocus(true);
   },
+  setQuery: function setQuery(query) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.INVITE_USER_QUERY_CHANGE, { query: query });
+  },
   inviteUser: function inviteUser(gid, uid) {
     (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.inviteMember(gid, uid), {
       request: _ActorAppConstants.ActionTypes.INVITE_USER,

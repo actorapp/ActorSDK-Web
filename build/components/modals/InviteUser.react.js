@@ -32,6 +32,10 @@ var _fuzzaldrin = require('fuzzaldrin');
 
 var _fuzzaldrin2 = _interopRequireDefault(_fuzzaldrin);
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _GroupUtils = require('../../utils/GroupUtils');
@@ -44,9 +48,9 @@ var _InviteUserByLinkActions = require('../../actions/InviteUserByLinkActions');
 
 var _InviteUserByLinkActions2 = _interopRequireDefault(_InviteUserByLinkActions);
 
-var _PeopleStore = require('../../stores/PeopleStore');
+var _ContactsStore = require('../../stores/ContactsStore');
 
-var _PeopleStore2 = _interopRequireDefault(_PeopleStore);
+var _ContactsStore2 = _interopRequireDefault(_ContactsStore);
 
 var _InviteUserStore = require('../../stores/InviteUserStore');
 
@@ -62,54 +66,45 @@ var _Stateful2 = _interopRequireDefault(_Stateful);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
-
 var InviteUser = function (_Component) {
   (0, _inherits3.default)(InviteUser, _Component);
 
-  function InviteUser() {
-    var _temp, _this, _ret;
-
-    (0, _classCallCheck3.default)(this, InviteUser);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onClose = function () {
-      return _InviteUserActions2.default.hide();
-    }, _this.onContactSelect = function (uid) {
-      return _InviteUserActions2.default.inviteUser(_this.state.group.id, uid);
-    }, _this.onSearchChange = function (event) {
-      return _this.setState({ search: event.target.value });
-    }, _this.onInviteUrlByClick = function () {
-      var group = _this.state.group;
-
-
-      _InviteUserByLinkActions2.default.show(group);
-      _InviteUserActions2.default.hide();
-    }, _this.onKeyDown = function (event) {
-      if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
-        event.preventDefault();
-        _this.onClose();
-      }
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
-  }
-
   InviteUser.getStores = function getStores() {
-    return [_InviteUserStore2.default, _PeopleStore2.default];
+    return [_InviteUserStore2.default, _ContactsStore2.default];
   };
 
   InviteUser.calculateState = function calculateState() {
+    var contacts = _ContactsStore2.default.getState();
+
+    var _InviteUserStore$getS = _InviteUserStore2.default.getState();
+
+    var isOpen = _InviteUserStore$getS.isOpen;
+    var group = _InviteUserStore$getS.group;
+    var users = _InviteUserStore$getS.users;
+    var query = _InviteUserStore$getS.query;
+
+
     return {
-      isOpen: _InviteUserStore2.default.isModalOpen(),
-      contacts: _PeopleStore2.default.getList(),
-      group: _InviteUserStore2.default.getGroup(),
-      inviteUserState: _InviteUserStore2.default.getInviteUserState()
+      contacts: contacts,
+      isOpen: isOpen,
+      group: group,
+      users: users,
+      query: query
     };
   };
+
+  function InviteUser(props, context) {
+    (0, _classCallCheck3.default)(this, InviteUser);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props, context));
+
+    _this.onClose = _this.onClose.bind(_this);
+    _this.onSearchChange = _this.onSearchChange.bind(_this);
+    _this.onContactSelect = _this.onContactSelect.bind(_this);
+    _this.onInviteUrlByClick = _this.onInviteUrlByClick.bind(_this);
+    _this.onKeyDown = _this.onKeyDown.bind(_this);
+    return _this;
+  }
 
   InviteUser.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
     if (nextState.isOpen && !this.state.isOpen) {
@@ -119,14 +114,46 @@ var InviteUser = function (_Component) {
     }
   };
 
+  InviteUser.prototype.onClose = function onClose() {
+    _InviteUserActions2.default.hide();
+  };
+
+  InviteUser.prototype.onSearchChange = function onSearchChange(event) {
+    _InviteUserActions2.default.setQuery(event.target.value);
+  };
+
+  InviteUser.prototype.onContactSelect = function onContactSelect(uid) {
+    _InviteUserActions2.default.inviteUser(this.state.group.id, uid);
+  };
+
+  InviteUser.prototype.onInviteUrlByClick = function onInviteUrlByClick() {
+    var group = this.state.group;
+
+
+    _InviteUserByLinkActions2.default.show(group);
+    _InviteUserActions2.default.hide();
+  };
+
+  InviteUser.prototype.onKeyDown = function onKeyDown(event) {
+    if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
+      event.preventDefault();
+      this.onClose();
+    }
+  };
+
   InviteUser.prototype.getContacts = function getContacts() {
     var _state = this.state;
     var contacts = _state.contacts;
-    var search = _state.search;
+    var query = _state.query;
 
 
-    return _fuzzaldrin2.default.filter(contacts, search, {
-      key: 'name'
+    if (!query) {
+      return contacts;
+    }
+
+    return contacts.filter(function (contact) {
+      var score = _fuzzaldrin2.default.score(contact.name, query);
+      return score > 0;
     });
   };
 
@@ -136,7 +163,7 @@ var InviteUser = function (_Component) {
     var intl = this.context.intl;
     var _state2 = this.state;
     var group = _state2.group;
-    var inviteUserState = _state2.inviteUserState;
+    var users = _state2.users;
 
     var contacts = this.getContacts();
 
@@ -148,23 +175,23 @@ var InviteUser = function (_Component) {
       );
     }
 
-    return contacts.map(function (contact, i) {
-      var controls = void 0,
-          contactClassName = void 0;
-      if ((0, _GroupUtils.hasMember)(group.id, contact.uid)) {
-        controls = _react2.default.createElement(
-          'i',
-          { className: 'material-icons' },
-          'check'
-        );
-        contactClassName = 'contact--disabled';
-      } else {
-        var currentState = inviteUserState[contact.uid] || _ActorAppConstants.AsyncActionStates.PENDING;
-        var onClick = function onClick() {
-          console.log('%c Trying to invite "' + contact.name + '"(uid=' + contact.uid + ') to group ' + group.id, 'color: #fd5c52');
-          _this2.onContactSelect(contact.uid);
-        };
-        controls = _react2.default.createElement(_Stateful2.default, {
+    return contacts.map(function (contact) {
+      var isMember = (0, _GroupUtils.hasMember)(group.id, contact.uid);
+      var currentState = isMember ? _ActorAppConstants.AsyncActionStates.SUCCESS : users[contact.uid] || _ActorAppConstants.AsyncActionStates.PENDING;
+
+      var onClick = function onClick() {
+        console.log('%c Trying to invite "' + contact.name + '"(uid=' + contact.uid + ') to group ' + group.id, 'color: #fd5c52');
+        _this2.onContactSelect(contact.uid);
+      };
+
+      var contactClassName = (0, _classnames2.default)({
+        'contact--disabled': currentState === _ActorAppConstants.AsyncActionStates.SUCCESS
+      });
+
+      return _react2.default.createElement(
+        _ContactItem2.default,
+        (0, _extends3.default)({}, contact, { className: contactClassName, key: contact.uid }),
+        _react2.default.createElement(_Stateful2.default, {
           currentState: currentState,
           pending: _react2.default.createElement(
             'a',
@@ -186,14 +213,7 @@ var InviteUser = function (_Component) {
             { className: 'material-icons' },
             'warning'
           )
-        });
-        contactClassName = currentState === _ActorAppConstants.AsyncActionStates.SUCCESS ? 'contact--disabled' : '';
-      }
-
-      return _react2.default.createElement(
-        _ContactItem2.default,
-        (0, _extends3.default)({}, contact, { className: contactClassName, key: i }),
-        controls
+        })
       );
     });
   };
@@ -296,10 +316,12 @@ var InviteUser = function (_Component) {
   };
 
   return InviteUser;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 InviteUser.contextTypes = {
   intl: _react.PropTypes.object
 };
-exports.default = _utils.Container.create(InviteUser, { pure: false });
+exports.default = _utils.Container.create(InviteUser);
 //# sourceMappingURL=InviteUser.react.js.map

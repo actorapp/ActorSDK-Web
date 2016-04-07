@@ -40,6 +40,7 @@ var InviteUserStore = function (_ReduceStore) {
     return {
       isOpen: false,
       isInviteByLinkOpen: false,
+      query: null,
       group: null,
       inviteUrl: null,
       users: {}
@@ -58,15 +59,16 @@ var InviteUserStore = function (_ReduceStore) {
           group: action.group
         });
       case _ActorAppConstants.ActionTypes.INVITE_USER_MODAL_HIDE:
-        return (0, _extends3.default)({}, state, {
-          isOpen: false,
-          users: {}
-        });
+        return this.getInitialState();
       case _ActorAppConstants.ActionTypes.INVITE_USER_BY_LINK_MODAL_SHOW:
         return (0, _extends3.default)({}, state, {
           isInviteByLinkOpen: true,
           group: action.group,
           inviteUrl: action.url
+        });
+      case _ActorAppConstants.ActionTypes.INVITE_USER_QUERY_CHANGE:
+        return (0, _extends3.default)({}, state, {
+          query: action.query
         });
       case _ActorAppConstants.ActionTypes.INVITE_USER_BY_LINK_MODAL_HIDE:
         return (0, _extends3.default)({}, state, {

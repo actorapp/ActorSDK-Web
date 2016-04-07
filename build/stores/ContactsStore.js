@@ -2,9 +2,9 @@
 
 exports.__esModule = true;
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _typeof2 = require('babel-runtime/helpers/typeof');
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _typeof3 = _interopRequireDefault(_typeof2);
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -26,7 +26,15 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
+var _ActorClient = require('../utils/ActorClient');
+
+var _ActorClient2 = _interopRequireDefault(_ActorClient);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015 Actor LLC. <https://actor.im>
+ */
 
 var PeopleStore = function (_ReduceStore) {
   (0, _inherits3.default)(PeopleStore, _ReduceStore);
@@ -37,37 +45,28 @@ var PeopleStore = function (_ReduceStore) {
   }
 
   PeopleStore.prototype.getInitialState = function getInitialState() {
-    return {
-      isOpen: false,
-      query: null
-    };
+    return [];
   };
 
   PeopleStore.prototype.reduce = function reduce(state, action) {
-    switch (action.type) {
-      case _ActorAppConstants.ActionTypes.CONTACT_LIST_SHOW:
-        return (0, _extends3.default)({}, state, {
-          isOpen: true
-        });
-      case _ActorAppConstants.ActionTypes.CONTACT_LIST_HIDE:
-        return this.getInitialState();
-      case _ActorAppConstants.ActionTypes.CONTACT_LIST_SEARCH:
-        return (0, _extends3.default)({}, state, {
-          query: action.query
-        });
-      default:
-        return state;
-    }
-  };
+    if (action.type === _ActorAppConstants.ActionTypes.CONTACT_LIST_CHANGED) {
+      var _ret = function () {
+        var uid = _ActorClient2.default.getUid();
+        return {
+          v: action.contacts.filter(function (contact) {
+            return contact.uid !== uid;
+          })
+        };
+      }();
 
-  PeopleStore.prototype.isOpen = function isOpen() {
-    return this.getState().isOpen;
+      if ((typeof _ret === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret)) === "object") return _ret.v;
+    }
+
+    return state;
   };
 
   return PeopleStore;
-}(_utils.ReduceStore); /*
-                        * Copyright (C) 2015 Actor LLC. <https://actor.im>
-                        */
+}(_utils.ReduceStore);
 
 exports.default = new PeopleStore(_ActorAppDispatcher2.default);
-//# sourceMappingURL=PeopleStore.js.map
+//# sourceMappingURL=ContactsStore.js.map

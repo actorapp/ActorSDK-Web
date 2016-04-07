@@ -2,6 +2,10 @@
 
 exports.__esModule = true;
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -14,7 +18,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _lodash = require('lodash');
+var _fuzzaldrin = require('fuzzaldrin');
+
+var _fuzzaldrin2 = _interopRequireDefault(_fuzzaldrin);
 
 var _react = require('react');
 
@@ -42,15 +48,15 @@ var _PeopleStore = require('../../../stores/PeopleStore');
 
 var _PeopleStore2 = _interopRequireDefault(_PeopleStore);
 
+var _ContactsStore = require('../../../stores/ContactsStore');
+
+var _ContactsStore2 = _interopRequireDefault(_ContactsStore);
+
 var _PeopleItem = require('./PeopleItem.react');
 
 var _PeopleItem2 = _interopRequireDefault(_PeopleItem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
 
 var PeopleList = function (_Component) {
   (0, _inherits3.default)(PeopleList, _Component);
@@ -71,12 +77,7 @@ var PeopleList = function (_Component) {
     _this.handleSearchChange = function (event) {
       var query = event.target.value;
       _this.setState({ query: query });
-      _this.searchPeople(query);
     };
-
-    _this.searchPeople = (0, _lodash.debounce)(function (query) {
-      return _ContactActionCreators2.default.search(query);
-    }, 300, { trailing: true });
 
     _this.handleContactSelect = function (contact) {
       _DialogActionCreators2.default.selectDialogPeerUser(contact.uid);
@@ -165,19 +166,28 @@ var PeopleList = function (_Component) {
       return _this.refs.results.scrollTo(top);
     };
 
+    _this.state = {
+      query: null,
+      selectedIndex: 0
+    };
     return _this;
   }
 
   PeopleList.getStores = function getStores() {
-    return [_PeopleStore2.default];
+    return [_PeopleStore2.default, _ContactsStore2.default];
   };
 
-  PeopleList.calculateState = function calculateState() {
-    return {
-      list: _PeopleStore2.default.getList(),
-      results: _PeopleStore2.default.getResults(),
-      selectedIndex: 0
-    };
+  PeopleList.calculateState = function calculateState(prevState) {
+    var _PeopleStore$getState = _PeopleStore2.default.getState();
+
+    var isOpen = _PeopleStore$getState.isOpen;
+
+    var contacts = _ContactsStore2.default.getState();
+
+    return (0, _extends3.default)({}, prevState, {
+      isOpen: isOpen,
+      contacts: contacts
+    });
   };
 
   PeopleList.prototype.componentDidMount = function componentDidMount() {
@@ -189,26 +199,55 @@ var PeopleList = function (_Component) {
     document.removeEventListener('keydown', this.handleKeyDown, false);
   };
 
-  PeopleList.prototype.render = function render() {
+  PeopleList.prototype.renderPeople = function renderPeople() {
     var _this2 = this;
 
+    var intl = this.context.intl;
     var _state = this.state;
     var query = _state.query;
-    var results = _state.results;
+    var contacts = _state.contacts;
     var selectedIndex = _state.selectedIndex;
-    var list = _state.list;
-    var intl = this.context.intl;
 
 
-    var peopleList = (0, _lodash.map)(results, function (result, index) {
-      return _react2.default.createElement(_PeopleItem2.default, { contact: result, key: index,
+    if (!contacts.length) {
+      return _react2.default.createElement(
+        'div',
+        null,
+        intl.messages['modal.contacts.loading']
+      );
+    }
+
+    var people = contacts.filter(function (contact) {
+      var score = _fuzzaldrin2.default.score(contact.name, query);
+      return score > 0;
+    });
+
+    if (!people.length) {
+      return _react2.default.createElement(
+        'li',
+        { className: 'contacts__list__item contacts__list__item--empty text-center' },
+        intl.messages['modal.contacts.notFound']
+      );
+    }
+
+    return people.map(function (contact, index) {
+      return _react2.default.createElement(_PeopleItem2.default, {
+        contact: contact,
+        key: contact.uid,
         onClick: _this2.handleContactSelect,
         isSelected: selectedIndex === index,
         ref: selectedIndex === index ? 'selected' : null,
         onMouseOver: function onMouseOver() {
           return _this2.setState({ selectedIndex: index });
-        } });
+        }
+      });
     });
+  };
+
+  PeopleList.prototype.render = function render() {
+    var query = this.state.query;
+    var intl = this.context.intl;
+
 
     return _react2.default.createElement(
       'div',
@@ -238,22 +277,16 @@ var PeopleList = function (_Component) {
         _react2.default.createElement(
           'ul',
           { className: 'newmodal__result contacts__list' },
-          list.length === 0 ? _react2.default.createElement(
-            'div',
-            null,
-            intl.messages['modal.contacts.loading']
-          ) : results.length === 0 ? _react2.default.createElement(
-            'li',
-            { className: 'contacts__list__item contacts__list__item--empty text-center' },
-            intl.messages['modal.contacts.notFound']
-          ) : peopleList
+          this.renderPeople()
         )
       )
     );
   };
 
   return PeopleList;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 PeopleList.contextTypes = {
   intl: _react.PropTypes.object

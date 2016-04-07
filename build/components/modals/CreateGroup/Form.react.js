@@ -36,9 +36,9 @@ var _CreateGroupActionCreators = require('../../../actions/CreateGroupActionCrea
 
 var _CreateGroupActionCreators2 = _interopRequireDefault(_CreateGroupActionCreators);
 
-var _PeopleStore = require('../../../stores/PeopleStore');
+var _ContactsStore = require('../../../stores/ContactsStore');
 
-var _PeopleStore2 = _interopRequireDefault(_PeopleStore);
+var _ContactsStore2 = _interopRequireDefault(_ContactsStore);
 
 var _CreateGroupStore = require('../../../stores/CreateGroupStore');
 
@@ -107,7 +107,7 @@ var CreateGroupForm = function (_Component) {
   }
 
   CreateGroupForm.getStores = function getStores() {
-    return [_PeopleStore2.default, _CreateGroupStore2.default];
+    return [_CreateGroupStore2.default, _ContactsStore2.default];
   };
 
   CreateGroupForm.calculateState = function calculateState() {
@@ -115,7 +115,7 @@ var CreateGroupForm = function (_Component) {
       step: _CreateGroupStore2.default.getCurrentStep(),
       name: _CreateGroupStore2.default.getGroupName(),
       selectedUserIds: _CreateGroupStore2.default.getSelectedUserIds(),
-      contacts: _PeopleStore2.default.getList()
+      contacts: _ContactsStore2.default.getState()
     };
   };
 

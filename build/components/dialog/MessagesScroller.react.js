@@ -98,8 +98,19 @@ var MessagesScroller = function (_Component) {
     }
   };
 
-  MessagesScroller.prototype.scrollToBottom = function scrollToBottom() {
-    this.node.scrollTop = this.node.scrollHeight;
+  MessagesScroller.prototype.scrollToBottom = function scrollToBottom(prevscrollHeight) {
+    var _this3 = this;
+
+    var scrollHeight = this.node.scrollHeight;
+
+    if (prevscrollHeight === scrollHeight) {
+      return;
+    }
+
+    this.node.scrollTop = scrollHeight;
+    setTimeout(function () {
+      return _this3.scrollToBottom(scrollHeight);
+    }, 60);
   };
 
   MessagesScroller.prototype.onRef = function onRef(node) {

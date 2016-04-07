@@ -22,9 +22,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactAddonsShallowCompare = require('react-addons-shallow-compare');
-
-var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
+var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
 var _utils = require('flux/utils');
 
@@ -55,11 +53,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ActivitySection = function (_Component) {
   (0, _inherits3.default)(ActivitySection, _Component);
 
-  function ActivitySection(props) {
-    (0, _classCallCheck3.default)(this, ActivitySection);
-    return (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
-  }
-
   ActivitySection.getStores = function getStores() {
     return [_DialogStore2.default, _DialogInfoStore2.default, _ActivityStore2.default];
   };
@@ -72,13 +65,14 @@ var ActivitySection = function (_Component) {
     };
   };
 
-  ActivitySection.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
-    if (!nextState.isOpen) {
-      return false;
-    }
+  function ActivitySection(props) {
+    (0, _classCallCheck3.default)(this, ActivitySection);
 
-    return (0, _reactAddonsShallowCompare2.default)(this, nextProps, nextState);
-  };
+    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
+
+    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
+    return _this;
+  }
 
   ActivitySection.prototype.componentDidUpdate = function componentDidUpdate() {
     (0, _setImmediate3.default)(function () {

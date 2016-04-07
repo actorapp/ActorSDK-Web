@@ -125,7 +125,7 @@ var DialogSection = function (_Component) {
     }
 
     var activity = [_Activity2.default];
-    if (features.call) {
+    if (features.calls) {
       activity.push(_Call2.default);
     }
 

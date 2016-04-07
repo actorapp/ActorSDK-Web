@@ -18,9 +18,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactAddonsShallowCompare = require('react-addons-shallow-compare');
-
-var _reactAddonsShallowCompare2 = _interopRequireDefault(_reactAddonsShallowCompare);
+var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
 var _utils = require('flux/utils');
 
@@ -116,12 +114,9 @@ var Call = function (_Component) {
     _this.onFullscreen = _this.onFullscreen.bind(_this);
     _this.onUserAdd = _this.onUserAdd.bind(_this);
     _this.onVideo = _this.onVideo.bind(_this);
+    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
   }
-
-  Call.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
-    return (0, _reactAddonsShallowCompare2.default)(this, nextProps, nextState);
-  };
 
   Call.prototype.onAnswer = function onAnswer() {
     _CallActionCreators2.default.answerCall(this.state.call.id);

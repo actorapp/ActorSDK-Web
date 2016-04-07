@@ -160,13 +160,15 @@ var InviteUser = function (_Component) {
         contactClassName = 'contact--disabled';
       } else {
         var currentState = inviteUserState[contact.uid] || _ActorAppConstants.AsyncActionStates.PENDING;
+        var onClick = function onClick() {
+          console.log('%c Trying to invite "' + contact.name + '"(uid=' + contact.uid + ') to group ' + group.id, 'color: #fd5c52');
+          _this2.onContactSelect(contact.uid);
+        };
         controls = _react2.default.createElement(_Stateful2.default, {
           currentState: currentState,
           pending: _react2.default.createElement(
             'a',
-            { className: 'material-icons', onClick: function onClick() {
-                return _this2.onContactSelect(contact.uid);
-              } },
+            { className: 'material-icons', onClick: onClick },
             'person_add'
           ),
           processing: _react2.default.createElement(

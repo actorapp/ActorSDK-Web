@@ -78,6 +78,10 @@ var _DialogStore = require('../../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
+var _MessageArtStore = require('../../stores/MessageArtStore');
+
+var _MessageArtStore2 = _interopRequireDefault(_MessageArtStore);
+
 var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -86,9 +90,9 @@ var _MentionDropdown = require('../common/MentionDropdown.react');
 
 var _MentionDropdown2 = _interopRequireDefault(_MentionDropdown);
 
-var _EmojiDropdown = require('../common/EmojiDropdown.react');
+var _MessageArt = require('../messageArt/MessageArt.react');
 
-var _EmojiDropdown2 = _interopRequireDefault(_EmojiDropdown);
+var _MessageArt2 = _interopRequireDefault(_MessageArt);
 
 var _VoiceRecorder = require('../common/VoiceRecorder.react');
 
@@ -104,15 +108,11 @@ var _SendAttachment2 = _interopRequireDefault(_SendAttachment);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
-
 var ComposeSection = function (_Component) {
   (0, _inherits3.default)(ComposeSection, _Component);
 
   ComposeSection.getStores = function getStores() {
-    return [_DialogStore2.default, _GroupStore2.default, _PreferencesStore2.default, _AttachmentStore2.default, _ComposeStore2.default];
+    return [_DialogStore2.default, _GroupStore2.default, _PreferencesStore2.default, _AttachmentStore2.default, _ComposeStore2.default, _MessageArtStore2.default];
   };
 
   ComposeSection.calculateState = function calculateState(prevState) {
@@ -124,7 +124,9 @@ var ComposeSection = function (_Component) {
       mentions: _ComposeStore2.default.getMentions(),
       isSendAttachmentOpen: _AttachmentStore2.default.isOpen(),
       isMarkdownHintShow: prevState ? prevState.isMarkdownHintShow || false : false,
-      isAutoFocusEnabled: _ComposeStore2.default.isAutoFocusEnabled()
+      isAutoFocusEnabled: _ComposeStore2.default.isAutoFocusEnabled(),
+      isMessageArtOpen: _MessageArtStore2.default.getState().isOpen,
+      stickers: _MessageArtStore2.default.getState().stickers
     };
   };
 
@@ -339,8 +341,10 @@ var ComposeSection = function (_Component) {
     var text = _state.text;
     var profile = _state.profile;
     var mentions = _state.mentions;
+    var stickers = _state.stickers;
     var isMarkdownHintShow = _state.isMarkdownHintShow;
     var isSendAttachmentOpen = _state.isSendAttachmentOpen;
+    var isMessageArtOpen = _state.isMessageArtOpen;
     var intl = this.context.intl;
 
     var markdownHintClassName = (0, _classnames2.default)('compose__markdown-hint', {
@@ -350,10 +354,17 @@ var ComposeSection = function (_Component) {
     return _react2.default.createElement(
       'section',
       { className: 'compose' },
-      _react2.default.createElement(_MentionDropdown2.default, { mentions: mentions,
+      _react2.default.createElement(_MentionDropdown2.default, {
+        mentions: mentions,
         onSelect: this.onMentionSelect,
-        onClose: this.onMentionClose }),
-      _react2.default.createElement(_EmojiDropdown2.default, { onSelect: this.handleEmojiSelect, onStickerSelect: this.handleStickerSelect }),
+        onClose: this.onMentionClose
+      }),
+      _react2.default.createElement(_MessageArt2.default, {
+        onSelect: this.handleEmojiSelect,
+        onStickerSelect: this.handleStickerSelect,
+        isActive: isMessageArtOpen,
+        stickers: stickers
+      }),
       _react2.default.createElement(_VoiceRecorder2.default, { onFinish: this.sendVoiceRecord }),
       _react2.default.createElement(
         'div',
@@ -428,9 +439,9 @@ var ComposeSection = function (_Component) {
   };
 
   return ComposeSection;
-}(_react.Component);
-// import EmojiDropdown from '../emoji_stickers/Dropdown.react';
-
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 ComposeSection.contextTypes = {
   intl: _react.PropTypes.object

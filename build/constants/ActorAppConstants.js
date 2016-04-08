@@ -1,7 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
-exports.helpPhone = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.LoggerTypes = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypePrefixes = exports.PeerTypes = exports.MessageStates = exports.ConnectionStates = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
+exports.helpPhone = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.LoggerTypes = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypePrefixes = exports.PeerTypes = exports.MessageStates = exports.ConnectionStates = exports.MessageArtPopupState = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
 
 var _keymirror = require('keymirror');
 
@@ -251,7 +251,10 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   SEARCH_LINKS_ERROR: null,
   SEARCH_PHOTO: null,
   SEARCH_PHOTO_SUCCESS: null,
-  SEARCH_PHOTO_ERROR: null
+  SEARCH_PHOTO_ERROR: null,
+
+  MESSAGE_ART_SHOW: null,
+  MESSAGE_ART_CLOSE: null
 });
 
 var EventTypes = exports.EventTypes = {
@@ -268,6 +271,11 @@ var CallStates = exports.CallStates = {
   CONNECTING: 'connecting',
   IN_PROGRESS: 'in_progress',
   ENDED: 'ended'
+};
+
+var MessageArtPopupState = exports.MessageArtPopupState = {
+  EMOJI: 'emoji',
+  STICKER: 'sticker'
 };
 
 var ConnectionStates = exports.ConnectionStates = {
@@ -362,6 +370,7 @@ exports.default = {
   EventTypes: EventTypes,
   CallTypes: CallTypes,
   CallStates: CallStates,
+  MessageArtPopupState: MessageArtPopupState,
   ConnectionStates: ConnectionStates,
   PeerTypes: PeerTypes,
   ActivityTypes: ActivityTypes,

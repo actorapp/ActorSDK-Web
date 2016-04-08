@@ -244,7 +244,10 @@ export const ActionTypes = keymirror({
   SEARCH_LINKS_ERROR: null,
   SEARCH_PHOTO: null,
   SEARCH_PHOTO_SUCCESS: null,
-  SEARCH_PHOTO_ERROR: null
+  SEARCH_PHOTO_ERROR: null,
+
+  MESSAGE_ART_SHOW: null,
+  MESSAGE_ART_CLOSE: null
 });
 
 export const EventTypes = {
@@ -261,6 +264,11 @@ export const CallStates = {
   CONNECTING: 'connecting',
   IN_PROGRESS: 'in_progress',
   ENDED: 'ended'
+};
+
+export const MessageArtPopupState = {
+  EMOJI: 'emoji',
+  STICKER: 'sticker'
 };
 
 export const ConnectionStates = {
@@ -358,6 +366,7 @@ export default {
   EventTypes,
   CallTypes,
   CallStates,
+  MessageArtPopupState,
   ConnectionStates,
   PeerTypes,
   ActivityTypes,

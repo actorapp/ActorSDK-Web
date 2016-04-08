@@ -260,12 +260,10 @@ var EmojiDropdown = function (_Component) {
 
     return _react2.default.createElement(
       'div',
-      { className: emojiDropdownClassName },
+      { className: emojiDropdownClassName, onMouseEnter: this.handleEmojiOpenerMouseEnter, onMouseLeave: this.handleEmojiMouseLeave },
       _react2.default.createElement(
         'i',
-        { className: emojiOpenerClassName,
-          onMouseEnter: this.handleEmojiOpenerMouseEnter,
-          onMouseLeave: this.handleEmojiMouseLeave },
+        { className: emojiOpenerClassName },
         'insert_emoticon'
       ),
       _react2.default.createElement(

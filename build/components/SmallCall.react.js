@@ -48,28 +48,20 @@ var _GroupStore = require('../stores/GroupStore');
 
 var _GroupStore2 = _interopRequireDefault(_GroupStore);
 
-var _CallBody = require('./call/CallBody.react');
+var _CallDraggable = require('./call/CallDraggable.react');
 
-var _CallBody2 = _interopRequireDefault(_CallBody);
-
-var _CallControls = require('./call/CallControls.react');
-
-var _CallControls2 = _interopRequireDefault(_CallControls);
-
-var _ContactDetails = require('./common/ContactDetails.react');
-
-var _ContactDetails2 = _interopRequireDefault(_ContactDetails);
+var _CallDraggable2 = _interopRequireDefault(_CallDraggable);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Call = function (_Component) {
-  (0, _inherits3.default)(Call, _Component);
+var SmallCall = function (_Component) {
+  (0, _inherits3.default)(SmallCall, _Component);
 
-  Call.getStores = function getStores() {
+  SmallCall.getStores = function getStores() {
     return [_CallStore2.default, _DialogStore2.default];
   };
 
-  Call.calculatePeerInfo = function calculatePeerInfo(peer) {
+  SmallCall.calculatePeerInfo = function calculatePeerInfo(peer) {
     if (peer) {
       if (peer.type === _ActorAppConstants.PeerTypes.USER) {
         return _UserStore2.default.getUser(peer.id);
@@ -83,27 +75,28 @@ var Call = function (_Component) {
     return null;
   };
 
-  Call.calculateState = function calculateState() {
+  SmallCall.calculateState = function calculateState() {
     var call = _CallStore2.default.getState();
-    if (!call.isOpen || call.isFloating) {
+    if (!call.isOpen) {
       return { isOpen: false };
     }
 
     var dialogPeer = _DialogStore2.default.getCurrentPeer();
     var isSameDialog = _PeerUtils2.default.equals(dialogPeer, call.peer);
-    if (!isSameDialog) {
+
+    if (isSameDialog && !call.isFloating) {
       return { isOpen: false };
     }
 
     return {
       call: call,
       isOpen: true,
-      peerInfo: Call.calculatePeerInfo(call.peer)
+      peerInfo: SmallCall.calculatePeerInfo(call.peer)
     };
   };
 
-  function Call(props) {
-    (0, _classCallCheck3.default)(this, Call);
+  function SmallCall(props) {
+    (0, _classCallCheck3.default)(this, SmallCall);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
 
@@ -118,90 +111,64 @@ var Call = function (_Component) {
     return _this;
   }
 
-  Call.prototype.onAnswer = function onAnswer() {
+  SmallCall.prototype.onAnswer = function onAnswer() {
     _CallActionCreators2.default.answerCall(this.state.call.id);
   };
 
-  Call.prototype.onEnd = function onEnd() {
+  SmallCall.prototype.onEnd = function onEnd() {
     _CallActionCreators2.default.endCall(this.state.call.id);
   };
 
-  Call.prototype.onMuteToggle = function onMuteToggle() {
+  SmallCall.prototype.onMuteToggle = function onMuteToggle() {
     _CallActionCreators2.default.toggleCallMute(this.state.call.id);
   };
 
-  Call.prototype.onClose = function onClose() {
+  SmallCall.prototype.onClose = function onClose() {
     _CallActionCreators2.default.hide();
   };
 
-  Call.prototype.onFullscreen = function onFullscreen() {
+  SmallCall.prototype.onFullscreen = function onFullscreen() {
     console.debug('onFullscreen');
   };
 
-  Call.prototype.onUserAdd = function onUserAdd() {
+  SmallCall.prototype.onUserAdd = function onUserAdd() {
     console.debug('onUserAdd');
   };
 
-  Call.prototype.onVideo = function onVideo() {
+  SmallCall.prototype.onVideo = function onVideo() {
     console.debug('onVideo');
   };
 
-  Call.prototype.renderContactInfo = function renderContactInfo() {
+  SmallCall.prototype.render = function render() {
     var _state = this.state;
+    var isOpen = _state.isOpen;
     var call = _state.call;
     var peerInfo = _state.peerInfo;
 
-    if (!peerInfo || call.peer.type === _ActorAppConstants.PeerTypes.GROUP) return null;
-
-    return _react2.default.createElement(
-      'section',
-      { className: 'call__info' },
-      _react2.default.createElement(_ContactDetails2.default, { peerInfo: peerInfo })
-    );
-  };
-
-  Call.prototype.render = function render() {
-    var _state2 = this.state;
-    var isOpen = _state2.isOpen;
-    var call = _state2.call;
-    var peerInfo = _state2.peerInfo;
 
     if (!isOpen) {
-      return _react2.default.createElement('section', { className: 'activity' });
+      return null;
     }
 
-    return _react2.default.createElement(
-      'section',
-      { className: 'activity activity--shown' },
-      _react2.default.createElement(
-        'div',
-        { className: 'activity__body call' },
-        _react2.default.createElement(
-          'section',
-          { className: 'call__container' },
-          _react2.default.createElement(_CallBody2.default, { peerInfo: peerInfo, callState: call.state }),
-          _react2.default.createElement(_CallControls2.default, {
-            callState: call.state,
-            isOutgoing: call.isOutgoing,
-            isMuted: call.isMuted,
-            onEnd: this.onEnd,
-            onAnswer: this.onAnswer,
-            onMuteToggle: this.onMuteToggle,
-            onFullscreen: this.onFullscreen,
-            onUserAdd: this.onUserAdd,
-            onVideo: this.onVideo,
-            onClose: this.onClose
-          })
-        ),
-        this.renderContactInfo()
-      )
-    );
+    return _react2.default.createElement(_CallDraggable2.default, {
+      peerInfo: peerInfo,
+      callState: call.state,
+      isOutgoing: call.isOutgoing,
+      isMuted: call.isMuted,
+      onEnd: this.onEnd,
+      onAnswer: this.onAnswer,
+      onMuteToggle: this.onMuteToggle,
+      onFullscreen: this.onFullscreen,
+      onUserAdd: this.onUserAdd,
+      onVideo: this.onVideo,
+      onClose: this.onClose
+    });
   };
 
-  return Call;
+  return SmallCall;
 }(_react.Component); /*
                       * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                       */
 
-exports.default = _utils.Container.create(Call);
-//# sourceMappingURL=Call.react.js.map
+exports.default = _utils.Container.create(SmallCall);
+//# sourceMappingURL=SmallCall.react.js.map

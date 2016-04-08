@@ -58,11 +58,11 @@ var _EditGroup = require('./modals/EditGroup.react');
 
 var _EditGroup2 = _interopRequireDefault(_EditGroup);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _SmallCall = require('./SmallCall.react');
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
+var _SmallCall2 = _interopRequireDefault(_SmallCall);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Main = function (_Component) {
   (0, _inherits3.default)(Main, _Component);
@@ -107,6 +107,16 @@ var Main = function (_Component) {
     document.removeEventListener('keydown', this.onKeyDown, false);
   };
 
+  Main.prototype.renderCall = function renderCall() {
+    var delegate = this.context.delegate;
+
+    if (!delegate.features.calls) {
+      return null;
+    }
+
+    return _react2.default.createElement(_SmallCall2.default, null);
+  };
+
   Main.prototype.render = function render() {
     var delegate = this.context.delegate;
 
@@ -123,12 +133,15 @@ var Main = function (_Component) {
       _react2.default.createElement(_MenuOverlay2.default, null),
       _react2.default.createElement(_InviteUser2.default, null),
       _react2.default.createElement(_InviteByLink2.default, null),
-      _react2.default.createElement(_EditGroup2.default, null)
+      _react2.default.createElement(_EditGroup2.default, null),
+      this.renderCall()
     );
   };
 
   return Main;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 Main.propTypes = {
   params: _react.PropTypes.object,

@@ -40,8 +40,6 @@ var Image = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
 
-    console.debug('Image constructor', props);
-
     _this.state = {
       isLoading: true
     };

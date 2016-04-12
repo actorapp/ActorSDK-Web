@@ -199,14 +199,28 @@ var PeopleList = function (_Component) {
     document.removeEventListener('keydown', this.handleKeyDown, false);
   };
 
+  PeopleList.prototype.getPeople = function getPeople() {
+    var _state = this.state;
+    var query = _state.query;
+    var contacts = _state.contacts;
+
+    if (!query) {
+      return contacts;
+    }
+
+    return contacts.filter(function (contact) {
+      var score = _fuzzaldrin2.default.score(contact.name, query);
+      return score > 0;
+    });
+  };
+
   PeopleList.prototype.renderPeople = function renderPeople() {
     var _this2 = this;
 
     var intl = this.context.intl;
-    var _state = this.state;
-    var query = _state.query;
-    var contacts = _state.contacts;
-    var selectedIndex = _state.selectedIndex;
+    var _state2 = this.state;
+    var contacts = _state2.contacts;
+    var selectedIndex = _state2.selectedIndex;
 
 
     if (!contacts.length) {
@@ -217,11 +231,7 @@ var PeopleList = function (_Component) {
       );
     }
 
-    var people = contacts.filter(function (contact) {
-      var score = _fuzzaldrin2.default.score(contact.name, query);
-      return score > 0;
-    });
-
+    var people = this.getPeople();
     if (!people.length) {
       return _react2.default.createElement(
         'li',

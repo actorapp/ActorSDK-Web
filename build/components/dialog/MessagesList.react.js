@@ -22,6 +22,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
+var _MessageUtils = require('../../utils/MessageUtils');
+
 var _MessagesScroller = require('./MessagesScroller.react');
 
 var _MessagesScroller2 = _interopRequireDefault(_MessagesScroller);
@@ -39,6 +41,10 @@ var _Loading = require('./messages/Loading.react');
 var _Loading2 = _interopRequireDefault(_Loading);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var MessagesList = function (_Component) {
   (0, _inherits3.default)(MessagesList, _Component);
@@ -71,7 +77,7 @@ var MessagesList = function (_Component) {
     var peer = _props.peer;
     var isMember = _props.isMember;
     var messages = _props.messages;
-    var isAllMessagesLoaded = _props.isAllMessagesLoaded;
+    var isLoaded = _props.isLoaded;
     var Welcome = this.components.Welcome;
 
 
@@ -79,7 +85,7 @@ var MessagesList = function (_Component) {
       return null;
     }
 
-    if (!isAllMessagesLoaded && messages.length >= 30) {
+    if (!isLoaded && messages.length >= 30) {
       return _react2.default.createElement(_Loading2.default, { key: 'header' });
     }
 
@@ -88,11 +94,14 @@ var MessagesList = function (_Component) {
 
   MessagesList.prototype.renderMessages = function renderMessages() {
     var _props2 = this.props;
+    var uid = _props2.uid;
     var peer = _props2.peer;
     var messages = _props2.messages;
     var overlay = _props2.overlay;
     var count = _props2.count;
-    var selectedMessages = _props2.selectedMessages;
+    var selected = _props2.selected;
+    var receiveDate = _props2.receiveDate;
+    var readDate = _props2.readDate;
     var MessageItem = this.components.MessageItem;
 
 
@@ -108,14 +117,15 @@ var MessagesList = function (_Component) {
       }
 
       var message = messages[index];
+
       result.push(_react2.default.createElement(MessageItem, {
-        key: message.sortKey,
+        peer: peer,
         message: message,
+        state: (0, _MessageUtils.getMessageState)(message, uid, receiveDate, readDate),
         isShort: overlayItem.useShort,
-        isSelected: selectedMessages.has(message.rid),
+        isSelected: selected.has(message.rid),
         onSelect: this.props.onSelect,
-        onVisibilityChange: this.props.onVisibilityChange,
-        peer: peer
+        key: message.sortKey
       }));
     }
 
@@ -141,23 +151,23 @@ var MessagesList = function (_Component) {
   };
 
   return MessagesList;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 MessagesList.contextTypes = {
   delegate: _react.PropTypes.object.isRequired
 };
 MessagesList.propTypes = {
+  uid: _react.PropTypes.number.isRequired,
   peer: _react.PropTypes.object.isRequired,
   messages: _react.PropTypes.array.isRequired,
   overlay: _react.PropTypes.array.isRequired,
   count: _react.PropTypes.number.isRequired,
-  selectedMessages: _react.PropTypes.object.isRequired,
+  selected: _react.PropTypes.object.isRequired,
   isMember: _react.PropTypes.bool.isRequired,
-  isAllMessagesLoaded: _react.PropTypes.bool.isRequired,
+  isLoaded: _react.PropTypes.bool.isRequired,
+  receiveDate: _react.PropTypes.number.isRequired,
+  readDate: _react.PropTypes.number.isRequired,
   onSelect: _react.PropTypes.func.isRequired,
-  onVisibilityChange: _react.PropTypes.func.isRequired,
   onLoadMore: _react.PropTypes.func.isRequired
 };
 exports.default = MessagesList;

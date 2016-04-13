@@ -2,6 +2,10 @@
 
 exports.__esModule = true;
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -32,114 +36,97 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
  */
 
-var initialRenderMessagesCount = 20;
-var renderMessagesStep = 20;
+var INITIAL_MESSAGES_COUNT = 20;
+var MESSAGE_COUNT_STEP = 20;
 
-/**
- * Class representing a store for messages.
- */
+var MessageStore = function (_ReduceStore) {
+  (0, _inherits3.default)(MessageStore, _ReduceStore);
 
-var MessageStore = function (_Store) {
-  (0, _inherits3.default)(MessageStore, _Store);
-
-  function MessageStore(dispatcher) {
+  function MessageStore() {
     (0, _classCallCheck3.default)(this, MessageStore);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, _Store.call(this, dispatcher));
-
-    _this._renderMessagesCount = initialRenderMessagesCount;
-    _this._messages = [];
-    _this._overlay = [];
-    _this._isLoaded = false;
-    _this._selectedMessages = new _immutable2.default.Set();
-    return _this;
+    return (0, _possibleConstructorReturn3.default)(this, _ReduceStore.apply(this, arguments));
   }
 
-  /**
-   * @returns {Array} All messages stored for currently bound conversation
-   */
-
+  MessageStore.prototype.getInitialState = function getInitialState() {
+    return {
+      messages: [],
+      overlay: [],
+      isLoaded: false,
+      receiveDate: 0,
+      readDate: 0,
+      count: INITIAL_MESSAGES_COUNT,
+      selected: new _immutable2.default.Set()
+    };
+  };
 
   MessageStore.prototype.getAll = function getAll() {
-    return this._messages;
+    return this.getState().messages;
   };
 
   MessageStore.prototype.getRenderMessagesCount = function getRenderMessagesCount() {
-    return this._renderMessagesCount;
+    return this.getState().count;
   };
 
   MessageStore.prototype.getMessages = function getMessages() {
-    return this._messages;
+    return this.getState().messages;
   };
-
-  /**
-   * @returns {Array} Messages overlay
-   */
-
 
   MessageStore.prototype.getOverlay = function getOverlay() {
-    return this._overlay;
+    return this.getState().overlay;
   };
 
-  /**
-   * @returns {Boolean} is all messages loaded for current conversation
-   */
-
-
   MessageStore.prototype.isLoaded = function isLoaded() {
-    return this._isLoaded;
+    return this.getState().isLoaded;
   };
 
   MessageStore.prototype.isAllRendered = function isAllRendered() {
-    return this._messages.length === this._renderMessagesCount;
+    var _getState = this.getState();
+
+    var messages = _getState.messages;
+    var count = _getState.count;
+
+    return messages.length === count;
   };
-
-  /**
-   * @returns {Array} Selected messages
-   */
-
 
   MessageStore.prototype.getSelected = function getSelected() {
-    return this._selectedMessages;
+    return this.getState().selected;
   };
 
-  MessageStore.prototype.__onDispatch = function __onDispatch(action) {
+  MessageStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.BIND_DIALOG_PEER:
-        this._renderMessagesCount = initialRenderMessagesCount;
-        this._messages = [];
-        this._overlay = [];
-        this._selectedMessages = new _immutable2.default.Set();
-        this.__emitChange();
-        break;
+        return (0, _extends3.default)({}, state, {
+          count: INITIAL_MESSAGES_COUNT,
+          selected: state.selected.clear()
+        });
 
       case _ActorAppConstants.ActionTypes.MESSAGES_CHANGED:
-        this._messages = action.messages;
-        this._overlay = action.overlay;
-        this._renderMessagesCount = Math.min(action.messages.length, this._renderMessagesCount);
-        this._isLoaded = action.isLoaded;
-        this.__emitChange();
-        break;
+        return (0, _extends3.default)({}, state, {
+          messages: action.messages,
+          overlay: action.overlay,
+          isLoaded: action.isLoaded,
+          receiveDate: action.receiveDate,
+          readDate: action.readDate,
+          count: Math.min(action.messages.length, state.count)
+        });
 
       case _ActorAppConstants.ActionTypes.MESSAGES_SET_SELECTED:
-        this._selectedMessages = action.selectedMesages;
-        this.__emitChange();
-        break;
+        return (0, _extends3.default)({}, state, {
+          selected: action.selectedMesages
+        });
 
       case _ActorAppConstants.ActionTypes.MESSAGES_LOAD_MORE:
-        this._renderMessagesCount += renderMessagesStep;
-        if (this._renderMessagesCount > this._messages.length) {
-          this._renderMessagesCount = this._messages.length;
-        }
-        this.__emitChange();
-        break;
+        return (0, _extends3.default)({}, state, {
+          count: Math.min(state.messages.length, state.count + MESSAGE_COUNT_STEP)
+        });
 
       default:
+        return state;
     }
   };
 
   return MessageStore;
-}(_utils.Store);
+}(_utils.ReduceStore);
 
 exports.default = new MessageStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=MessageStore.js.map

@@ -14,8 +14,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _lodash = require('lodash');
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -30,9 +28,9 @@ var _DialogActionCreators = require('../../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
-var _VisibilityStore = require('../../stores/VisibilityStore');
+var _UserStore = require('../../stores/UserStore');
 
-var _VisibilityStore2 = _interopRequireDefault(_VisibilityStore);
+var _UserStore2 = _interopRequireDefault(_UserStore);
 
 var _MessageStore = require('../../stores/MessageStore');
 
@@ -44,35 +42,17 @@ var _MessagesList2 = _interopRequireDefault(_MessagesList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
-
-var _delayed = [];
-var flushDelayed = function flushDelayed() {
-  (0, _lodash.forEach)(_delayed, function (p) {
-    return _MessageActionCreators2.default.setMessageShown(p.peer, p.message);
-  });
-  _delayed = [];
-};
-
-var flushDelayedDebounced = (0, _lodash.debounce)(flushDelayed, 30, { maxWait: 100 });
-
 var MessagesSection = function (_Component) {
   (0, _inherits3.default)(MessagesSection, _Component);
 
   MessagesSection.getStores = function getStores() {
-    return [_MessageStore2.default, _VisibilityStore2.default];
+    return [_MessageStore2.default];
   };
 
   MessagesSection.calculateState = function calculateState() {
     return {
-      messages: _MessageStore2.default.getMessages(),
-      overlay: _MessageStore2.default.getOverlay(),
-      messagesCount: _MessageStore2.default.getRenderMessagesCount(),
-      selectedMessages: _MessageStore2.default.getSelected(),
-      isAllMessagesLoaded: _MessageStore2.default.isLoaded(),
-      isAppVisible: _VisibilityStore2.default.isAppVisible()
+      uid: _UserStore2.default.getMyId(),
+      messages: _MessageStore2.default.getState()
     };
   };
 
@@ -83,25 +63,16 @@ var MessagesSection = function (_Component) {
 
     _this.onSelect = _this.onSelect.bind(_this);
     _this.onLoadMore = _this.onLoadMore.bind(_this);
-    _this.onVisibilityChange = _this.onVisibilityChange.bind(_this);
     return _this;
   }
 
-  MessagesSection.prototype.componentDidUpdate = function componentDidUpdate() {
-    var isAppVisible = this.state.isAppVisible;
-
-    if (isAppVisible) {
-      flushDelayed();
-    }
-  };
-
   MessagesSection.prototype.onSelect = function onSelect(rid) {
-    var selectedMessages = this.state.selectedMessages;
+    var selected = this.state.messages.selected;
 
-    if (selectedMessages.has(rid)) {
-      _MessageActionCreators2.default.setSelected(selectedMessages.remove(rid));
+    if (selected.has(rid)) {
+      _MessageActionCreators2.default.setSelected(selected.remove(rid));
     } else {
-      _MessageActionCreators2.default.setSelected(selectedMessages.add(rid));
+      _MessageActionCreators2.default.setSelected(selected.add(rid));
     }
   };
 
@@ -111,46 +82,42 @@ var MessagesSection = function (_Component) {
     _DialogActionCreators2.default.loadMoreMessages(peer);
   };
 
-  MessagesSection.prototype.onVisibilityChange = function onVisibilityChange(message, isVisible) {
-    var peer = this.props.peer;
-
-
-    if (isVisible) {
-      _delayed.push({ peer: peer, message: message });
-      if (_VisibilityStore2.default.isAppVisible()) {
-        flushDelayedDebounced();
-      }
-    }
-  };
-
   MessagesSection.prototype.render = function render() {
     var _props = this.props;
     var peer = _props.peer;
     var isMember = _props.isMember;
     var _state = this.state;
-    var messages = _state.messages;
-    var overlay = _state.overlay;
-    var messagesCount = _state.messagesCount;
-    var selectedMessages = _state.selectedMessages;
-    var isAllMessagesLoaded = _state.isAllMessagesLoaded;
+    var uid = _state.uid;
+    var _state$messages = _state.messages;
+    var messages = _state$messages.messages;
+    var overlay = _state$messages.overlay;
+    var isLoaded = _state$messages.isLoaded;
+    var receiveDate = _state$messages.receiveDate;
+    var readDate = _state$messages.readDate;
+    var count = _state$messages.count;
+    var selected = _state$messages.selected;
 
 
     return _react2.default.createElement(_MessagesList2.default, {
+      uid: uid,
       peer: peer,
-      overlay: overlay,
-      messages: messages,
-      count: messagesCount,
-      selectedMessages: selectedMessages,
       isMember: isMember,
-      isAllMessagesLoaded: isAllMessagesLoaded,
+      messages: messages,
+      overlay: overlay,
+      count: count,
+      selected: selected,
+      isLoaded: isLoaded,
+      receiveDate: receiveDate,
+      readDate: readDate,
       onSelect: this.onSelect,
-      onLoadMore: this.onLoadMore,
-      onVisibilityChange: this.onVisibilityChange
+      onLoadMore: this.onLoadMore
     });
   };
 
   return MessagesSection;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 MessagesSection.propTypes = {
   peer: _react.PropTypes.object.isRequired,

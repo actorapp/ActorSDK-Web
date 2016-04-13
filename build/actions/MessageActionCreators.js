@@ -61,8 +61,14 @@ exports.default = {
     _ActorClient2.default.removeLike(peer, rid);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_LIKE_REMOVE, { peer: peer, rid: rid });
   },
-  setMessages: function setMessages(messages, overlay, isLoaded) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_CHANGED, { messages: messages, overlay: overlay, isLoaded: isLoaded });
+  setMessages: function setMessages(messages, overlay, isLoaded, receiveDate, readDate) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_CHANGED, {
+      messages: messages,
+      overlay: overlay,
+      isLoaded: isLoaded,
+      receiveDate: receiveDate,
+      readDate: readDate
+    });
   },
   setSelected: function setSelected(selectedMesages) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_SET_SELECTED, { selectedMesages: selectedMesages });

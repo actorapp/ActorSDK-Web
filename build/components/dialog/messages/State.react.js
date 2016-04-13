@@ -35,7 +35,7 @@ var State = function (_Component) {
   }
 
   State.prototype.renderState = function renderState() {
-    var state = this.props.message.state;
+    var state = this.props.state;
 
 
     switch (state) {
@@ -56,13 +56,6 @@ var State = function (_Component) {
   };
 
   State.prototype.render = function render() {
-    var message = this.props.message;
-
-
-    if (message.content.content === _ActorAppConstants.MessageContentTypes.SERVICE) {
-      return null;
-    }
-
     var state = this.renderState();
     if (!state) {
       return null;
@@ -79,9 +72,7 @@ var State = function (_Component) {
 }(_react.Component);
 
 State.propTypes = {
-  message: _react.PropTypes.shape({
-    state: _react.PropTypes.oneOf([_ActorAppConstants.MessageStates.PENDING, _ActorAppConstants.MessageStates.SENT, _ActorAppConstants.MessageStates.RECEIVED, _ActorAppConstants.MessageStates.READ, _ActorAppConstants.MessageStates.ERROR, _ActorAppConstants.MessageStates.UNKNOWN]).isRequired
-  }).isRequired
+  state: _react.PropTypes.oneOf([_ActorAppConstants.MessageStates.PENDING, _ActorAppConstants.MessageStates.SENT, _ActorAppConstants.MessageStates.RECEIVED, _ActorAppConstants.MessageStates.READ, _ActorAppConstants.MessageStates.ERROR, _ActorAppConstants.MessageStates.UNKNOWN]).isRequired
 };
 exports.default = State;
 //# sourceMappingURL=State.react.js.map

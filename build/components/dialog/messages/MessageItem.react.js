@@ -164,8 +164,9 @@ var MessageItem = function (_Component) {
 
   MessageItem.prototype.render = function render() {
     var _props = this.props;
-    var message = _props.message;
     var peer = _props.peer;
+    var message = _props.message;
+    var state = _props.state;
     var isShort = _props.isShort;
     var isSelected = _props.isSelected;
     var isHighlighted = this.state.isHighlighted;
@@ -229,7 +230,7 @@ var MessageItem = function (_Component) {
           { className: 'message__timestamp' },
           message.date
         ),
-        _react2.default.createElement(_State2.default, { message: message })
+        _react2.default.createElement(_State2.default, { state: state })
       );
     } else {
       leftBlock = _react2.default.createElement(
@@ -266,7 +267,7 @@ var MessageItem = function (_Component) {
           { className: 'message__timestamp' },
           message.date
         ),
-        _react2.default.createElement(_State2.default, { message: message })
+        _react2.default.createElement(_State2.default, { state: state })
       );
     }
 
@@ -339,6 +340,7 @@ var MessageItem = function (_Component) {
 MessageItem.propTypes = {
   peer: _react.PropTypes.object.isRequired,
   message: _react.PropTypes.object.isRequired,
+  state: _react.PropTypes.string.isRequired,
   isShort: _react.PropTypes.bool.isRequired,
   isSelected: _react.PropTypes.bool,
   onSelect: _react.PropTypes.func

@@ -34,9 +34,10 @@ var ActionCreators = function () {
   ActionCreators.prototype.removeBindings = function removeBindings(namespace) {
     var bindings = this.bindings.get(namespace);
     if (bindings) {
-      bindings.forEach(function (binding) {
-        binding.unbind();
-      });
+      for (var i = 0; i < bindings.length; i++) {
+        bindings[i].unbind();
+        bindings[i] = null;
+      }
 
       this.bindings.delete(namespace);
     } else {

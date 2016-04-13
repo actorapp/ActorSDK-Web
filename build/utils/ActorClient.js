@@ -2,10 +2,6 @@
 
 exports.__esModule = true;
 
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
 var _promise = require('babel-runtime/core-js/promise');
 
 var _promise2 = _interopRequireDefault(_promise);
@@ -149,12 +145,13 @@ var ActorClient = function () {
       }
     });
 
-    return (0, _extends3.default)({}, binding, {
+    return {
       unbind: function unbind() {
-        active = false;
         binding.unbind();
+        active = false;
+        binding = null;
       }
-    });
+    };
   };
 
   ActorClient.prototype.bindEventBus = function bindEventBus(callback) {

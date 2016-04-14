@@ -70,8 +70,8 @@ exports.default = {
       readDate: readDate
     });
   },
-  setSelected: function setSelected(selectedMesages) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_SET_SELECTED, { selectedMesages: selectedMesages });
+  toggleSelected: function toggleSelected(id) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_TOGGLE_SELECTED, { id: id });
   }
 };
 //# sourceMappingURL=MessageActionCreators.js.map

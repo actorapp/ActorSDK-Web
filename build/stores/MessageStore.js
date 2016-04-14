@@ -24,6 +24,8 @@ var _immutable2 = _interopRequireDefault(_immutable);
 
 var _utils = require('flux/utils');
 
+var _lodash = require('lodash');
+
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
@@ -32,11 +34,10 @@ var _ActorAppConstants = require('../constants/ActorAppConstants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
+var INITIAL_MESSAGES_COUNT = 20; /*
+                                  * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                  */
 
-var INITIAL_MESSAGES_COUNT = 20;
 var MESSAGE_COUNT_STEP = 20;
 
 var MessageStore = function (_ReduceStore) {
@@ -52,6 +53,7 @@ var MessageStore = function (_ReduceStore) {
       messages: [],
       overlay: [],
       isLoaded: false,
+      isLoading: false,
       receiveDate: 0,
       readDate: 0,
       count: INITIAL_MESSAGES_COUNT,
@@ -101,19 +103,46 @@ var MessageStore = function (_ReduceStore) {
         });
 
       case _ActorAppConstants.ActionTypes.MESSAGES_CHANGED:
+        if (action.messages[0] !== state.messages[0]) {
+          // unshifted new messages
+          return (0, _extends3.default)({}, state, {
+            messages: action.messages,
+            overlay: action.overlay,
+            receiveDate: action.receiveDate,
+            readDate: action.readDate,
+            isLoaded: action.isLoaded,
+            isLoading: false,
+            count: Math.min(action.messages.length, state.count + MESSAGE_COUNT_STEP)
+          });
+        }
+
+        if ((0, _lodash.last)(action.messages) !== (0, _lodash.last)(state.messages)) {
+          // pushed new messages
+          return (0, _extends3.default)({}, state, {
+            messages: action.messages,
+            overlay: action.overlay,
+            receiveDate: action.receiveDate,
+            readDate: action.readDate,
+            isLoaded: action.isLoaded,
+            count: state.count + 1
+          });
+        }
+
         return (0, _extends3.default)({}, state, {
           messages: action.messages,
           overlay: action.overlay,
-          isLoaded: action.isLoaded,
           receiveDate: action.receiveDate,
           readDate: action.readDate,
-          count: Math.min(action.messages.length, state.count)
+          isLoaded: action.isLoaded
         });
 
-      case _ActorAppConstants.ActionTypes.MESSAGES_SET_SELECTED:
+      case _ActorAppConstants.ActionTypes.MESSAGES_TOGGLE_SELECTED:
         return (0, _extends3.default)({}, state, {
-          selected: action.selectedMesages
+          selected: state.selected.has(action.id) ? state.selected.remove(action.id) : state.selected.add(action.id)
         });
+
+      case _ActorAppConstants.ActionTypes.MESSAGES_LOADING_MORE:
+        return (0, _extends3.default)({}, state);
 
       case _ActorAppConstants.ActionTypes.MESSAGES_LOAD_MORE:
         return (0, _extends3.default)({}, state, {

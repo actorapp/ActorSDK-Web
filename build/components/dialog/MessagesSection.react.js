@@ -20,13 +20,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _MessageActionCreators = require('../../actions/MessageActionCreators');
-
-var _MessageActionCreators2 = _interopRequireDefault(_MessageActionCreators);
-
 var _DialogActionCreators = require('../../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
+
+var _MessageActionCreators = require('../../actions/MessageActionCreators');
+
+var _MessageActionCreators2 = _interopRequireDefault(_MessageActionCreators);
 
 var _UserStore = require('../../stores/UserStore');
 
@@ -67,19 +67,11 @@ var MessagesSection = function (_Component) {
   }
 
   MessagesSection.prototype.onSelect = function onSelect(rid) {
-    var selected = this.state.messages.selected;
-
-    if (selected.has(rid)) {
-      _MessageActionCreators2.default.setSelected(selected.remove(rid));
-    } else {
-      _MessageActionCreators2.default.setSelected(selected.add(rid));
-    }
+    _MessageActionCreators2.default.toggleSelected(rid);
   };
 
   MessagesSection.prototype.onLoadMore = function onLoadMore() {
-    var peer = this.props.peer;
-
-    _DialogActionCreators2.default.loadMoreMessages(peer);
+    _DialogActionCreators2.default.loadMoreMessages(this.props.peer);
   };
 
   MessagesSection.prototype.render = function render() {
@@ -91,9 +83,10 @@ var MessagesSection = function (_Component) {
     var _state$messages = _state.messages;
     var messages = _state$messages.messages;
     var overlay = _state$messages.overlay;
-    var isLoaded = _state$messages.isLoaded;
     var receiveDate = _state$messages.receiveDate;
     var readDate = _state$messages.readDate;
+    var isLoaded = _state$messages.isLoaded;
+    var isLoading = _state$messages.isLoading;
     var count = _state$messages.count;
     var selected = _state$messages.selected;
 
@@ -104,11 +97,12 @@ var MessagesSection = function (_Component) {
       isMember: isMember,
       messages: messages,
       overlay: overlay,
+      readDate: readDate,
+      receiveDate: receiveDate,
       count: count,
       selected: selected,
       isLoaded: isLoaded,
-      receiveDate: receiveDate,
-      readDate: readDate,
+      isLoading: isLoading,
       onSelect: this.onSelect,
       onLoadMore: this.onLoadMore
     });

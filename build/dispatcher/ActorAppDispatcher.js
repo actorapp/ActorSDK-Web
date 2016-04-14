@@ -65,15 +65,14 @@ function dispatch(type) {
 
   flux.dispatch((0, _extends3.default)({ type: type }, action));
 
-  // Return response or error for chaining async actions
-  return new _promise2.default(function (resolve, reject) {
-    if (action.error) {
-      reject(action.error);
-    } else {
-      resolve(action.response ? action.response : action);
-    }
-  });
+  if (action.error) {
+    return _promise2.default.reject(action.error);
+  }
+
+  return _promise2.default.resolve(action.response ? action.response : action);
 }
+
+var logError = console.error.bind(console);
 
 /**
  * Dispatches three actions for an async operation represented by promise.
@@ -90,7 +89,7 @@ function dispatchAsync(promise, types) {
     return dispatch(success, (0, _extends3.default)({}, action, { response: response }));
   }, function (error) {
     return dispatch(failure, (0, _extends3.default)({}, action, { error: error }));
-  }).catch(console.error.bind(console));
+  }).catch(logError);
 }
 
 exports.default = flux;

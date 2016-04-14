@@ -24,9 +24,13 @@ var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
 var _MessageUtils = require('../../utils/MessageUtils');
 
-var _MessagesScroller = require('./MessagesScroller.react');
+var _PeerUtils = require('../../utils/PeerUtils');
 
-var _MessagesScroller2 = _interopRequireDefault(_MessagesScroller);
+var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
+
+var _Scroller = require('../common/Scroller.react');
+
+var _Scroller2 = _interopRequireDefault(_Scroller);
 
 var _MessageItem = require('./messages/MessageItem.react');
 
@@ -41,10 +45,6 @@ var _Loading = require('./messages/Loading.react');
 var _Loading2 = _interopRequireDefault(_Loading);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
 
 var MessagesList = function (_Component) {
   (0, _inherits3.default)(MessagesList, _Component);
@@ -68,40 +68,114 @@ var MessagesList = function (_Component) {
       };
     }
 
+    _this.dimensions = null;
+
+    _this.onScroll = _this.onScroll.bind(_this);
+    _this.onResize = _this.onResize.bind(_this);
+    _this.onLoadMore = (0, _lodash.debounce)(_this.onLoadMore.bind(_this), 60, {
+      maxWait: 180
+    });
     _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
   }
 
-  MessagesList.prototype.renderHeader = function renderHeader() {
+  MessagesList.prototype.componentDidMount = function componentDidMount() {
+    this.restoreScroll();
+  };
+
+  MessagesList.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
+    if (!_PeerUtils2.default.equals(nextProps.peer, this.props.peer)) {
+      this.dimensions = null;
+    }
+  };
+
+  MessagesList.prototype.componentDidUpdate = function componentDidUpdate(prevProps) {
+    var dimensions = this.dimensions;
+    var scroller = this.refs.scroller;
     var _props = this.props;
-    var peer = _props.peer;
-    var isMember = _props.isMember;
+    var uid = _props.uid;
     var messages = _props.messages;
-    var isLoaded = _props.isLoaded;
-    var Welcome = this.components.Welcome;
+    var count = _props.count;
+
+
+    var lastMessage = (0, _lodash.last)(messages);
+    var isPush = lastMessage && lastMessage !== (0, _lodash.last)(prevProps.messages);
+    if (isPush) {
+      var isMyMessage = uid === lastMessage.sender.peer.id;
+      if (isMyMessage || !dimensions) {
+        scroller.scrollToBottom();
+      }
+    } else {
+      var isFirstMessageChanged = prevProps.count !== count || messages[0] !== prevProps.messages[0] && prevProps.isLoading;
+      if (isFirstMessageChanged && dimensions) {
+        var currDimensions = scroller.getDimensions();
+        scroller.scrollTo(currDimensions.scrollHeight - dimensions.scrollHeight);
+      }
+    }
+  };
+
+  MessagesList.prototype.onLoadMore = function onLoadMore() {
+    var dimensions = this.refs.scroller.getDimensions();
+    if (dimensions.scrollTop < dimensions.offsetHeight && !this.props.isLoading) {
+      this.props.onLoadMore();
+    }
+  };
+
+  MessagesList.prototype.onScroll = function onScroll() {
+    var dimensions = this.refs.scroller.getDimensions();
+    if (dimensions.scrollHeight === dimensions.scrollTop + dimensions.offsetHeight) {
+      this.dimensions = null;
+    } else {
+      this.dimensions = dimensions;
+    }
+
+    this.onLoadMore();
+  };
+
+  MessagesList.prototype.onResize = function onResize() {
+    var dimensions = this.dimensions;
+    var scroller = this.refs.scroller;
+
+    if (dimensions) {
+      var ratio = dimensions.scrollTop / dimensions.scrollHeight;
+      var nextDimensions = scroller.getDimensions();
+      scroller.scrollTo(ratio * nextDimensions.scrollHeight);
+      this.dimensions = nextDimensions;
+    } else {
+      scroller.scrollToBottom();
+    }
+  };
+
+  MessagesList.prototype.renderHeader = function renderHeader() {
+    var _props2 = this.props;
+    var peer = _props2.peer;
+    var isMember = _props2.isMember;
+    var isLoaded = _props2.isLoaded;
 
 
     if (!isMember) {
       return null;
     }
 
-    if (!isLoaded && messages.length >= 30) {
-      return _react2.default.createElement(_Loading2.default, { key: 'header' });
+    if (isLoaded) {
+      var Welcome = this.components.Welcome;
+
+      return _react2.default.createElement(Welcome, { peer: peer, key: 'header' });
     }
 
-    return _react2.default.createElement(Welcome, { peer: peer, key: 'header' });
+    return _react2.default.createElement(_Loading2.default, { key: 'header' });
   };
 
   MessagesList.prototype.renderMessages = function renderMessages() {
-    var _props2 = this.props;
-    var uid = _props2.uid;
-    var peer = _props2.peer;
-    var messages = _props2.messages;
-    var overlay = _props2.overlay;
-    var count = _props2.count;
-    var selected = _props2.selected;
-    var receiveDate = _props2.receiveDate;
-    var readDate = _props2.readDate;
+    var _props3 = this.props;
+    var uid = _props3.uid;
+    var peer = _props3.peer;
+    var messages = _props3.messages;
+    var overlay = _props3.overlay;
+    var count = _props3.count;
+    var selected = _props3.selected;
+    var receiveDate = _props3.receiveDate;
+    var readDate = _props3.readDate;
     var MessageItem = this.components.MessageItem;
 
 
@@ -133,21 +207,35 @@ var MessagesList = function (_Component) {
   };
 
   MessagesList.prototype.render = function render() {
-    var _props3 = this.props;
-    var peer = _props3.peer;
-    var onLoadMore = _props3.onLoadMore;
-
-
     return _react2.default.createElement(
-      _MessagesScroller2.default,
-      { className: 'chat__messages', peer: peer, onLoadMore: onLoadMore },
+      _Scroller2.default,
+      {
+        className: 'chat__messages',
+        ref: 'scroller',
+        onScroll: this.onScroll,
+        onResize: this.onResize
+      },
       this.renderHeader(),
       this.renderMessages()
     );
   };
 
+  MessagesList.prototype.restoreScroll = function restoreScroll() {
+    var dimensions = this.dimensions;
+    var scroller = this.refs.scroller;
+
+
+    if (dimensions) {
+      scroller.scrollTo(dimensions.scrollTop);
+    } else {
+      scroller.scrollToBottom();
+    }
+  };
+
   return MessagesList;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 MessagesList.contextTypes = {
   delegate: _react.PropTypes.object.isRequired
@@ -161,6 +249,7 @@ MessagesList.propTypes = {
   selected: _react.PropTypes.object.isRequired,
   isMember: _react.PropTypes.bool.isRequired,
   isLoaded: _react.PropTypes.bool.isRequired,
+  isLoading: _react.PropTypes.bool.isRequired,
   receiveDate: _react.PropTypes.number.isRequired,
   readDate: _react.PropTypes.number.isRequired,
   onSelect: _react.PropTypes.func.isRequired,

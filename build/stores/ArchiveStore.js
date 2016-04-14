@@ -22,15 +22,7 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _PeerUtils = require('../utils/PeerUtils');
-
-var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2016 Actor LLC. <https://actor.im>
- */
 
 var ArchiveStore = function (_Store) {
   (0, _inherits3.default)(ArchiveStore, _Store);
@@ -69,18 +61,17 @@ var ArchiveStore = function (_Store) {
   };
 
   ArchiveStore.prototype.__onDispatch = function __onDispatch(action) {
-    var peerKey = action.peer ? _PeerUtils2.default.peerToString(action.peer) : null;
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.ARCHIVE_ADD:
-        this.archiveChatState[peerKey] = _ActorAppConstants.AsyncActionStates.PROCESSING;
+        this.archiveChatState[action.peer.key] = _ActorAppConstants.AsyncActionStates.PROCESSING;
         this.__emitChange();
         break;
       case _ActorAppConstants.ActionTypes.ARCHIVE_ADD_SUCCESS:
-        delete this.archiveChatState[peerKey];
+        delete this.archiveChatState[action.peer.key];
         this.__emitChange();
         break;
       case _ActorAppConstants.ActionTypes.ARCHIVE_ADD_ERROR:
-        this.archiveChatState[peerKey] = _ActorAppConstants.AsyncActionStates.FAILURE;
+        this.archiveChatState[action.peer.key] = _ActorAppConstants.AsyncActionStates.FAILURE;
         this.__emitChange();
         break;
 
@@ -115,7 +106,9 @@ var ArchiveStore = function (_Store) {
   };
 
   return ArchiveStore;
-}(_utils.Store);
+}(_utils.Store); /*
+                  * Copyright (C) 2016 Actor LLC. <https://actor.im>
+                  */
 
 exports.default = new ArchiveStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=ArchiveStore.js.map

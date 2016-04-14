@@ -183,8 +183,12 @@ var DialogSection = function (_Component) {
           'section',
           { className: 'dialog' },
           _react2.default.createElement(_ConnectionState2.default, null),
-          _react2.default.createElement(MessagesSection, { peer: peer, isMember: isMember }),
-          _react2.default.createElement(_DialogFooter2.default, { isMember: isMember })
+          _react2.default.createElement(
+            'div',
+            { className: 'chat' },
+            _react2.default.createElement(MessagesSection, { peer: peer, isMember: isMember }),
+            _react2.default.createElement(_DialogFooter2.default, { isMember: isMember })
+          )
         ),
         activity.map(function (Activity, index) {
           return _react2.default.createElement(Activity, { key: index });

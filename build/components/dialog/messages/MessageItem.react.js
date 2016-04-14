@@ -212,7 +212,7 @@ var MessageItem = function (_Component) {
 
     var messageSender = (0, _EmojiUtils.escapeWithEmoji)(message.sender.title);
 
-    var messageClassName = (0, _classnames2.default)('message row', {
+    var messageClassName = (0, _classnames2.default)('message', {
       'message--same-sender': isShort,
       'message--active': isHighlighted,
       'message--selected': isSelected
@@ -306,27 +306,31 @@ var MessageItem = function (_Component) {
     return _react2.default.createElement(
       'div',
       { className: messageClassName },
-      leftBlock,
       _react2.default.createElement(
         'div',
-        { className: 'message__body col-xs' },
-        header,
-        messageContent
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'message__actions' },
-        _react2.default.createElement(_Reactions2.default, { peer: peer, message: message }),
+        { className: 'row' },
+        leftBlock,
         _react2.default.createElement(
           'div',
-          { className: messageActionsMenuClassName, onClick: this.showActions },
-          _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--dropdown', glyph: 'cog' })
+          { className: 'message__body col-xs' },
+          header,
+          messageContent
         ),
-        isExperimental ? _react2.default.createElement(
+        _react2.default.createElement(
           'div',
-          { className: 'message__actions__selector', onClick: this.toggleMessageSelection },
-          _react2.default.createElement('i', { className: 'icon material-icons icon-check' })
-        ) : null
+          { className: 'message__actions' },
+          _react2.default.createElement(_Reactions2.default, { peer: peer, message: message }),
+          _react2.default.createElement(
+            'div',
+            { className: messageActionsMenuClassName, onClick: this.showActions },
+            _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--dropdown', glyph: 'cog' })
+          ),
+          isExperimental ? _react2.default.createElement(
+            'div',
+            { className: 'message__actions__selector', onClick: this.toggleMessageSelection },
+            _react2.default.createElement('i', { className: 'icon material-icons icon-check' })
+          ) : null
+        )
       )
     );
   };

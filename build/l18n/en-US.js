@@ -17,28 +17,28 @@ exports.default = {
         'numberInvalid': 'Invalid number',
         'nameInvalid': 'Invalid name',
         'codeInvalid': 'Invalid code',
-        'codeExpired': 'Phone code is expired',
+        'codeExpired': 'Phone code has expired',
         'codeWait': 'Try to request code later'
       },
       'welcome': {
         'header': 'Welcome to <strong>{appName}</strong>',
-        'text': '<p>{appName} Messenger brings all your business network connections into one place, makes it easily accessible wherever you go.</p>' + '<p>Our aim is to make your work easier, reduce your email amount, make the business world closer by reducing time to find right contacts.</p>',
-        'copyright': '{appName} Messenger © 2015'
+        'text': '<p>{appName} Messenger brings all of your business network connections into one place, making it easier to access wherever you go.</p>' + '<p>Our gsoal is to make your working process easier, reduce your email load and make the people in business world closer to each other by reducing time to find the right contacts.</p>',
+        'copyright': '{appName} Messenger © 2016'
       }
     },
 
     // Menus
     'menu': {
       // Sidebar menu
-      'editProfile': 'Edit Profile',
+      'editProfile': 'Edit profile',
       'addToContacts': 'Add contact',
       'createGroup': 'Create group',
       'helpAndFeedback': 'Help & Feedback',
-      'twitter': 'Our twitter',
+      'twitter': 'Our Twitter',
       'preferences': 'Preferences',
       'signOut': 'Sign Out',
       'homePage': 'Home page',
-      'facebook': 'Find us on Facebook'
+      'facebook': 'Like us on Facebook'
     },
 
     // Buttons
@@ -72,9 +72,9 @@ exports.default = {
       'quote': 'Quote',
       'uploading': 'Uploading...',
       'welcome': {
-        'private': '<p>This is the very beginning of your private conversation with <strong>{name}</strong>.</p><p>All messages here are private between the two of you.</p>',
+        'private': '<p>This is the very beginning of your private conversation with <strong>{name}</strong>.</p><p>All messages here are only visible to the two of you.</p>',
         'group': {
-          'main': '<p>This is the very beginning of <strong>{name}</strong> group conversation which created by {creator}.</p>',
+          'main': '<p>This is the very beginning of <strong>{name}</strong> group conversation created by {creator}.</p>',
           'you': 'You',
           'actions': {
             'start': 'You can ',
@@ -111,7 +111,7 @@ exports.default = {
     'modal': {
       'profile': {
         'title': 'Profile',
-        'name': 'Full name',
+        'name': 'Name',
         'nick': 'Nickname',
         'phone': 'Phone number',
         'email': 'Email',
@@ -122,7 +122,7 @@ exports.default = {
       'group': {
         'title': 'Edit group',
         'name': 'Group title',
-        'about': 'Group about',
+        'about': 'Group summary',
         'avatarChange': 'Change avatar',
         'avatarRemove': 'Remove'
       },
@@ -132,7 +132,7 @@ exports.default = {
       'contacts': {
         'title': 'People',
         'search': 'Search contacts',
-        'notFound': 'Sorry, no users found.',
+        'notFound': 'Sorry, no users were found :(',
         'loading': 'Loading'
       },
       'groups': {
@@ -151,10 +151,10 @@ exports.default = {
       },
       'addContact': {
         'title': 'Add contact',
-        'query': 'Email, nickname or phone',
+        'query': 'Email, nickname or phone number',
         'phone': 'Phone number',
         'notFound': 'User with such data is not found',
-        'empty': 'Start typing to search people',
+        'empty': 'Start typing to find people',
         'searching': 'Search for "{query}"'
       },
       'createGroup': {
@@ -168,15 +168,15 @@ exports.default = {
         'toSelect': 'to select',
         'toClose': 'to close',
         'openDialog': 'Open conversation',
-        'startDialog': 'Start new conversation',
-        'notFound': 'No matches found for <strong>{query}</strong>.<br/>Have you spelled it correctly?'
+        'startDialog': 'Start a new conversation',
+        'notFound': 'No matches found for <strong>{query}</strong>.<br/>Did you spell it correctly?'
       },
       'confirm': {
         'logout': 'Do you really want to leave?',
         'leave': 'Do you really want to leave this conversation?',
         'clear': 'Do you really want to clear this conversation?',
         'delete': 'Do you really want to delete this conversation?',
-        'removeContact': 'You really want to remove {name} from your contacts?',
+        'removeContact': 'Do you really want to remove {name} from your contacts?',
         'kick': 'Are you sure you want kick {name}',
         'nonContactHide': {
           'title': 'Are you sure you want to hide this conversation?',
@@ -196,29 +196,29 @@ exports.default = {
     'addPeople': 'Add people',
     'more': 'More',
     'actions': 'Actions',
-    'addToContacts': 'Add To Contacts',
-    'removeFromContacts': 'Remove From Contacts',
-    'setGroupPhoto': 'Set Group Photo',
-    'addIntegration': 'Add a Service Integration',
-    'editGroup': 'Edit Group',
-    'clearGroup': 'Clear Group',
-    'deleteGroup': 'Delete Group',
-    'clearConversation': 'Clear Conversation',
-    'deleteConversation': 'Delete Conversation',
-    'leaveGroup': 'Leave Group',
-    'sharedMedia': 'Shared Media',
+    'addToContacts': 'Add to contacts',
+    'removeFromContacts': 'Remove from contacts',
+    'setGroupPhoto': 'Set group photo',
+    'addIntegration': 'Add a Service integration',
+    'editGroup': 'Edit group',
+    'clearGroup': 'Clear group',
+    'deleteGroup': 'Delete group',
+    'clearConversation': 'Clear conversation',
+    'deleteConversation': 'Delete conversation',
+    'leaveGroup': 'Leave group',
+    'sharedMedia': 'Shared media',
     'notifications': 'Notifications',
     'integrationTokenCopied': 'Integration link copied.',
     'members': '{numMembers, plural,' + '=0 {No members}' + '=1 {# Member}' + 'other {# Members}' + '}',
     'kick': 'Kick',
     'integrationToken': 'Integration Token',
-    'integrationTokenHint': 'If you have programming chops, or know someone who does, this integration token allow the most flexibility and communication with your own systems.',
+    'integrationTokenHint': 'If you have programming chops, or know someone who does, this integration token allows the biggest amount of flexibility and communication with your own systems.',
     'integrationTokenHelp': 'Learn how to integrate',
 
     // Modals
-    'inviteModalTitle': 'Add More People',
+    'inviteModalTitle': 'Add more people',
     'inviteModalSearch': 'Search for contacts or usernames',
-    'inviteModalNotFound': 'Sorry, no users found.',
+    'inviteModalNotFound': 'Sorry, no users were found.',
     'inviteByLink': 'Invite to group by link',
     'inviteByLinkModalTitle': 'Invite by link',
     'inviteByLinkModalDescription': 'Anyone on the web will be able to join ”{groupName}” by opening this link:',
@@ -230,7 +230,7 @@ exports.default = {
     'preferencesGeneralTab': 'General',
     'preferencesNotificationsTab': 'Notifications & Sounds',
     'preferencesSecurityTab': 'Security',
-    'preferencesSendMessageTitle': 'Send Message',
+    'preferencesSendMessageTitle': 'Send message',
     'preferencesSendMessage': 'send message',
     'preferencesNewLine': 'new line',
     'preferencesEffectsTitle': 'Effects',
@@ -238,7 +238,7 @@ exports.default = {
     'preferencesNotificationsTitle': 'Notifications',
     'preferencesNotificationsGroup': 'Enable group notifications',
     'preferencesNotificationsOnlyMention': 'Enable mention only notifications',
-    'preferencesNotificationsOnlyMentionHint': 'You can enable notifications only for messages that contains you mention.',
+    'preferencesNotificationsOnlyMentionHint': 'You can enable notifications only for messages that mention you.',
     'preferencesPrivacyTitle': 'Privacy',
     'preferencesMessagePreview': 'Message preview',
     'preferencesMessagePreviewHint': 'Remove message text from notifications.',
@@ -252,14 +252,14 @@ exports.default = {
     'sidebar': {
       'recents': {
         'empty': {
-          'first': 'You don\'t have any conversations at this moment.',
+          'first': 'You don\'t have any ongoing conversations at the moment.',
           'second': {
             'start': 'You can ',
             'or': ' or ',
             'end': '.'
           }
         },
-        'newDialog': 'create new dialog',
+        'newDialog': 'create new dialogue',
         'addPeople': 'add people',
         'favourites': 'Favorites',
         'groups': 'Groups',
@@ -269,12 +269,12 @@ exports.default = {
         'empty': 'Create your first group conversation'
       },
       'private': {
-        'empty': 'There is no one in your network'
+        'empty': 'There is no one in your network yet'
       }
     },
     'main': {
       'empty': 'Try to be better than yesterday!',
-      'install': '<h1>Web version of <b>{appName}</b> works only on desktop browsers at this time</h1>' + '<h3>Please install our apps for using <b>{appName}</b> on your phone.</h3>' + '<p><a href="//actor.im/ios">iPhone</a> | <a href="//actor.im/android">Android</a></p>',
+      'install': '<h1>The Web version of <b>{appName}</b> works only in desktop browsers at this time</h1>' + '<h3>Please install our apps for using <b>{appName}</b> on your phone.</h3>' + '<p><a href="//actor.im/ios">iPhone</a> | <a href="//actor.im/android">Android</a></p>',
       'deactivated': {
         'header': 'Tab deactivated',
         'text': 'Oops, we have detected another tab with {appName}, so we had to deactivate this one to prevent some dangerous things happening.'

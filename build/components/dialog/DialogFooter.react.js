@@ -78,7 +78,7 @@ var DialogFooter = function (_Component) {
 
     return _react2.default.createElement(
       'footer',
-      { className: 'dialog__footer' },
+      { className: 'chat__footer' },
       _react2.default.createElement(TypingSection, null),
       _react2.default.createElement(ComposeSection, null)
     );

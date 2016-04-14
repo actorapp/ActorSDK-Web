@@ -140,13 +140,9 @@ var MessagesList = function (_Component) {
 
     return _react2.default.createElement(
       _MessagesScroller2.default,
-      { className: 'messages', peer: peer, onLoadMore: onLoadMore },
-      _react2.default.createElement(
-        'div',
-        { className: 'messages__list' },
-        this.renderHeader(),
-        this.renderMessages()
-      )
+      { className: 'chat__messages', peer: peer, onLoadMore: onLoadMore },
+      this.renderHeader(),
+      this.renderMessages()
     );
   };
 

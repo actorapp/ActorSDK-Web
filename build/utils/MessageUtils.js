@@ -2,6 +2,7 @@
 
 exports.__esModule = true;
 exports.getMessageState = getMessageState;
+exports.quoteMessage = quoteMessage;
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
@@ -21,5 +22,11 @@ function getMessageState(message, uid, receiveDate, readDate) {
   }
 
   return message.state;
+}
+
+function quoteMessage(text) {
+  return text.trim().split('\n').map(function (line) {
+    return '> ' + line;
+  }).join('\n');
 }
 //# sourceMappingURL=MessageUtils.js.map

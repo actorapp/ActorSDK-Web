@@ -32,6 +32,8 @@ var _isInside = require('../../../utils/isInside');
 
 var _isInside2 = _interopRequireDefault(_isInside);
 
+var _MessageUtils = require('../../../utils/MessageUtils');
+
 var _ActorAppConstants = require('../../../constants/ActorAppConstants');
 
 var _MessageActionCreators = require('../../../actions/MessageActionCreators');
@@ -51,10 +53,6 @@ var _UserStore = require('../../../stores/UserStore');
 var _UserStore2 = _interopRequireDefault(_UserStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
 
 var MessageActions = function (_Component) {
   (0, _inherits3.default)(MessageActions, _Component);
@@ -103,7 +101,7 @@ var MessageActions = function (_Component) {
     _this.handleQuote = function () {
       var message = _this.props.message;
 
-      _ComposeActionCreators2.default.pasteText('> ' + message.content.text + ' \n');
+      _ComposeActionCreators2.default.pasteText((0, _MessageUtils.quoteMessage)(message.content.text) + '\n');
       _this.handleDropdownClose();
     };
 
@@ -211,7 +209,9 @@ var MessageActions = function (_Component) {
   };
 
   return MessageActions;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 MessageActions.propTypes = {
   peer: _react.PropTypes.object.isRequired,

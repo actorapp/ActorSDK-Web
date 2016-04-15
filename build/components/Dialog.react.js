@@ -26,6 +26,10 @@ var _PeerUtils = require('../utils/PeerUtils');
 
 var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
 
+var _history = require('../utils/history');
+
+var _history2 = _interopRequireDefault(_history);
+
 var _MessagesSection = require('./dialog/MessagesSection.react');
 
 var _MessagesSection2 = _interopRequireDefault(_MessagesSection);
@@ -68,10 +72,6 @@ var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
-
 var DialogSection = function (_Component) {
   (0, _inherits3.default)(DialogSection, _Component);
 
@@ -111,7 +111,7 @@ var DialogSection = function (_Component) {
     if (_PeerUtils2.default.hasPeer(peer)) {
       _DialogActionCreators2.default.selectDialogPeer(peer);
     } else {
-      this.context.router.replace('/im');
+      _history2.default.replace('/im');
     }
   };
 
@@ -198,10 +198,11 @@ var DialogSection = function (_Component) {
   };
 
   return DialogSection;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 DialogSection.contextTypes = {
-  router: _react.PropTypes.object.isRequired,
   delegate: _react.PropTypes.object.isRequired
 };
 DialogSection.propTypes = {

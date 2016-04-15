@@ -133,7 +133,8 @@ var MessageStore = function (_ReduceStore) {
           overlay: action.overlay,
           receiveDate: action.receiveDate,
           readDate: action.readDate,
-          isLoaded: action.isLoaded
+          isLoaded: action.isLoaded,
+          count: Math.min(action.messages.length, INITIAL_MESSAGES_COUNT)
         });
 
       case _ActorAppConstants.ActionTypes.MESSAGES_TOGGLE_SELECTED:

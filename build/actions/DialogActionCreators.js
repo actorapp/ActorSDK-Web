@@ -186,6 +186,10 @@ var DialogActionCreators = function (_ActionCreators) {
     }, { peer: peer });
   };
 
+  DialogActionCreators.prototype.blockUser = function blockUser(id) {
+    console.debug('Block user %s', id);
+  };
+
   DialogActionCreators.prototype.loadMoreMessages = function loadMoreMessages(peer) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_LOADING_MORE);
     if (_MessageStore2.default.isAllRendered()) {

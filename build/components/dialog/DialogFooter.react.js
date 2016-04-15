@@ -62,7 +62,7 @@ var DialogFooter = function (_Component) {
     if (!this.props.isMember) {
       return _react2.default.createElement(
         'footer',
-        { className: 'dialog__footer dialog__footer--disabled row center-xs middle-xs' },
+        { className: 'chat__footer chat__footer--disabled row center-xs middle-xs' },
         _react2.default.createElement(
           'h3',
           null,

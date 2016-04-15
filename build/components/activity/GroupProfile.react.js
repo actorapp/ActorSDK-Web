@@ -22,6 +22,8 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _reactIntl = require('react-intl');
+
 var _ImageUtils = require('../../utils/ImageUtils');
 
 var _utils = require('flux/utils');
@@ -102,20 +104,11 @@ var _ToggleNotifications2 = _interopRequireDefault(_ToggleNotifications);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MAX_GROUP_CALL_SIZE = 25; /*
-                               * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                               */
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
-var getStateFromStores = function getStateFromStores(gid) {
-  var thisPeer = gid ? _GroupStore2.default.getGroup(gid) : null;
-  return {
-    thisPeer: thisPeer,
-    // should not require to pass a peer
-    isNotificationsEnabled: thisPeer ? _NotificationsStore2.default.isNotificationsEnabled(thisPeer) : true,
-    integrationToken: _GroupStore2.default.getToken(),
-    message: _OnlineStore2.default.getMessage()
-  };
-};
+var MAX_GROUP_CALL_SIZE = 25;
 
 var GroupProfile = function (_Component) {
   (0, _inherits3.default)(GroupProfile, _Component);
@@ -125,7 +118,15 @@ var GroupProfile = function (_Component) {
   };
 
   GroupProfile.calculateState = function calculateState(prevState, nextProps) {
-    return getStateFromStores(nextProps.group.id || null);
+    var gid = nextProps.group.id;
+    var peer = gid ? _GroupStore2.default.getGroup(gid) : null;
+    return {
+      peer: peer,
+      // should not require to pass a peer
+      isNotificationsEnabled: peer ? _NotificationsStore2.default.isNotificationsEnabled(peer) : true,
+      integrationToken: _GroupStore2.default.getToken(),
+      message: _OnlineStore2.default.getMessage()
+    };
   };
 
   function GroupProfile(props) {
@@ -137,18 +138,10 @@ var GroupProfile = function (_Component) {
       return _InviteUserActions2.default.show(group);
     };
 
-    _this.onLeaveGroupClick = function (gid) {
-      var intl = _this.context.intl;
-
-      (0, _confirm2.default)(intl.messages['modal.confirm.leave']).then(function () {
-        return _DialogActionCreators2.default.leaveGroup(gid);
-      }, function () {});
-    };
-
     _this.onNotificationChange = function (event) {
-      var thisPeer = _this.state.thisPeer;
+      var peer = _this.state.peer;
 
-      _NotificationsActionCreators2.default.changeNotificationsEnabled(thisPeer, event.target.checked);
+      _NotificationsActionCreators2.default.changeNotificationsEnabled(peer, event.target.checked);
     };
 
     _this.selectToken = function (event) {
@@ -173,18 +166,29 @@ var GroupProfile = function (_Component) {
     };
 
     _this.onClearGroupClick = function (gid) {
-      var intl = _this.context.intl;
+      var group = _this.props.group;
 
-      (0, _confirm2.default)(intl.messages['modal.confirm.clear']).then(function () {
+
+      (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.group.clear', values: { name: group.name } })).then(function () {
         var peer = _ActorClient2.default.getGroupPeer(gid);
         _DialogActionCreators2.default.clearChat(peer);
       }, function () {});
     };
 
-    _this.onDeleteGroupClick = function (gid) {
-      var intl = _this.context.intl;
+    _this.onLeaveGroupClick = function (gid) {
+      var group = _this.props.group;
 
-      (0, _confirm2.default)(intl.messages['modal.confirm.delete']).then(function () {
+
+      (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.group.leave', values: { name: group.name } })).then(function () {
+        return _DialogActionCreators2.default.leaveGroup(gid);
+      }, function () {});
+    };
+
+    _this.onDeleteGroupClick = function (gid) {
+      var group = _this.props.group;
+
+
+      (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.group.delete', values: { name: group.name } })).then(function () {
         var peer = _ActorClient2.default.getGroupPeer(gid);
         _DialogActionCreators2.default.deleteChat(peer);
       }, function () {});
@@ -470,11 +474,11 @@ var GroupProfile = function (_Component) {
   return GroupProfile;
 }(_react.Component);
 
-GroupProfile.propTypes = {
-  group: _react.PropTypes.object.isRequired
-};
 GroupProfile.contextTypes = {
   intl: _react.PropTypes.object
+};
+GroupProfile.propTypes = {
+  group: _react.PropTypes.object.isRequired
 };
 exports.default = _utils.Container.create(GroupProfile, { pure: false, withProps: true });
 //# sourceMappingURL=GroupProfile.react.js.map

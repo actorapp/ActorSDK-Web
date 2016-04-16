@@ -143,7 +143,9 @@ var MessageStore = function (_ReduceStore) {
         });
 
       case _ActorAppConstants.ActionTypes.MESSAGES_LOADING_MORE:
-        return (0, _extends3.default)({}, state);
+        return (0, _extends3.default)({}, state, {
+          isLoading: true
+        });
 
       case _ActorAppConstants.ActionTypes.MESSAGES_LOAD_MORE:
         return (0, _extends3.default)({}, state, {

@@ -36,7 +36,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
  */
 
-var INITIAL_MESSAGES_COUNT = 20;
 var MESSAGE_COUNT_STEP = 20;
 
 var getMessageId = function getMessageId(message) {
@@ -56,7 +55,6 @@ var MessageStore = function (_ReduceStore) {
       messages: [],
       overlay: [],
       isLoaded: false,
-      isLoading: false,
       receiveDate: 0,
       readDate: 0,
       count: 0,
@@ -67,26 +65,6 @@ var MessageStore = function (_ReduceStore) {
     };
   };
 
-  MessageStore.prototype.getAll = function getAll() {
-    return this.getState().messages;
-  };
-
-  MessageStore.prototype.getRenderMessagesCount = function getRenderMessagesCount() {
-    return this.getState().count;
-  };
-
-  MessageStore.prototype.getMessages = function getMessages() {
-    return this.getState().messages;
-  };
-
-  MessageStore.prototype.getOverlay = function getOverlay() {
-    return this.getState().overlay;
-  };
-
-  MessageStore.prototype.isLoaded = function isLoaded() {
-    return this.getState().isLoaded;
-  };
-
   MessageStore.prototype.isAllRendered = function isAllRendered() {
     var _getState = this.getState();
 
@@ -94,10 +72,6 @@ var MessageStore = function (_ReduceStore) {
     var count = _getState.count;
 
     return messages.length === count;
-  };
-
-  MessageStore.prototype.getSelected = function getSelected() {
-    return this.getState().selected;
   };
 
   MessageStore.prototype.reduce = function reduce(state, action) {
@@ -118,7 +92,6 @@ var MessageStore = function (_ReduceStore) {
             receiveDate: action.receiveDate,
             readDate: action.readDate,
             isLoaded: action.isLoaded,
-            isLoading: false,
             count: Math.min(action.messages.length, state.count + MESSAGE_COUNT_STEP),
             changeReason: _ActorAppConstants.MessageChangeReason.UNSHIFT
           });
@@ -146,13 +119,8 @@ var MessageStore = function (_ReduceStore) {
           receiveDate: action.receiveDate,
           readDate: action.readDate,
           isLoaded: action.isLoaded,
-          count: Math.min(action.messages.length, INITIAL_MESSAGES_COUNT),
+          count: Math.min(action.messages.length, state.count),
           changeReason: _ActorAppConstants.MessageChangeReason.UPDATE
-        });
-
-      case _ActorAppConstants.ActionTypes.MESSAGES_LOADING_MORE:
-        return (0, _extends3.default)({}, state, {
-          isLoading: true
         });
 
       case _ActorAppConstants.ActionTypes.MESSAGES_LOAD_MORE:

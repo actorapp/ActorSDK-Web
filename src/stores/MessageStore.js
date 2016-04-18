@@ -7,7 +7,6 @@ import { ReduceStore } from 'flux/utils';
 import Dispatcher from '../dispatcher/ActorAppDispatcher';
 import { ActionTypes, MessageChangeReason } from '../constants/ActorAppConstants';
 
-const INITIAL_MESSAGES_COUNT = 20;
 const MESSAGE_COUNT_STEP = 20;
 
 const getMessageId = (message) => message ? message.rid : null;
@@ -18,7 +17,6 @@ class MessageStore extends ReduceStore {
       messages: [],
       overlay: [],
       isLoaded: false,
-      isLoading: false,
       receiveDate: 0,
       readDate: 0,
       count: 0,
@@ -29,33 +27,9 @@ class MessageStore extends ReduceStore {
     };
   }
 
-  getAll() {
-    return this.getState().messages;
-  }
-
-  getRenderMessagesCount() {
-    return this.getState().count;
-  }
-
-  getMessages() {
-    return this.getState().messages;
-  }
-
-  getOverlay() {
-    return this.getState().overlay;
-  }
-
-  isLoaded() {
-    return this.getState().isLoaded;
-  }
-
   isAllRendered() {
     const { messages, count } = this.getState();
     return messages.length === count;
-  }
-
-  getSelected() {
-    return this.getState().selected;
   }
 
   reduce (state, action) {
@@ -77,7 +51,6 @@ class MessageStore extends ReduceStore {
             receiveDate: action.receiveDate,
             readDate: action.readDate,
             isLoaded: action.isLoaded,
-            isLoading: false,
             count: Math.min(action.messages.length, state.count + MESSAGE_COUNT_STEP),
             changeReason: MessageChangeReason.UNSHIFT
           };
@@ -107,14 +80,8 @@ class MessageStore extends ReduceStore {
           receiveDate: action.receiveDate,
           readDate: action.readDate,
           isLoaded: action.isLoaded,
-          count: Math.min(action.messages.length, INITIAL_MESSAGES_COUNT),
+          count: Math.min(action.messages.length, state.count),
           changeReason: MessageChangeReason.UPDATE
-        };
-
-      case ActionTypes.MESSAGES_LOADING_MORE:
-        return {
-          ...state,
-          isLoading: true
         };
 
       case ActionTypes.MESSAGES_LOAD_MORE:

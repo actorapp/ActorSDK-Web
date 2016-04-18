@@ -192,7 +192,6 @@ var DialogActionCreators = function (_ActionCreators) {
 
   DialogActionCreators.prototype.loadMoreMessages = function loadMoreMessages(peer) {
     if (_MessageStore2.default.isAllRendered()) {
-      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_LOADING_MORE);
       this.onChatEnd(peer);
     } else {
       (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_LOAD_MORE);

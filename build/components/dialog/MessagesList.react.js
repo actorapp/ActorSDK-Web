@@ -78,12 +78,10 @@ var MessagesList = function (_Component) {
     }
 
     _this.dimensions = null;
+    _this.isLoading = false;
 
     _this.onScroll = _this.onScroll.bind(_this);
     _this.onResize = _this.onResize.bind(_this);
-    _this.onLoadMore = (0, _lodash.debounce)(_this.onLoadMore.bind(_this), 60, {
-      maxWait: 180
-    });
     return _this;
   }
 
@@ -98,6 +96,7 @@ var MessagesList = function (_Component) {
   MessagesList.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
     if (!_PeerUtils2.default.equals(nextProps.peer, this.props.peer)) {
       this.dimensions = null;
+      this.isLoading = false;
     }
   };
 
@@ -112,31 +111,28 @@ var MessagesList = function (_Component) {
     if (messages.changeReason === _ActorAppConstants.MessageChangeReason.PUSH) {
       if (!dimensions || isLastMessageMine(uid, messages)) {
         scroller.scrollToBottom();
-        this.updateDimensions();
       }
     } else if (messages.changeReason === _ActorAppConstants.MessageChangeReason.UNSHIFT) {
+      this.isLoading = false;
       if (dimensions) {
         var currDimensions = scroller.getDimensions();
         scroller.scrollTo(currDimensions.scrollHeight - dimensions.scrollHeight);
-        this.updateDimensions();
       }
-    }
-  };
-
-  MessagesList.prototype.onLoadMore = function onLoadMore() {
-    if (this.props.messages.isLoading) {
-      return;
-    }
-
-    var dimensions = this.refs.scroller.getDimensions();
-    if (dimensions.scrollTop < 100) {
-      this.props.onLoadMore();
     }
   };
 
   MessagesList.prototype.onScroll = function onScroll() {
-    this.onLoadMore();
-    this.updateDimensions();
+    var dimensions = this.refs.scroller.getDimensions();
+    if (dimensions.scrollHeight === dimensions.scrollTop + dimensions.offsetHeight) {
+      this.dimensions = null;
+    } else {
+      this.dimensions = dimensions;
+    }
+
+    if (!this.isLoading && dimensions.scrollTop < 100) {
+      this.isLoading = true;
+      this.props.onLoadMore();
+    }
   };
 
   MessagesList.prototype.onResize = function onResize() {
@@ -228,15 +224,6 @@ var MessagesList = function (_Component) {
     );
   };
 
-  MessagesList.prototype.updateDimensions = function updateDimensions() {
-    var dimensions = this.refs.scroller.getDimensions();
-    if (dimensions.scrollHeight === dimensions.scrollTop + dimensions.offsetHeight) {
-      this.dimensions = null;
-    } else {
-      this.dimensions = dimensions;
-    }
-  };
-
   MessagesList.prototype.restoreScroll = function restoreScroll() {
     var dimensions = this.dimensions;
     var scroller = this.refs.scroller;
@@ -265,7 +252,6 @@ MessagesList.propTypes = {
     isLoaded: _react.PropTypes.bool.isRequired,
     receiveDate: _react.PropTypes.number.isRequired,
     readDate: _react.PropTypes.number.isRequired,
-    isLoading: _react.PropTypes.bool.isRequired,
     selected: _react.PropTypes.object.isRequired,
     changeReason: _react.PropTypes.oneOf([_ActorAppConstants.MessageChangeReason.UNKNOWN, _ActorAppConstants.MessageChangeReason.PUSH, _ActorAppConstants.MessageChangeReason.UNSHIFT, _ActorAppConstants.MessageChangeReason.UPDATE]).isRequired
   }).isRequired,

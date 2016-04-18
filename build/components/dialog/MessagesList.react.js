@@ -20,13 +20,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _MessageUtils = require('../../utils/MessageUtils');
+var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _PeerUtils = require('../../utils/PeerUtils');
 
 var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
+
+var _MessageUtils = require('../../utils/MessageUtils');
 
 var _Scroller = require('../common/Scroller.react');
 
@@ -45,6 +45,15 @@ var _Loading = require('./messages/Loading.react');
 var _Loading2 = _interopRequireDefault(_Loading);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function isLastMessageMine(uid, _ref) {
+  var messages = _ref.messages;
+
+  var lastMessage = messages[messages.length - 1];
+  return lastMessage && uid === lastMessage.sender.peer.id;
+} /*
+   * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+   */
 
 var MessagesList = function (_Component) {
   (0, _inherits3.default)(MessagesList, _Component);
@@ -75,9 +84,12 @@ var MessagesList = function (_Component) {
     _this.onLoadMore = (0, _lodash.debounce)(_this.onLoadMore.bind(_this), 60, {
       maxWait: 180
     });
-    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
   }
+
+  MessagesList.prototype.shouldComponentUpdate = function shouldComponentUpdate(prevProps) {
+    return prevProps.peer !== this.props.peer || prevProps.messages !== this.props.messages || prevProps.isMember !== this.props.isMember;
+  };
 
   MessagesList.prototype.componentDidMount = function componentDidMount() {
     this.restoreScroll();
@@ -89,47 +101,42 @@ var MessagesList = function (_Component) {
     }
   };
 
-  MessagesList.prototype.componentDidUpdate = function componentDidUpdate(prevProps) {
+  MessagesList.prototype.componentDidUpdate = function componentDidUpdate() {
     var dimensions = this.dimensions;
     var scroller = this.refs.scroller;
     var _props = this.props;
     var uid = _props.uid;
     var messages = _props.messages;
-    var count = _props.count;
 
 
-    var lastMessage = (0, _lodash.last)(messages);
-    var isPush = lastMessage && lastMessage !== (0, _lodash.last)(prevProps.messages);
-    if (isPush) {
-      var isMyMessage = uid === lastMessage.sender.peer.id;
-      if (isMyMessage || !dimensions) {
+    if (messages.changeReason === _ActorAppConstants.MessageChangeReason.PUSH) {
+      if (!dimensions || isLastMessageMine(uid, messages)) {
         scroller.scrollToBottom();
+        this.updateDimensions();
       }
-    } else {
-      var isFirstMessageChanged = prevProps.count !== count || messages[0] !== prevProps.messages[0] && prevProps.isLoading;
-      if (isFirstMessageChanged && dimensions) {
+    } else if (messages.changeReason === _ActorAppConstants.MessageChangeReason.UNSHIFT) {
+      if (dimensions) {
         var currDimensions = scroller.getDimensions();
         scroller.scrollTo(currDimensions.scrollHeight - dimensions.scrollHeight);
+        this.updateDimensions();
       }
     }
   };
 
   MessagesList.prototype.onLoadMore = function onLoadMore() {
+    if (this.props.messages.isLoading) {
+      return;
+    }
+
     var dimensions = this.refs.scroller.getDimensions();
-    if (dimensions.scrollTop < dimensions.offsetHeight && !this.props.isLoading) {
+    if (dimensions.scrollTop < 100) {
       this.props.onLoadMore();
     }
   };
 
   MessagesList.prototype.onScroll = function onScroll() {
-    var dimensions = this.refs.scroller.getDimensions();
-    if (dimensions.scrollHeight === dimensions.scrollTop + dimensions.offsetHeight) {
-      this.dimensions = null;
-    } else {
-      this.dimensions = dimensions;
-    }
-
     this.onLoadMore();
+    this.updateDimensions();
   };
 
   MessagesList.prototype.onResize = function onResize() {
@@ -150,14 +157,14 @@ var MessagesList = function (_Component) {
     var _props2 = this.props;
     var peer = _props2.peer;
     var isMember = _props2.isMember;
-    var isLoaded = _props2.isLoaded;
+    var messages = _props2.messages;
 
 
     if (!isMember) {
       return null;
     }
 
-    if (isLoaded) {
+    if (messages.isLoaded) {
       var Welcome = this.components.Welcome;
 
       return _react2.default.createElement(Welcome, { peer: peer, key: 'header' });
@@ -170,12 +177,13 @@ var MessagesList = function (_Component) {
     var _props3 = this.props;
     var uid = _props3.uid;
     var peer = _props3.peer;
-    var messages = _props3.messages;
-    var overlay = _props3.overlay;
-    var count = _props3.count;
-    var selected = _props3.selected;
-    var receiveDate = _props3.receiveDate;
-    var readDate = _props3.readDate;
+    var _props3$messages = _props3.messages;
+    var messages = _props3$messages.messages;
+    var overlay = _props3$messages.overlay;
+    var count = _props3$messages.count;
+    var selected = _props3$messages.selected;
+    var receiveDate = _props3$messages.receiveDate;
+    var readDate = _props3$messages.readDate;
     var MessageItem = this.components.MessageItem;
 
 
@@ -220,6 +228,15 @@ var MessagesList = function (_Component) {
     );
   };
 
+  MessagesList.prototype.updateDimensions = function updateDimensions() {
+    var dimensions = this.refs.scroller.getDimensions();
+    if (dimensions.scrollHeight === dimensions.scrollTop + dimensions.offsetHeight) {
+      this.dimensions = null;
+    } else {
+      this.dimensions = dimensions;
+    }
+  };
+
   MessagesList.prototype.restoreScroll = function restoreScroll() {
     var dimensions = this.dimensions;
     var scroller = this.refs.scroller;
@@ -233,9 +250,7 @@ var MessagesList = function (_Component) {
   };
 
   return MessagesList;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 MessagesList.contextTypes = {
   delegate: _react.PropTypes.object.isRequired
@@ -243,15 +258,18 @@ MessagesList.contextTypes = {
 MessagesList.propTypes = {
   uid: _react.PropTypes.number.isRequired,
   peer: _react.PropTypes.object.isRequired,
-  messages: _react.PropTypes.array.isRequired,
-  overlay: _react.PropTypes.array.isRequired,
-  count: _react.PropTypes.number.isRequired,
-  selected: _react.PropTypes.object.isRequired,
+  messages: _react.PropTypes.shape({
+    messages: _react.PropTypes.array.isRequired,
+    overlay: _react.PropTypes.array.isRequired,
+    count: _react.PropTypes.number.isRequired,
+    isLoaded: _react.PropTypes.bool.isRequired,
+    receiveDate: _react.PropTypes.number.isRequired,
+    readDate: _react.PropTypes.number.isRequired,
+    isLoading: _react.PropTypes.bool.isRequired,
+    selected: _react.PropTypes.object.isRequired,
+    changeReason: _react.PropTypes.oneOf([_ActorAppConstants.MessageChangeReason.UNKNOWN, _ActorAppConstants.MessageChangeReason.PUSH, _ActorAppConstants.MessageChangeReason.UNSHIFT, _ActorAppConstants.MessageChangeReason.UPDATE]).isRequired
+  }).isRequired,
   isMember: _react.PropTypes.bool.isRequired,
-  isLoaded: _react.PropTypes.bool.isRequired,
-  isLoading: _react.PropTypes.bool.isRequired,
-  receiveDate: _react.PropTypes.number.isRequired,
-  readDate: _react.PropTypes.number.isRequired,
   onSelect: _react.PropTypes.func.isRequired,
   onLoadMore: _react.PropTypes.func.isRequired
 };

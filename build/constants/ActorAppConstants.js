@@ -1,7 +1,7 @@
 'use strict';
 
 exports.__esModule = true;
-exports.helpPhone = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.LoggerTypes = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypePrefixes = exports.PeerTypes = exports.MessageStates = exports.ConnectionStates = exports.MessageArtPopupState = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
+exports.helpPhone = exports.rootElement = exports.appName = exports.endpoints = exports.Path = exports.LoggerTypes = exports.AsyncActionStates = exports.KeyCodes = exports.MessageContentTypes = exports.CreateGroupSteps = exports.ActivityTypes = exports.PeerTypePrefixes = exports.PeerTypes = exports.MessageChangeReason = exports.MessageStates = exports.ConnectionStates = exports.MessageArtPopupState = exports.CallStates = exports.CallTypes = exports.EventTypes = exports.ActionTypes = exports.AuthSteps = undefined;
 
 var _keymirror = require('keymirror');
 
@@ -293,6 +293,13 @@ var MessageStates = exports.MessageStates = {
   READ: 'read',
   ERROR: 'error',
   UNKNOWN: 'unknown'
+};
+
+var MessageChangeReason = exports.MessageChangeReason = {
+  UNKNOWN: 'UNKNOWN',
+  PUSH: 'PUSH',
+  UNSHIFT: 'UNSHIFT',
+  UPDATE: 'UPDATE'
 };
 
 var PeerTypes = exports.PeerTypes = {

@@ -30,6 +30,7 @@ function processText(text) {
   var processedText = text;
   processedText = _ActorClient2.default.renderMarkdown(processedText);
   processedText = (0, _EmojiUtils.processEmojiText)(processedText);
+  processedText = processedText.replace(/(@[a-z_]+)/ig, '<span class="message__mention">$1</span>');
 
   return processedText;
 } /*

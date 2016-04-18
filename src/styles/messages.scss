@@ -146,6 +146,7 @@ $sticker-max-size: 180px;
       height: 20px;
     }
   }
+
   &__timestamp {
     font-size: 12px;
 
@@ -640,6 +641,7 @@ $sticker-max-size: 180px;
     samp {
       margin: 0 0 7px;
       overflow: auto;
+      white-space: pre-wrap;
     }
 
     .emoji-outer {
@@ -1104,6 +1106,12 @@ $sticker-max-size: 180px;
         display: block;
       }
     }
+  }
+
+  &__mention {
+    background-color: rgb(255, 243, 184);
+    border-radius: 2px;
+    padding: 2px 1px;
   }
 }
 

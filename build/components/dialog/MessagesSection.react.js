@@ -80,29 +80,14 @@ var MessagesSection = function (_Component) {
     var isMember = _props.isMember;
     var _state = this.state;
     var uid = _state.uid;
-    var _state$messages = _state.messages;
-    var messages = _state$messages.messages;
-    var overlay = _state$messages.overlay;
-    var receiveDate = _state$messages.receiveDate;
-    var readDate = _state$messages.readDate;
-    var isLoaded = _state$messages.isLoaded;
-    var isLoading = _state$messages.isLoading;
-    var count = _state$messages.count;
-    var selected = _state$messages.selected;
+    var messages = _state.messages;
 
 
     return _react2.default.createElement(_MessagesList2.default, {
       uid: uid,
       peer: peer,
-      isMember: isMember,
       messages: messages,
-      overlay: overlay,
-      readDate: readDate,
-      receiveDate: receiveDate,
-      count: count,
-      selected: selected,
-      isLoaded: isLoaded,
-      isLoading: isLoading,
+      isMember: isMember,
       onSelect: this.onSelect,
       onLoadMore: this.onLoadMore
     });

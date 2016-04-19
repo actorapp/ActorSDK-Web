@@ -103,7 +103,7 @@ var ToolbarSection = function (_Component) {
     var thisPeer = _DialogStore2.default.getCurrentPeer();
     return {
       thisPeer: thisPeer,
-      dialogInfo: _DialogInfoStore2.default.getInfo(),
+      dialogInfo: _DialogInfoStore2.default.getState(),
       isActivityOpen: _ActivityStore2.default.isOpen(),
       message: _OnlineStore2.default.getMessage(),
       isFavorite: _DialogStore2.default.isFavorite(thisPeer.id),

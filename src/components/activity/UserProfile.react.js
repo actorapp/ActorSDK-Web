@@ -16,6 +16,7 @@ import ContactActionCreators from '../../actions/ContactActionCreators';
 import DialogActionCreators from '../../actions/DialogActionCreators';
 import NotificationsActionCreators from '../../actions/NotificationsActionCreators';
 import CallActionCreators from '../../actions/CallActionCreators';
+import BlockedUsersActionCreators from '../../actions/BlockedUsersActionCreators';
 
 import UserStore from '../../stores/UserStore';
 import NotificationsStore from '../../stores/NotificationsStore';
@@ -75,7 +76,7 @@ class UserProfile extends Component {
     const { isActionsDropdownOpen } = this.state;
 
     if (!isActionsDropdownOpen) {
-      this.setState({isActionsDropdownOpen: true});
+      this.setState({ isActionsDropdownOpen: true });
       document.addEventListener('click', this.closeActionsDropdown, false);
     } else {
       this.closeActionsDropdown();
@@ -83,14 +84,14 @@ class UserProfile extends Component {
   };
 
   closeActionsDropdown = () => {
-    this.setState({isActionsDropdownOpen: false});
+    this.setState({ isActionsDropdownOpen: false });
     document.removeEventListener('click', this.closeActionsDropdown, false);
   };
 
   onClearChat() {
     const { user } = this.props;
     confirm(
-      <FormattedMessage id="modal.confirm.user.clear" values={{name: user.name}} />
+      <FormattedMessage id="modal.confirm.user.clear" values={{ name: user.name }} />
     ).then(
       () => {
         const peer = ActorClient.getUserPeer(user.id);
@@ -103,7 +104,7 @@ class UserProfile extends Component {
   onRemoveFromContacts() {
     const { user } = this.props;
     confirm(
-      <FormattedMessage id="modal.confirm.user.removeContact" values={{name: user.name}}/>
+      <FormattedMessage id="modal.confirm.user.removeContact" values={{ name: user.name }}/>
     ).then(
       () => ContactActionCreators.removeContact(user.id),
       () => {}
@@ -114,7 +115,7 @@ class UserProfile extends Component {
     const { user } = this.props;
 
     confirm(
-      <FormattedMessage id="modal.confirm.user.delete" values={{name: user.name}} />
+      <FormattedMessage id="modal.confirm.user.delete" values={{ name: user.name }} />
     ).then(
       () => {
         const peer = ActorClient.getUserPeer(user.id);
@@ -128,9 +129,9 @@ class UserProfile extends Component {
     const { user } = this.props;
 
     confirm(
-      <FormattedMessage id="modal.confirm.user.block" values={{name: user.name}} />
+      <FormattedMessage id="modal.confirm.user.block" values={{ name: user.name }} />
     ).then(
-      () => DialogActionCreators.blockUser(user.id),
+      () => BlockedUsersActionCreators.blockUser(user.id),
       () => {}
     );
   }
@@ -163,14 +164,14 @@ class UserProfile extends Component {
                           title={user.name}
                           onClick={this.handleAvatarClick}/>
 
-              <h3 className="user_profile__meta__title" dangerouslySetInnerHTML={{__html: escapeWithEmoji(user.name)}}/>
+              <h3 className="user_profile__meta__title" dangerouslySetInnerHTML={{ __html: escapeWithEmoji(user.name) }}/>
               <div className="user_profile__meta__message">{message}</div>
             </header>
 
             {
               user.about
                 ? <div className="user_profile__meta__about"
-                       dangerouslySetInnerHTML={{__html: escapeWithEmoji(user.about).replace(/\n/g, '<br/>')}}/>
+                       dangerouslySetInnerHTML={{ __html: escapeWithEmoji(user.about).replace(/\n/g, '<br/>') }}/>
                 : null
             }
 
@@ -181,7 +182,7 @@ class UserProfile extends Component {
                   {intl.messages['button.call']}
                 </button>
               </div>
-              <div style={{width: 10}}/>
+              <div style={{ width: 10 }}/>
               <div className="col-xs">
                 <div className={dropdownClassNames}>
                   <button className="dropdown__button button button--flat button--wide" onClick={this.toggleActionsDropdown}>
@@ -237,4 +238,4 @@ class UserProfile extends Component {
   }
 }
 
-export default Container.create(UserProfile, {pure:false, withProps: true});
+export default Container.create(UserProfile, { pure:false, withProps: true });

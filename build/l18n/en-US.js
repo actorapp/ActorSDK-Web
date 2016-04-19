@@ -33,6 +33,7 @@ exports.default = {
       'editProfile': 'Edit profile',
       'addToContacts': 'Add contact',
       'createGroup': 'Create group',
+      'blockedUsers': 'Blocked users',
       'helpAndFeedback': 'Help & Feedback',
       'twitter': 'Our Twitter',
       'preferences': 'Preferences',
@@ -104,7 +105,9 @@ exports.default = {
         'italic': 'italics',
         'preformatted': 'preformatted'
       },
-      'dropzone': 'Drop here to send.'
+      'dropzone': 'Drop here to send.',
+      'notMemger': 'You are not a member',
+      'unblock': 'Unblock user'
     },
 
     // Modals
@@ -213,6 +216,7 @@ exports.default = {
     'clearConversation': 'Clear conversation',
     'deleteConversation': 'Delete conversation',
     'blockUser': 'Block user',
+    'unblockUser': 'Unblock user',
     'leaveGroup': 'Leave group',
     'sharedMedia': 'Shared media',
     'notifications': 'Notifications',
@@ -233,6 +237,12 @@ exports.default = {
     'inviteByLinkModalCopyButton': 'Copy link',
     'inviteByLinkModalRevokeButton': 'Revoke link',
     'inviteLinkCopied': 'Invitation link copied.',
+
+    'blockedUsersTitle': 'Blocked users',
+    'blockedUsersNotExists': 'You haven\'t block anyone.',
+    'blockedUsersNotFound': 'Sorry, no users were found.',
+    'blockedUsersSearch': 'Search for contacts or usernames',
+    'blockedUsersUnblock': 'Unblock',
 
     'preferencesModalTitle': 'Preferences',
     'preferencesGeneralTab': 'General',

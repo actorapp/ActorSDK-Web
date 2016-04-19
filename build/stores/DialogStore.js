@@ -52,10 +52,6 @@ var DialogStore = function (_Store) {
     return this.currentPeer;
   };
 
-  DialogStore.prototype.getLastPeer = function getLastPeer() {
-    return this.lastPeer;
-  };
-
   DialogStore.prototype.isMember = function isMember() {
     if (this.currentPeer !== null && this.currentPeer.type === _ActorAppConstants.PeerTypes.GROUP) {
       var group = _ActorClient2.default.getGroup(this.currentPeer.id);

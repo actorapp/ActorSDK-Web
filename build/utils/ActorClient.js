@@ -163,12 +163,11 @@ var ActorClient = function () {
   };
 
   ActorClient.prototype.bindStickers = function bindStickers(callback) {
-    window.messenger.bindStickers(callback);
-    return {
-      unbind: function unbind() {
-        window.messenger.unbindStickers(callback);
-      }
-    };
+    return ActorClient.createBindings('bindStickers', 'unbindStickers', callback);
+  };
+
+  ActorClient.prototype.bindUserBlocked = function bindUserBlocked(callback) {
+    return ActorClient.createBindings('bindUserBlocked', 'unbindUserBlocked', callback);
   };
 
   ActorClient.prototype.makeCall = function makeCall(userId) {
@@ -512,6 +511,18 @@ var ActorClient = function () {
 
   ActorClient.prototype.sendSticker = function sendSticker(peer, sticker) {
     window.messenger.sendSticker(peer, sticker);
+  };
+
+  ActorClient.prototype.blockUser = function blockUser(id) {
+    return window.messenger.blockUser(id);
+  };
+
+  ActorClient.prototype.unblockUser = function unblockUser(id) {
+    return window.messenger.unblockUser(id);
+  };
+
+  ActorClient.prototype.loadBlockedUsers = function loadBlockedUsers() {
+    return window.messenger.loadBlockedUsers();
   };
 
   return ActorClient;

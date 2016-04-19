@@ -60,7 +60,7 @@ var ActivitySection = function (_Component) {
   ActivitySection.calculateState = function calculateState() {
     return {
       peer: _DialogStore2.default.getCurrentPeer(),
-      info: _DialogInfoStore2.default.getInfo(),
+      info: _DialogInfoStore2.default.getState(),
       isOpen: _ActivityStore2.default.isOpen()
     };
   };

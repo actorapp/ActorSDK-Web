@@ -255,7 +255,14 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   SEARCH_PHOTO_ERROR: null,
 
   MESSAGE_ART_SHOW: null,
-  MESSAGE_ART_CLOSE: null
+  MESSAGE_ART_CLOSE: null,
+
+  BLOCKED_USERS_OPEN: null,
+  BLOCKED_USERS_HIDE: null,
+  BLOCKED_USERS_LOAD: null,
+  BLOCKED_USERS_SET: null,
+  BLOCKED_USERS_LOAD_FAILED: null,
+  BLOCKED_USERS_SET_QUERY: null
 });
 
 var EventTypes = exports.EventTypes = {

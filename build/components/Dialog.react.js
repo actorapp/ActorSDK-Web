@@ -58,17 +58,25 @@ var _ConnectionState = require('./common/ConnectionState.react');
 
 var _ConnectionState2 = _interopRequireDefault(_ConnectionState);
 
-var _ActivityStore = require('../stores/ActivityStore');
-
-var _ActivityStore2 = _interopRequireDefault(_ActivityStore);
-
 var _DialogStore = require('../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
+var _DialogInfoStore = require('../stores/DialogInfoStore');
+
+var _DialogInfoStore2 = _interopRequireDefault(_DialogInfoStore);
+
+var _ActivityStore = require('../stores/ActivityStore');
+
+var _ActivityStore2 = _interopRequireDefault(_ActivityStore);
+
 var _DialogActionCreators = require('../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
+
+var _BlockedUsersActionCreators = require('../actions/BlockedUsersActionCreators');
+
+var _BlockedUsersActionCreators2 = _interopRequireDefault(_BlockedUsersActionCreators);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -76,12 +84,16 @@ var DialogSection = function (_Component) {
   (0, _inherits3.default)(DialogSection, _Component);
 
   DialogSection.getStores = function getStores() {
-    return [_ActivityStore2.default, _DialogStore2.default];
+    return [_ActivityStore2.default, _DialogStore2.default, _DialogInfoStore2.default];
   };
 
   DialogSection.calculateState = function calculateState() {
+    var peer = _DialogStore2.default.getCurrentPeer();
+    var dialogInfo = _DialogInfoStore2.default.getState();
+
     return {
-      peer: _DialogStore2.default.getCurrentPeer(),
+      peer: peer,
+      dialogInfo: dialogInfo,
       isMember: _DialogStore2.default.isMember(),
       isActivityOpen: _ActivityStore2.default.isOpen()
     };
@@ -93,6 +105,8 @@ var DialogSection = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props, context));
 
     _this.updatePeer(_this.props.params.id);
+
+    _this.onUnblock = _this.onUnblock.bind(_this);
     return _this;
   }
 
@@ -113,6 +127,12 @@ var DialogSection = function (_Component) {
     } else {
       _history2.default.replace('/im');
     }
+  };
+
+  DialogSection.prototype.onUnblock = function onUnblock() {
+    var dialogInfo = this.state.dialogInfo;
+
+    _BlockedUsersActionCreators2.default.unblockUser(dialogInfo.id);
   };
 
   DialogSection.prototype.getActivityComponents = function getActivityComponents() {
@@ -160,6 +180,7 @@ var DialogSection = function (_Component) {
     var _state = this.state;
     var peer = _state.peer;
     var isMember = _state.isMember;
+    var dialogInfo = _state.dialogInfo;
 
     if (!peer) {
       return _react2.default.createElement('section', { className: 'main' });
@@ -187,7 +208,11 @@ var DialogSection = function (_Component) {
             'div',
             { className: 'chat' },
             _react2.default.createElement(MessagesSection, { peer: peer, isMember: isMember }),
-            _react2.default.createElement(_DialogFooter2.default, { isMember: isMember })
+            _react2.default.createElement(_DialogFooter2.default, {
+              isMember: isMember,
+              isBlocked: dialogInfo.isBlocked,
+              onUnblock: this.onUnblock
+            })
           )
         ),
         activity.map(function (Activity, index) {

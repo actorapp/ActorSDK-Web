@@ -50,6 +50,10 @@ var _InviteUser = require('./modals/InviteUser.react');
 
 var _InviteUser2 = _interopRequireDefault(_InviteUser);
 
+var _BlockedUsers = require('./modals/BlockedUsers.react');
+
+var _BlockedUsers2 = _interopRequireDefault(_BlockedUsers);
+
 var _InviteByLink = require('./modals/invite-user/InviteByLink.react');
 
 var _InviteByLink2 = _interopRequireDefault(_InviteByLink);
@@ -63,6 +67,10 @@ var _SmallCall = require('./SmallCall.react');
 var _SmallCall2 = _interopRequireDefault(_SmallCall);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var Main = function (_Component) {
   (0, _inherits3.default)(Main, _Component);
@@ -132,6 +140,7 @@ var Main = function (_Component) {
       _react2.default.createElement(_ModalsWrapper2.default, null),
       _react2.default.createElement(_MenuOverlay2.default, null),
       _react2.default.createElement(_InviteUser2.default, null),
+      _react2.default.createElement(_BlockedUsers2.default, null),
       _react2.default.createElement(_InviteByLink2.default, null),
       _react2.default.createElement(_EditGroup2.default, null),
       this.renderCall()
@@ -139,9 +148,7 @@ var Main = function (_Component) {
   };
 
   return Main;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 Main.propTypes = {
   params: _react.PropTypes.object,

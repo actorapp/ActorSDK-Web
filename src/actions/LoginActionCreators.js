@@ -18,6 +18,7 @@ import QuickSearchActionCreators from './QuickSearchActionCreators';
 import FaviconActionCreators from './FaviconActionCreators';
 import EventBusActionCreators from './EventBusActionCreators';
 import StickersActionCreators from './StickersActionCreators';
+import BlockedUsersActionCreators from './BlockedUsersActionCreators';
 
 class LoginActionCreators extends ActionCreators {
   changeLogin(login) {
@@ -76,7 +77,7 @@ class LoginActionCreators extends ActionCreators {
           this.startSignup();
           break;
         case 'logged_in':
-          this.setLoggedIn({redirect: true});
+          this.setLoggedIn({ redirect: true });
           break;
         default:
           console.error('Unsupported state', state);
@@ -91,7 +92,7 @@ class LoginActionCreators extends ActionCreators {
       failure: ActionTypes.AUTH_SIGNUP_FAILURE
     }, { name });
 
-    const setLoggedIn = () => this.setLoggedIn({redirect: true});
+    const setLoggedIn = () => this.setLoggedIn({ redirect: true });
 
     signUpPromise()
       .then(setLoggedIn)
@@ -118,7 +119,8 @@ class LoginActionCreators extends ActionCreators {
       ActorClient.bindSearch(QuickSearchActionCreators.setQuickSearchList),
       ActorClient.bindTempGlobalCounter(FaviconActionCreators.setFavicon),
       ActorClient.bindEventBus(EventBusActionCreators.broadcastEvent),
-      ActorClient.bindStickers(StickersActionCreators.setStickers)
+      ActorClient.bindStickers(StickersActionCreators.setStickers),
+      ActorClient.bindUserBlocked(BlockedUsersActionCreators.setUsers)
     ]);
 
     dispatch(ActionTypes.AUTH_SET_LOGGED_IN);

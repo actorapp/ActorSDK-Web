@@ -32,40 +32,37 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
  */
 
-var _info = null;
-
-var DialogInfoStore = function (_Store) {
-  (0, _inherits3.default)(DialogInfoStore, _Store);
+var DialogInfoStore = function (_ReduceStore) {
+  (0, _inherits3.default)(DialogInfoStore, _ReduceStore);
 
   function DialogInfoStore() {
     (0, _classCallCheck3.default)(this, DialogInfoStore);
-    return (0, _possibleConstructorReturn3.default)(this, _Store.apply(this, arguments));
+    return (0, _possibleConstructorReturn3.default)(this, _ReduceStore.apply(this, arguments));
   }
 
-  DialogInfoStore.prototype.getInfo = function getInfo() {
-    return _info;
+  DialogInfoStore.prototype.getInitialState = function getInitialState() {
+    return null;
   };
 
-  DialogInfoStore.prototype.__onDispatch = function __onDispatch(action) {
+  DialogInfoStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
         if (action.peer.type === _ActorAppConstants.PeerTypes.GROUP) {
-          _info = _ActorClient2.default.getGroup(action.peer.id);
-        } else if (action.peer.type === _ActorAppConstants.PeerTypes.USER) {
-          _info = _ActorClient2.default.getUser(action.peer.id);
+          return _ActorClient2.default.getGroup(action.peer.id);
         }
-        this.__emitChange();
-        break;
+
+        return _ActorClient2.default.getUser(action.peer.id);
+
       case _ActorAppConstants.ActionTypes.DIALOG_INFO_CHANGED:
-        _info = action.info;
-        this.__emitChange();
-        break;
+        return action.info;
+
       default:
+        return state;
     }
   };
 
   return DialogInfoStore;
-}(_utils.Store);
+}(_utils.ReduceStore);
 
 exports.default = new DialogInfoStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=DialogInfoStore.js.map

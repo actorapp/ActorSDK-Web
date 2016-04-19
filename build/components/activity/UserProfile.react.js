@@ -58,6 +58,10 @@ var _CallActionCreators = require('../../actions/CallActionCreators');
 
 var _CallActionCreators2 = _interopRequireDefault(_CallActionCreators);
 
+var _BlockedUsersActionCreators = require('../../actions/BlockedUsersActionCreators');
+
+var _BlockedUsersActionCreators2 = _interopRequireDefault(_BlockedUsersActionCreators);
+
 var _UserStore = require('../../stores/UserStore');
 
 var _UserStore2 = _interopRequireDefault(_UserStore);
@@ -87,6 +91,10 @@ var _Fold = require('../common/Fold.react');
 var _Fold2 = _interopRequireDefault(_Fold);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var UserProfile = function (_Component) {
   (0, _inherits3.default)(UserProfile, _Component);
@@ -191,7 +199,7 @@ var UserProfile = function (_Component) {
 
 
     (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.user.block', values: { name: user.name } })).then(function () {
-      return _DialogActionCreators2.default.blockUser(user.id);
+      return _BlockedUsersActionCreators2.default.blockUser(user.id);
     }, function () {});
   };
 
@@ -354,9 +362,7 @@ var UserProfile = function (_Component) {
   };
 
   return UserProfile;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 UserProfile.contextTypes = {
   intl: _react.PropTypes.object

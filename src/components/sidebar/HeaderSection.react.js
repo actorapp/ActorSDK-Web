@@ -17,6 +17,7 @@ import LoginActionCreators from '../../actions/LoginActionCreators';
 import HelpActionCreators from '../../actions/HelpActionCreators';
 import AddContactActionCreators from '../../actions/AddContactActionCreators';
 import PreferencesActionCreators from '../../actions/PreferencesActionCreators';
+import BlockedUsersActionCreators from '../../actions/BlockedUsersActionCreators';
 
 import MyProfileStore from '../../stores/MyProfileStore';
 import CreateGroupStore from '../../stores/CreateGroupStore';
@@ -59,14 +60,14 @@ class HeaderSection extends Component {
   };
 
   componentWillMount() {
-    this.setState({isOpened: false});
+    this.setState({ isOpened: false });
   }
 
   toggleHeaderMenu = () => {
     const { isOpened } = this.state;
 
     if (!isOpened) {
-      this.setState({isOpened: true});
+      this.setState({ isOpened: true });
       document.addEventListener('click', this.closeHeaderMenu, false);
     } else {
       this.closeHeaderMenu();
@@ -74,12 +75,13 @@ class HeaderSection extends Component {
   };
 
   closeHeaderMenu = () => {
-    this.setState({isOpened: false});
+    this.setState({ isOpened: false });
     document.removeEventListener('click', this.closeHeaderMenu, false);
   };
 
   openMyProfile = () => MyProfileActions.show();
   openCreateGroup = () => CreateGroupActionCreators.open();
+  openBlockedUsers = () => BlockedUsersActionCreators.open();
   openAddContactModal = () => AddContactActionCreators.open();
   onSettingsOpen = () => PreferencesActionCreators.show();
 
@@ -213,7 +215,7 @@ class HeaderSection extends Component {
                       size="tiny"
                       title={profile.name} />
           <span className="sidebar__header__user__name col-xs"
-                dangerouslySetInnerHTML={{__html: escapeWithEmoji(profile.name)}}/>
+                dangerouslySetInnerHTML={{ __html: escapeWithEmoji(profile.name) }}/>
           <div className={menuClass}>
             <span className="dropdown__button">
               <i className="material-icons">arrow_drop_down</i>
@@ -230,6 +232,10 @@ class HeaderSection extends Component {
               <li className="dropdown__menu__item" onClick={this.openCreateGroup}>
                 <i className="material-icons">group_add</i>
                 <FormattedMessage id="menu.createGroup"/>
+              </li>
+              <li className="dropdown__menu__item" onClick={this.openBlockedUsers}>
+                <i className="material-icons">block</i>
+                <FormattedMessage id="menu.blockedUsers"/>
               </li>
               <li className="dropdown__menu__separator"/>
               <li className="dropdown__menu__item" onClick={this.onSettingsOpen}>

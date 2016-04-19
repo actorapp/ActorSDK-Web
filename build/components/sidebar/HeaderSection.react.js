@@ -64,6 +64,10 @@ var _PreferencesActionCreators = require('../../actions/PreferencesActionCreator
 
 var _PreferencesActionCreators2 = _interopRequireDefault(_PreferencesActionCreators);
 
+var _BlockedUsersActionCreators = require('../../actions/BlockedUsersActionCreators');
+
+var _BlockedUsersActionCreators2 = _interopRequireDefault(_BlockedUsersActionCreators);
+
 var _MyProfileStore = require('../../stores/MyProfileStore');
 
 var _MyProfileStore2 = _interopRequireDefault(_MyProfileStore);
@@ -106,10 +110,6 @@ var _Preferences2 = _interopRequireDefault(_Preferences);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
-
 var HeaderSection = function (_Component) {
   (0, _inherits3.default)(HeaderSection, _Component);
 
@@ -141,6 +141,10 @@ var HeaderSection = function (_Component) {
 
     _this.openCreateGroup = function () {
       return _CreateGroupActionCreators2.default.open();
+    };
+
+    _this.openBlockedUsers = function () {
+      return _BlockedUsersActionCreators2.default.open();
     };
 
     _this.openAddContactModal = function () {
@@ -403,6 +407,16 @@ var HeaderSection = function (_Component) {
               ),
               _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.createGroup' })
             ),
+            _react2.default.createElement(
+              'li',
+              { className: 'dropdown__menu__item', onClick: this.openBlockedUsers },
+              _react2.default.createElement(
+                'i',
+                { className: 'material-icons' },
+                'block'
+              ),
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.blockedUsers' })
+            ),
             _react2.default.createElement('li', { className: 'dropdown__menu__separator' }),
             _react2.default.createElement(
               'li',
@@ -435,7 +449,9 @@ var HeaderSection = function (_Component) {
   };
 
   return HeaderSection;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 HeaderSection.contextTypes = {
   intl: _react.PropTypes.object

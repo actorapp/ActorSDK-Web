@@ -166,6 +166,10 @@ var MessagesList = function (_Component) {
       return _react2.default.createElement(Welcome, { peer: peer, key: 'header' });
     }
 
+    if (!messages.messages.length) {
+      return null;
+    }
+
     return _react2.default.createElement(_Loading2.default, { key: 'header' });
   };
 

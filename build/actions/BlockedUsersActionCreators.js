@@ -14,7 +14,15 @@ var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
+var _ComposeActionCreators = require('./ComposeActionCreators');
+
+var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
 var BlockedUsersActionCreators = function () {
   function BlockedUsersActionCreators() {
@@ -23,11 +31,13 @@ var BlockedUsersActionCreators = function () {
 
   BlockedUsersActionCreators.prototype.open = function open() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.BLOCKED_USERS_OPEN);
+    _ComposeActionCreators2.default.toggleAutoFocus(false);
     this.loadUsers();
   };
 
   BlockedUsersActionCreators.prototype.hide = function hide() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.BLOCKED_USERS_HIDE);
+    _ComposeActionCreators2.default.toggleAutoFocus(true);
   };
 
   BlockedUsersActionCreators.prototype.setQuery = function setQuery(query) {
@@ -66,9 +76,7 @@ var BlockedUsersActionCreators = function () {
   };
 
   return BlockedUsersActionCreators;
-}(); /*
-      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-      */
+}();
 
 exports.default = new BlockedUsersActionCreators();
 //# sourceMappingURL=BlockedUsersActionCreators.js.map

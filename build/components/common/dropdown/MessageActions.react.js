@@ -18,15 +18,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _EventListener = require('fbjs/lib/EventListener');
+
+var _EventListener2 = _interopRequireDefault(_EventListener);
+
 var _reactDom = require('react-dom');
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
 var _isInside = require('../../../utils/isInside');
 
@@ -105,22 +103,20 @@ var MessageActions = function (_Component) {
       _this.handleDropdownClose();
     };
 
-    document.addEventListener('click', _this.handleDocumentClick, true);
-
-    if (props.hideOnScroll) {
-      document.addEventListener('scroll', _this.handleDropdownClose, true);
-    }
+    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
   }
 
+  MessageActions.prototype.componentDidMount = function componentDidMount() {
+    this.listeners = [_EventListener2.default.listen(document, 'click', this.handleDocumentClick), _EventListener2.default.listen(document, 'scroll', this.handleDropdownClose)];
+  };
+
   MessageActions.prototype.componentWillUnmount = function componentWillUnmount() {
-    var hideOnScroll = this.props.hideOnScroll;
+    this.listeners.forEach(function (listener) {
+      listener.remove();
+    });
 
-    document.removeEventListener('click', this.handleDocumentClick, true);
-
-    if (hideOnScroll) {
-      document.removeEventListener('scroll', this.handleDropdownClose, true);
-    }
+    this.listeners = null;
   };
 
   MessageActions.prototype.render = function render() {
@@ -216,15 +212,10 @@ var MessageActions = function (_Component) {
 MessageActions.propTypes = {
   peer: _react.PropTypes.object.isRequired,
   message: _react.PropTypes.object.isRequired,
-  targetRect: _react.PropTypes.object.isRequired,
-  hideOnScroll: _react.PropTypes.bool.isRequired
+  targetRect: _react.PropTypes.object.isRequired
 };
 MessageActions.contextTypes = {
   intl: _react.PropTypes.object
 };
-
-
-_reactMixin2.default.onClass(MessageActions, _reactAddonsPureRenderMixin2.default);
-
 exports.default = MessageActions;
 //# sourceMappingURL=MessageActions.react.js.map

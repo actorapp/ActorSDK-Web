@@ -166,10 +166,6 @@ var ActorClient = function () {
     return ActorClient.createBindings('bindStickers', 'unbindStickers', callback);
   };
 
-  ActorClient.prototype.bindUserBlocked = function bindUserBlocked(callback) {
-    return ActorClient.createBindings('bindUserBlocked', 'unbindUserBlocked', callback);
-  };
-
   ActorClient.prototype.makeCall = function makeCall(userId) {
     return window.messenger.doCall(userId);
   };

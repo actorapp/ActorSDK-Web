@@ -18,15 +18,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _EventListener = require('fbjs/lib/EventListener');
+
+var _EventListener2 = _interopRequireDefault(_EventListener);
+
 var _reactDom = require('react-dom');
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
 var _reactIntl = require('react-intl');
 
@@ -120,24 +118,20 @@ var RecentContextMenu = function (_Component) {
       }, function () {});
     };
 
-    document.addEventListener('click', _this.handleDocumentClick, true);
-    document.addEventListener('contextmenu', _this.handleClose, true);
-
-    if (props.hideOnScroll) {
-      document.addEventListener('scroll', _this.handleClose, true);
-    }
+    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
   }
 
+  RecentContextMenu.prototype.componentDidMount = function componentDidMount() {
+    this.listeners = [_EventListener2.default.listen(document, 'click', this.handleDocumentClick), _EventListener2.default.listen(document, 'contextmenu', this.handleClose), _EventListener2.default.listen(document, 'scroll', this.handleClose)];
+  };
+
   RecentContextMenu.prototype.componentWillUnmount = function componentWillUnmount() {
-    var hideOnScroll = this.props.hideOnScroll;
+    this.listeners.forEach(function (listener) {
+      listener.remove();
+    });
 
-    document.removeEventListener('click', this.handleDocumentClick, true);
-    document.removeEventListener('contextmenu', this.handleClose, true);
-
-    if (hideOnScroll) {
-      document.removeEventListener('scroll', this.handleClose, true);
-    }
+    this.listeners = null;
   };
 
   RecentContextMenu.prototype.render = function render() {
@@ -216,15 +210,10 @@ var RecentContextMenu = function (_Component) {
 
 RecentContextMenu.propTypes = {
   peer: _react.PropTypes.object.isRequired,
-  contextPos: _react.PropTypes.object.isRequired,
-  hideOnScroll: _react.PropTypes.bool.isRequired
+  contextPos: _react.PropTypes.object.isRequired
 };
 RecentContextMenu.contextTypes = {
   intl: _react.PropTypes.object
 };
-
-
-_reactMixin2.default.onClass(RecentContextMenu, _reactAddonsPureRenderMixin2.default);
-
 exports.default = RecentContextMenu;
 //# sourceMappingURL=RecentContextMenu.react.js.map

@@ -18,13 +18,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
 var _classnames = require('classnames');
 
@@ -37,10 +31,6 @@ var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 var _EmojiUtils = require('../../../utils/EmojiUtils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015 Actor LLC. <https://actor.im>
- */
 
 var PeopleItem = function (_Component) {
   (0, _inherits3.default)(PeopleItem, _Component);
@@ -64,6 +54,7 @@ var PeopleItem = function (_Component) {
       onMouseOver();
     };
 
+    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
   }
 
@@ -94,7 +85,9 @@ var PeopleItem = function (_Component) {
   };
 
   return PeopleItem;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                      */
 
 PeopleItem.propTypes = {
   contact: _react.PropTypes.object.isRequired,
@@ -102,9 +95,5 @@ PeopleItem.propTypes = {
   onClick: _react.PropTypes.func.isRequired,
   onMouseOver: _react.PropTypes.func.isRequired
 };
-
-
-_reactMixin2.default.onClass(PeopleItem, _reactAddonsPureRenderMixin2.default);
-
 exports.default = PeopleItem;
 //# sourceMappingURL=PeopleItem.react.js.map

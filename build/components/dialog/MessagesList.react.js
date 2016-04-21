@@ -80,7 +80,7 @@ var MessagesList = function (_Component) {
     _this.dimensions = null;
     _this.isLoading = false;
 
-    _this.onScroll = _this.onScroll.bind(_this);
+    _this.onScroll = (0, _lodash.debounce)(_this.onScroll.bind(_this), 5, { maxWait: 30 });
     _this.onResize = _this.onResize.bind(_this);
     return _this;
   }
@@ -118,6 +118,8 @@ var MessagesList = function (_Component) {
         var currDimensions = scroller.getDimensions();
         scroller.scrollTo(currDimensions.scrollHeight - dimensions.scrollHeight);
       }
+    } else {
+      this.restoreScroll();
     }
   };
 

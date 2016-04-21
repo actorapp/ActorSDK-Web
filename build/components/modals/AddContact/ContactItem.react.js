@@ -18,13 +18,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
 var _AvatarItem = require('../../common/AvatarItem.react');
 
@@ -35,10 +29,6 @@ var _reactIntl = require('react-intl');
 var _EmojiUtils = require('../../../utils/EmojiUtils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
 
 var ContactItem = function (_Component) {
   (0, _inherits3.default)(ContactItem, _Component);
@@ -58,6 +48,7 @@ var ContactItem = function (_Component) {
       onSelect && onSelect(id, isContact);
     };
 
+    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
   }
 
@@ -162,7 +153,9 @@ var ContactItem = function (_Component) {
   };
 
   return ContactItem;
-}(_react.Component);
+}(_react.Component); /*
+                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                      */
 
 ContactItem.propTypes = {
   id: _react.PropTypes.number.isRequired,
@@ -180,9 +173,5 @@ ContactItem.propTypes = {
 
   onSelect: _react2.default.PropTypes.func
 };
-
-
-_reactMixin2.default.onClass(ContactItem, _reactAddonsPureRenderMixin2.default);
-
 exports.default = ContactItem;
 //# sourceMappingURL=ContactItem.react.js.map

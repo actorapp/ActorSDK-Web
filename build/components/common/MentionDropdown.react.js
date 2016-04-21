@@ -20,19 +20,17 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _EventListener = require('fbjs/lib/EventListener');
+
+var _EventListener2 = _interopRequireDefault(_EventListener);
+
 var _reactDom = require('react-dom');
 
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _reactMixin = require('react-mixin');
-
-var _reactMixin2 = _interopRequireDefault(_reactMixin);
-
 var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
-var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
@@ -66,6 +64,8 @@ var MentionDropdown = function (_Component) {
       isOpen: mentions && mentions.length > 0,
       selectedIndex: 0
     };
+
+    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
   }
 
@@ -91,13 +91,18 @@ var MentionDropdown = function (_Component) {
   };
 
   MentionDropdown.prototype.setListeners = function setListeners() {
-    document.addEventListener('keydown', this.onKeyDown, false);
-    document.addEventListener('click', this.closeMentions, false);
+    this.cleanListeners();
+    this.listeners = [_EventListener2.default.listen(document, 'keydown', this.onKeyDown), _EventListener2.default.listen(document, 'click', this.closeMentions)];
   };
 
   MentionDropdown.prototype.cleanListeners = function cleanListeners() {
-    document.removeEventListener('keydown', this.onKeyDown, false);
-    document.removeEventListener('click', this.closeMentions, false);
+    if (this.listeners) {
+      this.listeners.forEach(function (listener) {
+        listener.remove();
+      });
+
+      this.listeners = null;
+    }
   };
 
   MentionDropdown.prototype.render = function render() {
@@ -305,8 +310,6 @@ var _initialiseProps = function _initialiseProps() {
     }
   };
 };
-
-_reactMixin2.default.onClass(MentionDropdown, _reactAddonsPureRenderMixin2.default);
 
 exports.default = MentionDropdown;
 //# sourceMappingURL=MentionDropdown.react.js.map

@@ -68,10 +68,7 @@ var MessageStore = function (_ReduceStore) {
   MessageStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.BIND_DIALOG_PEER:
-        return _extends({}, state, {
-          selected: state.selected.clear(),
-          changeReason: _ActorAppConstants.MessageChangeReason.UNKNOWN
-        });
+        return this.getInitialState();
 
       case _ActorAppConstants.ActionTypes.MESSAGES_CHANGED:
         var firstMessageId = getMessageId(action.messages[0]);

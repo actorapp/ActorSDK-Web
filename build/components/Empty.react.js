@@ -6,8 +6,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactIntl = require('react-intl');
-
 var _SvgIcon = require('./common/SvgIcon.react');
 
 var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
@@ -53,11 +51,6 @@ var EmptyScreen = function (_Component) {
               'div',
               { className: 'logo' },
               _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--gray', glyph: 'star' })
-            ),
-            _react2.default.createElement(
-              'h2',
-              null,
-              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'main.empty' })
             )
           )
         )

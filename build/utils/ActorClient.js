@@ -2,15 +2,7 @@
 
 exports.__esModule = true;
 
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /*
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
@@ -18,29 +10,29 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ActorClient = function () {
   function ActorClient() {
-    (0, _classCallCheck3.default)(this, ActorClient);
+    _classCallCheck(this, ActorClient);
   }
 
   ActorClient.prototype.requestSms = function requestSms(phone) {
-    return new _promise2.default(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       window.messenger.requestSms(phone.trim(), resolve, reject);
     });
   };
 
   ActorClient.prototype.requestCodeEmail = function requestCodeEmail(email) {
-    return new _promise2.default(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       window.messenger.requestCodeEmail(email.trim(), resolve, reject);
     });
   };
 
   ActorClient.prototype.sendCode = function sendCode(code) {
-    return new _promise2.default(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       window.messenger.sendCode(code, resolve, reject);
     });
   };
 
   ActorClient.prototype.signUp = function signUp(name) {
-    return new _promise2.default(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       window.messenger.signUp(name, resolve, reject);
     });
   };

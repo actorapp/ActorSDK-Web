@@ -2,29 +2,7 @@
 
 exports.__esModule = true;
 
-var _setImmediate2 = require('babel-runtime/core-js/set-immediate');
-
-var _setImmediate3 = _interopRequireDefault(_setImmediate2);
-
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.default = confirm;
 
@@ -50,13 +28,21 @@ var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
 var Confirm = function (_Component) {
-  (0, _inherits3.default)(Confirm, _Component);
+  _inherits(Confirm, _Component);
 
   function Confirm(props) {
-    (0, _classCallCheck3.default)(this, Confirm);
+    _classCallCheck(this, Confirm);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.onKeyDown = function (event) {
       if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
@@ -65,7 +51,7 @@ var Confirm = function (_Component) {
       }
     };
 
-    _this.promise = new _promise2.default(function (resolve, reject) {
+    _this.promise = new Promise(function (resolve, reject) {
       _this.reject = reject;
       _this.resolve = resolve;
     });
@@ -133,9 +119,7 @@ var Confirm = function (_Component) {
   };
 
   return Confirm;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 Confirm.propTypes = {
   message: _react.PropTypes.oneOfType([_react.PropTypes.arrayOf(_react.PropTypes.node), _react.PropTypes.node]).isRequired,
@@ -150,11 +134,11 @@ function confirm(message) {
   element.className = 'modal-backdrop';
   var wrapper = document.body.appendChild(element);
 
-  var component = (0, _reactDom.render)((0, _react.createElement)(Confirm, (0, _extends3.default)({ message: message }, options)), wrapper);
+  var component = (0, _reactDom.render)((0, _react.createElement)(Confirm, _extends({ message: message }, options)), wrapper);
 
   function cleanup() {
     (0, _reactDom.unmountComponentAtNode)(wrapper);
-    (0, _setImmediate3.default)(function () {
+    setImmediate(function () {
       return wrapper.remove();
     });
   }

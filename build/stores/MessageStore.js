@@ -2,21 +2,7 @@
 
 exports.__esModule = true;
 
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _immutable = require('immutable');
 
@@ -32,9 +18,13 @@ var _ActorAppConstants = require('../constants/ActorAppConstants');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 var MESSAGE_COUNT_STEP = 20;
 
@@ -43,11 +33,12 @@ var getMessageId = function getMessageId(message) {
 };
 
 var MessageStore = function (_ReduceStore) {
-  (0, _inherits3.default)(MessageStore, _ReduceStore);
+  _inherits(MessageStore, _ReduceStore);
 
   function MessageStore() {
-    (0, _classCallCheck3.default)(this, MessageStore);
-    return (0, _possibleConstructorReturn3.default)(this, _ReduceStore.apply(this, arguments));
+    _classCallCheck(this, MessageStore);
+
+    return _possibleConstructorReturn(this, _ReduceStore.apply(this, arguments));
   }
 
   MessageStore.prototype.getInitialState = function getInitialState() {
@@ -77,7 +68,7 @@ var MessageStore = function (_ReduceStore) {
   MessageStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.BIND_DIALOG_PEER:
-        return (0, _extends3.default)({}, state, {
+        return _extends({}, state, {
           selected: state.selected.clear(),
           changeReason: _ActorAppConstants.MessageChangeReason.UNKNOWN
         });
@@ -87,7 +78,7 @@ var MessageStore = function (_ReduceStore) {
         var lastMessageId = getMessageId(action.messages[action.messages.length - 1]);
 
         if (firstMessageId !== state.firstMessageId) {
-          return (0, _extends3.default)({}, state, {
+          return _extends({}, state, {
             firstMessageId: firstMessageId,
             lastMessageId: lastMessageId,
             messages: action.messages,
@@ -101,7 +92,7 @@ var MessageStore = function (_ReduceStore) {
         }
 
         if (lastMessageId !== state.lastMessageId) {
-          return (0, _extends3.default)({}, state, {
+          return _extends({}, state, {
             firstMessageId: firstMessageId,
             lastMessageId: lastMessageId,
             messages: action.messages,
@@ -114,7 +105,7 @@ var MessageStore = function (_ReduceStore) {
           });
         }
 
-        return (0, _extends3.default)({}, state, {
+        return _extends({}, state, {
           firstMessageId: firstMessageId,
           lastMessageId: lastMessageId,
           messages: action.messages,
@@ -127,13 +118,13 @@ var MessageStore = function (_ReduceStore) {
         });
 
       case _ActorAppConstants.ActionTypes.MESSAGES_LOAD_MORE:
-        return (0, _extends3.default)({}, state, {
+        return _extends({}, state, {
           count: Math.min(state.messages.length, state.count + MESSAGE_COUNT_STEP),
           changeReason: _ActorAppConstants.MessageChangeReason.UNSHIFT
         });
 
       case _ActorAppConstants.ActionTypes.MESSAGES_TOGGLE_SELECTED:
-        return (0, _extends3.default)({}, state, {
+        return _extends({}, state, {
           selected: state.selected.has(action.id) ? state.selected.remove(action.id) : state.selected.add(action.id)
         });
 

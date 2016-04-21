@@ -1,15 +1,6 @@
 'use strict';
 
 exports.__esModule = true;
-
-var _assign = require('babel-runtime/core-js/object/assign');
-
-var _assign2 = _interopRequireDefault(_assign);
-
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
 exports.extendL18n = extendL18n;
 exports.getIntlData = getIntlData;
 
@@ -82,7 +73,7 @@ function buildMessages(defaultLanguage, language) {
     (function () {
       var flattenDefault = flattenMessages(defaultLanguage.messages);
       var flattenLanguage = flattenMessages(language.messages);
-      var missingKeys = (0, _keys2.default)(flattenDefault).filter(function (key) {
+      var missingKeys = Object.keys(flattenDefault).filter(function (key) {
         return !flattenLanguage[key];
       });
       if (missingKeys.length) {
@@ -130,14 +121,14 @@ function extendL18n() {
 function flattenMessages(nestedMessages) {
   var prefix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-  return (0, _keys2.default)(nestedMessages).reduce(function (messages, key) {
+  return Object.keys(nestedMessages).reduce(function (messages, key) {
     var value = nestedMessages[key];
     var prefixedKey = prefix ? prefix + '.' + key : key;
 
     if (typeof value === 'string') {
       messages[prefixedKey] = value;
     } else {
-      (0, _assign2.default)(messages, flattenMessages(value, prefixedKey));
+      Object.assign(messages, flattenMessages(value, prefixedKey));
     }
 
     return messages;

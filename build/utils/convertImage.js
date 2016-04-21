@@ -2,16 +2,10 @@
 
 exports.__esModule = true;
 
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
 var _lodash = require('lodash');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function loadImage(src) {
-  return new _promise2.default(function (resolve, reject) {
+  return new Promise(function (resolve, reject) {
     var xhr = new XMLHttpRequest();
     if (xhr.overrideMimeType) {
       xhr.overrideMimeType('text/plain; charset=x-user-defined');
@@ -99,7 +93,7 @@ function convertWebPToPNG(src) {
   });
 }
 
-var isWebPSupported = new _promise2.default(function (resolve) {
+var isWebPSupported = new Promise(function (resolve) {
   var image = new Image();
   image.onload = function () {
     return resolve(image.width === 2 && image.height === 1);
@@ -113,7 +107,7 @@ var isWebPSupported = new _promise2.default(function (resolve) {
     return true;
   }
 
-  return new _promise2.default(function (resolve) {
+  return new Promise(function (resolve) {
     require.ensure(['../vendor/libwebp-0.2.0.min'], function (require) {
       require('../vendor/libwebp-0.2.0.min');
       resolve(false);

@@ -2,18 +2,6 @@
 
 exports.__esModule = true;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -46,19 +34,27 @@ var _Stateful2 = _interopRequireDefault(_Stateful);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
 var RecentItem = function (_Component) {
-  (0, _inherits3.default)(RecentItem, _Component);
+  _inherits(RecentItem, _Component);
 
   function RecentItem() {
     var _temp, _this, _ret;
 
-    (0, _classCallCheck3.default)(this, RecentItem);
+    _classCallCheck(this, RecentItem);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onContextMenu = function (event) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onContextMenu = function (event) {
       event.preventDefault();
       var peer = _this.props.dialog.peer.peer;
 
@@ -67,7 +63,7 @@ var RecentItem = function (_Component) {
         y: event.pageY || event.clientY
       };
       _DropdownActionCreators2.default.openRecentContextMenu(contextPos, peer);
-    }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   RecentItem.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
@@ -136,9 +132,7 @@ var RecentItem = function (_Component) {
   };
 
   return RecentItem;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 RecentItem.propTypes = {
   isActive: _react.PropTypes.bool.isRequired,

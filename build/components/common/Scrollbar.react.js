@@ -2,21 +2,7 @@
 
 exports.__esModule = true;
 
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _react = require('react');
 
@@ -34,17 +20,21 @@ var _simpleScrollbar2 = _interopRequireDefault(_simpleScrollbar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 var Scrollbar = function (_Component) {
-  (0, _inherits3.default)(Scrollbar, _Component);
+  _inherits(Scrollbar, _Component);
 
   function Scrollbar(props) {
-    (0, _classCallCheck3.default)(this, Scrollbar);
+    _classCallCheck(this, Scrollbar);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.handleScroll = function (event) {
       var onScroll = _this.props.onScroll;
@@ -76,7 +66,7 @@ var Scrollbar = function (_Component) {
 
     return _react2.default.createElement(
       'div',
-      { className: wrapperClassName, ref: 'scroll', onScroll: this.handleScroll, style: (0, _extends3.default)({}, style) },
+      { className: wrapperClassName, ref: 'scroll', onScroll: this.handleScroll, style: _extends({}, style) },
       children
     );
   };

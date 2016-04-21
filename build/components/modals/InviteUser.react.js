@@ -2,21 +2,7 @@
 
 exports.__esModule = true;
 
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _react = require('react');
 
@@ -66,8 +52,16 @@ var _Stateful2 = _interopRequireDefault(_Stateful);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
 var InviteUser = function (_Component) {
-  (0, _inherits3.default)(InviteUser, _Component);
+  _inherits(InviteUser, _Component);
 
   InviteUser.getStores = function getStores() {
     return [_InviteUserStore2.default, _ContactsStore2.default];
@@ -94,9 +88,9 @@ var InviteUser = function (_Component) {
   };
 
   function InviteUser(props, context) {
-    (0, _classCallCheck3.default)(this, InviteUser);
+    _classCallCheck(this, InviteUser);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props, context));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
 
     _this.onClose = _this.onClose.bind(_this);
     _this.onSearchChange = _this.onSearchChange.bind(_this);
@@ -190,7 +184,7 @@ var InviteUser = function (_Component) {
 
       return _react2.default.createElement(
         _ContactItem2.default,
-        (0, _extends3.default)({}, contact, { className: contactClassName, key: contact.uid }),
+        _extends({}, contact, { className: contactClassName, key: contact.uid }),
         _react2.default.createElement(_Stateful2.default, {
           currentState: currentState,
           pending: _react2.default.createElement(
@@ -316,9 +310,7 @@ var InviteUser = function (_Component) {
   };
 
   return InviteUser;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 InviteUser.contextTypes = {
   intl: _react.PropTypes.object

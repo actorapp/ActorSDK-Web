@@ -2,35 +2,23 @@
 
 exports.__esModule = true;
 
-var _keys = require("babel-runtime/core-js/object/keys");
-
-var _keys2 = _interopRequireDefault(_keys);
-
-var _extends2 = require("babel-runtime/helpers/extends");
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _objectWithoutProperties2 = require("babel-runtime/helpers/objectWithoutProperties");
-
-var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
-
-var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require("babel-runtime/helpers/inherits");
-
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2016 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 var icons = {
   back: _react2.default.createElement("path", { d: "M7.8 11l5.6-5.6L12 4l-8 8 8 8 1.4-1.4L7.8 13H20v-2H7.8z" }),
@@ -46,9 +34,7 @@ var icons = {
     { transform: "translate(2.000000, 2.000000)" },
     _react2.default.createElement("path", { d: "M18.7899123,0.0761403509 L1.21026316,0.0761403509 C0.586754386,0.0761403509 0.0760526316,0.586754386 0.0760526316,1.2104386 L0.0760526316,18.79 C0.0760526316,19.4134211 0.586666667,19.9240351 1.21026316,19.9240351 L18.7899123,19.9240351 C19.4131579,19.9240351 19.9239473,19.4135088 19.9239473,18.79 L19.9239473,1.21035088 C19.9239473,0.586754386 19.4132456,0.0761403509 18.7899123,0.0761403509 L18.7899123,0.0761403509 Z M14.1954386,11.2095614 L14.1954386,19.9122807 L11.4177193,19.9122807 L11.4177193,11.2095614 L9.48824558,11.2095614 L9.48824558,8.58228067 L11.4177193,8.58228067 L11.4177193,6.33842105 C11.4177193,4.57508772 12.557193,2.95578948 15.1833333,2.95578948 C16.2467544,2.95578948 17.0329824,3.05763158 17.0329824,3.05763158 L16.9709649,5.51096491 C16.9709649,5.51096491 16.1691228,5.50315789 15.294386,5.50315789 C14.3472807,5.50315789 14.1955263,5.93964913 14.1955263,6.66394737 L14.1955263,6.78692983 L14.1955263,8.582193 L17.0465789,8.582193 L16.9222807,11.2095614 L14.1954386,11.2095614 L14.1954386,11.2095614 Z" })
   )
-}; /*
-    * Copyright (C) 2016 Actor LLC. <https://actor.im>
-    */
+};
 
 var defaultViewBox = '0 0 24 24';
 var viewBoxes = {
@@ -56,24 +42,26 @@ var viewBoxes = {
 };
 
 var SvgIcon = function (_Component) {
-  (0, _inherits3.default)(SvgIcon, _Component);
+  _inherits(SvgIcon, _Component);
 
   function SvgIcon() {
-    (0, _classCallCheck3.default)(this, SvgIcon);
-    return (0, _possibleConstructorReturn3.default)(this, _Component.apply(this, arguments));
+    _classCallCheck(this, SvgIcon);
+
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
   SvgIcon.prototype.render = function render() {
     var _props = this.props;
     var glyph = _props.glyph;
-    var props = (0, _objectWithoutProperties3.default)(_props, ["glyph"]);
+
+    var props = _objectWithoutProperties(_props, ["glyph"]);
 
     var path = icons[glyph];
     var viewBox = viewBoxes[glyph] || defaultViewBox;
 
     return _react2.default.createElement(
       "svg",
-      (0, _extends3.default)({}, props, { viewBox: viewBox }),
+      _extends({}, props, { viewBox: viewBox }),
       path
     );
   };
@@ -83,7 +71,7 @@ var SvgIcon = function (_Component) {
 
 SvgIcon.propTypes = {
   className: _react.PropTypes.string,
-  glyph: _react.PropTypes.oneOf((0, _keys2.default)(icons)).isRequired
+  glyph: _react.PropTypes.oneOf(Object.keys(icons)).isRequired
 };
 exports.default = SvgIcon;
 //# sourceMappingURL=SvgIcon.react.js.map

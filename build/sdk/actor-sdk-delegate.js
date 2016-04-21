@@ -2,13 +2,11 @@
 
 exports.__esModule = true;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
 var _lodash = require('lodash');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
+                                                                                                                                                           * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                                                                                                                                           */
 
 /**
  * Class representing a delegate for overriding default app behaviour.
@@ -22,7 +20,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ActorSDKDelegate = function ActorSDKDelegate() {
   var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-  (0, _classCallCheck3.default)(this, ActorSDKDelegate);
+
+  _classCallCheck(this, ActorSDKDelegate);
 
   if (arguments.length === 3) {
     console.error('Deprecation notice: ActorSDKDelegate constructor accept "options" parameter');
@@ -34,9 +33,7 @@ var ActorSDKDelegate = function ActorSDKDelegate() {
   }
 
   (0, _lodash.defaultsDeep)(this, options, ActorSDKDelegate.defaultOptions);
-}; /*
-    * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-    */
+};
 
 ActorSDKDelegate.defaultOptions = {
   components: {

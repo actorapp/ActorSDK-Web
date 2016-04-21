@@ -2,15 +2,7 @@
 
 exports.__esModule = true;
 
-var _map = require('babel-runtime/core-js/map');
-
-var _map2 = _interopRequireDefault(_map);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /*
  * Copyright (C) 2015 Actor LLC. <https://actor.im>
@@ -18,9 +10,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ActionCreators = function () {
   function ActionCreators() {
-    (0, _classCallCheck3.default)(this, ActionCreators);
+    _classCallCheck(this, ActionCreators);
 
-    this.bindings = new _map2.default();
+    this.bindings = new Map();
   }
 
   ActionCreators.prototype.setBindings = function setBindings(namespace, bindings) {

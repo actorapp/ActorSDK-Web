@@ -2,10 +2,6 @@
 
 exports.__esModule = true;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
@@ -32,9 +28,13 @@ var _SearchMessagesStore2 = _interopRequireDefault(_SearchMessagesStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
+                                                                                                                                                           * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                           */
+
 var SearchMessagesActionCreators = function () {
   function SearchMessagesActionCreators() {
-    (0, _classCallCheck3.default)(this, SearchMessagesActionCreators);
+    _classCallCheck(this, SearchMessagesActionCreators);
 
     this.isActivityOpenBeforeSearch = false;
   }
@@ -114,9 +114,7 @@ var SearchMessagesActionCreators = function () {
   };
 
   return SearchMessagesActionCreators;
-}(); /*
-      * Copyright (C) 2015 Actor LLC. <https://actor.im>
-      */
+}();
 
 exports.default = new SearchMessagesActionCreators();
 //# sourceMappingURL=SearchMessagesActionCreators.js.map

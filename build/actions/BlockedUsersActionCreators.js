@@ -2,10 +2,6 @@
 
 exports.__esModule = true;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
@@ -20,13 +16,13 @@ var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
+                                                                                                                                                           * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                                                                                                                                           */
 
 var BlockedUsersActionCreators = function () {
   function BlockedUsersActionCreators() {
-    (0, _classCallCheck3.default)(this, BlockedUsersActionCreators);
+    _classCallCheck(this, BlockedUsersActionCreators);
   }
 
   BlockedUsersActionCreators.prototype.open = function open() {

@@ -2,13 +2,7 @@
 
 exports.__esModule = true;
 
-var _extends2 = require('babel-runtime/helpers/extends');
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 require('babel-polyfill');
 
@@ -122,9 +116,9 @@ var _l18n = require('../l18n');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
+                                                                                                                                                           * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                                                                                                                                           */
 
 var ACTOR_INIT_EVENT = 'INIT';
 
@@ -157,7 +151,8 @@ var ActorSDK = function () {
     var _this = this;
 
     var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-    (0, _classCallCheck3.default)(this, ActorSDK);
+
+    _classCallCheck(this, ActorSDK);
 
     this._starter = function () {
       if (_crosstab2.default.supported) {
@@ -195,7 +190,7 @@ var ActorSDK = function () {
        * @returns {object} extended component
        */
       var createElement = function createElement(Component, props) {
-        return _react2.default.createElement(Component, (0, _extends3.default)({}, props, { delegate: _this.delegate, isExperimental: _this.isExperimental }));
+        return _react2.default.createElement(Component, _extends({}, props, { delegate: _this.delegate, isExperimental: _this.isExperimental }));
       };
 
       var root = _react2.default.createElement(

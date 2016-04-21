@@ -2,18 +2,6 @@
 
 exports.__esModule = true;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -92,8 +80,16 @@ var _SearchInput2 = _interopRequireDefault(_SearchInput);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
 var ToolbarSection = function (_Component) {
-  (0, _inherits3.default)(ToolbarSection, _Component);
+  _inherits(ToolbarSection, _Component);
 
   ToolbarSection.getStores = function getStores() {
     return [_DialogInfoStore2.default, _ActivityStore2.default, _OnlineStore2.default, _DialogStore2.default, _CallStore2.default, _SearchMessagesStore2.default];
@@ -129,9 +125,9 @@ var ToolbarSection = function (_Component) {
   };
 
   function ToolbarSection(props, context) {
-    (0, _classCallCheck3.default)(this, ToolbarSection);
+    _classCallCheck(this, ToolbarSection);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props, context));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
 
     _this.onFavoriteToggle = function () {
       var _this$state = _this.state;
@@ -332,9 +328,7 @@ var ToolbarSection = function (_Component) {
   };
 
   return ToolbarSection;
-}(_react.Component); /*
-                      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 ToolbarSection.contextTypes = {
   delegate: _react.PropTypes.object.isRequired

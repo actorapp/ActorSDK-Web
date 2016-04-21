@@ -2,10 +2,6 @@
 
 exports.__esModule = true;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
@@ -16,9 +12,13 @@ var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
+                                                                                                                                                           * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                                                                                                                                           */
+
 var MessageArtActionCreators = function () {
   function MessageArtActionCreators() {
-    (0, _classCallCheck3.default)(this, MessageArtActionCreators);
+    _classCallCheck(this, MessageArtActionCreators);
   }
 
   MessageArtActionCreators.prototype.open = function open() {
@@ -32,9 +32,7 @@ var MessageArtActionCreators = function () {
   };
 
   return MessageArtActionCreators;
-}(); /*
-      * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-      */
+}();
 
 exports.default = new MessageArtActionCreators();
 //# sourceMappingURL=MessageArtActionCreators.js.map

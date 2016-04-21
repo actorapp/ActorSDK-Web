@@ -2,18 +2,6 @@
 
 exports.__esModule = true;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -42,8 +30,16 @@ var _DialogStore2 = _interopRequireDefault(_DialogStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
 var MenuOverlay = function (_Component) {
-  (0, _inherits3.default)(MenuOverlay, _Component);
+  _inherits(MenuOverlay, _Component);
 
   MenuOverlay.getStores = function getStores() {
     return [_DropdownStore2.default, _DialogStore2.default];
@@ -63,8 +59,9 @@ var MenuOverlay = function (_Component) {
   };
 
   function MenuOverlay(props) {
-    (0, _classCallCheck3.default)(this, MenuOverlay);
-    return (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props));
+    _classCallCheck(this, MenuOverlay);
+
+    return _possibleConstructorReturn(this, _Component.call(this, props));
   }
 
   MenuOverlay.prototype.render = function render() {
@@ -96,9 +93,7 @@ var MenuOverlay = function (_Component) {
   };
 
   return MenuOverlay;
-}(_react.Component); /*
-                      * Copyright (C) 2015 Actor LLC. <https://actor.im>
-                      */
+}(_react.Component);
 
 exports.default = _utils.Container.create(MenuOverlay, { pure: false });
 //# sourceMappingURL=MenuOverlay.react.js.map

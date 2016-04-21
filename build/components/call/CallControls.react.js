@@ -2,18 +2,6 @@
 
 exports.__esModule = true;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -50,12 +38,21 @@ var _AddUserButton2 = _interopRequireDefault(_AddUserButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
+
 var CallControls = function (_Component) {
-  (0, _inherits3.default)(CallControls, _Component);
+  _inherits(CallControls, _Component);
 
   function CallControls() {
-    (0, _classCallCheck3.default)(this, CallControls);
-    return (0, _possibleConstructorReturn3.default)(this, _Component.apply(this, arguments));
+    _classCallCheck(this, CallControls);
+
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
   CallControls.prototype.render = function render() {
@@ -122,9 +119,7 @@ var CallControls = function (_Component) {
   };
 
   return CallControls;
-}(_react.Component); /*
-                     * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                     */
+}(_react.Component);
 
 CallControls.propTypes = {
   callState: _react.PropTypes.oneOf([_ActorAppConstants.CallStates.CALLING, _ActorAppConstants.CallStates.IN_PROGRESS, _ActorAppConstants.CallStates.CONNECTING, _ActorAppConstants.CallStates.ENDED]).isRequired,

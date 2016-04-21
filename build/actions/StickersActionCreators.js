@@ -2,10 +2,6 @@
 
 exports.__esModule = true;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
@@ -16,9 +12,13 @@ var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
+                                                                                                                                                           * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                           */
+
 var StickersActionCreators = function () {
   function StickersActionCreators() {
-    (0, _classCallCheck3.default)(this, StickersActionCreators);
+    _classCallCheck(this, StickersActionCreators);
   }
 
   StickersActionCreators.prototype.setStickers = function setStickers(stickers) {
@@ -30,9 +30,7 @@ var StickersActionCreators = function () {
   };
 
   return StickersActionCreators;
-}(); /*
-      * Copyright (C) 2015 Actor LLC. <https://actor.im>
-      */
+}();
 
 exports.default = new StickersActionCreators();
 //# sourceMappingURL=StickersActionCreators.js.map

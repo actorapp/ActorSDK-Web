@@ -2,18 +2,6 @@
 
 exports.__esModule = true;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -44,12 +32,16 @@ var _ContactItem2 = _interopRequireDefault(_ContactItem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
- * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
- */
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 var BlockedUsers = function (_Component) {
-  (0, _inherits3.default)(BlockedUsers, _Component);
+  _inherits(BlockedUsers, _Component);
 
   BlockedUsers.getStores = function getStores() {
     return [_BlockedUsersStore2.default];
@@ -60,9 +52,9 @@ var BlockedUsers = function (_Component) {
   };
 
   function BlockedUsers(props, context) {
-    (0, _classCallCheck3.default)(this, BlockedUsers);
+    _classCallCheck(this, BlockedUsers);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, _Component.call(this, props, context));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
 
     _this.onClose = _this.onClose.bind(_this);
     _this.onQueryChange = _this.onQueryChange.bind(_this);

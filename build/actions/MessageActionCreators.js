@@ -2,10 +2,6 @@
 
 exports.__esModule = true;
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
 var _lodash = require('lodash');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
@@ -20,16 +16,18 @@ var _EmojiUtils = require('../utils/EmojiUtils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
+                                                                                                                                                           * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                           */
+
 var replaceColons = function replaceColons(text) {
   _EmojiUtils.emoji.change_replace_mode('unified');
   return _EmojiUtils.emoji.replace_colons(text);
-}; /*
-    * Copyright (C) 2015 Actor LLC. <https://actor.im>
-    */
+};
 
 var MessageActionCreators = function () {
   function MessageActionCreators() {
-    (0, _classCallCheck3.default)(this, MessageActionCreators);
+    _classCallCheck(this, MessageActionCreators);
 
     this.setMessages = (0, _lodash.debounce)(this.setMessages, 10, { maxWait: 50, leading: true });
   }

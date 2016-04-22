@@ -242,16 +242,26 @@ var ActorClient = function () {
     window.messenger.onAppVisible();
   };
 
-  ActorClient.prototype.editMyName = function editMyName(string) {
-    window.messenger.editMyName(string);
-  };
-
   ActorClient.prototype.addContact = function addContact(uid) {
-    window.messenger.addContact(uid);
+    return window.messenger.addContact(uid);
   };
 
   ActorClient.prototype.removeContact = function removeContact(uid) {
-    window.messenger.removeContact(uid);
+    return window.messenger.removeContact(uid);
+  };
+
+  // Profile
+
+  ActorClient.prototype.editMyName = function editMyName(newName) {
+    return window.messenger.editMyName(newName);
+  };
+
+  ActorClient.prototype.editMyNick = function editMyNick(newNick) {
+    return window.messenger.editMyNick(newNick);
+  };
+
+  ActorClient.prototype.editMyAbout = function editMyAbout(newAbout) {
+    return window.messenger.editMyAbout(newAbout);
   };
 
   // Groups
@@ -311,22 +321,12 @@ var ActorClient = function () {
     return window.messenger.findMentions(gid, query);
   };
 
-  // Nickname
-
-  ActorClient.prototype.editMyNick = function editMyNick(string) {
-    window.messenger.editMyNick(string);
-  };
-
   ActorClient.prototype.deleteChat = function deleteChat(peer) {
     return window.messenger.deleteChat(peer);
   };
 
   ActorClient.prototype.clearChat = function clearChat(peer) {
     return window.messenger.clearChat(peer);
-  };
-
-  ActorClient.prototype.editMyAbout = function editMyAbout(about) {
-    return window.messenger.editMyAbout(about);
   };
 
   ActorClient.prototype.editGroupTitle = function editGroupTitle(gid, title) {

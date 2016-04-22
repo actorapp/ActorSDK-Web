@@ -41,14 +41,15 @@ var Stateful = function (_Component) {
 
     switch (currentState) {
       case _ActorAppConstants.AsyncActionStates.PENDING:
-        return pending || _react2.default.createElement('div', null);
+        return pending || null;
       case _ActorAppConstants.AsyncActionStates.PROCESSING:
-        return processing || _react2.default.createElement('div', null);
+        return processing || null;
       case _ActorAppConstants.AsyncActionStates.SUCCESS:
-        return success || _react2.default.createElement('div', null);
+        return success || null;
       case _ActorAppConstants.AsyncActionStates.FAILURE:
-        return failure || _react2.default.createElement('div', null);
+        return failure || null;
       default:
+        return null;
     }
   };
 

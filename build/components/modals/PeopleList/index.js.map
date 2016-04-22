@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../src/components/modals/PeopleList/index.js"],"names":[],"mappings":";;;;AAIA","file":"index.js","sourcesContent":["/*\n * Copyright (C) 2015 Actor LLC. <https://actor.im>\n */\n\nimport PeopleList from './PeopleList.react';\n\nexport default PeopleList;\n"]}

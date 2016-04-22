@@ -72,10 +72,6 @@ var _ToggleNotifications = require('../common/ToggleNotifications.react');
 
 var _ToggleNotifications2 = _interopRequireDefault(_ToggleNotifications);
 
-var _Fold = require('../common/Fold.react');
-
-var _Fold2 = _interopRequireDefault(_Fold);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -109,43 +105,6 @@ var UserProfile = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _this.addToContacts = function () {
-      return _ContactActionCreators2.default.addContact(_this.props.user.id);
-    };
-
-    _this.onNotificationChange = function (event) {
-      var peer = _this.state.peer;
-
-      _NotificationsActionCreators2.default.changeNotificationsEnabled(peer, event.target.checked);
-    };
-
-    _this.toggleActionsDropdown = function () {
-      var isActionsDropdownOpen = _this.state.isActionsDropdownOpen;
-
-
-      if (!isActionsDropdownOpen) {
-        _this.setState({ isActionsDropdownOpen: true });
-        document.addEventListener('click', _this.closeActionsDropdown, false);
-      } else {
-        _this.closeActionsDropdown();
-      }
-    };
-
-    _this.closeActionsDropdown = function () {
-      _this.setState({ isActionsDropdownOpen: false });
-      document.removeEventListener('click', _this.closeActionsDropdown, false);
-    };
-
-    _this.handleAvatarClick = function () {
-      return _ImageUtils.lightbox.open(_this.props.user.bigAvatar);
-    };
-
-    _this.makeCall = function () {
-      var user = _this.props.user;
-
-      _CallActionCreators2.default.makeCall(user.id);
-    };
-
     _this.state = {
       isMoreDropdownOpen: false
     };
@@ -154,8 +113,41 @@ var UserProfile = function (_Component) {
     _this.onDeleteChat = _this.onDeleteChat.bind(_this);
     _this.onBlockUser = _this.onBlockUser.bind(_this);
     _this.onRemoveFromContacts = _this.onRemoveFromContacts.bind(_this);
+    _this.onAddToContacts = _this.onAddToContacts.bind(_this);
+    _this.onNotificationChange = _this.onNotificationChange.bind(_this);
+    _this.closeActionsDropdown = _this.closeActionsDropdown.bind(_this);
+    _this.toggleActionsDropdown = _this.toggleActionsDropdown.bind(_this);
+    _this.handleAvatarClick = _this.handleAvatarClick.bind(_this);
+    _this.makeCall = _this.makeCall.bind(_this);
     return _this;
   }
+
+  UserProfile.prototype.onAddToContacts = function onAddToContacts() {
+    _ContactActionCreators2.default.addContact(this.props.user.id);
+  };
+
+  UserProfile.prototype.onNotificationChange = function onNotificationChange(event) {
+    var peer = this.state.peer;
+
+    _NotificationsActionCreators2.default.changeNotificationsEnabled(peer, event.target.checked);
+  };
+
+  UserProfile.prototype.toggleActionsDropdown = function toggleActionsDropdown() {
+    var isActionsDropdownOpen = this.state.isActionsDropdownOpen;
+
+
+    if (!isActionsDropdownOpen) {
+      this.setState({ isActionsDropdownOpen: true });
+      document.addEventListener('click', this.closeActionsDropdown, false);
+    } else {
+      this.closeActionsDropdown();
+    }
+  };
+
+  UserProfile.prototype.closeActionsDropdown = function closeActionsDropdown() {
+    this.setState({ isActionsDropdownOpen: false });
+    document.removeEventListener('click', this.closeActionsDropdown, false);
+  };
 
   UserProfile.prototype.onClearChat = function onClearChat() {
     var user = this.props.user;
@@ -193,9 +185,47 @@ var UserProfile = function (_Component) {
     }, function () {});
   };
 
+  UserProfile.prototype.handleAvatarClick = function handleAvatarClick() {
+    _ImageUtils.lightbox.open(this.props.user.bigAvatar);
+  };
+
+  UserProfile.prototype.makeCall = function makeCall() {
+    var user = this.props.user;
+
+    _CallActionCreators2.default.makeCall(user.id);
+  };
+
+  UserProfile.prototype.renderAbout = function renderAbout() {
+    var about = this.props.user.about;
+
+    if (!about) return null;
+
+    return _react2.default.createElement('div', {
+      className: 'user_profile__meta__about',
+      dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(about).replace(/\n/g, '<br/>') } });
+  };
+
+  UserProfile.prototype.renderToggleContact = function renderToggleContact() {
+    var isContact = this.props.user.isContact;
+
+
+    if (isContact) {
+      return _react2.default.createElement(
+        'li',
+        { className: 'dropdown__menu__item', onClick: this.onRemoveFromContacts },
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'removeFromContacts' })
+      );
+    }
+
+    return _react2.default.createElement(
+      'li',
+      { className: 'dropdown__menu__item', onClick: this.onAddToContacts },
+      _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'addToContacts' })
+    );
+  };
+
   UserProfile.prototype.render = function render() {
     var user = this.props.user;
-    var intl = this.context.intl;
     var _state = this.state;
     var isNotificationsEnabled = _state.isNotificationsEnabled;
     var isActionsDropdownOpen = _state.isActionsDropdownOpen;
@@ -230,8 +260,7 @@ var UserProfile = function (_Component) {
               message
             )
           ),
-          user.about ? _react2.default.createElement('div', { className: 'user_profile__meta__about',
-            dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(user.about).replace(/\n/g, '<br/>') } }) : null,
+          this.renderAbout(),
           _react2.default.createElement(
             'footer',
             { className: 'row' },
@@ -246,7 +275,7 @@ var UserProfile = function (_Component) {
                   { className: 'material-icons' },
                   'phone'
                 ),
-                intl.messages['button.call']
+                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.call' })
               )
             ),
             _react2.default.createElement('div', { style: { width: 10 } }),
@@ -264,34 +293,26 @@ var UserProfile = function (_Component) {
                     { className: 'material-icons' },
                     'more_horiz'
                   ),
-                  intl.messages['actions']
+                  _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'actions' })
                 ),
                 _react2.default.createElement(
                   'ul',
                   { className: 'dropdown__menu dropdown__menu--right' },
-                  user.isContact ? _react2.default.createElement(
-                    'li',
-                    { className: 'dropdown__menu__item', onClick: this.onRemoveFromContacts },
-                    intl.messages['removeFromContacts']
-                  ) : _react2.default.createElement(
-                    'li',
-                    { className: 'dropdown__menu__item', onClick: this.addToContacts },
-                    intl.messages['addToContacts']
-                  ),
+                  this.renderToggleContact(),
                   _react2.default.createElement(
                     'li',
                     { className: 'dropdown__menu__item', onClick: this.onBlockUser },
-                    intl.messages['blockUser']
+                    _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'blockUser' })
                   ),
                   _react2.default.createElement(
                     'li',
                     { className: 'dropdown__menu__item', onClick: this.onClearChat },
-                    intl.messages['clearConversation']
+                    _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'clearConversation' })
                   ),
                   _react2.default.createElement(
                     'li',
                     { className: 'dropdown__menu__item', onClick: this.onDeleteChat },
-                    intl.messages['deleteConversation']
+                    _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'deleteConversation' })
                   )
                 )
               )
@@ -305,47 +326,10 @@ var UserProfile = function (_Component) {
         ),
         _react2.default.createElement(
           'li',
-          { className: 'profile__list__item user_profile__media no-p hide' },
-          _react2.default.createElement(
-            _Fold2.default,
-            { icon: 'attach_file', iconClassName: 'icon--gray', title: intl.messages['sharedMedia'] },
-            _react2.default.createElement(
-              'ul',
-              null,
-              _react2.default.createElement(
-                'li',
-                null,
-                _react2.default.createElement(
-                  'a',
-                  null,
-                  '230 Shared Photos and Videos'
-                )
-              ),
-              _react2.default.createElement(
-                'li',
-                null,
-                _react2.default.createElement(
-                  'a',
-                  null,
-                  '49 Shared Links'
-                )
-              ),
-              _react2.default.createElement(
-                'li',
-                null,
-                _react2.default.createElement(
-                  'a',
-                  null,
-                  '49 Shared Files'
-                )
-              )
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'li',
           { className: 'profile__list__item user_profile__notifications no-p' },
-          _react2.default.createElement(_ToggleNotifications2.default, { isNotificationsEnabled: isNotificationsEnabled, onNotificationChange: this.onNotificationChange })
+          _react2.default.createElement(_ToggleNotifications2.default, {
+            isNotificationsEnabled: isNotificationsEnabled,
+            onNotificationChange: this.onNotificationChange })
         )
       )
     );
@@ -354,9 +338,6 @@ var UserProfile = function (_Component) {
   return UserProfile;
 }(_react.Component);
 
-UserProfile.contextTypes = {
-  intl: _react.PropTypes.object
-};
 UserProfile.propTypes = {
   user: _react.PropTypes.object.isRequired
 };

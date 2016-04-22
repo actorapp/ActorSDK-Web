@@ -31,14 +31,23 @@ exports.default = {
     _ComposeActionCreators2.default.toggleAutoFocus(true);
   },
   save: function save(preferences) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.PREFERENCES_SAVE, {
-      preferences: preferences
-    });
+    var isSendByEnterEnabled = preferences.isSendByEnterEnabled;
+    var isSoundEffectsEnabled = preferences.isSoundEffectsEnabled;
+    var isGroupsNotificationsEnabled = preferences.isGroupsNotificationsEnabled;
+    var isOnlyMentionNotifications = preferences.isOnlyMentionNotifications;
+    var isShowNotificationsTextEnabled = preferences.isShowNotificationsTextEnabled;
+
+
+    _ActorClient2.default.changeSendByEnter(isSendByEnterEnabled);
+    _ActorClient2.default.changeSoundEffectsEnabled(isSoundEffectsEnabled);
+    _ActorClient2.default.changeGroupNotificationsEnabled(isGroupsNotificationsEnabled);
+    _ActorClient2.default.changeIsOnlyMentionNotifications(isOnlyMentionNotifications);
+    _ActorClient2.default.changeIsShowNotificationTextEnabled(isShowNotificationsTextEnabled);
+
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.PREFERENCES_SAVE, { preferences: preferences });
   },
   changeTab: function changeTab(tab) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.PREFERENCES_CHANGE_TAB, {
-      tab: tab
-    });
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.PREFERENCES_CHANGE_TAB, { tab: tab });
   },
   loadSessions: function loadSessions() {
     (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.loadSessions(), {

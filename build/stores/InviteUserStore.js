@@ -33,8 +33,6 @@ var InviteUserStore = function (_ReduceStore) {
 
   InviteUserStore.prototype.getInitialState = function getInitialState() {
     return {
-      isOpen: false,
-      isInviteByLinkOpen: false,
       query: null,
       group: null,
       inviteUrl: null,
@@ -48,26 +46,18 @@ var InviteUserStore = function (_ReduceStore) {
         return _extends({}, state, {
           group: action.info
         });
+
       case _ActorAppConstants.ActionTypes.INVITE_USER_MODAL_SHOW:
         return _extends({}, state, {
-          isOpen: true,
           group: action.group
         });
       case _ActorAppConstants.ActionTypes.INVITE_USER_MODAL_HIDE:
         return this.getInitialState();
+
       case _ActorAppConstants.ActionTypes.INVITE_USER_BY_LINK_MODAL_SHOW:
         return _extends({}, state, {
-          isInviteByLinkOpen: true,
           group: action.group,
           inviteUrl: action.url
-        });
-      case _ActorAppConstants.ActionTypes.INVITE_USER_QUERY_CHANGE:
-        return _extends({}, state, {
-          query: action.query
-        });
-      case _ActorAppConstants.ActionTypes.INVITE_USER_BY_LINK_MODAL_HIDE:
-        return _extends({}, state, {
-          isInviteByLinkOpen: false
         });
 
       // Invite user
@@ -86,14 +76,6 @@ var InviteUserStore = function (_ReduceStore) {
       default:
         return state;
     }
-  };
-
-  InviteUserStore.prototype.isModalOpen = function isModalOpen() {
-    return this.getState().isOpen;
-  };
-
-  InviteUserStore.prototype.isInviteWithLinkModalOpen = function isInviteWithLinkModalOpen() {
-    return this.getState().isInviteByLinkOpen;
   };
 
   InviteUserStore.prototype.getGroup = function getGroup() {

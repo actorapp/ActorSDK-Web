@@ -72,10 +72,21 @@ var Confirm = function (_Component) {
     document.removeEventListener('keydown', this.onKeyDown, false);
   };
 
+  Confirm.prototype.renderDescription = function renderDescription() {
+    var description = this.props.description;
+
+    if (!description) return null;
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'modal__body' },
+      description
+    );
+  };
+
   Confirm.prototype.render = function render() {
     var _props = this.props;
     var message = _props.message;
-    var description = _props.description;
     var abortLabel = _props.abortLabel;
     var confirmLabel = _props.confirmLabel;
 
@@ -85,33 +96,37 @@ var Confirm = function (_Component) {
       this.intlData,
       _react2.default.createElement(
         'div',
-        { className: 'modal modal--confirm' },
+        { className: 'modal' },
         _react2.default.createElement(
-          'header',
-          { className: 'modal__header' },
-          _react2.default.createElement(
-            'h4',
-            { className: 'modal__header__title' },
-            message
-          )
-        ),
-        description ? _react2.default.createElement(
           'div',
-          { className: 'modal__body' },
-          description
-        ) : null,
-        _react2.default.createElement(
-          'footer',
-          { className: 'modal__footer text-right' },
+          { className: 'confirm' },
           _react2.default.createElement(
-            'button',
-            { className: 'button', onClick: this.reject },
-            abortLabel || _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.cancel' })
-          ),
-          _react2.default.createElement(
-            'button',
-            { className: 'button button--lightblue', onClick: this.resolve, ref: 'confirm' },
-            confirmLabel || _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.ok' })
+            'div',
+            { className: 'modal__content' },
+            _react2.default.createElement(
+              'header',
+              { className: 'modal__header' },
+              _react2.default.createElement(
+                'h1',
+                null,
+                message
+              )
+            ),
+            this.renderDescription(),
+            _react2.default.createElement(
+              'footer',
+              { className: 'modal__footer text-right' },
+              _react2.default.createElement(
+                'button',
+                { className: 'button', onClick: this.reject },
+                abortLabel || _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.cancel' })
+              ),
+              _react2.default.createElement(
+                'button',
+                { className: 'button button--lightblue', onClick: this.resolve, ref: 'confirm' },
+                confirmLabel || _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.ok' })
+              )
+            )
           )
         )
       )
@@ -122,7 +137,7 @@ var Confirm = function (_Component) {
 }(_react.Component);
 
 Confirm.propTypes = {
-  message: _react.PropTypes.oneOfType([_react.PropTypes.arrayOf(_react.PropTypes.node), _react.PropTypes.node]).isRequired,
+  message: _react.PropTypes.node.isRequired,
   description: _react.PropTypes.string,
   abortLabel: _react.PropTypes.string,
   confirmLabel: _react.PropTypes.string
@@ -131,7 +146,7 @@ function confirm(message) {
   var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
   var element = document.createElement('div');
-  element.className = 'modal-backdrop';
+  element.className = 'modal-overlay';
   var wrapper = document.body.appendChild(element);
 
   var component = (0, _reactDom.render)((0, _react.createElement)(Confirm, _extends({ message: message }, options)), wrapper);

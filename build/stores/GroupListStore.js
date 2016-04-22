@@ -2,8 +2,6 @@
 
 exports.__esModule = true;
 
-var _lodash = require('lodash');
-
 var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
@@ -19,104 +17,36 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var _isOpen = false,
-    _list = [],
-    _results = [];
+var GroupListStore = function (_ReduceStore) {
+  _inherits(GroupListStore, _ReduceStore);
 
-/**
- * Class representing a store for searchable group list.
- */
+  function GroupListStore() {
+    _classCallCheck(this, GroupListStore);
 
-var GroupStore = function (_Store) {
-  _inherits(GroupStore, _Store);
-
-  function GroupStore(dispatcher) {
-    _classCallCheck(this, GroupStore);
-
-    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
+    return _possibleConstructorReturn(this, _ReduceStore.apply(this, arguments));
   }
 
-  /**
-   * @returns {boolean}
-   */
-
-
-  GroupStore.prototype.isOpen = function isOpen() {
-    return _isOpen;
+  GroupListStore.prototype.getInitialState = function getInitialState() {
+    return [];
   };
 
-  /**
-   * @returns {Array}
-   */
-
-
-  GroupStore.prototype.getList = function getList() {
-    return _list;
-  };
-
-  /**
-   * @returns {Array}
-   */
-
-
-  GroupStore.prototype.getResults = function getResults() {
-    return _results;
-  };
-
-  GroupStore.prototype.handleSearchQuery = function handleSearchQuery(query) {
-    var results = [];
-
-    if (query === '') {
-      results = _list;
-    } else {
-      (0, _lodash.forEach)(_list, function (result) {
-        var title = result.peerInfo.title.toLowerCase();
-        if (title.includes(query.toLowerCase())) {
-          results.push(result);
-        }
-      });
-    }
-
-    _results = results;
-  };
-
-  GroupStore.prototype.__onDispatch = function __onDispatch(action) {
+  GroupListStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
-      case _ActorAppConstants.ActionTypes.GROUP_LIST_SHOW:
-        _isOpen = true;
-        this.handleSearchQuery('');
-        this.__emitChange();
-        break;
-      case _ActorAppConstants.ActionTypes.GROUP_LIST_HIDE:
-        _isOpen = false;
-        _results = [];
-        this.__emitChange();
-        break;
-
       case _ActorAppConstants.ActionTypes.GROUP_LIST_LOAD_SUCCESS:
-        _list = action.response;
-        this.handleSearchQuery('');
-        this.__emitChange();
-        break;
+        return action.response;
       case _ActorAppConstants.ActionTypes.GROUP_LIST_LOAD_ERROR:
         console.error(action.error);
-        this.__emitChange();
-        break;
-
-      case _ActorAppConstants.ActionTypes.GROUP_LIST_SEARCH:
-        this.handleSearchQuery(action.query);
-        this.__emitChange();
-        break;
-
+        return state;
       default:
+        return state;
     }
   };
 
-  return GroupStore;
-}(_utils.Store);
+  return GroupListStore;
+}(_utils.ReduceStore);
 
-exports.default = new GroupStore(_ActorAppDispatcher2.default);
+exports.default = new GroupListStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=GroupListStore.js.map

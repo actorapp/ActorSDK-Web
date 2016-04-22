@@ -16,7 +16,7 @@ var _fuzzaldrin = require('fuzzaldrin');
 
 var _fuzzaldrin2 = _interopRequireDefault(_fuzzaldrin);
 
-var _ActorAppConstants = require('../../constants/ActorAppConstants');
+var _reactIntl = require('react-intl');
 
 var _BlockedUsersActionCreators = require('../../actions/BlockedUsersActionCreators');
 
@@ -56,22 +56,13 @@ var BlockedUsers = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
 
-    _this.onClose = _this.onClose.bind(_this);
+    _this.handleClose = _this.handleClose.bind(_this);
     _this.onQueryChange = _this.onQueryChange.bind(_this);
     _this.onUnblock = _this.onUnblock.bind(_this);
-    _this.onKeyDown = _this.onKeyDown.bind(_this);
     return _this;
   }
 
-  BlockedUsers.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
-    if (nextState.isOpen && !this.state.isOpen) {
-      document.addEventListener('keydown', this.onKeyDown, false);
-    } else if (!nextState.isOpen && this.state.isOpen) {
-      document.removeEventListener('keydown', this.onKeyDown, false);
-    }
-  };
-
-  BlockedUsers.prototype.onClose = function onClose() {
+  BlockedUsers.prototype.handleClose = function handleClose() {
     _BlockedUsersActionCreators2.default.hide();
   };
 
@@ -87,22 +78,13 @@ var BlockedUsers = function (_Component) {
     _BlockedUsersActionCreators2.default.loadUsers();
   };
 
-  BlockedUsers.prototype.onKeyDown = function onKeyDown(event) {
-    if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
-      event.preventDefault();
-      this.onClose();
-    }
-  };
-
   BlockedUsers.prototype.getUsers = function getUsers() {
     var _state = this.state;
     var users = _state.users;
     var query = _state.query;
 
 
-    if (!query) {
-      return users;
-    }
+    if (!query || query === '') return users;
 
     return users.filter(function (user) {
       var score = _fuzzaldrin2.default.score(user.name, query);
@@ -113,15 +95,14 @@ var BlockedUsers = function (_Component) {
   BlockedUsers.prototype.renderUsers = function renderUsers() {
     var _this2 = this;
 
-    var intl = this.context.intl;
     var users = this.state.users;
 
 
     if (!users.length) {
       return _react2.default.createElement(
-        'li',
+        'div',
         { className: 'contacts__list__item contacts__list__item--empty text-center' },
-        intl.messages['blockedUsersNotExists']
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.blockedUsers.notExists' })
       );
     }
 
@@ -129,9 +110,9 @@ var BlockedUsers = function (_Component) {
 
     if (!filtredUsers.length) {
       return _react2.default.createElement(
-        'li',
+        'div',
         { className: 'contacts__list__item contacts__list__item--empty text-center' },
-        intl.messages['blockedUsersNotFound']
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.blockedUsers.notFound' })
       );
     }
 
@@ -150,100 +131,74 @@ var BlockedUsers = function (_Component) {
           { className: 'button button--lightblue', onClick: function onClick() {
               return _this2.onUnblock(user.id);
             } },
-          intl.messages['blockedUsersUnblock']
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.blockedUsers.unblock' })
         )
       );
     });
   };
 
-  BlockedUsers.prototype.getStyles = function getStyles() {
-    return {
-      content: {
-        position: null,
-        top: null,
-        left: null,
-        right: null,
-        bottom: null,
-        border: null,
-        background: null,
-        overflow: null,
-        outline: null,
-        padding: null,
-        borderRadius: null,
-        width: 440
-      }
-    };
+  BlockedUsers.prototype.renderSearch = function renderSearch() {
+    var intl = this.context.intl;
+    var query = this.state.query;
+
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'small-search' },
+      _react2.default.createElement(
+        'i',
+        { className: 'material-icons' },
+        'search'
+      ),
+      _react2.default.createElement('input', {
+        className: 'input',
+        type: 'search',
+        value: query,
+        placeholder: intl.messages['modal.blockedUsers.search'],
+        onChange: this.onQueryChange
+      })
+    );
   };
 
   BlockedUsers.prototype.render = function render() {
-    var _state2 = this.state;
-    var isOpen = _state2.isOpen;
-    var query = _state2.query;
-    var intl = this.context.intl;
-
-
-    if (!isOpen) {
-      return null;
-    }
-
     return _react2.default.createElement(
       _reactModal2.default,
       {
-        className: 'modal-new modal-new--invite contacts',
-        closeTimeoutMS: 150,
-        isOpen: isOpen,
-        style: this.getStyles()
-      },
-      _react2.default.createElement(
-        'header',
-        { className: 'modal-new__header' },
-        _react2.default.createElement(
-          'a',
-          { className: 'modal-new__header__icon material-icons' },
-          'block'
-        ),
-        _react2.default.createElement(
-          'h3',
-          { className: 'modal-new__header__title' },
-          intl.messages['blockedUsersTitle']
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'pull-right' },
-          _react2.default.createElement(
-            'button',
-            { className: 'button button--lightblue', onClick: this.onClose },
-            intl.messages['button.done']
-          )
-        )
-      ),
+        overlayClassName: 'modal-overlay',
+        className: 'modal',
+        onRequestClose: this.handleClose,
+        isOpen: true },
       _react2.default.createElement(
         'div',
-        { className: 'modal-new__body' },
+        { className: 'blocked-users' },
         _react2.default.createElement(
           'div',
-          { className: 'modal-new__search' },
+          { className: 'modal__content' },
           _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'search'
+            'header',
+            { className: 'modal__header' },
+            _react2.default.createElement(
+              'a',
+              { className: 'modal__header__icon material-icons' },
+              'block'
+            ),
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.blockedUsers.title', tagName: 'h1' }),
+            _react2.default.createElement(
+              'button',
+              { className: 'button button--lightblue', onClick: this.handleClose },
+              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.done' })
+            )
           ),
-          _react2.default.createElement('input', {
-            className: 'input input--search',
-            type: 'search',
-            value: query,
-            placeholder: intl.messages['blockedUsersSearch'],
-            onChange: this.onQueryChange
-          })
-        )
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'contacts__body' },
-        _react2.default.createElement(
-          'ul',
-          { className: 'contacts__list' },
-          this.renderUsers()
+          _react2.default.createElement(
+            'div',
+            { className: 'modal__body' },
+            this.renderSearch()
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'contacts__list' },
+            this.renderUsers()
+          )
         )
       )
     );

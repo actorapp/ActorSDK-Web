@@ -30,22 +30,16 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var CreateGroupActionCreators = {
   open: function open() {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_OPEN);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_SHOW);
     _ComposeActionCreators2.default.toggleAutoFocus(false);
   },
   close: function close() {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_CLOSE);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_CREATE_MODAL_HIDE);
     _ComposeActionCreators2.default.toggleAutoFocus(true);
   },
   setGroupName: function setGroupName(name) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_CREATE_SET_NAME, { name: name });
   },
-
-
-  //setGroupAvatar(avatar) {
-  //  dispatch(ActionTypes.GROUP_CREATE_SET_AVATAR, { avatar });
-  //},
-
   setSelectedUserIds: function setSelectedUserIds(selectedUserIds) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_CREATE_SET_MEMBERS, { selectedUserIds: selectedUserIds });
   },

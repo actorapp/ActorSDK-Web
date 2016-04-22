@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../../../src/components/modals/CreateGroup/index.js"],"names":[],"mappings":";;;;AAIA","file":"index.js","sourcesContent":["/*\n * Copyright (C) 2015 Actor LLC. <https://actor.im>\n */\n\nimport CreateGroup from './CreateGroup.react';\n\nexport default CreateGroup;\n"]}

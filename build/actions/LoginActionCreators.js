@@ -26,9 +26,9 @@ var _ActionCreators2 = require('./ActionCreators');
 
 var _ActionCreators3 = _interopRequireDefault(_ActionCreators2);
 
-var _MyProfileActionCreators = require('./MyProfileActionCreators');
+var _ProfileActionCreators = require('./ProfileActionCreators');
 
-var _MyProfileActionCreators2 = _interopRequireDefault(_MyProfileActionCreators);
+var _ProfileActionCreators2 = _interopRequireDefault(_ProfileActionCreators);
 
 var _DialogActionCreators = require('./DialogActionCreators');
 
@@ -173,7 +173,7 @@ var LoginActionCreators = function (_ActionCreators) {
       _history2.default.replace(nextPathname);
     }
 
-    this.setBindings('main', [_ActorClient2.default.bindUser(_ActorClient2.default.getUid(), _MyProfileActionCreators2.default.onProfileChanged), _ActorClient2.default.bindGroupDialogs(_DialogActionCreators2.default.setDialogs), _ActorClient2.default.bindContacts(_ContactActionCreators2.default.setContacts), _ActorClient2.default.bindSearch(_QuickSearchActionCreators2.default.setQuickSearchList), _ActorClient2.default.bindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon), _ActorClient2.default.bindEventBus(_EventBusActionCreators2.default.broadcastEvent), _ActorClient2.default.bindStickers(_StickersActionCreators2.default.setStickers)]);
+    this.setBindings('main', [_ActorClient2.default.bindUser(_ActorClient2.default.getUid(), _ProfileActionCreators2.default.setProfile), _ActorClient2.default.bindGroupDialogs(_DialogActionCreators2.default.setDialogs), _ActorClient2.default.bindContacts(_ContactActionCreators2.default.setContacts), _ActorClient2.default.bindSearch(_QuickSearchActionCreators2.default.setQuickSearchList), _ActorClient2.default.bindTempGlobalCounter(_FaviconActionCreators2.default.setFavicon), _ActorClient2.default.bindEventBus(_EventBusActionCreators2.default.broadcastEvent), _ActorClient2.default.bindStickers(_StickersActionCreators2.default.setStickers)]);
 
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_SET_LOGGED_IN);
   };

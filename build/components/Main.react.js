@@ -6,17 +6,11 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _ActorAppConstants = require('../constants/ActorAppConstants');
-
 var _EmojiUtils = require('../utils/EmojiUtils');
 
 var _VisibilityActionCreators = require('../actions/VisibilityActionCreators');
 
 var _VisibilityActionCreators2 = _interopRequireDefault(_VisibilityActionCreators);
-
-var _QuickSearchActionCreators = require('../actions/QuickSearchActionCreators');
-
-var _QuickSearchActionCreators2 = _interopRequireDefault(_QuickSearchActionCreators);
 
 var _Sidebar = require('./Sidebar.react');
 
@@ -33,22 +27,6 @@ var _ModalsWrapper2 = _interopRequireDefault(_ModalsWrapper);
 var _MenuOverlay = require('./common/MenuOverlay.react');
 
 var _MenuOverlay2 = _interopRequireDefault(_MenuOverlay);
-
-var _InviteUser = require('./modals/InviteUser.react');
-
-var _InviteUser2 = _interopRequireDefault(_InviteUser);
-
-var _BlockedUsers = require('./modals/BlockedUsers.react');
-
-var _BlockedUsers2 = _interopRequireDefault(_BlockedUsers);
-
-var _InviteByLink = require('./modals/invite-user/InviteByLink.react');
-
-var _InviteByLink2 = _interopRequireDefault(_InviteByLink);
-
-var _EditGroup = require('./modals/EditGroup.react');
-
-var _EditGroup2 = _interopRequireDefault(_EditGroup);
 
 var _SmallCall = require('./SmallCall.react');
 
@@ -71,6 +49,7 @@ var Main = function (_Component) {
     _classCallCheck(this, Main);
 
     // Preload emoji spritesheet
+    // TODO: Fix! Its not working properly.
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
@@ -82,15 +61,6 @@ var Main = function (_Component) {
       }
     };
 
-    _this.onKeyDown = function (event) {
-      // TODO: Make this hotkey work on windows
-      if (event.keyCode === _ActorAppConstants.KeyCodes.K && event.metaKey) {
-        event.stopPropagation();
-        event.preventDefault();
-        _QuickSearchActionCreators2.default.show();
-      }
-    };
-
     (0, _EmojiUtils.preloadEmojiSheet)();
     return _this;
   }
@@ -98,12 +68,10 @@ var Main = function (_Component) {
   Main.prototype.componentDidMount = function componentDidMount() {
     this.onVisibilityChange();
     document.addEventListener('visibilitychange', this.onVisibilityChange);
-    document.addEventListener('keydown', this.onKeyDown, false);
   };
 
   Main.prototype.componentWillUnmount = function componentWillUnmount() {
     document.removeEventListener('visibilitychange', this.onVisibilityChange);
-    document.removeEventListener('keydown', this.onKeyDown, false);
   };
 
   Main.prototype.renderCall = function renderCall() {
@@ -130,10 +98,6 @@ var Main = function (_Component) {
       this.props.children,
       _react2.default.createElement(_ModalsWrapper2.default, null),
       _react2.default.createElement(_MenuOverlay2.default, null),
-      _react2.default.createElement(_InviteUser2.default, null),
-      _react2.default.createElement(_BlockedUsers2.default, null),
-      _react2.default.createElement(_InviteByLink2.default, null),
-      _react2.default.createElement(_EditGroup2.default, null),
       this.renderCall()
     );
   };

@@ -2,7 +2,7 @@
 
 exports.__esModule = true;
 
-var _lodash = require('lodash');
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _utils = require('flux/utils');
 
@@ -22,71 +22,38 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var _isOpen = false,
-    _list = [],
-    _results = [];
+var QuickSearchStore = function (_ReduceStore) {
+  _inherits(QuickSearchStore, _ReduceStore);
 
-var QuickSearchStore = function (_Store) {
-  _inherits(QuickSearchStore, _Store);
-
-  function QuickSearchStore(dispatcher) {
+  function QuickSearchStore() {
     _classCallCheck(this, QuickSearchStore);
 
-    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
+    return _possibleConstructorReturn(this, _ReduceStore.apply(this, arguments));
   }
 
-  QuickSearchStore.prototype.isOpen = function isOpen() {
-    return _isOpen;
+  QuickSearchStore.prototype.getInitialState = function getInitialState() {
+    return {
+      list: []
+    };
   };
 
-  QuickSearchStore.prototype.getResults = function getResults() {
-    return _results;
-  };
-
-  QuickSearchStore.prototype.handleSearchQuery = function handleSearchQuery(query) {
-    var results = [];
-
-    if (query === '') {
-      results = _list;
-    } else {
-      (0, _lodash.forEach)(_list, function (result) {
-        if (result.peerInfo.title.toLowerCase().includes(query.toLowerCase())) {
-          results.push(result);
-        }
-      });
-    }
-
-    _results = results;
-    this.__emitChange();
-  };
-
-  QuickSearchStore.prototype.__onDispatch = function __onDispatch(action) {
+  QuickSearchStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
-      case _ActorAppConstants.ActionTypes.QUICK_SEARCH_SHOW:
-        _isOpen = true;
-        this.handleSearchQuery('');
-        this.__emitChange();
-        break;
-
-      case _ActorAppConstants.ActionTypes.QUICK_SEARCH_HIDE:
-        _isOpen = false;
-        _results = [];
-        this.__emitChange();
-        break;
-
       case _ActorAppConstants.ActionTypes.QUICK_SEARCH_CHANGED:
-        _list = action.list;
-        this.__emitChange();
-        break;
-
-      case _ActorAppConstants.ActionTypes.QUICK_SEARCH:
-        this.handleSearchQuery(action.query);
-        break;
+        return _extends({}, state, {
+          list: action.list
+        });
+      default:
+        return state;
     }
+  };
+
+  QuickSearchStore.prototype.getList = function getList() {
+    return this.getState().list;
   };
 
   return QuickSearchStore;
-}(_utils.Store);
+}(_utils.ReduceStore);
 
 exports.default = new QuickSearchStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=QuickSearchStore.js.map

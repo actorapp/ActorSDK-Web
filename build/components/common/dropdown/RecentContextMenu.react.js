@@ -102,10 +102,9 @@ var RecentContextMenu = function (_Component) {
     };
 
     _this.handleDelete = function () {
-      var intl = _this.context.intl;
       var peer = _this.props.peer;
 
-      (0, _confirm2.default)(intl.messages['modal.confirm.delete']).then(function () {
+      (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.delete' })).then(function () {
         return _DialogActionCreators2.default.deleteChat(peer);
       }, function () {});
     };

@@ -122,7 +122,7 @@ var TextField = function (_Component) {
 
 TextField.propTypes = {
   className: _react.PropTypes.string,
-  floatingLabel: _react.PropTypes.oneOfType([_react.PropTypes.node, _react.PropTypes.string]),
+  floatingLabel: _react.PropTypes.node,
   type: _react.PropTypes.string,
   value: _react.PropTypes.string,
   ref: _react.PropTypes.string,

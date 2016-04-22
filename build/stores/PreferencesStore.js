@@ -2,6 +2,8 @@
 
 exports.__esModule = true;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
@@ -24,22 +26,50 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var _isOpen = false,
-    _sessions = [],
-    _currentTab = 'GENERAL',
-    _terminateSessionState = [];
+var PreferencesStore = function (_ReduceStore) {
+  _inherits(PreferencesStore, _ReduceStore);
 
-var PreferencesStore = function (_Store) {
-  _inherits(PreferencesStore, _Store);
-
-  function PreferencesStore(Dispatcher) {
+  function PreferencesStore() {
     _classCallCheck(this, PreferencesStore);
 
-    return _possibleConstructorReturn(this, _Store.call(this, Dispatcher));
+    return _possibleConstructorReturn(this, _ReduceStore.apply(this, arguments));
   }
 
-  PreferencesStore.prototype.isOpen = function isOpen() {
-    return _isOpen;
+  PreferencesStore.prototype.getInitialState = function getInitialState() {
+    return {
+      sessions: [],
+      currentTab: _ActorAppConstants.PreferencesTabTypes.GENERAL,
+      terminateState: {}
+    };
+  };
+
+  PreferencesStore.prototype.reduce = function reduce(state, action) {
+    switch (action.type) {
+      case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_LOAD_SUCCESS:
+        return _extends({}, state, {
+          sessions: action.response
+        });
+      case _ActorAppConstants.ActionTypes.PREFERENCES_MODAL_HIDE:
+        return this.getInitialState();
+
+      case _ActorAppConstants.ActionTypes.PREFERENCES_CHANGE_TAB:
+        return _extends({}, state, {
+          currentTab: action.tab
+        });
+
+      case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE:
+        state.terminateState[action.id] = _ActorAppConstants.AsyncActionStates.PROCESSING;
+        return state;
+      case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE_SUCCESS:
+        delete state.terminateState[action.id];
+        return state;
+      case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE_ERROR:
+        state.terminateState[action.id] = _ActorAppConstants.AsyncActionStates.FAILURE;
+        return state;
+
+      default:
+        return state;
+    }
   };
 
   PreferencesStore.prototype.isSendByEnterEnabled = function isSendByEnterEnabled() {
@@ -63,74 +93,19 @@ var PreferencesStore = function (_Store) {
   };
 
   PreferencesStore.prototype.getSessions = function getSessions() {
-    return _sessions;
+    return this.getState().sessions;
   };
 
   PreferencesStore.prototype.getCurrentTab = function getCurrentTab() {
-    return _currentTab;
+    return this.getState().currentTab;
   };
 
-  PreferencesStore.prototype.getTerminateSessionState = function getTerminateSessionState(id) {
-    return _terminateSessionState[id] || _ActorAppConstants.AsyncActionStates.PENDING;
-  };
-
-  PreferencesStore.prototype.savePreferences = function savePreferences(newPreferences) {
-    var isSendByEnterEnabled = newPreferences.isSendByEnterEnabled;
-    var isSoundEffectsEnabled = newPreferences.isSoundEffectsEnabled;
-    var isGroupsNotificationsEnabled = newPreferences.isGroupsNotificationsEnabled;
-    var isOnlyMentionNotifications = newPreferences.isOnlyMentionNotifications;
-    var isShowNotificationsTextEnabled = newPreferences.isShowNotificationsTextEnabled;
-
-
-    _ActorClient2.default.changeSendByEnter(isSendByEnterEnabled);
-    _ActorClient2.default.changeSoundEffectsEnabled(isSoundEffectsEnabled);
-    _ActorClient2.default.changeGroupNotificationsEnabled(isGroupsNotificationsEnabled);
-    _ActorClient2.default.changeIsOnlyMentionNotifications(isOnlyMentionNotifications);
-    _ActorClient2.default.changeIsShowNotificationTextEnabled(isShowNotificationsTextEnabled);
-  };
-
-  PreferencesStore.prototype.__onDispatch = function __onDispatch(action) {
-    switch (action.type) {
-      case _ActorAppConstants.ActionTypes.PREFERENCES_MODAL_SHOW:
-        _isOpen = true;
-        this.__emitChange();
-        break;
-      case _ActorAppConstants.ActionTypes.PREFERENCES_MODAL_HIDE:
-        _isOpen = false;
-        this.__emitChange();
-        break;
-      case _ActorAppConstants.ActionTypes.PREFERENCES_SAVE:
-        this.savePreferences(action.preferences);
-        this.__emitChange();
-        break;
-      case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_LOAD_SUCCESS:
-        _sessions = action.response;
-        this.__emitChange();
-        break;
-      case _ActorAppConstants.ActionTypes.PREFERENCES_CHANGE_TAB:
-        _currentTab = action.tab;
-        this.__emitChange();
-        break;
-
-      case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE:
-        _terminateSessionState[action.id] = _ActorAppConstants.AsyncActionStates.PROCESSING;
-        this.__emitChange();
-        break;
-      case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE_SUCCESS:
-        delete _terminateSessionState[action.id];
-        this.__emitChange();
-        break;
-      case _ActorAppConstants.ActionTypes.PREFERENCES_SESSION_TERMINATE_ERROR:
-        _terminateSessionState[action.id] = _ActorAppConstants.AsyncActionStates.FAILURE;
-        this.__emitChange();
-        break;
-
-      default:
-    }
+  PreferencesStore.prototype.getTerminateState = function getTerminateState() {
+    return this.getState().terminateState;
   };
 
   return PreferencesStore;
-}(_utils.Store);
+}(_utils.ReduceStore);
 
 exports.default = new PreferencesStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=PreferencesStore.js.map

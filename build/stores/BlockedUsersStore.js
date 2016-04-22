@@ -33,7 +33,6 @@ var BlockedUsersStore = function (_ReduceStore) {
 
   BlockedUsersStore.prototype.getInitialState = function getInitialState() {
     return {
-      isOpen: false,
       users: [],
       query: null
     };
@@ -41,11 +40,6 @@ var BlockedUsersStore = function (_ReduceStore) {
 
   BlockedUsersStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
-      case _ActorAppConstants.ActionTypes.BLOCKED_USERS_OPEN:
-        return _extends({}, state, {
-          isOpen: true
-        });
-
       case _ActorAppConstants.ActionTypes.BLOCKED_USERS_HIDE:
         return this.getInitialState();
 

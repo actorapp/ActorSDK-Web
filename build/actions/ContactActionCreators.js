@@ -33,15 +33,18 @@ exports.default = {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CONTACT_LIST_CHANGED, { contacts: contacts });
   },
   addContact: function addContact(uid) {
-    _ActorClient2.default.addContact(uid);
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CONTACT_ADD, { uid: uid });
+    return (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.addContact(uid), {
+      request: _ActorAppConstants.ActionTypes.CONTACT_ADD,
+      success: _ActorAppConstants.ActionTypes.CONTACT_ADD_SUCCESS,
+      failure: _ActorAppConstants.ActionTypes.CONTACT_ADD_ERROR
+    }, { uid: uid });
   },
   removeContact: function removeContact(uid) {
-    _ActorClient2.default.removeContact(uid);
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CONTACT_REMOVE, { uid: uid });
-  },
-  search: function search(query) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CONTACT_LIST_SEARCH, { query: query });
+    return (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.removeContact(uid), {
+      request: _ActorAppConstants.ActionTypes.CONTACT_REMOVE,
+      success: _ActorAppConstants.ActionTypes.CONTACT_REMOVE_SUCCESS,
+      failure: _ActorAppConstants.ActionTypes.CONTACT_REMOVE_ERROR
+    }, { uid: uid });
   }
 };
 //# sourceMappingURL=ContactActionCreators.js.map

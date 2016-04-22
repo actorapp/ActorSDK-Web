@@ -32,79 +32,88 @@ var ContactDetails = function (_Component) {
   }
 
   ContactDetails.prototype.renderNickname = function renderNickname() {
-    var peerInfo = this.props.peerInfo;
+    var nick = this.props.peerInfo.nick;
 
-    return peerInfo.nick ? _react2.default.createElement(
+    if (!nick) return null;
+
+    return _react2.default.createElement(
       'li',
       null,
       _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--pink', glyph: 'username' }),
       _react2.default.createElement(
         'span',
         { className: 'title' },
-        peerInfo.nick
+        nick
       ),
       _react2.default.createElement(
         'span',
         { className: 'description' },
         _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'profile.nickname' })
       )
-    ) : null;
+    );
   };
 
   ContactDetails.prototype.renderPhone = function renderPhone() {
-    var peerInfo = this.props.peerInfo;
+    var phones = this.props.peerInfo.phones;
 
-    return peerInfo.phones[0] ? _react2.default.createElement(
-      'li',
-      null,
-      _react2.default.createElement(
-        'i',
-        { className: 'material-icons icon icon--green' },
-        'call'
-      ),
-      _react2.default.createElement(
-        'span',
-        { className: 'title' },
+    if (phones.length === 0) return null;
+
+    return phones.map(function (phone, index) {
+      return _react2.default.createElement(
+        'li',
+        { key: 'p' + index },
         _react2.default.createElement(
-          'a',
-          { href: 'tel:+' + peerInfo.phones[0].number },
-          '+' + peerInfo.phones[0].number
+          'i',
+          { className: 'material-icons icon icon--green' },
+          'call'
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'title' },
+          _react2.default.createElement(
+            'a',
+            { href: 'tel:+' + phone.number },
+            '+' + phone.number
+          )
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'description' },
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'profile.phone' })
         )
-      ),
-      _react2.default.createElement(
-        'span',
-        { className: 'description' },
-        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'profile.phone' })
-      )
-    ) : null;
+      );
+    });
   };
 
   ContactDetails.prototype.renderEmail = function renderEmail() {
-    var peerInfo = this.props.peerInfo;
+    var emails = this.props.peerInfo.emails;
 
-    return peerInfo.emails[0] ? _react2.default.createElement(
-      'li',
-      null,
-      _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--blue', glyph: 'envelope' }),
-      _react2.default.createElement(
-        'span',
-        { className: 'title' },
+    if (emails.length === 0) return null;
+
+    return emails.map(function (email, index) {
+      return _react2.default.createElement(
+        'li',
+        { key: 'e' + index },
+        _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--blue', glyph: 'envelope' }),
         _react2.default.createElement(
-          'a',
-          { href: 'mailto:' + peerInfo.emails[0].email },
-          peerInfo.emails[0].email
+          'span',
+          { className: 'title' },
+          _react2.default.createElement(
+            'a',
+            { href: 'mailto:' + email.email },
+            email.email
+          )
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: 'description' },
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'profile.email' })
         )
-      ),
-      _react2.default.createElement(
-        'span',
-        { className: 'description' },
-        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'profile.email' })
-      )
-    ) : null;
+      );
+    });
   };
 
   ContactDetails.prototype.render = function render() {
-
     return _react2.default.createElement(
       'ul',
       { className: 'user_profile__contact_info__list' },

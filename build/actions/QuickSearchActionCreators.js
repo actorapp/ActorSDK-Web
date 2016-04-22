@@ -23,9 +23,6 @@ exports.default = {
   },
   setQuickSearchList: function setQuickSearchList(list) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.QUICK_SEARCH_CHANGED, { list: list });
-  },
-  search: function search(query) {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.QUICK_SEARCH, { query: query });
   }
 }; /*
     * Copyright (C) 2015 Actor LLC. <https://actor.im>

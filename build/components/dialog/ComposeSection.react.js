@@ -58,10 +58,6 @@ var _ComposeStore = require('../../stores/ComposeStore');
 
 var _ComposeStore2 = _interopRequireDefault(_ComposeStore);
 
-var _AttachmentStore = require('../../stores/AttachmentStore');
-
-var _AttachmentStore2 = _interopRequireDefault(_AttachmentStore);
-
 var _DialogStore = require('../../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
@@ -90,10 +86,6 @@ var _DropZone = require('../common/DropZone.react');
 
 var _DropZone2 = _interopRequireDefault(_DropZone);
 
-var _SendAttachment = require('../modals/SendAttachment');
-
-var _SendAttachment2 = _interopRequireDefault(_SendAttachment);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -108,7 +100,7 @@ var ComposeSection = function (_Component) {
   _inherits(ComposeSection, _Component);
 
   ComposeSection.getStores = function getStores() {
-    return [_DialogStore2.default, _GroupStore2.default, _PreferencesStore2.default, _AttachmentStore2.default, _ComposeStore2.default, _MessageArtStore2.default];
+    return [_DialogStore2.default, _GroupStore2.default, _PreferencesStore2.default, _ComposeStore2.default, _MessageArtStore2.default];
   };
 
   ComposeSection.calculateState = function calculateState(prevState) {
@@ -118,7 +110,6 @@ var ComposeSection = function (_Component) {
       profile: _ActorClient2.default.getUser(_ActorClient2.default.getUid()),
       sendByEnter: _PreferencesStore2.default.isSendByEnterEnabled(),
       mentions: _ComposeStore2.default.getMentions(),
-      isSendAttachmentOpen: _AttachmentStore2.default.isOpen(),
       isMarkdownHintShow: prevState ? prevState.isMarkdownHintShow || false : false,
       isAutoFocusEnabled: _ComposeStore2.default.isAutoFocusEnabled(),
       isMessageArtOpen: _MessageArtStore2.default.getState().isOpen,
@@ -339,7 +330,6 @@ var ComposeSection = function (_Component) {
     var mentions = _state.mentions;
     var stickers = _state.stickers;
     var isMarkdownHintShow = _state.isMarkdownHintShow;
-    var isSendAttachmentOpen = _state.isSendAttachmentOpen;
     var isMessageArtOpen = _state.isMessageArtOpen;
     var intl = this.context.intl;
 
@@ -429,8 +419,7 @@ var ComposeSection = function (_Component) {
         'form',
         { className: 'compose__hidden', ref: 'attachmentForm' },
         _react2.default.createElement('input', { ref: 'attachment', onChange: this.handleComposeAttachmentChange, type: 'file' })
-      ),
-      isSendAttachmentOpen ? _react2.default.createElement(_SendAttachment2.default, null) : null
+      )
     );
   };
 

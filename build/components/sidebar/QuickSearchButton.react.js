@@ -6,21 +6,17 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _utils = require('flux/utils');
-
 var _reactIntl = require('react-intl');
+
+var _EventListener = require('fbjs/lib/EventListener');
+
+var _EventListener2 = _interopRequireDefault(_EventListener);
+
+var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _QuickSearchActionCreators = require('../../actions/QuickSearchActionCreators');
 
 var _QuickSearchActionCreators2 = _interopRequireDefault(_QuickSearchActionCreators);
-
-var _QuickSearchStore = require('../../stores/QuickSearchStore');
-
-var _QuickSearchStore2 = _interopRequireDefault(_QuickSearchStore);
-
-var _QuickSearch = require('../modals/QuickSearch.react');
-
-var _QuickSearch2 = _interopRequireDefault(_QuickSearch);
 
 var _rcTooltip = require('rc-tooltip');
 
@@ -39,34 +35,51 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var QuickSearchButton = function (_Component) {
   _inherits(QuickSearchButton, _Component);
 
-  function QuickSearchButton() {
-    var _temp, _this, _ret;
-
+  function QuickSearchButton(props) {
     _classCallCheck(this, QuickSearchButton);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.openQuickSearch = function () {
-      return _QuickSearchActionCreators2.default.show();
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    _this.openQuickSearch = _this.openQuickSearch.bind(_this);
+    _this.handleKeyDown = _this.handleKeyDown.bind(_this);
+    return _this;
   }
 
-  QuickSearchButton.getStores = function getStores() {
-    return [_QuickSearchStore2.default];
+  QuickSearchButton.prototype.componentDidMount = function componentDidMount() {
+    this.setListeners();
   };
 
-  QuickSearchButton.calculateState = function calculateState() {
-    return {
-      isQuickSearchOpen: _QuickSearchStore2.default.isOpen()
-    };
+  QuickSearchButton.prototype.componentWillUnmount = function componentWillUnmount() {
+    this.cleanListeners();
+  };
+
+  QuickSearchButton.prototype.setListeners = function setListeners() {
+    this.cleanListeners();
+    this.listeners = [_EventListener2.default.listen(document, 'keydown', this.handleKeyDown)];
+  };
+
+  QuickSearchButton.prototype.cleanListeners = function cleanListeners() {
+    if (this.listeners) {
+      this.listeners.forEach(function (listener) {
+        return listener.remove();
+      });
+      this.listeners = null;
+    }
+  };
+
+  QuickSearchButton.prototype.handleKeyDown = function handleKeyDown(event) {
+    if (event.keyCode === _ActorAppConstants.KeyCodes.K && event.metaKey) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.openQuickSearch();
+    }
+  };
+
+  QuickSearchButton.prototype.openQuickSearch = function openQuickSearch() {
+    _QuickSearchActionCreators2.default.show();
   };
 
   QuickSearchButton.prototype.render = function render() {
-    var isQuickSearchOpen = this.state.isQuickSearchOpen;
-
-
     return _react2.default.createElement(
       'footer',
       { className: 'sidebar__quick-search' },
@@ -74,9 +87,9 @@ var QuickSearchButton = function (_Component) {
         _rcTooltip2.default,
         {
           placement: 'top',
-          mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
-          overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.quicksearch' })
-        },
+          mouseEnterDelay: 0.15,
+          mouseLeaveDelay: 0,
+          overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.quicksearch' }) },
         _react2.default.createElement(
           'a',
           { onClick: this.openQuickSearch },
@@ -91,13 +104,12 @@ var QuickSearchButton = function (_Component) {
           ),
           _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.quickSearch' })
         )
-      ),
-      isQuickSearchOpen ? _react2.default.createElement(_QuickSearch2.default, null) : null
+      )
     );
   };
 
   return QuickSearchButton;
 }(_react.Component);
 
-exports.default = _utils.Container.create(QuickSearchButton, { pure: false });
+exports.default = QuickSearchButton;
 //# sourceMappingURL=QuickSearchButton.react.js.map

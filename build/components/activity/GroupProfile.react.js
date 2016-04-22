@@ -390,45 +390,6 @@ var GroupProfile = function (_Component) {
             ),
             _react2.default.createElement(
               'li',
-              { className: 'profile__list__item group_profile__media no-p hide' },
-              _react2.default.createElement(
-                _Fold2.default,
-                { icon: 'attach_file', iconClassName: 'icon--gray', title: intl.messages['sharedMedia'] },
-                _react2.default.createElement(
-                  'ul',
-                  null,
-                  _react2.default.createElement(
-                    'li',
-                    null,
-                    _react2.default.createElement(
-                      'a',
-                      null,
-                      '230 Shared Photos and Videos'
-                    )
-                  ),
-                  _react2.default.createElement(
-                    'li',
-                    null,
-                    _react2.default.createElement(
-                      'a',
-                      null,
-                      '49 Shared Links'
-                    )
-                  ),
-                  _react2.default.createElement(
-                    'li',
-                    null,
-                    _react2.default.createElement(
-                      'a',
-                      null,
-                      '49 Shared Files'
-                    )
-                  )
-                )
-              )
-            ),
-            _react2.default.createElement(
-              'li',
               { className: 'profile__list__item group_profile__notifications no-p' },
               _react2.default.createElement(_ToggleNotifications2.default, { isNotificationsEnabled: isNotificationsEnabled, onNotificationChange: this.onNotificationChange })
             ),
@@ -437,8 +398,7 @@ var GroupProfile = function (_Component) {
               { className: 'profile__list__item group_profile__members no-p' },
               _react2.default.createElement(
                 _Fold2.default,
-                { iconElement: iconElement,
-                  title: message },
+                { iconElement: iconElement, title: message },
                 _react2.default.createElement(_GroupProfileMembers2.default, { groupId: group.id, members: group.members })
               )
             ),

@@ -16,6 +16,8 @@ var _reactModal = require('react-modal');
 
 var _reactModal2 = _interopRequireDefault(_reactModal);
 
+var _reactIntl = require('react-intl');
+
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _AddContactActionCreators = require('../../actions/AddContactActionCreators');
@@ -30,7 +32,7 @@ var _TextField = require('../common/TextField.react');
 
 var _TextField2 = _interopRequireDefault(_TextField);
 
-var _ContactItem = require('./AddContact/ContactItem.react');
+var _ContactItem = require('./addContact/ContactItem.react');
 
 var _ContactItem2 = _interopRequireDefault(_ContactItem);
 
@@ -47,58 +49,30 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var AddContact = function (_Component) {
   _inherits(AddContact, _Component);
 
-  function AddContact(props) {
-    _classCallCheck(this, AddContact);
-
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
-
-    _this.handleClose = function () {
-      return _AddContactActionCreators2.default.close();
-    };
-
-    _this.handleQueryChange = function (event) {
-      var query = event.target.value;
-      _this.setState({ query: query });
-      _this.findUsers(query);
-    };
-
-    _this.findUsers = (0, _lodash.debounce)(function (query) {
-      _AddContactActionCreators2.default.findUsers(query);
-    }, 300, { trailing: true });
-
-    _this.addContact = function () {
-      return _AddContactActionCreators2.default.findUsers(_this.state.query);
-    };
-
-    _this.handleKeyDown = function (event) {
-      if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
-        event.preventDefault();
-        _this.handleClose();
-      } else if (event.keyCode === _ActorAppConstants.KeyCodes.ENTER) {
-        event.preventDefault();
-        _this.addContact();
-      }
-    };
-
-    _this.handleSelect = function (uid, isContact) {
-      _AddContactActionCreators2.default.addToContacts(uid, isContact);
-      _this.handleClose();
-    };
-
-    return _this;
-  }
-
   AddContact.getStores = function getStores() {
     return [_AddContactStore2.default];
   };
 
   AddContact.calculateState = function calculateState() {
     return {
-      isOpen: _AddContactStore2.default.isOpen(),
       results: _AddContactStore2.default.getResults(),
       isSearching: _AddContactStore2.default.isSearching()
     };
   };
+
+  function AddContact(props, context) {
+    _classCallCheck(this, AddContact);
+
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
+
+    _this.handleClose = _this.handleClose.bind(_this);
+    _this.handleQueryChange = _this.handleQueryChange.bind(_this);
+    _this.findUsers = (0, _lodash.debounce)(_this.findUsers, 300, { trailing: true });
+    _this.addContact = _this.addContact.bind(_this);
+    _this.handleKeyDown = _this.handleKeyDown.bind(_this);
+    _this.handleSelect = _this.handleSelect.bind(_this);
+    return _this;
+  }
 
   AddContact.prototype.componentWillMount = function componentWillMount() {
     document.addEventListener('keydown', this.handleKeyDown, false);
@@ -112,95 +86,124 @@ var AddContact = function (_Component) {
     document.removeEventListener('keydown', this.handleKeyDown, false);
   };
 
-  AddContact.prototype.render = function render() {
+  AddContact.prototype.handleClose = function handleClose() {
+    _AddContactActionCreators2.default.close();
+  };
+
+  AddContact.prototype.handleQueryChange = function handleQueryChange(event) {
+    var query = event.target.value;
+    this.setState({ query: query });
+    this.findUsers(query);
+  };
+
+  AddContact.prototype.findUsers = function findUsers(query) {
+    _AddContactActionCreators2.default.findUsers(query);
+  };
+
+  AddContact.prototype.addContact = function addContact() {
+    _AddContactActionCreators2.default.findUsers(this.state.query);
+  };
+
+  AddContact.prototype.handleKeyDown = function handleKeyDown(event) {
+    if (event.keyCode === _ActorAppConstants.KeyCodes.ENTER) {
+      event.preventDefault();
+      this.addContact();
+    }
+  };
+
+  AddContact.prototype.handleSelect = function handleSelect(uid, isContact) {
+    _AddContactActionCreators2.default.addToContacts(uid, isContact);
+    this.handleClose();
+  };
+
+  AddContact.prototype.renderUserSearchInput = function renderUserSearchInput() {
+    var query = this.state.query;
+
+    return _react2.default.createElement(_TextField2.default, {
+      className: 'input__material--wide',
+      floatingLabel: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.addContact.query' }),
+      onChange: this.handleQueryChange,
+      ref: 'query',
+      value: query });
+  };
+
+  AddContact.prototype.renderUserSearchResults = function renderUserSearchResults() {
     var _this2 = this;
 
     var _state = this.state;
-    var isOpen = _state.isOpen;
     var query = _state.query;
     var results = _state.results;
-    var intl = this.context.intl;
 
-    var isQueryEmpty = !query || query.length === '';
 
-    var resultContacts = (0, _lodash.map)(results, function (result, index) {
-      return _react2.default.createElement(_ContactItem2.default, _extends({ key: index }, result, { onSelect: _this2.handleSelect }));
-    });
-
-    if (resultContacts.length === 0 && !isQueryEmpty) {
-      resultContacts.push(_react2.default.createElement(
+    if (!query || query.length === '') {
+      return _react2.default.createElement(
         'li',
-        { className: 'add-contact__results__item add-contact__results__item--not-found', key: 'not-found' },
-        intl.messages['modal.addContact.notFound']
-      ));
+        { className: 'add-contact__results__item add-contact__results__item--searching' },
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.addContact.empty' })
+      );
     }
 
-    var modalStyle = {
-      content: {
-        position: null,
-        top: null,
-        left: null,
-        right: null,
-        bottom: null,
-        border: null,
-        background: null,
-        overflow: null,
-        outline: null,
-        padding: null,
-        borderRadius: null,
-        width: 360
-      }
-    };
+    // Disabled becouse searching is very fast and this message is blinking
+    // if (isSearching) {
+    //   return (
+    //     <li className="add-contact__results__item add-contact__results__item--searching">
+    //       <FormattedMessage id="modal.addContact.searching" values={{query}}/>
+    //     </li>
+    //   );
+    // }
 
+    if (results.length === 0) {
+      return _react2.default.createElement(
+        'li',
+        { className: 'add-contact__results__item add-contact__results__item--not-found' },
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.addContact.notFound' })
+      );
+    }
+
+    return results.map(function (result, index) {
+      return _react2.default.createElement(_ContactItem2.default, _extends({ key: index }, result, { onSelect: _this2.handleSelect }));
+    });
+  };
+
+  AddContact.prototype.render = function render() {
     return _react2.default.createElement(
       _reactModal2.default,
-      { className: 'modal-new modal-new--add-contact add-contact',
-        closeTimeoutMS: 150,
-        isOpen: isOpen,
-        style: modalStyle },
-      _react2.default.createElement(
-        'header',
-        { className: 'modal-new__header' },
-        _react2.default.createElement(
-          'h3',
-          { className: 'modal-new__header__title' },
-          intl.messages['modal.addContact.title']
-        ),
-        _react2.default.createElement(
-          'a',
-          { className: 'modal-new__header__close modal-new__header__icon material-icons pull-right',
-            onClick: this.handleClose },
-          'clear'
-        )
-      ),
+      {
+        overlayClassName: 'modal-overlay',
+        className: 'modal',
+        onRequestClose: this.handleClose,
+        isOpen: true },
       _react2.default.createElement(
         'div',
-        { className: 'modal-new__body' },
-        _react2.default.createElement(_TextField2.default, { className: 'input__material--wide',
-          floatingLabel: intl.messages['modal.addContact.query'],
-          onChange: this.handleQueryChange,
-          ref: 'query',
-          value: query })
-      ),
-      _react2.default.createElement(
-        'footer',
-        { className: 'modal-new__footer' },
+        { className: 'add-contact' },
         _react2.default.createElement(
-          'ul',
-          { className: 'add-contact__results' },
-          isQueryEmpty ? _react2.default.createElement(
-            'li',
-            { className: 'add-contact__results__item add-contact__results__item--searching' },
-            intl.messages['modal.addContact.empty']
-          ) : resultContacts
-
-          // Search is too fast for showing searching status.
-          //: isSearching
-          //  ? <li className="add-contact__results__item add-contact__results__item--searching">
-          //      <FormattedMessage id="modal.addContact.searching" values={{query}}/>
-          //    </li>
-          //  : resultContacts
-
+          'div',
+          { className: 'modal__content' },
+          _react2.default.createElement(
+            'header',
+            { className: 'modal__header' },
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.addContact.title', tagName: 'h1' }),
+            _react2.default.createElement(
+              'a',
+              { className: 'modal__header__close material-icons',
+                onClick: this.handleClose },
+              'clear'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'modal__body' },
+            this.renderUserSearchInput()
+          ),
+          _react2.default.createElement(
+            'footer',
+            { className: 'modal__footer' },
+            _react2.default.createElement(
+              'ul',
+              { className: 'add-contact__results' },
+              this.renderUserSearchResults()
+            )
+          )
         )
       )
     );

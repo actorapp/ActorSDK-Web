@@ -6,15 +6,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _utils = require('flux/utils');
+var _reactIntl = require('react-intl');
+
+var _ActorAppConstants = require('../../../constants/ActorAppConstants');
 
 var _PreferencesActionCreators = require('../../../actions/PreferencesActionCreators');
 
 var _PreferencesActionCreators2 = _interopRequireDefault(_PreferencesActionCreators);
-
-var _PreferencesStore = require('../../../stores/PreferencesStore');
-
-var _PreferencesStore2 = _interopRequireDefault(_PreferencesStore);
 
 var _Stateful = require('../../common/Stateful.react');
 
@@ -38,103 +36,100 @@ var SessionItem = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _initialiseProps.call(_this);
-
+    _this.handleTerminateSession = _this.handleTerminateSession.bind(_this);
     return _this;
   }
 
-  SessionItem.getStores = function getStores() {
-    return [_PreferencesStore2.default];
+  SessionItem.prototype.handleTerminateSession = function handleTerminateSession() {
+    _PreferencesActionCreators2.default.terminateSession(this.props.id);
+  };
+
+  SessionItem.prototype.renderTitle = function renderTitle() {
+    var appTitle = this.props.appTitle;
+
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'title' },
+      appTitle,
+      this.renderCurrentDeviceMark()
+    );
+  };
+
+  SessionItem.prototype.renderCurrentDeviceMark = function renderCurrentDeviceMark() {
+    var holder = this.props.holder;
+
+    if (holder !== 'THIS_DEVICE') return null;
+
+    return _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.security.sessions.current', tagName: 'small' });
+  };
+
+  SessionItem.prototype.renderAuthTime = function renderAuthTime() {
+    var authTime = this.props.authTime;
+
+
+    return _react2.default.createElement(
+      'small',
+      null,
+      _react2.default.createElement(
+        'b',
+        null,
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.security.sessions.authTime' }),
+        ':'
+      ),
+      ' ',
+      authTime.toString()
+    );
+  };
+
+  SessionItem.prototype.renderState = function renderState() {
+    var terminateState = this.props.terminateState;
+
+
+    return _react2.default.createElement(_Stateful2.default, {
+      currentState: terminateState,
+      pending: _react2.default.createElement(
+        'a',
+        { className: 'session-list__session__terminate link--blue', onClick: this.handleTerminateSession },
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.security.sessions.terminate' })
+      ),
+      processing: _react2.default.createElement(
+        'i',
+        { className: 'session-list__session__terminate material-icons spin' },
+        'autorenew'
+      ),
+      success: _react2.default.createElement(
+        'i',
+        { className: 'session-list__session__terminate material-icons' },
+        'check'
+      ),
+      failure: _react2.default.createElement(
+        'i',
+        { className: 'session-list__session__terminate material-icons' },
+        'warning'
+      )
+    });
   };
 
   SessionItem.prototype.render = function render() {
-    var _props = this.props;
-    var appTitle = _props.appTitle;
-    var holder = _props.holder;
-    var authTime = _props.authTime;
-    var terminateSessionState = this.state.terminateSessionState;
-    var intl = this.context.intl;
-
-
-    var currentDevice = holder === 'THIS_DEVICE' ? _react2.default.createElement(
-      'small',
-      null,
-      intl.messages['preferencesSessionsCurrentSession']
-    ) : null;
-
     return _react2.default.createElement(
       'li',
       { className: 'session-list__session' },
-      _react2.default.createElement(
-        'div',
-        { className: 'title' },
-        appTitle,
-        currentDevice
-      ),
-      _react2.default.createElement(
-        'small',
-        null,
-        _react2.default.createElement(
-          'b',
-          null,
-          intl.messages['preferencesSessionsAuthTime'],
-          ':'
-        ),
-        ' ',
-        authTime.toString()
-      ),
-      _react2.default.createElement(_Stateful2.default, {
-        currentState: terminateSessionState,
-        pending: _react2.default.createElement(
-          'a',
-          { className: 'session-list__session__terminate link--blue', onClick: this.onTerminate },
-          intl.messages['preferencesSessionsTerminate']
-        ),
-        processing: _react2.default.createElement(
-          'i',
-          { className: 'session-list__session__terminate material-icons spin' },
-          'autorenew'
-        ),
-        success: _react2.default.createElement(
-          'i',
-          { className: 'session-list__session__terminate material-icons' },
-          'check'
-        ),
-        failure: _react2.default.createElement(
-          'i',
-          { className: 'session-list__session__terminate material-icons' },
-          'warning'
-        )
-      })
+      this.renderTitle(),
+      this.renderAuthTime(),
+      this.renderState()
     );
   };
 
   return SessionItem;
 }(_react.Component);
 
-SessionItem.calculateState = function (prevState, props) {
-  return {
-    terminateSessionState: _PreferencesStore2.default.getTerminateSessionState(props.id)
-  };
-};
-
 SessionItem.propTypes = {
   appTitle: _react.PropTypes.string.isRequired,
   holder: _react.PropTypes.string.isRequired,
   id: _react.PropTypes.number.isRequired,
-  authTime: _react.PropTypes.object.isRequired
+  authTime: _react.PropTypes.object.isRequired,
+  terminateState: _react.PropTypes.oneOf([_ActorAppConstants.AsyncActionStates.PENDING, _ActorAppConstants.AsyncActionStates.PROCESSING, _ActorAppConstants.AsyncActionStates.SUCCESS, _ActorAppConstants.AsyncActionStates.FAILURE]).isRequired
 };
-SessionItem.contextTypes = {
-  intl: _react.PropTypes.object
-};
-
-var _initialiseProps = function _initialiseProps() {
-  var _this2 = this;
-
-  this.onTerminate = function () {
-    return _PreferencesActionCreators2.default.terminateSession(_this2.props.id);
-  };
-};
-
-exports.default = _utils.Container.create(SessionItem, { pure: false, withProps: true });
+exports.default = SessionItem;
 //# sourceMappingURL=Session.react.js.map

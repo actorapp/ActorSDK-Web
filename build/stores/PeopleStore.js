@@ -2,7 +2,7 @@
 
 exports.__esModule = true;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _utils = require('flux/utils');
 
@@ -12,6 +12,10 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
+var _ActorClient = require('../utils/ActorClient');
+
+var _ActorClient2 = _interopRequireDefault(_ActorClient);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19,7 +23,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015 Actor LLC. <https://actor.im>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var PeopleStore = function (_ReduceStore) {
@@ -32,31 +36,24 @@ var PeopleStore = function (_ReduceStore) {
   }
 
   PeopleStore.prototype.getInitialState = function getInitialState() {
-    return {
-      isOpen: false,
-      query: null
-    };
+    return [];
   };
 
   PeopleStore.prototype.reduce = function reduce(state, action) {
-    switch (action.type) {
-      case _ActorAppConstants.ActionTypes.CONTACT_LIST_SHOW:
-        return _extends({}, state, {
-          isOpen: true
-        });
-      case _ActorAppConstants.ActionTypes.CONTACT_LIST_HIDE:
-        return this.getInitialState();
-      case _ActorAppConstants.ActionTypes.CONTACT_LIST_SEARCH:
-        return _extends({}, state, {
-          query: action.query
-        });
-      default:
-        return state;
-    }
-  };
+    if (action.type === _ActorAppConstants.ActionTypes.CONTACT_LIST_CHANGED) {
+      var _ret = function () {
+        var uid = _ActorClient2.default.getUid();
+        return {
+          v: action.contacts.filter(function (contact) {
+            return contact.uid !== uid;
+          })
+        };
+      }();
 
-  PeopleStore.prototype.isOpen = function isOpen() {
-    return this.getState().isOpen;
+      if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+    }
+
+    return state;
   };
 
   return PeopleStore;

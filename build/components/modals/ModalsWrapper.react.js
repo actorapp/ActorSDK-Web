@@ -8,35 +8,63 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
-var _ContactActionCreators = require('../../actions/ContactActionCreators');
+var _ModalStore = require('../../stores/ModalStore');
 
-var _ContactActionCreators2 = _interopRequireDefault(_ContactActionCreators);
+var _ModalStore2 = _interopRequireDefault(_ModalStore);
 
-var _GroupListActionCreators = require('../../actions/GroupListActionCreators');
+var _Profile = require('./Profile.react');
 
-var _GroupListActionCreators2 = _interopRequireDefault(_GroupListActionCreators);
+var _Profile2 = _interopRequireDefault(_Profile);
 
-var _PeopleStore = require('../../stores/PeopleStore');
+var _Crop = require('./Crop.react');
 
-var _PeopleStore2 = _interopRequireDefault(_PeopleStore);
+var _Crop2 = _interopRequireDefault(_Crop);
 
-var _GroupListStore = require('../../stores/GroupListStore');
+var _Groups = require('./Groups.react');
 
-var _GroupListStore2 = _interopRequireDefault(_GroupListStore);
+var _Groups2 = _interopRequireDefault(_Groups);
 
-var _PeopleList = require('./PeopleList');
+var _People = require('./People.react');
 
-var _PeopleList2 = _interopRequireDefault(_PeopleList);
+var _People2 = _interopRequireDefault(_People);
 
-var _GroupList = require('./GroupList');
+var _AddContact = require('./AddContact.react');
 
-var _GroupList2 = _interopRequireDefault(_GroupList);
+var _AddContact2 = _interopRequireDefault(_AddContact);
+
+var _CreateGroup = require('./CreateGroup.react');
+
+var _CreateGroup2 = _interopRequireDefault(_CreateGroup);
+
+var _EditGroup = require('./EditGroup.react');
+
+var _EditGroup2 = _interopRequireDefault(_EditGroup);
+
+var _Preferences = require('./Preferences.react');
+
+var _Preferences2 = _interopRequireDefault(_Preferences);
+
+var _Invite = require('./Invite.react');
+
+var _Invite2 = _interopRequireDefault(_Invite);
+
+var _InviteByLink = require('./InviteByLink.react');
+
+var _InviteByLink2 = _interopRequireDefault(_InviteByLink);
+
+var _QuickSearch = require('./QuickSearch.react');
+
+var _QuickSearch2 = _interopRequireDefault(_QuickSearch);
+
+var _Attachments = require('./Attachments.react');
+
+var _Attachments2 = _interopRequireDefault(_Attachments);
+
+var _BlockedUsers = require('./BlockedUsers.react');
+
+var _BlockedUsers2 = _interopRequireDefault(_BlockedUsers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51,109 +79,61 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ModalsWrapper = function (_Component) {
   _inherits(ModalsWrapper, _Component);
 
-  function ModalsWrapper(props) {
+  function ModalsWrapper() {
     _classCallCheck(this, ModalsWrapper);
 
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
-
-    _this.handleKeyDown = function (event) {
-      switch (event.keyCode) {
-        case _ActorAppConstants.KeyCodes.ESC:
-          event.preventDefault();
-          _this.handleClose();
-          break;
-        case _ActorAppConstants.KeyCodes.G:
-          if (event.ctrlKey) {
-            event.preventDefault();
-            _this.handleClose();
-            _GroupListActionCreators2.default.open();
-          }
-          break;
-        case _ActorAppConstants.KeyCodes.P:
-          if (event.ctrlKey) {
-            event.preventDefault();
-            _this.handleClose();
-            _ContactActionCreators2.default.open();
-          }
-          break;
-        default:
-      }
-    };
-
-    _this.handleClose = function () {
-      var _this$state = _this.state;
-      var isPeoplesOpen = _this$state.isPeoplesOpen;
-      var isGroupsOpen = _this$state.isGroupsOpen;
-
-
-      if (isPeoplesOpen) {
-        _ContactActionCreators2.default.close();
-      }
-      if (isGroupsOpen) {
-        _GroupListActionCreators2.default.close();
-      }
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
   ModalsWrapper.getStores = function getStores() {
-    return [_PeopleStore2.default, _GroupListStore2.default];
+    return [_ModalStore2.default];
   };
 
   ModalsWrapper.calculateState = function calculateState() {
-    return {
-      isPeoplesOpen: _PeopleStore2.default.isOpen(),
-      isGroupsOpen: _GroupListStore2.default.isOpen()
-    };
-  };
-
-  ModalsWrapper.prototype.componentWillMount = function componentWillMount() {
-    document.addEventListener('keydown', this.handleKeyDown, false);
-  };
-
-  ModalsWrapper.prototype.componentWillUnmount = function componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown, false);
+    return _ModalStore2.default.getState();
   };
 
   ModalsWrapper.prototype.render = function render() {
-    var _state = this.state;
-    var isPeoplesOpen = _state.isPeoplesOpen;
-    var isGroupsOpen = _state.isGroupsOpen;
-    var intl = this.context.intl;
+    var currentModal = this.state.currentModal;
 
+    if (!currentModal) return null;
 
-    var wrapperClassName = (0, _classnames2.default)('modal-wrapper', {
-      'modal-wrapper--opened': isPeoplesOpen || isGroupsOpen
-    });
+    switch (currentModal) {
+      case _ActorAppConstants.ModalTypes.PROFILE:
+        return _react2.default.createElement(_Profile2.default, null);
+      case _ActorAppConstants.ModalTypes.CROP:
+        return _react2.default.createElement(_Crop2.default, null);
+      case _ActorAppConstants.ModalTypes.GROUP_LIST:
+        return _react2.default.createElement(_Groups2.default, null);
+      case _ActorAppConstants.ModalTypes.PEOPLE_LIST:
+        return _react2.default.createElement(_People2.default, null);
+      case _ActorAppConstants.ModalTypes.ADD_CONTACT:
+        return _react2.default.createElement(_AddContact2.default, null);
+      case _ActorAppConstants.ModalTypes.CREATE_GROUP:
+        return _react2.default.createElement(_CreateGroup2.default, null);
+      case _ActorAppConstants.ModalTypes.EDIT_GROUP:
+        return _react2.default.createElement(_EditGroup2.default, null);
+      case _ActorAppConstants.ModalTypes.PREFERENCES:
+        return _react2.default.createElement(_Preferences2.default, null);
+      case _ActorAppConstants.ModalTypes.INVITE:
+        return _react2.default.createElement(_Invite2.default, null);
+      case _ActorAppConstants.ModalTypes.INVITE_BY_LINK:
+        return _react2.default.createElement(_InviteByLink2.default, null);
+      case _ActorAppConstants.ModalTypes.QUICK_SEARCH:
+        return _react2.default.createElement(_QuickSearch2.default, null);
+      case _ActorAppConstants.ModalTypes.ATTACHMENTS:
+        return _react2.default.createElement(_Attachments2.default, null);
+      case _ActorAppConstants.ModalTypes.BLOCKED_USERS:
+        return _react2.default.createElement(_BlockedUsers2.default, null);
 
-    return _react2.default.createElement(
-      'div',
-      { className: wrapperClassName },
-      _react2.default.createElement(
-        'div',
-        { className: 'modal-wrapper__close', onClick: this.handleClose },
-        _react2.default.createElement(
-          'i',
-          { className: 'close_icon material-icons' },
-          'close'
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'text' },
-          intl.messages['button.close']
-        )
-      ),
-      isPeoplesOpen ? _react2.default.createElement(_PeopleList2.default, null) : null,
-      isGroupsOpen ? _react2.default.createElement(_GroupList2.default, null) : null
-    );
+      default:
+        console.warn('Unsupported modal type: ' + currentModal);
+        return null;
+    }
   };
 
   return ModalsWrapper;
 }(_react.Component);
 
-ModalsWrapper.contextTypes = {
-  intl: _react.PropTypes.object
-};
-exports.default = _utils.Container.create(ModalsWrapper, { pure: false });
+exports.default = _utils.Container.create(ModalsWrapper);
 //# sourceMappingURL=ModalsWrapper.react.js.map

@@ -2,6 +2,8 @@
 
 exports.__esModule = true;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
@@ -20,44 +22,39 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var _isOpen = false,
-    _pictureSource = null;
+var CropStore = function (_ReduceStore) {
+  _inherits(CropStore, _ReduceStore);
 
-var CropAvatarStore = function (_Store) {
-  _inherits(CropAvatarStore, _Store);
+  function CropStore() {
+    _classCallCheck(this, CropStore);
 
-  function CropAvatarStore(Dispatcher) {
-    _classCallCheck(this, CropAvatarStore);
-
-    return _possibleConstructorReturn(this, _Store.call(this, Dispatcher));
+    return _possibleConstructorReturn(this, _ReduceStore.apply(this, arguments));
   }
 
-  CropAvatarStore.prototype.isOpen = function isOpen() {
-    return _isOpen;
+  CropStore.prototype.getInitialState = function getInitialState() {
+    return {
+      source: null,
+      callback: null
+    };
   };
 
-  CropAvatarStore.prototype.getPictureSource = function getPictureSource() {
-    return _pictureSource;
-  };
-
-  CropAvatarStore.prototype.__onDispatch = function __onDispatch(action) {
+  CropStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
-      case _ActorAppConstants.ActionTypes.CROP_AVATAR_MODAL_SHOW:
-        _isOpen = true;
-        _pictureSource = action.source;
-        this.__emitChange();
-        break;
-      case _ActorAppConstants.ActionTypes.CROP_AVATAR_MODAL_HIDE:
-        _isOpen = false;
-        _pictureSource = null;
-        this.__emitChange();
-        break;
+      case _ActorAppConstants.ActionTypes.CROP_MODAL_SHOW:
+        return _extends({}, state, {
+          source: action.source,
+          callback: action.callback
+        });
+      case _ActorAppConstants.ActionTypes.CROP_MODAL_HIDE:
+        return this.getInitialState();
+
       default:
+        return state;
     }
   };
 
-  return CropAvatarStore;
-}(_utils.Store);
+  return CropStore;
+}(_utils.ReduceStore);
 
-exports.default = new CropAvatarStore(_ActorAppDispatcher2.default);
+exports.default = new CropStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=CropAvatarStore.js.map

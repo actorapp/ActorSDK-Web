@@ -183,7 +183,7 @@ var ToolbarSection = function (_Component) {
     var message = _state.message;
 
     if (call.isCalling) {
-      return _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'toolbar.callState.' + call.state, values: { time: call.time } });
+      return _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'call.state.' + call.state, values: { time: call.time } });
     }
 
     return message;

@@ -28,9 +28,9 @@ var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
 
 var _reactIntl = require('react-intl');
 
-var _MyProfileActionCreators = require('../../actions/MyProfileActionCreators');
+var _ProfileActionCreators = require('../../actions/ProfileActionCreators');
 
-var _MyProfileActionCreators2 = _interopRequireDefault(_MyProfileActionCreators);
+var _ProfileActionCreators2 = _interopRequireDefault(_ProfileActionCreators);
 
 var _CreateGroupActionCreators = require('../../actions/CreateGroupActionCreators');
 
@@ -56,21 +56,9 @@ var _BlockedUsersActionCreators = require('../../actions/BlockedUsersActionCreat
 
 var _BlockedUsersActionCreators2 = _interopRequireDefault(_BlockedUsersActionCreators);
 
-var _MyProfileStore = require('../../stores/MyProfileStore');
+var _ProfileStore = require('../../stores/ProfileStore');
 
-var _MyProfileStore2 = _interopRequireDefault(_MyProfileStore);
-
-var _CreateGroupStore = require('../../stores/CreateGroupStore');
-
-var _CreateGroupStore2 = _interopRequireDefault(_CreateGroupStore);
-
-var _AddContactStore = require('../../stores/AddContactStore');
-
-var _AddContactStore2 = _interopRequireDefault(_AddContactStore);
-
-var _PreferencesStore = require('../../stores/PreferencesStore');
-
-var _PreferencesStore2 = _interopRequireDefault(_PreferencesStore);
+var _ProfileStore2 = _interopRequireDefault(_ProfileStore);
 
 var _SvgIcon = require('../common/SvgIcon.react');
 
@@ -79,22 +67,6 @@ var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
 var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
-
-var _CreateGroup = require('../modals/CreateGroup');
-
-var _CreateGroup2 = _interopRequireDefault(_CreateGroup);
-
-var _MyProfile = require('../modals/MyProfile.react');
-
-var _MyProfile2 = _interopRequireDefault(_MyProfile);
-
-var _AddContact = require('../modals/AddContact.react');
-
-var _AddContact2 = _interopRequireDefault(_AddContact);
-
-var _Preferences = require('../modals/Preferences.react');
-
-var _Preferences2 = _interopRequireDefault(_Preferences);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -132,7 +104,7 @@ var HeaderSection = function (_Component) {
     };
 
     _this.openMyProfile = function () {
-      return _MyProfileActionCreators2.default.show();
+      return _ProfileActionCreators2.default.show();
     };
 
     _this.openCreateGroup = function () {
@@ -152,11 +124,13 @@ var HeaderSection = function (_Component) {
     };
 
     _this.setLogout = function () {
-      var intl = _this.context.intl;
-
-      (0, _confirm2.default)(intl.messages['modal.confirm.logout']).then(function () {
+      (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.logout' })).then(function () {
         return _LoginActionCreators2.default.setLoggedOut();
       }, function () {});
+    };
+
+    _this.state = {
+      isOpened: false
     };
 
     _this.openHelp = _this.openHelp.bind(_this);
@@ -167,21 +141,13 @@ var HeaderSection = function (_Component) {
   }
 
   HeaderSection.getStores = function getStores() {
-    return [_MyProfileStore2.default, _CreateGroupStore2.default, _AddContactStore2.default, _PreferencesStore2.default];
+    return [_ProfileStore2.default];
   };
 
   HeaderSection.calculateState = function calculateState() {
     return {
-      profile: _MyProfileStore2.default.getProfile(),
-      isMyProfileOpen: _MyProfileStore2.default.isModalOpen(),
-      isAddContactsOpen: _AddContactStore2.default.isOpen(),
-      isCreateGroupOpen: _CreateGroupStore2.default.isModalOpen(),
-      isPreferencesOpen: _PreferencesStore2.default.isOpen()
+      profile: _ProfileStore2.default.getProfile()
     };
-  };
-
-  HeaderSection.prototype.componentWillMount = function componentWillMount() {
-    this.setState({ isOpened: false });
   };
 
   HeaderSection.prototype.openHelp = function openHelp() {
@@ -331,10 +297,6 @@ var HeaderSection = function (_Component) {
     var _state = this.state;
     var profile = _state.profile;
     var isOpened = _state.isOpened;
-    var isMyProfileOpen = _state.isMyProfileOpen;
-    var isCreateGroupOpen = _state.isCreateGroupOpen;
-    var isAddContactsOpen = _state.isAddContactsOpen;
-    var isPreferencesOpen = _state.isPreferencesOpen;
 
 
     if (!profile) return null;
@@ -436,19 +398,12 @@ var HeaderSection = function (_Component) {
             )
           )
         )
-      ),
-      isMyProfileOpen ? _react2.default.createElement(_MyProfile2.default, null) : null,
-      isCreateGroupOpen ? _react2.default.createElement(_CreateGroup2.default, null) : null,
-      isAddContactsOpen ? _react2.default.createElement(_AddContact2.default, null) : null,
-      isPreferencesOpen ? _react2.default.createElement(_Preferences2.default, null) : null
+      )
     );
   };
 
   return HeaderSection;
 }(_react.Component);
 
-HeaderSection.contextTypes = {
-  intl: _react.PropTypes.object
-};
 exports.default = _utils.Container.create(HeaderSection);
 //# sourceMappingURL=HeaderSection.react.js.map

@@ -20,42 +20,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var FaviconPath = {
-  DEFAULT: 'assets/images/favicon.png',
-  NOTIFICATION: 'assets/images/favicon_notification.png'
-};
+var FaviconStore = function (_ReduceStore) {
+  _inherits(FaviconStore, _ReduceStore);
 
-var _iconPath = FaviconPath.DEFAULT;
-
-var FaviconStore = function (_Store) {
-  _inherits(FaviconStore, _Store);
-
-  function FaviconStore(dispatcher) {
+  function FaviconStore() {
     _classCallCheck(this, FaviconStore);
 
-    return _possibleConstructorReturn(this, _Store.call(this, dispatcher));
+    return _possibleConstructorReturn(this, _ReduceStore.apply(this, arguments));
   }
 
-  FaviconStore.prototype.getFaviconPath = function getFaviconPath() {
-    return _iconPath;
+  FaviconStore.prototype.getInitialState = function getInitialState() {
+    return 0;
   };
 
-  FaviconStore.prototype.__onDispatch = function __onDispatch(action) {
-    switch (action.type) {
-      case _ActorAppConstants.ActionTypes.FAVICON_SET:
-        if (action.counter === 0) {
-          _iconPath = FaviconPath.DEFAULT;
-        } else {
-          _iconPath = FaviconPath.NOTIFICATION;
-        }
-        this.__emitChange();
-        break;
-      default:
+  FaviconStore.prototype.reduce = function reduce(state, action) {
+    if (action.type === _ActorAppConstants.ActionTypes.FAVICON_SET) {
+      return action.counter;
     }
+
+    return state;
   };
 
   return FaviconStore;
-}(_utils.Store);
+}(_utils.ReduceStore);
 
 exports.default = new FaviconStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=FaviconStore.js.map

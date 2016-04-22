@@ -6,6 +6,10 @@ var _react = require('react');
 
 var _utils = require('flux/utils');
 
+var _favico = require('favico.js');
+
+var _favico2 = _interopRequireDefault(_favico);
+
 var _FaviconStore = require('../../stores/FaviconStore');
 
 var _FaviconStore2 = _interopRequireDefault(_FaviconStore);
@@ -26,7 +30,13 @@ var Favicon = function (_Component) {
   function Favicon(props) {
     _classCallCheck(this, Favicon);
 
-    return _possibleConstructorReturn(this, _Component.call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+
+    _this.favico = new _favico2.default({
+      position: 'up',
+      animation: 'none'
+    });
+    return _this;
   }
 
   Favicon.getStores = function getStores() {
@@ -35,21 +45,19 @@ var Favicon = function (_Component) {
 
   Favicon.calculateState = function calculateState() {
     return {
-      iconPath: _FaviconStore2.default.getFaviconPath()
+      counter: _FaviconStore2.default.getState()
     };
   };
 
   Favicon.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
-    // Clone created element and create href attribute
-    var currentFaviconNode = document.getElementById('favicon');
-    var updatedFaviconNode = currentFaviconNode.cloneNode(true);
+    var counter = nextState.counter;
 
-    // Set new href attribute
-    updatedFaviconNode.setAttribute('href', nextState.iconPath);
 
-    // Remove old and add new favicon
-    currentFaviconNode.remove();
-    document.head.appendChild(updatedFaviconNode);
+    if (counter) {
+      this.favico.badge(counter);
+    } else {
+      this.favico.reset();
+    }
   };
 
   Favicon.prototype.render = function render() {

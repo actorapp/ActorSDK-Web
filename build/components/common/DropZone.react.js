@@ -6,6 +6,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _EventListener = require('fbjs/lib/EventListener');
+
+var _EventListener2 = _interopRequireDefault(_EventListener);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -28,36 +32,53 @@ var DropZone = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _this.dragging = false;
+    _this.windowDragging = false;
+    _this.zoneDragging = false;
+
     _this.state = {
       isActive: false,
       isHovered: false
     };
 
+    _this.onWindowDrop = _this.onWindowDrop.bind(_this);
     _this.onWindowDragEnter = _this.onWindowDragEnter.bind(_this);
     _this.onWindowDragOver = _this.onWindowDragOver.bind(_this);
     _this.onWindowDragLeave = _this.onWindowDragLeave.bind(_this);
 
     _this.onDrop = _this.onDrop.bind(_this);
     _this.onDragEnter = _this.onDragEnter.bind(_this);
+    _this.onDragOver = _this.onDragOver.bind(_this);
     _this.onDragLeave = _this.onDragLeave.bind(_this);
     return _this;
   }
 
+  DropZone.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
+    return nextState.isActive !== this.state.isActive || nextState.isHovered !== this.state.isHovered;
+  };
+
   DropZone.prototype.componentDidMount = function componentDidMount() {
-    window.addEventListener('dragenter', this.onWindowDragEnter, false);
-    window.addEventListener('dragover', this.onWindowDragOver, false);
-    window.addEventListener('dragleave', this.onWindowDragLeave, false);
+    this.listeners = [_EventListener2.default.listen(window, 'drop', this.onWindowDrop), _EventListener2.default.listen(window, 'dragenter', this.onWindowDragEnter), _EventListener2.default.listen(window, 'dragover', this.onWindowDragOver), _EventListener2.default.listen(window, 'dragleave', this.onWindowDragLeave)];
   };
 
   DropZone.prototype.componentWillUnmount = function componentWillUnmount() {
-    window.addEventListener('dragenter', this.onWindowDragEnter, false);
-    window.addEventListener('dragover', this.onWindowDragOver, false);
-    window.addEventListener('dragleave', this.onWindowDragLeave, false);
+    this.listeners.forEach(function (listener) {
+      listener.remove();
+    });
+
+    this.listeners = null;
+  };
+
+  DropZone.prototype.onWindowDrop = function onWindowDrop(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.setState({ isActive: false, isHovered: false });
   };
 
   DropZone.prototype.onWindowDragEnter = function onWindowDragEnter() {
-    this.dragging = true;
+    this.windowDragging = true;
+    clearTimeout(this.windowTimeout);
+
     if (this.state.isActive) {
       return;
     }
@@ -65,20 +86,25 @@ var DropZone = function (_Component) {
     this.setState({ isActive: true });
   };
 
-  DropZone.prototype.onWindowDragOver = function onWindowDragOver() {
-    this.dragging = true;
+  DropZone.prototype.onWindowDragOver = function onWindowDragOver(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.windowDragging = true;
+    clearTimeout(this.windowTimeout);
   };
 
   DropZone.prototype.onWindowDragLeave = function onWindowDragLeave() {
     var _this2 = this;
 
-    this.dragging = false;
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(function () {
-      if (!_this2.dragging) {
+    this.windowDragging = false;
+    clearTimeout(this.windowTimeout);
+
+    this.windowTimeout = setTimeout(function () {
+      if (!_this2.windowDragging) {
         _this2.setState({ isActive: false });
       }
-    }, 300);
+    }, 60);
   };
 
   DropZone.prototype.onDrop = function onDrop(event) {
@@ -86,10 +112,32 @@ var DropZone = function (_Component) {
     event.stopPropagation();
 
     this.onDragLeave();
+    this.onWindowDragLeave();
     this.props.onDropComplete(event.dataTransfer.files);
   };
 
+  DropZone.prototype.onDragEnter = function onDragEnter() {
+    this.zoneDragging = true;
+    this.windowDragging = true;
+    clearTimeout(this.zoneTimeout);
+    clearTimeout(this.windowTimeout);
+
+    if (this.state.isHovered) {
+      return;
+    }
+
+    this.setState({ isHovered: true });
+  };
+
   DropZone.prototype.onDragOver = function onDragOver(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.zoneDragging = true;
+    this.windowDragging = true;
+    clearTimeout(this.zoneTimeout);
+    clearTimeout(this.windowTimeout);
+
     // Makes it possible to drag files from chrome's download bar
     // http://stackoverflow.com/questions/19526430/drag-and-drop-file-uploads-from-chrome-downloads-bar
     try {
@@ -102,17 +150,19 @@ var DropZone = function (_Component) {
     } catch (e) {
       // do nothing
     }
-
-    event.preventDefault();
-    event.stopPropagation();
-  };
-
-  DropZone.prototype.onDragEnter = function onDragEnter() {
-    this.setState({ isHovered: true });
   };
 
   DropZone.prototype.onDragLeave = function onDragLeave() {
-    this.setState({ isHovered: false });
+    var _this3 = this;
+
+    this.zoneDragging = false;
+    clearTimeout(this.zoneTimeout);
+
+    this.zoneTimeout = setTimeout(function () {
+      if (!_this3.zoneDragging) {
+        _this3.setState({ isHovered: false });
+      }
+    }, 60);
   };
 
   DropZone.prototype.render = function render() {

@@ -114,7 +114,7 @@ var RecentContextMenu = function (_Component) {
   }
 
   RecentContextMenu.prototype.componentDidMount = function componentDidMount() {
-    this.listeners = [_EventListener2.default.listen(document, 'click', this.handleDocumentClick), _EventListener2.default.listen(document, 'contextmenu', this.handleClose), _EventListener2.default.listen(document, 'scroll', this.handleClose)];
+    this.listeners = [_EventListener2.default.capture(document, 'click', this.handleDocumentClick), _EventListener2.default.capture(document, 'contextmenu', this.handleClose), _EventListener2.default.capture(document, 'scroll', this.handleClose)];
   };
 
   RecentContextMenu.prototype.componentWillUnmount = function componentWillUnmount() {

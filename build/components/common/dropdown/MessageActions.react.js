@@ -104,7 +104,7 @@ var MessageActions = function (_Component) {
   }
 
   MessageActions.prototype.componentDidMount = function componentDidMount() {
-    this.listeners = [_EventListener2.default.listen(document, 'click', this.handleDocumentClick), _EventListener2.default.listen(document, 'scroll', this.handleDropdownClose)];
+    this.listeners = [_EventListener2.default.capture(document, 'click', this.handleDocumentClick), _EventListener2.default.capture(document, 'scroll', this.handleDropdownClose)];
   };
 
   MessageActions.prototype.componentWillUnmount = function componentWillUnmount() {

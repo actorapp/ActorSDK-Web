@@ -236,7 +236,8 @@ var Recent = function (_Component) {
     return _react2.default.createElement(_SidebarButton2.default, {
       title: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.recents.history' }),
       glyph: 'history',
-      onClick: this.handleHistoryClick
+      onClick: this.handleHistoryClick,
+      key: 'history'
     });
   };
 

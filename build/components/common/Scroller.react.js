@@ -86,6 +86,10 @@ var Scroller = function (_Component) {
     };
   };
 
+  Scroller.prototype.getBoundingClientRect = function getBoundingClientRect() {
+    return this.container.getBoundingClientRect();
+  };
+
   return Scroller;
 }(_react.Component);
 

@@ -176,7 +176,7 @@ var ActorSDK = function () {
       var Login = typeof _this.delegate.components.login == 'function' ? _this.delegate.components.login : _Login2.default;
       var Deactivated = typeof _this.delegate.components.deactivated == 'function' ? _this.delegate.components.deactivated : _Deactivated2.default;
       var Install = typeof _this.delegate.components.install == 'function' ? _this.delegate.components.install : _Install2.default;
-      var Archive = typeof _this.delegate.components.archive == 'function' ? _this.delegate.components.archive : _Archive2.default;
+      var Archive = typeof _this.delegate.components.archive == 'function' ? _this.delegate.components.archive : _Archive2.default; // TODO: Rename this component
       var Join = typeof _this.delegate.components.join == 'function' ? _this.delegate.components.join : _Join2.default;
       var Empty = typeof _this.delegate.components.empty == 'function' ? _this.delegate.components.empty : _Empty2.default;
       var Dialog = typeof _this.delegate.components.dialog == 'function' ? _this.delegate.components.dialog : _Dialog2.default;
@@ -209,7 +209,7 @@ var ActorSDK = function () {
             _react2.default.createElement(
               _reactRouter.Route,
               { path: 'im', component: _Main2.default, onEnter: _RouterHooks2.default.requireAuth },
-              _react2.default.createElement(_reactRouter.Route, { path: 'archive', component: Archive }),
+              _react2.default.createElement(_reactRouter.Route, { path: 'history', component: Archive }),
               _react2.default.createElement(_reactRouter.Route, { path: ':id', component: Dialog }),
               _react2.default.createElement(_reactRouter.IndexRoute, { component: Empty })
             ),

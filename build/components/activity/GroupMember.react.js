@@ -84,12 +84,6 @@ var GroupMember = function (_Component) {
     };
   };
 
-  GroupMember.prototype.componentWillUnmount = function componentWillUnmount() {
-    var peerInfo = this.props.peerInfo;
-
-    _KickUserStore2.default.resetKickUserState(peerInfo.peer.id);
-  };
-
   GroupMember.prototype.renderControls = function renderControls() {
     var _this2 = this;
 

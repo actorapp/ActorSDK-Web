@@ -10,13 +10,11 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _PeerUtils = require('../../utils/PeerUtils');
-
-var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
-
 var _EmojiUtils = require('../../utils/EmojiUtils');
 
-var _reactRouter = require('react-router');
+var _history = require('../../utils/history');
+
+var _history2 = _interopRequireDefault(_history);
 
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
@@ -45,89 +43,118 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var RecentItem = function (_Component) {
   _inherits(RecentItem, _Component);
 
-  function RecentItem() {
-    var _temp, _this, _ret;
-
+  function RecentItem(props) {
     _classCallCheck(this, RecentItem);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onContextMenu = function (event) {
-      event.preventDefault();
-      var peer = _this.props.dialog.peer.peer;
-
-      var contextPos = {
-        x: event.pageX || event.clientX,
-        y: event.pageY || event.clientY
-      };
-      _DropdownActionCreators2.default.openRecentContextMenu(contextPos, peer);
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    _this.handleClick = _this.handleClick.bind(_this);
+    _this.handleOpenContextMenu = _this.handleOpenContextMenu.bind(_this);
+    return _this;
   }
 
   RecentItem.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
     return nextProps.dialog !== this.props.dialog || nextProps.isActive !== this.props.isActive || nextProps.archiveState !== this.props.archiveState;
   };
 
+  RecentItem.prototype.handleOpenContextMenu = function handleOpenContextMenu(event) {
+    event.preventDefault();
+    var peer = this.props.dialog.peer.peer;
+
+    var contextPos = {
+      x: event.pageX || event.clientX,
+      y: event.pageY || event.clientY
+    };
+    _DropdownActionCreators2.default.openRecentContextMenu(contextPos, peer);
+  };
+
+  RecentItem.prototype.handleClick = function handleClick() {
+    var dialog = this.props.dialog;
+
+    _history2.default.push('/im/' + dialog.peer.peer.key);
+  };
+
+  RecentItem.prototype.renderCounter = function renderCounter() {
+    var dialog = this.props.dialog;
+
+    if (dialog.counter === 0) {
+      return null;
+    }
+
+    return _react2.default.createElement(
+      'span',
+      { className: 'recent__item__counter' },
+      dialog.counter
+    );
+  };
+
+  RecentItem.prototype.renderArchiveState = function renderArchiveState() {
+    var archiveState = this.props.archiveState;
+
+    if (archiveState === _ActorAppConstants.AsyncActionStates.PENDING) {
+      return null;
+    }
+
+    return _react2.default.createElement(_Stateful2.default, {
+      currentState: archiveState,
+      processing: _react2.default.createElement(
+        'div',
+        { className: 'archive archive--in-progress' },
+        _react2.default.createElement(
+          'i',
+          { className: 'icon material-icons spin' },
+          'autorenew'
+        )
+      ),
+      success: _react2.default.createElement(
+        'div',
+        { className: 'archive archive--in-progress' },
+        _react2.default.createElement(
+          'i',
+          { className: 'icon material-icons' },
+          'check'
+        )
+      ),
+      failure: _react2.default.createElement(
+        'div',
+        { className: 'archive archive--failure' },
+        _react2.default.createElement(
+          'i',
+          { className: 'icon material-icons' },
+          'warning'
+        )
+      )
+    });
+  };
+
   RecentItem.prototype.render = function render() {
     var _props = this.props;
     var dialog = _props.dialog;
-    var archiveState = _props.archiveState;
+    var isActive = _props.isActive;
 
-    var toPeer = _PeerUtils2.default.peerToString(dialog.peer.peer);
+    var title = (0, _EmojiUtils.escapeWithEmoji)(dialog.peer.title);
 
-    var recentClassName = (0, _classnames2.default)('sidebar__list__item', 'row', {
-      'sidebar__list__item--unread': dialog.counter > 0
+    var recentItemClassName = (0, _classnames2.default)('recent__item', {
+      'recent__item--active': isActive,
+      'recent__item--unread': dialog.counter !== 0
     });
 
     return _react2.default.createElement(
-      'li',
-      { onContextMenu: this.onContextMenu },
+      'div',
+      { onContextMenu: this.handleOpenContextMenu, onClick: this.handleClick, className: recentItemClassName },
       _react2.default.createElement(
-        _reactRouter.Link,
-        { to: '/im/' + toPeer, className: recentClassName, activeClassName: 'sidebar__list__item--active' },
-        _react2.default.createElement(_AvatarItem2.default, { image: dialog.peer.avatar,
-          placeholder: dialog.peer.placeholder,
+        'div',
+        { className: 'recent__item__avatar' },
+        _react2.default.createElement(_AvatarItem2.default, {
           size: 'tiny',
-          title: dialog.peer.title }),
-        _react2.default.createElement('div', { className: 'title col-xs', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(dialog.peer.title) } }),
-        dialog.counter > 0 ? _react2.default.createElement(
-          'span',
-          { className: 'counter' },
-          dialog.counter
-        ) : null,
-        _react2.default.createElement(_Stateful2.default, {
-          currentState: archiveState,
-          processing: _react2.default.createElement(
-            'div',
-            { className: 'archive archive--in-progress' },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons spin' },
-              'autorenew'
-            )
-          ),
-          success: _react2.default.createElement(
-            'div',
-            { className: 'archive archive--in-progress' },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons' },
-              'check'
-            )
-          ),
-          failure: _react2.default.createElement(
-            'div',
-            { className: 'archive archive--failure' },
-            _react2.default.createElement(
-              'i',
-              { className: 'icon material-icons' },
-              'warning'
-            )
-          )
+          image: dialog.peer.avatar,
+          placeholder: dialog.peer.placeholder,
+          title: dialog.peer.title
         })
-      )
+      ),
+      _react2.default.createElement('div', { className: 'recent__item__title col-xs', dangerouslySetInnerHTML: { __html: title } }),
+      this.renderCounter(),
+      this.renderArchiveState()
     );
   };
 
@@ -140,10 +167,8 @@ RecentItem.propTypes = {
   archiveState: _react.PropTypes.number.isRequired
 };
 RecentItem.defaultProps = {
+  isActive: false,
   archiveState: _ActorAppConstants.AsyncActionStates.PENDING
-};
-RecentItem.contextTypes = {
-  intl: _react.PropTypes.object
 };
 exports.default = RecentItem;
 //# sourceMappingURL=RecentItem.react.js.map

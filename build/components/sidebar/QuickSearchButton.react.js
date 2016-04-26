@@ -8,6 +8,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactIntl = require('react-intl');
 
+var _rcTooltip = require('rc-tooltip');
+
+var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
+
 var _EventListener = require('fbjs/lib/EventListener');
 
 var _EventListener2 = _interopRequireDefault(_EventListener);
@@ -17,10 +21,6 @@ var _ActorAppConstants = require('../../constants/ActorAppConstants');
 var _QuickSearchActionCreators = require('../../actions/QuickSearchActionCreators');
 
 var _QuickSearchActionCreators2 = _interopRequireDefault(_QuickSearchActionCreators);
-
-var _rcTooltip = require('rc-tooltip');
-
-var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

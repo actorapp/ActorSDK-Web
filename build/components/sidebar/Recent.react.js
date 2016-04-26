@@ -8,47 +8,41 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require('react-dom');
-
-var _reactRouter = require('react-router');
+var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
 var _reactIntl = require('react-intl');
 
-var _classnames = require('classnames');
+var _history = require('../../utils/history');
 
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _PeerUtils = require('../../utils/PeerUtils');
-
-var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
-
-var _CreateGroupActionCreators = require('../../actions/CreateGroupActionCreators');
-
-var _CreateGroupActionCreators2 = _interopRequireDefault(_CreateGroupActionCreators);
-
-var _ContactActionCreators = require('../../actions/ContactActionCreators');
-
-var _ContactActionCreators2 = _interopRequireDefault(_ContactActionCreators);
+var _history2 = _interopRequireDefault(_history);
 
 var _GroupListActionCreators = require('../../actions/GroupListActionCreators');
 
 var _GroupListActionCreators2 = _interopRequireDefault(_GroupListActionCreators);
 
+var _ContactActionCreators = require('../../actions/ContactActionCreators');
+
+var _ContactActionCreators2 = _interopRequireDefault(_ContactActionCreators);
+
+var _CreateGroupActionCreators = require('../../actions/CreateGroupActionCreators');
+
+var _CreateGroupActionCreators2 = _interopRequireDefault(_CreateGroupActionCreators);
+
 var _AddContactActionCreators = require('../../actions/AddContactActionCreators');
 
 var _AddContactActionCreators2 = _interopRequireDefault(_AddContactActionCreators);
 
-var _rcTooltip = require('rc-tooltip');
+var _Scroller = require('../common/Scroller.react');
 
-var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
+var _Scroller2 = _interopRequireDefault(_Scroller);
 
-var _Scrollbar = require('../common/Scrollbar.react');
+var _RecentGroup = require('./RecentGroup.react');
 
-var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
+var _RecentGroup2 = _interopRequireDefault(_RecentGroup);
 
-var _RecentItem = require('./RecentItem.react');
+var _SidebarButton = require('./SidebarButton.react');
 
-var _RecentItem2 = _interopRequireDefault(_RecentItem);
+var _SidebarButton2 = _interopRequireDefault(_SidebarButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -68,282 +62,210 @@ var Recent = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _this.handleCreateGroup = function () {
-      return _CreateGroupActionCreators2.default.open();
-    };
-
-    _this.handleCreatePrivate = function () {
-      return _AddContactActionCreators2.default.open();
-    };
-
-    _this.handleGroupListClick = function () {
-      return _GroupListActionCreators2.default.open();
-    };
-
-    _this.handlePrivateListClick = function () {
-      return _ContactActionCreators2.default.open();
-    };
-
-    _this.handleRecentScroll = function () {
-      return _this.checkInvisibleCounters();
-    };
-
-    _this.checkInvisibleCounters = function () {
-      var unreadNodes = document.getElementsByClassName('sidebar__list__item--unread');
-      var scrollNode = (0, _reactDom.findDOMNode)(_this.refs.container);
-      var scrollNodeRect = scrollNode.getBoundingClientRect();
-
-      var haveUnreadAbove = false,
-          haveUnreadBelow = false,
-          lastUnreadBelow = null,
-          firstUnreadAbove = null;
-
-      (0, _lodash.forEach)(unreadNodes, function (node) {
-        var rect = node.getBoundingClientRect();
-        if (scrollNodeRect.top + scrollNodeRect.height < rect.top) {
-          haveUnreadBelow = true;
-          lastUnreadBelow = node;
-        }
-        if (scrollNodeRect.top > rect.top + rect.height) {
-          haveUnreadAbove = true;
-          if (!firstUnreadAbove) {
-            firstUnreadAbove = node;
-          }
-        }
-      });
-
-      _this.setState({ haveUnreadAbove: haveUnreadAbove, haveUnreadBelow: haveUnreadBelow, firstUnreadAbove: firstUnreadAbove, lastUnreadBelow: lastUnreadBelow });
-    };
-
-    _this.scrollToFirstHiddenAbove = function () {
-      var firstUnreadAbove = _this.state.firstUnreadAbove;
-
-      var rect = firstUnreadAbove.getBoundingClientRect();
-      var scrollNode = (0, _reactDom.findDOMNode)(_this.refs.container).getElementsByClassName('ss-scrollarea')[0];
-      var scrollNodeRect = scrollNode.getBoundingClientRect();
-
-      _this.refs.container.scrollTo(scrollNode.scrollTop + rect.top - scrollNodeRect.top);
-    };
-
-    _this.scrollToLastHiddenBelow = function () {
-      var lastUnreadBelow = _this.state.lastUnreadBelow;
-
-      var rect = lastUnreadBelow.getBoundingClientRect();
-      var scrollNode = (0, _reactDom.findDOMNode)(_this.refs.container).getElementsByClassName('ss-scrollarea')[0];
-      var scrollNodeRect = scrollNode.getBoundingClientRect();
-
-      _this.refs.container.scrollTo(scrollNode.scrollTop + rect.top - (scrollNodeRect.top + scrollNodeRect.height - rect.height));
-    };
-
-    _this.checkInvisibleCounters = (0, _lodash.debounce)(_this.checkInvisibleCounters, 50, {
-      maxWait: 150,
-      leading: true
-    });
-
     _this.state = {
       haveUnreadAbove: false,
       haveUnreadBelow: false,
       lastUnreadBelow: null,
       firstUnreadAbove: null
     };
+
+    _this.checkInvisibleCounters = (0, _lodash.debounce)(_this.checkInvisibleCounters.bind(_this), 50, { maxWait: 150, leading: true });
+    _this.scrollToFirstHiddenAbove = _this.scrollToFirstHiddenAbove.bind(_this);
+    _this.scrollToLastHiddenBelow = _this.scrollToLastHiddenBelow.bind(_this);
+    _this.handleGroupListTitleClick = _this.handleGroupListTitleClick.bind(_this);
+    _this.handlePrivateListTitleClick = _this.handlePrivateListTitleClick.bind(_this);
+    _this.handleHistoryClick = _this.handleHistoryClick.bind(_this);
+
+    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
   }
 
   Recent.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-    if (nextProps.dialogs !== this.props.dialogs) {
-      this.checkInvisibleCounters();
+    if (nextProps.dialogs !== this.props.dialogs) this.checkInvisibleCounters();
+  };
+
+  Recent.prototype.handleGroupListTitleClick = function handleGroupListTitleClick() {
+    _GroupListActionCreators2.default.open();
+  };
+
+  Recent.prototype.handlePrivateListTitleClick = function handlePrivateListTitleClick() {
+    _ContactActionCreators2.default.open();
+  };
+
+  Recent.prototype.handleAddContact = function handleAddContact() {
+    _AddContactActionCreators2.default.open();
+  };
+
+  Recent.prototype.handleCreateGroup = function handleCreateGroup() {
+    _CreateGroupActionCreators2.default.open();
+  };
+
+  Recent.prototype.handleHistoryClick = function handleHistoryClick() {
+    _history2.default.push('/im/history');
+  };
+
+  Recent.prototype.checkInvisibleCounters = function checkInvisibleCounters() {
+    var scroller = this.refs.scroller;
+
+    var recentRect = scroller.getBoundingClientRect();
+    // TODO: refactor this
+    var unreadNodes = scroller.container.getElementsByClassName('recent__item--unread');
+
+    var haveUnreadAbove = false,
+        haveUnreadBelow = false,
+        lastUnreadBelow = null,
+        firstUnreadAbove = null;
+
+    (0, _lodash.forEach)(unreadNodes, function (node) {
+      var rect = node.getBoundingClientRect();
+      if (recentRect.top + recentRect.height < rect.top) {
+        haveUnreadBelow = true;
+        lastUnreadBelow = node;
+      }
+      if (recentRect.top > rect.top + rect.height) {
+        haveUnreadAbove = true;
+        if (!firstUnreadAbove) {
+          firstUnreadAbove = node;
+        }
+      }
+    });
+
+    this.setState({ haveUnreadAbove: haveUnreadAbove, haveUnreadBelow: haveUnreadBelow, firstUnreadAbove: firstUnreadAbove, lastUnreadBelow: lastUnreadBelow });
+  };
+
+  Recent.prototype.scrollToFirstHiddenAbove = function scrollToFirstHiddenAbove() {
+    var scroller = this.refs.scroller;
+    var firstUnreadAbove = this.state.firstUnreadAbove;
+
+    var rect = firstUnreadAbove.getBoundingClientRect();
+    var dimensions = scroller.getDimensions();
+    var scrollerRect = scroller.getBoundingClientRect();
+
+    scroller.scrollTo(dimensions.scrollTop + rect.top - scrollerRect.top);
+  };
+
+  Recent.prototype.scrollToLastHiddenBelow = function scrollToLastHiddenBelow() {
+    var scroller = this.refs.scroller;
+    var lastUnreadBelow = this.state.lastUnreadBelow;
+
+    var rect = lastUnreadBelow.getBoundingClientRect();
+    var dimensions = scroller.getDimensions();
+    var scrollerRect = scroller.getBoundingClientRect();
+
+    scroller.scrollTo(dimensions.scrollTop + rect.top - (scrollerRect.top + scrollerRect.height - rect.height));
+  };
+
+  Recent.prototype.getTitleClickHandler = function getTitleClickHandler(group) {
+    switch (group.key) {
+      case 'groups':
+        return this.handleGroupListTitleClick;
+
+      case 'privates':
+        return this.handlePrivateListTitleClick;
+
+      default:
+        return null;
     }
   };
 
-  Recent.prototype.render = function render() {
+  Recent.prototype.getTitleAddHandler = function getTitleAddHandler(group) {
+    switch (group.key) {
+      case 'groups':
+        return this.handleCreateGroup;
+
+      case 'privates':
+        return this.handleAddContact;
+
+      default:
+        return null;
+    }
+  };
+
+  Recent.prototype.renderRecentGroups = function renderRecentGroups() {
     var _this2 = this;
 
     var _props = this.props;
-    var dialogs = _props.dialogs;
-    var archive = _props.archive;
     var currentPeer = _props.currentPeer;
-    var _state = this.state;
-    var haveUnreadAbove = _state.haveUnreadAbove;
-    var haveUnreadBelow = _state.haveUnreadBelow;
-    var intl = this.context.intl;
+    var archive = _props.archive;
 
-
-    var recentGroups = (0, _lodash.map)(dialogs, function (dialogGroup, index) {
-      var isEmpty = dialogGroup.shorts.length === 0;
-      var groupTitle = void 0;
-
-      switch (dialogGroup.key) {
-        case 'groups':
-          groupTitle = _react2.default.createElement(
-            'li',
-            { className: 'sidebar__list__title' },
-            _react2.default.createElement(
-              _rcTooltip2.default,
-              {
-                placement: 'right',
-                mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
-                overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.recent.groupList' })
-              },
-              _react2.default.createElement(
-                'a',
-                { onClick: _this2.handleGroupListClick },
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.recents.' + dialogGroup.key })
-              )
-            ),
-            _react2.default.createElement(
-              _rcTooltip2.default,
-              {
-                placement: 'top',
-                mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
-                overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.recent.createGroup' })
-              },
-              _react2.default.createElement(
-                'i',
-                { className: 'material-icons sidebar__list__title__icon pull-right',
-                  onClick: _this2.handleCreateGroup },
-                'add_circle_outline'
-              )
-            )
-          );
-          break;
-        case 'privates':
-          groupTitle = _react2.default.createElement(
-            'li',
-            { className: 'sidebar__list__title' },
-            _react2.default.createElement(
-              _rcTooltip2.default,
-              {
-                placement: 'right',
-                mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
-                overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.recent.privateList' })
-              },
-              _react2.default.createElement(
-                'a',
-                { onClick: _this2.handlePrivateListClick },
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.recents.' + dialogGroup.key })
-              )
-            ),
-            _react2.default.createElement(
-              _rcTooltip2.default,
-              {
-                placement: 'top',
-                mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
-                overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.recent.addContact' })
-              },
-              _react2.default.createElement(
-                'i',
-                { className: 'material-icons sidebar__list__title__icon pull-right',
-                  onClick: _this2.handleCreatePrivate },
-                'add_circle_outline'
-              )
-            )
-          );
-          break;
-        default:
-          groupTitle = _react2.default.createElement(
-            'li',
-            { className: 'sidebar__list__title' },
-            intl.messages['sidebar.recents.' + dialogGroup.key]
-          );
-      }
-
-      var groupList = (0, _lodash.map)(dialogGroup.shorts, function (dialog) {
-        var peer = dialog.peer.peer;
-        var peerKey = _PeerUtils2.default.peerToString(peer);
-
-        return _react2.default.createElement(_RecentItem2.default, {
-          dialog: dialog,
-          archiveState: archive[peerKey],
-          isActive: _PeerUtils2.default.equals(peer, currentPeer),
-          key: peerKey
-        });
+    return this.props.dialogs.map(function (group) {
+      return _react2.default.createElement(_RecentGroup2.default, {
+        items: group.shorts,
+        key: group.key,
+        group: group.key,
+        currentPeer: currentPeer,
+        archive: archive,
+        onTitleClick: _this2.getTitleClickHandler(group),
+        onPlusClick: _this2.getTitleAddHandler(group)
       });
-
-      var groupClassname = (0, _classnames2.default)('sidebar__list sidebar__list--' + dialogGroup.key, {
-        'sidebar__list--empty': isEmpty
-      });
-
-      var getEmptyMessage = function getEmptyMessage() {
-        switch (dialogGroup.key) {
-          case 'groups':
-            return _react2.default.createElement(
-              'li',
-              { className: 'sidebar__list__item sidebar__list__item--empty' },
-              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.group.empty' }),
-              _react2.default.createElement('div', { className: 'stem' })
-            );
-          case 'privates':
-            return _react2.default.createElement(
-              'li',
-              { className: 'sidebar__list__item sidebar__list__item--empty' },
-              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.private.empty' }),
-              _react2.default.createElement(
-                'button',
-                { className: 'button button--outline button--wide hide' },
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.invite' })
-              )
-            );
-          default:
-            return null;
-        }
-      };
-
-      return _react2.default.createElement(
-        'ul',
-        { className: groupClassname, key: index },
-        groupTitle,
-        isEmpty ? getEmptyMessage() : groupList
-      );
     });
+  };
+
+  Recent.prototype.renderUnreadAbove = function renderUnreadAbove() {
+    if (!this.state.haveUnreadAbove) return null;
 
     return _react2.default.createElement(
-      'section',
-      { className: 'sidebar__recent' },
-      haveUnreadAbove ? _react2.default.createElement(
-        'div',
-        { className: 'sidebar__recent__unread sidebar__recent__unread--above', onClick: this.scrollToFirstHiddenAbove },
-        _react2.default.createElement(
-          'i',
-          { className: 'material-icons' },
-          'keyboard_arrow_up'
-        )
-      ) : null,
+      'div',
+      { className: 'recent__unread recent__unread--above', onClick: this.scrollToFirstHiddenAbove },
       _react2.default.createElement(
-        _Scrollbar2.default,
-        { ref: 'container', onScroll: this.handleRecentScroll },
-        _react2.default.createElement(
-          'div',
-          null,
-          recentGroups,
-          _react2.default.createElement(
-            'footer',
-            null,
-            _react2.default.createElement(
-              _reactRouter.Link,
-              { to: '/im/archive', className: 'button button--rised button--wide' },
-              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.archive' })
-            )
-          )
-        )
+        'i',
+        { className: 'material-icons' },
+        'keyboard_arrow_up'
+      )
+    );
+  };
+
+  Recent.prototype.renderUnreadBelow = function renderUnreadBelow() {
+    if (!this.state.haveUnreadBelow) return null;
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'recent__unread recent__unread--below', onClick: this.scrollToLastHiddenBelow },
+      _react2.default.createElement(
+        'i',
+        { className: 'material-icons' },
+        'keyboard_arrow_down'
+      )
+    );
+  };
+
+  Recent.prototype.renderHistoryButton = function renderHistoryButton() {
+    var isArchiveEmpty = false; // TODO: Use real flag
+    if (isArchiveEmpty) return null;
+
+    return _react2.default.createElement(_SidebarButton2.default, {
+      title: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.recents.history' }),
+      glyph: 'history',
+      onClick: this.handleHistoryClick
+    });
+  };
+
+  Recent.prototype.renderScrollableContent = function renderScrollableContent() {
+    return [this.renderRecentGroups(), this.renderHistoryButton()];
+  };
+
+  Recent.prototype.render = function render() {
+    return _react2.default.createElement(
+      'section',
+      { className: 'recent' },
+      this.renderUnreadAbove(),
+      _react2.default.createElement(
+        _Scroller2.default,
+        {
+          className: 'recent__container',
+          ref: 'scroller',
+          onScroll: this.checkInvisibleCounters,
+          onResize: this.checkInvisibleCounters
+        },
+        this.renderScrollableContent()
       ),
-      haveUnreadBelow ? _react2.default.createElement(
-        'div',
-        { className: 'sidebar__recent__unread sidebar__recent__unread--below', onClick: this.scrollToLastHiddenBelow },
-        _react2.default.createElement(
-          'i',
-          { className: 'material-icons' },
-          'keyboard_arrow_down'
-        )
-      ) : null
+      this.renderUnreadBelow()
     );
   };
 
   return Recent;
 }(_react.Component);
 
-Recent.contextTypes = {
-  intl: _react.PropTypes.object
-};
 Recent.propTypes = {
   currentPeer: _react.PropTypes.object,
   dialogs: _react.PropTypes.array.isRequired,

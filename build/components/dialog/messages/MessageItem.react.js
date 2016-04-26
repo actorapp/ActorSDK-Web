@@ -64,9 +64,9 @@ var _Text = require('./Text.react');
 
 var _Text2 = _interopRequireDefault(_Text);
 
-var _PhotoReact = require('./Photo.react.js');
+var _Photo = require('./Photo.react');
 
-var _PhotoReact2 = _interopRequireDefault(_PhotoReact);
+var _Photo2 = _interopRequireDefault(_Photo);
 
 var _Document = require('./Document.react');
 
@@ -80,17 +80,17 @@ var _Contact = require('./Contact.react');
 
 var _Contact2 = _interopRequireDefault(_Contact);
 
-var _LocationReact = require('./Location.react.js');
+var _Location = require('./Location.react');
 
-var _LocationReact2 = _interopRequireDefault(_LocationReact);
+var _Location2 = _interopRequireDefault(_Location);
 
-var _ModernReact = require('./Modern.react.js');
+var _Modern = require('./Modern.react');
 
-var _ModernReact2 = _interopRequireDefault(_ModernReact);
+var _Modern2 = _interopRequireDefault(_Modern);
 
-var _StickerReact = require('./Sticker.react.js');
+var _Sticker = require('./Sticker.react');
 
-var _StickerReact2 = _interopRequireDefault(_StickerReact);
+var _Sticker2 = _interopRequireDefault(_Sticker);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -180,23 +180,23 @@ var MessageItem = function (_Component) {
     if (delegate.components.dialog && delegate.components.dialog.messages && !(0, _lodash.isFunction)(delegate.components.dialog.messages.message)) {
       Service = delegate.components.dialog.messages.service || _Service2.default;
       Text = delegate.components.dialog.messages.text || _Text2.default;
-      Modern = delegate.components.dialog.messages.modern || _ModernReact2.default;
-      Photo = delegate.components.dialog.messages.photo || _PhotoReact2.default;
+      Modern = delegate.components.dialog.messages.modern || _Modern2.default;
+      Photo = delegate.components.dialog.messages.photo || _Photo2.default;
       Document = delegate.components.dialog.messages.document || _Document2.default;
       Voice = delegate.components.dialog.messages.voice || _Voice2.default;
       Contact = delegate.components.dialog.messages.contact || _Contact2.default;
-      Location = delegate.components.dialog.messages.location || _LocationReact2.default;
-      Sticker = delegate.components.dialog.messages.sticker || _StickerReact2.default;
+      Location = delegate.components.dialog.messages.location || _Location2.default;
+      Sticker = delegate.components.dialog.messages.sticker || _Sticker2.default;
     } else {
       Service = _Service2.default;
       Text = _Text2.default;
-      Modern = _ModernReact2.default;
-      Photo = _PhotoReact2.default;
+      Modern = _Modern2.default;
+      Photo = _Photo2.default;
       Document = _Document2.default;
       Voice = _Voice2.default;
       Contact = _Contact2.default;
-      Location = _LocationReact2.default;
-      Sticker = _StickerReact2.default;
+      Location = _Location2.default;
+      Sticker = _Sticker2.default;
     }
 
     var header = null,

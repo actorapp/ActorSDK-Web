@@ -40,6 +40,10 @@ var _Session = require('./preferences/Session.react');
 
 var _Session2 = _interopRequireDefault(_Session);
 
+var _BlockedUsers = require('./preferences/BlockedUsers.react');
+
+var _BlockedUsers2 = _interopRequireDefault(_BlockedUsers);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -171,6 +175,9 @@ var PreferencesModal = function (_Component) {
     var notificationTabClassNames = (0, _classnames2.default)('preferences__tabs__tab', {
       'preferences__tabs__tab--active': activeTab === _ActorAppConstants.PreferencesTabTypes.NOTIFICATIONS
     });
+    var blockTabClassNames = (0, _classnames2.default)('preferences__tabs__tab', {
+      'preferences__tabs__tab--active': activeTab === _ActorAppConstants.PreferencesTabTypes.BLOCKED
+    });
     var securityTabClassNames = (0, _classnames2.default)('preferences__tabs__tab', {
       'preferences__tabs__tab--active': activeTab === _ActorAppConstants.PreferencesTabTypes.SECURITY
     });
@@ -181,21 +188,28 @@ var PreferencesModal = function (_Component) {
       _react2.default.createElement(
         'a',
         { className: generalTabClassNames, onClick: function onClick() {
-            return _this2.handleChangeTab('GENERAL');
+            return _this2.handleChangeTab(_ActorAppConstants.PreferencesTabTypes.GENERAL);
           } },
         _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.general.title' })
       ),
       _react2.default.createElement(
         'a',
         { className: notificationTabClassNames, onClick: function onClick() {
-            return _this2.handleChangeTab('NOTIFICATIONS');
+            return _this2.handleChangeTab(_ActorAppConstants.PreferencesTabTypes.NOTIFICATIONS);
           } },
         _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.notifications.title' })
       ),
       _react2.default.createElement(
         'a',
+        { className: blockTabClassNames, onClick: function onClick() {
+            return _this2.handleChangeTab(_ActorAppConstants.PreferencesTabTypes.BLOCKED);
+          } },
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.blocked.title' })
+      ),
+      _react2.default.createElement(
+        'a',
         { className: securityTabClassNames, onClick: function onClick() {
-            return _this2.handleChangeTab('SECURITY');
+            return _this2.handleChangeTab(_ActorAppConstants.PreferencesTabTypes.SECURITY);
           } },
         _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.security.title' })
       ),
@@ -208,6 +222,7 @@ var PreferencesModal = function (_Component) {
   };
 
   PreferencesModal.prototype.renderGeneralTab = function renderGeneralTab() {
+    // FIXME: Sometimes radio buttons doesnt checked after changing tab;
     var isSendByEnterEnabled = this.state.isSendByEnterEnabled;
 
 
@@ -292,6 +307,7 @@ var PreferencesModal = function (_Component) {
   };
 
   PreferencesModal.prototype.renderNotificationsTab = function renderNotificationsTab() {
+    // FIXME: Checkboxes blinking on changing tabs
     var _state2 = this.state;
     var isSoundEffectsEnabled = _state2.isSoundEffectsEnabled;
     var isGroupsNotificationsEnabled = _state2.isGroupsNotificationsEnabled;
@@ -461,6 +477,8 @@ var PreferencesModal = function (_Component) {
         return this.renderGeneralTab();
       case _ActorAppConstants.PreferencesTabTypes.NOTIFICATIONS:
         return this.renderNotificationsTab();
+      case _ActorAppConstants.PreferencesTabTypes.BLOCKED:
+        return _react2.default.createElement(_BlockedUsers2.default, null);
       case _ActorAppConstants.PreferencesTabTypes.SECURITY:
         return this.renderSecurityTab();
       default:
@@ -469,6 +487,7 @@ var PreferencesModal = function (_Component) {
   };
 
   PreferencesModal.prototype.render = function render() {
+    console.debug(this.state);
     return _react2.default.createElement(
       _reactModal2.default,
       {

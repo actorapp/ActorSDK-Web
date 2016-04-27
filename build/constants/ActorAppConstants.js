@@ -393,7 +393,8 @@ var ModalTypes = exports.ModalTypes = (0, _keymirror2.default)({
 var PreferencesTabTypes = exports.PreferencesTabTypes = (0, _keymirror2.default)({
   GENERAL: null,
   NOTIFICATIONS: null,
-  SECURITY: null
+  SECURITY: null,
+  BLOCKED: null
 });
 
 var Path = exports.Path = {

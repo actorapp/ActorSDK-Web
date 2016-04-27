@@ -52,10 +52,6 @@ var _PreferencesActionCreators = require('../../actions/PreferencesActionCreator
 
 var _PreferencesActionCreators2 = _interopRequireDefault(_PreferencesActionCreators);
 
-var _BlockedUsersActionCreators = require('../../actions/BlockedUsersActionCreators');
-
-var _BlockedUsersActionCreators2 = _interopRequireDefault(_BlockedUsersActionCreators);
-
 var _ProfileStore = require('../../stores/ProfileStore');
 
 var _ProfileStore2 = _interopRequireDefault(_ProfileStore);
@@ -109,10 +105,6 @@ var HeaderSection = function (_Component) {
 
     _this.openCreateGroup = function () {
       return _CreateGroupActionCreators2.default.open();
-    };
-
-    _this.openBlockedUsers = function () {
-      return _BlockedUsersActionCreators2.default.open();
     };
 
     _this.openAddContactModal = function () {
@@ -364,16 +356,6 @@ var HeaderSection = function (_Component) {
                 'group_add'
               ),
               _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.createGroup' })
-            ),
-            _react2.default.createElement(
-              'li',
-              { className: 'dropdown__menu__item', onClick: this.openBlockedUsers },
-              _react2.default.createElement(
-                'i',
-                { className: 'material-icons' },
-                'block'
-              ),
-              _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'menu.blockedUsers' })
             ),
             _react2.default.createElement('li', { className: 'dropdown__menu__separator' }),
             _react2.default.createElement(

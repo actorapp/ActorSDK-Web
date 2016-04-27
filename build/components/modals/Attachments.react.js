@@ -115,7 +115,7 @@ var Attachments = function (_Component) {
     _AttachmentsActionCreators2.default.sendAll(this.state.attachments);
   };
 
-  Attachments.prototype.renderHeadeButton = function renderHeadeButton() {
+  Attachments.prototype.renderHeaderButton = function renderHeaderButton() {
     var attachments = this.state.attachments;
 
     if (attachments.length <= 1) return null;
@@ -132,6 +132,7 @@ var Attachments = function (_Component) {
     var attachments = _state.attachments;
     var selectedIndex = _state.selectedIndex;
 
+    if (attachments.length === 0) return null;
 
     return _react2.default.createElement(_Attachment2.default, { attachment: attachments[selectedIndex] });
   };
@@ -189,7 +190,7 @@ var Attachments = function (_Component) {
             'header',
             { className: 'modal__header' },
             _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.attachments.title', tagName: 'h1' }),
-            this.renderHeadeButton()
+            this.renderHeaderButton()
           ),
           _react2.default.createElement(
             'div',

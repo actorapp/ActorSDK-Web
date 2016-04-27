@@ -61,14 +61,15 @@ var Profile = function (_Component) {
       profile: state.profile,
       name: prevState ? prevState.name : state.profile.name,
       nick: prevState ? prevState.nick : state.profile.nick,
-      about: prevState ? prevState.about : state.profile.about
+      about: prevState ? prevState.about : state.profile.about,
+      errors: prevState ? prevState.errors : {}
     };
   };
 
-  function Profile(props) {
+  function Profile(props, context) {
     _classCallCheck(this, Profile);
 
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
 
     _this.handleClose = _this.handleClose.bind(_this);
     _this.handleSave = _this.handleSave.bind(_this);
@@ -89,13 +90,15 @@ var Profile = function (_Component) {
     var name = _state.name;
     var about = _state.about;
     var profile = _state.profile;
+    var errors = _state.errors;
 
 
-    if (name !== profile.name) _ProfileActionCreators2.default.editMyName(name);
-    if (nick !== profile.nick) _ProfileActionCreators2.default.editMyNick(nick);
-    if (about !== profile.about) _ProfileActionCreators2.default.editMyAbout(about);
-
-    this.handleClose();
+    if (!errors.nick) {
+      if (name !== profile.name) _ProfileActionCreators2.default.editMyName(name);
+      if (nick !== profile.nick) _ProfileActionCreators2.default.editMyNick(nick);
+      if (about !== profile.about) _ProfileActionCreators2.default.editMyAbout(about);
+      this.handleClose();
+    }
   };
 
   Profile.prototype.handleNameChange = function handleNameChange(event) {
@@ -103,7 +106,29 @@ var Profile = function (_Component) {
   };
 
   Profile.prototype.handleNickChange = function handleNickChange(event) {
-    this.setState({ nick: event.target.value });
+    var nick = event.target.value;
+
+    this.setState({
+      nick: nick,
+      errors: {
+        nick: this.validateNick(nick)
+      }
+    });
+  };
+
+  Profile.prototype.validateNick = function validateNick(nick) {
+    var intl = this.context.intl;
+
+
+    if (nick.length < 5 || nick.length > 32) {
+      return intl.messages['modal.profile.errors.nick.length'];
+    }
+
+    if (!/^[0-9a-zA-Z_]+$/.test(nick)) {
+      return intl.messages['modal.profile.errors.nick.chars'];
+    }
+
+    return null;
   };
 
   Profile.prototype.handleAboutChange = function handleAboutChange(event) {
@@ -119,7 +144,7 @@ var Profile = function (_Component) {
   };
 
   Profile.prototype.renderControls = function renderControls() {
-    var isProfileChanged = this.state.isProfileChanged;
+    var errors = this.state.errors;
 
 
     return _react2.default.createElement(
@@ -134,7 +159,7 @@ var Profile = function (_Component) {
         'button',
         {
           className: 'button button--rised',
-          disabled: isProfileChanged,
+          disabled: errors.nick,
           onClick: this.handleSave },
         _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.save' })
       )
@@ -158,7 +183,9 @@ var Profile = function (_Component) {
   };
 
   Profile.prototype.renderNick = function renderNick() {
-    var nick = this.state.nick;
+    var _state2 = this.state;
+    var nick = _state2.nick;
+    var errors = _state2.errors;
 
 
     return _react2.default.createElement(
@@ -167,6 +194,7 @@ var Profile = function (_Component) {
       _react2.default.createElement(_TextField2.default, {
         className: 'input__material--wide',
         floatingLabel: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.profile.nick' }),
+        errorText: errors.nick,
         onChange: this.handleNickChange,
         type: 'text',
         value: nick })
@@ -285,5 +313,8 @@ var Profile = function (_Component) {
   return Profile;
 }(_react.Component);
 
+Profile.contextTypes = {
+  intl: _react.PropTypes.object
+};
 exports.default = _utils.Container.create(Profile);
 //# sourceMappingURL=Profile.react.js.map

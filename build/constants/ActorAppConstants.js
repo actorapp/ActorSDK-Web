@@ -22,6 +22,7 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   APP_HIDDEN: null,
   APP_VISIBLE: null,
 
+  AUTH_START: null,
   AUTH_CHANGE_LOGIN: null,
   AUTH_CHANGE_CODE: null,
   AUTH_CHANGE_NAME: null,

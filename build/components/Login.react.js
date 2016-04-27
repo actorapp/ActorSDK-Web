@@ -103,6 +103,8 @@ var Login = function (_Component) {
       }
     };
 
+    _LoginActionCreators2.default.start();
+
     var SharedActor = _SharedContainer2.default.get();
     _this.appName = SharedActor.appName ? SharedActor.appName : _ActorAppConstants.appName;
     return _this;

@@ -73,6 +73,10 @@ var LoginActionCreators = function (_ActionCreators) {
     return _possibleConstructorReturn(this, _ActionCreators.apply(this, arguments));
   }
 
+  LoginActionCreators.prototype.start = function start() {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_START);
+  };
+
   LoginActionCreators.prototype.changeLogin = function changeLogin(login) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.AUTH_CHANGE_LOGIN, { login: login });
   };

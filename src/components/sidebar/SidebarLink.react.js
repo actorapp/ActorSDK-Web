@@ -3,13 +3,16 @@
  */
 
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
+import classnames from 'classnames';
 import { shouldComponentUpdate } from 'react-addons-pure-render-mixin';
 
-class SidebarButton extends Component {
+class SidebarLink extends Component {
   static propTypes = {
+    to: PropTypes.string.isRequired,
     title: PropTypes.node.isRequired,
     glyph: PropTypes.string.isRequired,
-    onClick: PropTypes.func.isRequired
+    className: PropTypes.string
   };
 
   constructor(props) {
@@ -19,19 +22,20 @@ class SidebarButton extends Component {
   }
 
   render() {
-    const { title, glyph, onClick } = this.props;
+    const { to, title, glyph, className } = this.props;
+    const buttonClassName = classnames('sidebar__button', className);
 
     return (
-      <div className="recent__history" onClick={onClick}>
-        <div className="recent__history__icon">
+      <Link  to={to} className={buttonClassName} activeClassName="sidebar__button--active">
+        <div className="sidebar__button__icon">
           <i className="material-icons">{glyph}</i>
         </div>
-        <div className="recent__history__title">
+        <div className="sidebar__button__title">
           {title}
         </div>
-      </div>
+      </Link>
     );
   }
 }
 
-export default SidebarButton;
+export default SidebarLink;

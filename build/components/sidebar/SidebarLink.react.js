@@ -6,6 +6,12 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -18,11 +24,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var SidebarButton = function (_Component) {
-  _inherits(SidebarButton, _Component);
+var SidebarLink = function (_Component) {
+  _inherits(SidebarLink, _Component);
 
-  function SidebarButton(props) {
-    _classCallCheck(this, SidebarButton);
+  function SidebarLink(props) {
+    _classCallCheck(this, SidebarLink);
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
@@ -30,19 +36,21 @@ var SidebarButton = function (_Component) {
     return _this;
   }
 
-  SidebarButton.prototype.render = function render() {
+  SidebarLink.prototype.render = function render() {
     var _props = this.props;
+    var to = _props.to;
     var title = _props.title;
     var glyph = _props.glyph;
-    var onClick = _props.onClick;
+    var className = _props.className;
 
+    var buttonClassName = (0, _classnames2.default)('sidebar__button', className);
 
     return _react2.default.createElement(
-      'div',
-      { className: 'recent__history', onClick: onClick },
+      _reactRouter.Link,
+      { to: to, className: buttonClassName, activeClassName: 'sidebar__button--active' },
       _react2.default.createElement(
         'div',
-        { className: 'recent__history__icon' },
+        { className: 'sidebar__button__icon' },
         _react2.default.createElement(
           'i',
           { className: 'material-icons' },
@@ -51,19 +59,20 @@ var SidebarButton = function (_Component) {
       ),
       _react2.default.createElement(
         'div',
-        { className: 'recent__history__title' },
+        { className: 'sidebar__button__title' },
         title
       )
     );
   };
 
-  return SidebarButton;
+  return SidebarLink;
 }(_react.Component);
 
-SidebarButton.propTypes = {
+SidebarLink.propTypes = {
+  to: _react.PropTypes.string.isRequired,
   title: _react.PropTypes.node.isRequired,
   glyph: _react.PropTypes.string.isRequired,
-  onClick: _react.PropTypes.func.isRequired
+  className: _react.PropTypes.string
 };
-exports.default = SidebarButton;
-//# sourceMappingURL=SidebarButton.react.js.map
+exports.default = SidebarLink;
+//# sourceMappingURL=SidebarLink.react.js.map

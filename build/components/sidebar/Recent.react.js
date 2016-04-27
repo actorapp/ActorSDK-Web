@@ -40,9 +40,9 @@ var _RecentGroup = require('./RecentGroup.react');
 
 var _RecentGroup2 = _interopRequireDefault(_RecentGroup);
 
-var _SidebarButton = require('./SidebarButton.react');
+var _SidebarLink = require('./SidebarLink.react');
 
-var _SidebarButton2 = _interopRequireDefault(_SidebarButton);
+var _SidebarLink2 = _interopRequireDefault(_SidebarLink);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -233,7 +233,8 @@ var Recent = function (_Component) {
     var isArchiveEmpty = false; // TODO: Use real flag
     if (isArchiveEmpty) return null;
 
-    return _react2.default.createElement(_SidebarButton2.default, {
+    return _react2.default.createElement(_SidebarLink2.default, {
+      to: '/im/history',
       title: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.recents.history' }),
       glyph: 'history',
       onClick: this.handleHistoryClick,

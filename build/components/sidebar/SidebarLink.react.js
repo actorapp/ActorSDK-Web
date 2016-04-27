@@ -52,7 +52,7 @@ var SidebarLink = function (_Component) {
         to: to,
         className: buttonClassName,
         activeClassName: 'sidebar__button--active',
-        onlyActiveOnIndex: onlyActiveOnIndex
+        onlyActiveOnIndex: onlyActiveOnIndex || false
       },
       _react2.default.createElement(
         'div',

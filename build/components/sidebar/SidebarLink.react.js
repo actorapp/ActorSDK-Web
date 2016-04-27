@@ -42,12 +42,18 @@ var SidebarLink = function (_Component) {
     var title = _props.title;
     var glyph = _props.glyph;
     var className = _props.className;
+    var onlyActiveOnIndex = _props.onlyActiveOnIndex;
 
     var buttonClassName = (0, _classnames2.default)('sidebar__button', className);
 
     return _react2.default.createElement(
       _reactRouter.Link,
-      { to: to, className: buttonClassName, activeClassName: 'sidebar__button--active' },
+      {
+        to: to,
+        className: buttonClassName,
+        activeClassName: 'sidebar__button--active',
+        onlyActiveOnIndex: onlyActiveOnIndex
+      },
       _react2.default.createElement(
         'div',
         { className: 'sidebar__button__icon' },
@@ -72,7 +78,8 @@ SidebarLink.propTypes = {
   to: _react.PropTypes.string.isRequired,
   title: _react.PropTypes.node.isRequired,
   glyph: _react.PropTypes.string.isRequired,
-  className: _react.PropTypes.string
+  className: _react.PropTypes.string,
+  onlyActiveOnIndex: _react.PropTypes.bool
 };
 exports.default = SidebarLink;
 //# sourceMappingURL=SidebarLink.react.js.map

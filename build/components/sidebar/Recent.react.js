@@ -12,10 +12,6 @@ var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
 var _reactIntl = require('react-intl');
 
-var _history = require('../../utils/history');
-
-var _history2 = _interopRequireDefault(_history);
-
 var _GroupListActionCreators = require('../../actions/GroupListActionCreators');
 
 var _GroupListActionCreators2 = _interopRequireDefault(_GroupListActionCreators);
@@ -74,7 +70,6 @@ var Recent = function (_Component) {
     _this.scrollToLastHiddenBelow = _this.scrollToLastHiddenBelow.bind(_this);
     _this.handleGroupListTitleClick = _this.handleGroupListTitleClick.bind(_this);
     _this.handlePrivateListTitleClick = _this.handlePrivateListTitleClick.bind(_this);
-    _this.handleHistoryClick = _this.handleHistoryClick.bind(_this);
 
     _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
@@ -98,10 +93,6 @@ var Recent = function (_Component) {
 
   Recent.prototype.handleCreateGroup = function handleCreateGroup() {
     _CreateGroupActionCreators2.default.open();
-  };
-
-  Recent.prototype.handleHistoryClick = function handleHistoryClick() {
-    _history2.default.push('/im/history');
   };
 
   Recent.prototype.checkInvisibleCounters = function checkInvisibleCounters() {
@@ -234,10 +225,10 @@ var Recent = function (_Component) {
     if (isArchiveEmpty) return null;
 
     return _react2.default.createElement(_SidebarLink2.default, {
+      className: 'sidebar__history',
       to: '/im/history',
       title: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.recents.history' }),
       glyph: 'history',
-      onClick: this.handleHistoryClick,
       key: 'history'
     });
   };

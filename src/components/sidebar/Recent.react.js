@@ -7,7 +7,6 @@ import { forEach, debounce } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { shouldComponentUpdate } from 'react-addons-pure-render-mixin';
 import { FormattedMessage } from 'react-intl';
-import history from '../../utils/history';
 
 import GroupListActionCreators from '../../actions/GroupListActionCreators';
 import ContactActionCreators from '../../actions/ContactActionCreators';
@@ -40,7 +39,6 @@ class Recent extends Component {
     this.scrollToLastHiddenBelow = this.scrollToLastHiddenBelow.bind(this);
     this.handleGroupListTitleClick = this.handleGroupListTitleClick .bind(this);
     this.handlePrivateListTitleClick = this.handlePrivateListTitleClick.bind(this);
-    this.handleHistoryClick = this.handleHistoryClick.bind(this);
 
     this.shouldComponentUpdate = shouldComponentUpdate.bind(this);
   }
@@ -63,10 +61,6 @@ class Recent extends Component {
 
   handleCreateGroup() {
     CreateGroupActionCreators.open();
-  }
-
-  handleHistoryClick() {
-    history.push('/im/history')
   }
 
   checkInvisibleCounters() {
@@ -186,10 +180,10 @@ class Recent extends Component {
 
     return (
       <SidebarLink
+        className="sidebar__history"
         to="/im/history"
         title={<FormattedMessage id="sidebar.recents.history" />}
         glyph="history"
-        onClick={this.handleHistoryClick}
         key="history"
       />
     );

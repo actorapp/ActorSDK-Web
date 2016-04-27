@@ -22,10 +22,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
   loadDraft: function loadDraft(peer) {
+    if (!peer) return null;
+
     var draft = _ActorClient2.default.loadDraft(peer);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DRAFT_LOAD, { draft: draft });
   },
   saveDraft: function saveDraft(peer) {
+    if (!peer) return null;
+
     var draft = _DraftStore2.default.getDraft();
     _ActorClient2.default.saveDraft(peer, draft);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.DRAFT_SAVE, { draft: draft });

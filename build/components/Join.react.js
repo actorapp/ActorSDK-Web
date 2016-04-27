@@ -6,6 +6,14 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _utils = require('flux/utils');
+
+var _ActorAppConstants = require('../constants/ActorAppConstants');
+
+var _JoinGroupStore = require('../stores/JoinGroupStore');
+
+var _JoinGroupStore2 = _interopRequireDefault(_JoinGroupStore);
+
 var _JoinGroupActions = require('../actions/JoinGroupActions');
 
 var _JoinGroupActions2 = _interopRequireDefault(_JoinGroupActions);
@@ -23,6 +31,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Join = function (_Component) {
   _inherits(Join, _Component);
 
+  Join.getStores = function getStores() {
+    return [_JoinGroupStore2.default];
+  };
+
+  Join.calculateState = function calculateState() {
+    return _JoinGroupStore2.default.getState();
+  };
+
   function Join(props) {
     _classCallCheck(this, Join);
 
@@ -32,8 +48,45 @@ var Join = function (_Component) {
     return _this;
   }
 
+  Join.prototype.renderStatus = function renderStatus() {
+    var _state = this.state;
+    var status = _state.status;
+    var token = _state.token;
+    var error = _state.error;
+
+    switch (status) {
+      case _ActorAppConstants.AsyncActionStates.PROCESSING:
+      case _ActorAppConstants.AsyncActionStates.PENDING:
+        return _react2.default.createElement(
+          'div',
+          { className: 'join__message' },
+          'Joining to ',
+          token,
+          '...'
+        );
+
+      case _ActorAppConstants.AsyncActionStates.SUCCESS:
+        return _react2.default.createElement(
+          'div',
+          { className: 'join__message join__message--success' },
+          'Successfully joined to group!'
+        );
+
+      case _ActorAppConstants.AsyncActionStates.FAILURE:
+        return _react2.default.createElement(
+          'div',
+          { className: 'join__message join__message--error' },
+          error
+        );
+    }
+  };
+
   Join.prototype.render = function render() {
-    return _react2.default.createElement('div', null);
+    return _react2.default.createElement(
+      'div',
+      { className: 'join__container' },
+      this.renderStatus()
+    );
   };
 
   return Join;
@@ -44,5 +97,5 @@ Join.propTypes = {
     token: _react.PropTypes.string.isRequired
   }).isRequired
 };
-exports.default = Join;
+exports.default = _utils.Container.create(Join);
 //# sourceMappingURL=Join.react.js.map

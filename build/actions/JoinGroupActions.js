@@ -14,41 +14,42 @@ var _history = require('../utils/history');
 
 var _history2 = _interopRequireDefault(_history);
 
-var _DialogActionCreators = require('./DialogActionCreators');
+var _JoinGroupStore = require('../stores/JoinGroupStore');
 
-var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
+var _JoinGroupStore2 = _interopRequireDefault(_JoinGroupStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var urlBase = 'https://quit.email'; /*
-                                     * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                                     */
+var INVITE_URL_BASE = 'https://quit.email'; /*
+                                             * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+                                             */
+
+function joinSuccess(peer) {
+  (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_JOIN_VIA_LINK_SUCCESS);
+  setTimeout(function () {
+    return _history2.default.replace('/im/' + peer.key);
+  }, 1000);
+}
+
+function joinFailed(error) {
+  (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_JOIN_VIA_LINK_ERROR, { error: error });
+}
 
 exports.default = {
+  joinAfterLogin: function joinAfterLogin() {
+    var _JoinGroupStore$getSt = _JoinGroupStore2.default.getState();
+
+    var token = _JoinGroupStore$getSt.token;
+
+    if (token) {
+      _history2.default.push('/join/' + token);
+    }
+  },
   joinGroupViaLink: function joinGroupViaLink(token) {
-    var url = urlBase + '/join/' + token;
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_JOIN_VIA_LINK, { token: token });
 
-    var joinViaLink = function joinViaLink() {
-      return (0, _ActorAppDispatcher.dispatchAsync)(_ActorClient2.default.joinGroupViaLink(url), {
-        request: _ActorAppConstants.ActionTypes.GROUP_JOIN_VIA_LINK,
-        success: _ActorAppConstants.ActionTypes.GROUP_JOIN_VIA_LINK_SUCCESS,
-        failure: _ActorAppConstants.ActionTypes.GROUP_JOIN_VIA_LINK_ERROR
-      }, { token: token });
-    };
-
-    var selectJoined = function selectJoined(peer) {
-      if (peer) {
-        _DialogActionCreators2.default.selectDialogPeer(peer);
-      } else {
-        throw new Error();
-      }
-    };
-
-    var goHome = function goHome() {
-      return _history2.default.replace('/');
-    };
-
-    joinViaLink().then(selectJoined).catch(goHome);
+    var url = INVITE_URL_BASE + '/join/' + token;
+    _ActorClient2.default.joinGroupViaLink(url).then(joinSuccess, joinFailed);
   }
 };
 //# sourceMappingURL=JoinGroupActions.js.map

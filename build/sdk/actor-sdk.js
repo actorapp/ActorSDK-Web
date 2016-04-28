@@ -173,13 +173,6 @@ var ActorSDK = function () {
         });
       }
 
-      var Login = typeof _this.delegate.components.login == 'function' ? _this.delegate.components.login : _Login2.default;
-      var Deactivated = typeof _this.delegate.components.deactivated == 'function' ? _this.delegate.components.deactivated : _Deactivated2.default;
-      var Install = typeof _this.delegate.components.install == 'function' ? _this.delegate.components.install : _Install2.default;
-      var Archive = typeof _this.delegate.components.archive == 'function' ? _this.delegate.components.archive : _Archive2.default; // TODO: Rename this component
-      var Join = typeof _this.delegate.components.join == 'function' ? _this.delegate.components.join : _Join2.default;
-      var Empty = typeof _this.delegate.components.empty == 'function' ? _this.delegate.components.empty : _Empty2.default;
-      var Dialog = typeof _this.delegate.components.dialog == 'function' ? _this.delegate.components.dialog : _Dialog2.default;
       var intlData = (0, _l18n.getIntlData)(_this.forceLocale);
 
       /**
@@ -199,23 +192,7 @@ var ActorSDK = function () {
         _react2.default.createElement(
           _reactRouter.Router,
           { history: _history2.default, createElement: createElement },
-          _react2.default.createElement(
-            _reactRouter.Route,
-            { path: '/', component: _App2.default },
-            _react2.default.createElement(_reactRouter.Route, { path: 'auth', component: Login }),
-            _react2.default.createElement(_reactRouter.Route, { path: 'deactivated', component: Deactivated }),
-            _react2.default.createElement(_reactRouter.Route, { path: 'install', component: Install }),
-            _react2.default.createElement(
-              _reactRouter.Route,
-              { path: 'im', component: _Main2.default, onEnter: _RouterHooks2.default.requireAuth },
-              _react2.default.createElement(_reactRouter.Route, { path: 'history', component: Archive }),
-              _react2.default.createElement(_reactRouter.Route, { path: 'join/:token', component: Join }),
-              _react2.default.createElement(_reactRouter.Route, { path: ':id', component: Dialog }),
-              _react2.default.createElement(_reactRouter.IndexRoute, { component: Empty })
-            ),
-            _react2.default.createElement(_reactRouter.Redirect, { from: 'join/:token', to: 'im/join/:token' }),
-            _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'im' })
-          )
+          _this.getRoutes()
         )
       );
 
@@ -241,6 +218,38 @@ var ActorSDK = function () {
 
     _SharedContainer2.default.set(this);
   }
+
+  ActorSDK.prototype.getRoutes = function getRoutes() {
+    if (this.routes) {
+      return this.routes;
+    }
+
+    var Login = typeof this.delegate.components.login == 'function' ? this.delegate.components.login : _Login2.default;
+    var Deactivated = typeof this.delegate.components.deactivated == 'function' ? this.delegate.components.deactivated : _Deactivated2.default;
+    var Install = typeof this.delegate.components.install == 'function' ? this.delegate.components.install : _Install2.default;
+    var Archive = typeof this.delegate.components.archive == 'function' ? this.delegate.components.archive : _Archive2.default; // TODO: Rename this component
+    var Join = typeof this.delegate.components.join == 'function' ? this.delegate.components.join : _Join2.default;
+    var Empty = typeof this.delegate.components.empty == 'function' ? this.delegate.components.empty : _Empty2.default;
+    var Dialog = typeof this.delegate.components.dialog == 'function' ? this.delegate.components.dialog : _Dialog2.default;
+
+    return _react2.default.createElement(
+      _reactRouter.Route,
+      { path: '/', component: _App2.default },
+      _react2.default.createElement(_reactRouter.Route, { path: 'auth', component: Login }),
+      _react2.default.createElement(_reactRouter.Route, { path: 'deactivated', component: Deactivated }),
+      _react2.default.createElement(_reactRouter.Route, { path: 'install', component: Install }),
+      _react2.default.createElement(
+        _reactRouter.Route,
+        { path: 'im', component: _Main2.default, onEnter: _RouterHooks2.default.requireAuth },
+        _react2.default.createElement(_reactRouter.Route, { path: 'history', component: Archive }),
+        _react2.default.createElement(_reactRouter.Route, { path: 'join/:token', component: Join }),
+        _react2.default.createElement(_reactRouter.Route, { path: ':id', component: Dialog }),
+        _react2.default.createElement(_reactRouter.IndexRoute, { component: Empty })
+      ),
+      _react2.default.createElement(_reactRouter.Redirect, { from: 'join/:token', to: 'im/join/:token' }),
+      _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'im' })
+    );
+  };
 
   /**
    * Start application
@@ -271,6 +280,7 @@ ActorSDK.defaultOptions = {
     calls: true,
     search: false
   },
+  routes: null,
   isExperimental: false,
   logHandler: _defaultLogHandler2.default
 };

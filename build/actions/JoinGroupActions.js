@@ -20,16 +20,14 @@ var _JoinGroupStore2 = _interopRequireDefault(_JoinGroupStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var INVITE_URL_BASE = 'https://quit.email'; /*
-                                             * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                                             */
-
 function joinSuccess(peer) {
   (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_JOIN_VIA_LINK_SUCCESS);
   setTimeout(function () {
     return _history2.default.replace('/im/' + peer.key);
   }, 1000);
-}
+} /*
+   * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+   */
 
 function joinFailed(error) {
   (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_JOIN_VIA_LINK_ERROR, { error: error });
@@ -47,9 +45,7 @@ exports.default = {
   },
   joinGroupViaLink: function joinGroupViaLink(token) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.GROUP_JOIN_VIA_LINK, { token: token });
-
-    var url = INVITE_URL_BASE + '/join/' + token;
-    _ActorClient2.default.joinGroupViaLink(url).then(joinSuccess, joinFailed);
+    _ActorClient2.default.joinGroupViaToken(token).then(joinSuccess, joinFailed);
   }
 };
 //# sourceMappingURL=JoinGroupActions.js.map

@@ -266,6 +266,11 @@ var ActorClient = function () {
 
   // Groups
 
+  ActorClient.prototype.joinGroupViaToken = function joinGroupViaToken(token) {
+    var link = 'https://quit.email/join/' + token;
+    return window.messenger.joinGroupViaLink(link);
+  };
+
   ActorClient.prototype.joinGroupViaLink = function joinGroupViaLink(url) {
     return window.messenger.joinGroupViaLink(url);
   };

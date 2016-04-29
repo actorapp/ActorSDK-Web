@@ -71,10 +71,6 @@ var Recent = function (_Component) {
     return _this;
   }
 
-  Recent.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-    if (nextProps.dialogs !== this.props.dialogs) this.checkInvisibleCounters();
-  };
-
   Recent.prototype.handleGroupListTitleClick = function handleGroupListTitleClick() {
     _GroupListActionCreators2.default.open();
   };
@@ -183,7 +179,8 @@ var Recent = function (_Component) {
         currentPeer: currentPeer,
         archive: archive,
         onTitleClick: _this2.getTitleClickHandler(group),
-        onPlusClick: _this2.getTitleAddHandler(group)
+        onPlusClick: _this2.getTitleAddHandler(group),
+        onItemUpdate: _this2.checkInvisibleCounters
       });
     });
   };

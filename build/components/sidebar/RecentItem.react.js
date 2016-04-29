@@ -53,6 +53,14 @@ var RecentItem = function (_Component) {
     return _this;
   }
 
+  RecentItem.prototype.componentDidMount = function componentDidMount() {
+    this.props.onUpdate();
+  };
+
+  RecentItem.prototype.componentDidUpdate = function componentDidUpdate() {
+    this.props.onUpdate();
+  };
+
   RecentItem.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
     return nextProps.dialog !== this.props.dialog || nextProps.isActive !== this.props.isActive || nextProps.archiveState !== this.props.archiveState;
   };
@@ -164,7 +172,8 @@ var RecentItem = function (_Component) {
 RecentItem.propTypes = {
   isActive: _react.PropTypes.bool.isRequired,
   dialog: _react.PropTypes.object.isRequired,
-  archiveState: _react.PropTypes.number.isRequired
+  archiveState: _react.PropTypes.number.isRequired,
+  onUpdate: _react.PropTypes.func.isRequired
 };
 RecentItem.defaultProps = {
   isActive: false,

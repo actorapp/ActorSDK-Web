@@ -117,6 +117,7 @@ var RecentGroup = function (_Component) {
     var items = _props3.items;
     var archive = _props3.archive;
     var currentPeer = _props3.currentPeer;
+    var onItemUpdate = _props3.onItemUpdate;
 
 
     return (0, _lodash.map)(items, function (dialog) {
@@ -128,6 +129,7 @@ var RecentGroup = function (_Component) {
         dialog: dialog,
         archiveState: archive[peerKey],
         isActive: isActive,
+        onUpdate: onItemUpdate,
         key: peerKey
       });
     });
@@ -151,7 +153,8 @@ RecentGroup.propTypes = {
   archive: _react.PropTypes.object.isRequired,
   currentPeer: _react.PropTypes.object,
   onTitleClick: _react.PropTypes.func,
-  onPlusClick: _react.PropTypes.func
+  onPlusClick: _react.PropTypes.func,
+  onItemUpdate: _react.PropTypes.func.isRequired
 };
 exports.default = RecentGroup;
 //# sourceMappingURL=RecentGroup.react.js.map

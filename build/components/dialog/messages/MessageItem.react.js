@@ -108,39 +108,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var MessageItem = function (_Component) {
   _inherits(MessageItem, _Component);
 
-  function MessageItem() {
-    var _temp, _this, _ret;
-
-    _classCallCheck(this, MessageItem);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.onClick = function () {
-      var _this$props = _this.props;
-      var message = _this$props.message;
-      var peer = _this$props.peer;
-
-
-      if (_PeerUtils2.default.equals(peer, message.sender.peer)) {
-        _ActivityActionCreators2.default.show();
-      } else {
-        _DialogActionCreators2.default.selectDialogPeerUser(message.sender.peer.id);
-      }
-    }, _this.showActions = function (event) {
-      var message = _this.props.message;
-
-      _DropdownActionCreators2.default.openMessageActions(event.target.getBoundingClientRect(), message);
-    }, _this.toggleMessageSelection = function () {
-      var _this$props2 = _this.props;
-      var message = _this$props2.message;
-      var onSelect = _this$props2.onSelect;
-
-      onSelect && onSelect(message.rid);
-    }, _temp), _possibleConstructorReturn(_this, _ret);
-  }
-
   MessageItem.getStores = function getStores() {
     return [_DropdownStore2.default];
   };
@@ -151,71 +118,125 @@ var MessageItem = function (_Component) {
     };
   };
 
+  function MessageItem(props, context) {
+    _classCallCheck(this, MessageItem);
+
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
+
+    _this.showActions = function (event) {
+      var message = _this.props.message;
+
+      _DropdownActionCreators2.default.openMessageActions(event.target.getBoundingClientRect(), message);
+    };
+
+    _this.toggleMessageSelection = function () {
+      var _this$props = _this.props;
+      var message = _this$props.message;
+      var onSelect = _this$props.onSelect;
+
+      onSelect && onSelect(message.rid);
+    };
+
+    _this.onClick = _this.onClick.bind(_this);
+    return _this;
+  }
+
+  MessageItem.prototype.componentWillMount = function componentWillMount() {
+    var dialog = this.context.delegate.components.dialog;
+
+    if (dialog && dialog.messages) {
+      this.components = {
+        Service: (0, _lodash.isFunction)(dialog.messages.service) ? dialog.messages.service : _Service2.default,
+        Text: (0, _lodash.isFunction)(dialog.messages.text) ? dialog.messages.text : _Text2.default,
+        Modern: (0, _lodash.isFunction)(dialog.messages.modern) ? dialog.messages.modern : _Modern2.default,
+        Photo: (0, _lodash.isFunction)(dialog.messages.photo) ? dialog.messages.photo : _Photo2.default,
+        Document: (0, _lodash.isFunction)(dialog.messages.document) ? dialog.messages.document : _Document2.default,
+        Voice: (0, _lodash.isFunction)(dialog.messages.voice) ? dialog.messages.voice : _Voice2.default,
+        Contact: (0, _lodash.isFunction)(dialog.messages.contact) ? dialog.messages.contact : _Contact2.default,
+        Location: (0, _lodash.isFunction)(dialog.messages.location) ? dialog.messages.location : _Location2.default,
+        Sticker: (0, _lodash.isFunction)(dialog.messages.sticker) ? dialog.messages.sticker : _Sticker2.default
+      };
+    } else {
+      this.components = {
+        Service: _Service2.default,
+        Text: _Text2.default,
+        Modern: _Modern2.default,
+        Photo: _Photo2.default,
+        Document: _Document2.default,
+        Voice: _Voice2.default,
+        Contact: _Contact2.default,
+        Location: _Location2.default,
+        Sticker: _Sticker2.default
+      };
+    }
+  };
+
   MessageItem.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
     return this.props.message !== nextProps.message || this.props.isShort !== nextProps.isShort;
   };
 
-  MessageItem.prototype.render = function render() {
+  MessageItem.prototype.onClick = function onClick() {
     var _props = this.props;
-    var peer = _props.peer;
     var message = _props.message;
-    var state = _props.state;
-    var isShort = _props.isShort;
-    var isSelected = _props.isSelected;
-    var isHighlighted = this.state.isHighlighted;
-    var _context = this.context;
-    var delegate = _context.delegate;
-    var isExperimental = _context.isExperimental;
+    var peer = _props.peer;
 
 
-    var Service = void 0,
-        Text = void 0,
-        Modern = void 0,
-        Photo = void 0,
-        Document = void 0,
-        Voice = void 0,
-        Contact = void 0,
-        Location = void 0,
-        Sticker = void 0;
-    if (delegate.components.dialog && delegate.components.dialog.messages && !(0, _lodash.isFunction)(delegate.components.dialog.messages.message)) {
-      Service = delegate.components.dialog.messages.service || _Service2.default;
-      Text = delegate.components.dialog.messages.text || _Text2.default;
-      Modern = delegate.components.dialog.messages.modern || _Modern2.default;
-      Photo = delegate.components.dialog.messages.photo || _Photo2.default;
-      Document = delegate.components.dialog.messages.document || _Document2.default;
-      Voice = delegate.components.dialog.messages.voice || _Voice2.default;
-      Contact = delegate.components.dialog.messages.contact || _Contact2.default;
-      Location = delegate.components.dialog.messages.location || _Location2.default;
-      Sticker = delegate.components.dialog.messages.sticker || _Sticker2.default;
+    if (_PeerUtils2.default.equals(peer, message.sender.peer)) {
+      _ActivityActionCreators2.default.show();
     } else {
-      Service = _Service2.default;
-      Text = _Text2.default;
-      Modern = _Modern2.default;
-      Photo = _Photo2.default;
-      Document = _Document2.default;
-      Voice = _Voice2.default;
-      Contact = _Contact2.default;
-      Location = _Location2.default;
-      Sticker = _Sticker2.default;
+      _DialogActionCreators2.default.selectDialogPeerUser(message.sender.peer.id);
     }
+  };
 
-    var header = null,
-        messageContent = null,
-        leftBlock = null;
+  MessageItem.prototype.renderHeader = function renderHeader() {
+    var _props2 = this.props;
+    var isShort = _props2.isShort;
+    var message = _props2.message;
+    var state = _props2.state;
+
+
+    if (isShort) {
+      return null;
+    }
 
     var messageSender = (0, _EmojiUtils.escapeWithEmoji)(message.sender.title);
 
-    var messageClassName = (0, _classnames2.default)('message', {
-      'message--same-sender': isShort,
-      'message--active': isHighlighted,
-      'message--selected': isSelected
-    });
-    var messageActionsMenuClassName = (0, _classnames2.default)('message__actions__menu', {
-      'message__actions__menu--opened': isHighlighted
-    });
+    return _react2.default.createElement(
+      'header',
+      { className: 'message__header' },
+      _react2.default.createElement(
+        'h3',
+        { className: 'message__sender' },
+        _react2.default.createElement(
+          'a',
+          { onClick: this.onClick },
+          message.sender.title ? _react2.default.createElement('span', { className: 'message__sender__name', dangerouslySetInnerHTML: { __html: messageSender } }) : null,
+          message.sender.userName ? _react2.default.createElement(
+            'span',
+            { className: 'message__sender__nick' },
+            '@',
+            message.sender.userName
+          ) : null
+        )
+      ),
+      _react2.default.createElement(
+        'time',
+        { className: 'message__timestamp' },
+        message.date
+      ),
+      _react2.default.createElement(_State2.default, { state: state })
+    );
+  };
+
+  MessageItem.prototype.renderLeftBlock = function renderLeftBlock() {
+    var _props3 = this.props;
+    var isShort = _props3.isShort;
+    var message = _props3.message;
+    var state = _props3.state;
+
 
     if (isShort) {
-      leftBlock = _react2.default.createElement(
+      return _react2.default.createElement(
         'div',
         { className: 'message__info text-right' },
         _react2.default.createElement(
@@ -226,75 +247,120 @@ var MessageItem = function (_Component) {
         _react2.default.createElement(_State2.default, { state: state })
       );
     } else {
-      leftBlock = _react2.default.createElement(
+      return _react2.default.createElement(
         'div',
         { className: 'message__info message__info--avatar' },
         _react2.default.createElement(
           'a',
           { onClick: this.onClick },
-          _react2.default.createElement(_AvatarItem2.default, { image: message.sender.avatar,
+          _react2.default.createElement(_AvatarItem2.default, {
+            image: message.sender.avatar,
             placeholder: message.sender.placeholder,
-            title: message.sender.title })
+            title: message.sender.title
+          })
         )
       );
-      header = _react2.default.createElement(
-        'header',
-        { className: 'message__header' },
-        _react2.default.createElement(
-          'h3',
-          { className: 'message__sender' },
-          _react2.default.createElement(
-            'a',
-            { onClick: this.onClick },
-            message.sender.title ? _react2.default.createElement('span', { className: 'message__sender__name', dangerouslySetInnerHTML: { __html: messageSender } }) : null,
-            message.sender.userName ? _react2.default.createElement(
-              'span',
-              { className: 'message__sender__nick' },
-              '@',
-              message.sender.userName
-            ) : null
-          )
-        ),
-        _react2.default.createElement(
-          'time',
-          { className: 'message__timestamp' },
-          message.date
-        ),
-        _react2.default.createElement(_State2.default, { state: state })
-      );
     }
+  };
+
+  MessageItem.prototype.renderContent = function renderContent() {
+    var message = this.props.message;
+    var _components = this.components;
+    var Service = _components.Service;
+    var Text = _components.Text;
+    var Photo = _components.Photo;
+    var Document = _components.Document;
+    var Voice = _components.Voice;
+    var Contact = _components.Contact;
+    var Location = _components.Location;
+    var Modern = _components.Modern;
+    var Sticker = _components.Sticker;
+
 
     switch (message.content.content) {
       case _ActorAppConstants.MessageContentTypes.SERVICE:
-        messageContent = _react2.default.createElement(Service, _extends({}, message.content, { className: 'message__content message__content--service' }));
-        break;
+        return _react2.default.createElement(Service, _extends({}, message.content, {
+          className: 'message__content message__content--service'
+        }));
       case _ActorAppConstants.MessageContentTypes.TEXT:
-        messageContent = _react2.default.createElement(Text, _extends({}, message.content, { className: 'message__content message__content--text' }));
-        break;
+        return _react2.default.createElement(Text, _extends({}, message.content, {
+          className: 'message__content message__content--text'
+        }));
       case _ActorAppConstants.MessageContentTypes.PHOTO:
-        messageContent = _react2.default.createElement(Photo, { content: message.content, className: 'message__content message__content--photo',
-          loadedClassName: 'message__content--photo--loaded' });
-        break;
+        return _react2.default.createElement(Photo, _extends({}, message.content, {
+          className: 'message__content message__content--photo',
+          loadedClassName: 'message__content--photo--loaded'
+        }));
       case _ActorAppConstants.MessageContentTypes.DOCUMENT:
-        messageContent = _react2.default.createElement(Document, { content: message.content, className: 'message__content message__content--document' });
-        break;
+        return _react2.default.createElement(Document, _extends({}, message.content, {
+          className: 'message__content message__content--document'
+        }));
       case _ActorAppConstants.MessageContentTypes.VOICE:
-        messageContent = _react2.default.createElement(Voice, { content: message.content, className: 'message__content message__content--voice' });
-        break;
+        return _react2.default.createElement(Voice, _extends({}, message.content, {
+          className: 'message__content message__content--voice'
+        }));
       case _ActorAppConstants.MessageContentTypes.CONTACT:
-        messageContent = _react2.default.createElement(Contact, _extends({}, message.content, { className: 'message__content message__content--contact' }));
-        break;
+        return _react2.default.createElement(Contact, _extends({}, message.content, {
+          className: 'message__content message__content--contact'
+        }));
       case _ActorAppConstants.MessageContentTypes.LOCATION:
-        messageContent = _react2.default.createElement(Location, { content: message.content, className: 'message__content message__content--location' });
-        break;
+        return _react2.default.createElement(Location, _extends({}, message.content, {
+          className: 'message__content message__content--location'
+        }));
       case _ActorAppConstants.MessageContentTypes.TEXT_MODERN:
-        messageContent = _react2.default.createElement(Modern, _extends({}, message.content, { className: 'message__content message__content--modern' }));
-        break;
+        return _react2.default.createElement(Modern, _extends({}, message.content, {
+          className: 'message__content message__content--modern'
+        }));
       case _ActorAppConstants.MessageContentTypes.STICKER:
-        messageContent = _react2.default.createElement(Sticker, _extends({}, message.content, { className: 'message__content message__content--sticker' }));
-        break;
+        return _react2.default.createElement(Sticker, _extends({}, message.content, {
+          className: 'message__content message__content--sticker'
+        }));
       default:
+        return null;
     }
+  };
+
+  MessageItem.prototype.renderActions = function renderActions() {
+    var _props4 = this.props;
+    var peer = _props4.peer;
+    var message = _props4.message;
+    var isHighlighted = this.state.isHighlighted;
+    var isExperimental = this.context.isExperimental;
+
+
+    var messageActionsMenuClassName = (0, _classnames2.default)('message__actions__menu', {
+      'message__actions__menu--opened': isHighlighted
+    });
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'message__actions' },
+      _react2.default.createElement(_Reactions2.default, { peer: peer, message: message }),
+      _react2.default.createElement(
+        'div',
+        { className: messageActionsMenuClassName, onClick: this.showActions },
+        _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--dropdown', glyph: 'cog' })
+      ),
+      isExperimental ? _react2.default.createElement(
+        'div',
+        { className: 'message__actions__selector', onClick: this.toggleMessageSelection },
+        _react2.default.createElement('i', { className: 'icon material-icons icon-check' })
+      ) : null
+    );
+  };
+
+  MessageItem.prototype.render = function render() {
+    var _props5 = this.props;
+    var isShort = _props5.isShort;
+    var isSelected = _props5.isSelected;
+    var isHighlighted = this.state.isHighlighted;
+
+
+    var messageClassName = (0, _classnames2.default)('message', {
+      'message--short': isShort,
+      'message--active': isHighlighted,
+      'message--selected': isSelected
+    });
 
     return _react2.default.createElement(
       'div',
@@ -302,28 +368,14 @@ var MessageItem = function (_Component) {
       _react2.default.createElement(
         'div',
         { className: 'row' },
-        leftBlock,
+        this.renderLeftBlock(),
         _react2.default.createElement(
           'div',
           { className: 'message__body col-xs' },
-          header,
-          messageContent
+          this.renderHeader(),
+          this.renderContent()
         ),
-        _react2.default.createElement(
-          'div',
-          { className: 'message__actions' },
-          _react2.default.createElement(_Reactions2.default, { peer: peer, message: message }),
-          _react2.default.createElement(
-            'div',
-            { className: messageActionsMenuClassName, onClick: this.showActions },
-            _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--dropdown', glyph: 'cog' })
-          ),
-          isExperimental ? _react2.default.createElement(
-            'div',
-            { className: 'message__actions__selector', onClick: this.toggleMessageSelection },
-            _react2.default.createElement('i', { className: 'icon material-icons icon-check' })
-          ) : null
-        )
+        this.renderActions()
       )
     );
   };

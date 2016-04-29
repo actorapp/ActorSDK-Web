@@ -10,6 +10,8 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _reactIntl = require('react-intl');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -33,11 +35,62 @@ var Document = function (_Component) {
     return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
-  Document.prototype.render = function render() {
+  Document.prototype.renderIcon = function renderIcon() {
     var _props = this.props;
-    var content = _props.content;
-    var className = _props.className;
-    var intl = this.context.intl;
+    var fileUrl = _props.fileUrl;
+    var isUploading = _props.isUploading;
+
+
+    if (isUploading) {
+      return _react2.default.createElement(
+        'div',
+        { className: 'document__icon' },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'attach_file'
+        )
+      );
+    } else {
+      return _react2.default.createElement(
+        'a',
+        { className: 'document__icon', href: fileUrl },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'attach_file'
+        )
+      );
+    }
+  };
+
+  Document.prototype.renderActions = function renderActions() {
+    var _props2 = this.props;
+    var fileUrl = _props2.fileUrl;
+    var isUploading = _props2.isUploading;
+
+
+    if (isUploading) {
+      return _react2.default.createElement(
+        'span',
+        null,
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'message.uploading' })
+      );
+    } else {
+      return _react2.default.createElement(
+        'a',
+        { href: fileUrl },
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'message.download' })
+      );
+    }
+  };
+
+  Document.prototype.render = function render() {
+    var _props3 = this.props;
+    var fileName = _props3.fileName;
+    var fileSize = _props3.fileSize;
+    var fileExtension = _props3.fileExtension;
+    var className = _props3.className;
 
 
     var documentClassName = (0, _classnames2.default)(className, 'row');
@@ -48,30 +101,14 @@ var Document = function (_Component) {
       _react2.default.createElement(
         'div',
         { className: 'document row' },
-        content.isUploading ? _react2.default.createElement(
-          'div',
-          { className: 'document__icon' },
-          _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'attach_file'
-          )
-        ) : _react2.default.createElement(
-          'a',
-          { className: 'document__icon', href: content.fileUrl },
-          _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'attach_file'
-          )
-        ),
+        this.renderIcon(),
         _react2.default.createElement(
           'div',
           { className: 'col-xs' },
           _react2.default.createElement(
             'span',
             { className: 'document__filename' },
-            content.fileName
+            fileName
           ),
           _react2.default.createElement(
             'div',
@@ -79,26 +116,18 @@ var Document = function (_Component) {
             _react2.default.createElement(
               'span',
               { className: 'document__meta__size' },
-              content.fileSize
+              fileSize
             ),
             _react2.default.createElement(
               'span',
               { className: 'document__meta__ext' },
-              content.fileExtension
+              fileExtension
             )
           ),
           _react2.default.createElement(
             'div',
             { className: 'document__actions' },
-            content.isUploading ? _react2.default.createElement(
-              'span',
-              null,
-              intl.messages['message.uploading']
-            ) : _react2.default.createElement(
-              'a',
-              { href: content.fileUrl },
-              intl.messages['message.download']
-            )
+            this.renderActions()
           )
         )
       ),
@@ -110,11 +139,13 @@ var Document = function (_Component) {
 }(_react.Component);
 
 Document.propTypes = {
+  fileUrl: _react.PropTypes.string,
+  fileName: _react.PropTypes.string.isRequired,
+  fileSize: _react.PropTypes.string.isRequired,
+  fileExtension: _react.PropTypes.string.isRequired,
+  isUploading: _react.PropTypes.bool.isRequired,
   content: _react.PropTypes.object.isRequired,
   className: _react.PropTypes.string
-};
-Document.contextTypes = {
-  intl: _react.PropTypes.object
 };
 exports.default = Document;
 //# sourceMappingURL=Document.react.js.map

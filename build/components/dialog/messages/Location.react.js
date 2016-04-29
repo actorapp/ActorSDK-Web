@@ -29,34 +29,35 @@ var MAP_SIZE = '300x100';
 var Location = function (_Component) {
   _inherits(Location, _Component);
 
-  function Location() {
-    var _temp, _this, _ret;
-
+  function Location(props) {
     _classCallCheck(this, Location);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _Component.call.apply(_Component, [this].concat(args))), _this), _this.handleMapClick = function (event) {
-      var content = _this.props.content;
-
-      var linkToMap = 'https://maps.google.com/maps?q=loc:' + content.latitude + ',' + content.longitude;
-
-      if (_ActorClient2.default.isElectron()) {
-        _ActorClient2.default.handleLinkClick(event);
-      } else {
-        window.open(linkToMap);
-      }
-    }, _temp), _possibleConstructorReturn(_this, _ret);
+    _this.handleMapClick = _this.handleMapClick.bind(_this);
+    return _this;
   }
 
-  Location.prototype.render = function render() {
+  Location.prototype.handleMapClick = function handleMapClick(event) {
     var _props = this.props;
-    var content = _props.content;
-    var className = _props.className;
+    var latitude = _props.latitude;
+    var longitude = _props.longitude;
 
-    var imageSrc = 'https://maps.googleapis.com/maps/api/staticmap?center=' + content.latitude + ',' + content.longitude + '&zoom=15&size=' + MAP_SIZE + '&scale=2&maptype=roadmap&markers=color:red%7C' + content.latitude + ',' + content.longitude;
+    var linkToMap = 'https://maps.google.com/maps?q=loc:' + latitude + ',' + longitude;
+
+    if (_ActorClient2.default.isElectron()) {
+      _ActorClient2.default.handleLinkClick(event);
+    } else {
+      window.open(linkToMap);
+    }
+  };
+
+  Location.prototype.render = function render() {
+    var _props2 = this.props;
+    var latitude = _props2.latitude;
+    var longitude = _props2.longitude;
+    var className = _props2.className;
+
 
     return _react2.default.createElement(
       'div',
@@ -64,7 +65,10 @@ var Location = function (_Component) {
       _react2.default.createElement(
         'div',
         { className: 'location', onClick: this.handleMapClick },
-        _react2.default.createElement('img', { src: imageSrc, alt: 'Location' })
+        _react2.default.createElement('img', {
+          src: 'https://maps.googleapis.com/maps/api/staticmap?center=' + latitude + ',' + longitude + '&zoom=15&size=' + MAP_SIZE + '&scale=2&maptype=roadmap&markers=color:red%7C' + latitude + ',' + longitude,
+          alt: 'Location'
+        })
       )
     );
   };
@@ -73,7 +77,8 @@ var Location = function (_Component) {
 }(_react.Component);
 
 Location.propTypes = {
-  content: _react.PropTypes.object.isRequired,
+  latitude: _react.PropTypes.number.isRequired,
+  longitude: _react.PropTypes.number.isRequired,
   className: _react.PropTypes.string
 };
 exports.default = Location;

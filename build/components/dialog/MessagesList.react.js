@@ -71,16 +71,21 @@ var MessagesList = function (_Component) {
       };
     }
 
+    _this.state = {
+      isScrollToBottomNeeded: false
+    };
+
     _this.dimensions = null;
     _this.isLoading = false;
 
     _this.onScroll = (0, _lodash.debounce)(_this.onScroll.bind(_this), 5, { maxWait: 30 });
     _this.onResize = _this.onResize.bind(_this);
+    _this.handleScrollToBottom = _this.handleScrollToBottom.bind(_this);
     return _this;
   }
 
-  MessagesList.prototype.shouldComponentUpdate = function shouldComponentUpdate(prevProps) {
-    return prevProps.peer !== this.props.peer || prevProps.messages !== this.props.messages || prevProps.isMember !== this.props.isMember;
+  MessagesList.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.peer !== this.props.peer || nextProps.messages !== this.props.messages || nextProps.isMember !== this.props.isMember || nextState.isScrollToBottomNeeded !== this.state.isScrollToBottomNeeded;
   };
 
   MessagesList.prototype.componentDidMount = function componentDidMount() {
@@ -94,7 +99,11 @@ var MessagesList = function (_Component) {
     }
   };
 
-  MessagesList.prototype.componentDidUpdate = function componentDidUpdate() {
+  MessagesList.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
+    if (prevState.isScrollToBottomNeeded !== this.state.isScrollToBottomNeeded) {
+      return;
+    }
+
     var dimensions = this.dimensions;
     var scroller = this.refs.scroller;
     var _props = this.props;
@@ -119,6 +128,7 @@ var MessagesList = function (_Component) {
 
   MessagesList.prototype.onScroll = function onScroll() {
     var dimensions = this.refs.scroller.getDimensions();
+
     if (dimensions.scrollHeight === dimensions.scrollTop + dimensions.offsetHeight) {
       this.dimensions = null;
     } else {
@@ -129,6 +139,8 @@ var MessagesList = function (_Component) {
       this.isLoading = true;
       this.props.onLoadMore();
     }
+
+    this.setState({ isScrollToBottomNeeded: dimensions.scrollTop < dimensions.scrollHeight - 2 * dimensions.offsetHeight });
   };
 
   MessagesList.prototype.onResize = function onResize() {
@@ -143,6 +155,12 @@ var MessagesList = function (_Component) {
     } else {
       scroller.scrollToBottom();
     }
+  };
+
+  MessagesList.prototype.handleScrollToBottom = function handleScrollToBottom() {
+    var scroller = this.refs.scroller;
+
+    scroller.scrollToBottom();
   };
 
   MessagesList.prototype.renderHeader = function renderHeader() {
@@ -210,6 +228,24 @@ var MessagesList = function (_Component) {
     return result;
   };
 
+  MessagesList.prototype.renderScrollToBottomButton = function renderScrollToBottomButton() {
+    var isScrollToBottomNeeded = this.state.isScrollToBottomNeeded;
+
+    if (!isScrollToBottomNeeded) {
+      return null;
+    }
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'chat__messages__scroll-to-bottom', onClick: this.handleScrollToBottom },
+      _react2.default.createElement(
+        'i',
+        { className: 'material-icons' },
+        'keyboard_arrow_down'
+      )
+    );
+  };
+
   MessagesList.prototype.render = function render() {
     return _react2.default.createElement(
       _Scroller2.default,
@@ -220,7 +256,8 @@ var MessagesList = function (_Component) {
         onResize: this.onResize
       },
       this.renderHeader(),
-      this.renderMessages()
+      this.renderMessages(),
+      this.renderScrollToBottomButton()
     );
   };
 

@@ -37,43 +37,46 @@ var Photo = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _this.openLightBox = function () {
-      return _ImageUtils.lightbox.open(_this.props.content.fileUrl, 'message');
-    };
-
-    _this.onLoad = function () {
-      _this.setCached();
-      if (!_this.state.isImageLoaded) {
-        _this.setState({ isImageLoaded: true });
-      }
-    };
-
-    _this.isCached = function () {
-      return cache[_this.props.content.fileUrl] === true;
-    };
-
-    _this.setCached = function () {
-      cache[_this.props.content.fileUrl] = true;
-    };
-
     _this.state = {
       isImageLoaded: _this.isCached()
     };
+
+    _this.openLightBox = _this.openLightBox.bind(_this);
+    _this.onLoad = _this.onLoad.bind(_this);
+    _this.isCached = _this.isCached.bind(_this);
+    _this.setCached = _this.setCached.bind(_this);
+    _this.getDimentions = _this.getDimentions.bind(_this);
     return _this;
   }
 
-  Photo.prototype.render = function render() {
-    var _props = this.props;
-    var content = _props.content;
-    var className = _props.className;
-    var loadedClassName = _props.loadedClassName;
-    var isImageLoaded = this.state.isImageLoaded;
+  Photo.prototype.openLightBox = function openLightBox() {
+    _ImageUtils.lightbox.open(this.props.fileUrl, 'message');
+  };
 
+  Photo.prototype.onLoad = function onLoad() {
+    this.setCached();
+    if (!this.state.isImageLoaded) {
+      this.setState({ isImageLoaded: true });
+    }
+  };
+
+  Photo.prototype.isCached = function isCached() {
+    cache[this.props.fileUrl] === true;
+  };
+
+  Photo.prototype.setCached = function setCached() {
+    cache[this.props.fileUrl] = true;
+  };
+
+  Photo.prototype.getDimentions = function getDimentions() {
+    var _props = this.props;
+    var w = _props.w;
+    var h = _props.h;
 
     var MAX_WIDTH = 300;
     var MAX_HEIGHT = 400;
-    var width = content.w;
-    var height = content.h;
+    var width = w;
+    var height = h;
 
     if (width > height) {
       if (width > MAX_WIDTH) {
@@ -87,43 +90,76 @@ var Photo = function (_Component) {
       }
     }
 
-    var original = null,
-        preview = null,
-        preloader = null;
+    return { width: width, height: height };
+  };
 
-    if (content.fileUrl) {
-      original = _react2.default.createElement('img', { className: 'photo photo--original',
-        height: content.h,
-        onClick: this.openLightBox,
-        onLoad: this.onLoad,
-        src: content.fileUrl,
-        width: content.w });
+  Photo.prototype.renderPreview = function renderPreview() {
+    var preview = this.props.preview;
+
+
+    if (this.isCached()) {
+      return null;
     }
 
-    if (!this.isCached()) {
-      preview = _react2.default.createElement('img', { className: 'photo photo--preview', src: content.preview });
+    return _react2.default.createElement('img', { className: 'photo photo--preview', src: preview });
+  };
 
-      if (content.isUploading === true || isImageLoaded === false) {
-        preloader = _react2.default.createElement(
-          'div',
-          { className: 'preloader' },
-          _react2.default.createElement('div', null),
-          _react2.default.createElement('div', null),
-          _react2.default.createElement('div', null),
-          _react2.default.createElement('div', null),
-          _react2.default.createElement('div', null)
-        );
-      }
+  Photo.prototype.renderPreloader = function renderPreloader() {
+    var isUploading = this.props.isUploading;
+    var isImageLoaded = this.state.isImageLoaded;
+
+
+    if (this.isCached() || isUploading !== true || isImageLoaded !== false) {
+      return null;
     }
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'preloader' },
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null),
+      _react2.default.createElement('div', null)
+    );
+  };
+
+  Photo.prototype.renderOriginal = function renderOriginal() {
+    var _props2 = this.props;
+    var fileUrl = _props2.fileUrl;
+    var w = _props2.w;
+    var h = _props2.h;
+
+
+    if (!fileUrl) {
+      return null;
+    }
+
+    return _react2.default.createElement('img', {
+      className: 'photo photo--original',
+      height: h,
+      onClick: this.openLightBox,
+      onLoad: this.onLoad,
+      src: fileUrl,
+      width: w
+    });
+  };
+
+  Photo.prototype.render = function render() {
+    var _props3 = this.props;
+    var className = _props3.className;
+    var loadedClassName = _props3.loadedClassName;
+    var isImageLoaded = this.state.isImageLoaded;
+
 
     var imageClassName = isImageLoaded ? (0, _classnames2.default)(className, loadedClassName) : className;
 
     return _react2.default.createElement(
       'div',
-      { className: imageClassName, style: { width: width, height: height } },
-      preview,
-      original,
-      preloader,
+      { className: imageClassName, style: this.getDimentions() },
+      this.renderPreview(),
+      this.renderOriginal(),
+      this.renderPreloader(),
       _react2.default.createElement('svg', { dangerouslySetInnerHTML: { __html: '<filter id="blur-effect"><feGaussianBlur stdDeviation="3"/></filter>' } })
     );
   };
@@ -132,7 +168,11 @@ var Photo = function (_Component) {
 }(_react.Component);
 
 Photo.propTypes = {
-  content: _react.PropTypes.object.isRequired,
+  fileUrl: _react.PropTypes.string,
+  w: _react.PropTypes.number.isRequired,
+  h: _react.PropTypes.number.isRequired,
+  preview: _react.PropTypes.string.isRequired,
+  isUploading: _react.PropTypes.bool.isRequired,
   className: _react.PropTypes.string,
   loadedClassName: _react.PropTypes.string
 };

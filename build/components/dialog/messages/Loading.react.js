@@ -1,10 +1,12 @@
-"use strict";
+'use strict';
 
 exports.__esModule = true;
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactIntl = require('react-intl');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30,16 +32,13 @@ var Loading = function (_Component) {
   };
 
   Loading.prototype.render = function render() {
-    var intl = this.context.intl;
-
-
     return _react2.default.createElement(
-      "div",
-      { className: "message message--loading" },
+      'div',
+      { className: 'message message--loading' },
       _react2.default.createElement(
-        "div",
-        { className: "message__body col-xs text-center" },
-        intl.messages['message.loading']
+        'div',
+        { className: 'message__body col-xs text-center' },
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'message.loading' })
       )
     );
   };
@@ -47,8 +46,5 @@ var Loading = function (_Component) {
   return Loading;
 }(_react.Component);
 
-Loading.contextTypes = {
-  intl: _react.PropTypes.object
-};
 exports.default = Loading;
 //# sourceMappingURL=Loading.react.js.map

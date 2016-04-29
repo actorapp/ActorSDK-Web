@@ -79,26 +79,26 @@ var Voice = function (_Component) {
       isLoaded: _this.isCached(),
       isPlaying: false,
       currentTime: 0,
-      duration: props.content.duration / 1000
+      duration: props.duration / 1000
     };
     return _this;
   }
 
   Voice.prototype.componentDidMount = function componentDidMount() {
-    var content = this.props.content;
+    var fileUrl = this.props.fileUrl;
 
 
-    if (content.fileUrl) {
-      this.createAudioElement(content.fileUrl);
+    if (fileUrl) {
+      this.createAudioElement(fileUrl);
     }
   };
 
   Voice.prototype.componentDidUpdate = function componentDidUpdate() {
-    var content = this.props.content;
+    var fileUrl = this.props.fileUrl;
 
 
-    if (content.fileUrl && !this.isCached()) {
-      this.createAudioElement(content.fileUrl);
+    if (fileUrl && !this.isCached()) {
+      this.createAudioElement(fileUrl);
     }
   };
 
@@ -122,16 +122,16 @@ var Voice = function (_Component) {
   };
 
   Voice.prototype.isCached = function isCached() {
-    var content = this.props.content;
+    var fileUrl = this.props.fileUrl;
 
-    return cache[content.fileUrl] === true;
+    return cache[fileUrl] === true;
   };
 
   Voice.prototype.setCached = function setCached() {
-    var content = this.props.content;
+    var fileUrl = this.props.fileUrl;
 
-    cache[content.fileUrl] = true;
-    this.setState({ isLoaded: cache[content.fileUrl] });
+    cache[fileUrl] = true;
+    this.setState({ isLoaded: cache[fileUrl] });
   };
 
   Voice.prototype.render = function render() {
@@ -211,7 +211,8 @@ var Voice = function (_Component) {
 }(_react.Component);
 
 Voice.propTypes = {
-  content: _react.PropTypes.object.isRequired,
+  fileUrl: _react.PropTypes.string,
+  duration: _react.PropTypes.number.isRequired,
   className: _react.PropTypes.string
 };
 exports.default = Voice;

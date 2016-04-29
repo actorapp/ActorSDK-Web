@@ -95,5 +95,5 @@ var SidebarSection = function (_Component) {
 SidebarSection.contextTypes = {
   delegate: _react.PropTypes.object
 };
-exports.default = _utils.Container.create(SidebarSection);
+exports.default = _utils.Container.create(SidebarSection, { pure: false });
 //# sourceMappingURL=Sidebar.react.js.map

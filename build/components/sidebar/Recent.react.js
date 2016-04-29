@@ -8,8 +8,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
-
 var _reactIntl = require('react-intl');
 
 var _GroupListActionCreators = require('../../actions/GroupListActionCreators');
@@ -70,8 +68,6 @@ var Recent = function (_Component) {
     _this.scrollToLastHiddenBelow = _this.scrollToLastHiddenBelow.bind(_this);
     _this.handleGroupListTitleClick = _this.handleGroupListTitleClick.bind(_this);
     _this.handlePrivateListTitleClick = _this.handlePrivateListTitleClick.bind(_this);
-
-    _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
   }
 

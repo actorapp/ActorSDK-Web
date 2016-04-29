@@ -98,5 +98,8 @@ DialogFooter.propTypes = {
   isBlocked: _react.PropTypes.bool.isRequired,
   onUnblock: _react.PropTypes.func.isRequired
 };
+DialogFooter.defaultProps = {
+  isBlocked: false
+};
 exports.default = DialogFooter;
 //# sourceMappingURL=DialogFooter.react.js.map

@@ -96,21 +96,27 @@ var ToolbarSection = function (_Component) {
   };
 
   ToolbarSection.calculateState = function calculateState() {
-    var thisPeer = _DialogStore2.default.getCurrentPeer();
+    var peer = _DialogStore2.default.getCurrentPeer();
+    if (!peer) {
+      return {
+        dialogInfo: null
+      };
+    }
+
     return {
-      thisPeer: thisPeer,
+      peer: peer,
       dialogInfo: _DialogInfoStore2.default.getState(),
       isActivityOpen: _ActivityStore2.default.isOpen(),
       message: _OnlineStore2.default.getMessage(),
-      isFavorite: _DialogStore2.default.isFavorite(thisPeer.id),
+      isFavorite: _DialogStore2.default.isFavorite(peer.id),
       search: _SearchMessagesStore2.default.getState(),
-      call: ToolbarSection.calculateCallState(thisPeer)
+      call: ToolbarSection.calculateCallState(peer)
     };
   };
 
-  ToolbarSection.calculateCallState = function calculateCallState(thisPeer) {
+  ToolbarSection.calculateCallState = function calculateCallState(peer) {
     var call = _CallStore2.default.getState();
-    if (!call.isOpen || !_PeerUtils2.default.equals(thisPeer, call.peer)) {
+    if (!call.isOpen || !_PeerUtils2.default.equals(peer, call.peer)) {
       return {
         isCalling: false
       };
@@ -131,13 +137,13 @@ var ToolbarSection = function (_Component) {
 
     _this.onFavoriteToggle = function () {
       var _this$state = _this.state;
-      var thisPeer = _this$state.thisPeer;
+      var peer = _this$state.peer;
       var isFavorite = _this$state.isFavorite;
 
       if (isFavorite) {
-        _FavoriteActionCreators2.default.unfavoriteChat(thisPeer);
+        _FavoriteActionCreators2.default.unfavoriteChat(peer);
       } else {
-        _FavoriteActionCreators2.default.favoriteChat(thisPeer);
+        _FavoriteActionCreators2.default.favoriteChat(peer);
       }
     };
 

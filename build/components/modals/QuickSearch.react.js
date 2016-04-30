@@ -249,10 +249,12 @@ var QuickSearch = function (_Component) {
             return _this3.setState({ selectedIndex: index });
           } },
         _react2.default.createElement(_AvatarItem2.default, {
+          className: 'quick-search__avatar',
+          size: 'small',
           image: result.peerInfo.avatar,
           placeholder: result.peerInfo.placeholder,
-          size: 'small',
-          title: result.peerInfo.title }),
+          title: result.peerInfo.title
+        }),
         _react2.default.createElement(
           'div',
           { className: 'title col-xs' },

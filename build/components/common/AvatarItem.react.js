@@ -20,63 +20,71 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
+var AvatarSizes = {
+  tiny: 24,
+  small: 32,
+  normal: 36,
+  medium: 44,
+  large: 60,
+  big: 120,
+  huge: 200
+};
+
 var AvatarItem = function (_Component) {
   _inherits(AvatarItem, _Component);
 
-  function AvatarItem(props) {
+  function AvatarItem() {
     _classCallCheck(this, AvatarItem);
 
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
-
-    _this.handleClick = function (event) {
-      var onClick = _this.props.onClick;
-
-      onClick && onClick(event);
-    };
-
-    return _this;
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
-  AvatarItem.prototype.render = function render() {
-    var _props = this.props;
-    var title = _props.title;
-    var className = _props.className;
-    var image = _props.image;
-    var size = _props.size;
-    var placeholder = _props.placeholder;
+  AvatarItem.prototype.shouldComponentUpdate = function shouldComponentUpdate(prevProps) {
+    return prevProps.image !== this.props.image || prevProps.placeholder !== this.props.placeholder || prevProps.title !== this.props.title || prevProps.size !== this.props.size || prevProps.className !== this.props.className;
+  };
 
-
-    var placeholderClassName = (0, _classnames2.default)('avatar__placeholder', 'avatar__placeholder--' + placeholder);
-    var avatarClassName = (0, _classnames2.default)('avatar', {
-      'avatar--tiny': size === 'tiny',
-      'avatar--small': size === 'small',
-      'avatar--medium': size === 'medium',
-      'avatar--large': size === 'large',
-      'avatar--big': size === 'big',
-      'avatar--huge': size === 'huge',
-      'avatar--without-shadow': !image
-    }, className);
-
-    var avatar = image ? _react2.default.createElement('img', { alt: title, className: 'avatar__image', src: image }) : null;
+  AvatarItem.prototype.getFirstChar = function getFirstChar() {
+    var title = this.props.title;
 
     var emojiFirstChar = /([\uE000-\uF8FF]|\uD83C|\uD83D)/g;
 
-    var placeholderChar = void 0;
     if (title.length == 0) {
-      placeholderChar = '#';
-    } else {
-      placeholderChar = title[0].match(emojiFirstChar) ? '#' : title[0];
+      return '#';
     }
+
+    return title[0].match(emojiFirstChar) ? '#' : title[0];
+  };
+
+  AvatarItem.prototype.render = function render() {
+    var _props = this.props;
+    var image = _props.image;
+    var placeholder = _props.placeholder;
+    var title = _props.title;
+    var size = _props.size;
+    var onClick = _props.onClick;
+
+
+    if (image) {
+      var _className = (0, _classnames2.default)('avatar__image', { 'avatar--clickable': onClick }, this.props.className);
+
+      var imgSize = AvatarSizes[size];
+
+      return _react2.default.createElement('img', {
+        className: _className,
+        src: image,
+        width: imgSize,
+        height: imgSize,
+        alt: title,
+        onClick: onClick
+      });
+    }
+
+    var className = (0, _classnames2.default)('avatar__placeholder', 'avatar__placeholder--' + size, 'avatar__placeholder--' + placeholder, this.props.className, { 'avatar--clickable': onClick });
 
     return _react2.default.createElement(
       'div',
-      { className: avatarClassName, onClick: this.handleClick },
-      avatar,
-      _react2.default.createElement(
-        'span',
-        { className: placeholderClassName },
-        placeholderChar
-      )
+      { className: className, onClick: onClick, title: title },
+      this.getFirstChar()
     );
   };
 
@@ -84,13 +92,15 @@ var AvatarItem = function (_Component) {
 }(_react.Component);
 
 AvatarItem.propTypes = {
-  className: _react.PropTypes.string,
   image: _react.PropTypes.string,
   placeholder: _react.PropTypes.string.isRequired,
-  size: _react.PropTypes.string,
   title: _react.PropTypes.string.isRequired,
-
+  size: _react.PropTypes.oneOf(Object.keys(AvatarSizes)).isRequired,
+  className: _react.PropTypes.string,
   onClick: _react.PropTypes.func
+};
+AvatarItem.defaultProps = {
+  size: 'normal'
 };
 exports.default = AvatarItem;
 //# sourceMappingURL=AvatarItem.react.js.map

@@ -289,10 +289,13 @@ var ToolbarSection = function (_Component) {
     return _react2.default.createElement(
       'header',
       { className: headerClassName },
-      _react2.default.createElement(_AvatarItem2.default, { image: dialogInfo.avatar,
-        placeholder: dialogInfo.placeholder,
+      _react2.default.createElement(_AvatarItem2.default, {
+        className: 'toolbar__avatar',
         size: 'medium',
-        title: dialogInfo.name }),
+        image: dialogInfo.avatar,
+        placeholder: dialogInfo.placeholder,
+        title: dialogInfo.name
+      }),
       _react2.default.createElement(
         'div',
         { className: 'toolbar__peer col-xs' },

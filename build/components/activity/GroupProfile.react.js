@@ -231,11 +231,14 @@ var GroupProfile = function (_Component) {
     var groupMeta = [_react2.default.createElement(
       'header',
       { key: 1 },
-      _react2.default.createElement(_AvatarItem2.default, { image: group.bigAvatar,
-        placeholder: group.placeholder,
+      _react2.default.createElement(_AvatarItem2.default, {
+        className: 'profile__avatar',
         size: 'large',
+        image: group.bigAvatar,
+        placeholder: group.placeholder,
         title: group.name,
-        onClick: this.handleAvatarClick }),
+        onClick: this.handleAvatarClick
+      }),
       _react2.default.createElement('h3', { className: 'group_profile__meta__title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(group.name) } }),
       _react2.default.createElement(
         'div',

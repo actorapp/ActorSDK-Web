@@ -80,10 +80,12 @@ var PictureChanger = function (_Component) {
       'div',
       { className: 'picture-changer__changer' },
       _react2.default.createElement(_AvatarItem2.default, {
+        className: 'picture-changer__avatar',
         image: bigAvatar,
         placeholder: placeholder,
         size: small ? 'big' : 'huge',
-        title: name }),
+        title: name
+      }),
       _react2.default.createElement(
         'a',
         { onClick: this.handleChangeAvatarClick },

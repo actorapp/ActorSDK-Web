@@ -130,11 +130,14 @@ var Archive = function (_Component) {
           { to: '/im/' + peer.peer.key, className: 'archive-item row' },
           _react2.default.createElement(
             'div',
-            { className: 'archive-item__avatar' },
-            _react2.default.createElement(_AvatarItem2.default, { image: peer.avatar,
-              placeholder: peer.placeholder,
+            { className: 'archive-item__user' },
+            _react2.default.createElement(_AvatarItem2.default, {
+              className: 'archive-item__avatar',
               size: 'medium',
-              title: peer.title }),
+              image: peer.avatar,
+              placeholder: peer.placeholder,
+              title: peer.title
+            }),
             counter !== 0 ? _react2.default.createElement(
               'div',
               { className: 'archive-item__counter' },

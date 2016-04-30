@@ -248,11 +248,14 @@ var UserProfile = function (_Component) {
           _react2.default.createElement(
             'header',
             null,
-            _react2.default.createElement(_AvatarItem2.default, { image: user.bigAvatar,
-              placeholder: user.placeholder,
+            _react2.default.createElement(_AvatarItem2.default, {
+              className: 'profile__avatar',
               size: 'large',
+              image: user.bigAvatar,
+              placeholder: user.placeholder,
               title: user.name,
-              onClick: this.handleAvatarClick }),
+              onClick: this.handleAvatarClick
+            }),
             _react2.default.createElement('h3', { className: 'user_profile__meta__title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(user.name) } }),
             _react2.default.createElement(
               'div',

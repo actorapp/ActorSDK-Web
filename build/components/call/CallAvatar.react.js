@@ -66,8 +66,9 @@ var CallAvatar = function (_Component) {
 
     return _react2.default.createElement(
       'div',
-      { className: 'call__avatar' },
+      { className: 'call__avatar__container' },
       _react2.default.createElement(_AvatarItem2.default, {
+        className: 'call__avatar',
         size: small ? 'large' : 'big',
         title: peerInfo.name,
         image: peerInfo.avatar,

@@ -133,15 +133,15 @@ var GroupMember = function (_Component) {
     return _react2.default.createElement(
       'li',
       { className: 'group_profile__members__list__item' },
-      _react2.default.createElement(
-        'a',
-        { onClick: function onClick() {
-            return _this3.onClick(peerInfo.peer.id);
-          } },
-        _react2.default.createElement(_AvatarItem2.default, { image: peerInfo.avatar,
-          placeholder: peerInfo.placeholder,
-          title: peerInfo.title })
-      ),
+      _react2.default.createElement(_AvatarItem2.default, {
+        className: 'group_profile__avatar',
+        image: peerInfo.avatar,
+        placeholder: peerInfo.placeholder,
+        title: peerInfo.title,
+        onClick: function onClick() {
+          return _this3.onClick(peerInfo.peer.id);
+        }
+      }),
       _react2.default.createElement('a', { onClick: function onClick() {
           return _this3.onClick(peerInfo.peer.id);
         },

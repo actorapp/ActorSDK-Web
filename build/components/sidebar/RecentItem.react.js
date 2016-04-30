@@ -150,16 +150,13 @@ var RecentItem = function (_Component) {
     return _react2.default.createElement(
       'div',
       { onContextMenu: this.handleOpenContextMenu, onClick: this.handleClick, className: recentItemClassName },
-      _react2.default.createElement(
-        'div',
-        { className: 'recent__item__avatar' },
-        _react2.default.createElement(_AvatarItem2.default, {
-          size: 'tiny',
-          image: dialog.peer.avatar,
-          placeholder: dialog.peer.placeholder,
-          title: dialog.peer.title
-        })
-      ),
+      _react2.default.createElement(_AvatarItem2.default, {
+        className: 'recent__item__avatar',
+        size: 'tiny',
+        image: dialog.peer.avatar,
+        placeholder: dialog.peer.placeholder,
+        title: dialog.peer.title
+      }),
       _react2.default.createElement('div', { className: 'recent__item__title col-xs', dangerouslySetInnerHTML: { __html: title } }),
       this.renderCounter(),
       this.renderArchiveState()

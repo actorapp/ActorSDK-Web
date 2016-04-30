@@ -250,15 +250,13 @@ var MessageItem = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: 'message__info message__info--avatar' },
-        _react2.default.createElement(
-          'a',
-          { onClick: this.onClick },
-          _react2.default.createElement(_AvatarItem2.default, {
-            image: message.sender.avatar,
-            placeholder: message.sender.placeholder,
-            title: message.sender.title
-          })
-        )
+        _react2.default.createElement(_AvatarItem2.default, {
+          className: 'message__avatar',
+          image: message.sender.avatar,
+          placeholder: message.sender.placeholder,
+          title: message.sender.title,
+          onClick: this.onClick
+        })
       );
     }
   };

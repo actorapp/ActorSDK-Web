@@ -306,10 +306,13 @@ var HeaderSection = function (_Component) {
       _react2.default.createElement(
         'div',
         { className: 'sidebar__header__user row', onClick: this.toggleHeaderMenu },
-        _react2.default.createElement(_AvatarItem2.default, { image: profile.avatar,
+        _react2.default.createElement(_AvatarItem2.default, {
+          className: 'sidebar__avatar',
+          image: profile.avatar,
           placeholder: profile.placeholder,
           size: 'tiny',
-          title: profile.name }),
+          title: profile.name
+        }),
         _react2.default.createElement('span', { className: 'sidebar__header__user__name col-xs',
           dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(profile.name) } }),
         _react2.default.createElement(

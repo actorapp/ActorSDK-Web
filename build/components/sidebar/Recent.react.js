@@ -26,9 +26,9 @@ var _AddContactActionCreators = require('../../actions/AddContactActionCreators'
 
 var _AddContactActionCreators2 = _interopRequireDefault(_AddContactActionCreators);
 
-var _Scroller = require('../common/Scroller.react');
+var _CustomScroller = require('../common/CustomScroller.react');
 
-var _Scroller2 = _interopRequireDefault(_Scroller);
+var _CustomScroller2 = _interopRequireDefault(_CustomScroller);
 
 var _RecentGroup = require('./RecentGroup.react');
 
@@ -236,7 +236,7 @@ var Recent = function (_Component) {
       { className: 'recent' },
       this.renderUnreadAbove(),
       _react2.default.createElement(
-        _Scroller2.default,
+        _CustomScroller2.default,
         {
           className: 'recent__container',
           ref: 'scroller',

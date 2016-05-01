@@ -20,41 +20,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var _typing = null;
-
-/**
- * Class representing a store for typing info.
- */
-
-var TypingStore = function (_Store) {
-  _inherits(TypingStore, _Store);
+var TypingStore = function (_ReduceStore) {
+  _inherits(TypingStore, _ReduceStore);
 
   function TypingStore() {
     _classCallCheck(this, TypingStore);
 
-    return _possibleConstructorReturn(this, _Store.apply(this, arguments));
+    return _possibleConstructorReturn(this, _ReduceStore.apply(this, arguments));
   }
 
-  /**
-   * @returns {String}
-   */
-
-  TypingStore.prototype.getTyping = function getTyping() {
-    return _typing;
+  TypingStore.prototype.getInitialState = function getInitialState() {
+    return {
+      typing: null
+    };
   };
 
-  TypingStore.prototype.__onDispatch = function __onDispatch(action) {
-    switch (action.type) {
-      case _ActorAppConstants.ActionTypes.TYPING_CHANGED:
-        _typing = action.typing;
-        this.__emitChange();
-        break;
-      default:
+  TypingStore.prototype.reduce = function reduce(state, action) {
+    if (action.type === _ActorAppConstants.ActionTypes.TYPING_CHANGED) {
+      return {
+        typing: action.typing
+      };
     }
+
+    return state;
   };
 
   return TypingStore;
-}(_utils.Store);
+}(_utils.ReduceStore);
 
 exports.default = new TypingStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=TypingStore.js.map

@@ -8,10 +8,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _TypingStore = require('../../stores/TypingStore');
 
 var _TypingStore2 = _interopRequireDefault(_TypingStore);
@@ -29,49 +25,41 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Typing = function (_Component) {
   _inherits(Typing, _Component);
 
+  function Typing() {
+    _classCallCheck(this, Typing);
+
+    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+  }
+
   Typing.getStores = function getStores() {
     return [_TypingStore2.default];
   };
 
   Typing.calculateState = function calculateState() {
-    var typing = _TypingStore2.default.getTyping();
-    return typing === null ? { show: false } : { typing: typing, show: true };
+    return _TypingStore2.default.getState();
   };
 
-  function Typing(props) {
-    _classCallCheck(this, Typing);
-
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
-
-    _this.state = {
-      typing: null
-    };
-    return _this;
-  }
-
   Typing.prototype.render = function render() {
-    var _state = this.state;
-    var show = _state.show;
-    var typing = _state.typing;
+    var typing = this.state.typing;
 
 
-    var typingClassName = (0, _classnames2.default)('typing', {
-      'typing--hidden': !show
-    });
+    if (!typing) {
+      return _react2.default.createElement('div', { className: 'typing' });
+    }
 
     return _react2.default.createElement(
       'div',
-      { className: typingClassName },
+      { className: 'typing' },
       _react2.default.createElement(
         'div',
-        { className: 'typing-indicator' },
+        { className: 'typing__indicator' },
         _react2.default.createElement('i', null),
         _react2.default.createElement('i', null),
         _react2.default.createElement('i', null)
       ),
       _react2.default.createElement(
         'span',
-        null,
+        { className: 'typing__text' },
         typing
       )
     );

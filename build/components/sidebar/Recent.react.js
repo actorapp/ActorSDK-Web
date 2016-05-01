@@ -63,7 +63,7 @@ var Recent = function (_Component) {
       firstUnreadAbove: null
     };
 
-    _this.checkInvisibleCounters = (0, _lodash.throttle)(_this.checkInvisibleCounters.bind(_this), 50);
+    _this.checkInvisibleCounters = (0, _lodash.throttle)(_this.checkInvisibleCounters.bind(_this), 300);
     _this.scrollToFirstHiddenAbove = _this.scrollToFirstHiddenAbove.bind(_this);
     _this.scrollToLastHiddenBelow = _this.scrollToLastHiddenBelow.bind(_this);
     _this.handleGroupListTitleClick = _this.handleGroupListTitleClick.bind(_this);

@@ -135,7 +135,7 @@ var Scroller = function (_Component) {
       return { top: 0, height: 0 };
     }
 
-    var height = offsetHeight / scrollHeight * offsetHeight;
+    var height = Math.max(30, offsetHeight / scrollHeight * offsetHeight);
     var offsetAvailable = scrollHeight - offsetHeight;
     var offsetPercent = offsetAvailable === 0 ? 0 : scrollTop / offsetAvailable;
     var offset = (offsetHeight - height) * offsetPercent;

@@ -32,6 +32,7 @@ var Scroller = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
+    _this.onResize = _this.onResize.bind(_this);
     _this.onReference = _this.onReference.bind(_this);
     return _this;
   }
@@ -51,6 +52,10 @@ var Scroller = function (_Component) {
 
   Scroller.prototype.componentDidUpdate = function componentDidUpdate() {
     this.props.onUpdate();
+  };
+
+  Scroller.prototype.onResize = function onResize() {
+    this.props.onResize();
   };
 
   Scroller.prototype.onReference = function onReference(node) {

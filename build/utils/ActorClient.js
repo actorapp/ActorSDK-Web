@@ -137,6 +137,8 @@ var ActorClient = function () {
       }
     });
 
+    binding.initAll();
+
     return {
       unbind: function unbind() {
         binding.unbind();

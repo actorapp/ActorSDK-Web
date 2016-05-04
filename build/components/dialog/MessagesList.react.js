@@ -78,8 +78,8 @@ var MessagesList = function (_Component) {
     _this.dimensions = null;
     _this.isLoading = false;
 
-    _this.onScroll = (0, _lodash.throttle)(_this.onScroll.bind(_this), 50);
     _this.onResize = _this.onResize.bind(_this);
+    _this.onScroll = (0, _lodash.throttle)(_this.onScroll.bind(_this), 300);
     _this.handleScrollToBottom = _this.handleScrollToBottom.bind(_this);
     return _this;
   }
@@ -120,6 +120,8 @@ var MessagesList = function (_Component) {
       if (dimensions) {
         var currDimensions = scroller.getDimensions();
         scroller.scrollTo(currDimensions.scrollHeight - dimensions.scrollHeight);
+      } else {
+        scroller.scrollToBottom();
       }
     } else {
       this.restoreScroll();
@@ -158,9 +160,7 @@ var MessagesList = function (_Component) {
   };
 
   MessagesList.prototype.handleScrollToBottom = function handleScrollToBottom() {
-    var scroller = this.refs.scroller;
-
-    scroller.scrollToBottom();
+    this.refs.scroller.scrollToBottom();
   };
 
   MessagesList.prototype.renderHeader = function renderHeader() {
@@ -293,6 +293,7 @@ MessagesList.propTypes = {
     isLoaded: _react.PropTypes.bool.isRequired,
     receiveDate: _react.PropTypes.number.isRequired,
     readDate: _react.PropTypes.number.isRequired,
+    readByMeDate: _react.PropTypes.number.isRequired,
     selected: _react.PropTypes.object.isRequired,
     changeReason: _react.PropTypes.oneOf([_ActorAppConstants.MessageChangeReason.UNKNOWN, _ActorAppConstants.MessageChangeReason.PUSH, _ActorAppConstants.MessageChangeReason.UNSHIFT, _ActorAppConstants.MessageChangeReason.UPDATE]).isRequired
   }).isRequired,

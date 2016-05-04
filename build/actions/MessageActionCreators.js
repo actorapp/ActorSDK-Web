@@ -78,13 +78,14 @@ var MessageActionCreators = function () {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_LIKE_REMOVE, { peer: peer, rid: rid });
   };
 
-  MessageActionCreators.prototype.setMessages = function setMessages(messages, overlay, isLoaded, receiveDate, readDate) {
+  MessageActionCreators.prototype.setMessages = function setMessages(messages, overlay, isLoaded, receiveDate, readDate, readByMeDate) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_CHANGED, {
       messages: messages,
       overlay: overlay,
       isLoaded: isLoaded,
       receiveDate: receiveDate,
-      readDate: readDate
+      readDate: readDate,
+      readByMeDate: readByMeDate
     });
   };
 

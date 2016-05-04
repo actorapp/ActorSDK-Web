@@ -48,6 +48,7 @@ var MessageStore = function (_ReduceStore) {
       isLoaded: false,
       receiveDate: 0,
       readDate: 0,
+      readByMeDate: 0,
       count: 0,
       firstMessageId: null,
       lastMessageId: null,
@@ -82,6 +83,7 @@ var MessageStore = function (_ReduceStore) {
             overlay: action.overlay,
             receiveDate: action.receiveDate,
             readDate: action.readDate,
+            readByMeDate: action.readByMeDate,
             isLoaded: action.isLoaded,
             count: Math.min(action.messages.length, state.count + MESSAGE_COUNT_STEP),
             changeReason: _ActorAppConstants.MessageChangeReason.UNSHIFT
@@ -96,6 +98,7 @@ var MessageStore = function (_ReduceStore) {
             overlay: action.overlay,
             receiveDate: action.receiveDate,
             readDate: action.readDate,
+            readByMeDate: action.readByMeDate,
             isLoaded: action.isLoaded,
             count: Math.min(action.messages.length, state.count + action.messages.length - state.messages.length),
             changeReason: _ActorAppConstants.MessageChangeReason.PUSH
@@ -109,6 +112,7 @@ var MessageStore = function (_ReduceStore) {
           overlay: action.overlay,
           receiveDate: action.receiveDate,
           readDate: action.readDate,
+          readByMeDate: action.readByMeDate,
           isLoaded: action.isLoaded,
           count: Math.min(action.messages.length, state.count),
           changeReason: _ActorAppConstants.MessageChangeReason.UPDATE

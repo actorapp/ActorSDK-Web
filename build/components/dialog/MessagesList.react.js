@@ -78,7 +78,7 @@ var MessagesList = function (_Component) {
     _this.dimensions = null;
     _this.isLoading = false;
 
-    _this.onScroll = (0, _lodash.throttle)(_this.onScroll.bind(_this), 600);
+    _this.onScroll = (0, _lodash.throttle)(_this.onScroll.bind(_this), 50);
     _this.onResize = _this.onResize.bind(_this);
     _this.handleScrollToBottom = _this.handleScrollToBottom.bind(_this);
     return _this;
@@ -237,7 +237,7 @@ var MessagesList = function (_Component) {
 
     return _react2.default.createElement(
       'div',
-      { className: 'chat__messages__scroll-to-bottom', onClick: this.handleScrollToBottom },
+      { className: 'chat__scroll-to-bottom', onClick: this.handleScrollToBottom },
       _react2.default.createElement(
         'i',
         { className: 'material-icons' },
@@ -248,15 +248,19 @@ var MessagesList = function (_Component) {
 
   MessagesList.prototype.render = function render() {
     return _react2.default.createElement(
-      _Scroller2.default,
-      {
-        className: 'chat__messages',
-        ref: 'scroller',
-        onScroll: this.onScroll,
-        onResize: this.onResize
-      },
-      this.renderHeader(),
-      this.renderMessages(),
+      'div',
+      { className: 'chat__container' },
+      _react2.default.createElement(
+        _Scroller2.default,
+        {
+          className: 'chat__messages',
+          ref: 'scroller',
+          onScroll: this.onScroll,
+          onResize: this.onResize
+        },
+        this.renderHeader(),
+        this.renderMessages()
+      ),
       this.renderScrollToBottomButton()
     );
   };

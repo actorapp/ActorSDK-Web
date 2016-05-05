@@ -8,6 +8,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactIntl = require('react-intl');
+
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _PeerUtils = require('../../utils/PeerUtils');
@@ -41,13 +43,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-function isLastMessageMine(uid, _ref) {
-  var messages = _ref.messages;
-
-  var lastMessage = messages[messages.length - 1];
-  return lastMessage && uid === lastMessage.sender.peer.id;
-}
 
 var MessagesList = function (_Component) {
   _inherits(MessagesList, _Component);
@@ -115,8 +110,15 @@ var MessagesList = function (_Component) {
     var messages = _props.messages;
 
 
-    if (messages.changeReason === _ActorAppConstants.MessageChangeReason.PUSH) {
-      var _isLastMessageMine = isLastMessageMine(uid, messages);
+    if (messages.firstUnreadId && messages.firstUnreadId !== prevProps.messages.firstUnreadId) {
+      if (this.refs.unread) {
+        console.debug('Scroll to unread divider');
+        this.refs.scroller.scrollToNode(this.refs.unread);
+      } else {
+        console.debug('Scroll to unread divider impossible');
+      }
+    } else if (messages.changeReason === _ActorAppConstants.MessageChangeReason.PUSH) {
+      var _isLastMessageMine = (0, _MessageUtils.isLastMessageMine)(uid, messages);
       if (!dimensions || _isLastMessageMine) {
         console.debug('Scroll to bottom due new messages PUSH', { dimensions: dimensions, _isLastMessageMine: _isLastMessageMine });
         this.scrollToBottom();
@@ -208,6 +210,7 @@ var MessagesList = function (_Component) {
     var selected = _props3$messages.selected;
     var receiveDate = _props3$messages.receiveDate;
     var readDate = _props3$messages.readDate;
+    var firstUnreadId = _props3$messages.firstUnreadId;
     var MessageItem = this.components.MessageItem;
 
 
@@ -223,6 +226,13 @@ var MessagesList = function (_Component) {
       }
 
       var message = messages[index];
+      if (message.rid === firstUnreadId) {
+        result.push(_react2.default.createElement(
+          'div',
+          { className: 'unread-divider', ref: 'unread', key: 'unread' },
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'message.unread' })
+        ));
+      }
 
       result.push(_react2.default.createElement(MessageItem, {
         peer: peer,
@@ -318,7 +328,7 @@ MessagesList.propTypes = {
     isLoaded: _react.PropTypes.bool.isRequired,
     receiveDate: _react.PropTypes.number.isRequired,
     readDate: _react.PropTypes.number.isRequired,
-    readByMeDate: _react.PropTypes.number.isRequired,
+    firstUnreadId: _react.PropTypes.string,
     selected: _react.PropTypes.object.isRequired,
     changeReason: _react.PropTypes.oneOf([_ActorAppConstants.MessageChangeReason.UNKNOWN, _ActorAppConstants.MessageChangeReason.PUSH, _ActorAppConstants.MessageChangeReason.UNSHIFT, _ActorAppConstants.MessageChangeReason.UPDATE]).isRequired
   }).isRequired,

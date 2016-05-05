@@ -98,6 +98,10 @@ var Scroller = function (_Component) {
     this.container.scrollTop = this.container.scrollHeight;
   };
 
+  Scroller.prototype.scrollToNode = function scrollToNode(node) {
+    this.scrollTo(Math.min(node.offsetTop, this.container.scrollHeight));
+  };
+
   return Scroller;
 }(_react.Component);
 

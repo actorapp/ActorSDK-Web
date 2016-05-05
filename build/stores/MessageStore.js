@@ -16,6 +16,12 @@ var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
+var _MessageUtils = require('../utils/MessageUtils');
+
+var _UserStore = require('./UserStore');
+
+var _UserStore2 = _interopRequireDefault(_UserStore);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -48,10 +54,10 @@ var MessageStore = function (_ReduceStore) {
       isLoaded: false,
       receiveDate: 0,
       readDate: 0,
-      readByMeDate: 0,
       count: 0,
       firstMessageId: null,
       lastMessageId: null,
+      firstUnreadId: null,
       changeReason: _ActorAppConstants.MessageChangeReason.UNKNOWN,
       selected: new _immutable2.default.Set()
     };
@@ -75,48 +81,41 @@ var MessageStore = function (_ReduceStore) {
         var firstMessageId = getMessageId(action.messages[0]);
         var lastMessageId = getMessageId(action.messages[action.messages.length - 1]);
 
-        if (firstMessageId !== state.firstMessageId) {
-          return _extends({}, state, {
-            firstMessageId: firstMessageId,
-            lastMessageId: lastMessageId,
-            messages: action.messages,
-            overlay: action.overlay,
-            receiveDate: action.receiveDate,
-            readDate: action.readDate,
-            readByMeDate: action.readByMeDate,
-            isLoaded: action.isLoaded,
-            count: Math.min(action.messages.length, state.count + MESSAGE_COUNT_STEP),
-            changeReason: _ActorAppConstants.MessageChangeReason.UNSHIFT
-          });
-        }
-
-        if (lastMessageId !== state.lastMessageId) {
-          return _extends({}, state, {
-            firstMessageId: firstMessageId,
-            lastMessageId: lastMessageId,
-            messages: action.messages,
-            overlay: action.overlay,
-            receiveDate: action.receiveDate,
-            readDate: action.readDate,
-            readByMeDate: action.readByMeDate,
-            isLoaded: action.isLoaded,
-            count: Math.min(action.messages.length, state.count + action.messages.length - state.messages.length),
-            changeReason: _ActorAppConstants.MessageChangeReason.PUSH
-          });
-        }
-
-        return _extends({}, state, {
+        var nextState = _extends({}, state, {
           firstMessageId: firstMessageId,
           lastMessageId: lastMessageId,
           messages: action.messages,
           overlay: action.overlay,
           receiveDate: action.receiveDate,
           readDate: action.readDate,
-          readByMeDate: action.readByMeDate,
-          isLoaded: action.isLoaded,
-          count: Math.min(action.messages.length, state.count),
-          changeReason: _ActorAppConstants.MessageChangeReason.UPDATE
+          isLoaded: action.isLoaded
         });
+
+        if (firstMessageId !== state.firstMessageId) {
+          nextState.count = Math.min(action.messages.length, state.count + MESSAGE_COUNT_STEP);
+          nextState.changeReason = _ActorAppConstants.MessageChangeReason.UNSHIFT;
+        } else if (lastMessageId !== state.lastMessageId) {
+          // TODO: possible incorrect
+          var lengthDiff = action.messages.length - state.messages.length;
+
+          nextState.count = Math.min(action.messages.length, state.count + lengthDiff);
+          nextState.changeReason = _ActorAppConstants.MessageChangeReason.PUSH;
+        } else {
+          nextState.count = Math.min(action.messages.length, state.count);
+          nextState.changeReason = _ActorAppConstants.MessageChangeReason.UPDATE;
+        }
+
+        var firstUnreadIndex = (0, _MessageUtils.getFirstUnreadMessageIndex)(action.messages, action.readByMeDate, _UserStore2.default.getMyId());
+        if (firstUnreadIndex === -1) {
+          nextState.firstUnreadId = null;
+        } else {
+          nextState.firstUnreadId = action.messages[firstUnreadIndex].rid;
+          if (firstUnreadIndex > nextState.count) {
+            nextState.count = firstUnreadIndex;
+          }
+        }
+
+        return nextState;
 
       case _ActorAppConstants.ActionTypes.MESSAGES_LOAD_MORE:
         return _extends({}, state, {

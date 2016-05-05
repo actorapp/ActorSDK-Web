@@ -84,7 +84,8 @@ exports.default = {
           }
         }
       },
-      'loading': 'Loading messages from history'
+      'loading': 'Loading messages from history',
+      'unread': 'New messages'
     },
 
     // Connection state

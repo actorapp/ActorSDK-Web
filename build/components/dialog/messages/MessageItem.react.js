@@ -238,7 +238,7 @@ var MessageItem = function (_Component) {
     if (isShort) {
       return _react2.default.createElement(
         'div',
-        { className: 'message__info text-right' },
+        { className: 'message__info' },
         _react2.default.createElement(
           'time',
           { className: 'message__timestamp' },
@@ -366,7 +366,7 @@ var MessageItem = function (_Component) {
       this.renderLeftBlock(),
       _react2.default.createElement(
         'div',
-        { className: 'message__body col-xs' },
+        { className: 'message__body' },
         this.renderHeader(),
         this.renderContent()
       ),

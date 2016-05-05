@@ -72,7 +72,7 @@ var MessagesList = function (_Component) {
     }
 
     _this.state = {
-      isScrollToBottomNeeded: false
+      showScrollToBottom: false
     };
 
     _this.dimensions = null;
@@ -85,7 +85,7 @@ var MessagesList = function (_Component) {
   }
 
   MessagesList.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.peer !== this.props.peer || nextProps.messages !== this.props.messages || nextProps.isMember !== this.props.isMember || nextState.isScrollToBottomNeeded !== this.state.isScrollToBottomNeeded;
+    return nextProps.peer !== this.props.peer || nextProps.messages !== this.props.messages || nextProps.isMember !== this.props.isMember || nextState.showScrollToBottom !== this.state.showScrollToBottom;
   };
 
   MessagesList.prototype.componentDidMount = function componentDidMount() {
@@ -97,11 +97,14 @@ var MessagesList = function (_Component) {
       console.debug('Peer changed, set dimensions to null');
       this.dimensions = null;
       this.isLoading = false;
+    } else {
+      console.debug('Update dimensions due messages will rerender');
+      this.updateDimensions(this.refs.scroller.getDimensions());
     }
   };
 
   MessagesList.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
-    if (prevState.isScrollToBottomNeeded !== this.state.isScrollToBottomNeeded) {
+    if (prevState.showScrollToBottom !== this.state.showScrollToBottom) {
       return;
     }
 
@@ -116,7 +119,7 @@ var MessagesList = function (_Component) {
       var _isLastMessageMine = isLastMessageMine(uid, messages);
       if (!dimensions || _isLastMessageMine) {
         console.debug('Scroll to bottom due new messages PUSH', { dimensions: dimensions, _isLastMessageMine: _isLastMessageMine });
-        scroller.scrollToBottom();
+        this.scrollToBottom();
       }
     } else if (messages.changeReason === _ActorAppConstants.MessageChangeReason.UNSHIFT) {
       this.isLoading = false;
@@ -126,7 +129,7 @@ var MessagesList = function (_Component) {
         scroller.scrollTo(nextDimensions.scrollHeight - dimensions.scrollHeight);
       } else {
         console.debug('Scroll to bottom due messages have been UNSHIFT', { dimensions: dimensions });
-        scroller.scrollToBottom();
+        this.scrollToBottom();
       }
     } else {
       console.debug('Restore scroll due messages UPDATE');
@@ -136,21 +139,14 @@ var MessagesList = function (_Component) {
 
   MessagesList.prototype.onScroll = function onScroll() {
     var dimensions = this.refs.scroller.getDimensions();
-    if (dimensions.scrollHeight === dimensions.scrollTop + dimensions.offsetHeight) {
-      console.debug('Handle scroll: lock scroll to bottom', { dimensions: dimensions });
-      this.dimensions = null;
-    } else {
-      console.debug('Handle scroll: set new dimensions', { dimensions: dimensions });
-      this.dimensions = dimensions;
-    }
-
+    this.updateDimensions(dimensions);
     if (!this.isLoading && dimensions.scrollTop < 100) {
       console.debug('Start loading more messages');
       this.isLoading = true;
       this.props.onLoadMore();
     }
 
-    this.setState({ isScrollToBottomNeeded: dimensions.scrollTop < dimensions.scrollHeight - 2 * dimensions.offsetHeight });
+    this.setState({ showScrollToBottom: dimensions.scrollTop < dimensions.scrollHeight - 2 * dimensions.offsetHeight });
   };
 
   MessagesList.prototype.onResize = function onResize() {
@@ -239,9 +235,9 @@ var MessagesList = function (_Component) {
   };
 
   MessagesList.prototype.renderScrollToBottomButton = function renderScrollToBottomButton() {
-    var isScrollToBottomNeeded = this.state.isScrollToBottomNeeded;
+    var showScrollToBottom = this.state.showScrollToBottom;
 
-    if (!isScrollToBottomNeeded) {
+    if (!showScrollToBottom) {
       return null;
     }
 
@@ -273,6 +269,21 @@ var MessagesList = function (_Component) {
       ),
       this.renderScrollToBottomButton()
     );
+  };
+
+  MessagesList.prototype.scrollToBottom = function scrollToBottom() {
+    this.dimensions = null;
+    this.refs.scroller.scrollToBottom();
+  };
+
+  MessagesList.prototype.updateDimensions = function updateDimensions(dimensions) {
+    if (dimensions.scrollHeight === dimensions.scrollTop + dimensions.offsetHeight) {
+      console.debug('Update dimensions: lock scroll to bottom', { dimensions: dimensions });
+      this.dimensions = null;
+    } else {
+      console.debug('Update dimensions: set new dimensions', { dimensions: dimensions });
+      this.dimensions = dimensions;
+    }
   };
 
   MessagesList.prototype.restoreScroll = function restoreScroll() {

@@ -363,18 +363,14 @@ var MessageItem = function (_Component) {
     return _react2.default.createElement(
       'div',
       { className: messageClassName },
+      this.renderLeftBlock(),
       _react2.default.createElement(
         'div',
-        { className: 'row' },
-        this.renderLeftBlock(),
-        _react2.default.createElement(
-          'div',
-          { className: 'message__body col-xs' },
-          this.renderHeader(),
-          this.renderContent()
-        ),
-        this.renderActions()
-      )
+        { className: 'message__body col-xs' },
+        this.renderHeader(),
+        this.renderContent()
+      ),
+      this.renderActions()
     );
   };
 

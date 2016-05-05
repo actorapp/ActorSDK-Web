@@ -146,7 +146,11 @@ var MessagesList = function (_Component) {
       this.props.onLoadMore();
     }
 
-    this.setState({ showScrollToBottom: dimensions.scrollTop < dimensions.scrollHeight - 2 * dimensions.offsetHeight });
+    var showScrollToBottom = dimensions.scrollTop < dimensions.scrollHeight - 2 * dimensions.offsetHeight;
+
+    if (showScrollToBottom !== this.state.showScrollToBottom) {
+      this.setState({ showScrollToBottom: showScrollToBottom });
+    }
   };
 
   MessagesList.prototype.onResize = function onResize() {

@@ -54,9 +54,10 @@ var DialogFooter = function (_Component) {
 
   DialogFooter.prototype.render = function render() {
     var _props = this.props;
+    var info = _props.info;
     var isMember = _props.isMember;
-    var isBlocked = _props.isBlocked;
     var onUnblock = _props.onUnblock;
+    var onStart = _props.onStart;
 
     if (!isMember) {
       return _react2.default.createElement(
@@ -66,11 +67,19 @@ var DialogFooter = function (_Component) {
       );
     }
 
-    if (isBlocked) {
+    if (info.isBlocked) {
       return _react2.default.createElement(
         'footer',
         { className: 'chat__footer chat__footer--disabled chat__footer--clickable', onClick: onUnblock },
         _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'compose.unblock' })
+      );
+    }
+
+    if (info.isBot && !info.isStarted) {
+      return _react2.default.createElement(
+        'footer',
+        { className: 'chat__footer chat__footer--disabled chat__footer--clickable', onClick: onStart },
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'compose.start' })
       );
     }
 
@@ -94,9 +103,10 @@ DialogFooter.contextTypes = {
   delegate: _react.PropTypes.object.isRequired
 };
 DialogFooter.propTypes = {
+  info: _react.PropTypes.object.isRequired,
   isMember: _react.PropTypes.bool.isRequired,
-  isBlocked: _react.PropTypes.bool.isRequired,
-  onUnblock: _react.PropTypes.func.isRequired
+  onUnblock: _react.PropTypes.func.isRequired,
+  onStart: _react.PropTypes.func.isRequired
 };
 DialogFooter.defaultProps = {
   isBlocked: false

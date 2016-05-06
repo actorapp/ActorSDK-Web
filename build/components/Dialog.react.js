@@ -62,6 +62,10 @@ var _DialogActionCreators = require('../actions/DialogActionCreators');
 
 var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
+var _MessageActionCreators = require('../actions/MessageActionCreators');
+
+var _MessageActionCreators2 = _interopRequireDefault(_MessageActionCreators);
+
 var _BlockedUsersActionCreators = require('../actions/BlockedUsersActionCreators');
 
 var _BlockedUsersActionCreators2 = _interopRequireDefault(_BlockedUsersActionCreators);
@@ -102,6 +106,7 @@ var DialogSection = function (_Component) {
 
     _this.updatePeer(_this.props.params.id);
 
+    _this.onStart = _this.onStart.bind(_this);
     _this.onUnblock = _this.onUnblock.bind(_this);
     return _this;
   }
@@ -123,6 +128,12 @@ var DialogSection = function (_Component) {
     } else {
       _history2.default.replace('/im');
     }
+  };
+
+  DialogSection.prototype.onStart = function onStart() {
+    var peer = this.state.peer;
+
+    _MessageActionCreators2.default.sendTextMessage(peer, '/start');
   };
 
   DialogSection.prototype.onUnblock = function onUnblock() {
@@ -205,9 +216,10 @@ var DialogSection = function (_Component) {
             { className: 'chat' },
             _react2.default.createElement(MessagesSection, { peer: peer, isMember: isMember }),
             _react2.default.createElement(_DialogFooter2.default, {
+              info: dialogInfo,
               isMember: isMember,
-              isBlocked: dialogInfo.isBlocked,
-              onUnblock: this.onUnblock
+              onUnblock: this.onUnblock,
+              onStart: this.onStart
             })
           )
         ),

@@ -2,6 +2,8 @@
 
 exports.__esModule = true;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
@@ -24,6 +26,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
+function getPeer(peer) {
+  if (peer.type === _ActorAppConstants.PeerTypes.GROUP) {
+    return _ActorClient2.default.getGroup(peer.id);
+  }
+
+  return _ActorClient2.default.getUser(peer.id);
+}
+
 var DialogInfoStore = function (_ReduceStore) {
   _inherits(DialogInfoStore, _ReduceStore);
 
@@ -34,20 +44,34 @@ var DialogInfoStore = function (_ReduceStore) {
   }
 
   DialogInfoStore.prototype.getInitialState = function getInitialState() {
+    // Temporary workaround while isStarted isn't correct
+    this.__isStarted = false;
     return null;
   };
 
   DialogInfoStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.SELECT_DIALOG_PEER:
-        if (action.peer.type === _ActorAppConstants.PeerTypes.GROUP) {
-          return _ActorClient2.default.getGroup(action.peer.id);
-        }
+        var info = getPeer(action.peer);
 
-        return _ActorClient2.default.getUser(action.peer.id);
+        return _extends({}, info, {
+          isStarted: this.__isStarted
+        });
 
       case _ActorAppConstants.ActionTypes.DIALOG_INFO_CHANGED:
-        return action.info;
+        return _extends({}, action.info, {
+          isStarted: this.__isStarted
+        });
+
+      case _ActorAppConstants.ActionTypes.MESSAGES_CHANGED:
+        this.__isStarted = action.messages && action.messages.length > 0;
+        if (state) {
+          return _extends({}, state, {
+            isStarted: this.__isStarted
+          });
+        }
+
+        return state;
 
       default:
         return state;

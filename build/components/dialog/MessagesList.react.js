@@ -217,21 +217,35 @@ var MessagesList = function (_Component) {
 
     var result = [];
     for (var index = messages.length - count; index < messages.length; index++) {
+      var message = messages[index];
+      if (message.rid === firstUnreadId) {
+        result.push(_react2.default.createElement(
+          'div',
+          { className: 'unread-divider', ref: 'unread', key: 'unread' },
+          _react2.default.createElement(
+            'div',
+            { className: 'text' },
+            _react2.default.createElement(
+              'i',
+              { className: 'material-icons' },
+              'expand_more'
+            ),
+            _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'message.unread' }),
+            _react2.default.createElement(
+              'i',
+              { className: 'material-icons' },
+              'expand_more'
+            )
+          )
+        ));
+      }
+
       var overlayItem = overlay[index];
       if (overlayItem && overlayItem.dateDivider) {
         result.push(_react2.default.createElement(
           'div',
           { className: 'date-divider', key: overlayItem.dateDivider },
           overlayItem.dateDivider
-        ));
-      }
-
-      var message = messages[index];
-      if (message.rid === firstUnreadId) {
-        result.push(_react2.default.createElement(
-          'div',
-          { className: 'unread-divider', ref: 'unread', key: 'unread' },
-          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'message.unread' })
         ));
       }
 

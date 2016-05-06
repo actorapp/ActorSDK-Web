@@ -66,6 +66,10 @@ var _ComposeMarkdownHint = require('./compose/ComposeMarkdownHint.react');
 
 var _ComposeMarkdownHint2 = _interopRequireDefault(_ComposeMarkdownHint);
 
+var _BotCommandsHint = require('./compose/BotCommandsHint.react');
+
+var _BotCommandsHint2 = _interopRequireDefault(_BotCommandsHint);
+
 var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -106,22 +110,12 @@ var ComposeSection = function (_Component) {
   ComposeSection.calculateState = function calculateState() {
     return {
       peer: _DialogStore2.default.getCurrentPeer(),
-      text: _ComposeStore2.default.getText(),
+      compose: _ComposeStore2.default.getState(),
       profile: _ActorClient2.default.getUser(_ActorClient2.default.getUid()),
       sendByEnter: _PreferencesStore2.default.isSendByEnterEnabled(),
-      mentions: _ComposeStore2.default.getMentions(),
-      isAutoFocusEnabled: _ComposeStore2.default.isAutoFocusEnabled(),
       isMessageArtOpen: _MessageArtStore2.default.getState().isOpen,
       stickers: _MessageArtStore2.default.getState().stickers
     };
-  };
-
-  ComposeSection.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
-    if (prevState.peer !== this.state.peer) {
-      if (this.refs.area) {
-        this.refs.area.autoFocus();
-      }
-    }
   };
 
   function ComposeSection(props) {
@@ -137,7 +131,7 @@ var ComposeSection = function (_Component) {
     _this.onMentionSelect = function (mention) {
       var _this$state = _this.state;
       var peer = _this$state.peer;
-      var text = _this$state.text;
+      var text = _this$state.compose.text;
 
 
       _ComposeActionCreators2.default.insertMention(peer, text, _this.getCaretPosition(), mention);
@@ -149,7 +143,9 @@ var ComposeSection = function (_Component) {
     };
 
     _this.handleEmojiSelect = function (emoji) {
-      _EmojiActionCreators2.default.insertEmoji(_this.state.text, _this.getCaretPosition(), emoji);
+      var text = _this.state.compose.text;
+
+      _EmojiActionCreators2.default.insertEmoji(text, _this.getCaretPosition(), emoji);
       _this.setFocus();
     };
 
@@ -204,8 +200,18 @@ var ComposeSection = function (_Component) {
     _this.onSubmit = _this.onSubmit.bind(_this);
     _this.onPaste = _this.onPaste.bind(_this);
     _this.onKeyDown = _this.onKeyDown.bind(_this);
+    _this.onCommandSelect = _this.onCommandSelect.bind(_this);
+    _this.onCommandClose = _this.onCommandClose.bind(_this);
     return _this;
   }
+
+  ComposeSection.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
+    if (prevState.peer !== this.state.peer) {
+      if (this.refs.area) {
+        this.refs.area.autoFocus();
+      }
+    }
+  };
 
   ComposeSection.prototype.onTyping = function onTyping(text, caretPosition) {
     _ComposeActionCreators2.default.onTyping(this.state.peer, text, caretPosition);
@@ -214,7 +220,7 @@ var ComposeSection = function (_Component) {
   ComposeSection.prototype.onSubmit = function onSubmit() {
     var _state = this.state;
     var peer = _state.peer;
-    var text = _state.text;
+    var text = _state.compose.text;
 
 
     if (text.trim().length) {
@@ -243,13 +249,66 @@ var ComposeSection = function (_Component) {
     }
   };
 
+  // TODO: move this to textarea component
+
+
+  // TODO: move this to textarea component
+
+
+  ComposeSection.prototype.onCommandSelect = function onCommandSelect(command) {
+    var peer = this.state.peer;
+
+    _MessageActionCreators2.default.sendTextMessage(peer, '/' + command);
+    _ComposeActionCreators2.default.cleanText();
+  };
+
+  ComposeSection.prototype.onCommandClose = function onCommandClose() {
+    _ComposeActionCreators2.default.cleanText();
+  };
+
+  // TODO: remove this method
+
+  ComposeSection.prototype.getCaretPosition = function getCaretPosition() {
+    if (this.refs.area) {
+      return this.refs.area.getCaretPosition();
+    }
+
+    return 0;
+  };
+
+  ComposeSection.prototype.renderCommands = function renderCommands() {
+    var compose = this.state.compose;
+
+    if (!compose.commands) {
+      return null;
+    }
+
+    return _react2.default.createElement(_BotCommandsHint2.default, {
+      commands: compose.commands,
+      onSelect: this.onCommandSelect,
+      onClose: this.onCommandClose
+    });
+  };
+
+  ComposeSection.prototype.renderMentions = function renderMentions() {
+    var compose = this.state.compose;
+
+    if (!compose.mentions) {
+      return null;
+    }
+
+    return _react2.default.createElement(_MentionDropdown2.default, {
+      mentions: compose.mentions,
+      onSelect: this.onMentionSelect,
+      onClose: this.onMentionClose
+    });
+  };
+
   ComposeSection.prototype.render = function render() {
     var _state2 = this.state;
-    var text = _state2.text;
+    var compose = _state2.compose;
     var profile = _state2.profile;
-    var mentions = _state2.mentions;
     var stickers = _state2.stickers;
-    var isAutoFocusEnabled = _state2.isAutoFocusEnabled;
     var isMessageArtOpen = _state2.isMessageArtOpen;
     var sendByEnter = _state2.sendByEnter;
     var intl = this.context.intl;
@@ -258,11 +317,8 @@ var ComposeSection = function (_Component) {
     return _react2.default.createElement(
       'section',
       { className: 'compose' },
-      _react2.default.createElement(_MentionDropdown2.default, {
-        mentions: mentions,
-        onSelect: this.onMentionSelect,
-        onClose: this.onMentionClose
-      }),
+      this.renderMentions(),
+      this.renderCommands(),
       _react2.default.createElement(_MessageArt2.default, {
         onSelect: this.handleEmojiSelect,
         onStickerSelect: this.handleStickerSelect,
@@ -276,11 +332,11 @@ var ComposeSection = function (_Component) {
         placeholder: profile.placeholder,
         title: profile.name
       }),
-      _react2.default.createElement(_ComposeMarkdownHint2.default, { isActive: text.length >= 3 }),
+      _react2.default.createElement(_ComposeMarkdownHint2.default, { isActive: compose.text.length >= 3 }),
       _react2.default.createElement(_ComposeTextArea2.default, {
         ref: 'area',
-        value: text,
-        autoFocus: isAutoFocusEnabled,
+        value: compose.text,
+        autoFocus: compose.autoFocus,
         sendByEnter: sendByEnter,
         onTyping: this.onTyping,
         onSubmit: this.onSubmit,

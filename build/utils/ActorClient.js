@@ -324,6 +324,10 @@ var ActorClient = function () {
     return window.messenger.hideChat(peer);
   };
 
+  ActorClient.prototype.findBotCommands = function findBotCommands(id, query) {
+    return window.messenger.findBotCommands(id, query);
+  };
+
   // Mentions
 
   ActorClient.prototype.findMentions = function findMentions(gid) {

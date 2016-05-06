@@ -6,9 +6,11 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _EmojiUtils = require('../../utils/EmojiUtils');
-
 var _reactScroll = require('react-scroll');
+
+var _emojiData = require('./emojiData');
+
+var _emojiData2 = _interopRequireDefault(_emojiData);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20,9 +22,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var emojiTabs = [];
-var emojis = [];
-
 var Emojis = function (_Component) {
   _inherits(Emojis, _Component);
 
@@ -31,77 +30,80 @@ var Emojis = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _this.changeDropdownTitle = function (title) {
-      return _this.setState({ dropdownTitle: title });
-    };
-
-    _this.handleEmojiTabMouseEnter = function (event) {
-      event.stopPropagation();
-      event.preventDefault();
-      event.target.click();
-    };
-
     _this.state = {
-      dropdownTitle: ''
+      title: 'Emoji'
     };
 
-    var emojiCategories = (0, _EmojiUtils.getEmojiCategories)();
+    _this.onSetActive = _this.onSetActive.bind(_this);
+    _this.onTabMouseEnter = _this.onTabMouseEnter.bind(_this);
+    return _this;
+  }
 
-    emojiCategories.forEach(function (category, index) {
-      var currentCategoryEmojis = [];
+  Emojis.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
+    return nextState.title !== this.state.title;
+  };
 
-      _EmojiUtils.emoji.change_replace_mode('css');
-      var categoryIcon = _EmojiUtils.emoji.replace_colons(category.icon);
+  Emojis.prototype.onSetActive = function onSetActive(title) {
+    this.setState({ title: title });
+  };
 
+  Emojis.prototype.onTabMouseEnter = function onTabMouseEnter(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    event.target.click();
+  };
+
+  Emojis.prototype.render = function render() {
+    var _this2 = this;
+
+    var title = this.state.title;
+
+
+    var emojis = [];
+    var emojiTabs = [];
+
+    _emojiData2.default.forEach(function (category, cKey) {
       emojiTabs.push(_react2.default.createElement(
         _reactScroll.Link,
         {
-          to: category.title,
           spy: true,
           offset: 30,
           duration: 300,
-          key: index,
+          to: category.title,
+          key: cKey,
           onSetActive: function onSetActive() {
-            return _this.changeDropdownTitle(category.title);
+            return _this2.onSetActive(category.title);
           },
-          onMouseEnter: _this.handleEmojiTabMouseEnter,
+          onMouseEnter: _this2.onTabMouseEnter,
           containerId: 'emojiContainer',
           className: 'emojis__header__tabs__tab',
           activeClass: 'emojis__header__tabs__tab--active'
         },
-        _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: categoryIcon } })
+        _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: category.icon } })
       ));
 
-      category.data.forEach(function (emojiChar, index) {
-        _EmojiUtils.emoji.change_replace_mode('css');
-        var convertedChar = _EmojiUtils.emoji.replace_unified(emojiChar);
-        _EmojiUtils.emoji.colons_mode = true;
-        var emojiColon = _EmojiUtils.emoji.replace_unified(emojiChar);
-        _EmojiUtils.emoji.colons_mode = false;
-
-        currentCategoryEmojis.push(_react2.default.createElement('a', { onClick: function onClick() {
-            return props.onSelect(emojiColon);
-          }, key: index, dangerouslySetInnerHTML: { __html: convertedChar } }));
+      var items = category.items.map(function (item, iKey) {
+        return _react2.default.createElement('span', {
+          key: iKey,
+          className: 'emoji__item',
+          onClick: function onClick() {
+            return _this2.props.onSelect(item.title);
+          },
+          dangerouslySetInnerHTML: { __html: item.icon }
+        });
       });
 
       emojis.push(_react2.default.createElement(
         _reactScroll.Element,
-        { name: category.title, key: index },
+        { name: category.title, key: cKey },
         _react2.default.createElement(
           'p',
           null,
           category.title
         ),
-        currentCategoryEmojis
+        items
       ));
     });
-
-    return _this;
-  }
-
-  Emojis.prototype.render = function render() {
-    var dropdownTitle = this.state.dropdownTitle;
-
 
     return _react2.default.createElement(
       'div',
@@ -112,11 +114,11 @@ var Emojis = function (_Component) {
         _react2.default.createElement(
           'p',
           { className: 'emojis__header__title' },
-          dropdownTitle || 'Emoji'
+          title
         ),
         _react2.default.createElement(
           'div',
-          { className: 'emojis__header__tabs pull-right' },
+          { className: 'emojis__header__tabs' },
           emojiTabs
         )
       ),

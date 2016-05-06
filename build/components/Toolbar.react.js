@@ -265,6 +265,22 @@ var ToolbarSection = function (_Component) {
     );
   };
 
+  ToolbarSection.prototype.renderVerified = function renderVerified() {
+    if (!this.state.dialogInfo.isVerified) {
+      return null;
+    }
+
+    return _react2.default.createElement(
+      'span',
+      { className: 'toolbar__peer__verified' },
+      _react2.default.createElement(
+        'i',
+        { className: 'material-icons' },
+        'verified_user'
+      )
+    );
+  };
+
   ToolbarSection.prototype.render = function render() {
     var _state3 = this.state;
     var dialogInfo = _state3.dialogInfo;
@@ -303,6 +319,7 @@ var ToolbarSection = function (_Component) {
           'header',
           null,
           _react2.default.createElement('span', { className: 'toolbar__peer__title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(dialogInfo.name) } }),
+          this.renderVerified(),
           _react2.default.createElement(
             _rcTooltip2.default,
             {

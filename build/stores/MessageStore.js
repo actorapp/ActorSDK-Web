@@ -54,6 +54,7 @@ var MessageStore = function (_ReduceStore) {
       isLoaded: false,
       receiveDate: 0,
       readDate: 0,
+      readByMeDate: 0,
       count: 0,
       firstMessageId: null,
       lastMessageId: null,
@@ -88,6 +89,7 @@ var MessageStore = function (_ReduceStore) {
           overlay: action.overlay,
           receiveDate: action.receiveDate,
           readDate: action.readDate,
+          readByMeDate: action.readByMeDate,
           isLoaded: action.isLoaded
         });
 
@@ -105,13 +107,15 @@ var MessageStore = function (_ReduceStore) {
           nextState.changeReason = _ActorAppConstants.MessageChangeReason.UPDATE;
         }
 
-        var firstUnreadIndex = (0, _MessageUtils.getFirstUnreadMessageIndex)(action.messages, action.readByMeDate, _UserStore2.default.getMyId());
-        if (firstUnreadIndex === -1) {
-          nextState.firstUnreadId = null;
-        } else {
-          nextState.firstUnreadId = action.messages[firstUnreadIndex].rid;
-          if (firstUnreadIndex > nextState.count) {
-            nextState.count = firstUnreadIndex;
+        if (state.readByMeDate === 0 && action.readByMeDate > 0) {
+          var unreadIndex = (0, _MessageUtils.getFirstUnreadMessageIndex)(action.messages, action.readByMeDate, _UserStore2.default.getMyId());
+          if (unreadIndex === -1) {
+            nextState.firstUnreadId = null;
+          } else {
+            nextState.firstUnreadId = action.messages[unreadIndex].rid;
+            if (unreadIndex > nextState.count) {
+              nextState.count = unreadIndex;
+            }
           }
         }
 

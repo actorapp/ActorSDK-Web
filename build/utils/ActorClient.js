@@ -200,6 +200,10 @@ var ActorClient = function () {
     window.messenger.sendMessage(peer, text);
   };
 
+  ActorClient.prototype.editMessage = function editMessage(peer, rid, text) {
+    return window.messenger.editMessage(peer, rid, text);
+  };
+
   ActorClient.prototype.sendFileMessage = function sendFileMessage(peer, file) {
     window.messenger.sendFile(peer, file);
   };

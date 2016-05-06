@@ -72,6 +72,8 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   MESSAGES_SET_SELECTED: null,
   MESSAGES_TOGGLE_SELECTED: null,
   MESSAGES_LOAD_MORE: null,
+  MESSAGES_EDIT_START: null,
+  MESSAGES_EDIT_END: null,
 
   ACTIVITY_SHOW: null,
   ACTIVITY_HIDE: null,

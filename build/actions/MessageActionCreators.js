@@ -8,11 +8,19 @@ var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
+var _ComposeActionCreators = require('./ComposeActionCreators');
+
+var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
+
 var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
-var _EmojiUtils = require('../utils/EmojiUtils');
+var _MessageUtils = require('../utils/MessageUtils');
+
+var _MessageStore = require('../stores/MessageStore');
+
+var _MessageStore2 = _interopRequireDefault(_MessageStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20,16 +28,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                                                                                                                                                            * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                            */
 
-var replaceColons = function replaceColons(text) {
-  _EmojiUtils.emoji.change_replace_mode('unified');
-  return _EmojiUtils.emoji.replace_colons(text);
-};
-
 var MessageActionCreators = function () {
   function MessageActionCreators() {
     _classCallCheck(this, MessageActionCreators);
 
-    this.setMessages = (0, _lodash.debounce)(this.setMessages, 10, { maxWait: 50, leading: true });
+    this.setMessages = (0, _lodash.throttle)(this.setMessages, 10);
   }
 
   MessageActionCreators.prototype.setMessageShown = function setMessageShown(peer, message) {
@@ -37,7 +40,7 @@ var MessageActionCreators = function () {
   };
 
   MessageActionCreators.prototype.sendTextMessage = function sendTextMessage(peer, text) {
-    _ActorClient2.default.sendTextMessage(peer, replaceColons(text));
+    _ActorClient2.default.sendTextMessage(peer, (0, _MessageUtils.prepareTextMessage)(text));
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_SEND_TEXT, { peer: peer, text: text });
   };
 
@@ -91,6 +94,34 @@ var MessageActionCreators = function () {
 
   MessageActionCreators.prototype.toggleSelected = function toggleSelected(id) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_TOGGLE_SELECTED, { id: id });
+  };
+
+  MessageActionCreators.prototype.editLastMessage = function editLastMessage() {
+    var uid = _ActorClient2.default.getUid();
+
+    var _MessageStore$getStat = _MessageStore2.default.getState();
+
+    var messages = _MessageStore$getStat.messages;
+
+    var message = (0, _MessageUtils.findLastEditableMessage)(messages, uid);
+
+    if (message) {
+      _ComposeActionCreators2.default.toggleAutoFocus(false);
+      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_EDIT_START, { message: message });
+    }
+  };
+
+  MessageActionCreators.prototype.endEdit = function endEdit(peer, message, text) {
+    if (!text) {
+      this.deleteMessage(peer, message.rid);
+    } else if (text !== message.content.text) {
+      _ActorClient2.default.editMessage(peer, message.rid, text).catch(function (e) {
+        console.error(e);
+      });
+    }
+
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_EDIT_END);
+    _ComposeActionCreators2.default.toggleAutoFocus(true);
   };
 
   return MessageActionCreators;

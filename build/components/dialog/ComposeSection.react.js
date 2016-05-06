@@ -12,17 +12,9 @@ var _reactDom = require('react-dom');
 
 var _utils = require('flux/utils');
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _ActorClient = require('../../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
-var _Inputs = require('../../utils/Inputs');
-
-var _Inputs2 = _interopRequireDefault(_Inputs);
 
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
@@ -66,6 +58,14 @@ var _MessageArtStore = require('../../stores/MessageArtStore');
 
 var _MessageArtStore2 = _interopRequireDefault(_MessageArtStore);
 
+var _ComposeTextArea = require('./compose/ComposeTextArea.react');
+
+var _ComposeTextArea2 = _interopRequireDefault(_ComposeTextArea);
+
+var _ComposeMarkdownHint = require('./compose/ComposeMarkdownHint.react');
+
+var _ComposeMarkdownHint2 = _interopRequireDefault(_ComposeMarkdownHint);
+
 var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -103,18 +103,25 @@ var ComposeSection = function (_Component) {
     return [_DialogStore2.default, _GroupStore2.default, _PreferencesStore2.default, _ComposeStore2.default, _MessageArtStore2.default];
   };
 
-  ComposeSection.calculateState = function calculateState(prevState) {
+  ComposeSection.calculateState = function calculateState() {
     return {
       peer: _DialogStore2.default.getCurrentPeer(),
       text: _ComposeStore2.default.getText(),
       profile: _ActorClient2.default.getUser(_ActorClient2.default.getUid()),
       sendByEnter: _PreferencesStore2.default.isSendByEnterEnabled(),
       mentions: _ComposeStore2.default.getMentions(),
-      isMarkdownHintShow: prevState ? prevState.isMarkdownHintShow || false : false,
       isAutoFocusEnabled: _ComposeStore2.default.isAutoFocusEnabled(),
       isMessageArtOpen: _MessageArtStore2.default.getState().isOpen,
       stickers: _MessageArtStore2.default.getState().stickers
     };
+  };
+
+  ComposeSection.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
+    if (prevState.peer !== this.state.peer) {
+      if (this.refs.area) {
+        this.refs.area.autoFocus();
+      }
+    }
   };
 
   function ComposeSection(props) {
@@ -122,96 +129,15 @@ var ComposeSection = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _this.handleKeyDown = function (event) {
-      var isAutoFocusEnabled = _this.state.isAutoFocusEnabled;
-
-      if (isAutoFocusEnabled) {
-        if (!event.metaKey && !event.altKey && !event.ctrlKey && !event.shiftKey) {
-          _this.setFocus();
-        }
-      }
-    };
-
-    _this.onMessageChange = function (event) {
-      var text = event.target.value;
-      var peer = _this.state.peer;
-
-
-      if (text.length >= 3) {
-        _this.setState({ isMarkdownHintShow: true });
-      } else {
-        _this.setState({ isMarkdownHintShow: false });
-      }
-
-      _ComposeActionCreators2.default.onTyping(peer, text, _this.getCaretPosition());
-    };
-
-    _this.onKeyDown = function (event) {
-      var _this$state = _this.state;
-      var mentions = _this$state.mentions;
-      var sendByEnter = _this$state.sendByEnter;
-
-
-      var send = function send() {
-        event.preventDefault();
-        _this.sendTextMessage();
-        _this.setState({ isMarkdownHintShow: false });
-      };
-
-      if (mentions === null) {
-        if (sendByEnter === true) {
-          if (event.keyCode === _ActorAppConstants.KeyCodes.ENTER && !event.shiftKey) {
-            send();
-          }
-        } else {
-          if (event.keyCode === _ActorAppConstants.KeyCodes.ENTER && event.metaKey) {
-            send();
-          }
-        }
-      }
-    };
-
-    _this.sendTextMessage = function () {
-      var _this$state2 = _this.state;
-      var peer = _this$state2.peer;
-      var text = _this$state2.text;
-
-
-      if (text.trim().length !== 0) {
-        _MessageActionCreators2.default.sendTextMessage(peer, text);
-      }
-      _ComposeActionCreators2.default.cleanText();
-    };
-
     _this.resetAttachmentForm = function () {
       var form = (0, _reactDom.findDOMNode)(_this.refs.attachmentForm);
       form.reset();
     };
 
-    _this.onPaste = function (event) {
-      var preventDefault = false;
-      var attachments = [];
-
-      (0, _lodash.forEach)(event.clipboardData.items, function (item) {
-        if (item.type.indexOf('image') !== -1) {
-          preventDefault = true;
-          attachments.push(item.getAsFile());
-        }
-      }, _this);
-
-      if (attachments.length > 0) {
-        _AttachmentsActionCreators2.default.show(attachments);
-      }
-
-      if (preventDefault) {
-        event.preventDefault();
-      }
-    };
-
     _this.onMentionSelect = function (mention) {
-      var _this$state3 = _this.state;
-      var peer = _this$state3.peer;
-      var text = _this$state3.text;
+      var _this$state = _this.state;
+      var peer = _this$state.peer;
+      var text = _this$state.text;
 
 
       _ComposeActionCreators2.default.insertMention(peer, text, _this.getCaretPosition(), mention);
@@ -220,12 +146,6 @@ var ComposeSection = function (_Component) {
 
     _this.onMentionClose = function () {
       _ComposeActionCreators2.default.closeMention();
-    };
-
-    _this.getCaretPosition = function () {
-      var composeArea = (0, _reactDom.findDOMNode)(_this.refs.area);
-      var selection = _Inputs2.default.getInputSelection(composeArea);
-      return selection.start;
     };
 
     _this.handleEmojiSelect = function (emoji) {
@@ -242,10 +162,6 @@ var ComposeSection = function (_Component) {
 
     _this.setFocus = function () {
       (0, _reactDom.findDOMNode)(_this.refs.area).focus();
-    };
-
-    _this.setBlur = function () {
-      (0, _reactDom.findDOMNode)(_this.refs.area).blur();
     };
 
     _this.handleDrop = function (files) {
@@ -284,58 +200,60 @@ var ComposeSection = function (_Component) {
       _MessageActionCreators2.default.sendVoiceMessage(peer, duration, record);
     };
 
-    _this.setListeners();
+    _this.onTyping = _this.onTyping.bind(_this);
+    _this.onSubmit = _this.onSubmit.bind(_this);
+    _this.onPaste = _this.onPaste.bind(_this);
+    _this.onKeyDown = _this.onKeyDown.bind(_this);
     return _this;
   }
 
-  ComposeSection.prototype.componentWillUnmount = function componentWillUnmount() {
-    this.setBlur();
-    this.clearListeners();
+  ComposeSection.prototype.onTyping = function onTyping(text, caretPosition) {
+    _ComposeActionCreators2.default.onTyping(this.state.peer, text, caretPosition);
   };
 
-  ComposeSection.prototype.componentDidMount = function componentDidMount() {
-    this.setFocus();
+  ComposeSection.prototype.onSubmit = function onSubmit() {
+    var _state = this.state;
+    var peer = _state.peer;
+    var text = _state.text;
+
+
+    if (text.trim().length) {
+      _MessageActionCreators2.default.sendTextMessage(peer, text);
+    }
+
+    _ComposeActionCreators2.default.cleanText();
   };
 
-  ComposeSection.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
-    var isAutoFocusEnabled = this.state.isAutoFocusEnabled;
+  ComposeSection.prototype.onPaste = function onPaste(event) {
+    var attachments = Array.from(event.clipboardData.items).filter(function (item) {
+      return item.type.indexOf('image') !== -1;
+    }).map(function (item) {
+      return item.getAsFile();
+    });
 
-
-    if (isAutoFocusEnabled) {
-      if (prevState.isAutoFocusEnabled !== true) {
-        this.setListeners();
-      }
-      this.setFocus();
-    } else {
-      if (prevState.isAutoFocusEnabled !== false) {
-        this.clearListeners();
-      }
+    if (attachments.length) {
+      event.preventDefault();
+      _AttachmentsActionCreators2.default.show(attachments);
     }
   };
 
-  ComposeSection.prototype.setListeners = function setListeners() {
-    window.addEventListener('focus', this.setFocus);
-    document.addEventListener('keydown', this.handleKeyDown, false);
-  };
-
-  ComposeSection.prototype.clearListeners = function clearListeners() {
-    window.removeEventListener('focus', this.setFocus);
-    document.removeEventListener('keydown', this.handleKeyDown, false);
+  ComposeSection.prototype.onKeyDown = function onKeyDown(event) {
+    if (event.keyCode === _ActorAppConstants.KeyCodes.ARROW_UP && !event.target.value) {
+      _MessageActionCreators2.default.editLastMessage();
+    }
   };
 
   ComposeSection.prototype.render = function render() {
-    var _state = this.state;
-    var text = _state.text;
-    var profile = _state.profile;
-    var mentions = _state.mentions;
-    var stickers = _state.stickers;
-    var isMarkdownHintShow = _state.isMarkdownHintShow;
-    var isMessageArtOpen = _state.isMessageArtOpen;
+    var _state2 = this.state;
+    var text = _state2.text;
+    var profile = _state2.profile;
+    var mentions = _state2.mentions;
+    var stickers = _state2.stickers;
+    var isAutoFocusEnabled = _state2.isAutoFocusEnabled;
+    var isMessageArtOpen = _state2.isMessageArtOpen;
+    var sendByEnter = _state2.sendByEnter;
     var intl = this.context.intl;
 
-    var markdownHintClassName = (0, _classnames2.default)('compose__markdown-hint', {
-      'compose__markdown-hint--active': isMarkdownHintShow
-    });
 
     return _react2.default.createElement(
       'section',
@@ -352,43 +270,23 @@ var ComposeSection = function (_Component) {
         stickers: stickers
       }),
       _react2.default.createElement(_VoiceRecorder2.default, { onFinish: this.sendVoiceRecord }),
-      _react2.default.createElement(
-        'div',
-        { className: markdownHintClassName },
-        _react2.default.createElement(
-          'b',
-          null,
-          '*',
-          intl.messages['compose.markdown.bold'],
-          '*'
-        ),
-        '  ',
-        _react2.default.createElement(
-          'i',
-          null,
-          '_',
-          intl.messages['compose.markdown.italic'],
-          '_'
-        ),
-        '  ',
-        _react2.default.createElement(
-          'code',
-          null,
-          '```',
-          intl.messages['compose.markdown.preformatted'],
-          '```'
-        )
-      ),
-      _react2.default.createElement(_AvatarItem2.default, { className: 'my-avatar',
+      _react2.default.createElement(_AvatarItem2.default, {
+        className: 'my-avatar',
         image: profile.avatar,
         placeholder: profile.placeholder,
-        title: profile.name }),
-      _react2.default.createElement('textarea', { className: 'compose__message',
-        onChange: this.onMessageChange,
-        onKeyDown: this.onKeyDown,
-        onPaste: this.onPaste,
+        title: profile.name
+      }),
+      _react2.default.createElement(_ComposeMarkdownHint2.default, { isActive: text.length >= 3 }),
+      _react2.default.createElement(_ComposeTextArea2.default, {
+        ref: 'area',
         value: text,
-        ref: 'area' }),
+        autoFocus: isAutoFocusEnabled,
+        sendByEnter: sendByEnter,
+        onTyping: this.onTyping,
+        onSubmit: this.onSubmit,
+        onPaste: this.onPaste,
+        onKeyDown: this.onKeyDown
+      }),
       _react2.default.createElement(
         _DropZone2.default,
         { onDropComplete: this.handleDrop },

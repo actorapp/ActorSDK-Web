@@ -80,7 +80,7 @@ var MessagesList = function (_Component) {
   }
 
   MessagesList.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.peer !== this.props.peer || nextProps.messages !== this.props.messages || nextProps.isMember !== this.props.isMember || nextState.showScrollToBottom !== this.state.showScrollToBottom;
+    return nextProps.peer !== this.props.peer || nextProps.messages !== this.props.messages || nextProps.isMember !== this.props.isMember || nextProps.editMessage !== this.props.editMessage || nextState.showScrollToBottom !== this.state.showScrollToBottom;
   };
 
   MessagesList.prototype.componentDidMount = function componentDidMount() {
@@ -203,6 +203,7 @@ var MessagesList = function (_Component) {
     var _props3 = this.props;
     var uid = _props3.uid;
     var peer = _props3.peer;
+    var editMessage = _props3.editMessage;
     var _props3$messages = _props3.messages;
     var messages = _props3$messages.messages;
     var overlay = _props3$messages.overlay;
@@ -240,6 +241,8 @@ var MessagesList = function (_Component) {
         state: (0, _MessageUtils.getMessageState)(message, uid, receiveDate, readDate),
         isShort: overlayItem.useShort,
         isSelected: selected.has(message.rid),
+        isEditing: message === editMessage.message,
+        onEdit: this.props.onEdit,
         onSelect: this.props.onSelect,
         key: message.sortKey
       }));
@@ -333,8 +336,10 @@ MessagesList.propTypes = {
     changeReason: _react.PropTypes.oneOf([_ActorAppConstants.MessageChangeReason.UNKNOWN, _ActorAppConstants.MessageChangeReason.PUSH, _ActorAppConstants.MessageChangeReason.UNSHIFT, _ActorAppConstants.MessageChangeReason.UPDATE]).isRequired
   }).isRequired,
   isMember: _react.PropTypes.bool.isRequired,
+  editMessage: _react.PropTypes.object.isRequired,
   onSelect: _react.PropTypes.func.isRequired,
-  onLoadMore: _react.PropTypes.func.isRequired
+  onLoadMore: _react.PropTypes.func.isRequired,
+  onEdit: _react.PropTypes.func.isRequired
 };
 exports.default = MessagesList;
 //# sourceMappingURL=MessagesList.react.js.map

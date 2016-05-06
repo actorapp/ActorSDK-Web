@@ -144,7 +144,6 @@ Document.propTypes = {
   fileSize: _react.PropTypes.string.isRequired,
   fileExtension: _react.PropTypes.string.isRequired,
   isUploading: _react.PropTypes.bool.isRequired,
-  content: _react.PropTypes.object.isRequired,
   className: _react.PropTypes.string
 };
 exports.default = Document;

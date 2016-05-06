@@ -24,6 +24,10 @@ var _MessageStore = require('../../stores/MessageStore');
 
 var _MessageStore2 = _interopRequireDefault(_MessageStore);
 
+var _EditMessageStore = require('../../stores/EditMessageStore');
+
+var _EditMessageStore2 = _interopRequireDefault(_EditMessageStore);
+
 var _MessagesList = require('./MessagesList.react');
 
 var _MessagesList2 = _interopRequireDefault(_MessagesList);
@@ -42,13 +46,14 @@ var MessagesSection = function (_Component) {
   _inherits(MessagesSection, _Component);
 
   MessagesSection.getStores = function getStores() {
-    return [_MessageStore2.default];
+    return [_MessageStore2.default, _EditMessageStore2.default];
   };
 
   MessagesSection.calculateState = function calculateState() {
     return {
       uid: _UserStore2.default.getMyId(),
-      messages: _MessageStore2.default.getState()
+      messages: _MessageStore2.default.getState(),
+      editMessage: _EditMessageStore2.default.getState()
     };
   };
 
@@ -57,10 +62,17 @@ var MessagesSection = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
+    _this.onEdit = _this.onEdit.bind(_this);
     _this.onSelect = _this.onSelect.bind(_this);
     _this.onLoadMore = _this.onLoadMore.bind(_this);
     return _this;
   }
+
+  MessagesSection.prototype.onEdit = function onEdit(message, text) {
+    var peer = this.props.peer;
+
+    _MessageActionCreators2.default.endEdit(peer, message, text);
+  };
 
   MessagesSection.prototype.onSelect = function onSelect(rid) {
     _MessageActionCreators2.default.toggleSelected(rid);
@@ -77,15 +89,18 @@ var MessagesSection = function (_Component) {
     var _state = this.state;
     var uid = _state.uid;
     var messages = _state.messages;
+    var editMessage = _state.editMessage;
 
 
     return _react2.default.createElement(_MessagesList2.default, {
       uid: uid,
       peer: peer,
       messages: messages,
+      editMessage: editMessage,
       isMember: isMember,
       onSelect: this.onSelect,
-      onLoadMore: this.onLoadMore
+      onLoadMore: this.onLoadMore,
+      onEdit: this.onEdit
     });
   };
 

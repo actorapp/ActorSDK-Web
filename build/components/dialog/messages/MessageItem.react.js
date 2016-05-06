@@ -56,6 +56,10 @@ var _Reactions = require('./Reactions.react');
 
 var _Reactions2 = _interopRequireDefault(_Reactions);
 
+var _MessageEdit = require('./MessageEdit.react');
+
+var _MessageEdit2 = _interopRequireDefault(_MessageEdit);
+
 var _Service = require('./Service.react');
 
 var _Service2 = _interopRequireDefault(_Service);
@@ -134,7 +138,7 @@ var MessageItem = function (_Component) {
       var message = _this$props.message;
       var onSelect = _this$props.onSelect;
 
-      onSelect && onSelect(message.rid);
+      onSelect(message.rid);
     };
 
     _this.onClick = _this.onClick.bind(_this);
@@ -263,6 +267,11 @@ var MessageItem = function (_Component) {
 
   MessageItem.prototype.renderContent = function renderContent() {
     var message = this.props.message;
+
+    if (this.props.isEditing) {
+      return _react2.default.createElement(_MessageEdit2.default, { message: message, onSubmit: this.props.onEdit });
+    }
+
     var _components = this.components;
     var Service = _components.Service;
     var Text = _components.Text;
@@ -377,17 +386,23 @@ var MessageItem = function (_Component) {
   return MessageItem;
 }(_react.Component);
 
+MessageItem.contextTypes = {
+  delegate: _react.PropTypes.object,
+  isExperimental: _react.PropTypes.bool
+};
 MessageItem.propTypes = {
   peer: _react.PropTypes.object.isRequired,
   message: _react.PropTypes.object.isRequired,
   state: _react.PropTypes.string.isRequired,
   isShort: _react.PropTypes.bool.isRequired,
-  isSelected: _react.PropTypes.bool,
-  onSelect: _react.PropTypes.func
+  isEditing: _react.PropTypes.bool.isRequired,
+  onEdit: _react.PropTypes.func.isRequired,
+  isSelected: _react.PropTypes.bool.isRequired,
+  onSelect: _react.PropTypes.func.isRequired
 };
-MessageItem.contextTypes = {
-  delegate: _react.PropTypes.object,
-  isExperimental: _react.PropTypes.bool
+MessageItem.defaultProps = {
+  isSelected: false,
+  onSelect: _lodash.noop
 };
 exports.default = _utils.Container.create(MessageItem, { withProps: true });
 //# sourceMappingURL=MessageItem.react.js.map

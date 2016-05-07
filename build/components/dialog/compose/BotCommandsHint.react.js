@@ -73,7 +73,7 @@ var BotCommandsHint = function (_Component) {
   };
 
   BotCommandsHint.prototype.scrollTo = function scrollTo(top) {
-    var menuListNode = (0, _reactDom.findDOMNode)(this.refs.mentionList);
+    var menuListNode = (0, _reactDom.findDOMNode)(this.refs.list);
     menuListNode.scrollTop = top;
   };
 
@@ -81,7 +81,7 @@ var BotCommandsHint = function (_Component) {
     var commands = this.props.commands;
     var selectedIndex = this.state.selectedIndex;
 
-    var visibleItems = 6;
+    var visibleItems = 3;
     var index = selectedIndex;
 
     if (index !== null) {
@@ -187,13 +187,13 @@ var BotCommandsHint = function (_Component) {
   BotCommandsHint.prototype.render = function render() {
     return _react2.default.createElement(
       'div',
-      { className: 'mention mention--opened' },
+      { className: 'bot-commands bot-commands' },
       _react2.default.createElement(
         'div',
-        { className: 'mention__wrapper' },
+        { className: 'bot-commands__wrapper' },
         _react2.default.createElement(
           'header',
-          { className: 'mention__header' },
+          { className: 'bot-commands__header' },
           _react2.default.createElement(
             'div',
             { className: 'pull-left' },
@@ -238,7 +238,7 @@ var BotCommandsHint = function (_Component) {
         ),
         _react2.default.createElement(
           'ul',
-          { className: 'mention__list', ref: 'mentionList' },
+          { className: 'bot-commands__list', ref: 'list' },
           this.renderCommands()
         )
       )

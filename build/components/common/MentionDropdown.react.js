@@ -47,7 +47,18 @@ var MentionDropdown = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _initialiseProps.call(_this);
+    _this.closeMentions = function () {
+      return _this.setState({ isOpen: false });
+    };
+
+    _this.onSelect = function (value) {
+      return _this.props.onSelect(value);
+    };
+
+    _this.handleScroll = function (top) {
+      var menuListNode = (0, _reactDom.findDOMNode)(_this.refs.mentionList);
+      menuListNode.scrollTop = top;
+    };
 
     var mentions = props.mentions;
 
@@ -57,20 +68,22 @@ var MentionDropdown = function (_Component) {
       selectedIndex: 0
     };
 
+    _this.onKeyDown = _this.onKeyDown.bind(_this);
+    _this.onDocumentClick = _this.onDocumentClick.bind(_this);
+    _this.onDocumentKeyDown = _this.onDocumentKeyDown.bind(_this);
     _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
     return _this;
   }
 
-  MentionDropdown.prototype.componentWillUnmount = function componentWillUnmount() {
-    this.cleanListeners();
+  MentionDropdown.prototype.componentDidMount = function componentDidMount() {
+    this.listeners = [_EventListener2.default.listen(document, 'click', this.onDocumentClick), _EventListener2.default.listen(document, 'keydown', this.onDocumentKeyDown)];
   };
 
-  MentionDropdown.prototype.componentWillUpdate = function componentWillUpdate(nextProps, nextState) {
-    if (nextState.isOpen && !this.state.isOpen) {
-      this.setListeners();
-    } else if (!nextState.isOpen && this.state.isOpen) {
-      this.cleanListeners();
-    }
+  MentionDropdown.prototype.componentWillUnmount = function componentWillUnmount() {
+    this.listeners.forEach(function (listener) {
+      return listener.remove();
+    });
+    this.listeners = null;
   };
 
   MentionDropdown.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
@@ -82,27 +95,90 @@ var MentionDropdown = function (_Component) {
     });
   };
 
-  MentionDropdown.prototype.setListeners = function setListeners() {
-    this.cleanListeners();
-    this.listeners = [_EventListener2.default.listen(document, 'keydown', this.onKeyDown), _EventListener2.default.listen(document, 'click', this.closeMentions)];
+  MentionDropdown.prototype.onDocumentClick = function onDocumentClick() {
+    if (this.state.isOpen) {
+      this.closeMentions();
+    }
   };
 
-  MentionDropdown.prototype.cleanListeners = function cleanListeners() {
-    if (this.listeners) {
-      this.listeners.forEach(function (listener) {
-        listener.remove();
-      });
+  MentionDropdown.prototype.onDocumentKeyDown = function onDocumentKeyDown(event) {
+    if (this.state.isOpen) {
+      this.onKeyDown(event);
+    }
+  };
 
-      this.listeners = null;
+  MentionDropdown.prototype.onKeyDown = function onKeyDown(event) {
+    var _props = this.props;
+    var mentions = _props.mentions;
+    var onClose = _props.onClose;
+    var selectedIndex = this.state.selectedIndex;
+
+    var visibleItems = 6;
+    var index = selectedIndex;
+
+    if (index !== null) {
+      switch (event.keyCode) {
+        case _ActorAppConstants.KeyCodes.ENTER:
+          event.stopPropagation();
+          event.preventDefault();
+          this.onSelect(mentions[selectedIndex]);
+          break;
+
+        case _ActorAppConstants.KeyCodes.ARROW_UP:
+          event.stopPropagation();
+          event.preventDefault();
+
+          if (index > 0) {
+            index -= 1;
+          } else if (index === 0) {
+            index = mentions.length - 1;
+          }
+
+          if (scrollIndex > index) {
+            scrollIndex = index;
+          } else if (index === mentions.length - 1) {
+            scrollIndex = mentions.length - visibleItems;
+          }
+
+          this.handleScroll(scrollIndex * DROPDOWN_ITEM_HEIGHT);
+          this.setState({ selectedIndex: index });
+          break;
+        case _ActorAppConstants.KeyCodes.ARROW_DOWN:
+        case _ActorAppConstants.KeyCodes.TAB:
+          event.stopPropagation();
+          event.preventDefault();
+
+          if (index < mentions.length - 1) {
+            index += 1;
+          } else if (index === mentions.length - 1) {
+            index = 0;
+          }
+
+          if (index + 1 > scrollIndex + visibleItems) {
+            scrollIndex = index + 1 - visibleItems;
+          } else if (index === 0) {
+            scrollIndex = 0;
+          }
+
+          this.handleScroll(scrollIndex * DROPDOWN_ITEM_HEIGHT);
+          this.setState({ selectedIndex: index });
+          break;
+        default:
+      }
+    }
+
+    if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
+      this.closeMentions();
+      if (onClose) onClose();
     }
   };
 
   MentionDropdown.prototype.render = function render() {
     var _this2 = this;
 
-    var _props = this.props;
-    var className = _props.className;
-    var mentions = _props.mentions;
+    var _props2 = this.props;
+    var className = _props2.className;
+    var mentions = _props2.mentions;
     var _state = this.state;
     var isOpen = _state.isOpen;
     var selectedIndex = _state.selectedIndex;
@@ -219,89 +295,5 @@ MentionDropdown.propTypes = {
   onSelect: _react.PropTypes.func.isRequired,
   onClose: _react.PropTypes.func
 };
-
-var _initialiseProps = function _initialiseProps() {
-  var _this3 = this;
-
-  this.closeMentions = function () {
-    return _this3.setState({ isOpen: false });
-  };
-
-  this.onSelect = function (value) {
-    return _this3.props.onSelect(value);
-  };
-
-  this.handleScroll = function (top) {
-    var menuListNode = (0, _reactDom.findDOMNode)(_this3.refs.mentionList);
-    menuListNode.scrollTop = top;
-  };
-
-  this.onKeyDown = function (event) {
-    var _props2 = _this3.props;
-    var mentions = _props2.mentions;
-    var onClose = _props2.onClose;
-    var selectedIndex = _this3.state.selectedIndex;
-
-    var visibleItems = 6;
-    var index = selectedIndex;
-
-    if (index !== null) {
-      switch (event.keyCode) {
-        case _ActorAppConstants.KeyCodes.ENTER:
-          event.stopPropagation();
-          event.preventDefault();
-          _this3.onSelect(mentions[selectedIndex]);
-          break;
-
-        case _ActorAppConstants.KeyCodes.ARROW_UP:
-          event.stopPropagation();
-          event.preventDefault();
-
-          if (index > 0) {
-            index -= 1;
-          } else if (index === 0) {
-            index = mentions.length - 1;
-          }
-
-          if (scrollIndex > index) {
-            scrollIndex = index;
-          } else if (index === mentions.length - 1) {
-            scrollIndex = mentions.length - visibleItems;
-          }
-
-          _this3.handleScroll(scrollIndex * DROPDOWN_ITEM_HEIGHT);
-          _this3.setState({ selectedIndex: index });
-          break;
-        case _ActorAppConstants.KeyCodes.ARROW_DOWN:
-        case _ActorAppConstants.KeyCodes.TAB:
-          event.stopPropagation();
-          event.preventDefault();
-
-          if (index < mentions.length - 1) {
-            index += 1;
-          } else if (index === mentions.length - 1) {
-            index = 0;
-          }
-
-          if (index + 1 > scrollIndex + visibleItems) {
-            scrollIndex = index + 1 - visibleItems;
-          } else if (index === 0) {
-            scrollIndex = 0;
-          }
-
-          _this3.handleScroll(scrollIndex * DROPDOWN_ITEM_HEIGHT);
-          _this3.setState({ selectedIndex: index });
-          break;
-        default:
-      }
-    }
-
-    if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
-      _this3.closeMentions();
-      if (onClose) onClose();
-    }
-  };
-};
-
 exports.default = MentionDropdown;
 //# sourceMappingURL=MentionDropdown.react.js.map

@@ -338,6 +338,7 @@ var ComposeSection = function (_Component) {
         value: compose.text,
         autoFocus: compose.autoFocus,
         sendByEnter: sendByEnter,
+        sendEnabled: !compose.mentions && !compose.commands,
         onTyping: this.onTyping,
         onSubmit: this.onSubmit,
         onPaste: this.onPaste,

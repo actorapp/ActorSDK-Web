@@ -102,7 +102,8 @@ var ComposeStore = function (_ReduceStore) {
 
         var command = parseCommand(action.text);
         if (command) {
-          nextState.commands = _ActorClient2.default.findBotCommands(action.peer.id, command.name || '');
+          var commands = _ActorClient2.default.findBotCommands(action.peer.id, command.name || '');
+          nextState.commands = commands.length ? commands : null;
         }
 
         if (action.peer.type === _ActorAppConstants.PeerTypes.GROUP) {

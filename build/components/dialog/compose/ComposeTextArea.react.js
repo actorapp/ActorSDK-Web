@@ -51,7 +51,7 @@ var ComposeTextArea = function (_Component) {
   };
 
   ComposeTextArea.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
-    return nextProps.value !== this.props.value || nextProps.autoFocus !== this.props.autoFocus || nextProps.sendByEnter !== this.props.sendByEnter;
+    return nextProps.value !== this.props.value || nextProps.autoFocus !== this.props.autoFocus || nextProps.sendEnabled !== this.props.sendEnabled || nextProps.sendByEnter !== this.props.sendByEnter;
   };
 
   ComposeTextArea.prototype.componentWillUnmount = function componentWillUnmount() {
@@ -80,7 +80,7 @@ var ComposeTextArea = function (_Component) {
   };
 
   ComposeTextArea.prototype.onKeyDown = function onKeyDown(event) {
-    if (this.isSendEvent(event)) {
+    if (this.props.sendEnabled && this.isSendEvent(event)) {
       event.preventDefault();
       this.props.onSubmit();
     } else if (this.props.onKeyDown) {
@@ -112,9 +112,9 @@ var ComposeTextArea = function (_Component) {
       ref: 'area',
       className: 'compose__message',
       value: value,
-      onPaste: this.props.onPaste,
       onChange: this.onChange,
-      onKeyDown: this.onKeyDown
+      onKeyDown: this.onKeyDown,
+      onPaste: this.props.onPaste
     });
   };
 
@@ -150,10 +150,14 @@ ComposeTextArea.propTypes = {
   value: _react.PropTypes.string.isRequired,
   autoFocus: _react.PropTypes.bool.isRequired,
   sendByEnter: _react.PropTypes.bool.isRequired,
+  sendEnabled: _react.PropTypes.bool.isRequired,
   onSubmit: _react.PropTypes.func.isRequired,
   onTyping: _react.PropTypes.func.isRequired,
   onPaste: _react.PropTypes.func,
   onKeyDown: _react.PropTypes.func
+};
+ComposeTextArea.defaultProps = {
+  sendEnabled: true
 };
 exports.default = ComposeTextArea;
 //# sourceMappingURL=ComposeTextArea.react.js.map

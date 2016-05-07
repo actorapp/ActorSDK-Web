@@ -325,7 +325,12 @@ var ActorClient = function () {
   };
 
   ActorClient.prototype.findBotCommands = function findBotCommands(id, query) {
-    return window.messenger.findBotCommands(id, query);
+    var result = window.messenger.findBotCommands(id, query);
+    if (result && result.length) {
+      return result;
+    }
+
+    return null;
   };
 
   // Mentions
@@ -333,7 +338,12 @@ var ActorClient = function () {
   ActorClient.prototype.findMentions = function findMentions(gid) {
     var query = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-    return window.messenger.findMentions(gid, query);
+    var result = window.messenger.findBotCommands(gid, query);
+    if (result && result.length) {
+      return result;
+    }
+
+    return null;
   };
 
   ActorClient.prototype.deleteChat = function deleteChat(peer) {

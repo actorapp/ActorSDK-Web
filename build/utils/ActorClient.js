@@ -338,7 +338,7 @@ var ActorClient = function () {
   ActorClient.prototype.findMentions = function findMentions(gid) {
     var query = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-    var result = window.messenger.findBotCommands(gid, query);
+    var result = window.messenger.findMentions(gid, query);
     if (result && result.length) {
       return result;
     }

@@ -42,7 +42,7 @@ function parseCommand(text) {
   };
 }
 
-var getQuery = function getQuery(text, position) {
+function parseMentionQuery(text, position) {
   var run = function run(runText, query) {
     if (runText.length === 0) {
       return null;
@@ -71,7 +71,7 @@ var getQuery = function getQuery(text, position) {
 
   var runText = text.substring(0, position);
   return run(runText, null);
-};
+}
 
 var ComposeStore = function (_ReduceStore) {
   _inherits(ComposeStore, _ReduceStore);
@@ -100,22 +100,22 @@ var ComposeStore = function (_ReduceStore) {
           mentions: null
         });
 
-        var command = parseCommand(action.text);
-        if (command) {
-          nextState.commands = _ActorClient2.default.findBotCommands(action.peer.id, command.name || '');
-        }
-
         if (action.peer.type === _ActorAppConstants.PeerTypes.GROUP) {
-          var _query = getQuery(action.text, action.caretPosition);
+          var _query = parseMentionQuery(action.text, action.caretPosition);
           if (_query) {
             nextState.mentions = _ActorClient2.default.findMentions(action.peer.id, _query.text);
+          }
+        } else {
+          var command = parseCommand(action.text);
+          if (command) {
+            nextState.commands = _ActorClient2.default.findBotCommands(action.peer.id, command.name || '');
           }
         }
 
         return nextState;
 
       case _ActorAppConstants.ActionTypes.COMPOSE_MENTION_INSERT:
-        var query = getQuery(action.text, action.caretPosition);
+        var query = parseMentionQuery(action.text, action.caretPosition);
         if (!query) {
           console.error('Mention not found', { state: state, action: action });
           return state;

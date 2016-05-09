@@ -366,7 +366,7 @@ var ComposeSection = function (_Component) {
         _react2.default.createElement('span', { className: 'col-xs' }),
         _react2.default.createElement(
           'button',
-          { className: 'button button--lightblue', onClick: this.sendTextMessage },
+          { className: 'button button--lightblue', onClick: this.onSubmit },
           intl.messages['compose.send']
         )
       ),

@@ -1,1 +1,0 @@
-{"version":3,"sources":["../../src/stores/ContactsStore.js"],"names":[],"mappings":";;;;AAAA;;;;;;AAEA,QAAQ,IAAR,CAAa,kCAAb","file":"ContactsStore.js","sourcesContent":["import PeopleStore from './PeopleStore';\n\nconsole.warn('use PeopleStore.js instead this.')\n\nexport default PeopleStore;\n"]}

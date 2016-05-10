@@ -63,23 +63,31 @@ var DialogFooter = function (_Component) {
       return _react2.default.createElement(
         'footer',
         { className: 'chat__footer chat__footer--disabled' },
-        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'compose.notMemger' })
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'compose.notMember' })
       );
     }
 
     if (info.isBlocked) {
       return _react2.default.createElement(
         'footer',
-        { className: 'chat__footer chat__footer--disabled chat__footer--clickable', onClick: onUnblock },
-        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'compose.unblock' })
+        { className: 'chat__footer chat__footer--disabled' },
+        _react2.default.createElement(
+          'button',
+          { className: 'button button--flat', onClick: onUnblock },
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'compose.unblock' })
+        )
       );
     }
 
     if (info.isBot && !info.isStarted) {
       return _react2.default.createElement(
         'footer',
-        { className: 'chat__footer chat__footer--disabled chat__footer--clickable', onClick: onStart },
-        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'compose.start' })
+        { className: 'chat__footer chat__footer--disabled' },
+        _react2.default.createElement(
+          'button',
+          { className: 'button button--flat', onClick: onStart },
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'compose.start' })
+        )
       );
     }
 

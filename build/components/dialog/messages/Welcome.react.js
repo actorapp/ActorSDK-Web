@@ -28,6 +28,10 @@ var _GroupStore = require('../../../stores/GroupStore');
 
 var _GroupStore2 = _interopRequireDefault(_GroupStore);
 
+var _AvatarItem = require('./../../common/AvatarItem.react');
+
+var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58,9 +62,58 @@ var Welcome = function (_Component) {
     _InviteUserActions2.default.show(group);
   };
 
+  Welcome.prototype.renderWelcomeAvatar = function renderWelcomeAvatar() {
+    return _react2.default.createElement(
+      'div',
+      { className: 'message__info' },
+      _react2.default.createElement(
+        'div',
+        { className: 'welcome-avatar' },
+        _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--gray', glyph: 'star' })
+      )
+    );
+  };
+
   Welcome.prototype.renderUserText = function renderUserText(id) {
     var user = _UserStore2.default.getUser(id);
-    return _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.private', values: { name: user.name } });
+
+    if (user.isBot) {
+      return _react2.default.createElement(
+        'div',
+        { className: 'row' },
+        _react2.default.createElement(
+          'div',
+          { className: 'message__info' },
+          _react2.default.createElement(_AvatarItem2.default, {
+            image: user.avatar,
+            className: 'message__avatar',
+            placeholder: user.placeholder,
+            size: 'normal',
+            title: user.name
+          })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'message__body col-xs' },
+          _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.private', values: { name: user.name } }),
+          _react2.default.createElement(
+            'p',
+            { style: { marginTop: 16 } },
+            user.about
+          )
+        )
+      );
+    }
+    return _react2.default.createElement(
+      'div',
+      { className: 'row' },
+      this.renderWelcomeAvatar(),
+      _react2.default.createElement(
+        'div',
+        { className: 'message__body col-xs' },
+        _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.private', values: { name: user.name } })
+      )
+    );
   };
 
   Welcome.prototype.renderGroupText = function renderGroupText(id) {
@@ -73,18 +126,23 @@ var Welcome = function (_Component) {
 
     return _react2.default.createElement(
       'div',
-      null,
-      _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.group.main', values: { name: group.name, creator: creator } }),
+      { className: 'row' },
+      this.renderWelcomeAvatar(),
       _react2.default.createElement(
-        'p',
-        { key: 2 },
-        intl.messages['message.welcome.group.actions.start'],
+        'div',
+        { className: 'message__body col-xs' },
+        _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'message.welcome.group.main', values: { name: group.name, creator: creator } }),
         _react2.default.createElement(
-          'a',
-          { onClick: this.onInviteClick },
-          intl.messages['message.welcome.group.actions.invite']
-        ),
-        intl.messages['message.welcome.group.actions.end']
+          'p',
+          null,
+          intl.messages['message.welcome.group.actions.start'],
+          _react2.default.createElement(
+            'a',
+            { onClick: this.onInviteClick },
+            intl.messages['message.welcome.group.actions.invite']
+          ),
+          intl.messages['message.welcome.group.actions.end']
+        )
       )
     );
   };
@@ -104,21 +162,8 @@ var Welcome = function (_Component) {
   Welcome.prototype.render = function render() {
     return _react2.default.createElement(
       'div',
-      { className: 'message message--welcome row' },
-      _react2.default.createElement(
-        'div',
-        { className: 'message__info' },
-        _react2.default.createElement(
-          'div',
-          { className: 'welcome-avatar' },
-          _react2.default.createElement(_SvgIcon2.default, { className: 'icon icon--gray', glyph: 'star' })
-        )
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'message__body col-xs' },
-        this.renderText()
-      )
+      { className: 'message message--welcome' },
+      this.renderText()
     );
   };
 

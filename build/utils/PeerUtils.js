@@ -56,7 +56,7 @@ exports.default = {
     return Boolean(peer1 && peer2) && peer1.id === peer2.id && peer1.type === peer2.type;
   },
   isGroupBot: function isGroupBot(user) {
-    return user.title && user.title.toLowerCase().includes('bot') || user.userName && user.userName.toLowerCase().includes('bot');
+    return !user.avatar && !user.userName && user.title === 'Bot';
   }
 };
 //# sourceMappingURL=PeerUtils.js.map

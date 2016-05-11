@@ -16,17 +16,9 @@ var _MessageActionCreators = require('../../actions/MessageActionCreators');
 
 var _MessageActionCreators2 = _interopRequireDefault(_MessageActionCreators);
 
-var _UserStore = require('../../stores/UserStore');
-
-var _UserStore2 = _interopRequireDefault(_UserStore);
-
 var _MessageStore = require('../../stores/MessageStore');
 
 var _MessageStore2 = _interopRequireDefault(_MessageStore);
-
-var _EditMessageStore = require('../../stores/EditMessageStore');
-
-var _EditMessageStore2 = _interopRequireDefault(_EditMessageStore);
 
 var _MessagesList = require('./MessagesList.react');
 
@@ -46,15 +38,11 @@ var MessagesSection = function (_Component) {
   _inherits(MessagesSection, _Component);
 
   MessagesSection.getStores = function getStores() {
-    return [_MessageStore2.default, _EditMessageStore2.default];
+    return [_MessageStore2.default];
   };
 
   MessagesSection.calculateState = function calculateState() {
-    return {
-      uid: _UserStore2.default.getMyId(),
-      messages: _MessageStore2.default.getState(),
-      editMessage: _EditMessageStore2.default.getState()
-    };
+    return _MessageStore2.default.getState();
   };
 
   function MessagesSection(props) {
@@ -84,19 +72,15 @@ var MessagesSection = function (_Component) {
 
   MessagesSection.prototype.render = function render() {
     var _props = this.props;
+    var uid = _props.uid;
     var peer = _props.peer;
     var isMember = _props.isMember;
-    var _state = this.state;
-    var uid = _state.uid;
-    var messages = _state.messages;
-    var editMessage = _state.editMessage;
 
 
     return _react2.default.createElement(_MessagesList2.default, {
       uid: uid,
       peer: peer,
-      messages: messages,
-      editMessage: editMessage,
+      messages: this.state,
       isMember: isMember,
       onSelect: this.onSelect,
       onLoadMore: this.onLoadMore,
@@ -108,8 +92,9 @@ var MessagesSection = function (_Component) {
 }(_react.Component);
 
 MessagesSection.propTypes = {
+  uid: _react.PropTypes.number.isRequired,
   peer: _react.PropTypes.object.isRequired,
   isMember: _react.PropTypes.bool.isRequired
 };
-exports.default = _utils.Container.create(MessagesSection, { withProps: true });
+exports.default = _utils.Container.create(MessagesSection);
 //# sourceMappingURL=MessagesSection.react.js.map

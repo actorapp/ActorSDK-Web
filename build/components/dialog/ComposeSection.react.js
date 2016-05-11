@@ -200,6 +200,9 @@ var ComposeSection = function (_Component) {
     _this.onSubmit = _this.onSubmit.bind(_this);
     _this.onPaste = _this.onPaste.bind(_this);
     _this.onKeyDown = _this.onKeyDown.bind(_this);
+    _this.onEditTyping = _this.onEditTyping.bind(_this);
+    _this.onEditSubmit = _this.onEditSubmit.bind(_this);
+    _this.onEditKeyDown = _this.onEditKeyDown.bind(_this);
     _this.onCommandSelect = _this.onCommandSelect.bind(_this);
     _this.onCommandClose = _this.onCommandClose.bind(_this);
     return _this;
@@ -245,7 +248,34 @@ var ComposeSection = function (_Component) {
 
   ComposeSection.prototype.onKeyDown = function onKeyDown(event) {
     if (event.keyCode === _ActorAppConstants.KeyCodes.ARROW_UP && !event.target.value) {
+      event.preventDefault();
       _MessageActionCreators2.default.editLastMessage();
+    }
+  };
+
+  ComposeSection.prototype.onEditSubmit = function onEditSubmit() {
+    var _state2 = this.state;
+    var peer = _state2.peer;
+    var _state2$compose = _state2.compose;
+    var text = _state2$compose.text;
+    var editMessage = _state2$compose.editMessage;
+
+
+    if (text) {
+      _MessageActionCreators2.default.editTextMessage(peer, editMessage.rid, text);
+    } else {
+      _MessageActionCreators2.default.deleteMessage(peer, editMessage.rid);
+      _ComposeActionCreators2.default.cleanText();
+    }
+  };
+
+  ComposeSection.prototype.onEditTyping = function onEditTyping(text, caretPosition) {
+    _ComposeActionCreators2.default.changeText(this.state.peer, text, caretPosition);
+  };
+
+  ComposeSection.prototype.onEditKeyDown = function onEditKeyDown(event) {
+    if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
+      _ComposeActionCreators2.default.cancelEdit();
     }
   };
 
@@ -304,13 +334,64 @@ var ComposeSection = function (_Component) {
     });
   };
 
-  ComposeSection.prototype.render = function render() {
-    var _state2 = this.state;
-    var compose = _state2.compose;
-    var profile = _state2.profile;
-    var stickers = _state2.stickers;
-    var isMessageArtOpen = _state2.isMessageArtOpen;
-    var sendByEnter = _state2.sendByEnter;
+  ComposeSection.prototype.renderEditing = function renderEditing() {
+    var _state3 = this.state;
+    var compose = _state3.compose;
+    var profile = _state3.profile;
+    var stickers = _state3.stickers;
+    var isMessageArtOpen = _state3.isMessageArtOpen;
+    var sendByEnter = _state3.sendByEnter;
+    var intl = this.context.intl;
+
+
+    return _react2.default.createElement(
+      'section',
+      { className: 'compose compose--editing' },
+      this.renderMentions(),
+      this.renderCommands(),
+      _react2.default.createElement(_MessageArt2.default, {
+        onSelect: this.handleEmojiSelect,
+        onStickerSelect: this.handleStickerSelect,
+        isActive: isMessageArtOpen,
+        stickers: stickers
+      }),
+      _react2.default.createElement(_AvatarItem2.default, {
+        className: 'my-avatar',
+        image: profile.avatar,
+        placeholder: profile.placeholder,
+        title: profile.name
+      }),
+      _react2.default.createElement(_ComposeMarkdownHint2.default, { isActive: compose.text.length >= 3 }),
+      _react2.default.createElement(_ComposeTextArea2.default, {
+        autoFocus: true,
+        ref: 'area',
+        value: compose.text,
+        sendByEnter: sendByEnter,
+        sendEnabled: !compose.mentions && !compose.commands,
+        onTyping: this.onEditTyping,
+        onSubmit: this.onEditSubmit,
+        onKeyDown: this.onEditKeyDown
+      }),
+      _react2.default.createElement(
+        'footer',
+        { className: 'compose__footer row' },
+        _react2.default.createElement('span', { className: 'col-xs' }),
+        _react2.default.createElement(
+          'button',
+          { className: 'button button--lightblue', onClick: this.onSubmit },
+          intl.messages['compose.edit']
+        )
+      )
+    );
+  };
+
+  ComposeSection.prototype.renderPosting = function renderPosting() {
+    var _state4 = this.state;
+    var compose = _state4.compose;
+    var profile = _state4.profile;
+    var stickers = _state4.stickers;
+    var isMessageArtOpen = _state4.isMessageArtOpen;
+    var sendByEnter = _state4.sendByEnter;
     var intl = this.context.intl;
 
 
@@ -376,6 +457,14 @@ var ComposeSection = function (_Component) {
         _react2.default.createElement('input', { ref: 'attachment', onChange: this.handleComposeAttachmentChange, type: 'file' })
       )
     );
+  };
+
+  ComposeSection.prototype.render = function render() {
+    if (this.state.compose.editMessage) {
+      return this.renderEditing();
+    }
+
+    return this.renderPosting();
   };
 
   return ComposeSection;

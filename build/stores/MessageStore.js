@@ -56,9 +56,10 @@ var MessageStore = function (_ReduceStore) {
       readDate: 0,
       readByMeDate: 0,
       count: 0,
-      firstMessageId: null,
-      lastMessageId: null,
-      firstUnreadId: null,
+      firstId: null,
+      lastId: null,
+      unreadId: null,
+      editId: null,
       changeReason: _ActorAppConstants.MessageChangeReason.UNKNOWN,
       selected: new _immutable2.default.Set()
     };
@@ -79,12 +80,12 @@ var MessageStore = function (_ReduceStore) {
         return this.getInitialState();
 
       case _ActorAppConstants.ActionTypes.MESSAGES_CHANGED:
-        var firstMessageId = getMessageId(action.messages[0]);
-        var lastMessageId = getMessageId(action.messages[action.messages.length - 1]);
+        var firstId = getMessageId(action.messages[0]);
+        var lastId = getMessageId(action.messages[action.messages.length - 1]);
 
         var nextState = _extends({}, state, {
-          firstMessageId: firstMessageId,
-          lastMessageId: lastMessageId,
+          firstId: firstId,
+          lastId: lastId,
           messages: action.messages,
           overlay: action.overlay,
           receiveDate: action.receiveDate,
@@ -93,10 +94,10 @@ var MessageStore = function (_ReduceStore) {
           isLoaded: action.isLoaded
         });
 
-        if (firstMessageId !== state.firstMessageId) {
+        if (firstId !== state.firstId) {
           nextState.count = Math.min(action.messages.length, state.count + MESSAGE_COUNT_STEP);
           nextState.changeReason = _ActorAppConstants.MessageChangeReason.UNSHIFT;
-        } else if (lastMessageId !== state.lastMessageId) {
+        } else if (lastId !== state.lastId) {
           // TODO: possible incorrect
           var lengthDiff = action.messages.length - state.messages.length;
 
@@ -110,9 +111,9 @@ var MessageStore = function (_ReduceStore) {
         if (state.readByMeDate === 0 && action.readByMeDate > 0) {
           var unreadIndex = (0, _MessageUtils.getFirstUnreadMessageIndex)(action.messages, action.readByMeDate, _UserStore2.default.getMyId());
           if (unreadIndex === -1) {
-            nextState.firstUnreadId = null;
+            nextState.unreadId = null;
           } else {
-            nextState.firstUnreadId = action.messages[unreadIndex].rid;
+            nextState.unreadId = action.messages[unreadIndex].rid;
             if (unreadIndex > nextState.count) {
               nextState.count = Math.min(action.messages.length - unreadIndex + MESSAGE_COUNT_STEP, action.messages.length);
             }
@@ -130,6 +131,16 @@ var MessageStore = function (_ReduceStore) {
       case _ActorAppConstants.ActionTypes.MESSAGES_TOGGLE_SELECTED:
         return _extends({}, state, {
           selected: state.selected.has(action.id) ? state.selected.remove(action.id) : state.selected.add(action.id)
+        });
+
+      case _ActorAppConstants.ActionTypes.MESSAGES_EDIT_START:
+        return _extends({}, state, {
+          editId: action.message.rid
+        });
+
+      case _ActorAppConstants.ActionTypes.MESSAGES_EDIT_END:
+        return _extends({}, state, {
+          editId: null
         });
 
       default:

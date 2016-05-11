@@ -153,11 +153,12 @@ ComposeTextArea.propTypes = {
   sendEnabled: _react.PropTypes.bool.isRequired,
   onSubmit: _react.PropTypes.func.isRequired,
   onTyping: _react.PropTypes.func.isRequired,
-  onPaste: _react.PropTypes.func,
-  onKeyDown: _react.PropTypes.func
+  onPaste: _react.PropTypes.func.isRequired,
+  onKeyDown: _react.PropTypes.func.isRequired
 };
 ComposeTextArea.defaultProps = {
-  sendEnabled: true
+  sendEnabled: true,
+  onPaste: function onPaste() {}
 };
 exports.default = ComposeTextArea;
 //# sourceMappingURL=ComposeTextArea.react.js.map

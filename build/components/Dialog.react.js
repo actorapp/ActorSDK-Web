@@ -46,6 +46,10 @@ var _ConnectionState = require('./common/ConnectionState.react');
 
 var _ConnectionState2 = _interopRequireDefault(_ConnectionState);
 
+var _UserStore = require('../stores/UserStore');
+
+var _UserStore2 = _interopRequireDefault(_UserStore);
+
 var _DialogStore = require('../stores/DialogStore');
 
 var _DialogStore2 = _interopRequireDefault(_DialogStore);
@@ -94,6 +98,7 @@ var DialogSection = function (_Component) {
     return {
       peer: peer,
       dialogInfo: dialogInfo,
+      uid: _UserStore2.default.getMyId(),
       isMember: _DialogStore2.default.isMember(),
       isActivityOpen: _ActivityStore2.default.isOpen()
     };
@@ -185,6 +190,7 @@ var DialogSection = function (_Component) {
 
   DialogSection.prototype.render = function render() {
     var _state = this.state;
+    var uid = _state.uid;
     var peer = _state.peer;
     var isMember = _state.isMember;
     var dialogInfo = _state.dialogInfo;
@@ -214,7 +220,7 @@ var DialogSection = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'chat' },
-            _react2.default.createElement(MessagesSection, { peer: peer, isMember: isMember }),
+            _react2.default.createElement(MessagesSection, { uid: uid, peer: peer, isMember: isMember }),
             _react2.default.createElement(_DialogFooter2.default, {
               info: dialogInfo,
               isMember: isMember,

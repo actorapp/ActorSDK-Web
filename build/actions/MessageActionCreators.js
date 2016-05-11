@@ -8,10 +8,6 @@ var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
-var _ComposeActionCreators = require('./ComposeActionCreators');
-
-var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
-
 var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
@@ -44,6 +40,18 @@ var MessageActionCreators = function () {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_SEND_TEXT, { peer: peer, text: text });
   };
 
+  MessageActionCreators.prototype.editTextMessage = function editTextMessage(peer, rid, text) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_EDIT_END);
+    _ActorClient2.default.editMessage(peer, rid, text).catch(function (e) {
+      console.error(e);
+    });
+  };
+
+  MessageActionCreators.prototype.deleteMessage = function deleteMessage(peer, rid) {
+    _ActorClient2.default.deleteMessage(peer, rid);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_DELETE, { peer: peer, rid: rid });
+  };
+
   MessageActionCreators.prototype.sendFileMessage = function sendFileMessage(peer, file) {
     _ActorClient2.default.sendFileMessage(peer, file);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_SEND_FILE, { peer: peer, file: file });
@@ -64,11 +72,6 @@ var MessageActionCreators = function () {
   MessageActionCreators.prototype.sendVoiceMessage = function sendVoiceMessage(peer, duration, voice) {
     _ActorClient2.default.sendVoiceMessage(peer, duration, voice);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_SEND_VOICE, { peer: peer, duration: duration, voice: voice });
-  };
-
-  MessageActionCreators.prototype.deleteMessage = function deleteMessage(peer, rid) {
-    _ActorClient2.default.deleteMessage(peer, rid);
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_DELETE, { peer: peer, rid: rid });
   };
 
   MessageActionCreators.prototype.addLike = function addLike(peer, rid) {
@@ -96,6 +99,10 @@ var MessageActionCreators = function () {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_TOGGLE_SELECTED, { id: id });
   };
 
+  MessageActionCreators.prototype.startEditMessage = function startEditMessage(message) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_EDIT_START, { message: message });
+  };
+
   MessageActionCreators.prototype.editLastMessage = function editLastMessage() {
     var uid = _ActorClient2.default.getUid();
 
@@ -106,22 +113,8 @@ var MessageActionCreators = function () {
     var message = (0, _MessageUtils.findLastEditableMessage)(messages, uid);
 
     if (message) {
-      _ComposeActionCreators2.default.toggleAutoFocus(false);
-      (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_EDIT_START, { message: message });
+      this.startEditMessage(message);
     }
-  };
-
-  MessageActionCreators.prototype.endEdit = function endEdit(peer, message, text) {
-    if (!text) {
-      this.deleteMessage(peer, message.rid);
-    } else if (text !== message.content.text) {
-      _ActorClient2.default.editMessage(peer, message.rid, text).catch(function (e) {
-        console.error(e);
-      });
-    }
-
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGES_EDIT_END);
-    _ComposeActionCreators2.default.toggleAutoFocus(true);
   };
 
   return MessageActionCreators;

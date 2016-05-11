@@ -20,40 +20,36 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var DraftStore = function (_Store) {
-  _inherits(DraftStore, _Store);
+var DraftStore = function (_ReduceStore) {
+  _inherits(DraftStore, _ReduceStore);
 
-  function DraftStore(dispatcher) {
+  function DraftStore() {
     _classCallCheck(this, DraftStore);
 
-    var _this = _possibleConstructorReturn(this, _Store.call(this, dispatcher));
-
-    _this._draft = null;
-    return _this;
+    return _possibleConstructorReturn(this, _ReduceStore.apply(this, arguments));
   }
 
-  DraftStore.prototype.getDraft = function getDraft() {
-    return this._draft;
+  DraftStore.prototype.getInitialState = function getInitialState() {
+    return null;
   };
 
-  DraftStore.prototype.__onDispatch = function __onDispatch(action) {
+  DraftStore.prototype.getDraft = function getDraft() {
+    return this.getState();
+  };
+
+  DraftStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.DRAFT_LOAD:
-        this._draft = action.draft;
-        this.__emitChange();
-        break;
-
       case _ActorAppConstants.ActionTypes.DRAFT_CHANGE:
-        this._draft = action.draft;
-        this.__emitChange();
-        break;
+        return action.draft;
 
       default:
+        return state;
     }
   };
 
   return DraftStore;
-}(_utils.Store);
+}(_utils.ReduceStore);
 
 exports.default = new DraftStore(_ActorAppDispatcher2.default);
 //# sourceMappingURL=DraftStore.js.map

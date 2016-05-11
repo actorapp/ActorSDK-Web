@@ -80,7 +80,7 @@ var MessagesList = function (_Component) {
   }
 
   MessagesList.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.peer !== this.props.peer || nextProps.messages !== this.props.messages || nextProps.isMember !== this.props.isMember || nextProps.editMessage !== this.props.editMessage || nextState.showScrollToBottom !== this.state.showScrollToBottom;
+    return nextProps.peer !== this.props.peer || nextProps.messages !== this.props.messages || nextProps.isMember !== this.props.isMember || nextState.showScrollToBottom !== this.state.showScrollToBottom;
   };
 
   MessagesList.prototype.componentDidMount = function componentDidMount() {
@@ -110,7 +110,7 @@ var MessagesList = function (_Component) {
     var messages = _props.messages;
 
 
-    if (messages.firstUnreadId && messages.firstUnreadId !== prevProps.messages.firstUnreadId) {
+    if (messages.unreadId && messages.unreadId !== prevProps.messages.unreadId) {
       if (this.refs.unread) {
         console.debug('Scroll to unread divider');
         this.refs.scroller.scrollToNode(this.refs.unread);
@@ -203,7 +203,6 @@ var MessagesList = function (_Component) {
     var _props3 = this.props;
     var uid = _props3.uid;
     var peer = _props3.peer;
-    var editMessage = _props3.editMessage;
     var _props3$messages = _props3.messages;
     var messages = _props3$messages.messages;
     var overlay = _props3$messages.overlay;
@@ -211,14 +210,15 @@ var MessagesList = function (_Component) {
     var selected = _props3$messages.selected;
     var receiveDate = _props3$messages.receiveDate;
     var readDate = _props3$messages.readDate;
-    var firstUnreadId = _props3$messages.firstUnreadId;
+    var editId = _props3$messages.editId;
+    var unreadId = _props3$messages.unreadId;
     var MessageItem = this.components.MessageItem;
 
 
     var result = [];
     for (var index = messages.length - count; index < messages.length; index++) {
       var message = messages[index];
-      if (message.rid === firstUnreadId) {
+      if (message.rid === unreadId) {
         result.push(_react2.default.createElement(
           'div',
           { className: 'unread-divider', ref: 'unread', key: 'unread' },
@@ -255,7 +255,7 @@ var MessagesList = function (_Component) {
         state: (0, _MessageUtils.getMessageState)(message, uid, receiveDate, readDate),
         isShort: overlayItem.useShort,
         isSelected: selected.has(message.rid),
-        isEditing: message === editMessage.message,
+        isEditing: editId === message.rid,
         onEdit: this.props.onEdit,
         onSelect: this.props.onSelect,
         key: message.sortKey
@@ -345,12 +345,12 @@ MessagesList.propTypes = {
     isLoaded: _react.PropTypes.bool.isRequired,
     receiveDate: _react.PropTypes.number.isRequired,
     readDate: _react.PropTypes.number.isRequired,
-    firstUnreadId: _react.PropTypes.string,
+    editId: _react.PropTypes.string,
+    unreadId: _react.PropTypes.string,
     selected: _react.PropTypes.object.isRequired,
     changeReason: _react.PropTypes.oneOf([_ActorAppConstants.MessageChangeReason.UNKNOWN, _ActorAppConstants.MessageChangeReason.PUSH, _ActorAppConstants.MessageChangeReason.UNSHIFT, _ActorAppConstants.MessageChangeReason.UPDATE]).isRequired
   }).isRequired,
   isMember: _react.PropTypes.bool.isRequired,
-  editMessage: _react.PropTypes.object.isRequired,
   onSelect: _react.PropTypes.func.isRequired,
   onLoadMore: _react.PropTypes.func.isRequired,
   onEdit: _react.PropTypes.func.isRequired

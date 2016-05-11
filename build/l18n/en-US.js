@@ -101,6 +101,7 @@ exports.default = {
       'sendFile': 'Send file',
       'sendPhoto': 'Send photo',
       'send': 'Send',
+      'edit': 'Edit',
       'markdown': {
         'bold': 'bold',
         'italic': 'italics',

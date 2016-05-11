@@ -60,10 +60,6 @@ var _Reactions = require('./Reactions.react');
 
 var _Reactions2 = _interopRequireDefault(_Reactions);
 
-var _MessageEdit = require('./MessageEdit.react');
-
-var _MessageEdit2 = _interopRequireDefault(_MessageEdit);
-
 var _Service = require('./Service.react');
 
 var _Service2 = _interopRequireDefault(_Service);
@@ -299,11 +295,6 @@ var MessageItem = function (_Component) {
 
   MessageItem.prototype.renderContent = function renderContent() {
     var message = this.props.message;
-
-    if (this.props.isEditing) {
-      return _react2.default.createElement(_MessageEdit2.default, { message: message, onSubmit: this.props.onEdit });
-    }
-
     var _components = this.components;
     var Service = _components.Service;
     var Text = _components.Text;
@@ -392,13 +383,15 @@ var MessageItem = function (_Component) {
     var _props6 = this.props;
     var isShort = _props6.isShort;
     var isSelected = _props6.isSelected;
+    var isEditing = _props6.isEditing;
     var isHighlighted = this.state.isHighlighted;
 
 
     var messageClassName = (0, _classnames2.default)('message', {
       'message--short': isShort,
       'message--active': isHighlighted,
-      'message--selected': isSelected
+      'message--selected': isSelected,
+      'message--editing': isEditing
     });
 
     return _react2.default.createElement(
@@ -428,7 +421,6 @@ MessageItem.propTypes = {
   state: _react.PropTypes.string.isRequired,
   isShort: _react.PropTypes.bool.isRequired,
   isEditing: _react.PropTypes.bool.isRequired,
-  onEdit: _react.PropTypes.func.isRequired,
   isSelected: _react.PropTypes.bool.isRequired,
   onSelect: _react.PropTypes.func.isRequired
 };

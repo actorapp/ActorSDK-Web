@@ -10,15 +10,13 @@ var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
 var _ActorAppDispatcher2 = _interopRequireDefault(_ActorAppDispatcher);
 
+var _ActorAppConstants = require('../constants/ActorAppConstants');
+
 var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
-var _ActorAppConstants = require('../constants/ActorAppConstants');
-
-var _DraftStore = require('./DraftStore');
-
-var _DraftStore2 = _interopRequireDefault(_DraftStore);
+var _ComposeUtils = require('../utils/ComposeUtils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29,49 +27,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-function parseCommand(text) {
-  var matches = /^\/(.)?(?: (.+))?/.exec(text);
-  if (!matches) {
-    return null;
-  }
-
-  return {
-    name: matches[1],
-    args: matches[2]
-  };
-}
-
-function parseMentionQuery(text, position) {
-  var run = function run(runText, query) {
-    if (runText.length === 0) {
-      return null;
-    } else {
-      var lastChar = runText.charAt(runText.length - 1);
-      if (lastChar === '@') {
-        var charBeforeAt = runText.charAt(runText.length - 2);
-        if (charBeforeAt.trim() === '') {
-          var _text = query || '';
-          var atStart = _text.length + 1 === position;
-
-          return {
-            text: _text,
-            atStart: atStart
-          };
-        } else {
-          return null;
-        }
-      } else if (lastChar.trim() === '') {
-        return null;
-      } else {
-        return run(runText.substring(0, runText.length - 1), lastChar + (query || ''));
-      }
-    }
-  };
-
-  var runText = text.substring(0, position);
-  return run(runText, null);
-}
 
 var ComposeStore = function (_ReduceStore) {
   _inherits(ComposeStore, _ReduceStore);
@@ -87,7 +42,8 @@ var ComposeStore = function (_ReduceStore) {
       text: '',
       mentions: null,
       commands: null,
-      autoFocus: true
+      autoFocus: true,
+      editMessage: null
     };
   };
 
@@ -101,12 +57,12 @@ var ComposeStore = function (_ReduceStore) {
         });
 
         if (action.peer.type === _ActorAppConstants.PeerTypes.GROUP) {
-          var _query = parseMentionQuery(action.text, action.caretPosition);
+          var _query = (0, _ComposeUtils.parseMentionQuery)(action.text, action.caretPosition);
           if (_query) {
             nextState.mentions = _ActorClient2.default.findMentions(action.peer.id, _query.text);
           }
         } else {
-          var command = parseCommand(action.text);
+          var command = (0, _ComposeUtils.parseBotCommand)(action.text);
           if (command) {
             nextState.commands = _ActorClient2.default.findBotCommands(action.peer.id, command.name || '');
           }
@@ -114,8 +70,20 @@ var ComposeStore = function (_ReduceStore) {
 
         return nextState;
 
+      case _ActorAppConstants.ActionTypes.MESSAGES_EDIT_START:
+        return _extends({}, state, {
+          text: action.message.content.text,
+          editMessage: action.message
+        });
+
+      case _ActorAppConstants.ActionTypes.MESSAGES_EDIT_END:
+        return _extends({}, state, {
+          text: '',
+          editMessage: null
+        });
+
       case _ActorAppConstants.ActionTypes.COMPOSE_MENTION_INSERT:
-        var query = parseMentionQuery(action.text, action.caretPosition);
+        var query = (0, _ComposeUtils.parseMentionQuery)(action.text, action.caretPosition);
         if (!query) {
           console.error('Mention not found', { state: state, action: action });
           return state;
@@ -144,7 +112,7 @@ var ComposeStore = function (_ReduceStore) {
 
       case _ActorAppConstants.ActionTypes.DRAFT_LOAD:
         return _extends({}, state, {
-          text: _DraftStore2.default.getDraft()
+          text: action.draft
         });
 
       case _ActorAppConstants.ActionTypes.EMOJI_INSERT:

@@ -144,15 +144,15 @@ var Recent = function (_Component) {
     switch (group.key) {
       case 'groups':
         return {
-          onTitleClick: this.handleCreateGroup,
-          onPlusClick: this.handleGroupListTitleClick,
+          onTitleClick: this.handleGroupListTitleClick,
+          onPlusClick: this.handleCreateGroup,
           renderEmptyHint: this.renderGroupHint
         };
 
       case 'privates':
         return {
-          onTitleClick: this.handleAddContact,
-          onPlusClick: this.handlePrivateListTitleClick,
+          onTitleClick: this.handlePrivateListTitleClick,
+          onPlusClick: this.handleAddContact,
           renderEmptyHint: this.renderPrivateHint
         };
 

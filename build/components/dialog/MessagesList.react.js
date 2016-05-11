@@ -89,11 +89,9 @@ var MessagesList = function (_Component) {
 
   MessagesList.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
     if (!_PeerUtils2.default.equals(nextProps.peer, this.props.peer)) {
-      console.debug('Peer changed, set dimensions to null');
       this.dimensions = null;
       this.isLoading = false;
     } else {
-      console.debug('Update dimensions due messages will rerender');
       this.updateDimensions(this.refs.scroller.getDimensions());
     }
   };
@@ -112,29 +110,23 @@ var MessagesList = function (_Component) {
 
     if (messages.unreadId && messages.unreadId !== prevProps.messages.unreadId) {
       if (this.refs.unread) {
-        console.debug('Scroll to unread divider');
         this.refs.scroller.scrollToNode(this.refs.unread);
-      } else {
-        console.debug('Scroll to unread divider impossible');
       }
     } else if (messages.changeReason === _ActorAppConstants.MessageChangeReason.PUSH) {
       var _isLastMessageMine = (0, _MessageUtils.isLastMessageMine)(uid, messages);
       if (!dimensions || _isLastMessageMine) {
-        console.debug('Scroll to bottom due new messages PUSH', { dimensions: dimensions, _isLastMessageMine: _isLastMessageMine });
         this.scrollToBottom();
       }
     } else if (messages.changeReason === _ActorAppConstants.MessageChangeReason.UNSHIFT) {
       this.isLoading = false;
       if (dimensions) {
         var nextDimensions = scroller.getDimensions();
-        console.debug('Restore scroll due messages unshift', { dimensions: dimensions, nextDimensions: nextDimensions });
+        // Restore scroll
         scroller.scrollTo(nextDimensions.scrollHeight - dimensions.scrollHeight);
       } else {
-        console.debug('Scroll to bottom due messages have been UNSHIFT', { dimensions: dimensions });
         this.scrollToBottom();
       }
     } else {
-      console.debug('Restore scroll due messages UPDATE');
       this.restoreScroll();
     }
   };
@@ -143,7 +135,6 @@ var MessagesList = function (_Component) {
     var dimensions = this.refs.scroller.getDimensions();
     this.updateDimensions(dimensions);
     if (!this.isLoading && dimensions.scrollTop < 100) {
-      console.debug('Start loading more messages');
       this.isLoading = true;
       this.props.onLoadMore();
     }
@@ -160,14 +151,13 @@ var MessagesList = function (_Component) {
     var scroller = this.refs.scroller;
 
     if (dimensions) {
+      // Fix scroll
       var ratio = dimensions.scrollTop / dimensions.scrollHeight;
       var nextDimensions = scroller.getDimensions();
       scroller.scrollTo(ratio * nextDimensions.scrollHeight);
       this.dimensions = nextDimensions;
-      console.debug('Handle resize: fix scroll', { dimensions: dimensions, ratio: ratio, nextDimensions: nextDimensions });
     } else {
       scroller.scrollToBottom();
-      console.debug('Handle resize: scroll to bottom', { dimensions: dimensions });
     }
   };
 
@@ -309,10 +299,9 @@ var MessagesList = function (_Component) {
 
   MessagesList.prototype.updateDimensions = function updateDimensions(dimensions) {
     if (dimensions.scrollHeight === dimensions.scrollTop + dimensions.offsetHeight) {
-      console.debug('Update dimensions: lock scroll to bottom', { dimensions: dimensions });
+      // Lock scroll to bottom
       this.dimensions = null;
     } else {
-      console.debug('Update dimensions: set new dimensions', { dimensions: dimensions });
       this.dimensions = dimensions;
     }
   };

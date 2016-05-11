@@ -35,6 +35,13 @@ class HeaderSection extends Component {
     this.openTwitter = this.openTwitter.bind(this);
     this.openFacebook = this.openFacebook.bind(this);
     this.openHomePage = this.openHomePage.bind(this);
+    this.setLogout = this.setLogout.bind(this);
+    this.toggleHeaderMenu = this.toggleHeaderMenu.bind(this);
+    this.closeHeaderMenu = this.closeHeaderMenu.bind(this);
+    this.openMyProfile = this.openMyProfile.bind(this);
+    this.openCreateGroup = this.openCreateGroup.bind(this);
+    this.openAddContactModal = this.openAddContactModal.bind(this);
+    this.onSettingsOpen = this.onSettingsOpen.bind(this);
   }
 
   static getStores() {
@@ -47,7 +54,7 @@ class HeaderSection extends Component {
     }
   }
 
-  toggleHeaderMenu = () => {
+  toggleHeaderMenu() {
     const { isOpened } = this.state;
 
     if (!isOpened) {
@@ -56,17 +63,28 @@ class HeaderSection extends Component {
     } else {
       this.closeHeaderMenu();
     }
-  };
+  }
 
-  closeHeaderMenu = () => {
+  closeHeaderMenu() {
     this.setState({ isOpened: false });
     document.removeEventListener('click', this.closeHeaderMenu, false);
-  };
+  }
 
-  openMyProfile = () => ProfileActionCreators.show();
-  openCreateGroup = () => CreateGroupActionCreators.open();
-  openAddContactModal = () => AddContactActionCreators.open();
-  onSettingsOpen = () => PreferencesActionCreators.show();
+  openMyProfile() {
+    ProfileActionCreators.show();
+  }
+
+  openCreateGroup() {
+    CreateGroupActionCreators.open();
+  }
+
+  openAddContactModal() {
+    AddContactActionCreators.open();
+  }
+
+  onSettingsOpen() {
+    PreferencesActionCreators.show();
+  }
 
   openHelp() {
     HelpActionCreators.open()
@@ -105,12 +123,12 @@ class HeaderSection extends Component {
     }
   }
 
-  setLogout = () => {
+  setLogout() {
     confirm(<FormattedMessage id="modal.confirm.logout"/>).then(
       () => LoginActionCreators.setLoggedOut(),
       () => {}
     );
-  };
+  }
 
   renderTwitterLink() {
     const { twitter } = SharedContainer.get();

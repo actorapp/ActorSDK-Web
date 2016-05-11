@@ -4,6 +4,8 @@ exports.__esModule = true;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+var _lodash = require('lodash');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -23,6 +25,10 @@ var _reactIntl = require('react-intl');
 var _SharedContainer = require('../../utils/SharedContainer');
 
 var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
+
+var _DelegateContainer = require('../../utils/DelegateContainer');
+
+var _DelegateContainer2 = _interopRequireDefault(_DelegateContainer);
 
 var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
@@ -93,8 +99,27 @@ var PreferencesModal = function (_Component) {
     _this.changeMentionNotifications = _this.changeMentionNotifications.bind(_this);
     _this.changeIsShowNotificationTextEnabled = _this.changeIsShowNotificationTextEnabled.bind(_this);
     _this.handleTerminateAllSessionsClick = _this.handleTerminateAllSessionsClick.bind(_this);
+
+    _this.components = _this.getComponents();
     return _this;
   }
+
+  PreferencesModal.prototype.getComponents = function getComponents() {
+    var _DelegateContainer$ge = _DelegateContainer2.default.get();
+
+    var components = _DelegateContainer$ge.components;
+
+
+    if (components) {
+      return {
+        About: (0, _lodash.isFunction)(components.about) ? components.about : null
+      };
+    }
+
+    return {
+      About: null
+    };
+  };
 
   PreferencesModal.prototype.handleAppDetailClick = function handleAppDetailClick() {
     this.loggerToggleCount++;
@@ -155,16 +180,32 @@ var PreferencesModal = function (_Component) {
     _PreferencesActionCreators2.default.changeTab(tab);
   };
 
-  PreferencesModal.prototype.renderAppDetail = function renderAppDetail() {
+  PreferencesModal.prototype.renderAppAbout = function renderAppAbout() {
+    var _this2 = this;
+
+    var About = this.components.About;
+
+    if (!About) {
+      return null;
+    }
+
+    var activeTab = this.state.activeTab;
+
+    var aboutTabClassNames = (0, _classnames2.default)('preferences__tabs__tab', {
+      'preferences__tabs__tab--active': activeTab === _ActorAppConstants.PreferencesTabTypes.ABOUT
+    });
+
     return _react2.default.createElement(
-      'span',
-      { onClick: this.handleAppDetailClick },
-      this.appName + ': v1.0.268'
+      'a',
+      { className: aboutTabClassNames, onClick: function onClick() {
+          return _this2.handleChangeTab(_ActorAppConstants.PreferencesTabTypes.ABOUT);
+        } },
+      _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.about.title' })
     );
   };
 
   PreferencesModal.prototype.renderPreferencesSidebar = function renderPreferencesSidebar() {
-    var _this2 = this;
+    var _this3 = this;
 
     var activeTab = this.state.activeTab;
 
@@ -188,36 +229,32 @@ var PreferencesModal = function (_Component) {
       _react2.default.createElement(
         'a',
         { className: generalTabClassNames, onClick: function onClick() {
-            return _this2.handleChangeTab(_ActorAppConstants.PreferencesTabTypes.GENERAL);
+            return _this3.handleChangeTab(_ActorAppConstants.PreferencesTabTypes.GENERAL);
           } },
         _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.general.title' })
       ),
       _react2.default.createElement(
         'a',
         { className: notificationTabClassNames, onClick: function onClick() {
-            return _this2.handleChangeTab(_ActorAppConstants.PreferencesTabTypes.NOTIFICATIONS);
+            return _this3.handleChangeTab(_ActorAppConstants.PreferencesTabTypes.NOTIFICATIONS);
           } },
         _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.notifications.title' })
       ),
       _react2.default.createElement(
         'a',
         { className: blockTabClassNames, onClick: function onClick() {
-            return _this2.handleChangeTab(_ActorAppConstants.PreferencesTabTypes.BLOCKED);
+            return _this3.handleChangeTab(_ActorAppConstants.PreferencesTabTypes.BLOCKED);
           } },
         _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.blocked.title' })
       ),
       _react2.default.createElement(
         'a',
         { className: securityTabClassNames, onClick: function onClick() {
-            return _this2.handleChangeTab(_ActorAppConstants.PreferencesTabTypes.SECURITY);
+            return _this3.handleChangeTab(_ActorAppConstants.PreferencesTabTypes.SECURITY);
           } },
         _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.security.title' })
       ),
-      _react2.default.createElement(
-        'footer',
-        { className: 'preferences__tabs__footer' },
-        this.renderAppDetail()
-      )
+      this.renderAppAbout()
     );
   };
 
@@ -261,7 +298,7 @@ var PreferencesModal = function (_Component) {
               ),
               ' – ',
               _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.general.send.sendMessage' }),
-              ',',
+              ', ',
               _react2.default.createElement(
                 'b',
                 null,
@@ -291,7 +328,7 @@ var PreferencesModal = function (_Component) {
               ),
               ' – ',
               _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.general.send.sendMessage' }),
-              ',',
+              ', ',
               _react2.default.createElement(
                 'b',
                 null,
@@ -469,6 +506,16 @@ var PreferencesModal = function (_Component) {
     });
   };
 
+  PreferencesModal.prototype.renderAboutTab = function renderAboutTab() {
+    var About = this.components.About;
+
+    if (!About) {
+      return null;
+    }
+
+    return _react2.default.createElement(About, null);
+  };
+
   PreferencesModal.prototype.renderCurrentTab = function renderCurrentTab() {
     var activeTab = this.state.activeTab;
 
@@ -481,6 +528,8 @@ var PreferencesModal = function (_Component) {
         return _react2.default.createElement(_BlockedUsers2.default, null);
       case _ActorAppConstants.PreferencesTabTypes.SECURITY:
         return this.renderSecurityTab();
+      case _ActorAppConstants.PreferencesTabTypes.ABOUT:
+        return this.renderAboutTab();
       default:
         return null;
     }

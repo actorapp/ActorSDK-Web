@@ -101,11 +101,6 @@ var ModalStore = function (_ReduceStore) {
           currentModal: _ActorAppConstants.ModalTypes.ATTACHMENTS
         });
 
-      case _ActorAppConstants.ActionTypes.BLOCKED_USERS_OPEN:
-        return _extends({}, state, {
-          currentModal: _ActorAppConstants.ModalTypes.BLOCKED_USERS
-        });
-
       case _ActorAppConstants.ActionTypes.PROFILE_HIDE:
       case _ActorAppConstants.ActionTypes.GROUP_LIST_HIDE:
       case _ActorAppConstants.ActionTypes.CONTACT_LIST_HIDE:
@@ -116,7 +111,6 @@ var ModalStore = function (_ReduceStore) {
       case _ActorAppConstants.ActionTypes.QUICK_SEARCH_HIDE:
       case _ActorAppConstants.ActionTypes.INVITE_USER_MODAL_HIDE:
       case _ActorAppConstants.ActionTypes.ATTACHMENT_MODAL_HIDE:
-      case _ActorAppConstants.ActionTypes.BLOCKED_USERS_HIDE:
         return this.getInitialState();
 
       default:

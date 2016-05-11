@@ -91,12 +91,6 @@ class ModalStore extends ReduceStore {
           currentModal: ModalTypes.ATTACHMENTS
         }
 
-      case ActionTypes.BLOCKED_USERS_OPEN:
-        return {
-          ...state,
-          currentModal: ModalTypes.BLOCKED_USERS
-        }
-
       case ActionTypes.PROFILE_HIDE:
       case ActionTypes.GROUP_LIST_HIDE:
       case ActionTypes.CONTACT_LIST_HIDE:
@@ -107,7 +101,6 @@ class ModalStore extends ReduceStore {
       case ActionTypes.QUICK_SEARCH_HIDE:
       case ActionTypes.INVITE_USER_MODAL_HIDE:
       case ActionTypes.ATTACHMENT_MODAL_HIDE:
-      case ActionTypes.BLOCKED_USERS_HIDE:
         return this.getInitialState();
 
       default:

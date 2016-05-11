@@ -82,45 +82,6 @@ var HeaderSection = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _this.toggleHeaderMenu = function () {
-      var isOpened = _this.state.isOpened;
-
-
-      if (!isOpened) {
-        _this.setState({ isOpened: true });
-        document.addEventListener('click', _this.closeHeaderMenu, false);
-      } else {
-        _this.closeHeaderMenu();
-      }
-    };
-
-    _this.closeHeaderMenu = function () {
-      _this.setState({ isOpened: false });
-      document.removeEventListener('click', _this.closeHeaderMenu, false);
-    };
-
-    _this.openMyProfile = function () {
-      return _ProfileActionCreators2.default.show();
-    };
-
-    _this.openCreateGroup = function () {
-      return _CreateGroupActionCreators2.default.open();
-    };
-
-    _this.openAddContactModal = function () {
-      return _AddContactActionCreators2.default.open();
-    };
-
-    _this.onSettingsOpen = function () {
-      return _PreferencesActionCreators2.default.show();
-    };
-
-    _this.setLogout = function () {
-      (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.logout' })).then(function () {
-        return _LoginActionCreators2.default.setLoggedOut();
-      }, function () {});
-    };
-
     _this.state = {
       isOpened: false
     };
@@ -129,6 +90,13 @@ var HeaderSection = function (_Component) {
     _this.openTwitter = _this.openTwitter.bind(_this);
     _this.openFacebook = _this.openFacebook.bind(_this);
     _this.openHomePage = _this.openHomePage.bind(_this);
+    _this.setLogout = _this.setLogout.bind(_this);
+    _this.toggleHeaderMenu = _this.toggleHeaderMenu.bind(_this);
+    _this.closeHeaderMenu = _this.closeHeaderMenu.bind(_this);
+    _this.openMyProfile = _this.openMyProfile.bind(_this);
+    _this.openCreateGroup = _this.openCreateGroup.bind(_this);
+    _this.openAddContactModal = _this.openAddContactModal.bind(_this);
+    _this.onSettingsOpen = _this.onSettingsOpen.bind(_this);
     return _this;
   }
 
@@ -140,6 +108,39 @@ var HeaderSection = function (_Component) {
     return {
       profile: _ProfileStore2.default.getProfile()
     };
+  };
+
+  HeaderSection.prototype.toggleHeaderMenu = function toggleHeaderMenu() {
+    var isOpened = this.state.isOpened;
+
+
+    if (!isOpened) {
+      this.setState({ isOpened: true });
+      document.addEventListener('click', this.closeHeaderMenu, false);
+    } else {
+      this.closeHeaderMenu();
+    }
+  };
+
+  HeaderSection.prototype.closeHeaderMenu = function closeHeaderMenu() {
+    this.setState({ isOpened: false });
+    document.removeEventListener('click', this.closeHeaderMenu, false);
+  };
+
+  HeaderSection.prototype.openMyProfile = function openMyProfile() {
+    _ProfileActionCreators2.default.show();
+  };
+
+  HeaderSection.prototype.openCreateGroup = function openCreateGroup() {
+    _CreateGroupActionCreators2.default.open();
+  };
+
+  HeaderSection.prototype.openAddContactModal = function openAddContactModal() {
+    _AddContactActionCreators2.default.open();
+  };
+
+  HeaderSection.prototype.onSettingsOpen = function onSettingsOpen() {
+    _PreferencesActionCreators2.default.show();
   };
 
   HeaderSection.prototype.openHelp = function openHelp() {
@@ -186,6 +187,12 @@ var HeaderSection = function (_Component) {
     } else {
       window.open(homePage, '_blank');
     }
+  };
+
+  HeaderSection.prototype.setLogout = function setLogout() {
+    (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.logout' })).then(function () {
+      return _LoginActionCreators2.default.setLoggedOut();
+    }, function () {});
   };
 
   HeaderSection.prototype.renderTwitterLink = function renderTwitterLink() {

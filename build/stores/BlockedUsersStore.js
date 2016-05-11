@@ -40,7 +40,7 @@ var BlockedUsersStore = function (_ReduceStore) {
 
   BlockedUsersStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
-      case _ActorAppConstants.ActionTypes.BLOCKED_USERS_HIDE:
+      case _ActorAppConstants.ActionTypes.PREFERENCES_MODAL_HIDE:
         return this.getInitialState();
 
       case _ActorAppConstants.ActionTypes.BLOCKED_USERS_SET:

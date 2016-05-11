@@ -266,8 +266,6 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   MESSAGE_ART_SHOW: null,
   MESSAGE_ART_CLOSE: null,
 
-  BLOCKED_USERS_OPEN: null,
-  BLOCKED_USERS_HIDE: null,
   BLOCKED_USERS_LOAD: null,
   BLOCKED_USERS_SET: null,
   BLOCKED_USERS_LOAD_FAILED: null,
@@ -389,15 +387,15 @@ var ModalTypes = exports.ModalTypes = (0, _keymirror2.default)({
   INVITE: null,
   INVITE_BY_LINK: null,
   QUICK_SEARCH: null,
-  ATTACHMENTS: null,
-  BLOCKED_USERS: null
+  ATTACHMENTS: null
 });
 
 var PreferencesTabTypes = exports.PreferencesTabTypes = (0, _keymirror2.default)({
   GENERAL: null,
   NOTIFICATIONS: null,
   SECURITY: null,
-  BLOCKED: null
+  BLOCKED: null,
+  ABOUT: null
 });
 
 var Path = exports.Path = {

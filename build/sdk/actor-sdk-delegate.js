@@ -43,7 +43,9 @@ ActorSDKDelegate.defaultOptions = {
     join: null,
     archive: null,
     empty: null,
-    sidebar: null
+    sidebar: null,
+    modals: null,
+    about: null
   },
   features: {
     calls: true,

@@ -28,16 +28,16 @@ exports.default = {
     // Menus
     'menu': {
       // Sidebar menu
-      'editProfile': 'Редактировать профиль',
-      'addToContacts': 'Добавить контакт',
-      'createGroup': 'Создать группу',
-      'blockedUsers': 'Заблокированные пользователи',
-      'helpAndFeedback': 'Помощь и обратная связь',
-      'twitter': 'Наш твиттер',
-      'preferences': 'Настройки',
-      'signOut': 'Выход',
-      'homePage': 'Домашняя страница',
-      'facebook': 'Ищите нас в Facebook'
+      editProfile: 'Редактировать профиль',
+      addToContacts: 'Добавить контакт',
+      createGroup: 'Создать группу',
+      blockedUsers: 'Заблокированные пользователи',
+      helpAndFeedback: 'Помощь и обратная связь',
+      twitter: 'Наш твиттер',
+      preferences: 'Настройки',
+      signOut: 'Выход',
+      homePage: 'Домашняя страница',
+      facebook: 'Ищите нас в Facebook'
     },
 
     // Buttons

@@ -10,10 +10,6 @@ var _ActorClient = require('../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
 
-var _ComposeActionCreators = require('./ComposeActionCreators');
-
-var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
@@ -24,17 +20,6 @@ var BlockedUsersActionCreators = function () {
   function BlockedUsersActionCreators() {
     _classCallCheck(this, BlockedUsersActionCreators);
   }
-
-  BlockedUsersActionCreators.prototype.open = function open() {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.BLOCKED_USERS_OPEN);
-    _ComposeActionCreators2.default.toggleAutoFocus(false);
-    this.loadUsers();
-  };
-
-  BlockedUsersActionCreators.prototype.hide = function hide() {
-    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.BLOCKED_USERS_HIDE);
-    _ComposeActionCreators2.default.toggleAutoFocus(true);
-  };
 
   BlockedUsersActionCreators.prototype.setQuery = function setQuery(query) {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.BLOCKED_USERS_SET_QUERY, { query: query });

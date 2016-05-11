@@ -2,14 +2,14 @@
 
 exports.__esModule = true;
 
-var _MyProfile = require('./MyProfile.react');
+var _Profile = require('./Profile.react');
 
-Object.keys(_MyProfile).forEach(function (key) {
+Object.keys(_Profile).forEach(function (key) {
   if (key === "default") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _MyProfile[key];
+      return _Profile[key];
     }
   });
 });

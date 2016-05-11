@@ -2,8 +2,6 @@
 
 exports.__esModule = true;
 
-var _lodash = require('lodash');
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -119,8 +117,15 @@ var RecentGroup = function (_Component) {
     var currentPeer = _props3.currentPeer;
     var onItemUpdate = _props3.onItemUpdate;
 
+    if (!items.length) {
+      if (this.props.renderEmptyHint) {
+        return this.props.renderEmptyHint();
+      }
 
-    return (0, _lodash.map)(items, function (dialog) {
+      return null;
+    }
+
+    return items.map(function (dialog) {
       var peer = dialog.peer.peer;
       var peerKey = _PeerUtils2.default.peerToString(peer);
       var isActive = _PeerUtils2.default.equals(peer, currentPeer);
@@ -154,7 +159,8 @@ RecentGroup.propTypes = {
   currentPeer: _react.PropTypes.object,
   onTitleClick: _react.PropTypes.func,
   onPlusClick: _react.PropTypes.func,
-  onItemUpdate: _react.PropTypes.func.isRequired
+  onItemUpdate: _react.PropTypes.func.isRequired,
+  renderEmptyHint: _react.PropTypes.func
 };
 exports.default = RecentGroup;
 //# sourceMappingURL=RecentGroup.react.js.map

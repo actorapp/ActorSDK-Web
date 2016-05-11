@@ -2,6 +2,8 @@
 
 exports.__esModule = true;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _lodash = require('lodash');
 
 var _react = require('react');
@@ -138,30 +140,47 @@ var Recent = function (_Component) {
     scroller.scrollTo(dimensions.scrollTop + rect.top - (scrollerRect.top + scrollerRect.height - rect.height));
   };
 
-  Recent.prototype.getTitleClickHandler = function getTitleClickHandler(group) {
+  Recent.prototype.getGroupProps = function getGroupProps(group) {
     switch (group.key) {
       case 'groups':
-        return this.handleGroupListTitleClick;
+        return {
+          onTitleClick: this.handleCreateGroup,
+          onPlusClick: this.handleGroupListTitleClick,
+          renderEmptyHint: this.renderGroupHint
+        };
 
       case 'privates':
-        return this.handlePrivateListTitleClick;
+        return {
+          onTitleClick: this.handleAddContact,
+          onPlusClick: this.handlePrivateListTitleClick,
+          renderEmptyHint: this.renderPrivateHint
+        };
 
       default:
-        return null;
+        return {};
     }
   };
 
-  Recent.prototype.getTitleAddHandler = function getTitleAddHandler(group) {
-    switch (group.key) {
-      case 'groups':
-        return this.handleCreateGroup;
+  Recent.prototype.renderGroupHint = function renderGroupHint() {
+    return _react2.default.createElement(
+      'div',
+      { className: 'recent__group__hint' },
+      _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.group.empty' }),
+      _react2.default.createElement('div', { className: 'stem' })
+    );
+  };
 
-      case 'privates':
-        return this.handleAddContact;
-
-      default:
-        return null;
-    }
+  Recent.prototype.renderPrivateHint = function renderPrivateHint() {
+    return _react2.default.createElement(
+      'div',
+      { className: 'recent__group__hint' },
+      _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'sidebar.private.empty' }),
+      _react2.default.createElement(
+        'button',
+        { className: 'button button--outline button--wide hide' },
+        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.invite' })
+      )
+    );
   };
 
   Recent.prototype.renderRecentGroups = function renderRecentGroups() {
@@ -172,16 +191,15 @@ var Recent = function (_Component) {
     var archive = _props.archive;
 
     return this.props.dialogs.map(function (group) {
-      return _react2.default.createElement(_RecentGroup2.default, {
+      return _react2.default.createElement(_RecentGroup2.default, _extends({
         items: group.shorts,
         key: group.key,
         group: group.key,
         currentPeer: currentPeer,
-        archive: archive,
-        onTitleClick: _this2.getTitleClickHandler(group),
-        onPlusClick: _this2.getTitleAddHandler(group),
+        archive: archive
+      }, _this2.getGroupProps(group), {
         onItemUpdate: _this2.checkInvisibleCounters
-      });
+      }));
     });
   };
 
@@ -214,8 +232,13 @@ var Recent = function (_Component) {
   };
 
   Recent.prototype.renderHistoryButton = function renderHistoryButton() {
-    var isArchiveEmpty = false; // TODO: Use real flag
-    if (isArchiveEmpty) return null;
+    // actually this is hack, but it's ok while we haven't real flag
+    var isArchiveEmpty = this.props.dialogs.some(function (group) {
+      return !group.shorts.length;
+    });
+    if (isArchiveEmpty) {
+      return null;
+    }
 
     return _react2.default.createElement(_SidebarLink2.default, {
       className: 'sidebar__history',

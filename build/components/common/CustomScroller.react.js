@@ -86,6 +86,7 @@ var CustomScroller = function (_Component) {
     document.onselectstart = function () {
       return false;
     };
+    document.body.classList.add('scroller__active');
     document.addEventListener('mousemove', this.onMouseMove);
     document.addEventListener('mouseup', this.onMouseUp);
 
@@ -107,6 +108,7 @@ var CustomScroller = function (_Component) {
     this.setState({ dragging: false });
 
     document.onselectstart = undefined;
+    document.body.classList.remove('scroller__active');
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
   };

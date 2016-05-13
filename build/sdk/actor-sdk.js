@@ -278,7 +278,8 @@ ActorSDK.defaultOptions = {
   forceLocale: null,
   features: {
     calls: true,
-    search: false
+    search: false,
+    editing: false
   },
   routes: null,
   isExperimental: false,

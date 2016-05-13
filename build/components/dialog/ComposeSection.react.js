@@ -247,7 +247,9 @@ var ComposeSection = function (_Component) {
   };
 
   ComposeSection.prototype.onKeyDown = function onKeyDown(event) {
-    if (event.keyCode === _ActorAppConstants.KeyCodes.ARROW_UP && !event.target.value) {
+    var delegate = this.context.delegate;
+
+    if (delegate.features.editing && event.keyCode === _ActorAppConstants.KeyCodes.ARROW_UP && !event.target.value) {
       event.preventDefault();
       _MessageActionCreators2.default.editLastMessage();
     }
@@ -460,7 +462,10 @@ var ComposeSection = function (_Component) {
   };
 
   ComposeSection.prototype.render = function render() {
-    if (this.state.compose.editMessage) {
+    var delegate = this.context.delegate;
+    var compose = this.state.compose;
+
+    if (delegate.features.editing && compose.editMessage) {
       return this.renderEditing();
     }
 
@@ -471,7 +476,8 @@ var ComposeSection = function (_Component) {
 }(_react.Component);
 
 ComposeSection.contextTypes = {
-  intl: _react.PropTypes.object
+  intl: _react.PropTypes.object.isRequired,
+  delegate: _react.PropTypes.object.isRequired
 };
 exports.default = _utils.Container.create(ComposeSection, { pure: false });
 //# sourceMappingURL=ComposeSection.react.js.map

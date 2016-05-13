@@ -12,6 +12,8 @@ var _reactDom = require('react-dom');
 
 var _utils = require('flux/utils');
 
+var _reactIntl = require('react-intl');
+
 var _ActorClient = require('../../utils/ActorClient');
 
 var _ActorClient2 = _interopRequireDefault(_ActorClient);
@@ -201,6 +203,7 @@ var ComposeSection = function (_Component) {
     _this.onPaste = _this.onPaste.bind(_this);
     _this.onKeyDown = _this.onKeyDown.bind(_this);
     _this.onEditTyping = _this.onEditTyping.bind(_this);
+    _this.onEditCancel = _this.onEditCancel.bind(_this);
     _this.onEditSubmit = _this.onEditSubmit.bind(_this);
     _this.onEditKeyDown = _this.onEditKeyDown.bind(_this);
     _this.onCommandSelect = _this.onCommandSelect.bind(_this);
@@ -210,9 +213,10 @@ var ComposeSection = function (_Component) {
 
   ComposeSection.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
     if (prevState.peer !== this.state.peer) {
-      if (this.refs.area) {
-        this.refs.area.autoFocus();
-      }
+      this.refs.area.autoFocus();
+    } else if (prevState.compose.editMessage !== this.state.compose.editMessage) {
+      this.refs.area.blur();
+      this.refs.area.focus(true);
     }
   };
 
@@ -277,8 +281,13 @@ var ComposeSection = function (_Component) {
 
   ComposeSection.prototype.onEditKeyDown = function onEditKeyDown(event) {
     if (event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
-      _ComposeActionCreators2.default.cancelEdit();
+      event.preventDefault();
+      this.onEditCancel();
     }
+  };
+
+  ComposeSection.prototype.onEditCancel = function onEditCancel() {
+    _ComposeActionCreators2.default.cancelEdit();
   };
 
   // TODO: move this to textarea component
@@ -379,8 +388,18 @@ var ComposeSection = function (_Component) {
         { className: 'compose__footer row' },
         _react2.default.createElement('span', { className: 'col-xs' }),
         _react2.default.createElement(
+          'p',
+          { className: 'compose__edit-title' },
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'compose.editTitle' })
+        ),
+        _react2.default.createElement(
           'button',
-          { className: 'button button--lightblue', onClick: this.onSubmit },
+          { className: 'button button--cancel', onClick: this.onEditCancel },
+          intl.messages['compose.cancel']
+        ),
+        _react2.default.createElement(
+          'button',
+          { className: 'button button--lightblue', onClick: this.onEditSubmit },
           intl.messages['compose.edit']
         )
       )

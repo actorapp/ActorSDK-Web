@@ -49,6 +49,10 @@ var ComposeStore = function (_ReduceStore) {
 
   ComposeStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
+      case _ActorAppConstants.ActionTypes.COMPOSE_CLEAN:
+      case _ActorAppConstants.ActionTypes.BIND_DIALOG_PEER:
+        return this.getInitialState();
+
       case _ActorAppConstants.ActionTypes.COMPOSE_TYPING:
         var nextState = _extends({}, state, {
           text: action.text,
@@ -100,13 +104,6 @@ var ComposeStore = function (_ReduceStore) {
 
       case _ActorAppConstants.ActionTypes.COMPOSE_MENTION_CLOSE:
         return _extends({}, state, {
-          mentions: null
-        });
-
-      case _ActorAppConstants.ActionTypes.COMPOSE_CLEAN:
-        return _extends({}, state, {
-          text: '',
-          commands: null,
           mentions: null
         });
 

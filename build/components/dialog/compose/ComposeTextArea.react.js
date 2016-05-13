@@ -119,16 +119,17 @@ var ComposeTextArea = function (_Component) {
   };
 
   ComposeTextArea.prototype.focus = function focus() {
+    var force = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
     var area = this.refs.area;
 
-    if (area !== document.activeElement) {
+    if (force || area !== document.activeElement) {
       area.focus();
-      if (area.createTextRange) {
+      if (typeof area.selectionStart == 'number') {
+        area.selectionStart = area.selectionEnd = area.value.length;
+      } else if (typeof area.createTextRange != 'undefined') {
         var range = area.createTextRange();
-        range.move('character', area.value.length);
+        range.collapse(false);
         range.select();
-      } else if (area.selectionStart) {
-        area.setSelectionRange(area.value.length, area.value.length);
       }
     }
   };

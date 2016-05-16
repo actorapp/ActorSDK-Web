@@ -8,18 +8,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _actorReactScroll = require('actor-react-scroll');
 
-var _EmojiTab = require('./EmojiTab.react');
-
-var _EmojiTab2 = _interopRequireDefault(_EmojiTab);
-
-var _EmojiItem = require('./EmojiItem.react');
-
-var _EmojiItem2 = _interopRequireDefault(_EmojiItem);
-
-var _emojiData = require('./emojiData');
-
-var _emojiData2 = _interopRequireDefault(_emojiData);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30,88 +18,59 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var Emojis = function (_Component) {
-  _inherits(Emojis, _Component);
+var EmojiTab = function (_Component) {
+  _inherits(EmojiTab, _Component);
 
-  function Emojis(props) {
-    _classCallCheck(this, Emojis);
+  function EmojiTab(props) {
+    _classCallCheck(this, EmojiTab);
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _this.state = {
-      title: 'Emoji'
-    };
-
-    _this.onSetActive = _this.onSetActive.bind(_this);
+    _this.onSelect = _this.onSelect.bind(_this);
     return _this;
   }
 
-  Emojis.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
-    return nextState.title !== this.state.title;
+  EmojiTab.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
+    return nextProps.category !== this.props.category;
   };
 
-  Emojis.prototype.onSetActive = function onSetActive(title) {
-    this.setState({ title: title });
+  EmojiTab.prototype.onSelect = function onSelect() {
+    this.props.onSelect(this.props.category.title);
   };
 
-  Emojis.prototype.render = function render() {
-    var _this2 = this;
+  EmojiTab.prototype.onMouseEnter = function onMouseEnter(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    event.target.click();
+  };
 
-    var title = this.state.title;
+  EmojiTab.prototype.render = function render() {
+    var category = this.props.category;
 
-
-    var emojis = [];
-    var emojiTabs = [];
-
-    _emojiData2.default.forEach(function (category, cKey) {
-      emojiTabs.push(_react2.default.createElement(_EmojiTab2.default, { key: cKey, category: category, onSelect: _this2.onSetActive }));
-
-      var items = category.items.map(function (emoji, iKey) {
-        return _react2.default.createElement(_EmojiItem2.default, { key: iKey, emoji: emoji, onSelect: _this2.props.onSelect });
-      });
-
-      emojis.push(_react2.default.createElement(
-        _actorReactScroll.Element,
-        { name: category.title, key: cKey },
-        _react2.default.createElement(
-          'p',
-          null,
-          category.title
-        ),
-        items
-      ));
-    });
 
     return _react2.default.createElement(
-      'div',
-      { className: 'emojis' },
-      _react2.default.createElement(
-        'header',
-        { className: 'emojis__header' },
-        _react2.default.createElement(
-          'p',
-          { className: 'emojis__header__title' },
-          title
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'emojis__header__tabs' },
-          emojiTabs
-        )
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'emojis__body', id: 'emojiContainer' },
-        emojis
-      )
+      _actorReactScroll.Link,
+      {
+        spy: true,
+        offset: 30,
+        duration: 300,
+        to: category.title,
+        onSetActive: this.onSelect,
+        onMouseEnter: this.onMouseEnter,
+        containerId: 'emojiContainer',
+        className: 'emojis__header__tabs__tab',
+        activeClass: 'emojis__header__tabs__tab--active'
+      },
+      _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: category.icon } })
     );
   };
 
-  return Emojis;
+  return EmojiTab;
 }(_react.Component);
 
-Emojis.propTypes = {
+EmojiTab.propTypes = {
+  category: _react.PropTypes.object.isRequired,
   onSelect: _react.PropTypes.func.isRequired
 };
-exports.default = Emojis;
-//# sourceMappingURL=Emojis.react.js.map
+exports.default = EmojiTab;
+//# sourceMappingURL=EmojiTab.react.js.map

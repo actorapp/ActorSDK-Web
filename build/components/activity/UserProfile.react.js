@@ -224,6 +224,18 @@ var UserProfile = function (_Component) {
     );
   };
 
+  UserProfile.prototype.renderBlockUser = function renderBlockUser() {
+    if (!this.context.delegate.features.blocking) {
+      return null;
+    }
+
+    return _react2.default.createElement(
+      'li',
+      { className: 'dropdown__menu__item', onClick: this.onBlockUser },
+      _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'blockUser' })
+    );
+  };
+
   UserProfile.prototype.render = function render() {
     var user = this.props.user;
     var _state = this.state;
@@ -302,11 +314,7 @@ var UserProfile = function (_Component) {
                   'ul',
                   { className: 'dropdown__menu dropdown__menu--right' },
                   this.renderToggleContact(),
-                  _react2.default.createElement(
-                    'li',
-                    { className: 'dropdown__menu__item', onClick: this.onBlockUser },
-                    _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'blockUser' })
-                  ),
+                  this.renderBlockUser(),
                   _react2.default.createElement(
                     'li',
                     { className: 'dropdown__menu__item', onClick: this.onClearChat },
@@ -341,6 +349,9 @@ var UserProfile = function (_Component) {
   return UserProfile;
 }(_react.Component);
 
+UserProfile.contextTypes = {
+  delegate: _react.PropTypes.object.isRequired
+};
 UserProfile.propTypes = {
   user: _react.PropTypes.object.isRequired
 };

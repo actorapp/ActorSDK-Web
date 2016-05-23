@@ -24,8 +24,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var isRecordingSupported = _opusRecorder2.default.isRecordingSupported() ? true : false;
-console.debug('isRecordingSupported', isRecordingSupported);
+var isRecordingSupported = _opusRecorder2.default.isRecordingSupported();
 
 var VoiceRecorder = function (_Component) {
   _inherits(VoiceRecorder, _Component);
@@ -35,80 +34,106 @@ var VoiceRecorder = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _this.handleStartRecord = function () {
-      _this.recorder.initStream();
-    };
-
-    _this.handleStopRecord = function () {
-      _this.recorder.stop();
-      _this.setState({ isRecording: false });
-    };
-
-    _this.handleSendRecord = function (event) {
-      var onFinish = _this.props.onFinish;
-      var duration = _this.state.duration;
-
-
-      onFinish && onFinish(duration * 1000, event.detail); //Duration must be in ms
-    };
-
-    _this.handleStreamReady = function () {
-      _this.recorder.start();
-      _this.setState({ isRecording: true });
-    };
-
-    _this.handleChangeDuration = function (event) {
-      return _this.setState({ duration: event.detail.toFixed(2) });
-    };
-
     _this.state = {
+      duration: 0,
       isRecording: false
     };
 
-    if (isRecordingSupported) {
-      _this.recorder = new _opusRecorder2.default();
-      _this.recorder.addEventListener('duration', _this.handleChangeDuration);
-      _this.recorder.addEventListener('streamReady', _this.handleStreamReady);
-      _this.recorder.addEventListener('dataAvailable', _this.handleSendRecord);
-    }
+    _this.onRecordStart = _this.onRecordStart.bind(_this);
+    _this.onRecordStop = _this.onRecordStop.bind(_this);
+    _this.onStreamReady = _this.onStreamReady.bind(_this);
+    _this.onRecordDone = _this.onRecordDone.bind(_this);
+    _this.onDurationChange = _this.onDurationChange.bind(_this);
     return _this;
   }
 
-  VoiceRecorder.prototype.render = function render() {
+  VoiceRecorder.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
+    return nextState.isRecording !== this.state.isRecording || nextState.duration !== this.state.duration;
+  };
+
+  VoiceRecorder.prototype.componentDidMount = function componentDidMount() {
     if (isRecordingSupported) {
-      var _state = this.state;
-      var isRecording = _state.isRecording;
-      var duration = _state.duration;
+      this.recorder = new _opusRecorder2.default();
+      this.recorder.addEventListener('duration', this.onDurationChange);
+      this.recorder.addEventListener('streamReady', this.onStreamReady);
+      this.recorder.addEventListener('dataAvailable', this.onRecordDone);
+    }
+  };
 
+  VoiceRecorder.prototype.componentWillUnmount = function componentWillUnmount() {
+    this.recorder.removeEventListener('duration', this.onDurationChange);
+    this.recorder.removeEventListener('streamReady', this.onStreamReady);
+    this.recorder.removeEventListener('dataAvailable', this.onRecordDone);
+    this.recorder = null;
+  };
 
-      var voiceRecorderClassName = (0, _classnames2.default)('voice-recorder', {
-        'voice-recorder--recording': isRecording
-      });
+  VoiceRecorder.prototype.onRecordStart = function onRecordStart() {
+    this.recorder.initStream();
+  };
 
-      return _react2.default.createElement(
-        'div',
-        { className: voiceRecorderClassName },
-        _react2.default.createElement(
-          'i',
-          { className: 'material-icons icon',
-            onMouseDown: this.handleStartRecord,
-            onMouseUp: this.handleStopRecord },
-          'mic'
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'duration' },
-          _react2.default.createElement(
-            'div',
-            { className: 'fill row middle-xs center-xs' },
-            'Voice message duration:  ',
-            duration
-          )
-        )
-      );
-    } else {
+  VoiceRecorder.prototype.onRecordStop = function onRecordStop() {
+    this.recorder.stop();
+    this.setState({ isRecording: false, duration: 0 });
+  };
+
+  VoiceRecorder.prototype.onStreamReady = function onStreamReady() {
+    this.recorder.start();
+    this.setState({ isRecording: true });
+  };
+
+  VoiceRecorder.prototype.onRecordDone = function onRecordDone(event) {
+    // duration must be in ms
+    var duration = this.state.duration * 1000;
+    if (duration >= 100) {
+      this.props.onFinish(duration, event.detail);
+    }
+  };
+
+  VoiceRecorder.prototype.onDurationChange = function onDurationChange(event) {
+    var duration = event.detail.toFixed(2);
+    this.setState({ duration: duration });
+  };
+
+  VoiceRecorder.prototype.renderDuration = function renderDuration() {
+    if (!this.state.duration) {
       return null;
     }
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'voice-recorder__duration' },
+      _react2.default.createElement(
+        'div',
+        { className: 'fill row middle-xs center-xs' },
+        'Voice message duration:  ',
+        this.state.duration
+      )
+    );
+  };
+
+  VoiceRecorder.prototype.render = function render() {
+    if (!isRecordingSupported) {
+      return null;
+    }
+
+    var className = (0, _classnames2.default)('voice-recorder__icon', {
+      'voice-recorder__icon--active': this.state.isRecording
+    });
+
+    return _react2.default.createElement(
+      'div',
+      { className: 'voice-recorder' },
+      _react2.default.createElement(
+        'span',
+        { className: className, onMouseDown: this.onRecordStart, onMouseUp: this.onRecordStop },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons' },
+          'mic'
+        )
+      ),
+      this.renderDuration()
+    );
   };
 
   return VoiceRecorder;

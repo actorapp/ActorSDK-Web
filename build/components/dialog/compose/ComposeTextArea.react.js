@@ -105,13 +105,16 @@ var ComposeTextArea = function (_Component) {
   };
 
   ComposeTextArea.prototype.render = function render() {
-    var value = this.props.value;
+    var _props = this.props;
+    var value = _props.value;
+    var placeholder = _props.placeholder;
 
 
     return _react2.default.createElement('textarea', {
       ref: 'area',
       className: 'compose__message',
       value: value,
+      placeholder: placeholder,
       onChange: this.onChange,
       onKeyDown: this.onKeyDown,
       onPaste: this.props.onPaste
@@ -155,7 +158,9 @@ ComposeTextArea.propTypes = {
   onSubmit: _react.PropTypes.func.isRequired,
   onTyping: _react.PropTypes.func.isRequired,
   onPaste: _react.PropTypes.func.isRequired,
-  onKeyDown: _react.PropTypes.func.isRequired
+  onKeyDown: _react.PropTypes.func.isRequired,
+
+  placholder: _react.PropTypes.string
 };
 ComposeTextArea.defaultProps = {
   sendEnabled: true,

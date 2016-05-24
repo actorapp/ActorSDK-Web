@@ -14,6 +14,8 @@ var _createTimer = require('../utils/createTimer');
 
 var _createTimer2 = _interopRequireDefault(_createTimer);
 
+var _PeerUtils = require('../utils/PeerUtils');
+
 var _ActionCreators2 = require('./ActionCreators');
 
 var _ActionCreators3 = _interopRequireDefault(_ActionCreators2);
@@ -63,6 +65,14 @@ var CallActionCreators = function (_ActionCreators) {
         this.removeBindings('call');
         (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.CALL_MODAL_HIDE);
         break;
+    }
+  };
+
+  CallActionCreators.prototype.makePeerCall = function makePeerCall(peer) {
+    if ((0, _PeerUtils.isPeerUser)(peer)) {
+      this.makeCall(peer.id);
+    } else {
+      this.makeGroupCall(peer.id);
     }
   };
 

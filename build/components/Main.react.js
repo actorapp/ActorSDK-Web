@@ -2,11 +2,15 @@
 
 exports.__esModule = true;
 
+var _lodash = require('lodash');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _EmojiUtils = require('../utils/EmojiUtils');
+var _DelegateContainer = require('../utils/DelegateContainer');
+
+var _DelegateContainer2 = _interopRequireDefault(_DelegateContainer);
 
 var _VisibilityActionCreators = require('../actions/VisibilityActionCreators');
 
@@ -15,6 +19,14 @@ var _VisibilityActionCreators2 = _interopRequireDefault(_VisibilityActionCreator
 var _Sidebar = require('./Sidebar.react');
 
 var _Sidebar2 = _interopRequireDefault(_Sidebar);
+
+var _Toolbar = require('./Toolbar.react');
+
+var _Toolbar2 = _interopRequireDefault(_Toolbar);
+
+var _ConnectionState = require('./common/ConnectionState.react');
+
+var _ConnectionState2 = _interopRequireDefault(_ConnectionState);
 
 var _Favicon = require('./common/Favicon.react');
 
@@ -42,14 +54,12 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
+
 var Main = function (_Component) {
   _inherits(Main, _Component);
 
   function Main(props) {
     _classCallCheck(this, Main);
-
-    // Preload emoji spritesheet
-    // TODO: Fix! Its not working properly.
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
@@ -61,9 +71,28 @@ var Main = function (_Component) {
       }
     };
 
-    (0, _EmojiUtils.preloadEmojiSheet)();
+    _this.components = _this.getComponents();
     return _this;
   }
+
+  Main.prototype.getComponents = function getComponents() {
+    var _DelegateContainer$ge = _DelegateContainer2.default.get();
+
+    var components = _DelegateContainer$ge.components;
+
+
+    if (components) {
+      return {
+        Sidebar: (0, _lodash.isFunction)(components.sidebar) ? components.sidebar : _Sidebar2.default,
+        Toolbar: (0, _lodash.isFunction)(components.toolbar) ? components.toolbar : _Toolbar2.default
+      };
+    }
+
+    return {
+      Sidebar: _Sidebar2.default,
+      Toolbar: _Toolbar2.default
+    };
+  };
 
   Main.prototype.componentDidMount = function componentDidMount() {
     this.onVisibilityChange();
@@ -75,9 +104,12 @@ var Main = function (_Component) {
   };
 
   Main.prototype.renderCall = function renderCall() {
-    var delegate = this.context.delegate;
+    var _DelegateContainer$ge2 = _DelegateContainer2.default.get();
 
-    if (!delegate.features.calls) {
+    var features = _DelegateContainer$ge2.features;
+
+
+    if (!features.calls) {
       return null;
     }
 
@@ -85,17 +117,23 @@ var Main = function (_Component) {
   };
 
   Main.prototype.render = function render() {
-    var delegate = this.context.delegate;
+    var _components = this.components;
+    var Sidebar = _components.Sidebar;
+    var Toolbar = _components.Toolbar;
 
-
-    var Sidebar = typeof delegate.components.sidebar == 'function' ? delegate.components.sidebar : _Sidebar2.default;
 
     return _react2.default.createElement(
       'div',
       { className: 'app' },
+      _react2.default.createElement(_ConnectionState2.default, null),
       _react2.default.createElement(_Favicon2.default, null),
-      _react2.default.createElement(Sidebar, null),
-      this.props.children,
+      _react2.default.createElement(Toolbar, null),
+      _react2.default.createElement(
+        'section',
+        { className: 'wrapper' },
+        _react2.default.createElement(Sidebar, null),
+        this.props.children
+      ),
       _react2.default.createElement(_ModalsWrapper2.default, null),
       _react2.default.createElement(_MenuOverlay2.default, null),
       this.renderCall()
@@ -108,9 +146,6 @@ var Main = function (_Component) {
 Main.propTypes = {
   params: _react.PropTypes.object,
   children: _react.PropTypes.oneOfType([_react.PropTypes.arrayOf(_react.PropTypes.node), _react.PropTypes.node])
-};
-Main.contextTypes = {
-  delegate: _react.PropTypes.object
 };
 exports.default = Main;
 //# sourceMappingURL=Main.react.js.map

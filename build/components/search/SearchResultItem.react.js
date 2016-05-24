@@ -2,21 +2,17 @@
 
 exports.__esModule = true;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
-
-var _ActorAppConstants = require('../../constants/ActorAppConstants');
 
 var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
-var _Text = require('../dialog/messages/Text.react');
+var _MessageContent = require('../dialog/messages/MessageContent.react');
 
-var _Text2 = _interopRequireDefault(_Text);
+var _MessageContent2 = _interopRequireDefault(_MessageContent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44,21 +40,15 @@ var SearchResultItem = function (_Component) {
     var sender = _props.sender;
 
 
-    var resultContent = void 0;
-    switch (content.content) {
-      case _ActorAppConstants.MessageContentTypes.TEXT:
-        resultContent = _react2.default.createElement(_Text2.default, _extends({}, content, { className: 'text' }));
-        break;
-      default:
-    }
-
     return _react2.default.createElement(
       'li',
       { className: 'search__results__item search__results__item--message row' },
-      _react2.default.createElement(_AvatarItem2.default, { image: sender.avatar,
+      _react2.default.createElement(_AvatarItem2.default, {
+        image: sender.avatar,
         placeholder: sender.placeholder,
         size: 'small',
-        title: sender.title }),
+        title: sender.title
+      }),
       _react2.default.createElement(
         'div',
         { className: 'search__results__item__body col-xs' },
@@ -79,7 +69,7 @@ var SearchResultItem = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'content' },
-          resultContent
+          _react2.default.createElement(_MessageContent2.default, { content: content })
         )
       )
     );

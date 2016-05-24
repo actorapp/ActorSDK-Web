@@ -37,8 +37,15 @@ var ContactItem = function (_Component) {
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
     _this.shouldComponentUpdate = _reactAddonsPureRenderMixin.shouldComponentUpdate.bind(_this);
+    _this.handleClick = _this.handleClick.bind(_this);
     return _this;
   }
+
+  ContactItem.prototype.handleClick = function handleClick() {
+    var onClick = this.props.onClick;
+
+    onClick && onClick();
+  };
 
   ContactItem.prototype.render = function render() {
     var _props = this.props;
@@ -52,7 +59,7 @@ var ContactItem = function (_Component) {
 
     return _react2.default.createElement(
       'div',
-      { className: contactClassName },
+      { className: contactClassName, onClick: this.handleClick },
       _react2.default.createElement(
         'div',
         { className: 'contact__avatar' },
@@ -86,6 +93,8 @@ ContactItem.propTypes = {
   avatar: _react.PropTypes.string,
 
   className: _react.PropTypes.string,
+
+  onClick: _react.PropTypes.func,
 
   children: _react.PropTypes.node
 };

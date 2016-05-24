@@ -10,10 +10,6 @@ var _SvgIcon = require('./common/SvgIcon.react');
 
 var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
 
-var _ConnectionState = require('./common/ConnectionState.react');
-
-var _ConnectionState2 = _interopRequireDefault(_ConnectionState);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -43,7 +39,6 @@ var EmptyScreen = function (_Component) {
         _react2.default.createElement(
           'section',
           { className: 'dialog dialog--empty row center-xs middle-xs' },
-          _react2.default.createElement(_ConnectionState2.default, null),
           _react2.default.createElement(
             'div',
             { className: 'advice' },

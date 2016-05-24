@@ -12,6 +12,10 @@ var _reactAddonsPureRenderMixin = require('react-addons-pure-render-mixin');
 
 var _reactIntl = require('react-intl');
 
+var _Scroller = require('../common/Scroller.react');
+
+var _Scroller2 = _interopRequireDefault(_Scroller);
+
 var _SearchResultItem = require('./SearchResultItem.react');
 
 var _SearchResultItem2 = _interopRequireDefault(_SearchResultItem);
@@ -75,50 +79,10 @@ var SearchResults = function (_Component) {
   };
 
   SearchResults.prototype.render = function render() {
-    var _props2 = this.props;
-    var isExpanded = _props2.isExpanded;
-    var onToggleExpanded = _props2.onToggleExpanded;
-
-
     return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(
-        'div',
-        { className: 'search__expand', onClick: onToggleExpanded },
-        _react2.default.createElement(
-          'i',
-          { className: 'material-icons' },
-          isExpanded ? 'chevron_right' : 'chevron_left'
-        ),
-        _react2.default.createElement(
-          'i',
-          { className: 'material-icons' },
-          isExpanded ? 'chevron_right' : 'chevron_left'
-        )
-      ),
-      _react2.default.createElement(
-        'header',
-        { className: 'search__header' },
-        _react2.default.createElement(
-          'ul',
-          { className: 'search__filter' },
-          _react2.default.createElement(
-            'li',
-            { className: 'search__filter__item search__filter__item--active' },
-            'Text'
-          )
-        )
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: 'search__body' },
-        _react2.default.createElement(
-          'ul',
-          { className: 'search__results' },
-          this.renderResults()
-        )
-      )
+      _Scroller2.default,
+      { className: 'search__body' },
+      this.renderResults()
     );
   };
 
@@ -128,9 +92,7 @@ var SearchResults = function (_Component) {
 SearchResults.propTypes = {
   query: _react.PropTypes.string.isRequired,
   results: _react.PropTypes.array.isRequired,
-  isExpanded: _react.PropTypes.bool.isRequired,
-  isSearching: _react.PropTypes.bool.isRequired,
-  onToggleExpanded: _react.PropTypes.func.isRequired
+  isSearching: _react.PropTypes.bool.isRequired
 };
 exports.default = SearchResults;
 //# sourceMappingURL=SearchResults.react.js.map

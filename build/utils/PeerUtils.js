@@ -1,6 +1,8 @@
 'use strict';
 
 exports.__esModule = true;
+exports.isPeerUser = isPeerUser;
+exports.isPeerGroup = isPeerGroup;
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
 
@@ -59,4 +61,11 @@ exports.default = {
     return !user.avatar && !user.userName && user.title === 'Bot';
   }
 };
+function isPeerUser(peer) {
+  return peer.type === _ActorAppConstants.PeerTypes.USER;
+}
+
+function isPeerGroup(peer) {
+  return peer.type === _ActorAppConstants.PeerTypes.GROUP;
+}
 //# sourceMappingURL=PeerUtils.js.map

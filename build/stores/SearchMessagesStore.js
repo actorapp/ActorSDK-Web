@@ -33,45 +33,45 @@ var SearchMessagesStore = function (_ReduceStore) {
 
   SearchMessagesStore.prototype.getInitialState = function getInitialState() {
     return {
-      isOpen: false,
-      isFocused: false,
-      isExpanded: false,
-      isSearching: false,
       query: '',
-      results: []
+      results: [],
+      error: null,
+      isOpen: false,
+      isSearching: false
     };
   };
 
   SearchMessagesStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
-      case _ActorAppConstants.ActionTypes.SEARCH_SHOW:
+      case _ActorAppConstants.ActionTypes.SEARCH_MESSAGES_SHOW:
         return _extends({}, state, {
-          isOpen: true,
-          isExpanded: false
+          isOpen: true
         });
-      case _ActorAppConstants.ActionTypes.SEARCH_HIDE:
+
+      case _ActorAppConstants.ActionTypes.BIND_DIALOG_PEER:
+      case _ActorAppConstants.ActionTypes.SEARCH_MESSAGES_HIDE:
         return this.getInitialState();
-      case _ActorAppConstants.ActionTypes.SEARCH_TOGGLE_FOCUS:
-        return _extends({}, state, {
-          isFocused: action.isEnable
-        });
-      case _ActorAppConstants.ActionTypes.SEARCH_TOGGLE_EXPAND:
-        return _extends({}, state, {
-          isExpanded: !state.isExpanded
-        });
-      case _ActorAppConstants.ActionTypes.SEARCH_TEXT:
+
+      case _ActorAppConstants.ActionTypes.SEARCH_MESSAGES_SET_QUERY:
         return _extends({}, state, {
           query: action.query,
+          isOpen: true,
           isSearching: true
         });
+
       case _ActorAppConstants.ActionTypes.SEARCH_TEXT_SUCCESS:
         return _extends({}, state, {
           results: action.query ? action.response : [],
+          error: null,
           isSearching: false
         });
+
       case _ActorAppConstants.ActionTypes.SEARCH_TEXT_ERROR:
-        console.log(action);
-        return state;
+        return _extends({}, state, {
+          error: action.error,
+          isSearching: false
+        });
+
       default:
         return state;
     }

@@ -93,7 +93,7 @@ Fold.propTypes = {
   icon: _react.PropTypes.string,
   iconClassName: _react.PropTypes.string,
   iconElement: _react.PropTypes.element,
-  title: _react.PropTypes.string.isRequired
+  title: _react.PropTypes.node.isRequired
 };
 exports.default = Fold;
 //# sourceMappingURL=Fold.react.js.map

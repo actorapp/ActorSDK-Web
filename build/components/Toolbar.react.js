@@ -6,77 +6,21 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactIntl = require('react-intl');
+var _SharedContainer = require('../utils/SharedContainer');
 
-var _utils = require('flux/utils');
+var _SharedContainer2 = _interopRequireDefault(_SharedContainer);
 
-var _classnames = require('classnames');
+var _alert = require('../utils/alert');
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _alert2 = _interopRequireDefault(_alert);
 
-var _rcTooltip = require('rc-tooltip');
+var _UserMenu = require('./common/UserMenu.react');
 
-var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
+var _UserMenu2 = _interopRequireDefault(_UserMenu);
 
-var _lodash = require('lodash');
+var _ToolbarSearch = require('./search/ToolbarSearch.react');
 
-var _EmojiUtils = require('../utils/EmojiUtils');
-
-var _PeerUtils = require('../utils/PeerUtils');
-
-var _PeerUtils2 = _interopRequireDefault(_PeerUtils);
-
-var _CallActionCreators = require('../actions/CallActionCreators');
-
-var _CallActionCreators2 = _interopRequireDefault(_CallActionCreators);
-
-var _ActivityActionCreators = require('../actions/ActivityActionCreators');
-
-var _ActivityActionCreators2 = _interopRequireDefault(_ActivityActionCreators);
-
-var _FavoriteActionCreators = require('../actions/FavoriteActionCreators');
-
-var _FavoriteActionCreators2 = _interopRequireDefault(_FavoriteActionCreators);
-
-var _SearchMessagesActionCreators = require('../actions/SearchMessagesActionCreators');
-
-var _SearchMessagesActionCreators2 = _interopRequireDefault(_SearchMessagesActionCreators);
-
-var _SearchMessagesStore = require('../stores/SearchMessagesStore');
-
-var _SearchMessagesStore2 = _interopRequireDefault(_SearchMessagesStore);
-
-var _DialogInfoStore = require('../stores/DialogInfoStore');
-
-var _DialogInfoStore2 = _interopRequireDefault(_DialogInfoStore);
-
-var _OnlineStore = require('../stores/OnlineStore');
-
-var _OnlineStore2 = _interopRequireDefault(_OnlineStore);
-
-var _ActivityStore = require('../stores/ActivityStore');
-
-var _ActivityStore2 = _interopRequireDefault(_ActivityStore);
-
-var _DialogStore = require('../stores/DialogStore');
-
-var _DialogStore2 = _interopRequireDefault(_DialogStore);
-
-var _CallStore = require('../stores/CallStore');
-
-var _CallStore2 = _interopRequireDefault(_CallStore);
-
-var _AvatarItem = require('./common/AvatarItem.react');
-
-var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
-
-var _ToggleFavorite = require('./common/ToggleFavorite.react');
-
-var _ToggleFavorite2 = _interopRequireDefault(_ToggleFavorite);
-
-var _SearchInput = require('./search/SearchInput.react');
-
-var _SearchInput2 = _interopRequireDefault(_SearchInput);
+var _ToolbarSearch2 = _interopRequireDefault(_ToolbarSearch);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -88,276 +32,79 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var ToolbarSection = function (_Component) {
-  _inherits(ToolbarSection, _Component);
+var AppHeader = function (_Component) {
+  _inherits(AppHeader, _Component);
 
-  ToolbarSection.getStores = function getStores() {
-    return [_DialogInfoStore2.default, _ActivityStore2.default, _OnlineStore2.default, _DialogStore2.default, _CallStore2.default, _SearchMessagesStore2.default];
-  };
+  function AppHeader(props) {
+    _classCallCheck(this, AppHeader);
 
-  ToolbarSection.calculateState = function calculateState() {
-    var peer = _DialogStore2.default.getCurrentPeer();
-    if (!peer) {
-      return {
-        dialogInfo: null
-      };
-    }
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    return {
-      peer: peer,
-      dialogInfo: _DialogInfoStore2.default.getState(),
-      isActivityOpen: _ActivityStore2.default.isOpen(),
-      message: _OnlineStore2.default.getMessage(),
-      isFavorite: _DialogStore2.default.isFavorite(peer.id),
-      search: _SearchMessagesStore2.default.getState(),
-      call: ToolbarSection.calculateCallState(peer)
-    };
-  };
+    var _SharedContainer$get = _SharedContainer2.default.get();
 
-  ToolbarSection.calculateCallState = function calculateCallState(peer) {
-    var call = _CallStore2.default.getState();
-    if (!call.isOpen || !_PeerUtils2.default.equals(peer, call.peer)) {
-      return {
-        isCalling: false
-      };
-    }
+    var appName = _SharedContainer$get.appName;
 
-    return {
-      isCalling: true,
-      time: call.time,
-      state: call.state,
-      isFloating: call.isFloating
-    };
-  };
-
-  function ToolbarSection(props, context) {
-    _classCallCheck(this, ToolbarSection);
-
-    var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
-
-    _this.onFavoriteToggle = function () {
-      var _this$state = _this.state;
-      var peer = _this$state.peer;
-      var isFavorite = _this$state.isFavorite;
-
-      if (isFavorite) {
-        _FavoriteActionCreators2.default.unfavoriteChat(peer);
-      } else {
-        _FavoriteActionCreators2.default.favoriteChat(peer);
-      }
-    };
-
-    _this.onClick = function () {
-      if (!_this.state.isActivityOpen) {
-        _ActivityActionCreators2.default.show();
-      } else {
-        _ActivityActionCreators2.default.hide();
-      }
-    };
-
-    _this.handleInCallClick = function () {
-      return _CallActionCreators2.default.toggleFloating();
-    };
-
-    _this.onSearch = (0, _lodash.debounce)(_this.onSearch.bind(_this), 300);
-    _this.onSearchChange = _this.onSearchChange.bind(_this);
-    _this.onSearchToggleOpen = _this.onSearchToggleOpen.bind(_this);
-    _this.onSearchToggleFocus = _this.onSearchToggleFocus.bind(_this);
+    _this.appName = appName;
     return _this;
   }
 
-  ToolbarSection.prototype.onSearch = function onSearch(query) {
-    _SearchMessagesActionCreators2.default.findAllText(query);
-  };
-
-  ToolbarSection.prototype.onSearchChange = function onSearchChange(query) {
-    _SearchMessagesActionCreators2.default.setQuery(query);
-    this.onSearch(query);
-  };
-
-  ToolbarSection.prototype.onSearchToggleOpen = function onSearchToggleOpen(isOpen) {
-    _SearchMessagesActionCreators2.default.toggleOpen(isOpen);
-  };
-
-  ToolbarSection.prototype.onSearchToggleFocus = function onSearchToggleFocus(isEnabled) {
-    _SearchMessagesActionCreators2.default.toggleFocus(isEnabled);
-  };
-
-  ToolbarSection.prototype.getMessage = function getMessage() {
-    var _state = this.state;
-    var call = _state.call;
-    var message = _state.message;
-
-    if (call.isCalling) {
-      return _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'call.state.' + call.state, values: { time: call.time } });
-    }
-
-    return message;
-  };
-
-  ToolbarSection.prototype.renderSearch = function renderSearch() {
-    if (!this.context.delegate.features.search) {
-      return;
-    }
-
-    var _state$search = this.state.search;
-    var query = _state$search.query;
-    var isOpen = _state$search.isOpen;
-    var isFocused = _state$search.isFocused;
-
-    return _react2.default.createElement(_SearchInput2.default, {
-      className: 'toolbar__controls__search pull-left',
-      value: query,
-      isOpen: isOpen,
-      isFocused: isFocused,
-      onChange: this.onSearchChange,
-      onToggleOpen: this.onSearchToggleOpen,
-      onToggleFocus: this.onSearchToggleFocus
+  AppHeader.prototype.handleWriteButtonClick = function handleWriteButtonClick() {
+    (0, _alert2.default)('writeButtonClick').then(function () {
+      return console.debug('Alert closed');
     });
   };
 
-  ToolbarSection.prototype.renderInfoButton = function renderInfoButton() {
-    var _state2 = this.state;
-    var call = _state2.call;
-    var isActivityOpen = _state2.isActivityOpen;
+  AppHeader.prototype.renderWriteButton = function renderWriteButton() {
+    var delegate = this.context.delegate;
 
 
-    var activityButtonClassName = (0, _classnames2.default)('button button--icon', {
-      'active': isActivityOpen || call.isCalling && !call.isFloating
-    });
-
-    if (call.isCalling) {
-      return _react2.default.createElement(
-        _rcTooltip2.default,
-        {
-          placement: 'left',
-          mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
-          overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.toolbar.info' })
-        },
-        _react2.default.createElement(
-          'button',
-          { className: activityButtonClassName, onClick: this.handleInCallClick },
-          _react2.default.createElement(
-            'i',
-            { className: 'material-icons' },
-            'info'
-          )
-        )
-      );
-    }
-
-    return _react2.default.createElement(
-      _rcTooltip2.default,
-      {
-        placement: 'left',
-        mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
-        overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.toolbar.info' })
-      },
-      _react2.default.createElement(
-        'button',
-        { className: activityButtonClassName, onClick: this.onClick },
-        _react2.default.createElement(
-          'i',
-          { className: 'material-icons' },
-          'info'
-        )
-      )
-    );
-  };
-
-  ToolbarSection.prototype.renderVerified = function renderVerified() {
-    if (!this.state.dialogInfo.isVerified) {
+    if (!delegate.features.writeButton) {
       return null;
     }
 
     return _react2.default.createElement(
-      'span',
-      { className: 'toolbar__peer__verified' },
+      'button',
+      { className: 'toolbar__button', onClick: this.handleWriteButtonClick },
       _react2.default.createElement(
         'i',
         { className: 'material-icons' },
-        'verified_user'
+        'edit'
       )
     );
   };
 
-  ToolbarSection.prototype.render = function render() {
-    var _state3 = this.state;
-    var dialogInfo = _state3.dialogInfo;
-    var isFavorite = _state3.isFavorite;
-    var call = _state3.call;
-
-
-    if (!dialogInfo) {
-      return _react2.default.createElement('header', { className: 'toolbar' });
-    }
-
-    var message = this.getMessage();
-
-    var headerClassName = (0, _classnames2.default)('toolbar row', {
-      toolbar__calling: call.isCalling
-    });
-
-    var favoriteClassName = (0, _classnames2.default)('toolbar__peer__favorite', {
-      'toolbar__peer__favorite--active': isFavorite
-    });
-
+  AppHeader.prototype.render = function render() {
     return _react2.default.createElement(
       'header',
-      { className: headerClassName },
-      _react2.default.createElement(_AvatarItem2.default, {
-        className: 'toolbar__avatar',
-        size: 'medium',
-        image: dialogInfo.avatar,
-        placeholder: dialogInfo.placeholder,
-        title: dialogInfo.name
-      }),
+      { className: 'toolbar row' },
       _react2.default.createElement(
         'div',
-        { className: 'toolbar__peer col-xs' },
+        { className: 'toolbar__aside' },
         _react2.default.createElement(
-          'header',
+          'span',
           null,
-          _react2.default.createElement('span', { className: 'toolbar__peer__title', dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(dialogInfo.name) } }),
-          this.renderVerified(),
-          _react2.default.createElement(
-            _rcTooltip2.default,
-            {
-              placement: 'bottom',
-              mouseEnterDelay: 0.15, mouseLeaveDelay: 0,
-              overlay: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'tooltip.toolbar.favorite' })
-            },
-            _react2.default.createElement(
-              'span',
-              { className: favoriteClassName },
-              _react2.default.createElement(_ToggleFavorite2.default, { value: isFavorite, onToggle: this.onFavoriteToggle })
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { className: 'toolbar__peer__message' },
-          message
+          this.appName
         )
       ),
       _react2.default.createElement(
         'div',
-        { className: 'toolbar__controls' },
-        this.renderSearch(),
-        _react2.default.createElement(
-          'div',
-          { className: 'toolbar__controls__buttons pull-right' },
-          this.renderInfoButton()
-        )
+        { className: 'toolbar__controls col-xs' },
+        this.renderWriteButton(),
+        _react2.default.createElement(_ToolbarSearch2.default, { className: 'toolbar__button' })
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'toolbar__profile' },
+        _react2.default.createElement(_UserMenu2.default, { className: 'toolbar__button' })
       )
     );
   };
 
-  return ToolbarSection;
+  return AppHeader;
 }(_react.Component);
 
-ToolbarSection.contextTypes = {
+AppHeader.contextTypes = {
   delegate: _react.PropTypes.object.isRequired
 };
-exports.default = _utils.Container.create(ToolbarSection, { pure: false });
+exports.default = AppHeader;
 //# sourceMappingURL=Toolbar.react.js.map

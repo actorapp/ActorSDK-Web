@@ -2,23 +2,21 @@
 
 exports.__esModule = true;
 
+var _lodash = require('lodash');
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('flux/utils');
 
-var _HeaderSection = require('./sidebar/HeaderSection.react');
+var _DelegateContainer = require('../utils/DelegateContainer');
 
-var _HeaderSection2 = _interopRequireDefault(_HeaderSection);
+var _DelegateContainer2 = _interopRequireDefault(_DelegateContainer);
 
 var _Recent = require('./sidebar/Recent.react');
 
 var _Recent2 = _interopRequireDefault(_Recent);
-
-var _QuickSearchButton = require('./sidebar/QuickSearchButton.react');
-
-var _QuickSearchButton2 = _interopRequireDefault(_QuickSearchButton);
 
 var _DialogStore = require('../stores/DialogStore');
 
@@ -38,20 +36,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var SidebarSection = function (_Component) {
-  _inherits(SidebarSection, _Component);
+var Sidebar = function (_Component) {
+  _inherits(Sidebar, _Component);
 
-  function SidebarSection() {
-    _classCallCheck(this, SidebarSection);
-
-    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
-  }
-
-  SidebarSection.getStores = function getStores() {
+  Sidebar.getStores = function getStores() {
     return [_DialogStore2.default, _ArchiveStore2.default];
   };
 
-  SidebarSection.calculateState = function calculateState() {
+  Sidebar.calculateState = function calculateState() {
     return {
       currentPeer: _DialogStore2.default.getCurrentPeer(),
       dialogs: _DialogStore2.default.getDialogs(),
@@ -59,41 +51,54 @@ var SidebarSection = function (_Component) {
     };
   };
 
-  SidebarSection.prototype.render = function render() {
-    var delegate = this.context.delegate;
+  function Sidebar(props) {
+    _classCallCheck(this, Sidebar);
+
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+
+    _this.components = _this.getComponents();
+    return _this;
+  }
+
+  Sidebar.prototype.getComponents = function getComponents() {
+    var _DelegateContainer$ge = _DelegateContainer2.default.get();
+
+    var components = _DelegateContainer$ge.components;
+
+    var sidebar = components.sidebar;
+
+    if (sidebar) {
+      return {
+        Recent: (0, _lodash.isFunction)(sidebar.recent) ? sidebar.recent : _Recent2.default
+      };
+    }
+
+    return {
+      Recent: _Recent2.default
+    };
+  };
+
+  Sidebar.prototype.render = function render() {
     var _state = this.state;
     var currentPeer = _state.currentPeer;
     var dialogs = _state.dialogs;
     var archive = _state.archive;
+    var Recent = this.components.Recent;
 
-
-    var HeaderSection = void 0,
-        Recent = void 0,
-        FooterSection = void 0;
-    if (delegate.components.sidebar !== null && typeof delegate.components.sidebar !== 'function') {
-      HeaderSection = delegate.components.sidebar.header || _HeaderSection2.default;
-      Recent = delegate.components.sidebar.recent || _Recent2.default;
-      FooterSection = delegate.components.sidebar.footer || _QuickSearchButton2.default;
-    } else {
-      HeaderSection = _HeaderSection2.default;
-      Recent = _Recent2.default;
-      FooterSection = _QuickSearchButton2.default;
-    }
 
     return _react2.default.createElement(
       'aside',
       { className: 'sidebar' },
-      _react2.default.createElement(HeaderSection, null),
-      _react2.default.createElement(Recent, { currentPeer: currentPeer, dialogs: dialogs, archive: archive }),
-      _react2.default.createElement(FooterSection, null)
+      _react2.default.createElement(Recent, {
+        currentPeer: currentPeer,
+        dialogs: dialogs,
+        archive: archive
+      })
     );
   };
 
-  return SidebarSection;
+  return Sidebar;
 }(_react.Component);
 
-SidebarSection.contextTypes = {
-  delegate: _react.PropTypes.object
-};
-exports.default = _utils.Container.create(SidebarSection, { pure: false });
+exports.default = _utils.Container.create(Sidebar, { pure: false });
 //# sourceMappingURL=Sidebar.react.js.map

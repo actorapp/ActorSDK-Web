@@ -6,6 +6,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _EventListener = require('fbjs/lib/EventListener');
+
+var _EventListener2 = _interopRequireDefault(_EventListener);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -30,99 +34,109 @@ var SearchInput = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _this.onChange = _this.onChange.bind(_this);
-    _this.onFocus = _this.onFocus.bind(_this);
-    _this.onBlur = _this.onBlur.bind(_this);
-    _this.onKeyDown = _this.onKeyDown.bind(_this);
-    _this.onClear = _this.onClear.bind(_this);
+    _this.handleKeyDown = _this.handleKeyDown.bind(_this);
+    _this.handleChange = _this.handleChange.bind(_this);
+    _this.handleBlur = _this.handleBlur.bind(_this);
+    _this.handleFocus = _this.handleFocus.bind(_this);
+    _this.handleClear = _this.handleClear.bind(_this);
     return _this;
   }
 
   SearchInput.prototype.componentDidMount = function componentDidMount() {
-    document.addEventListener('keydown', this.onKeyDown, false);
+    this.listeners = [_EventListener2.default.listen(document, 'keydown', this.handleKeyDown)];
   };
 
   SearchInput.prototype.componentWillUnmount = function componentWillUnmount() {
-    document.removeEventListener('keydown', this.onKeyDown, false);
+    this.listeners.forEach(function (listener) {
+      return listener.remove();
+    });
+    this.listeners = null;
   };
 
-  SearchInput.prototype.onChange = function onChange(event) {
-    this.props.onChange(event.target.value);
+  SearchInput.prototype.handleBlur = function handleBlur() {
+    this.props.onToggleFocus(false);
   };
 
-  SearchInput.prototype.onFocus = function onFocus() {
-    if (this.props.value.length) {
-      this.props.onToggleOpen(true);
-    }
-
+  SearchInput.prototype.handleFocus = function handleFocus() {
     this.props.onToggleFocus(true);
   };
 
-  SearchInput.prototype.onBlur = function onBlur() {
-    if (!this.props.value.length) {
-      this.props.onToggleOpen(false);
-    }
-
-    this.props.onToggleFocus(false);
+  SearchInput.prototype.handleChange = function handleChange(event) {
+    this.props.onChange(event.target.value);
   };
 
-  SearchInput.prototype.onClear = function onClear() {
+  SearchInput.prototype.handleClear = function handleClear() {
+    this.props.onClear();
     this.props.onChange('');
-    this.props.onToggleOpen(false);
     this.props.onToggleFocus(false);
   };
 
-  SearchInput.prototype.onKeyDown = function onKeyDown(event) {
-    if (this.props.isOpen && event.keyCode === _ActorAppConstants.KeyCodes.ESC) {
+  SearchInput.prototype.handleKeyDown = function handleKeyDown(event) {
+    if (event.keyCode === _ActorAppConstants.KeyCodes.K && event.metaKey || event.ctrlKey) {
       event.preventDefault();
-      this.onClear();
+      this.focus();
+    }
+
+    if (event.keyCode === _ActorAppConstants.KeyCodes.ESC && this.isFocused()) {
+      event.preventDefault();
+      this.handleClear();
     }
   };
 
-  SearchInput.prototype.renderClose = function renderClose() {
-    if (!this.props.value.length) {
+  SearchInput.prototype.renderInput = function renderInput() {
+    var value = this.props.value;
+    var intl = this.context.intl;
+
+
+    return _react2.default.createElement('input', {
+      className: 'input input--search col-xs',
+      type: 'search',
+      ref: 'search',
+      tabIndex: '1',
+      value: value,
+      placeholder: intl.messages['search.placeholder'],
+      onBlur: this.handleBlur,
+      onFocus: this.handleFocus,
+      onChange: this.handleChange
+    });
+  };
+
+  SearchInput.prototype.renderClear = function renderClear() {
+    var value = this.props.value;
+
+
+    if (!value || !value.length) {
       return null;
     }
 
     return _react2.default.createElement(
       'i',
-      { className: 'close-icon material-icons', onClick: this.onClear },
+      { className: 'close-icon material-icons', onClick: this.handleClear },
       'close'
     );
   };
 
   SearchInput.prototype.render = function render() {
-    var _props = this.props;
-    var className = _props.className;
-    var value = _props.value;
-    var isFocused = _props.isFocused;
-    var intl = this.context.intl;
+    var className = this.props.className;
 
-
-    var searchClassName = (0, _classnames2.default)('toolbar__search', className, {
-      'toolbar__search--focused': isFocused || value.length
-    });
+    var searchClassName = (0, _classnames2.default)('row', className);
 
     return _react2.default.createElement(
       'div',
       { className: searchClassName },
-      _react2.default.createElement('input', {
-        className: 'input input--search',
-        type: 'search',
-        tabIndex: '1',
-        value: value,
-        placeholder: intl.messages['search.placeholder'],
-        onFocus: this.onFocus,
-        onBlur: this.onBlur,
-        onChange: this.onChange
-      }),
-      _react2.default.createElement(
-        'i',
-        { className: 'search-icon material-icons' },
-        'search'
-      ),
-      this.renderClose()
+      this.renderInput(),
+      this.renderClear()
     );
+  };
+
+  SearchInput.prototype.focus = function focus() {
+    if (this.refs.search) {
+      this.refs.search.focus();
+    }
+  };
+
+  SearchInput.prototype.isFocused = function isFocused() {
+    return document.activeElement === this.refs.search;
   };
 
   return SearchInput;
@@ -134,10 +148,8 @@ SearchInput.contextTypes = {
 SearchInput.propTypes = {
   className: _react.PropTypes.string,
   value: _react.PropTypes.string.isRequired,
-  isOpen: _react.PropTypes.bool.isRequired,
-  isFocused: _react.PropTypes.bool.isRequired,
+  onClear: _react.PropTypes.func.isRequired,
   onChange: _react.PropTypes.func.isRequired,
-  onToggleOpen: _react.PropTypes.func.isRequired,
   onToggleFocus: _react.PropTypes.func.isRequired
 };
 exports.default = SearchInput;

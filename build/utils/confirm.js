@@ -147,6 +147,7 @@ function confirm(message) {
 
   var element = document.createElement('div');
   element.className = 'modal-overlay';
+
   var wrapper = document.body.appendChild(element);
 
   var component = (0, _reactDom.render)((0, _react.createElement)(Confirm, _extends({ message: message }, options)), wrapper);

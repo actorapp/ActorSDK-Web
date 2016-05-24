@@ -30,10 +30,6 @@ var _AvatarItem = require('./common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
 
-var _ConnectionState = require('./common/ConnectionState.react');
-
-var _ConnectionState2 = _interopRequireDefault(_ConnectionState);
-
 var _Scrollbar = require('./common/Scrollbar.react');
 
 var _Scrollbar2 = _interopRequireDefault(_Scrollbar);
@@ -169,7 +165,6 @@ var Archive = function (_Component) {
           'Archive'
         )
       ),
-      _react2.default.createElement(_ConnectionState2.default, null),
       _react2.default.createElement(
         'div',
         { className: 'flexrow' },

@@ -72,7 +72,7 @@ var QuickSearch = function (_Component) {
 
   QuickSearch.calculateState = function calculateState() {
     return {
-      list: _QuickSearchStore2.default.getList(),
+      list: _QuickSearchStore2.default.getState(),
       selectedIndex: 0
     };
   };

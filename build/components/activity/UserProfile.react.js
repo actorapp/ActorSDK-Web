@@ -12,41 +12,13 @@ var _utils = require('flux/utils');
 
 var _reactIntl = require('react-intl');
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _ImageUtils = require('../../utils/ImageUtils');
 
-var _ActorClient = require('../../utils/ActorClient');
-
-var _ActorClient2 = _interopRequireDefault(_ActorClient);
-
-var _confirm = require('../../utils/confirm');
-
-var _confirm2 = _interopRequireDefault(_confirm);
-
 var _EmojiUtils = require('../../utils/EmojiUtils');
-
-var _ContactActionCreators = require('../../actions/ContactActionCreators');
-
-var _ContactActionCreators2 = _interopRequireDefault(_ContactActionCreators);
-
-var _DialogActionCreators = require('../../actions/DialogActionCreators');
-
-var _DialogActionCreators2 = _interopRequireDefault(_DialogActionCreators);
 
 var _NotificationsActionCreators = require('../../actions/NotificationsActionCreators');
 
 var _NotificationsActionCreators2 = _interopRequireDefault(_NotificationsActionCreators);
-
-var _CallActionCreators = require('../../actions/CallActionCreators');
-
-var _CallActionCreators2 = _interopRequireDefault(_CallActionCreators);
-
-var _BlockedUsersActionCreators = require('../../actions/BlockedUsersActionCreators');
-
-var _BlockedUsersActionCreators2 = _interopRequireDefault(_BlockedUsersActionCreators);
 
 var _UserStore = require('../../stores/UserStore');
 
@@ -105,26 +77,10 @@ var UserProfile = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    _this.state = {
-      isMoreDropdownOpen: false
-    };
-
-    _this.onClearChat = _this.onClearChat.bind(_this);
-    _this.onDeleteChat = _this.onDeleteChat.bind(_this);
-    _this.onBlockUser = _this.onBlockUser.bind(_this);
-    _this.onRemoveFromContacts = _this.onRemoveFromContacts.bind(_this);
-    _this.onAddToContacts = _this.onAddToContacts.bind(_this);
     _this.onNotificationChange = _this.onNotificationChange.bind(_this);
-    _this.closeActionsDropdown = _this.closeActionsDropdown.bind(_this);
-    _this.toggleActionsDropdown = _this.toggleActionsDropdown.bind(_this);
     _this.handleAvatarClick = _this.handleAvatarClick.bind(_this);
-    _this.makeCall = _this.makeCall.bind(_this);
     return _this;
   }
-
-  UserProfile.prototype.onAddToContacts = function onAddToContacts() {
-    _ContactActionCreators2.default.addContact(this.props.user.id);
-  };
 
   UserProfile.prototype.onNotificationChange = function onNotificationChange(event) {
     var peer = this.state.peer;
@@ -132,67 +88,8 @@ var UserProfile = function (_Component) {
     _NotificationsActionCreators2.default.changeNotificationsEnabled(peer, event.target.checked);
   };
 
-  UserProfile.prototype.toggleActionsDropdown = function toggleActionsDropdown() {
-    var isActionsDropdownOpen = this.state.isActionsDropdownOpen;
-
-
-    if (!isActionsDropdownOpen) {
-      this.setState({ isActionsDropdownOpen: true });
-      document.addEventListener('click', this.closeActionsDropdown, false);
-    } else {
-      this.closeActionsDropdown();
-    }
-  };
-
-  UserProfile.prototype.closeActionsDropdown = function closeActionsDropdown() {
-    this.setState({ isActionsDropdownOpen: false });
-    document.removeEventListener('click', this.closeActionsDropdown, false);
-  };
-
-  UserProfile.prototype.onClearChat = function onClearChat() {
-    var user = this.props.user;
-
-    (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.user.clear', values: { name: user.name } })).then(function () {
-      var peer = _ActorClient2.default.getUserPeer(user.id);
-      _DialogActionCreators2.default.clearChat(peer);
-    }, function () {});
-  };
-
-  UserProfile.prototype.onRemoveFromContacts = function onRemoveFromContacts() {
-    var user = this.props.user;
-
-    (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.user.removeContact', values: { name: user.name } })).then(function () {
-      return _ContactActionCreators2.default.removeContact(user.id);
-    }, function () {});
-  };
-
-  UserProfile.prototype.onDeleteChat = function onDeleteChat() {
-    var user = this.props.user;
-
-
-    (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.user.delete', values: { name: user.name } })).then(function () {
-      var peer = _ActorClient2.default.getUserPeer(user.id);
-      _DialogActionCreators2.default.deleteChat(peer);
-    }, function () {});
-  };
-
-  UserProfile.prototype.onBlockUser = function onBlockUser() {
-    var user = this.props.user;
-
-
-    (0, _confirm2.default)(_react2.default.createElement(_reactIntl.FormattedMessage, { id: 'modal.confirm.user.block', values: { name: user.name } })).then(function () {
-      return _BlockedUsersActionCreators2.default.blockUser(user.id);
-    }, function () {});
-  };
-
   UserProfile.prototype.handleAvatarClick = function handleAvatarClick() {
     _ImageUtils.lightbox.open(this.props.user.bigAvatar);
-  };
-
-  UserProfile.prototype.makeCall = function makeCall() {
-    var user = this.props.user;
-
-    _CallActionCreators2.default.makeCall(user.id);
   };
 
   UserProfile.prototype.renderAbout = function renderAbout() {
@@ -240,13 +137,8 @@ var UserProfile = function (_Component) {
     var user = this.props.user;
     var _state = this.state;
     var isNotificationsEnabled = _state.isNotificationsEnabled;
-    var isActionsDropdownOpen = _state.isActionsDropdownOpen;
     var message = _state.message;
 
-
-    var dropdownClassNames = (0, _classnames2.default)('dropdown', {
-      'dropdown--opened': isActionsDropdownOpen
-    });
 
     return _react2.default.createElement(
       'div',
@@ -275,60 +167,7 @@ var UserProfile = function (_Component) {
               message
             )
           ),
-          this.renderAbout(),
-          _react2.default.createElement(
-            'footer',
-            { className: 'row' },
-            _react2.default.createElement(
-              'div',
-              { className: 'col-xs' },
-              _react2.default.createElement(
-                'button',
-                { className: 'button button--green button--wide', onClick: this.makeCall },
-                _react2.default.createElement(
-                  'i',
-                  { className: 'material-icons' },
-                  'phone'
-                ),
-                _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'button.call' })
-              )
-            ),
-            _react2.default.createElement('div', { style: { width: 10 } }),
-            _react2.default.createElement(
-              'div',
-              { className: 'col-xs' },
-              _react2.default.createElement(
-                'div',
-                { className: dropdownClassNames },
-                _react2.default.createElement(
-                  'button',
-                  { className: 'dropdown__button button button--flat button--wide', onClick: this.toggleActionsDropdown },
-                  _react2.default.createElement(
-                    'i',
-                    { className: 'material-icons' },
-                    'more_horiz'
-                  ),
-                  _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'actions' })
-                ),
-                _react2.default.createElement(
-                  'ul',
-                  { className: 'dropdown__menu dropdown__menu--right' },
-                  this.renderToggleContact(),
-                  this.renderBlockUser(),
-                  _react2.default.createElement(
-                    'li',
-                    { className: 'dropdown__menu__item', onClick: this.onClearChat },
-                    _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'clearConversation' })
-                  ),
-                  _react2.default.createElement(
-                    'li',
-                    { className: 'dropdown__menu__item', onClick: this.onDeleteChat },
-                    _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'deleteConversation' })
-                  )
-                )
-              )
-            )
-          )
+          this.renderAbout()
         ),
         _react2.default.createElement(
           'li',
@@ -355,5 +194,5 @@ UserProfile.contextTypes = {
 UserProfile.propTypes = {
   user: _react.PropTypes.object.isRequired
 };
-exports.default = _utils.Container.create(UserProfile, { pure: false, withProps: true });
+exports.default = _utils.Container.create(UserProfile, { withProps: true, pure: false });
 //# sourceMappingURL=UserProfile.react.js.map

@@ -2,8 +2,6 @@
 
 exports.__esModule = true;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _utils = require('flux/utils');
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
@@ -32,24 +30,16 @@ var QuickSearchStore = function (_ReduceStore) {
   }
 
   QuickSearchStore.prototype.getInitialState = function getInitialState() {
-    return {
-      list: []
-    };
+    return [];
   };
 
   QuickSearchStore.prototype.reduce = function reduce(state, action) {
     switch (action.type) {
       case _ActorAppConstants.ActionTypes.QUICK_SEARCH_CHANGED:
-        return _extends({}, state, {
-          list: action.list
-        });
+        return action.list;
       default:
         return state;
     }
-  };
-
-  QuickSearchStore.prototype.getList = function getList() {
-    return this.getState().list;
   };
 
   return QuickSearchStore;

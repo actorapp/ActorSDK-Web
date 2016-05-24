@@ -26,7 +26,9 @@ var ToggleFavorite = function (_Component) {
   }
 
   ToggleFavorite.prototype.render = function render() {
-    var glyph = this.props.value ? 'star' : 'star_border';
+    var value = this.props.value;
+
+    var glyph = value ? 'star' : 'star_border';
 
     return _react2.default.createElement(
       'i',

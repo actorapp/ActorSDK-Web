@@ -45,10 +45,12 @@ var ToggleNotifications = function (_Component) {
       _react2.default.createElement(
         'div',
         { className: 'switch pull-right' },
-        _react2.default.createElement('input', { checked: isNotificationsEnabled,
+        _react2.default.createElement('input', {
+          checked: isNotificationsEnabled,
           id: 'notifications',
           onChange: onNotificationChange,
-          type: 'checkbox' }),
+          type: 'checkbox'
+        }),
         _react2.default.createElement('label', { htmlFor: 'notifications' })
       )
     );

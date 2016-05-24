@@ -51,7 +51,8 @@ ActorSDKDelegate.defaultOptions = {
     calls: true,
     search: false,
     editing: false,
-    blocking: false
+    blocking: false,
+    writeButton: false
   },
   actions: {
     setLoggedIn: null,

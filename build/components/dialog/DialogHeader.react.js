@@ -70,7 +70,8 @@ var DialogHeader = function (_Component) {
 
     _this.onFavoriteToggle = _this.onFavoriteToggle.bind(_this);
     _this.handleInfoButtonClick = _this.handleInfoButtonClick.bind(_this);
-    _this.handleCallButtonClick = _this.handleCallButtonClick.bind(_this);
+    _this.handleMakeCallButtonClick = _this.handleMakeCallButtonClick.bind(_this);
+    _this.handleEndCallButtonClick = _this.handleEndCallButtonClick.bind(_this);
     _this.handleSearchButtonClick = _this.handleSearchButtonClick.bind(_this);
     _this.toggelMoreDropdownOpen = _this.toggelMoreDropdownOpen.bind(_this);
     return _this;
@@ -103,8 +104,16 @@ var DialogHeader = function (_Component) {
     }
   };
 
-  DialogHeader.prototype.handleCallButtonClick = function handleCallButtonClick() {
-    _CallActionCreators2.default.makePeerCall(this.props.peer);
+  DialogHeader.prototype.handleMakeCallButtonClick = function handleMakeCallButtonClick() {
+    var peer = this.props.peer;
+
+    _CallActionCreators2.default.makePeerCall(peer);
+  };
+
+  DialogHeader.prototype.handleEndCallButtonClick = function handleEndCallButtonClick() {
+    var call = this.props.call;
+
+    _CallActionCreators2.default.endCall(call.id);
   };
 
   DialogHeader.prototype.handleSearchButtonClick = function handleSearchButtonClick() {
@@ -240,9 +249,24 @@ var DialogHeader = function (_Component) {
       return null;
     }
 
+    var call = this.props.call;
+
+
+    if (call.isCalling) {
+      return _react2.default.createElement(
+        'button',
+        { className: 'button button--icon', onClick: this.handleEndCallButtonClick },
+        _react2.default.createElement(
+          'i',
+          { className: 'material-icons', style: { fontSize: 22 } },
+          'call_end'
+        )
+      );
+    }
+
     return _react2.default.createElement(
       'button',
-      { className: 'button button--icon', onClick: this.handleCallButtonClick },
+      { className: 'button button--icon', onClick: this.handleMakeCallButtonClick },
       _react2.default.createElement(
         'i',
         { className: 'material-icons', style: { fontSize: 22 } },

@@ -2,6 +2,8 @@
 
 exports.__esModule = true;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _lodash = require('lodash');
 
 var _react = require('react');
@@ -137,12 +139,9 @@ var Dialog = function (_Component) {
       };
     }
 
-    return {
-      isCalling: true,
-      time: call.time,
-      state: call.state,
-      isFloating: call.isFloating
-    };
+    return _extends({}, call, {
+      isCalling: true
+    });
   };
 
   function Dialog(props, context) {

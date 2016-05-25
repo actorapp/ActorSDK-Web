@@ -105,7 +105,11 @@ var Group = function (_Component) {
           'div',
           { className: 'members' },
           _react2.default.createElement(_SvgIcon2.default, { glyph: 'members', className: 'icon' }),
-          group.membersCount
+          _react2.default.createElement(
+            'span',
+            null,
+            group.membersCount
+          )
         )
       )
     );

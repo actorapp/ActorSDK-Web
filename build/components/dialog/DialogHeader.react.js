@@ -16,6 +16,8 @@ var _rcTooltip = require('rc-tooltip');
 
 var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
 
+var _ActorAppConstants = require('../../constants/ActorAppConstants');
+
 var _EmojiUtils = require('../../utils/EmojiUtils');
 
 var _CallActionCreators = require('../../actions/CallActionCreators');
@@ -46,6 +48,10 @@ var _MoreDropdown = require('./header/MoreDropdown.react');
 
 var _MoreDropdown2 = _interopRequireDefault(_MoreDropdown);
 
+var _SmartCallButton = require('../call/SmartCallButton.react');
+
+var _SmartCallButton2 = _interopRequireDefault(_SmartCallButton);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -55,6 +61,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
+
+var MAX_GROUP_CALL_SIZE = 25;
 
 var DialogHeader = function (_Component) {
   _inherits(DialogHeader, _Component);
@@ -133,22 +141,16 @@ var DialogHeader = function (_Component) {
   };
 
   DialogHeader.prototype.renderMessage = function renderMessage() {
-    var _props3 = this.props;
-    var call = _props3.call;
-    var message = _props3.message;
+    var message = this.props.message;
 
-
-    if (call.isCalling) {
-      return _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'call.state.' + call.state, values: { time: call.time } });
-    }
 
     return message;
   };
 
   DialogHeader.prototype.renderInfoButton = function renderInfoButton() {
-    var _props4 = this.props;
-    var call = _props4.call;
-    var isActivityOpen = _props4.isActivityOpen;
+    var _props3 = this.props;
+    var call = _props3.call;
+    var isActivityOpen = _props3.isActivityOpen;
 
 
     var className = (0, _classnames2.default)('button button--icon', {
@@ -243,36 +245,26 @@ var DialogHeader = function (_Component) {
 
   DialogHeader.prototype.renderCallButton = function renderCallButton() {
     var delegate = this.context.delegate;
+    var _props4 = this.props;
+    var peer = _props4.peer;
+    var info = _props4.info;
 
 
     if (!delegate.features.calls) {
       return null;
     }
 
-    var call = this.props.call;
-
-
-    if (call.isCalling) {
-      return _react2.default.createElement(
-        'button',
-        { className: 'button button--icon', onClick: this.handleEndCallButtonClick },
-        _react2.default.createElement(
-          'i',
-          { className: 'material-icons', style: { fontSize: 22 } },
-          'call_end'
-        )
-      );
+    if (peer.type === _ActorAppConstants.PeerTypes.GROUP && info.members.length > MAX_GROUP_CALL_SIZE) {
+      return null;
     }
 
-    return _react2.default.createElement(
-      'button',
-      { className: 'button button--icon', onClick: this.handleMakeCallButtonClick },
-      _react2.default.createElement(
-        'i',
-        { className: 'material-icons', style: { fontSize: 22 } },
-        'call'
-      )
-    );
+    var call = this.props.call;
+
+    return _react2.default.createElement(_SmartCallButton2.default, {
+      call: call,
+      onCallStart: this.handleMakeCallButtonClick,
+      onCallEnd: this.handleEndCallButtonClick
+    });
   };
 
   DialogHeader.prototype.renderMoreDropdown = function renderMoreDropdown() {

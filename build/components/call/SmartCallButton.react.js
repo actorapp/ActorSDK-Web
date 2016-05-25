@@ -6,17 +6,11 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDraggable = require('react-draggable');
+var _reactIntl = require('react-intl');
 
-var _reactDraggable2 = _interopRequireDefault(_reactDraggable);
+var _classnames = require('classnames');
 
-var _CallBody = require('./CallBody.react');
-
-var _CallBody2 = _interopRequireDefault(_CallBody);
-
-var _CallControls = require('./CallControls.react');
-
-var _CallControls2 = _interopRequireDefault(_CallControls);
+var _classnames2 = _interopRequireDefault(_classnames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28,60 +22,78 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-var CallDraggable = function (_Component) {
-  _inherits(CallDraggable, _Component);
+var SmartCallButton = function (_Component) {
+  _inherits(SmartCallButton, _Component);
 
-  function CallDraggable() {
-    _classCallCheck(this, CallDraggable);
+  function SmartCallButton(props) {
+    _classCallCheck(this, SmartCallButton);
 
-    return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, _Component.call(this, props));
+
+    _this.handleButtonClick = _this.handleButtonClick.bind(_this);
+    return _this;
   }
 
-  CallDraggable.prototype.render = function render() {
+  SmartCallButton.prototype.handleButtonClick = function handleButtonClick() {
     var _props = this.props;
-    var peerInfo = _props.peerInfo;
-    var callState = _props.callState;
+    var call = _props.call;
+    var onCallStart = _props.onCallStart;
+    var onCallEnd = _props.onCallEnd;
 
 
+    if (!call.isCalling) {
+      onCallStart();
+    } else {
+      onCallEnd();
+    }
+  };
+
+  SmartCallButton.prototype.renderButtonIcon = function renderButtonIcon() {
     return _react2.default.createElement(
-      _reactDraggable2.default,
-      null,
-      _react2.default.createElement(
-        'section',
-        { className: 'call__draggable', style: { position: 'absolute', top: 140, right: 32 } },
-        _react2.default.createElement(_CallBody2.default, { peerInfo: peerInfo, callState: callState, small: true }),
-        _react2.default.createElement(_CallControls2.default, {
-          callState: callState,
-          isOutgoing: this.props.isOutgoing,
-          isMuted: this.props.isMuted,
-          onEnd: this.props.onEnd,
-          onAnswer: this.props.onAnswer,
-          onMuteToggle: this.props.onMuteToggle,
-          onFullscreen: this.props.onFullscreen,
-          onUserAdd: this.props.onUserAdd,
-          onVideo: this.props.onVideo,
-          onClose: this.props.onClose,
-          small: true
-        })
-      )
+      'i',
+      { className: 'material-icons', style: { fontSize: 22 } },
+      'call'
     );
   };
 
-  return CallDraggable;
+  SmartCallButton.prototype.renderButtonText = function renderButtonText() {
+    var call = this.props.call;
+
+
+    if (!call.isCalling) {
+      return null;
+    }
+
+    return _react2.default.createElement(_reactIntl.FormattedMessage, {
+      id: 'call.state.' + call.state,
+      values: { time: call.time }
+    });
+  };
+
+  SmartCallButton.prototype.render = function render() {
+    var call = this.props.call;
+
+
+    var buttonClassName = (0, _classnames2.default)('button button--icon call__smart-button', {
+      'call__smart-button--in-call': call.isCalling
+    });
+
+    return _react2.default.createElement(
+      'button',
+      { className: buttonClassName, onClick: this.handleButtonClick },
+      this.renderButtonIcon(),
+      this.renderButtonText()
+    );
+  };
+
+  return SmartCallButton;
 }(_react.Component);
 
-CallDraggable.propTypes = {
-  peerInfo: _react2.default.PropTypes.object,
-  callState: _react.PropTypes.string.isRequired,
-  isOutgoing: _react.PropTypes.bool.isRequired,
-  isMuted: _react.PropTypes.bool.isRequired,
-  onEnd: _react.PropTypes.func.isRequired,
-  onAnswer: _react.PropTypes.func.isRequired,
-  onMuteToggle: _react.PropTypes.func.isRequired,
-  onFullscreen: _react.PropTypes.func.isRequired,
-  onUserAdd: _react.PropTypes.func.isRequired,
-  onVideo: _react.PropTypes.func.isRequired,
-  onClose: _react.PropTypes.func.isRequired
+SmartCallButton.propTypes = {
+  call: _react.PropTypes.object.isRequired,
+
+  onCallStart: _react.PropTypes.func.isRequired,
+  onCallEnd: _react.PropTypes.func.isRequired
 };
-exports.default = CallDraggable;
-//# sourceMappingURL=CallDraggable.react.js.map
+exports.default = SmartCallButton;
+//# sourceMappingURL=SmartCallButton.react.js.map

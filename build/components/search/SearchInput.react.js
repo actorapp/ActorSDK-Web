@@ -72,7 +72,7 @@ var SearchInput = function (_Component) {
   };
 
   SearchInput.prototype.handleKeyDown = function handleKeyDown(event) {
-    if (event.keyCode === _ActorAppConstants.KeyCodes.K && event.metaKey || event.ctrlKey) {
+    if (event.keyCode === _ActorAppConstants.KeyCodes.K && (event.metaKey || event.ctrlKey)) {
       event.preventDefault();
       this.focus();
     }

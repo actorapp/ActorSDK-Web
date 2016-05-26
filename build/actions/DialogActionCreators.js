@@ -100,9 +100,9 @@ var DialogActionCreators = function (_ActionCreators) {
       return;
     }
 
-    _DraftActionCreators2.default.loadDraft(peer);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.BIND_DIALOG_PEER, { peer: peer });
     _ActorClient2.default.onConversationOpen(peer);
+    _DraftActionCreators2.default.loadDraft(peer);
 
     var bindings = [_ActorClient2.default.bindMessages(peer, _MessageActionCreators2.default.setMessages), _ActorClient2.default.bindTyping(peer, _TypingActionCreators2.default.setTyping)];
 

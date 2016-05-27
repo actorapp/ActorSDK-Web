@@ -321,38 +321,42 @@ var DialogHeader = function (_Component) {
 
     return _react2.default.createElement(
       'header',
-      { className: 'dialog__header row' },
-      _react2.default.createElement(_AvatarItem2.default, {
-        className: 'dialog__header__avatar',
-        size: 'medium',
-        image: info.avatar,
-        placeholder: info.placeholder,
-        title: info.name
-      }),
+      { className: 'dialog__header' },
       _react2.default.createElement(
         'div',
-        { className: 'dialog__header__peer' },
-        _react2.default.createElement(
-          'header',
-          { className: 'dialog__header__peer__title' },
-          _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(info.name) } }),
-          this.renderVerified(),
-          this.renderFavorite()
-        ),
+        { className: 'row' },
+        _react2.default.createElement(_AvatarItem2.default, {
+          className: 'dialog__header__avatar',
+          size: 'medium',
+          image: info.avatar,
+          placeholder: info.placeholder,
+          title: info.name
+        }),
         _react2.default.createElement(
           'div',
-          { className: 'dialog__header__peer__message' },
-          this.renderMessage()
+          { className: 'dialog__header__peer' },
+          _react2.default.createElement(
+            'header',
+            { className: 'dialog__header__peer__title' },
+            _react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: (0, _EmojiUtils.escapeWithEmoji)(info.name) } }),
+            this.renderVerified(),
+            this.renderFavorite()
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'dialog__header__peer__message' },
+            this.renderMessage()
+          )
+        ),
+        _react2.default.createElement('div', { className: 'col-xs' }),
+        _react2.default.createElement(
+          'div',
+          { className: 'dialog__header__controls' },
+          this.renderSearchButton(),
+          this.renderCallButton(),
+          this.renderInfoButton(),
+          this.renderMoreButton()
         )
-      ),
-      _react2.default.createElement('div', { className: 'col-xs' }),
-      _react2.default.createElement(
-        'div',
-        { className: 'dialog__header__controls' },
-        this.renderSearchButton(),
-        this.renderCallButton(),
-        this.renderInfoButton(),
-        this.renderMoreButton()
       )
     );
   };

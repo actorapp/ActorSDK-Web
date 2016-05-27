@@ -63,7 +63,7 @@ var ToolbarSearch = function (_Component) {
     var searchState = _SearchStore2.default.getState();
 
     return _extends({}, prevState, searchState, {
-      isSearchExpanded: prevState ? prevState.isSearchExpanded : true,
+      isSearchExpanded: prevState ? prevState.isSearchExpanded : false,
       isSearchFocused: prevState ? prevState.isSearchFocused : false,
       isResultsDropdownOpen: prevState ? prevState.isResultsDropdownOpen : false
     });
@@ -120,14 +120,8 @@ var ToolbarSearch = function (_Component) {
   };
 
   ToolbarSearch.prototype.renderSearchInput = function renderSearchInput() {
-    var _state = this.state;
-    var query = _state.query;
-    var isSearchExpanded = _state.isSearchExpanded;
+    var query = this.state.query;
 
-
-    if (!isSearchExpanded) {
-      return null;
-    }
 
     return _react2.default.createElement(_SearchInput2.default, {
       className: 'toolbar__search__input col-xs',
@@ -209,9 +203,9 @@ var ToolbarSearch = function (_Component) {
   };
 
   ToolbarSearch.prototype.renderSearchResultsDropdown = function renderSearchResultsDropdown() {
-    var _state2 = this.state;
-    var query = _state2.query;
-    var isResultsDropdownOpen = _state2.isResultsDropdownOpen;
+    var _state = this.state;
+    var query = _state.query;
+    var isResultsDropdownOpen = _state.isResultsDropdownOpen;
 
 
     if (!query || !isResultsDropdownOpen) {
@@ -246,12 +240,12 @@ var ToolbarSearch = function (_Component) {
 
   ToolbarSearch.prototype.render = function render() {
     var className = this.props.className;
-    var _state3 = this.state;
-    var isSearchExpanded = _state3.isSearchExpanded;
-    var isSearchFocused = _state3.isSearchFocused;
+    var _state2 = this.state;
+    var isSearchExpanded = _state2.isSearchExpanded;
+    var isSearchFocused = _state2.isSearchFocused;
 
 
-    var toolbarSearchClassName = (0, _classnames2.default)('toolbar__search row', className, {
+    var toolbarSearchClassName = (0, _classnames2.default)('toolbar__search', className, {
       'toolbar__search--expanded': isSearchExpanded,
       'toolbar__search--focused': isSearchFocused
     });

@@ -2,8 +2,6 @@
 
 exports.__esModule = true;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -14,9 +12,7 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _history = require('../../utils/history');
-
-var _history2 = _interopRequireDefault(_history);
+var _reactIntl = require('react-intl');
 
 var _SearchStore = require('../../stores/SearchStore');
 
@@ -26,21 +22,21 @@ var _SearchActionCreators = require('../../actions/SearchActionCreators');
 
 var _SearchActionCreators2 = _interopRequireDefault(_SearchActionCreators);
 
-var _ComposeActionCreators = require('../../actions/ComposeActionCreators');
-
-var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
-
-var _SearchMessagesActionCreators = require('../../actions/SearchMessagesActionCreators');
-
-var _SearchMessagesActionCreators2 = _interopRequireDefault(_SearchMessagesActionCreators);
-
 var _SearchInput = require('./SearchInput.react');
 
 var _SearchInput2 = _interopRequireDefault(_SearchInput);
 
-var _ContactItem = require('../common/ContactItem.react');
+var _SelectList = require('../common/SelectList.react');
 
-var _ContactItem2 = _interopRequireDefault(_ContactItem);
+var _SelectList2 = _interopRequireDefault(_SelectList);
+
+var _SelectListItem = require('../common/SelectListItem.react');
+
+var _SelectListItem2 = _interopRequireDefault(_SelectListItem);
+
+var _SearchResultGroup = require('./SearchResultGroup.react');
+
+var _SearchResultGroup2 = _interopRequireDefault(_SearchResultGroup);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -59,14 +55,8 @@ var ToolbarSearch = function (_Component) {
     return [_SearchStore2.default];
   };
 
-  ToolbarSearch.calculateState = function calculateState(prevState) {
-    var searchState = _SearchStore2.default.getState();
-
-    return _extends({}, prevState, searchState, {
-      isSearchExpanded: prevState ? prevState.isSearchExpanded : false,
-      isSearchFocused: prevState ? prevState.isSearchFocused : false,
-      isResultsDropdownOpen: prevState ? prevState.isResultsDropdownOpen : false
-    });
+  ToolbarSearch.calculateState = function calculateState() {
+    return _SearchStore2.default.getState();
   };
 
   function ToolbarSearch(props) {
@@ -76,158 +66,89 @@ var ToolbarSearch = function (_Component) {
 
     _this.handleSearchChange = _this.handleSearchChange.bind(_this);
     _this.handlerSearchClear = _this.handlerSearchClear.bind(_this);
-    _this.handleToolbarSearchClick = _this.handleToolbarSearchClick.bind(_this);
-    _this.handleSearchToggleFocus = _this.handleSearchToggleFocus.bind(_this);
-    _this.handleMessagesSearch = _this.handleMessagesSearch.bind(_this);
-    _this.handleResultClick = _this.handleResultClick.bind(_this);
+    _this.handleSearchFocus = _this.handleSearchFocus.bind(_this);
+    _this.handleSearchBlur = _this.handleSearchBlur.bind(_this);
+    _this.onResultSelect = _this.onResultSelect.bind(_this);
     return _this;
   }
+
+  ToolbarSearch.prototype.handlerSearchClear = function handlerSearchClear() {
+    _SearchActionCreators2.default.clear();
+  };
+
+  ToolbarSearch.prototype.handleSearchFocus = function handleSearchFocus() {
+    _SearchActionCreators2.default.focus();
+  };
+
+  ToolbarSearch.prototype.handleSearchBlur = function handleSearchBlur(event) {
+    console.debug(event);
+    // tricky workaround for click on search result
+    setTimeout(function () {
+      return _SearchActionCreators2.default.blur();
+    }, 50);
+  };
 
   ToolbarSearch.prototype.handleSearchChange = function handleSearchChange(query) {
     _SearchActionCreators2.default.handleSearch(query);
   };
 
-  ToolbarSearch.prototype.handlerSearchClear = function handlerSearchClear() {
-    _SearchActionCreators2.default.clearSearch();
-  };
+  ToolbarSearch.prototype.onResultSelect = function onResultSelect(index) {
+    var _state$results = this.state.results;
+    var contacts = _state$results.contacts;
+    var groups = _state$results.groups;
 
-  ToolbarSearch.prototype.handleSearchToggleFocus = function handleSearchToggleFocus(isFocused) {
-    _ComposeActionCreators2.default.toggleAutoFocus(!isFocused);
-    this.setState({ isSearchFocused: isFocused });
-
-    if (isFocused) {
-      this.setState({ isResultsDropdownOpen: true });
+    if (index === contacts.length + groups.length) {
+      _SearchActionCreators2.default.goToMessagesSearch(this.state.query);
+    } else {
+      var contact = [].concat(contacts, groups)[index];
+      _SearchActionCreators2.default.goToContact(contact);
     }
-  };
-
-  ToolbarSearch.prototype.handleToolbarSearchClick = function handleToolbarSearchClick() {
-    this.setState({ isSearchExpanded: true });
-  };
-
-  ToolbarSearch.prototype.handleMessagesSearch = function handleMessagesSearch() {
-    var query = this.state.query;
-
-    _SearchMessagesActionCreators2.default.open();
-    _SearchMessagesActionCreators2.default.setQuery(query);
-    this.handlerSearchClear();
-    this.setState({ isResultsDropdownOpen: false });
-  };
-
-  ToolbarSearch.prototype.handleResultClick = function handleResultClick(peer) {
-    this.setState({ isResultsDropdownOpen: false });
-    this.handlerSearchClear();
-    _history2.default.push('/im/' + peer.key);
-  };
-
-  ToolbarSearch.prototype.renderSearchInput = function renderSearchInput() {
-    var query = this.state.query;
-
-
-    return _react2.default.createElement(_SearchInput2.default, {
-      className: 'toolbar__search__input col-xs',
-      value: query,
-      onClear: this.handlerSearchClear,
-      onChange: this.handleSearchChange,
-      onToggleFocus: this.handleSearchToggleFocus
-    });
-  };
-
-  ToolbarSearch.prototype.renderSearchGroupResults = function renderSearchGroupResults() {
-    var _this2 = this;
-
-    var groups = this.state.results.groups;
-
-
-    if (!groups.length) {
-      return null;
-    }
-
-    var groupResults = groups.map(function (group, index) {
-      return _react2.default.createElement(_ContactItem2.default, {
-        key: 'g.' + index,
-        onClick: function onClick() {
-          return _this2.handleResultClick(group.peerInfo.peer);
-        },
-        uid: group.peerInfo.peer.id,
-        name: group.peerInfo.title,
-        placeholder: group.peerInfo.placeholder,
-        avatar: group.peerInfo.avatar
-      });
-    });
-
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(
-        'header',
-        null,
-        'Groups'
-      ),
-      groupResults
-    );
-  };
-
-  ToolbarSearch.prototype.renderSearchContactResults = function renderSearchContactResults() {
-    var _this3 = this;
-
-    var contacts = this.state.results.contacts;
-
-
-    if (!contacts.length) {
-      return null;
-    }
-
-    var contactsResults = contacts.map(function (contact, index) {
-      return _react2.default.createElement(_ContactItem2.default, {
-        key: 'c.' + index,
-        onClick: function onClick() {
-          return _this3.handleResultClick(contact.peerInfo.peer);
-        },
-        uid: contact.peerInfo.peer.id,
-        name: contact.peerInfo.title,
-        placeholder: contact.peerInfo.placeholder,
-        avatar: contact.peerInfo.avatar
-      });
-    });
-
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(
-        'header',
-        null,
-        'Contacts'
-      ),
-      contactsResults
-    );
   };
 
   ToolbarSearch.prototype.renderSearchResultsDropdown = function renderSearchResultsDropdown() {
     var _state = this.state;
+    var isFocused = _state.isFocused;
     var query = _state.query;
-    var isResultsDropdownOpen = _state.isResultsDropdownOpen;
+    var _state$results2 = _state.results;
+    var contacts = _state$results2.contacts;
+    var groups = _state$results2.groups;
 
 
-    if (!query || !isResultsDropdownOpen) {
+    if (!isFocused) {
       return null;
     }
 
+    if (!query.length) {
+      return _react2.default.createElement(
+        'div',
+        { className: 'toolbar__search__dropdown' },
+        _react2.default.createElement(
+          'div',
+          { className: 'hint' },
+          _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'search.hint' })
+        )
+      );
+    }
+
+    var max = contacts.length + groups.length;
+
     return _react2.default.createElement(
-      'div',
-      { className: 'toolbar__search__dropdown' },
+      _SelectList2.default,
+      { className: 'toolbar__search__dropdown', max: max, onSelect: this.onResultSelect },
       _react2.default.createElement(
         'div',
         { className: 'toolbar__search__results' },
-        this.renderSearchContactResults(),
-        this.renderSearchGroupResults()
+        _react2.default.createElement(_SearchResultGroup2.default, { id: 'contacts', offset: 0, items: contacts }),
+        _react2.default.createElement(_SearchResultGroup2.default, { id: 'groups', offset: contacts.length, items: groups })
       ),
       _react2.default.createElement(
-        'footer',
-        null,
+        _SelectListItem2.default,
+        { index: max },
         _react2.default.createElement(
-          'a',
-          { onClick: this.handleMessagesSearch },
-          'Search messages in current dialog ',
+          'footer',
+          { className: 'toolbar__search__footer' },
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'search.inChat' }),
+          ' ',
           _react2.default.createElement(
             'i',
             { className: 'material-icons' },
@@ -239,15 +160,12 @@ var ToolbarSearch = function (_Component) {
   };
 
   ToolbarSearch.prototype.render = function render() {
-    var className = this.props.className;
     var _state2 = this.state;
-    var isSearchExpanded = _state2.isSearchExpanded;
-    var isSearchFocused = _state2.isSearchFocused;
+    var query = _state2.query;
+    var isFocused = _state2.isFocused;
 
-
-    var toolbarSearchClassName = (0, _classnames2.default)('toolbar__search', className, {
-      'toolbar__search--expanded': isSearchExpanded,
-      'toolbar__search--focused': isSearchFocused
+    var toolbarSearchClassName = (0, _classnames2.default)('toolbar__search row', {
+      'toolbar__search--focused': isFocused
     });
 
     return _react2.default.createElement(
@@ -261,7 +179,13 @@ var ToolbarSearch = function (_Component) {
           { className: 'search-icon material-icons' },
           'search'
         ),
-        this.renderSearchInput()
+        _react2.default.createElement(_SearchInput2.default, {
+          value: query,
+          onFocus: this.handleSearchFocus,
+          onBlur: this.handleSearchBlur,
+          onClear: this.handlerSearchClear,
+          onChange: this.handleSearchChange
+        })
       ),
       this.renderSearchResultsDropdown()
     );
@@ -270,8 +194,5 @@ var ToolbarSearch = function (_Component) {
   return ToolbarSearch;
 }(_react.Component);
 
-ToolbarSearch.propTypes = {
-  className: _react.PropTypes.string
-};
 exports.default = _utils.Container.create(ToolbarSearch);
 //# sourceMappingURL=ToolbarSearch.react.js.map

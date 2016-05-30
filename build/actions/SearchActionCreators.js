@@ -8,6 +8,10 @@ var _fuzzaldrin2 = _interopRequireDefault(_fuzzaldrin);
 
 var _ActorAppDispatcher = require('../dispatcher/ActorAppDispatcher');
 
+var _history = require('../utils/history');
+
+var _history2 = _interopRequireDefault(_history);
+
 var _PeerUtils = require('../utils/PeerUtils');
 
 var _ActorAppConstants = require('../constants/ActorAppConstants');
@@ -15,6 +19,14 @@ var _ActorAppConstants = require('../constants/ActorAppConstants');
 var _QuickSearchStore = require('../stores/QuickSearchStore');
 
 var _QuickSearchStore2 = _interopRequireDefault(_QuickSearchStore);
+
+var _ComposeActionCreators = require('./ComposeActionCreators');
+
+var _ComposeActionCreators2 = _interopRequireDefault(_ComposeActionCreators);
+
+var _SearchMessagesActionCreators = require('./SearchMessagesActionCreators');
+
+var _SearchMessagesActionCreators2 = _interopRequireDefault(_SearchMessagesActionCreators);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29,8 +41,30 @@ var SearchActionCreators = function () {
     _classCallCheck(this, SearchActionCreators);
   }
 
-  SearchActionCreators.prototype.clearSearch = function clearSearch() {
+  SearchActionCreators.prototype.focus = function focus() {
+    _ComposeActionCreators2.default.toggleAutoFocus(false);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.SEARCH_FOCUS);
+  };
+
+  SearchActionCreators.prototype.blur = function blur() {
+    _ComposeActionCreators2.default.toggleAutoFocus(true);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.SEARCH_BLUR);
+  };
+
+  SearchActionCreators.prototype.clear = function clear() {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.SEARCH_CLEAR);
+    _ComposeActionCreators2.default.toggleAutoFocus(true);
+  };
+
+  SearchActionCreators.prototype.goToMessagesSearch = function goToMessagesSearch(query) {
+    _SearchMessagesActionCreators2.default.open();
+    _SearchMessagesActionCreators2.default.setQuery(query);
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.SEARCH_CLEAR);
+  };
+
+  SearchActionCreators.prototype.goToContact = function goToContact(contact) {
+    (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.SEARCH_CLEAR);
+    _history2.default.push('/im/' + contact.peerInfo.peer.key);
   };
 
   SearchActionCreators.prototype.handleSearch = function handleSearch(query) {

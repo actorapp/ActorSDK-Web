@@ -34,6 +34,7 @@ var SearchStore = function (_ReduceStore) {
   SearchStore.prototype.getInitialState = function getInitialState() {
     return {
       query: '',
+      isFocused: false,
       results: {
         contacts: [],
         groups: []
@@ -46,6 +47,15 @@ var SearchStore = function (_ReduceStore) {
       case _ActorAppConstants.ActionTypes.SEARCH_CLEAR:
         return this.getInitialState();
 
+      case _ActorAppConstants.ActionTypes.SEARCH_FOCUS:
+        return _extends({}, state, {
+          isFocused: true
+        });
+
+      case _ActorAppConstants.ActionTypes.SEARCH_BLUR:
+        return _extends({}, state, {
+          isFocused: false
+        });
       case _ActorAppConstants.ActionTypes.SEARCH_SET_QUERY:
         return _extends({}, state, {
           query: action.query

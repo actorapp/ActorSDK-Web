@@ -246,6 +246,8 @@ var ActionTypes = exports.ActionTypes = (0, _keymirror2.default)({
   LOGGER_APPEND: null,
   LOGGER_TOGGLE: null,
 
+  SEARCH_FOCUS: null,
+  SEARCH_BLUR: null,
   SEARCH_CLEAR: null,
   SEARCH_SET_QUERY: null,
   SEARCH_SET_RESULTS: null,

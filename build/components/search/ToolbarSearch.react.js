@@ -34,9 +34,9 @@ var _SelectListItem = require('../common/SelectListItem.react');
 
 var _SelectListItem2 = _interopRequireDefault(_SelectListItem);
 
-var _SearchResultGroup = require('./SearchResultGroup.react');
+var _ToolbarSearchResults = require('./ToolbarSearchResults.react');
 
-var _SearchResultGroup2 = _interopRequireDefault(_SearchResultGroup);
+var _ToolbarSearchResults2 = _interopRequireDefault(_ToolbarSearchResults);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67,7 +67,6 @@ var ToolbarSearch = function (_Component) {
     _this.handleSearchChange = _this.handleSearchChange.bind(_this);
     _this.handlerSearchClear = _this.handlerSearchClear.bind(_this);
     _this.handleSearchFocus = _this.handleSearchFocus.bind(_this);
-    _this.handleSearchBlur = _this.handleSearchBlur.bind(_this);
     _this.onResultSelect = _this.onResultSelect.bind(_this);
     return _this;
   }
@@ -80,27 +79,17 @@ var ToolbarSearch = function (_Component) {
     _SearchActionCreators2.default.focus();
   };
 
-  ToolbarSearch.prototype.handleSearchBlur = function handleSearchBlur(event) {
-    console.debug(event);
-    // tricky workaround for click on search result
-    setTimeout(function () {
-      return _SearchActionCreators2.default.blur();
-    }, 50);
-  };
-
   ToolbarSearch.prototype.handleSearchChange = function handleSearchChange(query) {
     _SearchActionCreators2.default.handleSearch(query);
   };
 
   ToolbarSearch.prototype.onResultSelect = function onResultSelect(index) {
-    var _state$results = this.state.results;
-    var contacts = _state$results.contacts;
-    var groups = _state$results.groups;
+    var results = this.state.results;
 
-    if (index === contacts.length + groups.length) {
+    if (index === results.length) {
       _SearchActionCreators2.default.goToMessagesSearch(this.state.query);
     } else {
-      var contact = [].concat(contacts, groups)[index];
+      var contact = results[index];
       _SearchActionCreators2.default.goToContact(contact);
     }
   };
@@ -109,9 +98,7 @@ var ToolbarSearch = function (_Component) {
     var _state = this.state;
     var isFocused = _state.isFocused;
     var query = _state.query;
-    var _state$results2 = _state.results;
-    var contacts = _state$results2.contacts;
-    var groups = _state$results2.groups;
+    var results = _state.results;
 
 
     if (!isFocused) {
@@ -130,24 +117,17 @@ var ToolbarSearch = function (_Component) {
       );
     }
 
-    var max = contacts.length + groups.length;
-
     return _react2.default.createElement(
       _SelectList2.default,
-      { className: 'toolbar__search__dropdown', max: max, onSelect: this.onResultSelect },
-      _react2.default.createElement(
-        'div',
-        { className: 'toolbar__search__results' },
-        _react2.default.createElement(_SearchResultGroup2.default, { id: 'contacts', offset: 0, items: contacts }),
-        _react2.default.createElement(_SearchResultGroup2.default, { id: 'groups', offset: contacts.length, items: groups })
-      ),
+      { className: 'toolbar__search__dropdown', max: results.length, onSelect: this.onResultSelect },
+      _react2.default.createElement(_ToolbarSearchResults2.default, { query: query, results: results }),
       _react2.default.createElement(
         _SelectListItem2.default,
-        { index: max },
+        { index: results.length },
         _react2.default.createElement(
           'footer',
           { className: 'toolbar__search__footer' },
-          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'search.inChat' }),
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'search.inDialog' }),
           ' ',
           _react2.default.createElement(
             'i',
@@ -182,7 +162,6 @@ var ToolbarSearch = function (_Component) {
         _react2.default.createElement(_SearchInput2.default, {
           value: query,
           onFocus: this.handleSearchFocus,
-          onBlur: this.handleSearchBlur,
           onClear: this.handlerSearchClear,
           onChange: this.handleSearchChange
         })

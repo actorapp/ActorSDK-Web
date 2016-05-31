@@ -26,12 +26,20 @@ var SelectListItem = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props, context));
 
+    _this.handleClick = _this.handleClick.bind(_this);
     _this.handleMouseOver = _this.handleMouseOver.bind(_this);
     return _this;
   }
 
   SelectListItem.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState, nextContext) {
     return nextContext.select.current !== this.context.select.current || nextProps.index !== this.props.index || nextProps.children !== this.props.children;
+  };
+
+  SelectListItem.prototype.handleClick = function handleClick(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.context.select.pick();
   };
 
   SelectListItem.prototype.handleMouseOver = function handleMouseOver() {
@@ -48,7 +56,7 @@ var SelectListItem = function (_Component) {
 
     return _react2.default.createElement(
       'div',
-      { className: className, onMouseOver: this.handleMouseOver },
+      { className: className, onClick: this.handleClick, onMouseOver: this.handleMouseOver },
       children
     );
   };

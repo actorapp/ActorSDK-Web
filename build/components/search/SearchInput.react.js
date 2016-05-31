@@ -30,13 +30,15 @@ var SearchInput = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
+    _this.handleFocus = _this.handleFocus.bind(_this);
     _this.handleChange = _this.handleChange.bind(_this);
     _this.handleKeyDown = _this.handleKeyDown.bind(_this);
+    _this.handleGlobalClick = _this.handleGlobalClick.bind(_this);
     return _this;
   }
 
   SearchInput.prototype.componentDidMount = function componentDidMount() {
-    this.listeners = [_EventListener2.default.listen(document, 'keydown', this.handleKeyDown)];
+    this.listeners = [_EventListener2.default.listen(document, 'keydown', this.handleKeyDown), _EventListener2.default.listen(document, 'click', this.handleGlobalClick)];
   };
 
   SearchInput.prototype.componentWillUnmount = function componentWillUnmount() {
@@ -44,6 +46,19 @@ var SearchInput = function (_Component) {
       return listener.remove();
     });
     this.listeners = null;
+  };
+
+  SearchInput.prototype.handleGlobalClick = function handleGlobalClick(event) {
+    if (event.target !== this.refs.search) {
+      this.props.onClear();
+    }
+  };
+
+  SearchInput.prototype.handleFocus = function handleFocus(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.props.onFocus();
   };
 
   SearchInput.prototype.handleChange = function handleChange(event) {
@@ -89,8 +104,8 @@ var SearchInput = function (_Component) {
         tabIndex: '1',
         value: value,
         placeholder: intl.messages['search.placeholder'],
-        onFocus: this.props.onFocus,
-        onBlur: this.props.onBlur,
+        onClick: this.handleFocus,
+        onFocus: this.handleFocus,
         onChange: this.handleChange
       }),
       this.renderClear()
@@ -116,7 +131,6 @@ SearchInput.contextTypes = {
 SearchInput.propTypes = {
   value: _react.PropTypes.string.isRequired,
   onFocus: _react.PropTypes.func.isRequired,
-  onBlur: _react.PropTypes.func.isRequired,
   onClear: _react.PropTypes.func.isRequired,
   onChange: _react.PropTypes.func.isRequired
 };

@@ -37,6 +37,7 @@ var SelectList = function (_Component) {
     };
 
     _this.setCurrent = _this.setCurrent.bind(_this);
+    _this.handleSelect = _this.handleSelect.bind(_this);
     _this.handleKeyDown = _this.handleKeyDown.bind(_this);
     return _this;
   }
@@ -48,6 +49,7 @@ var SelectList = function (_Component) {
   SelectList.prototype.getChildContext = function getChildContext() {
     return {
       select: {
+        pick: this.handleSelect,
         current: this.state.current,
         setCurrent: this.setCurrent
       }
@@ -100,7 +102,6 @@ var SelectList = function (_Component) {
   };
 
   SelectList.prototype.render = function render() {
-    console.debug(this.state);
     return _react2.default.createElement(
       'div',
       { className: this.props.className },

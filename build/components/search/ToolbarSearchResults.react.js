@@ -26,34 +26,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var SearchResultGroup = function (_Component) {
-  _inherits(SearchResultGroup, _Component);
+var ToolbarSearchResults = function (_Component) {
+  _inherits(ToolbarSearchResults, _Component);
 
-  function SearchResultGroup() {
-    _classCallCheck(this, SearchResultGroup);
+  function ToolbarSearchResults() {
+    _classCallCheck(this, ToolbarSearchResults);
 
     return _possibleConstructorReturn(this, _Component.apply(this, arguments));
   }
 
-  SearchResultGroup.prototype.renderResults = function renderResults() {
+  ToolbarSearchResults.prototype.renderResults = function renderResults() {
     var _props = this.props;
-    var id = _props.id;
-    var items = _props.items;
-    var offset = _props.offset;
+    var query = _props.query;
+    var results = _props.results;
 
 
-    if (!items.length) {
+    if (!results.length) {
       return _react2.default.createElement(
         'div',
         { className: 'not-found' },
-        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'toolbar.search.' + id + '.notFound' })
+        _react2.default.createElement(_reactIntl.FormattedHTMLMessage, { id: 'search.notFound', values: { query: query } })
       );
     }
 
-    return items.map(function (item, index) {
+    return results.map(function (item, index) {
       return _react2.default.createElement(
         _SelectListItem2.default,
-        { index: index + offset, key: item.peerInfo.peer.key },
+        { index: index, key: item.peerInfo.peer.key },
         _react2.default.createElement(_ContactItem2.default, {
           uid: item.peerInfo.peer.id,
           name: item.peerInfo.title,
@@ -64,29 +63,20 @@ var SearchResultGroup = function (_Component) {
     });
   };
 
-  SearchResultGroup.prototype.render = function render() {
-    var id = this.props.id;
-
-
+  ToolbarSearchResults.prototype.render = function render() {
     return _react2.default.createElement(
       'div',
-      null,
-      _react2.default.createElement(
-        'header',
-        null,
-        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'toolbar.search.' + id + '.title' })
-      ),
+      { className: 'toolbar__search__results' },
       this.renderResults()
     );
   };
 
-  return SearchResultGroup;
+  return ToolbarSearchResults;
 }(_react.Component);
 
-SearchResultGroup.propTypes = {
-  id: _react.PropTypes.string.isRequired,
-  items: _react.PropTypes.array.isRequired,
-  offset: _react.PropTypes.number.isRequired
+ToolbarSearchResults.propTypes = {
+  query: _react.PropTypes.string.isRequired,
+  results: _react.PropTypes.array.isRequired
 };
-exports.default = SearchResultGroup;
-//# sourceMappingURL=SearchResultGroup.react.js.map
+exports.default = ToolbarSearchResults;
+//# sourceMappingURL=ToolbarSearchResults.react.js.map

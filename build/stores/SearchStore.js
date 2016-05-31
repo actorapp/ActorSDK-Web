@@ -34,11 +34,8 @@ var SearchStore = function (_ReduceStore) {
   SearchStore.prototype.getInitialState = function getInitialState() {
     return {
       query: '',
-      isFocused: false,
-      results: {
-        contacts: [],
-        groups: []
-      }
+      results: [],
+      isFocused: false
     };
   };
 

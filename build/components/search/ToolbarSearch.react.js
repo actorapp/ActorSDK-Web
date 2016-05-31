@@ -66,6 +66,7 @@ var ToolbarSearch = function (_Component) {
 
     _this.handleSearchChange = _this.handleSearchChange.bind(_this);
     _this.handlerSearchClear = _this.handlerSearchClear.bind(_this);
+    _this.handleSearchBlur = _this.handleSearchBlur.bind(_this);
     _this.handleSearchFocus = _this.handleSearchFocus.bind(_this);
     _this.onResultSelect = _this.onResultSelect.bind(_this);
     return _this;
@@ -73,6 +74,10 @@ var ToolbarSearch = function (_Component) {
 
   ToolbarSearch.prototype.handlerSearchClear = function handlerSearchClear() {
     _SearchActionCreators2.default.clear();
+  };
+
+  ToolbarSearch.prototype.handleSearchBlur = function handleSearchBlur() {
+    _SearchActionCreators2.default.blur();
   };
 
   ToolbarSearch.prototype.handleSearchFocus = function handleSearchFocus() {
@@ -161,6 +166,8 @@ var ToolbarSearch = function (_Component) {
         ),
         _react2.default.createElement(_SearchInput2.default, {
           value: query,
+          isFocused: isFocused,
+          onBlur: this.handleSearchBlur,
           onFocus: this.handleSearchFocus,
           onClear: this.handlerSearchClear,
           onChange: this.handleSearchChange

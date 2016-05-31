@@ -49,8 +49,8 @@ var SearchInput = function (_Component) {
   };
 
   SearchInput.prototype.handleGlobalClick = function handleGlobalClick(event) {
-    if (event.target !== this.refs.search) {
-      this.props.onClear();
+    if (this.props.isFocused && event.target !== this.refs.search) {
+      this.props.onBlur();
     }
   };
 
@@ -104,8 +104,7 @@ var SearchInput = function (_Component) {
         tabIndex: '1',
         value: value,
         placeholder: intl.messages['search.placeholder'],
-        onClick: this.handleFocus,
-        onFocus: this.handleFocus,
+        onFocus: this.props.onFocus,
         onChange: this.handleChange
       }),
       this.renderClear()
@@ -130,6 +129,8 @@ SearchInput.contextTypes = {
 };
 SearchInput.propTypes = {
   value: _react.PropTypes.string.isRequired,
+  isFocused: _react.PropTypes.bool.isRequired,
+  onBlur: _react.PropTypes.func.isRequired,
   onFocus: _react.PropTypes.func.isRequired,
   onClear: _react.PropTypes.func.isRequired,
   onChange: _react.PropTypes.func.isRequired

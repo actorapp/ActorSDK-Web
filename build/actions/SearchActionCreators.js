@@ -39,8 +39,8 @@ var SearchActionCreators = function () {
   };
 
   SearchActionCreators.prototype.blur = function blur() {
-    _ComposeActionCreators2.default.toggleAutoFocus(true);
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.SEARCH_BLUR);
+    _ComposeActionCreators2.default.toggleAutoFocus(true);
   };
 
   SearchActionCreators.prototype.clear = function clear() {

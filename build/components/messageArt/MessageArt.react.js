@@ -97,7 +97,7 @@ var MessageArt = function (_Component) {
           onMouseEnter: this.onMouseEnter,
           onMouseLeave: this.onMouseLeave,
           isActive: isActive,
-          isDotVisible: true
+          isDotVisible: false
         },
         _react2.default.createElement(
           'i',

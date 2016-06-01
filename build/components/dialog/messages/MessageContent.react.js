@@ -127,9 +127,9 @@ var MessageContent = function (_Component) {
           className: 'message__content message__content--text'
         }));
       case _ActorAppConstants.MessageContentTypes.PHOTO:
+      case _ActorAppConstants.MessageContentTypes.ANIMATION:
         return _react2.default.createElement(Photo, _extends({}, content, {
-          className: 'message__content message__content--photo',
-          loadedClassName: 'message__content--photo--loaded'
+          className: 'message__content message__content--photo'
         }));
       case _ActorAppConstants.MessageContentTypes.DOCUMENT:
         return _react2.default.createElement(Document, _extends({}, content, {

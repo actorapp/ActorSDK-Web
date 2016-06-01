@@ -369,6 +369,7 @@ var MessageContentTypes = exports.MessageContentTypes = {
   TEXT: 'text',
   TEXT_MODERN: 'text_modern',
   PHOTO: 'photo',
+  ANIMATION: 'animation',
   DOCUMENT: 'document',
   VOICE: 'voice',
   CONTACT: 'contact',

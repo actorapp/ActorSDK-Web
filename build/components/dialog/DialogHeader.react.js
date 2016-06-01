@@ -36,6 +36,10 @@ var _SearchMessagesActionCreators = require('../../actions/SearchMessagesActionC
 
 var _SearchMessagesActionCreators2 = _interopRequireDefault(_SearchMessagesActionCreators);
 
+var _InviteUserActions = require('../../actions/InviteUserActions');
+
+var _InviteUserActions2 = _interopRequireDefault(_InviteUserActions);
+
 var _AvatarItem = require('../common/AvatarItem.react');
 
 var _AvatarItem2 = _interopRequireDefault(_AvatarItem);
@@ -82,6 +86,7 @@ var DialogHeader = function (_Component) {
     _this.handleEndCallButtonClick = _this.handleEndCallButtonClick.bind(_this);
     _this.handleSearchButtonClick = _this.handleSearchButtonClick.bind(_this);
     _this.toggelMoreDropdownOpen = _this.toggelMoreDropdownOpen.bind(_this);
+    _this.handleAddPeople = _this.handleAddPeople.bind(_this);
     return _this;
   }
 
@@ -132,6 +137,12 @@ var DialogHeader = function (_Component) {
     } else {
       _SearchMessagesActionCreators2.default.close();
     }
+  };
+
+  DialogHeader.prototype.handleAddPeople = function handleAddPeople() {
+    var info = this.props.info;
+
+    _InviteUserActions2.default.show(info);
   };
 
   DialogHeader.prototype.toggelMoreDropdownOpen = function toggelMoreDropdownOpen() {
@@ -311,6 +322,24 @@ var DialogHeader = function (_Component) {
     );
   };
 
+  DialogHeader.prototype.renderAddUsersButton = function renderAddUsersButton() {
+    var peer = this.props.peer;
+
+    if (peer.type === _ActorAppConstants.PeerTypes.USER) {
+      return null;
+    }
+
+    return _react2.default.createElement(
+      'button',
+      { className: 'button button--icon', onClick: this.handleAddPeople },
+      _react2.default.createElement(
+        'i',
+        { className: 'material-icons' },
+        'group_add'
+      )
+    );
+  };
+
   DialogHeader.prototype.render = function render() {
     var info = this.props.info;
 
@@ -354,6 +383,7 @@ var DialogHeader = function (_Component) {
           { className: 'dialog__header__controls' },
           this.renderSearchButton(),
           this.renderCallButton(),
+          this.renderAddUsersButton(),
           this.renderInfoButton(),
           this.renderMoreButton()
         )

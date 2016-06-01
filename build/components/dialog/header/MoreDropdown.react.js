@@ -152,7 +152,6 @@ var MoreDropdown = function (_Component) {
   };
 
   MoreDropdown.prototype.handleRemoveFromContacts = function handleRemoveFromContacts() {
-    console.debug('handleRemoveFromContacts');
     var _props4 = this.props;
     var peer = _props4.peer;
     var info = _props4.info;
@@ -272,16 +271,6 @@ var MoreDropdown = function (_Component) {
           'mode_edit'
         ),
         _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'editGroup' })
-      ),
-      _react2.default.createElement(
-        'li',
-        { className: 'dropdown__menu__item', onClick: this.handleAddPeople },
-        _react2.default.createElement(
-          'i',
-          { className: 'material-icons' },
-          'person_add'
-        ),
-        _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'addPeople' })
       ),
       _react2.default.createElement(
         'li',

@@ -89,12 +89,10 @@ var Scroller = function (_Component) {
   };
 
   Scroller.prototype.scrollTo = function scrollTo(offset) {
-    console.debug('Scroll to: ' + offset);
     this.container.scrollTop = offset;
   };
 
   Scroller.prototype.scrollToBottom = function scrollToBottom() {
-    console.debug('Scroll to: bottom');
     this.container.scrollTop = this.container.scrollHeight;
   };
 

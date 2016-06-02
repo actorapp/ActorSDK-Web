@@ -62,6 +62,10 @@ var MessageActionCreators = function () {
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.MESSAGE_SEND_PHOTO, { peer: peer, photo: photo });
   };
 
+  MessageActionCreators.prototype.sendAnimationMessage = function sendAnimationMessage(peer, file) {
+    _ActorClient2.default.sendAnimationMessage(peer, file);
+  };
+
   // Deprecated
 
 

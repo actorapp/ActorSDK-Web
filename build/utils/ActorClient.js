@@ -212,6 +212,10 @@ var ActorClient = function () {
     window.messenger.sendPhoto(peer, photo);
   };
 
+  ActorClient.prototype.sendAnimationMessage = function sendAnimationMessage(peer, file) {
+    window.messenger.sendAnimation(peer, file);
+  };
+
   ActorClient.prototype.sendClipboardPhotoMessage = function sendClipboardPhotoMessage(peer, photo) {
     window.messenger.sendClipboardPhoto(peer, photo);
   };

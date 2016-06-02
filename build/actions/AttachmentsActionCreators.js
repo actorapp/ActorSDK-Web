@@ -28,6 +28,18 @@ var _AttachmentsStore2 = _interopRequireDefault(_AttachmentsStore);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _sendAttachment(currentPeer, attachment) {
+  if (attachment.isAnimation && attachment.sendAsPicture) {
+    _MessageActionCreators2.default.sendAnimationMessage(currentPeer, attachment.file);
+  } else if (attachment.isImage && attachment.sendAsPicture) {
+    _MessageActionCreators2.default.sendPhotoMessage(currentPeer, attachment.file);
+  } else {
+    _MessageActionCreators2.default.sendFileMessage(currentPeer, attachment.file);
+  }
+} /*
+   * Copyright (C) 2015 Actor LLC. <https://actor.im>
+   */
+
 exports.default = {
   show: function show(attachments) {
     var normalizedAttachments = attachments.map(function (file) {
@@ -36,7 +48,8 @@ exports.default = {
       }
 
       return {
-        isImage: file.type.includes('image') && file.type !== 'image/gif',
+        isImage: file.type.includes('image'),
+        isAnimation: file.type === 'image/gif',
         sendAsPicture: true,
         file: file
       };
@@ -65,11 +78,7 @@ exports.default = {
     var currentPeer = _DialogStore2.default.getCurrentPeer();
     var attachment = _AttachmentsStore2.default.getAttachment();
 
-    if (attachment.isImage && attachment.sendAsPicture) {
-      _MessageActionCreators2.default.sendPhotoMessage(currentPeer, attachment.file);
-    } else {
-      _MessageActionCreators2.default.sendFileMessage(currentPeer, attachment.file);
-    }
+    _sendAttachment(currentPeer, attachment);
 
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.ATTACHMENT_SEND);
 
@@ -83,18 +92,12 @@ exports.default = {
     var currentPeer = _DialogStore2.default.getCurrentPeer();
 
     attachments.forEach(function (attachment) {
-      if (attachment.isImage && attachment.sendAsPicture) {
-        _MessageActionCreators2.default.sendPhotoMessage(currentPeer, attachment.file);
-      } else {
-        _MessageActionCreators2.default.sendFileMessage(currentPeer, attachment.file);
-      }
+      _sendAttachment(currentPeer, attachment);
     });
 
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.ATTACHMENT_SEND_ALL, { attachments: attachments });
     this.hide();
     _ComposeActionCreators2.default.toggleAutoFocus(true);
   }
-}; /*
-    * Copyright (C) 2015 Actor LLC. <https://actor.im>
-    */
+};
 //# sourceMappingURL=AttachmentsActionCreators.js.map

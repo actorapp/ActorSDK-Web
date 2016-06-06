@@ -6,6 +6,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _PreferencesStore = require('../../../stores/PreferencesStore');
 
 var _PreferencesStore2 = _interopRequireDefault(_PreferencesStore);
@@ -30,15 +34,11 @@ var Animation = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, _Component.call(this, props));
 
-    if (!_PreferencesStore2.default.isAnimationAutoPlayEnabled()) {
-      _this.state = {
-        playing: false
-      };
-    }
+    _this.state = {
+      playing: _PreferencesStore2.default.isAnimationAutoPlayEnabled()
+    };
 
     _this.onClick = _this.onClick.bind(_this);
-    _this.onMouseEnter = _this.onMouseEnter.bind(_this);
-    _this.onMouseLeave = _this.onMouseLeave.bind(_this);
     return _this;
   }
 
@@ -52,15 +52,7 @@ var Animation = function (_Component) {
 
   Animation.prototype.onClick = function onClick(event) {
     event.preventDefault();
-    _ImageUtils.lightbox.open(this.props.fileUrl, 'message');
-  };
-
-  Animation.prototype.onMouseEnter = function onMouseEnter() {
-    this.setState({ playing: true });
-  };
-
-  Animation.prototype.onMouseLeave = function onMouseLeave() {
-    this.setState({ playing: false });
+    this.setState({ playing: !this.state.playing });
   };
 
   Animation.prototype.getDimentions = function getDimentions() {
@@ -80,9 +72,7 @@ var Animation = function (_Component) {
       src: source,
       width: width,
       height: height,
-      onClick: this.onClick,
-      onMouseEnter: this.onMouseEnter,
-      onMouseLeave: this.onMouseLeave
+      onClick: this.onClick
     });
   };
 
@@ -96,41 +86,33 @@ var Animation = function (_Component) {
     return _react2.default.createElement('canvas', {
       ref: 'canvas',
       style: style,
-      onMouseEnter: this.onMouseEnter,
-      onMouseLeave: this.onMouseLeave
+      onClick: this.onClick
     });
   };
 
   Animation.prototype.renderState = function renderState(playing) {
-    var glyph = playing ? 'play_circle_outline' : 'pause_circle_outline';
+    var glyph = playing ? 'pause_circle_outline' : 'play_circle_outline';
+
+    var className = (0, _classnames2.default)('material-icons message__animation__state', {
+      'message__animation__state--playing': playing
+    });
 
     return _react2.default.createElement(
       'i',
-      { className: 'material-icons message__animation__state' },
+      { className: className, onClick: this.onClick },
       glyph
     );
   };
 
   Animation.prototype.render = function render() {
+    var playing = this.state.playing;
+
     var _getDimentions2 = this.getDimentions();
 
     var width = _getDimentions2.width;
     var height = _getDimentions2.height;
 
     var source = this.props.fileUrl || this.props.preview;
-
-    if (!this.state) {
-      return _react2.default.createElement('img', {
-        className: 'message__photo',
-        src: source,
-        width: width,
-        height: height,
-        onClick: this.onClick
-      });
-    }
-
-    var playing = this.state.playing;
-
 
     return _react2.default.createElement(
       'div',

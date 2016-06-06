@@ -298,7 +298,6 @@ var ActorClient = function () {
   };
 
   ActorClient.prototype.inviteMember = function inviteMember(gid, uid) {
-    console.log('%c Invite new member ' + uid + ' to ' + gid, 'color: #fd5c52');
     return window.messenger.inviteMember(gid, uid);
   };
 
@@ -418,6 +417,14 @@ var ActorClient = function () {
 
   ActorClient.prototype.changeIsShowNotificationTextEnabled = function changeIsShowNotificationTextEnabled(isEnabled) {
     window.messenger.changeIsShowNotificationTextEnabled(isEnabled);
+  };
+
+  ActorClient.prototype.changeAnimationAutoPlayEnabled = function changeAnimationAutoPlayEnabled(isEnabled) {
+    window.messenger.changeAnimationAutoPlayEnabled(isEnabled);
+  };
+
+  ActorClient.prototype.isAnimationAutoPlayEnabled = function isAnimationAutoPlayEnabled() {
+    return window.messenger.isAnimationAutoPlayEnabled();
   };
 
   ActorClient.prototype.loadSessions = function loadSessions() {

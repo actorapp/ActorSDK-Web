@@ -36,6 +36,7 @@ exports.default = {
     var isGroupsNotificationsEnabled = preferences.isGroupsNotificationsEnabled;
     var isOnlyMentionNotifications = preferences.isOnlyMentionNotifications;
     var isShowNotificationsTextEnabled = preferences.isShowNotificationsTextEnabled;
+    var isAnimationAutoPlayEnabled = preferences.isAnimationAutoPlayEnabled;
 
 
     _ActorClient2.default.changeSendByEnter(isSendByEnterEnabled);
@@ -43,6 +44,7 @@ exports.default = {
     _ActorClient2.default.changeGroupNotificationsEnabled(isGroupsNotificationsEnabled);
     _ActorClient2.default.changeIsOnlyMentionNotifications(isOnlyMentionNotifications);
     _ActorClient2.default.changeIsShowNotificationTextEnabled(isShowNotificationsTextEnabled);
+    _ActorClient2.default.changeAnimationAutoPlayEnabled(isAnimationAutoPlayEnabled);
 
     (0, _ActorAppDispatcher.dispatch)(_ActorAppConstants.ActionTypes.PREFERENCES_SAVE, { preferences: preferences });
   },

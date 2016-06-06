@@ -36,11 +36,13 @@ var _PreferencesActionCreators = require('../../actions/PreferencesActionCreator
 
 var _PreferencesActionCreators2 = _interopRequireDefault(_PreferencesActionCreators);
 
-var _LoggerActionCreators = require('../../actions/LoggerActionCreators');
-
 var _PreferencesStore = require('../../stores/PreferencesStore');
 
 var _PreferencesStore2 = _interopRequireDefault(_PreferencesStore);
+
+var _Checkbox = require('../common/Checkbox.react');
+
+var _Checkbox2 = _interopRequireDefault(_Checkbox);
 
 var _Session = require('./preferences/Session.react');
 
@@ -74,6 +76,7 @@ var PreferencesModal = function (_Component) {
       isGroupsNotificationsEnabled: prevState ? prevState.isGroupsNotificationsEnabled : _PreferencesStore2.default.isGroupsNotificationsEnabled(),
       isOnlyMentionNotifications: prevState ? prevState.isOnlyMentionNotifications : _PreferencesStore2.default.isOnlyMentionNotifications(),
       isShowNotificationsTextEnabled: prevState ? prevState.isShowNotificationsTextEnabled : _PreferencesStore2.default.isShowNotificationsTextEnabled(),
+      isAnimationAutoPlayEnabled: prevState ? prevState.isAnimationAutoPlayEnabled : _PreferencesStore2.default.isAnimationAutoPlayEnabled(),
       sessions: _PreferencesStore2.default.getSessions(),
       activeTab: _PreferencesStore2.default.getCurrentTab(),
       terminateState: _PreferencesStore2.default.getTerminateState()
@@ -87,17 +90,16 @@ var PreferencesModal = function (_Component) {
 
     var SharedActor = _SharedContainer2.default.get();
     _this.appName = SharedActor.appName ? SharedActor.appName : _ActorAppConstants.appName;
-    _this.loggerToggleCount = 0;
 
     _this.handleClose = _this.handleClose.bind(_this);
     _this.handleSave = _this.handleSave.bind(_this);
     _this.handleChangeTab = _this.handleChangeTab.bind(_this);
-    _this.handleAppDetailClick = _this.handleAppDetailClick.bind(_this);
     _this.toggleSendByEnter = _this.toggleSendByEnter.bind(_this);
     _this.changeSoundEffectsEnabled = _this.changeSoundEffectsEnabled.bind(_this);
     _this.changeGroupsNotificationsEnabled = _this.changeGroupsNotificationsEnabled.bind(_this);
     _this.changeMentionNotifications = _this.changeMentionNotifications.bind(_this);
     _this.changeIsShowNotificationTextEnabled = _this.changeIsShowNotificationTextEnabled.bind(_this);
+    _this.changeIsAnimationAutoPlayEnabled = _this.changeIsAnimationAutoPlayEnabled.bind(_this);
     _this.handleTerminateAllSessionsClick = _this.handleTerminateAllSessionsClick.bind(_this);
 
     _this.components = _this.getComponents();
@@ -121,14 +123,6 @@ var PreferencesModal = function (_Component) {
     };
   };
 
-  PreferencesModal.prototype.handleAppDetailClick = function handleAppDetailClick() {
-    this.loggerToggleCount++;
-    if (this.loggerToggleCount >= 4) {
-      (0, _LoggerActionCreators.loggerToggle)();
-      this.loggerToggleCount = 0;
-    }
-  };
-
   PreferencesModal.prototype.handleClose = function handleClose() {
     _PreferencesActionCreators2.default.hide();
   };
@@ -140,6 +134,7 @@ var PreferencesModal = function (_Component) {
     var isGroupsNotificationsEnabled = _state.isGroupsNotificationsEnabled;
     var isOnlyMentionNotifications = _state.isOnlyMentionNotifications;
     var isShowNotificationsTextEnabled = _state.isShowNotificationsTextEnabled;
+    var isAnimationAutoPlayEnabled = _state.isAnimationAutoPlayEnabled;
 
 
     _PreferencesActionCreators2.default.save({
@@ -147,7 +142,8 @@ var PreferencesModal = function (_Component) {
       isSoundEffectsEnabled: isSoundEffectsEnabled,
       isGroupsNotificationsEnabled: isGroupsNotificationsEnabled,
       isOnlyMentionNotifications: isOnlyMentionNotifications,
-      isShowNotificationsTextEnabled: isShowNotificationsTextEnabled
+      isShowNotificationsTextEnabled: isShowNotificationsTextEnabled,
+      isAnimationAutoPlayEnabled: isAnimationAutoPlayEnabled
     });
     this.handleClose();
   };
@@ -170,6 +166,10 @@ var PreferencesModal = function (_Component) {
 
   PreferencesModal.prototype.changeIsShowNotificationTextEnabled = function changeIsShowNotificationTextEnabled(event) {
     this.setState({ isShowNotificationsTextEnabled: event.target.checked });
+  };
+
+  PreferencesModal.prototype.changeIsAnimationAutoPlayEnabled = function changeIsAnimationAutoPlayEnabled(event) {
+    this.setState({ isAnimationAutoPlayEnabled: event.target.checked });
   };
 
   PreferencesModal.prototype.handleTerminateAllSessionsClick = function handleTerminateAllSessionsClick() {
@@ -260,7 +260,9 @@ var PreferencesModal = function (_Component) {
 
   PreferencesModal.prototype.renderGeneralTab = function renderGeneralTab() {
     // FIXME: Sometimes radio buttons doesnt checked after changing tab;
-    var isSendByEnterEnabled = this.state.isSendByEnterEnabled;
+    var _state2 = this.state;
+    var isSendByEnterEnabled = _state2.isSendByEnterEnabled;
+    var isAnimationAutoPlayEnabled = _state2.isAnimationAutoPlayEnabled;
 
 
     return _react2.default.createElement(
@@ -286,7 +288,7 @@ var PreferencesModal = function (_Component) {
               name: 'sendByEnter',
               id: 'sendByEnterEnabled',
               value: 'true',
-              defaultChecked: isSendByEnterEnabled,
+              checked: isSendByEnterEnabled,
               onChange: this.toggleSendByEnter }),
             _react2.default.createElement(
               'label',
@@ -316,7 +318,7 @@ var PreferencesModal = function (_Component) {
               name: 'sendByEnter',
               id: 'sendByEnterDisabled',
               value: 'false',
-              defaultChecked: !isSendByEnterEnabled,
+              checked: !isSendByEnterEnabled,
               onChange: this.toggleSendByEnter }),
             _react2.default.createElement(
               'label',
@@ -338,6 +340,23 @@ var PreferencesModal = function (_Component) {
               _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.general.send.newLine' })
             )
           )
+        ),
+        _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            'i',
+            { className: 'icon material-icons' },
+            'wallpaper'
+          ),
+          _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.interface.title', tagName: 'h4' }),
+          _react2.default.createElement(_Checkbox2.default, {
+            id: 'animationAutoPlayEnabled',
+            name: 'animationAutoPlayEnabled',
+            value: isAnimationAutoPlayEnabled,
+            label: _react2.default.createElement(_reactIntl.FormattedMessage, { id: 'preferences.interface.animation.title' }),
+            onChange: this.changeIsAnimationAutoPlayEnabled
+          })
         )
       )
     );
@@ -345,11 +364,11 @@ var PreferencesModal = function (_Component) {
 
   PreferencesModal.prototype.renderNotificationsTab = function renderNotificationsTab() {
     // FIXME: Checkboxes blinking on changing tabs
-    var _state2 = this.state;
-    var isSoundEffectsEnabled = _state2.isSoundEffectsEnabled;
-    var isGroupsNotificationsEnabled = _state2.isGroupsNotificationsEnabled;
-    var isOnlyMentionNotifications = _state2.isOnlyMentionNotifications;
-    var isShowNotificationsTextEnabled = _state2.isShowNotificationsTextEnabled;
+    var _state3 = this.state;
+    var isSoundEffectsEnabled = _state3.isSoundEffectsEnabled;
+    var isGroupsNotificationsEnabled = _state3.isGroupsNotificationsEnabled;
+    var isOnlyMentionNotifications = _state3.isOnlyMentionNotifications;
+    var isShowNotificationsTextEnabled = _state3.isShowNotificationsTextEnabled;
 
 
     return _react2.default.createElement(
@@ -373,7 +392,7 @@ var PreferencesModal = function (_Component) {
             _react2.default.createElement('input', {
               type: 'checkbox',
               id: 'soundEffects',
-              defaultChecked: isSoundEffectsEnabled,
+              checked: isSoundEffectsEnabled,
               onChange: this.changeSoundEffectsEnabled }),
             _react2.default.createElement(
               'label',
@@ -397,7 +416,7 @@ var PreferencesModal = function (_Component) {
             _react2.default.createElement('input', {
               type: 'checkbox',
               id: 'groupNotifications',
-              defaultChecked: isGroupsNotificationsEnabled,
+              checked: isGroupsNotificationsEnabled,
               onChange: this.changeGroupsNotificationsEnabled }),
             _react2.default.createElement(
               'label',
@@ -411,7 +430,7 @@ var PreferencesModal = function (_Component) {
             _react2.default.createElement('input', {
               type: 'checkbox',
               id: 'mentionsNotifications',
-              defaultChecked: isOnlyMentionNotifications,
+              checked: isOnlyMentionNotifications,
               onChange: this.changeMentionNotifications }),
             _react2.default.createElement(
               'label',
@@ -440,7 +459,7 @@ var PreferencesModal = function (_Component) {
             _react2.default.createElement('input', {
               type: 'checkbox',
               id: 'notificationTextPreview',
-              defaultChecked: isShowNotificationsTextEnabled,
+              checked: isShowNotificationsTextEnabled,
               onChange: this.changeIsShowNotificationTextEnabled }),
             _react2.default.createElement(
               'label',
@@ -494,9 +513,9 @@ var PreferencesModal = function (_Component) {
   };
 
   PreferencesModal.prototype.renderSessionList = function renderSessionList() {
-    var _state3 = this.state;
-    var sessions = _state3.sessions;
-    var terminateState = _state3.terminateState;
+    var _state4 = this.state;
+    var sessions = _state4.sessions;
+    var terminateState = _state4.terminateState;
 
     return sessions.map(function (session, index) {
       return _react2.default.createElement(_Session2.default, _extends({}, session, {
@@ -536,7 +555,6 @@ var PreferencesModal = function (_Component) {
   };
 
   PreferencesModal.prototype.render = function render() {
-    console.debug(this.state);
     return _react2.default.createElement(
       _reactModal2.default,
       {

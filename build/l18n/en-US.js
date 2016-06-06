@@ -285,6 +285,12 @@ exports.default = {
           newLine: 'new line'
         }
       },
+      interface: {
+        title: 'Interface',
+        animation: {
+          title: 'Autoplay animations'
+        }
+      },
       notifications: {
         title: 'Notifications & Sounds',
         effects: {

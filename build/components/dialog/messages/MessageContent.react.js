@@ -24,6 +24,10 @@ var _Photo = require('./Photo.react');
 
 var _Photo2 = _interopRequireDefault(_Photo);
 
+var _Animation = require('./Animation.react');
+
+var _Animation2 = _interopRequireDefault(_Animation);
+
 var _Document = require('./Document.react');
 
 var _Document2 = _interopRequireDefault(_Document);
@@ -77,6 +81,7 @@ var MessageContent = function (_Component) {
         Text: (0, _lodash.isFunction)(dialog.messages.text) ? dialog.messages.text : _Text2.default,
         Modern: (0, _lodash.isFunction)(dialog.messages.modern) ? dialog.messages.modern : _Modern2.default,
         Photo: (0, _lodash.isFunction)(dialog.messages.photo) ? dialog.messages.photo : _Photo2.default,
+        Animation: (0, _lodash.isFunction)(dialog.messages.animation) ? dialog.messages.animation : _Animation2.default,
         Document: (0, _lodash.isFunction)(dialog.messages.document) ? dialog.messages.document : _Document2.default,
         Voice: (0, _lodash.isFunction)(dialog.messages.voice) ? dialog.messages.voice : _Voice2.default,
         Contact: (0, _lodash.isFunction)(dialog.messages.contact) ? dialog.messages.contact : _Contact2.default,
@@ -89,6 +94,7 @@ var MessageContent = function (_Component) {
         Text: _Text2.default,
         Modern: _Modern2.default,
         Photo: _Photo2.default,
+        Animation: _Animation2.default,
         Document: _Document2.default,
         Voice: _Voice2.default,
         Contact: _Contact2.default,
@@ -109,6 +115,7 @@ var MessageContent = function (_Component) {
     var Service = _components.Service;
     var Text = _components.Text;
     var Photo = _components.Photo;
+    var Animation = _components.Animation;
     var Document = _components.Document;
     var Voice = _components.Voice;
     var Contact = _components.Contact;
@@ -127,8 +134,11 @@ var MessageContent = function (_Component) {
           className: 'message__content message__content--text'
         }));
       case _ActorAppConstants.MessageContentTypes.PHOTO:
-      case _ActorAppConstants.MessageContentTypes.ANIMATION:
         return _react2.default.createElement(Photo, _extends({}, content, {
+          className: 'message__content message__content--photo'
+        }));
+      case _ActorAppConstants.MessageContentTypes.ANIMATION:
+        return _react2.default.createElement(Animation, _extends({}, content, {
           className: 'message__content message__content--photo'
         }));
       case _ActorAppConstants.MessageContentTypes.DOCUMENT:

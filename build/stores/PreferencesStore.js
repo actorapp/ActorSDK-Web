@@ -92,6 +92,10 @@ var PreferencesStore = function (_ReduceStore) {
     return _ActorClient2.default.isShowNotificationsTextEnabled();
   };
 
+  PreferencesStore.prototype.isAnimationAutoPlayEnabled = function isAnimationAutoPlayEnabled() {
+    return _ActorClient2.default.isAnimationAutoPlayEnabled();
+  };
+
   PreferencesStore.prototype.getSessions = function getSessions() {
     return this.getState().sessions;
   };

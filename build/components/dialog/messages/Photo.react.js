@@ -18,9 +18,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var MAX_WIDTH = 300;
-var MAX_HEIGHT = 400;
-
 var Photo = function (_Component) {
   _inherits(Photo, _Component);
 
@@ -40,21 +37,7 @@ var Photo = function (_Component) {
     var width = _props.w;
     var height = _props.h;
 
-    if (width > height) {
-      if (width > MAX_WIDTH) {
-        return {
-          width: MAX_WIDTH,
-          height: height * (MAX_WIDTH / width)
-        };
-      }
-    } else if (height > MAX_HEIGHT) {
-      return {
-        width: width * (MAX_HEIGHT / height),
-        height: MAX_HEIGHT
-      };
-    }
-
-    return { width: width, height: height };
+    return (0, _ImageUtils.getDimentions)(width, height);
   };
 
   Photo.prototype.render = function render() {
@@ -62,10 +45,10 @@ var Photo = function (_Component) {
     var fileUrl = _props2.fileUrl;
     var preview = _props2.preview;
 
-    var _getDimentions = this.getDimentions();
+    var _getDimentions2 = this.getDimentions();
 
-    var width = _getDimentions.width;
-    var height = _getDimentions.height;
+    var width = _getDimentions2.width;
+    var height = _getDimentions2.height;
 
 
     return _react2.default.createElement('img', {

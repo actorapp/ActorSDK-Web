@@ -2,6 +2,9 @@
 
 exports.__esModule = true;
 exports.dataURItoBlob = exports.lightbox = undefined;
+exports.loadImage = loadImage;
+exports.renderImageToCanvas = renderImageToCanvas;
+exports.getDimentions = getDimentions;
 
 var _jsonlylightbox = require('jsonlylightbox');
 
@@ -29,4 +32,48 @@ var dataURItoBlob = function dataURItoBlob(dataURI) {
 
 exports.lightbox = lightbox;
 exports.dataURItoBlob = dataURItoBlob;
+function loadImage(source) {
+  return new Promise(function (resolve, reject) {
+    var image = document.createElement('img');
+    image.onerror = reject;
+    image.onload = function () {
+      image.onerror = null;
+      image.onload = null;
+      resolve(image);
+    };
+
+    image.src = source;
+  });
+}
+
+function renderImageToCanvas(source, canvas) {
+  return loadImage(source).then(function (image) {
+    var width = canvas.width = image.width;
+    var height = canvas.height = image.height;
+
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(image, 0, 0, width, height);
+  });
+}
+
+function getDimentions(width, height) {
+  var maxWidth = arguments.length <= 2 || arguments[2] === undefined ? 300 : arguments[2];
+  var maxHeight = arguments.length <= 3 || arguments[3] === undefined ? 400 : arguments[3];
+
+  if (width > height) {
+    if (width > maxWidth) {
+      return {
+        width: maxWidth,
+        height: height * (maxWidth / width)
+      };
+    }
+  } else if (height > maxHeight) {
+    return {
+      width: width * (maxHeight / height),
+      height: maxHeight
+    };
+  }
+
+  return { width: width, height: height };
+}
 //# sourceMappingURL=ImageUtils.js.map

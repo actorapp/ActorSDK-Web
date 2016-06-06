@@ -44,14 +44,14 @@ var Animation = function (_Component) {
 
   Animation.prototype.componentDidMount = function componentDidMount() {
     (0, _ImageUtils.renderImageToCanvas)(this.props.preview, this.refs.canvas);
-    this.updateFrameUrl(this.props);
+    this.updateFrame(this.props);
   };
 
   Animation.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-    this.updateFrameUrl(nextProps);
+    this.updateFrame(nextProps);
   };
 
-  Animation.prototype.updateFrameUrl = function updateFrameUrl(_ref) {
+  Animation.prototype.updateFrame = function updateFrame(_ref) {
     var fileUrl = _ref.fileUrl;
 
     if (!fileUrl || !this.state) {
@@ -84,6 +84,46 @@ var Animation = function (_Component) {
     return (0, _ImageUtils.getDimentions)(width, height);
   };
 
+  Animation.prototype.renderImage = function renderImage(source, width, height, playing) {
+    if (!playing) {
+      return null;
+    }
+
+    return _react2.default.createElement('img', {
+      src: source,
+      width: width,
+      height: height,
+      onClick: this.onClick,
+      onMouseEnter: this.onMouseEnter,
+      onMouseLeave: this.onMouseLeave
+    });
+  };
+
+  Animation.prototype.renderCanvas = function renderCanvas(width, height, playing) {
+    var style = { width: width, height: height };
+    if (playing) {
+      // Hide using style because DOM node required by renderImageToCanvas
+      style.display = 'none';
+    }
+
+    return _react2.default.createElement('canvas', {
+      ref: 'canvas',
+      style: style,
+      onMouseEnter: this.onMouseEnter,
+      onMouseLeave: this.onMouseLeave
+    });
+  };
+
+  Animation.prototype.renderState = function renderState(playing) {
+    var glyph = playing ? 'play_circle_outline' : 'pause_circle_outline';
+
+    return _react2.default.createElement(
+      'i',
+      { className: 'material-icons message__animation__state' },
+      glyph
+    );
+  };
+
   Animation.prototype.render = function render() {
     var _getDimentions2 = this.getDimentions();
 
@@ -104,33 +144,13 @@ var Animation = function (_Component) {
 
     var playing = this.state.playing;
 
-    var canvasStyle = { width: width, height: height };
-    if (playing) {
-      canvasStyle.display = 'none';
-    }
 
     return _react2.default.createElement(
       'div',
-      null,
-      _react2.default.createElement('img', {
-        className: 'message__photo',
-        src: source,
-        width: width,
-        height: height,
-        style: playing ? {} : { display: 'none' },
-        onClick: this.onClick,
-        onMouseEnter: this.onMouseEnter,
-        onMouseLeave: this.onMouseLeave
-      }),
-      _react2.default.createElement('canvas', {
-        className: 'message__photo',
-        ref: 'canvas',
-        width: width,
-        height: height,
-        style: canvasStyle,
-        onMouseEnter: this.onMouseEnter,
-        onMouseLeave: this.onMouseLeave
-      })
+      { className: 'message__animation', style: { width: width, height: height } },
+      this.renderState(playing),
+      this.renderImage(source, width, height, playing),
+      this.renderCanvas(width, height, playing)
     );
   };
 

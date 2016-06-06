@@ -6,16 +6,20 @@ exports.loadImage = loadImage;
 exports.renderImageToCanvas = renderImageToCanvas;
 exports.getDimentions = getDimentions;
 
+require('../vendor/canvasBlurRect');
+
 var _jsonlylightbox = require('jsonlylightbox');
 
 var _jsonlylightbox2 = _interopRequireDefault(_jsonlylightbox);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var lightbox = new _jsonlylightbox2.default(); /*
-                                                * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
-                                                */
+/*
+ * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
+ */
 
+
+var lightbox = new _jsonlylightbox2.default();
 
 var dataURItoBlob = function dataURItoBlob(dataURI) {
   var byteString = atob(dataURI.split(',')[1]);
@@ -42,6 +46,7 @@ function loadImage(source) {
       resolve(image);
     };
 
+    image.setAttribute('crossOrigin', 'anonymous');
     image.src = source;
   });
 }
@@ -53,6 +58,7 @@ function renderImageToCanvas(source, canvas) {
 
     var ctx = canvas.getContext('2d');
     ctx.drawImage(image, 0, 0, width, height);
+    ctx._blurRect(0, 0, width, height, 4, 1);
   });
 }
 

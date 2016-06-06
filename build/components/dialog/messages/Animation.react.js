@@ -43,24 +43,11 @@ var Animation = function (_Component) {
   }
 
   Animation.prototype.componentDidMount = function componentDidMount() {
-    (0, _ImageUtils.renderImageToCanvas)(this.props.preview, this.refs.canvas);
-    this.updateFrame(this.props);
-  };
-
-  Animation.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-    this.updateFrame(nextProps);
-  };
-
-  Animation.prototype.updateFrame = function updateFrame(_ref) {
-    var fileUrl = _ref.fileUrl;
-
-    if (!fileUrl || !this.state) {
-      return;
+    if (this.state) {
+      (0, _ImageUtils.renderImageToCanvas)(this.props.preview, this.refs.canvas).catch(function (e) {
+        console.error(e);
+      });
     }
-
-    (0, _ImageUtils.renderImageToCanvas)(fileUrl, this.refs.canvas).catch(function (e) {
-      console.error(e);
-    });
   };
 
   Animation.prototype.onClick = function onClick(event) {

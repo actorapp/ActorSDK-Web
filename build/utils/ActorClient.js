@@ -277,8 +277,7 @@ var ActorClient = function () {
   // Groups
 
   ActorClient.prototype.joinGroupViaToken = function joinGroupViaToken(token) {
-    var link = 'https://quit.email/join/' + token;
-    return window.messenger.joinGroupViaLink(link);
+    return window.messenger.joinGroupViaLink(token);
   };
 
   ActorClient.prototype.joinGroupViaLink = function joinGroupViaLink(url) {

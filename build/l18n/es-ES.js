@@ -336,11 +336,11 @@ exports.default = {
       },
       archive: 'Enviar a archivar',
       delete: 'Eliminar'
+    },
+    search: {
+      'placeholder': 'Buscar',
+      'hint': '<h4>Búsqueda rápida</h4><p>Puede buscar contactos, diálogos, o mensajes de los actuales diálogos aquí.</p>'
     }
-  },
-  search: {
-    'placeholder': 'Buscar',
-    'hint': '<h4>Búsqueda rápida</h4><p>Puede buscar contactos, diálogos, o mensajes de los actuales diálogos aquí.</p>'
   }
 };
 //# sourceMappingURL=es-ES.js.map

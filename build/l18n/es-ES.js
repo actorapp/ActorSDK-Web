@@ -320,11 +320,8 @@ exports.default = {
       end: 'Llamada finalizada',
       addUser: 'Añadir usury',
       fullScreen: 'Pantalla completa',
-      video: 'Vídeo'
-    },
-
-    toolbar: {
-      callState: {
+      video: 'Vídeo',
+      state: {
         calling: 'Llamada',
         connecting: 'Conectando',
         in_progress: 'Llamada activa: {time}',

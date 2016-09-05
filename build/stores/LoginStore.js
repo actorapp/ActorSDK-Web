@@ -47,7 +47,6 @@ var LoginStore = function (_Store) {
     _classCallCheck(this, LoginStore);
 
     // TODO: do not use intlData here. save error codes and send them to ui.
-
     var _this = _possibleConstructorReturn(this, _Store.call(this, dispatcher));
 
     _this.getStep = function () {

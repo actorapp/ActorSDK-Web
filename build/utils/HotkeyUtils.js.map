@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","file":"HotkeyUtils.js","sourcesContent":[]}
+{"version":3,"sources":["../../src/utils/HotkeyUtils.js"],"names":[],"mappings":"AAAA;;;;AAIA","file":"HotkeyUtils.js","sourcesContent":["/*\n * Copyright (C) 2015 Actor LLC. <https://actor.im>\n */\n\n// const isMeta = (event)\n"]}

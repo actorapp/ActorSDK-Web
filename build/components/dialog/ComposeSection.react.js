@@ -308,7 +308,6 @@ var ComposeSection = function (_Component) {
   };
 
   // TODO: remove this method
-
   ComposeSection.prototype.getCaretPosition = function getCaretPosition() {
     if (this.refs.area) {
       return this.refs.area.getCaretPosition();

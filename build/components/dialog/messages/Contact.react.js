@@ -25,7 +25,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /**
  * Class that represents a component for display contact message content
  */
-
 var Contact = function (_Component) {
   _inherits(Contact, _Component);
 

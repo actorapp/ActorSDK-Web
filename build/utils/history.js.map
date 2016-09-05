@@ -1,1 +1,1 @@
-{"version":3,"sources":["../../src/utils/history.js"],"names":[],"mappings":";;;;AAIA","file":"history.js","sourcesContent":["/*\n* Copyright (C) 2016 Actor LLC. <https://actor.im>\n*/\n\nimport hashHistory from 'react-router/lib/hashHistory';\n\nexport default hashHistory;\n"]}
+{"version":3,"sources":["../../src/utils/history.js"],"names":[],"mappings":";;;;AAIA;;;;;;yCAJA","file":"history.js","sourcesContent":["/*\n* Copyright (C) 2016 Actor LLC. <https://actor.im>\n*/\n\nimport hashHistory from 'react-router/lib/hashHistory';\n\nexport default hashHistory;\n"]}

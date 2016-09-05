@@ -5,7 +5,7 @@ exports.__esModule = true;
 var _ProfileStore = require('./ProfileStore');
 
 Object.keys(_ProfileStore).forEach(function (key) {
-  if (key === "default") return;
+  if (key === "default" || key === "__esModule") return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {

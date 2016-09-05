@@ -21,7 +21,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /**
  * Root react component
  */
-
 var App = function (_Component) {
   _inherits(App, _Component);
 

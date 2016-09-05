@@ -15,7 +15,6 @@ var UserStore = {
    * @param uid {number} User id
    * @returns {object} User information
    */
-
   getUser: function getUser(uid) {
     return _ActorClient2.default.getUser(uid);
   },

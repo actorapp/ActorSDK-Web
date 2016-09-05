@@ -17,8 +17,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /*
  * Copyright (C) 2015-2016 Actor LLC. <https://actor.im>
  */
-
-
 var lightbox = new _jsonlylightbox2.default();
 
 var dataURItoBlob = function dataURItoBlob(dataURI) {

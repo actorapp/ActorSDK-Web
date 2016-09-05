@@ -21,7 +21,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
  * @param {String} text Service message text
  * @param {String} className Component class name
  */
-
 var Service = function (_Component) {
   _inherits(Service, _Component);
 

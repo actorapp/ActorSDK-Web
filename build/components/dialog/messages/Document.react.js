@@ -25,7 +25,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /**
  * Class that represents a component for display document message content
  */
-
 var Document = function (_Component) {
   _inherits(Document, _Component);
 

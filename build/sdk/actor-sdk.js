@@ -254,7 +254,6 @@ var ActorSDK = function () {
   /**
    * Start application
    */
-
   ActorSDK.prototype.startApp = function startApp() {
     if (window.isJsAppLoaded) {
       this._starter();
